@@ -1,0 +1,9 @@
+**/bd/
+**/config/
+**/archivos/
+**/firma/
+**/firma-tuxpan/
+**/dompdf/
+**/dompdf2/
+**/phpmailer/
+.htaccess

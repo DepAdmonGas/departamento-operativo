@@ -1,0 +1,15 @@
+<?php
+require('../../../app/help.php');
+
+$sql1 = "DELETE FROM op_orden_compra WHERE id = '".$_POST['idCompra']."' ";
+
+if (mysqli_query($con, $sql1)) {
+echo 1;
+}else{
+echo 0;	
+}
+
+
+//------------------
+mysqli_close($con);
+//------------------

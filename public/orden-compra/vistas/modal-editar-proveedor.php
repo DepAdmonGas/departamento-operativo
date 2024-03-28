@@ -1,0 +1,44 @@
+ <?php
+require('../../../app/help.php');
+
+$idProveedor = $_GET['idProveedor'];
+$idReporte = $_GET['idReporte'];
+
+$sql = "SELECT * FROM op_orden_compra_proveedor WHERE id = '".$idProveedor."' ";
+$result = mysqli_query($con, $sql);
+$numero = mysqli_num_rows($result);
+
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$razon_social = $row['razon_social'];
+$direccion = $row['direccion'];
+$contacto = $row['contacto'];
+$email = $row['email'];
+
+}
+
+?>
+
+<div class="modal-header">
+<h5 class="modal-title">Editar proveedor</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+      <div class="modal-body">
+
+        <div class="mb-1 text-secondary">Razón Social:</div>
+        <input type="text" class="form-control" id="RazonSocial" value="<?=$razon_social?>">
+
+        <div class="mb-1 mt-2 text-secondary">Dirección:</div>
+        <textarea class="form-control" id="Direccion"><?=$direccion?></textarea>
+
+        <div class="mb-1 mt-2 text-secondary">Contacto:</div>
+        <input type="text" class="form-control" id="Contacto" value="<?=$contacto?>">
+
+        <div class="mb-1 mt-2 text-secondary">Email:</div>
+        <input type="text" class="form-control" id="Email" value="<?=$email?>">
+
+
+      </div>
+          <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="EditarProveedor(<?=$idProveedor?>,<?=$idReporte;?>)">Editar</button>
+      </div>

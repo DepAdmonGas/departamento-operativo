@@ -1,0 +1,18 @@
+<?php
+require('../../../app/help.php');
+
+    $idReporte = $_GET['idReporte'];
+
+    $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listaclientes = mysqli_query($con, $sql_listaclientes);
+    while($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASSOC)){
+    $importe = $row_listaclientes['importe'];
+
+    $totalImporte = $totalImporte + $importe;
+    }
+
+    ?>
+
+    <th class="bg-light text-center">TOTAL 4</th>
+    <td class="bg-light align-middle text-end"><strong><?=number_format($totalImporte,2);?></strong></td>
+    <td class="bg-light align-middle text-end"></td>

@@ -1,0 +1,961 @@
+<?php
+require('app/help.php');
+
+if ($Session_IDUsuarioBD == "") {
+header("Location:".PORTAL."");
+}
+ 
+ 
+$sql_pedido = "SELECT * FROM op_pedido_materiales WHERE id = '".$GET_idPedido."' ";
+$result_pedido = mysqli_query($con, $sql_pedido);
+$numero_pedido = mysqli_num_rows($result_pedido);
+while($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)){
+$folio = $row_pedido['folio'];
+$id_estacion = $row_pedido['id_estacion'];
+$fecha = $row_pedido['fecha'];
+$estatus = $row_pedido['estatus'];
+$tiposervicio = $row_pedido['tipo_servicio'];
+$ordentrabajo = $row_pedido['orden_trabajo'];
+$ordenriesgo = $row_pedido['orden_riesgo'];
+ 
+} 
+
+$sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
+$razonsocial = $row_listaestacion['razonsocial'];
+}
+
+function EvidenciaImagen($idEvidencia,$con){
+ 
+$sql = "SELECT id, imagen FROM op_pedido_materiales_evidencia_foto WHERE id_evidencia = '".$idEvidencia."' ";
+$result = mysqli_query($con, $sql);
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$id = $row['id'];
+$imagen = $row['imagen'];
+
+ 
+$Contenido .= '
+
+ <iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.$imagen.'" width="250px" height="250px">
+  </iframe>
+
+<img style="position: absolute;margin-left: -35;margin-top: 10px;" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEvidenciaImagen('.$id.')">
+';
+} 
+ 
+
+return $Contenido;
+}
+
+function DetalleArea($id,$con){
+
+$sql = "SELECT * FROM op_pedido_materiales_area_otros WHERE id_area = '".$id."' AND estatus = 1 ";
+  $result = mysqli_query($con, $sql);
+  $numero = mysqli_num_rows($result);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  $Result .= '<small class="text-secondary">('.$row['sub_area'].')</small> '; 
+  }
+
+return $Result;
+}
+?> 
+<html lang="es">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Dirección de operaciones</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width initial-scale=1.0">
+  <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
+  <link rel="apple-touch-icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
+  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>alertify.css">
+  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
+  <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+  <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
+  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  
+  <style media="screen">
+
+    input[type=radio]
+  {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+  
+  }
+
+  input[type=checkbox]
+  {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+  }
+  </style>
+
+  <script type="text/javascript">
+
+  $(document).ready(function($){
+  $(".LoaderPage").fadeOut("slow");
+
+  
+  });
+
+  function Regresar(){
+  window.history.back();
+  }
+ 
+function EditRC(idPedido,categoria,valor){
+
+ 
+    if(categoria == 3){
+    if (document.getElementById('Area' + idPedido).checked)
+    {
+    valor = 1;
+    }else{
+    valor = 0;
+    }
+    }else{
+    valor = valor;
+    }
+ 
+    if(categoria == 5){
+    if (document.getElementById('Dispensario' + idPedido).checked)
+    {
+    valor = 1;
+    }else{
+    valor = 0;
+    }
+    }else{
+    valor = valor;
+    }
+
+    if(categoria == 6){
+    if (document.getElementById('Tanques' + idPedido).checked)
+    {
+    valor = 1;
+    }else{
+    valor = 0;
+    }
+    }else{
+    valor = valor;
+    }
+
+    if(categoria == 7){
+    if (document.getElementById('BanosCliente' + idPedido).checked)
+    {
+    valor = 1;
+    }else{
+    valor = 0;
+    }
+    }else{
+    valor = valor;
+    }
+
+
+
+
+    var parametros = {
+    "idPedido" : idPedido,
+    "categoria" : categoria,
+    "valor" : valor
+    };
+   
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/editar-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    if(categoria == 3 && response == 5){
+    if(valor == 1){
+
+    $('#Modal').modal('show');  
+    $('#ContenidoModal').load('../../public/admin/vistas/modal-area-secciones.php?id=' + idPedido); 
+
+    }else{
+    location.reload();
+    }
+    }
+
+    }
+    });
+
+}
+
+function ModalAreaSeccion(id){
+$('#Modal').modal('show');  
+$('#ContenidoModal').load('../../public/admin/vistas/modal-area-secciones.php?id=' + id); 
+}
+
+function FinSubArea(){
+location.reload(); 
+}
+
+function ModalArea(idPedido){
+$('#Modal').modal('show');  
+  $('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-area-pedido-material.php?idPedido=' + idPedido);  
+} 
+
+function AgregarArea(idPedido){
+
+  var Area = $('#Area').val();
+
+    if(Area != ""){
+
+    var parametros = {
+    "idPedido" : idPedido,
+    "Area" : Area,
+    "categoria" : 4
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/editar-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    location.reload();
+
+    }
+    });
+
+    }else{
+    $('#Area').css('border','2px solid #A52525');  
+    }
+}
+
+
+function ModalMateriales(idPedido){
+$('#Modal').modal('show');  
+  $('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-material-pedido-material.php?idPedido=' + idPedido);  
+} 
+ 
+function AgregarMaterial(idPedido){
+
+var Concepto = $('#Concepto').val();
+var Otro = $('#Otro').val();
+var Cantidad = $('#Cantidad').val();
+
+if(Cantidad != ""){
+$('#Cantidad').css('border','');
+
+    var parametros = {
+    "idPedido" : idPedido,
+    "Concepto" : Concepto,
+    "Otro" : Otro,
+    "Cantidad" : Cantidad
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/agregar-materiales-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    location.reload();
+
+    }
+    });
+
+}else{
+$('#Cantidad').css('border','2px solid #A52525');  
+}
+
+}
+
+function EliminarMaterial(id){
+
+    var parametros = {
+    "id" : id,
+    "categoria" : 2
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/eliminar-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    location.reload();
+
+    }
+    });
+
+}
+
+function ModalEvidencia(idPedido){
+$('#Modal').modal('show');  
+$('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-evidencia-pedido-material.php?idPedido=' + idPedido);  
+}  
+ 
+function AgregarEvidencia(idPedido){
+
+var ArchivoE = $('#archivoEvidencia').val();
+var Area         =  $('#Area').val();
+var Motivo       =  $('#Motivo').val();
+ 
+  var data = new FormData();
+  var url = '../../public/admin/modelo/agregar-evidencia-pedido-materiales.php';
+
+
+if(ArchivoE != ""){
+$('#archivoEvidencia').css('border','');
+if(Area != ""){
+$('#Area').css('border','');
+if(Motivo != ""){
+$('#Motivo').css('border','');
+
+
+  Archivo = document.getElementById("archivoEvidencia");
+  Archivo_file = Archivo.files[0];
+  Archivo_filePath = Archivo.value;
+
+ 
+   data.append('idPedido', idPedido);
+   data.append('archivoEvidencia', Archivo_file);
+   data.append('Area', Area);
+   data.append('Motivo', Motivo);
+
+ 
+    $.ajax({
+    url: url,
+    type: 'POST', 
+    contentType: false,
+    data: data,
+    processData: false,
+    cache: false
+    }).done(function(data){
+ 
+     if(data == 1){
+      location.reload();
+
+     }else{
+
+      $(".LoaderPage").hide();
+      alertify.error('Error al agregar evidencia'); 
+     }
+     
+    });  
+
+
+
+}else{
+$('#Motivo').css('border','2px solid #A52525');  
+}
+}else{
+$('#Area').css('border','2px solid #A52525');  
+}
+}else{
+$('#archivoEvidencia').css('border','2px solid #A52525');  
+}
+    
+}
+
+function ModalEvidenciaImagen(idEvidencia){
+$('#Modal').modal('show');  
+$('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-evidencia-imagen-pedido-material.php?idEvidencia=' + idEvidencia);  
+}
+ 
+function AgregarEvidenciaImagen(idEvidencia){
+
+    var data = new FormData();
+    var url = '../../public/admin/modelo/agregar-imagen-pedido-material.php';
+
+    Imagen = document.getElementById("Imagen");
+    Imagen_file = Imagen.files[0];
+    Imagen_filePath = Imagen.value;
+
+    if (Imagen_filePath != "") {
+    $('#Imagen').css('border','');
+
+    data.append('idEvidencia', idEvidencia);
+    data.append('Imagen_file', Imagen_file);
+
+    $.ajax({
+    url: url,
+    type: 'POST',
+    contentType: false,
+    data: data,
+    processData: false,
+    cache: false
+    }).done(function(data){
+
+       location.reload();
+     
+    }); 
+
+    }else{
+    $('#Imagen').css('border','2px solid #A52525');
+    }
+}
+
+function EliminarEvidenciaImagen(idEvidencia){
+
+    var parametros = {
+    "id" : idEvidencia,
+    "categoria" : 3
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/eliminar-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    location.reload();
+
+    }
+    });
+
+}
+
+function EliminarEvidencia(idEvidencia){
+ 
+ var parametros = {
+    "id" : idEvidencia,
+    "categoria" : 4
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/eliminar-pedido-materiales.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    location.reload();
+
+    }
+    });
+}
+  
+function Finalizar(idPedido){
+ 
+var afectacionOM = $('#afectacionOM').val();
+
+var ctx = document.getElementById("canvas");
+var image = ctx.toDataURL();
+document.getElementById('base64').value = image;
+
+var Comentarios = $('#Comentarios').val();
+var base64 = $('#base64').val();
+
+var data = new FormData();
+var url = '../../public/admin/modelo/finalizar-pedido-material.php';
+    
+  if (afectacionOM != "") {
+   $('#afectacionOM').css('border','');
+ 
+  if(signaturePad.isEmpty()){
+  $('#canvas').css('border','2px solid #A52525'); 
+  }else{
+  $('#canvas').css('border','1px solid #000000'); 
+
+  data.append('idPedido', idPedido);
+  data.append('afectacionOM', afectacionOM);
+  data.append('Comentarios', Comentarios);
+  data.append('base64', base64);
+ 
+    $.ajax({
+    url: url,
+    type: 'POST',
+    contentType: false,
+    data: data,
+    processData: false,
+    cache: false
+    }).done(function(data){
+
+    Regresar();
+      
+    }); 
+
+  }
+
+  }else{
+  $('#afectacionOM').css('border','2px solid #A52525');
+  }
+
+
+  }
+
+  </script>
+
+  </head>
+
+<body> 
+<div class="LoaderPage"></div>
+
+  <!---------- DIV - CONTENIDO ----------> 
+  <div id="content">
+  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
+  <?php include_once "public/navbar/navbar-perfil.php";?>
+  <!---------- CONTENIDO PAGINA WEB----------> 
+  <div class="contendAG">
+  <div class="row">
+
+  <div class="col-12 mb-3">
+  <div class="cardAG"> 
+  <div class="border-0 p-3">
+
+    <div class="row">
+    <div class="col-12">
+
+    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
+    
+    <div class="row">
+    <div class="col-12">
+
+     <h5>Orden de Mantenimiento</h5>
+    
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+  <hr>
+
+<div class="container">
+  
+  <div class="table-responsive">
+  <table class="table table-bordered">
+    <tr class="">
+      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
+      <td class="align-middle"><b>Folio:</b> <br>00<?=$folio;?></td>
+      <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
+    </tr>
+  </table>
+</div>
+
+
+<!-- APARTADO ¿EN QUE AFECTA A LA ESTACION? -->
+<div class="p-3 border mb-3">
+<h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
+<hr>
+<div class="row p-1">
+
+<div class="col-12 mb-2">
+<textarea class="form-control rounded-0" id="afectacionOM" ></textarea>
+  
+</div>
+
+</div>
+</div> 
+
+
+<!-- OCULTAR EL TIPO DE SERVICIO (PREVENTIVO, CORRECTIVO Y EMERGENTE) -->
+<div class="p-3 border mb-3 d-none">
+<h6>TIPO DE SERVICIO</h6>
+<hr>
+
+<div class="row p-1">
+
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+  <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="TipoServicio" id="Preventivo" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 1, 1)" <?php if($tiposervicio == 1){echo 'checked';} ?> >
+  <label class="form-check-label" for="Preventivo">PREVENTIVO</label>
+</div>
+</div>
+ 
+
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="TipoServicio" id="Correctivo" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 1, 2)" <?php if($tiposervicio == 2){echo 'checked';} ?>>
+  <label class="form-check-label" for="Correctivo">CORRECTIVO</label>
+</div>
+</div>
+
+
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="TipoServicio" id="Emergente" value="3" onChange="EditRC(<?=$GET_idPedido;?>, 1, 3)" <?php if($tiposervicio == 3){echo 'checked';} ?>>
+  <label class="form-check-label" for="Emergente">EMERGENTE</label>
+</div>
+</div>
+
+</div>
+
+</div> 
+
+
+<div class="p-3 border mb-3">
+<h6>LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</h6>
+<hr>
+
+<div class="row p-1">
+<div class="col-4 mb-2">
+  <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="Trabajo" id="Si" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 2, 1)" <?php if($ordentrabajo == 1){echo 'checked';} ?> >
+  <label class="form-check-label" for="Si">SI</label>
+</div>
+</div>
+
+<div class="col-4 mb-2">
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="Trabajo" id="No" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 2, 2)" <?php if($ordentrabajo == 2){echo 'checked';} ?> >
+  <label class="form-check-label" for="No">NO</label>
+</div>
+</div>
+
+<div class="col-4 mb-2">
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="Trabajo" id="Ambas" value="3" onChange="EditRC(<?=$GET_idPedido;?>, 2, 3)" <?php if($ordentrabajo == 3){echo 'checked';} ?> >
+  <label class="form-check-label" for="Ambas">AMBAS</label>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="p-3 border mb-3">
+<h6>LA ORDEN DE TRABAJO ES DE ALTO RIESGO</h6>
+<hr>
+
+<div class="row p-1 ">
+
+<div class="col-4 mb-2">
+  <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="Riesgo" id="Si" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 8, 1)" <?php if($ordenriesgo == 1){echo 'checked';} ?> >
+  <label class="form-check-label" for="Si">SI</label>
+</div>
+</div>
+
+<div class="col-4 mb-2">
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="Riesgo" id="No" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 8, 2)" <?php if($ordenriesgo == 2){echo 'checked';} ?> >
+  <label class="form-check-label" for="No">NO</label>
+</div>
+</div>
+
+
+</div>
+</div>
+ 
+
+<div class="p-3 border mb-3">
+
+
+      <div class="row">
+
+      <div class="col-10 mt-2">
+        <h6>ÁREA</h6>
+      </div>
+
+      <div class="col-2">
+      <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalArea(<?=$GET_idPedido;?>)">
+      </div>
+
+    </div>
+<hr>
+
+<div style="overflow-y: hidden;">
+<table class="table table-bordered table-sm">
+  <tbody>
+  <?php  
+  $sql_lista = "SELECT * FROM op_pedido_materiales_area WHERE id_pedido = '".$GET_idPedido."' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+  while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+
+    $id  = $row_lista['id'];
+
+    if($row_lista['estatus'] == 1){
+    $checked = 'checked';
+    if($row_lista['area'] == 'Zona de despacho' || $row_lista['area'] == 'Zona de tanques' || $row_lista['area'] == 'Baños clientes'){
+
+    $EditArea = '<img class="float-end pointer" src="'.RUTA_IMG_ICONOS.'editar.png" onclick="ModalAreaSeccion('.$id.')">';
+    $SADetalle = DetalleArea($id,$con);
+    }else{
+    $EditArea = '';
+    $SADetalle = '';
+    }    
+    }else{
+    $checked = '';
+    $EditArea = '';
+    $SADetalle = '';
+    }
+
+  echo '<tr>
+       <td>'.$row_lista['area'].' '.$SADetalle.' '.$EditArea.'</td>
+       <td class="align-middle text-center" width="30"><input type="checkbox" '.$checked.' id="Area'.$id.'" onChange="EditRC('.$id.', 3, 0)"></td>
+       </tr>';
+
+  }
+  ?>
+  </tbody>
+</table>
+</div>
+
+
+</div>
+
+<div class="p-3 border mb-3">
+
+      <div class="row">
+
+      <div class="col-10 mt-2">
+        <h6>REFACCIONES</h6>
+      </div>
+
+      <div class="col-2">
+        <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalMateriales(<?=$GET_idPedido;?>)">
+
+      </div>
+ 
+    </div>
+
+    <hr>
+
+<div class="table-responsive">
+<table class="table table-bordered table-sm mb-0" style="margin-top: 5px;">
+  <thead class="tables-bg">
+  <tr>
+    <th class="">REFACCIÓN</th>
+    <th class="text-center">CANTIDAD</th>
+    <th class="">ESTATUS</th>
+    <th class="text-center" width="30">
+    <img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"> 
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php  
+  $sql_detalle = "SELECT * FROM op_pedido_materiales_detalle WHERE id_pedido = '".$GET_idPedido."' ";
+  $result_detalle = mysqli_query($con, $sql_detalle);
+  $numero_detalle = mysqli_num_rows($result_detalle);
+  if ($numero_detalle > 0) {
+  while($row_detalle = mysqli_fetch_array($result_detalle, MYSQLI_ASSOC)){
+
+    $id  = $row_detalle['id'];
+
+       echo '<tr>
+       <td>'.$row_detalle['concepto'].'</td>
+       <td class="text-center">'.$row_detalle['cantidad'].'</td>
+       <td>'.$row_detalle['nota'].'</td>
+       <td class="align-middle text-center" width="30"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarMaterial('.$id.')"></td>
+       </tr>';
+  }
+  }else{
+  echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";  
+  }
+  ?>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+ 
+
+<div class="p-3 border mb-3">
+
+      <div class="row">
+
+      <div class="col-10 mt-2">
+        <h6>EVIDENCIA</h6>
+      </div>
+
+      <div class="col-2">
+      <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalEvidencia(<?=$GET_idPedido;?>)">
+      </div>
+
+    </div>
+
+<hr>
+
+
+
+<div class="table-responsive">
+<table class="table table-sm table-bordered pb-0 mb-0 ">
+        <thead>
+        <tr class="tables-bg">
+        <th class="align-middle text-center" width="20" >ARCHIVO</th>
+        <th class="align-middle text-center">AREA</th>
+        <th class="align-middle text-center">MOTIVO</th>
+        <th class="align-middle text-center" width="24"><img src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
+        </tr>
+        </thead>
+  
+<?php  
+
+  $sql_evidencia = "SELECT * FROM op_pedido_materiales_evidencia_archivo WHERE id_pedido = '".$GET_idPedido."' ";
+
+  
+  $result_evidencia = mysqli_query($con, $sql_evidencia);
+  $numero_evidencia = mysqli_num_rows($result_evidencia);
+  while($row_evidencia = mysqli_fetch_array($result_evidencia, MYSQLI_ASSOC)){
+  
+  $idEvidencia = $row_evidencia['id'];
+
+echo'
+       
+        <tr>
+        <td class="align-middle text-center"> 
+        <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+        </td> 
+        <td class="align-middle text-center">'.$row_evidencia['area'].'</td>
+        <td class="align-middle text-center">'.$row_evidencia['motivo'].'</td>
+        <td class="align-middle text-center"><img src="'.RUTA_IMG_ICONOS.'eliminar.png" class="pointer" onclick="EliminarEvidencia('.$idEvidencia.')"></td>
+        </tr>';
+
+
+/*
+echo '<div class="border p-3 mt-3 mb-3">';
+
+echo '<div class="row">
+<div class="col-12"><button type="button" class="btn btn-sm btn-secondary rounded-0 float-end" onclick="ModalEvidenciaImagen('.$idEvidencia.')">Imagen</button>
+</div>
+</div>
+ 
+<hr>';
+
+echo '<div>'.EvidenciaImagen($idEvidencia,$con).'</div>';
+
+echo '</div>';
+*/
+
+  }
+  ?>
+
+
+
+</table>
+</div>
+</div>
+
+
+
+<div class="p-3 border mb-3">
+          
+          <div class="row">
+          
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+          <div class="mb-2 text-secondary mt-2">COMENTARIOS:</div>
+          <textarea class="form-control rounded-0" id="Comentarios"></textarea>
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
+          <div class="mb-2 text-secondary text-center">FIRMA DEL ENCARGADO</div>
+          <div id="signature-pad" class="signature-pad mt-2" >
+          <div class="signature-pad--body">
+          <canvas style="width: 100%; height: 150px; border: 1px black solid;" id="canvas"></canvas>
+          </div>
+          <input type="hidden" name="base64" value="" id="base64">
+          </div> 
+          <div class="text-end mt-3">
+          <button class="btn btn-info text-white btn-sm" onclick="resizeCanvas()"><small>Limpiar</small></button>
+          </div>
+          </div>
+
+          </div>
+
+</div>
+
+  <hr>
+
+<div class="text-end">
+<button type="button" class="btn btn-success" onclick="Finalizar(<?=$GET_idPedido;?>)">Finalizar</button>
+</div>
+
+</div>
+
+
+  </div>
+  </div>
+  </div>
+
+  </div>
+  </div>
+
+  </div>
+
+
+
+<div class="modal" id="Modal">
+<div class="modal-dialog modal-lg">
+<div class="modal-content" style="margin-top: 83px;">
+<div id="ContenidoModal"></div>    
+</div>
+</div>
+</div>
+
+<script src="<?php echo RUTA_JS ?>bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+var wrapper = document.getElementById("signature-pad");
+
+var canvas = wrapper.querySelector("canvas");
+var signaturePad = new SignaturePad(canvas, {
+  backgroundColor: 'rgb(255, 255, 255)'
+});
+
+function resizeCanvas() {
+
+  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+
+  canvas.width = canvas.offsetWidth * ratio;
+  canvas.height = canvas.offsetHeight * ratio;
+  canvas.getContext("2d").scale(ratio, ratio);
+
+  signaturePad.clear();
+}
+
+window.onresize = resizeCanvas;
+resizeCanvas();
+
+</script>
+
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+</body>
+</html>

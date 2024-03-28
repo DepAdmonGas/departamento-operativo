@@ -1,0 +1,59 @@
+<?php
+require('../../../app/help.php');
+
+$idReporte = $_GET['idReporte'];
+$Categoria = $_GET['Categoria'];
+?>
+<div class="modal-header">
+<h5 class="modal-title">Agregar Pivoteo</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
+
+<div class="modal-body">
+
+<?php 
+if($Categoria == 1){
+echo '<h6>Documentación Facturada (CANCELAR)</h6>';
+}else{
+echo '<h6>Documentación a refacturar</h6>';
+}
+?>
+
+
+<div class="mt-2"><b>Estación:</b></div>
+<select class="form-select" id="EstacionFC">
+<option></option>
+<?php
+$sql_lista = "SELECT * FROM tb_estaciones WHERE numlista <= 8";
+$result_lista = mysqli_query($con, $sql_lista);
+$numero_lista = mysqli_num_rows($result_lista); 
+while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+echo '<option>'.$row_lista['razonsocial'].'</option>';
+}
+?>
+<option>SERVICIO MENA, S.A. DE C.V.</option>
+<option>SUPER SERVICIO VALLEJO, S.A. DE C.V.</option>
+<option>SUPER SERVICIO PERIFERICO, S.A. DE C.V.</option>
+</select>
+
+<div class="border p-3 mt-3">
+<div class="text-center"><small>Otra estación:</small></div>
+<hr>
+
+<div><b>Estación:</b></div>
+<input type="text" class="form-control" id="EstacionOtroFC">
+
+<div class="mt-2"><b>Destino:</b></div>
+<input type="number" class="form-control" id="DestinoOtroFC">
+
+</div>
+
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-primary" onclick="Guardar(<?=$idReporte;?>,<?=$Categoria;?>)">Guardar</button>
+</div>
+
+
+
