@@ -9,7 +9,7 @@ tb_menu_puestos_do.id_puesto
 FROM tb_menu_puestos_do 
 INNER JOIN tb_menu_do ON tb_menu_puestos_do.id_menu_do = tb_menu_do.id_menu_do 
 INNER JOIN tb_puestos on tb_menu_puestos_do.id_puesto = tb_puestos.id 
-WHERE tb_menu_puestos_do.id_puesto = '".$_SESSION["id_puesto_usuario"]."' ORDER BY tb_menu_puestos_do.id_menu_do ASC"; 
+WHERE tb_menu_puestos_do.id_puesto = '".$session_idpuesto."' ORDER BY tb_menu_puestos_do.id_menu_do ASC"; 
 
 $result_menu = mysqli_query($con, $sql_menu );
 $numero_menu  = mysqli_num_rows($result_menu);

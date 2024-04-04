@@ -131,7 +131,7 @@ function ValidaYearReporte($IdReporte,$fecha_mes,$con){
    $mes = $row_listayear['mes'];
 
   if ($GET_year >= $year_c) {
-  if ($mes_c >= $i) {
+  if ($mes_c >= $mes) {
   $color = "card-menuB";
   $icon = "bg-icon";
   }else{

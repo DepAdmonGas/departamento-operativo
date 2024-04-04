@@ -1,11 +1,39 @@
 <?php
 error_reporting(0);
+include_once 'lib/jwt/vendor/autoload.php';
 include_once "config/inc.configuracion.php";
+include_once "config/configuracion-sesiones.php";
 include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+// Obtén una instancia de la conexión a la base de datos
+$db = Database::getInstance();
+// Obtén la conexión
+$con = $db->getConnection();
+// Instancia la clase configuracion-sesiones
+$configuracionSesiones = new ConfiguracionSesiones();
+// Obtiene la clave de configuración de sesiones
+$keyJWT = $configuracionSesiones->obtenerKey();
 
-session_start();
-
+if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
+    $token = $_COOKIE['COOKIEADMONGAS'];
+    try{
+        $decoded = JWT::decode($token, new Key($keyJWT, 'HS256'));
+        $Session_IDUsuarioBD   =   $decoded->id_usuario;
+        $session_nomusuario    =   $decoded->nombre_usuario;
+        $Session_IDEstacion    =   $decoded->id_gas_usuario;
+        $session_idpuesto      =   $decoded->id_puesto_usuario;
+        $session_nomestacion   =   $decoded->nombre_gas_usuario;
+        $session_nompuesto     =   $decoded->tipo_puesto_usuario;
+    }catch(Exception $e){
+        echo 'Error: ', $e->getMessage();
+    }
+}else{
+    $db->disconnect();
+    header("Location:".PORTAL."");
+    die();    
+}
 date_default_timezone_set('America/Mexico_City');
 $fecha_del_dia = date("Y-m-d");
 $hora_del_dia = date("H:i:s");
@@ -17,20 +45,6 @@ $fecha_dia = date("d");
 
 $ClassEncriptar = new Encriptar();
 
-$Session_IDUsuarioBD   =   $_SESSION["id_usuario"];
-$session_nomusuario    =   $_SESSION["nombre_usuario"];
-$Session_IDEstacion    =   $_SESSION["id_gas_usuario"];
-$session_idpuesto      =   $_SESSION["id_puesto_usuario"];
-$session_nomestacion   =   $_SESSION["nombre_gas_usuario"];
-$session_nompuesto     =   $_SESSION["tipo_puesto_usuario"];
-
-if ($Session_IDUsuarioBD == "") {
-unset($_SESSION);
-session_destroy();
-mysqli_close($con);
-header("Location:".PORTAL."");
-die();
-}
 //--------------------------------------------------------------------------------
 //---------------------------------Formato Fechas---------------------------------
 function nombremes($mes){
