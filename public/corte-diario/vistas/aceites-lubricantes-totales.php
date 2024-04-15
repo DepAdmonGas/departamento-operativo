@@ -5,6 +5,8 @@ require('../../../app/help.php');
 
     $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
+    $totalCantidad = 0;
+    $totalPrecio = 0;
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
 
     $importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];

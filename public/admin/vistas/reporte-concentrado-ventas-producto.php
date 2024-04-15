@@ -19,6 +19,8 @@ function TotalVentas($idDias,$Producto,$con){
 $sql = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$idDias."' AND producto = '".$Producto."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
+$TotalLitros = 0;
+$TotalPrecio = 0;
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $litros = $row['litros'];
 $preciolitro = $row['precio_litro'];
@@ -100,7 +102,14 @@ return $array;
           op_corte_mes.mes = '".$Mes."'";
           $result_listadia = mysqli_query($con, $sql_listadia);
           $numero_listadia = mysqli_num_rows($result_listadia);
+          $P1TL = 0;
+          $P1TP = 0;
 
+          $P2TL = 0;
+          $P2TP = 0;
+
+          $P3TL = 0;
+          $P3TP = 0;
           while($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)){
           $idDias = $row_listadia['idDia'];
           $fecha = $row_listadia['fecha'];

@@ -44,10 +44,8 @@ $(document).ready(function($){
     $num = $row_listatarjetas['num'];
 		$conceptoTarjeta = $row_listatarjetas['concepto'];
 
-
-    	if ($row_listatarjetas['baucher'] == 0) {
-    		$baucher = "";
-    	}else{
+      $baucher = 0;
+    	if ($row_listatarjetas['baucher'] != 0) {
     		$baucher =  number_format($row_listatarjetas['baucher'], 2, '.', '');
     	}
     ?>

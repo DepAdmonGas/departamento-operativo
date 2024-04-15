@@ -1,21 +1,36 @@
 <?php
-error_reporting(0);
 include_once 'lib/jwt/vendor/autoload.php';
 include_once "config/inc.configuracion.php";
-include_once "config/configuracion-sesiones.php";
-include_once "bd/inc.conexion.php";
+include_once "config/ConfiguracionSesiones.php";
+include_once "bd/Database.php";
 include_once "modelo/Encriptar.php";
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-// Obtén una instancia de la conexión a la base de datos
-$db = Database::getInstance();
-// Obtén la conexión
-$con = $db->getConnection();
+
+$ClassEncriptar = new Encriptar();
+
+// Crea una instancia de la clase Database
+$database = new Database();
+
+// Obtén una instancia y obtiene la  conexión a la base de datos
+$con = $database->getInstance()->getConnection();
+
 // Instancia la clase configuracion-sesiones
 $configuracionSesiones = new ConfiguracionSesiones();
-// Obtiene la clave de configuración de sesiones
+
+// Obtiene keyJWT
 $keyJWT = $configuracionSesiones->obtenerKey();
 
+date_default_timezone_set('America/Mexico_City');
+$fecha_del_dia = date("Y-m-d");
+$hora_del_dia = date("H:i:s");
+$hoy = date("Y-m-d H:i:s");
+
+$fecha_year = date("Y");
+$fecha_mes = date("m");
+$fecha_dia = date("d");
+// Valida si esta activa la sesion por medio de la cookie
 if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
     $token = $_COOKIE['COOKIEADMONGAS'];
     try{
@@ -30,20 +45,10 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
         echo 'Error: ', $e->getMessage();
     }
 }else{
-    $db->disconnect();
+    $database->disconnect();
     header("Location:".PORTAL."");
     die();    
 }
-date_default_timezone_set('America/Mexico_City');
-$fecha_del_dia = date("Y-m-d");
-$hora_del_dia = date("H:i:s");
-$hoy = date("Y-m-d H:i:s");
-
-$fecha_year = date("Y");
-$fecha_mes = date("m");
-$fecha_dia = date("d");
-
-$ClassEncriptar = new Encriptar();
 
 //--------------------------------------------------------------------------------
 //---------------------------------Formato Fechas---------------------------------

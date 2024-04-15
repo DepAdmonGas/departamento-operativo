@@ -262,18 +262,16 @@ return $volumetrico;
 
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
-    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+    $cantidad = 0;
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)):
       $id = $row_listaaceite['id'];
-
-       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
-    $result_listatotal = mysqli_query($con, $sql_listatotal);
-    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
-      $cantidad = $cantidad + $row_listatotal['cantidad'];
-
-
-    }
-
-    }
+      $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+      $result_listatotal = mysqli_query($con, $sql_listatotal);
+      while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)):
+        $cantidad = $cantidad + $row_listatotal['cantidad'];
+      endwhile;
+    endwhile;
+    
 
     return $cantidad;
 
@@ -283,15 +281,17 @@ function Aceites($IdReporte,$con){
 
     $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
-    while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
-    $noaceite = $row_listaaceites['id_aceite'];
-    $preciou = $row_listaaceites['precio'];
-    $totalaceites = totalaceites($IdReporte, $noaceite, $con);
+    $TotAceites =0;
+    $Grantotal =0;
+    while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)):
+      $noaceite = $row_listaaceites['id_aceite'];
+      $preciou = $row_listaaceites['precio'];
+      $totalaceites = totalaceites($IdReporte, $noaceite, $con);
 
-    $Total = $preciou * $totalaceites;
-    $TotAceites = $TotAceites + $totalaceites;
-    $Grantotal = $Grantotal + $Total;
-    }	
+      $Total = $preciou * $totalaceites;
+      $TotAceites = $TotAceites + $totalaceites;
+      $Grantotal = $Grantotal + $Total;
+    endwhile;
 
     $array = array('TotAceites' => $TotAceites, 'Grantotal' => $Grantotal);
 

@@ -41,6 +41,7 @@ ON op_consumos_pagos.id_cliente = op_cliente.id
 WHERE op_consumos_pagos.id_reportedia = '".$idReporte."' AND op_cliente.tipo = '".$tipo."' AND op_consumos_pagos.tipo = '".$consumo."' ";
 $result_credito = mysqli_query($con, $sql_credito);
 $numero_credito = mysqli_num_rows($result_credito);
+$total = 0;
 while($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)){
 $total = $total + $row_credito['total'];
 }

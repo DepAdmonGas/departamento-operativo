@@ -2,14 +2,14 @@
 require_once '../../../dompdf/autoload.inc.php';
 require('../../../app/help.php');
 
-$idReporte = $_GET['idReporte'];
+$idReporte = $_GET['dia_reporte'];
 
 function ConcentradoVentas($idReporte,$con){
 
 $sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$idReporte."' ";
 $result_listayear = mysqli_query($con, $sql_listayear);
 $numero_reporte = mysqli_num_rows($result_listayear);
-
+$resultado = '';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 	<tr>

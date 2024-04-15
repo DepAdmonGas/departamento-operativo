@@ -82,7 +82,7 @@ header("Location:".PORTAL."");
   }
 
   function ventas(year,mes,idDias){
-  window.location.href = "../../corte-ventas/" + year + "/" + mes + "/" + idDias;
+  console.log(window.location.href = "../../corte-ventas/" + year + "/" + mes + "/" + idDias);
   }
 
     function cierrelote(year,mes,idDias){
@@ -215,20 +215,20 @@ header("Location:".PORTAL."");
 
     <?php
 
-    function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
-   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
-   $result_year = mysqli_query($con, $sql_year);
-   while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
-   $idyear = $row_year['id'];
-   }
+  function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
+    $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
+    $result_year = mysqli_query($con, $sql_year);
+    while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
+      $idyear = $row_year['id'];
+    }
 
-   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
-   $result_mes = mysqli_query($con, $sql_mes);
-   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
-   $idmes = $row_mes['id'];
-   }
+  $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
+  $result_mes = mysqli_query($con, $sql_mes);
+  while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
+  $idmes = $row_mes['id'];
+  }
 
-   return $idmes;
+  return $idmes;
 }
 
 $IdReporte = IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con); 

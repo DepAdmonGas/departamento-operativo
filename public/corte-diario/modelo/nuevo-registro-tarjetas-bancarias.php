@@ -150,11 +150,11 @@ function ValidaTarjetas($idReporte,$num,$concepto,$baucher,$con){
 
    $sql_listacierre = "SELECT * FROM op_cierre_lote WHERE idreporte_dia = '".$idReporte."' AND empresa = '".$empresa."' ";
     $result_listacierre = mysqli_query($con, $sql_listacierre);
-    while($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC)){
+    while($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC)):
 
-        $TotalImporte = $TotalImporte + $row_listacierre['importe'];
+        $TotalImporte = 100;
     
-    }
+    endwhile;
 
     $sql = "UPDATE op_tarjetas_c_b SET baucher='".$TotalImporte."' WHERE concepto='".$empresa."' AND idreporte_dia = ".$idReporte." ";
 

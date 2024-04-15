@@ -7,7 +7,12 @@ $idEstacion = $_GET['idEstacion'];
 $sql_lista = "SELECT * FROM op_control_volumetrico_prefijos WHERE id_mes = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+$SumGasolina = 0;
+$SumRentas = 0;
+$SumSodexo = 0;
+$SumGTotal = 0;
 
+$SumAutolavado = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $serie = $row_lista['serie'];

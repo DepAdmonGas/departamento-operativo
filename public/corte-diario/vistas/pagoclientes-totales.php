@@ -5,6 +5,7 @@ require('../../../app/help.php');
 
     $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaclientes = mysqli_query($con, $sql_listaclientes);
+    $totalImporte = 0;
     while($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASSOC)){
     $importe = $row_listaclientes['importe'];
 

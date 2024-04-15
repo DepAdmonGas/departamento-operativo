@@ -10,6 +10,12 @@ header("Location:".PORTAL."");
      $sql = "SELECT * FROM op_despacho_factura WHERE id_dia = '".$idDias."' ";
     $result = mysqli_query($con, $sql);
     $numero = mysqli_num_rows($result);
+    $LProductouno = 0;
+    $LProductodos = 0;
+    $LProductotres = 0;
+    $PProducto_uno = 0;
+    $PProducto_dos = 0;
+    $PProducto_tres = 0;
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
       
     $LProductouno = $row['litros_producto_uno'];
@@ -80,6 +86,7 @@ $importetotal = 0;
 $sql_reportecre = "SELECT id FROM re_reporte_cre_mes WHERE id_estacion = '".$GET_idEstacion."' and mes = '".$GET_mes."' and year = '".$GET_year."' ";
 $result_reportecre = mysqli_query($con, $sql_reportecre);
 $numero_reportecre = mysqli_num_rows($result_reportecre);
+$idReporteCre = 0;
 while($row_reportecre = mysqli_fetch_array($result_reportecre, MYSQLI_ASSOC)){
 $idReporteCre = $row_reportecre['id'];
 }
@@ -112,6 +119,8 @@ $idCorte = $row_corte['id'];
 $sql_cortedia = "SELECT litros, precio_litro FROM op_ventas_dia WHERE idreporte_dia  = '".$idCorte."' AND producto = '".$Producto."' ";
 $result_cortedia = mysqli_query($con, $sql_cortedia);
 $numero_cortedia = mysqli_num_rows($result_cortedia);
+$totalLitros =0;
+$Grantotal = 0;
 while($row_cortedia = mysqli_fetch_array($result_cortedia, MYSQLI_ASSOC)){
 $litrosV = $row_cortedia['litros'];
 $preciolitroV = $row_cortedia['precio_litro'];
@@ -138,6 +147,12 @@ op_corte_mes.mes = '".$GET_mes."'";
 $result_listadia = mysqli_query($con, $sql_listadia);
 $numero_listadia = mysqli_num_rows($result_listadia);
 
+$GTLProductouno = 0;
+$GTLProductodos = 0;
+$GTLProductotres = 0;
+$GTPProductouno = 0;
+$GTPProductodos = 0;
+$GTPProductotres = 0;
 while($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)){
     $idDias = $row_listadia['idDia'];
     $fecha = $row_listadia['fecha'];  

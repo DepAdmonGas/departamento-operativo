@@ -5,6 +5,7 @@ require('../../../app/help.php');
 
     $sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
+    $totalImporte = 0;
     while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
     $importe = $row_listaprosegur['importe'];
 

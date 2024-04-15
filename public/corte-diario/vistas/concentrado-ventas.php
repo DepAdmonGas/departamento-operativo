@@ -138,10 +138,8 @@ function VentasTotales(idReporte){
     	$idOtros = $row_listaotros['id'];
     	$concepto = $row_listaotros['concepto'];
     	$piezas = $row_listaotros['piezas'];
-
-    	if ($row_listaotros['importe'] == 0) {
-    		$importe = "";
-    	}else{
+		$importe = 0;
+    	if ($row_listaotros['importe'] != 0) {
     		$importe = number_format($row_listaotros['importe'], 2, '.', '');
     	}
 

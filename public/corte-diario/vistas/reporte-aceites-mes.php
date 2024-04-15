@@ -130,6 +130,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
     $result_listatotal = mysqli_query($con, $sql_listatotal);
+    $cantidad = 0;
     while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
       $cantidad = $row_listatotal['cantidad'];
     }
@@ -142,18 +143,15 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
-    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+    $cantidad = 0;
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)):
       $id = $row_listaaceite['id'];
-
-       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
-    $result_listatotal = mysqli_query($con, $sql_listatotal);
-    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
-      $cantidad = $cantidad + $row_listatotal['cantidad'];
-
-
-    }
-
-    }
+      $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+      $result_listatotal = mysqli_query($con, $sql_listatotal);
+      while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)):
+        $cantidad = $cantidad + $row_listatotal['cantidad'];
+      endwhile;
+    endwhile;
 
     return $cantidad;
 
@@ -170,6 +168,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
     $result_listatotal = mysqli_query($con, $sql_listatotal);
+    $total =0;
     while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
       $cantidad = $row_listatotal['cantidad'];
       $precio = $row_listatotal['precio_unitario'];
@@ -187,6 +186,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    $cantidad = 0;
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
       $id = $row_listaaceite['id'];
 
@@ -218,6 +218,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' ";
     $result_listatotal = mysqli_query($con, $sql_listatotal);
+    $cantidad = 0;
     while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
       $cantidad = $cantidad + $row_listatotal['cantidad'];
     }
@@ -240,6 +241,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
 
     $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' ";
     $result_listatotal = mysqli_query($con, $sql_listatotal);
+    $totalimporte = 0;
     while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
       $cantidad = $row_listatotal['cantidad'];
       $precio = $row_listatotal['precio_unitario'];
@@ -382,7 +384,7 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
     if ($valor == 0) {
         $resultado = "";
       }else{
-        $resultado =  number_format($valor, 2, '.', '');
+        $resultado =  number_format($valor, 2, '.', '.');
       }
 
       return $resultado;
@@ -399,20 +401,35 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
 
 	$sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$IdReporte."' ORDER BY id_aceite ASC ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
+    $noaceite = 0;
+    $totalBodegas = 0;
+    $totalExibidores = 0;
+    $totalInventarioI = 0;
+    $totalPedido = 0;
+    $totalVentasM = 0;
+    $totalInventarioF =0;
+    $totalInventarioBodega =0;
+    $totalInventarioExibidores =0;
+    $totalInventarioFinal =0;
+    $totalDiferencia =0;
+    $totalDigPrecio =0;
+    $sumt = 0;
+    $importeneto = 0;
+    $ventas =0;
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
 
     $idaceite = $row_listaaceites['id'];
     $noaceite = $row_listaaceites['id_aceite'];
     $preciou = $row_listaaceites['precio'];
-    $bodega = valRow($row_listaaceites['bodega']);
-    $exibidores = valRow($row_listaaceites['exibidores']);
-    $pedido = valRow($row_listaaceites['pedido']);
+    $bodega = (int)$row_listaaceites['bodega']  ;
+    $exibidores = (int)$row_listaaceites['exibidores'];
+    $pedido = (int)$row_listaaceites['pedido'];
 
-    $inventario_bodega = valRow($row_listaaceites['inventario_bodega']);
-    $inventario_exibidores = valRow($row_listaaceites['inventario_exibidores']);
+    $inventario_bodega = (int)$row_listaaceites['inventario_bodega'];
+    $inventario_exibidores = (int)$row_listaaceites['inventario_exibidores'];
 
-    $producto_facturado = valRow($row_listaaceites['producto_facturado']);
-    $factura_venta_mostrador = valRow($row_listaaceites['factura_venta_mostrador']);
+    $producto_facturado = (int)$row_listaaceites['producto_facturado'];
+    $factura_venta_mostrador = (int)$row_listaaceites['factura_venta_mostrador'];
 
     $totalaceites = totalaceites($IdReporte, $noaceite, $con);
 
@@ -508,6 +525,7 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
 		?>
 		<td class="align-middle text-center bg-light"><?=$totalaceites;?></td>
 		<?php
+    $TotalSumaAceites = 0;
 		for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
       $fechap = $GET_year."-".$GET_mes."-".$Pdia;

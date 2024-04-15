@@ -5,6 +5,8 @@ require('../../../app/help.php');
 
    $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
     $result_listacontrol = mysqli_query($con, $sql_listacontrol);
+    $pago = 0;
+    $consumo = 0;
     while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
 
     $pago = $pago + $row_listacontrol['pago'];
