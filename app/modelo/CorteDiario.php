@@ -9,51 +9,6 @@ class CorteDiario{
         $this->con = $this->classConexionBD->getInstance()->getConnection();
     
     }
-    private function consultaChat($stmt, $bind, $array): bool {
-        $result = false;
-        if ($stmt) {
-            // Verifica que el número de elementos en $bind y $array coincida
-            if (count($bind) != count($array)) {
-                throw new Exception("El número de elementos en \$bind y \$array no coincide.");
-            }
-            
-            // Combina $bind y $array para pasar los argumentos dinámicamente
-            $params = array_merge([$bind], $array);
-    
-            // Llama a bind_param de manera dinámica con call_user_func_array
-            if (call_user_func_array([$stmt, 'bind_param'], $params)) {
-                if ($stmt->execute()) {
-                    $result = true;
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-                $stmt->close();
-            } else {
-                throw new Exception("Error al llamar a bind_param con los parámetros proporcionados.");
-            }
-        } else {
-            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
-        $this->classConexionBD->disconnect();
-        return $result;
-    }    
-    private function consulta($stmt,$bind,$array):bool{
-        $result = false;
-        if ($stmt) {
-            $stmt->bind_param($bind,$valor,$idAceite);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
-            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
-        $this->classConexionBD->disconnect();
-        return $result;
-        
-    }
     /**--------------------------------------------------------------------------------------------
      * 
      *                                      Funciones Ventas
@@ -88,6 +43,117 @@ class CorteDiario{
             $stmt->close();
         endif;
         $this->classConexionBD->disconnect();
+    }
+    public function getConceptos():array{
+        $concepto1= "OTROS";
+        $concepto2= "4 ACEITES Y LUBRICANTES";
+        $concepto3= "5 AUTOLAVADO";
+        $concepto4= "6 ADITIVO PARA DIESEL";
+        return $conceptos =[$concepto1,$concepto2,$concepto3,$concepto4];
+    }
+    public function getDenominaciones():array{
+        $denominacion1 = "BILLETE MATUTINO";
+        $denominacion2 = "BILLETE VESPERTINO";
+        $denominacion3 = "BILLETE NOCTURNO";
+        $denominacion4 = "MORRALLA";
+        $denominacion5 = "DEPOSITO BANCARIO";
+        $denominacion6 = "CHEQUE 1";
+        $denominacion7 = "TRANSFERENCIA 1";
+        $denominacion8 = "CHEQUE 2";
+        $denominacion9 = "TRANSFERENCIA 2";
+        $denominaciones = [$denominacion1,$denominacion2,$denominacion3,$denominacion4,$denominacion5
+                        ,$denominacion6,$denominacion7,$denominacion8,$denominacion9];
+        return $denominaciones;
+    }
+    public function getTarjetas(int $estacion):array{
+        $ticketcard = "TICKETCARD";
+        $g500 = "G500 FLETT";
+        $accord = "VALE ACCORD";
+        $efecticard = "EFECTICARD";
+        $efectivale = "VALE EFECTIVALE";
+        $sodexo = "SODEXO";
+        $valeSodexo = "VALE SODEXO";
+        $inburgas = "INBURGAS";
+        $america = "AMERICAN EXPRESS";
+        $bbva = "BBVA BANCOMER SA";
+        $inbursa = "INBURSA";
+        $vale = "SI VALE";
+        $otros = "OTROS";
+        $ultragas = "ULTRAGAS";
+        $energex = "ENERGEX";
+        switch($estacion):
+            case 1:
+                return $interlomas = [$ticketcard,$g500,$accord,$efecticard,$efectivale,$sodexo,$valeSodexo,
+                                $inburgas,$america,$bbva,$inbursa,$vale,$otros];
+                break;
+            case 2:
+                return $paloSolo = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$otros];
+                break;
+            case 3:
+                return $sanAgustin = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$vale,$ultragas,
+                $energex,$otros];
+                break;
+            case 4:
+                return $gasomira = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$otros];
+                break;
+            case 5:
+                return $valle = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$otros];
+                break;
+            case 6:
+                return $esmegas = [$ticketcard,$g500,$efecticard,$efectivale,$sodexo,$valeSodexo,$inburgas,$america,$bbva,
+                $inbursa,$otros];
+                break;
+            case 7:
+                return $xochimilco = [$ticketcard,$g500,$accord,$efecticard,$efectivale,$sodexo,$inburgas,$america,$bbva,
+                $inbursa,$otros];
+                break;
+            case 14:
+                return $bosqueReal = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$otros]; 
+                break;
+        endswitch;
+    }
+    public function getNumero(int $estacion):array{
+        $num1 = "1";
+        $num1_1 = "1.1";
+        $num2 = "2";
+        $num3 = "3";
+        $num4 = "4";
+        $num5 = "5";
+        $num6 = "6";
+        $num7 = "7";
+        $num8 = "8";
+        $num9 = "9";
+        $num10 = "10";
+        $numA = "A";
+        $numB = "B";
+        $numC = "C";
+        $numE = "E";
+        switch($estacion):
+            case 1:
+                return $numInter = [$num1,$num1_1,$numA,$num2,$numB,$num3,$numC,$num4,$num5,$num6,$numE,$num7,$num10];
+                break;
+            case 2:
+                return $numPalo = [$num1,$num1_1,$num2,$num3,$num4,$num5,$num6,$numE,$num10];
+                break;
+            case 3:
+                return $numAgus = [$num1,$num1_1,$num2,$num3,$num4,$num5,$num6,$numE,$num7,$num8,$num9,$num10];
+                break;
+            case 4:
+                return $numGaso = [$num1,$num1_1,$num2,$num3,$num4,$num5,$num6,$numE,$num10]; 
+                break;
+            case 5:
+                return $numValle = [$num1,$num1_1,$num2,$num3,$num4,$num5,$num6,$numE,$num10];
+                break;
+            case 6:
+                return $numEsme = [$num1,$num1_1,$num2,$numB,$num3,$numC,$num4,$num5,$num6,$numE,$num10];
+                break;
+            case 7:
+                return $numXochi = [$num1,$num1_1,$numA,$num2,$numB,$num3,$num4,$num5,$num6,$numE,$num10];
+                break;
+            case 14:
+                return $numBosque = [$num1,$num1_1,$num2,$num3,$num4,$num5,$num6,$num10];
+                break;
+        endswitch;
     }
     public function nuevoRegistroProsegur(int $idReporte,string $denominacion,string $recibo,int $importe):void{
         $sql_reporte = "SELECT idreporte_dia FROM op_prosegur WHERE idreporte_dia = ? AND denominacion = ? ";
@@ -278,6 +344,14 @@ class CorteDiario{
         $this->classConexionBD->disconnect();
         return $result;
     }
+    public function pagoConcepto():array{
+        $concepto1 = "EFECTIVO";
+        $concepto2 = "CHEQUE";
+        $concepto3 = "TRANSFERENCIA (SPEI)";
+        $concepto4 = "TARJETA DE CREDITO";
+        $concepto5 = "DEPOSITO BANCARIO";
+        return $conceptos = [$concepto1,$concepto2,$concepto3,$concepto4,$concepto5];
+    }
     public function nuevoRegistroPagoClientes(int $idReporte,string $concepto,float $importe,string $nota):void{
         $sql_reporte = "SELECT idreporte_dia FROM op_pago_clientes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
@@ -432,15 +506,24 @@ class CorteDiario{
     }
     public function editarVentasPiezas($idReporte):bool{
         $result = false;
-        $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia =$idReporte ";
-        $result_listaaceites = mysqli_query($con, $sql_listaaceites);
-        while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)):
-            $importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];
-            $totalCantidad = $totalCantidad + $row_listaaceites['cantidad'];
-            $totalPrecio = $totalPrecio + $importe;
+        $sql_listaaceites = "SELECT cantidad,precio_unitario FROM op_aceites_lubricantes WHERE idreporte_dia =?";
+        $result_reporte = $this->con->prepare($sql_listaaceites);
+        if(!$result_reporte):
+            throw new Exception("Error en la preparacion de la consulta" . $this->con->error); 
+        endif;
+        $result_reporte->bind_param('i',$idReporte);
+        $result_reporte->execute();
+        $result_reporte->bind_result($cantidad,$precio);
+        $totalCantidad = 0;
+        $totalPrecio = 0;
+        while ($result_reporte->fetch()):
+            $importe = $cantidad * $precio;
+            $totalCantidad += $cantidad;
+            $totalPrecio += $importe;
         endwhile;
+        $result_reporte->close();
         $concepto = '4 ACEITES Y LUBRICANTES';
-        $sql = "UPDATE op_ventas_dia_otros SET piezas=?, importe =? WHERE idreporte_dia =?AND concepto =? ";
+        $sql = "UPDATE op_ventas_dia_otros SET piezas=?, importe =? WHERE idreporte_dia =? AND concepto =? ";
         $stmt = $this->con->prepare($sql);
         if ($stmt) {
             $stmt->bind_param("sdis",$totalCantidad,$totalPrecio,$idReporte,$concepto);
@@ -485,7 +568,7 @@ class CorteDiario{
     public function idReporte(int $sessionIdEstacion,int $year,int $mes):int{
         // Obtiene el año 
         $sql_year = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?";
-        $stmt_year = self::$con->prepare($sql_year);
+        $stmt_year = $this->con->prepare($sql_year);
         if (!$stmt_year) {
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
@@ -531,13 +614,13 @@ class CorteDiario{
         $this->validaAceites($idReporte,$noAceite,$concepto,$precio);
     }
     public function validaAceites(int $idReporte,int $noAceite,string $concepto,float $precio): void{
-        $sql_reporte = "SELECT idreporte_dia FROM op_aceites_lubricantes WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' ";
+        $sql_reporte = "SELECT idreporte_dia FROM op_aceites_lubricantes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte) {
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
         }
-        $result_reporte->bind_param('ii', $sessionIdEstacion, $year);
+        $result_reporte->bind_param('is', $idReporte, $concepto);
         $result_reporte->execute();
         $result_reporte->bind_result($numero_reporte);
         $result_reporte->fetch();
@@ -548,7 +631,7 @@ class CorteDiario{
                             VALUES (?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
         if ($stmt) {
-            $stmt->bind_param("iisif",$idReporte,$noAceite,$concepto,$cantidad,$precio);
+            $stmt->bind_param("iisid",$idReporte,$noAceite,$concepto,$cantidad,$precio);
             if ($stmt->execute()) {
                 $result = true;
             } else {
@@ -589,11 +672,151 @@ class CorteDiario{
         $this->classConexionBD->disconnect();
         return $result;
     }
-    /** Pediente */
-    public function agregarFirma():bool{
-
+    public function agregarFirma($idReporte,$img,$sessionIdUsuario,$nombreEstacion):bool{
+        $result = false;
+        $detalle = 'Elaboró';
+        $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id =? ";
+        $result_dia = $this->con->prepare($sql_dia);
+        if (!$result_dia) {
+            // Manejo de error
+            throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
+        }
+        $result_dia->bind_param('i', $idReporte);
+        $result_dia->execute();
+        $result_dia->bind_result($dia);
+        $result_dia->fetch();
+        $result_dia->close();
+        // mover imagen al servidor 
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $fileData = base64_decode($img);
+        $fileName = uniqid().'.png';
+        $hoy = date("Y-m-d H:i:s");
+        $num19 = 19;
+        $num2 = 2;
+        $superviso = "Superviso";
+        $vitstoB = "VoBo";
+        $corte = 1;
+        if(file_put_contents('../../imgs/firma/'.$fileName, $fileData)):
+            $sql_insert = "INSERT INTO op_corte_dia_firmas (
+                id_reportedia,
+                id_usuario,
+                firma,
+                detalle
+                )
+                VALUES (?,?,?,?)";
+                $stmt = $this->con->prepare($sql_insert);
+                if ($stmt) {
+                    $stmt->bind_param("iiss",$idReporte,$sessionIdUsuario,$fileName,$detalle);
+                    if ($stmt->execute()) {
+                        $this->firmar($idReporte,$num19,$superviso,$hoy);
+                        $this->firmar($idReporte,$num2,$vitstoB,$hoy);
+                        $sql = "UPDATE op_corte_dia SET ventas = ?, tpv = ?, monedero = ? WHERE id = ? ";
+                        $consulta = $this->con->prepare($sql);
+                        $consulta->bind_param('iiii',$corte,$corte,$corte, $idReporte);
+                        $consulta->execute();
+                        $consulta->close();
+                        $token = $this->toquenUser($num19);
+                        $detalle = 'Se finalizo el corte del día '.$dia.' de la estación '.$nombreEstacion;
+                        $result = true;
+                        $this->sendNotification($token,$detalle);
+                    } else {
+                        throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+                    }
+                    $stmt->close();
+                }else{
+                    throw new Exception("Error al preparar la consulta SQL: " . self::$con->error);
+                }
+            endif;
+        $this->classConexionBD->disconnect();
+        return $result;
     }
-    /**Pendiente */
+    public function firmar($idReporte,$idUsuario,$tipoFirma,$Fecha):void{
+        $NuevaFecha = "";
+        $firma = "Firma: ".bin2hex(random_bytes(64)).".".uniqid();
+
+        $sql_firma = "SELECT * FROM op_corte_dia_firmas WHERE id_reportedia = ? AND detalle = ? ORDER BY id DESC LIMIT 1 ";
+        $result_firma = $this->con->prepare($sql_firma);
+        if (!$result_firma):
+            // Manejo de error
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        endif;
+        $result_firma->bind_param('is', $idReporte,$tipoFirma);
+        $result_firma->execute();
+        $result_firma->store_result();
+        
+        if ($result_firma->num_rows === 0):
+
+            if($tipoFirma == 'Superviso'):
+                $NuevaFecha = strtotime ('+1 hour' , strtotime($Fecha)); 
+                $NuevaFecha = date ('Y-m-d H:i:s' , $NuevaFecha); 
+            elseif($tipoFirma == 'VoBo'):
+                $Fecha1 = strtotime ('+2 hour' , strtotime($Fecha));
+                $Fecha1 = date ('Y-m-d H:i:s' , $Fecha1); 
+                $NuevaFecha = strtotime ('+22 minute' , strtotime($Fecha1));
+                $NuevaFecha = date ('Y-m-d H:i:s' , $NuevaFecha); 
+            endif;
+                
+            $sql_insert2 = "INSERT INTO op_corte_dia_firmas (
+            id_reportedia,
+            id_usuario,
+            fecha,
+            firma,
+            detalle
+            )
+            VALUES (?,?,?,?,?)";
+            $sql = $this->con->prepare($sql_insert2);
+            if (!$sql):
+                // Manejo de error
+                throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+            endif;
+            $sql->bind_param('iisss', $idReporte,$idUsuario,$NuevaFecha,$firma,$tipoFirma);
+            $sql->execute();
+            $sql->close();
+        endif;
+    }
+    public function sendNotification($token,$detalle):void{
+        $url ="https://fcm.googleapis.com/fcm/send";
+
+        $fields=array(
+            "to"=>$token,
+            "notification"=>array(
+                "body"=> $detalle,
+                "title"=>"Portal AdmonGas",
+                "icon"=>"",
+                "click_action"=>""
+            )
+        );
+        $headers=array(
+            'Authorization: key=AAAAccs8Ry4:APA91bFc3rlPHpHHyABA01dZPc4J9ZChulB2nmBZp0VW5ODR-uDq2Lnz0YvlpROjZrFgIl2UBFHqOPhPM8c5ho-8IR6XuFpwv8_WT_Y-av9vXav4_6eGsZrUdtrMl9GwDWDNZee0Ppli',
+            'Content-Type:application/json'
+        );
+        $ch=curl_init();
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Disabling SSL Certificate support temporarily
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        $result=curl_exec($ch);
+        curl_close($ch);
+    }
+    public function toquenUser(int $id):string{
+        $herramienta = "token-web";
+        $sql_firma = "SELECT token FROM tb_usuarios_token WHERE id_usuario = ? AND herramienta = ? ORDER BY id DESC LIMIT 1 ";
+        $result_firma = $this->con->prepare($sql_firma);
+        if (!$result_firma):
+            // Manejo de error
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        endif;
+        $result_firma->bind_param('is', $id,$herramienta);
+        $result_firma->execute();
+        $result_firma->bind_result($token);
+        $result_firma->fetch();
+        $result_firma->close();
+        return $token;
+    }
     public function agregarDocumento(int $idReporte,string $nombreDocumento,string $PDFNombre):bool{
         $result = false;
         $sql_insert = "INSERT INTO op_corte_dia_archivo (

@@ -79,6 +79,9 @@ mysqli_query($con, $sql2);
 </thead>
 <tbody>
 <?php
+$Topago = 0;
+$consumo = 0;
+$Toconsumo = 0;
 if ($numero_credito > 0) {
 while($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)){
 

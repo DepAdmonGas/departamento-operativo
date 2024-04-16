@@ -152,7 +152,7 @@ function ValidaTarjetas($idReporte,$num,$concepto,$baucher,$con){
     $result_listacierre = mysqli_query($con, $sql_listacierre);
     while($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC)):
 
-        $TotalImporte = 100;
+        $TotalImporte = $TotalImporte + $row_listacierre['importe'];
     
     endwhile;
 

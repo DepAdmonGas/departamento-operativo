@@ -133,7 +133,7 @@ function aperturaReporte($GET_idReporte,$con){
   DiferenciaTotal(<?=$GET_idReporte;?>);
   DifPagoCliente(<?=$GET_idReporte;?>);
 
-  Aceites(<?=$GET_year;?>,<?=$GET_mes;?>,<?=$GET_idReporte;?>);
+  Aceites(<?=$GET_year;?>,<?=$GET_mes;?>,<?=$GET_idReporte;?>,<?=$Session_IDEstacion;?>);
   ListaDocumentos(<?=$GET_idReporte;?>)
   
   });
@@ -836,17 +836,20 @@ function DifPagoCliente(idReporte){
 
 //------------------------------------------------------------------------
 
-function Aceites(year,mes,idReporte){
+function Aceites(year,mes,idReporte,idEstacion){
 
   var parametros = {
     "year" : year,
     "mes" : mes,
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionIdEstacion" : idEstacion,
+    "accion" : "nuevo-registro-aceites"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -855,7 +858,6 @@ function Aceites(year,mes,idReporte){
        
      },
      success:  function (response) {
-
      }
      });
 
@@ -888,7 +890,6 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
-
       if (response == 0) {
         AceitesLubricantes(idReporte);
       }else{
@@ -944,7 +945,7 @@ function Aceites(year,mes,idReporte){
 
     var cantidad = $("#cantidadAL-" + idAceite).val();
     var precio = $("#precioAL-" + idAceite).val();
-    //var precio = $("#precioAL-" + idAceite).text();
+    var precio = $("#precioAL-" + idAceite).text();
 
     if (cantidad == "") {
       valcantidad = 0;
@@ -967,12 +968,14 @@ function Aceites(year,mes,idReporte){
 
     var parametros = {
     "type" : "piezas",
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -980,7 +983,7 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
-
+      console.log(response);
       if (response == 0) {
         AceitesLubricantes(idReporte);
       }else{
@@ -996,7 +999,7 @@ function Aceites(year,mes,idReporte){
   window.location = "../../../public/corte-diario/vistas/pdf-corte-ventas.php?idReporte=" + idReporte;
   }
 
-  function FirmarCorte(idReporte){
+  function FirmarCorte(idReporte,sessionIdUsuario,sessionNomEstacion){
 
       let signatureBlank = signaturePad.isEmpty();
 
@@ -1012,12 +1015,16 @@ function Aceites(year,mes,idReporte){
   
    var parametros = {
     "base64" : base64,
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionUsuario" : sessionIdUsuario,
+    "nombreEstacion" : sessionNomEstacion,
+    "accion" : "firma-corte"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/agregar-firma.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/agregar-firma.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -1025,6 +1032,7 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
+      console.log(response);
 
     if (response == 1) {
     location.reload();
@@ -1391,7 +1399,7 @@ alertify.error('Error al firmar el corte')
 <hr>
 
     <div class="text-end pointer">
-    <button class="btn btn-success mt-2" onclick="FirmarCorte(<?=$GET_idReporte;?>)">Guardar y Finalizar</button>
+    <button class="btn btn-success mt-2" onclick="FirmarCorte(<?=$GET_idReporte;?>,<?=$Session_IDUsuarioBD;?>,'<?=$session_nomestacion;?>')">Guardar y Finalizar</button>
     </div>
 
   </div>
