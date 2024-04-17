@@ -168,7 +168,6 @@ function aperturaReporte($GET_idReporte,$con){
       Ventas(idReporte);
      },
      success:  function (response) {
-
      }
      });
 
@@ -572,13 +571,11 @@ function formatAsMoney(n) {
      //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
-     console.log();
      },
      complete: function(){
      },
      success:  function (response) {
-      console.log(response);
-      if (response == 0) {
+      if (!response) {
         Ventas(idReporte);
       }else{
         VentasSubTotales(idReporte);
@@ -615,8 +612,7 @@ function formatAsMoney(n) {
      complete: function(){
      },
      success:  function (response) {
-      console.log(response);
-      if (response == false) {
+      if (!response) {
         Ventas(idReporte);
       }else{
         ValTotalLitros(idVentas);
@@ -848,14 +844,13 @@ function Aceites(year,mes,idReporte,idEstacion){
 
    $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
-     //url:   '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
+     //url:'../../../app/controlador/controladorCorteDiario.php',
+     url:   '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
      complete: function(){
       AceitesLubricantes(idReporte);
-       
      },
      success:  function (response) {
      }
@@ -1092,7 +1087,6 @@ alertify.error('Error al firmar el corte')
     processData: false,
     cache: false
     }).done(function(data){
-
     $('#NombreDocumento').val('');
     $('#Documento').val('');
     ListaDocumentos(idReporte);

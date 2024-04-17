@@ -3,29 +3,18 @@ require "../modelo/CorteDiario.php";
 $CorteDiario = new CorteDiario();
 
 switch($_POST['accion']):
+    /**  
+     *               Corte Ventas
+     * 
+    */
     case 'nuevo-concentrado-ventas-otros':
         $sessionIdEstacion = $_POST['sessionIdEstacion'];
         $idReporte = $_POST['idReporte'];
-        $piezas = "";
-        $importe = 0;
-        $conceptos =$CorteDiario->getConceptos();
-        // Se iteran para mostrar tabla concentrado ventas 
-        foreach ($conceptos as $concepto):
-            $CorteDiario->nuevoConcentradoVentasOtros($idReporte, $concepto, $piezas, $importe);
-        endforeach;
-        if($sessionIdEstacion == 2):
-            $concepto5 = "7 G BENEFICIOS";
-            $CorteDiario->nuevoConcentradoVentasOtros($idReporte,$concepto5,$piezas,$importe);
-        endif;
+        $CorteDiario->nuevoConcentrado($idReporte,$sessionIdEstacion);
         break;
     case 'nuevo-registro-prosegur':
         $idReporte = $_POST['idReporte'];
-        $recibo = "";
-        $importe = 0;
-        $denominaciones = $CorteDiario->getDenominaciones();
-        foreach ($denominaciones as $denominacion):
-            $CorteDiario->nuevoRegistroProsegur($idReporte,$denominacion,$recibo,$importe);
-        endforeach;
+        $CorteDiario->nuevoProsegur($idReporte);
         break;
     case 'editar-prosegur':
         $idProsegur = $_POST['idProsegur'];
@@ -36,77 +25,7 @@ switch($_POST['accion']):
     case 'registro-tarjetas-bancarias':
         $idReporte = $_POST['idReporte'];
         $IdEstacion = $_POST['sessionEstacion'];
-        $baucher = 0;
-        switch($IdEstacion):
-            // Interlomas
-            case 1:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                // combina dos array de la misma longitud para llenar campos 
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            // Palo Solo
-            case 2:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            // San Agustin    
-            case 3:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            //Gasomira
-            case 4:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            // Valle de Guadalupe
-            case 5:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            // Esmegas
-            case 6:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            // Xochimilco
-            case 7:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-            case 14:
-                $num = $CorteDiario->getNumero($IdEstacion);
-                $tarjetas = $CorteDiario->getTarjetas($IdEstacion);
-                foreach (array_combine($num, $tarjetas) as $num => $bancos) {
-                    $CorteDiario->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos,$baucher);
-                }
-                break;
-        endswitch;
-        $monederos = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$ultragas,$energex];
-        foreach($monederos as $monedero):
-            $CorteDiario->monederosBancos($idReporte,$monedero);
-        endforeach;
+        $CorteDiario->nuevoTarjetas($idReporte,$IdEstacion);
         break;
     case 'editar-tarjetas-CB':
         $baucher = $_POST['baucher'];
@@ -117,11 +36,9 @@ switch($_POST['accion']):
         $idReporte = $_POST['idReporte'];
         $credito = "CRÉDITO (ANEXO)";
         $debito = "DEBITO (ANEXO)";
-        $pago = 0;
-        $consumo = 0;
         $tarjetas = [$credito,$debito];
         foreach($tarjetas as $tarjeta):
-            $CorteDiario->nuevoRegistroControlGas($idReporte,$tarjeta,$pago,$consumo);
+            $CorteDiario->nuevoRegistroControlGas($idReporte,$tarjeta);
         endforeach;
         break;
     case 'editar-controlgas':
@@ -132,12 +49,7 @@ switch($_POST['accion']):
         break;
     case 'nuevo-registro-pago-clientes':
         $idReporte = $_POST['idReporte'];
-        $importe = 0;
-        $nota = "";
-        $conceptos = $CorteDiario->pagoConcepto();
-        foreach($conceptos as $concepto):
-            $CorteDiario->nuevoRegistroPagoClientes($idReporte,$concepto,$importe,$nota);
-        endforeach;
+        $CorteDiario->nuevoRegistroPago($idReporte);
         break;
     case 'editar-pago-clientes':
         $idPagoCliente = $_POST['idPagoCliente'];
@@ -155,19 +67,7 @@ switch($_POST['accion']):
         $valor = $_POST['producto'] ?? $_POST['litros'] ?? $_POST['jarras'] ?? $_POST['preciolitro'] 
                     ?? $_POST['otros']?? null;
         if($tipo == "producto"):
-            $ieps = 0; 
-            switch($valor):
-                case 'G Super':
-                    $ieps = 0.4369;
-                    break;
-                case 'G PREMIUM':
-                    $ieps = 0.5331;
-                    break;
-                case 'G DIESEL':
-                    $ieps = 0.3626;
-                    break;
-            endswitch;
-            echo $CorteDiario->editarVentasProducto($valor,$idVentas,$ieps);
+            echo $CorteDiario->editarVentasProducto($valor,$idVentas);
         elseif($tipo == "piezas"):
             echo $CorteDiario->editarVentasPiezas($idVentas);
         elseif($tipo != "producto" && $tipo != "piezas"):
@@ -194,7 +94,7 @@ switch($_POST['accion']):
         $valor = $_POST['cantidad'] ?? $_POST['precio'] ?? null;
         echo $CorteDiario->editarAceitesLubricantes($tipo,$valor,$idAceite);
         break;
-        /**Pendiente */
+        
     case 'firma-corte':
         $sessionIdUsuario = $_POST['sessionUsuario'];
         $nombreEstacion = $_POST['nombreEstacion'];
@@ -203,19 +103,43 @@ switch($_POST['accion']):
         echo $CorteDiario->agregarFirma($idReporte,$img,$sessionIdUsuario,$nombreEstacion);
         break;
     case 'agregar-documento':
-        echo $idReporte = $_POST['idReporte'];
+        $idReporte = $_POST['idReporte'];
         $nombreDocumento = $_POST['NombreDocumento'];
-        $aleatorio = uniqid();
-        $File = $_FILES['Documento_file']['name'];
-        $upload_folder = "../../archivos/".$aleatorio."-".$File;
-        $PDFNombre = $aleatorio."-".$File;
-        if(move_uploaded_file($_FILES['Documento_file']['tmp_name'], $upload_folder)) {
-            echo $CorteDiario->agregarDocumento($idReporte,$nombreDocumento,$PDFNombre);
-        }
+        $file = $_FILES['Documento_file'];
+        $CorteDiario->agregarDocumento($idReporte,$nombreDocumento,$file);
         break;
     case 'eliminar-documento-corte':
         $id = $_POST['id'];
         echo $CorteDiario->eliminarDocumentoCorte($id);
         break;
+    /**
+    * 
+    *                         TPV
+    * 
+    */
+
+    case 'nuevo-cierre-lote':
+        $idReporte = $_POST['idReporte'];
+        $empresa = $_POST['empresa'];
+        echo $CorteDiario->nuevoCierreLote($idReporte,$empresa);
+        break;
+    case 'editar-cierre-lote':
+        $tipo = $_POST['type'];
+        $cierre = $_POST['nocierre'] ?? $_POST['importe'] ?? $_POST['noticket'];
+        $idCierre = $_POST['idCierre'];
+        $idReporte = $_POST['idReporte'] ?? 0;
+        $empresa = $_POST['empresa'] ?? "";
+        echo $CorteDiario->editarCierreLote($tipo,$cierre,$idCierre,$idReporte,$empresa);
+        break;
+    case 'editar-pendiente-cierre-lote':
+        $estado = $_POST['estado'];
+        $idCierre = $_POST['idCierre'];
+        echo $CorteDiario->editarPendienteCierreLote($estado,$idCierre);
+        break;
+    /**
+     * 
+     *                          Clientes
+     * 
+     */
     endswitch;
 ?>

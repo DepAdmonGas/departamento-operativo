@@ -16,7 +16,27 @@ class CorteDiario{
      * 
      * ---------------------------------------------------------------------------------------------
      */
-    public function nuevoConcentradoVentasOtros(int $idReporte,string $concepto, string $piezas,int $importe): void{
+    public function nuevoConcentrado(int $idReporte,int $sessionIdEstacion): void{
+        $conceptos = $this->getConceptos();
+        // Se iteran para mostrar tabla concentrado ventas 
+        foreach ($conceptos as $concepto):
+            $this->nuevoConcentradoVentasOtros($idReporte, $concepto);
+        endforeach;
+        if($sessionIdEstacion == 2):
+            $concepto5 = "7 G BENEFICIOS";
+            $this->nuevoConcentradoVentasOtros($idReporte,$concepto5);
+        endif;
+    }
+    private function getConceptos():array{
+        $concepto1= "OTROS";
+        $concepto2= "4 ACEITES Y LUBRICANTES";
+        $concepto3= "5 AUTOLAVADO";
+        $concepto4= "6 ADITIVO PARA DIESEL";
+        return $conceptos =[$concepto1,$concepto2,$concepto3,$concepto4];
+    }
+    private function nuevoConcentradoVentasOtros(int $idReporte,string $concepto): void{
+        $piezas = "";
+        $importe = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_ventas_dia_otros WHERE idreporte_dia =? AND concepto =? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if(!$result_reporte):
@@ -31,27 +51,24 @@ class CorteDiario{
             $sql_insert = "INSERT INTO op_ventas_dia_otros(idreporte_dia,concepto,piezas,importe)
             VALUES (?,?,?,?)";
             $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("issi",$idReporte,$concepto,$piezas,$importe);
-                if ($stmt->execute()) {
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-            }else{
+            if (!$stmt):
                 throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
+            endif;
+            $stmt->bind_param("issi",$idReporte,$concepto,$piezas,$importe);
+            if (!$stmt->execute()) :
+                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+            endif;
             $stmt->close();
         endif;
         $this->classConexionBD->disconnect();
     }
-    public function getConceptos():array{
-        $concepto1= "OTROS";
-        $concepto2= "4 ACEITES Y LUBRICANTES";
-        $concepto3= "5 AUTOLAVADO";
-        $concepto4= "6 ADITIVO PARA DIESEL";
-        return $conceptos =[$concepto1,$concepto2,$concepto3,$concepto4];
+    public function nuevoProsegur(int $idReporte):void{
+        $denominaciones = $this->getDenominaciones();
+        foreach ($denominaciones as $denominacion):
+            $this->nuevoRegistroProsegur($idReporte,$denominacion);
+        endforeach;
     }
-    public function getDenominaciones():array{
+    private function getDenominaciones():array{
         $denominacion1 = "BILLETE MATUTINO";
         $denominacion2 = "BILLETE VESPERTINO";
         $denominacion3 = "BILLETE NOCTURNO";
@@ -65,7 +82,112 @@ class CorteDiario{
                         ,$denominacion6,$denominacion7,$denominacion8,$denominacion9];
         return $denominaciones;
     }
-    public function getTarjetas(int $estacion):array{
+    private function nuevoRegistroProsegur(int $idReporte,string $denominacion):void{
+        $recibo = "";
+        $importe = 0;
+        $sql_reporte = "SELECT idreporte_dia FROM op_prosegur WHERE idreporte_dia = ? AND denominacion = ? ";
+        $result_reporte = $this->con->prepare($sql_reporte);
+        if(!$result_reporte):
+            throw new Exception("Error en la preparacion de la consulta" . $this->con->error); 
+        endif;
+        $result_reporte->bind_param('is',$idReporte,$denominacion);
+        $result_reporte->execute();
+        $result_reporte->bind_result($numero_reporte);
+        $result_reporte->fetch();
+        $result_reporte->close();
+        if($numero_reporte == 0):
+            $sql_insert = "INSERT INTO op_prosegur (
+            idreporte_dia,
+            denominacion,
+            recibo,
+            importe 
+            )
+            VALUES(?,?,?,?)";
+            $stmt = $this->con->prepare($sql_insert);
+            if (!$stmt) :
+                throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+            endif;
+            $stmt->bind_param("issi",$idReporte,$denominacion,$recibo,$importe);
+            if (!$stmt->execute()) :
+                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+            endif;
+            $stmt->close();
+        endif;
+        $this->classConexionBD->disconnect();
+    }
+    public function nuevoTarjetas(int $idReporte,int $IdEstacion):void{
+        switch($IdEstacion):
+            // Interlomas
+            case 1:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                // combina dos array de la misma longitud para llenar campos 
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            // Palo Solo
+            case 2:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            // San Agustin    
+            case 3:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            //Gasomira
+            case 4:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            // Valle de Guadalupe
+            case 5:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            // Esmegas
+            case 6:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            // Xochimilco
+            case 7:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+            case 14:
+                $num = $this->getNumero($IdEstacion);
+                $tarjetas = $this->getTarjetas($IdEstacion);
+                foreach (array_combine($num, $tarjetas) as $num => $bancos) :
+                    $this->nuevoRegistroTarjetasBancarias($idReporte,$num,$bancos);
+                endforeach;
+                break;
+        endswitch;
+        $monederos = $this->getTarjetas(15);
+        foreach($monederos as $monedero):
+            $this->monederosBancos($idReporte,$monedero);
+        endforeach;
+    }
+    private function getTarjetas(int $estacion):array{
         $ticketcard = "TICKETCARD";
         $g500 = "G500 FLETT";
         $accord = "VALE ACCORD";
@@ -109,6 +231,10 @@ class CorteDiario{
                 break;
             case 14:
                 return $bosqueReal = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$otros]; 
+                break;
+            // monederos y bancos
+            case 15:
+                return $monederos = [$ticketcard,$g500,$efecticard,$sodexo,$inburgas,$america,$bbva,$inbursa,$ultragas,$energex];
                 break;
         endswitch;
     }
@@ -155,66 +281,32 @@ class CorteDiario{
                 break;
         endswitch;
     }
-    public function nuevoRegistroProsegur(int $idReporte,string $denominacion,string $recibo,int $importe):void{
-        $sql_reporte = "SELECT idreporte_dia FROM op_prosegur WHERE idreporte_dia = ? AND denominacion = ? ";
-        $result_reporte = $this->con->prepare($sql_reporte);
-        if(!$result_reporte):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error); 
-        endif;
-        $result_reporte->bind_param('is',$idReporte,$denominacion);
-        $result_reporte->execute();
-        $result_reporte->bind_result($numero_reporte);
-        $result_reporte->fetch();
-        $result_reporte->close();
-        if($numero_reporte == 0){
-            $sql_insert = "INSERT INTO op_prosegur (
-            idreporte_dia,
-            denominacion,
-            recibo,
-            importe 
-            )
-            VALUES(?,?,?,?)";
-            $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("issi",$idReporte,$denominacion,$recibo,$importe);
-                if ($stmt->execute()) {
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-            }else{
-                throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
-                $stmt->close();
-        }
-        $this->classConexionBD->disconnect();
-    }
     public function editarProsegur($tipo,$valor,$idProsegur):bool{
-        $result = false;
+        $result = true;
         $value = "";
         $bind ="si";
-        if($tipo == "recibo"){
+        if($tipo == "recibo"):
             $value = "recibo=?";
-        }else{
+        else:
             $value = "importe=?";
             $bind ="di";
-        }
+        endif;
         $sql_insert = "UPDATE op_prosegur SET $value WHERE id=? ";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param($bind,$valor,$idProsegur);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param($bind,$valor,$idProsegur);
+        if (!$stmt->execute()):
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function nuevoRegistroTarjetasBancarias(int $idReporte,string $num, string $concepto,int $baucher):void{
+    public function nuevoRegistroTarjetasBancarias(int $idReporte,string $num, string $concepto):void{
+        $baucher = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_tarjetas_c_b WHERE idreporte_dia =? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if(!$result_reporte):
@@ -226,7 +318,7 @@ class CorteDiario{
         $result_reporte->fetch();
         $result_reporte->close();
 
-        if($numero_reporte == 0){
+        if($numero_reporte == 0):
             $sql_insert = "INSERT INTO op_tarjetas_c_b (
             idreporte_dia,
             num,
@@ -235,58 +327,55 @@ class CorteDiario{
             )
             VALUES (?,?,?,?)";
             $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("issi",$idReporte,$num,$concepto,$baucher);
-                if ($stmt->execute()) {
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-                $stmt->close();
-            }else{
+            if (!$stmt):
                 throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
-        }
+            endif;
+            $stmt->bind_param("issi",$idReporte,$num,$concepto,$baucher);
+            if (!$stmt->execute()):
+                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+            endif;
+            $stmt->close();
+        endif;
         $this->classConexionBD->disconnect();
     }
     public function monederosBancos(int $idReporte,string $empresa):void{    
         $sql_listacierre = "SELECT * FROM op_cierre_lote WHERE idreporte_dia = '".$idReporte."' AND empresa = '".$empresa."' ";
         $result_listacierre = mysqli_query($this->con, $sql_listacierre);
+        $TotalImporte = 0;
         while($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC)):
             $TotalImporte = $TotalImporte + $row_listacierre['importe'];
         endwhile;
         $sql_insert = "UPDATE op_tarjetas_c_b SET baucher=? WHERE concepto=? AND idreporte_dia =?";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("dsi",$TotalImporte,$empresa,$idReporte);
-            if ($stmt->execute()) {
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("dsi",$TotalImporte,$empresa,$idReporte);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
     }
     public function editarTarjetasCB(float $baucher,int $idTarjeta):bool{
-        $result = false;
+        $result = true;
         $sql_insert = "UPDATE op_tarjetas_c_b SET baucher=? WHERE id=? ";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("di",$baucher,$idTarjeta);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("di",$baucher,$idTarjeta);
+        if (!$stmt->execute()):
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function nuevoRegistroControlGas(int $idReporte,string $concepto,float $pago,float $consumo):void{
+    public function nuevoRegistroControlGas(int $idReporte,string $concepto):void{
+        $pago = 0;
+        $consumo = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_clientes_controlgas WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if(!$result_reporte):
@@ -298,7 +387,7 @@ class CorteDiario{
         $result_reporte->fetch();
         $result_reporte->close();
      
-        if($numero_reporte == 0){
+        if($numero_reporte == 0):
             $sql_insert = "INSERT INTO op_clientes_controlgas (
             idreporte_dia,
             concepto,
@@ -307,44 +396,46 @@ class CorteDiario{
             )
             VALUES (?,?,?,?)";
             $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("isdd",$idReporte,$concepto,$pago,$consumo);
-                if ($stmt->execute()) {
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-                $stmt->close();
-            }else{
+            if (!$stmt) :
                 throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
-        }
+            endif;
+            $stmt->bind_param("isdd",$idReporte,$concepto,$pago,$consumo);
+            if (!$stmt->execute()) :
+                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+            endif;
+            $stmt->close();
+        endif;
         $this->classConexionBD->disconnect();
     }
     public function editarControlGas($tipo,$valor,$idControl):bool{
-        $result = false;
+        $result = true;
         $value = "";
-        if($tipo == "pago"){
+        if($tipo == "pago"):
             $value = "pago=?";
-        }else{
+        else:
             $value = "consumo=?";
-        }
+        endif;
         $sql_insert = "UPDATE op_clientes_controlgas SET $value WHERE id=? ";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("di",$valor,$idControl);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("di",$valor,$idControl);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function pagoConcepto():array{
+    public function nuevoRegistroPago(int $idReporte):void{
+        $conceptos = $this->pagoConcepto();
+        foreach($conceptos as $concepto):
+            $this->nuevoRegistroPagoClientes($idReporte,$concepto);
+        endforeach;
+    }
+    private function pagoConcepto():array{
         $concepto1 = "EFECTIVO";
         $concepto2 = "CHEQUE";
         $concepto3 = "TRANSFERENCIA (SPEI)";
@@ -352,7 +443,9 @@ class CorteDiario{
         $concepto5 = "DEPOSITO BANCARIO";
         return $conceptos = [$concepto1,$concepto2,$concepto3,$concepto4,$concepto5];
     }
-    public function nuevoRegistroPagoClientes(int $idReporte,string $concepto,float $importe,string $nota):void{
+    private function nuevoRegistroPagoClientes(int $idReporte,string $concepto):void{
+        $importe = 0;
+        $nota = "";
         $sql_reporte = "SELECT idreporte_dia FROM op_pago_clientes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if(!$result_reporte):
@@ -364,7 +457,7 @@ class CorteDiario{
         $result_reporte->fetch();
         $result_reporte->close();
      
-        if($numero_reporte == 0){
+        if($numero_reporte == 0):
             $sql_insert = "INSERT INTO op_pago_clientes (
             idreporte_dia,
             concepto,
@@ -373,42 +466,38 @@ class CorteDiario{
             )
             VALUES (?,?,?,?)";
             $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("isds",$idReporte,$concepto,$importe,$nota);
-                if ($stmt->execute()) {
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-                $stmt->close();
-            }else{
+            if (!$stmt) :
                 throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
-        }
+            endif;
+            $stmt->bind_param("isds",$idReporte,$concepto,$importe,$nota);
+            if (!$stmt->execute()) :
+                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+            endif;
+            $stmt->close();
+        endif;
         $this->classConexionBD->disconnect();
     }
     public function editarPagoClientes($tipo,$valor,$idPagoCliente):bool{
-        $result = false;
+        $result = true;
         $bind = "di";
         $value = "";
-        if($tipo == "importe"){
+        if($tipo == "importe"):
             $value ="importe=?";
-        }else{
+        else:
             $value ="nota=?";
             $bind = "si";
-        }
+        endif;
         $sql_insert = "UPDATE op_pago_clientes SET $value WHERE id=? ";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param($bind,$valor,$idPagoCliente);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param($bind,$valor,$idPagoCliente);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
@@ -429,19 +518,18 @@ class CorteDiario{
             )
             VALUES (?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("isdddd",$idReporte,$producto,$litros,$jarras,$precio,$ieps);
-            if ($stmt->execute()) {
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("isdddd",$idReporte,$producto,$litros,$jarras,$precio,$ieps);
+        if (!$stmt->execute()) :
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
     }
     public function editarVentas($tipo,$valor,$idVentas):bool{
-        $result = false;
+        $result = true;
         $valida = "";
         $var = "";
         $sql = "";
@@ -473,39 +561,46 @@ class CorteDiario{
             $sql = "UPDATE op_ventas_dia_otros SET $var WHERE id=? ";
         endif;
         $stmt = $this->con->prepare($sql);
-        if ($stmt):
-            $stmt->bind_param("di",$valor,$idVentas);
-            if ($stmt->execute()):
-                $result = true;
-            else:
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            endif;
-        else:
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+        endif;
+        $stmt->bind_param("di",$valor,$idVentas);
+        if (!$stmt->execute()):
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function editarVentasProducto($valor,$idVentas,$ieps){
-        $valor;
-        $result = false;
+    public function editarVentasProducto($producto,$idVentas){
+        $result = true;
+        $ieps = 0; 
+        switch($producto):
+            case 'G Super':
+                $ieps = 0.4369;
+            break;
+            case 'G PREMIUM':
+                $ieps = 0.5331;
+            break;
+            case 'G DIESEL':
+                $ieps = 0.3626;
+            break;
+        endswitch;
         $sql = "UPDATE op_ventas_dia SET producto=?, ieps =? WHERE id=? ";
         $stmt = $this->con->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("sdi",$valor,$ieps,$idVentas);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-        }else{
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("sdi",$producto,$ieps,$idVentas);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
         $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarVentasPiezas($idReporte):bool{
-        $result = false;
+        $result = true;
         $sql_listaaceites = "SELECT cantidad,precio_unitario FROM op_aceites_lubricantes WHERE idreporte_dia =?";
         $result_reporte = $this->con->prepare($sql_listaaceites);
         if(!$result_reporte):
@@ -525,42 +620,39 @@ class CorteDiario{
         $concepto = '4 ACEITES Y LUBRICANTES';
         $sql = "UPDATE op_ventas_dia_otros SET piezas=?, importe =? WHERE idreporte_dia =? AND concepto =? ";
         $stmt = $this->con->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("sdis",$totalCantidad,$totalPrecio,$idReporte,$concepto);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("sdis",$totalCantidad,$totalPrecio,$idReporte,$concepto);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarObservaciones(int $idReporte,string $observaciones):bool{
+        $result = true;
         $sql_reporte = "SELECT idreporte_dia FROM op_observaciones WHERE idreporte_dia = '".$idReporte."' ";
         $result_reporte = mysqli_query($this->con, $sql_reporte);
         $numero_reporte = mysqli_num_rows($result_reporte);
         $sql="";
-        if($numero_reporte == 0){
+        if($numero_reporte == 0):
             $sql = "INSERT INTO op_observaciones (observaciones,idreporte_dia) VALUES(?,?) ";
-        }else{
+        else:
             $sql = "UPDATE op_observaciones SET observaciones=? WHERE idreporte_dia =? " ;
-        }
+        endif;
         $stmt = $this->con->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("si",$observaciones,$idReporte);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("si",$observaciones,$idReporte);
+        if (!$stmt->execute()):
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
 
@@ -569,10 +661,10 @@ class CorteDiario{
         // Obtiene el año 
         $sql_year = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?";
         $stmt_year = $this->con->prepare($sql_year);
-        if (!$stmt_year) {
+        if (!$stmt_year) :
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
-        }
+        endif;
         $stmt_year->bind_param('ii', $sessionIdEstacion, $year);
         $stmt_year->execute();
         $stmt_year->bind_result($idyear);
@@ -581,10 +673,10 @@ class CorteDiario{
         // Obtiene el mes 
         $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ?";
         $stmt_mes = $this->con->prepare($sql_mes);
-        if (!$stmt_mes) {
+        if (!$stmt_mes) :
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
-        }
+        endif;
         $stmt_mes->bind_param('ii', $idyear, $mes);
         $stmt_mes->execute();
         $stmt_mes->bind_result($idmes);
@@ -592,7 +684,7 @@ class CorteDiario{
         $stmt_mes->close();
         return $idmes;
     }
-    public function nuevoRegistroAceites(int $idReporte,int $IdMes,int $sessionIdEstacion):void{
+    public function nuevoRegistroAceites(int $idReporte,int $IdMes,int $sessionIdEstacion): void{
         $sql_listaaceite = "SELECT
         op_aceites.id_aceite,
         op_aceites.concepto,
@@ -602,50 +694,49 @@ class CorteDiario{
         ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.id_estacion =? AND id_mes =? ";
     
         $result_listaAceite = $this->con->prepare($sql_listaaceite);
-        if (!$result_listaAceite) {
+        if (!$result_listaAceite) :
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        }
+        endif;
         $result_listaAceite->bind_param('ii', $sessionIdEstacion, $IdMes);
         $result_listaAceite->execute();
         $result_listaAceite->bind_result($noAceite,$concepto,$precio);
-        $result_listaAceite->fetch();
+        while($result_listaAceite->fetch()):
+            $this->validaAceites($idReporte,$noAceite,$concepto,$precio);
+        endwhile;
         $result_listaAceite->close();
         $this->validaAceites($idReporte,$noAceite,$concepto,$precio);
     }
     public function validaAceites(int $idReporte,int $noAceite,string $concepto,float $precio): void{
         $sql_reporte = "SELECT idreporte_dia FROM op_aceites_lubricantes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
-        if (!$result_reporte) {
+        if (!$result_reporte) :
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
-        }
+        endif;
         $result_reporte->bind_param('is', $idReporte, $concepto);
         $result_reporte->execute();
         $result_reporte->bind_result($numero_reporte);
         $result_reporte->fetch();
         $result_reporte->close();
-        if($numero_reporte == 0){
+        if($numero_reporte == 0):
             $cantidad = 0;
             $sql_insert = "INSERT INTO op_aceites_lubricantes(idreporte_dia,id_aceite,concepto,cantidad,precio_unitario)
                             VALUES (?,?,?,?,?)";
-        $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
+            $stmt = $this->con->prepare($sql_insert);
+            if (!$stmt) :
+                throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+            endif;
             $stmt->bind_param("iisid",$idReporte,$noAceite,$concepto,$cantidad,$precio);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
+            if (!$stmt->execute()) :
                 throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
+            endif;
             $stmt->close();
-        }else{
-            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
-        }
+        endif;
         $this->classConexionBD->disconnect();
     }
     public function editarAceitesLubricantes($tipo,$valor,$idAceite):bool{
-        $result = false;
+        $result = true;
         $sql_insert = "";
         $value ="";
         $bind="";
@@ -658,29 +749,27 @@ class CorteDiario{
         endif;
         $sql_insert = "UPDATE op_aceites_lubricantes SET $value WHERE id=? ";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param($bind,$valor,$idAceite);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param($bind,$valor,$idAceite);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarFirma($idReporte,$img,$sessionIdUsuario,$nombreEstacion):bool{
-        $result = false;
+        $result = true;
         $detalle = 'Elaboró';
         $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id =? ";
         $result_dia = $this->con->prepare($sql_dia);
-        if (!$result_dia) {
+        if (!$result_dia) :
             // Manejo de error
             throw new Exception("Error en la preparación de la consulta: " . $mysqli->error);
-        }
+        endif;
         $result_dia->bind_param('i', $idReporte);
         $result_dia->execute();
         $result_dia->bind_result($dia);
@@ -705,28 +794,26 @@ class CorteDiario{
                 )
                 VALUES (?,?,?,?)";
                 $stmt = $this->con->prepare($sql_insert);
-                if ($stmt) {
-                    $stmt->bind_param("iiss",$idReporte,$sessionIdUsuario,$fileName,$detalle);
-                    if ($stmt->execute()) {
-                        $this->firmar($idReporte,$num19,$superviso,$hoy);
-                        $this->firmar($idReporte,$num2,$vitstoB,$hoy);
-                        $sql = "UPDATE op_corte_dia SET ventas = ?, tpv = ?, monedero = ? WHERE id = ? ";
-                        $consulta = $this->con->prepare($sql);
-                        $consulta->bind_param('iiii',$corte,$corte,$corte, $idReporte);
-                        $consulta->execute();
-                        $consulta->close();
-                        $token = $this->toquenUser($num19);
-                        $detalle = 'Se finalizo el corte del día '.$dia.' de la estación '.$nombreEstacion;
-                        $result = true;
-                        $this->sendNotification($token,$detalle);
-                    } else {
-                        throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                    }
-                    $stmt->close();
-                }else{
-                    throw new Exception("Error al preparar la consulta SQL: " . self::$con->error);
-                }
-            endif;
+                if (!$stmt) :
+                    throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+                endif;
+                $stmt->bind_param("iiss",$idReporte,$sessionIdUsuario,$fileName,$detalle);
+                if (!$stmt->execute()) :
+                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+                endif;
+                $this->firmar($idReporte,$num19,$superviso,$hoy);
+                $this->firmar($idReporte,$num2,$vitstoB,$hoy);
+                $sql = "UPDATE op_corte_dia SET ventas = ?, tpv = ?, monedero = ? WHERE id = ? ";
+                $consulta = $this->con->prepare($sql);
+                $consulta->bind_param('iiii',$corte,$corte,$corte, $idReporte);
+                $consulta->execute();
+                $consulta->close();
+                $token = $this->toquenUser($num19);
+                $detalle = 'Se finalizo el corte del día '.$dia.' de la estación '.$nombreEstacion;
+                $result = true;
+                $this->sendNotification($token,$detalle);
+                $stmt->close();
+        endif;
         $this->classConexionBD->disconnect();
         return $result;
     }
@@ -817,44 +904,42 @@ class CorteDiario{
         $result_firma->close();
         return $token;
     }
-    public function agregarDocumento(int $idReporte,string $nombreDocumento,string $PDFNombre):bool{
-        $result = false;
+    public function agregarDocumento(int $idReporte,string $nombreDocumento,array $file):void{
+        $aleatorio = uniqid();
+        $archivo = $file['name'];
+        $upload_folder = "../../archivos/".$aleatorio."-".$archivo;
+        $PDFNombre = $aleatorio."-".$archivo;
+        move_uploaded_file($file['tmp_name'], $upload_folder);
         $sql_insert = "INSERT INTO op_corte_dia_archivo (
             id_reportedia,
             detalle,
             documento
             )
-            VALUES (?,?,?)";
+        VALUES (?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("iss",$idReporte,$nombreDocumento,$PDFNombre);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("iss",$idReporte,$nombreDocumento,$PDFNombre);
+        $stmt->execute();
+        $stmt->close();
+        
         $this->classConexionBD->disconnect();
-        return $result;
+        
     }
     public function eliminarDocumentoCorte(int $id):bool{
-        $result = false;
+        $result = true;
         $sql = "DELETE FROM op_corte_dia_archivo WHERE id=? ";
         $stmt = $this->con->prepare($sql);
-        if ($stmt) {
-            $stmt->bind_param("i",$id);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        }else{
+        if (!$stmt) :
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        endif;
+        $stmt->bind_param("i",$id);
+        if (!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
@@ -867,7 +952,76 @@ class CorteDiario{
      * ----------------------------------------------------------------------------------------------
      */
 
-
+    public function nuevoCierreLote(int $idReporte,string $empresa):string{
+        $noCierre = '';
+        $importe = 0;
+        $tickets = 0;
+        $sql_insert = "INSERT INTO op_cierre_lote (
+            idreporte_dia,
+            empresa,
+            no_cierre_lote,
+            importe,
+            ticktes
+            )
+            VALUES (?,?,?,?,?)";
+        $stmt = $this->con->prepare($sql_insert);
+        if (!$stmt) :
+            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+        endif;
+        $stmt->bind_param("issdi",$idReporte,$empresa,$noCierre,$importe,$tickets);
+        $stmt->execute();
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $empresa;
+    }
+    public function editarCierreLote(string $tipo,string $cierre,int $idCierre,int $idReporte,string $empresa):bool{
+        $result = true;
+        $valor = "";
+        switch($tipo):
+            case 'nocierre':
+                $valor = "no_cierre_lote=?";
+            break;
+            case 'importe':
+                $valor = "importe=?";
+                break;
+            case 'noticket':
+                $valor = "ticktes=?";
+                break;
+        endswitch;
+        $sql = "UPDATE op_cierre_lote SET $valor WHERE id=? ";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt) :
+            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+            $result = false;
+        endif;
+        $stmt->bind_param("si",$cierre,$idCierre);
+        $stmt->execute();
+        $this->monederosBancos($idReporte,$empresa);
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
+    }
+    public function editarPendienteCierreLote(int $estado,int $idCierre):bool{
+        $result = true;
+        $sql = "UPDATE op_cierre_lote SET estado =? WHERE id=? ";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt) :
+            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+            $result = false;
+        endif;
+        $stmt->bind_param("ii",$estado,$idCierre);
+        $stmt->execute();
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
+    }
+    /***
+     * ------------------------------------------------------------------------------------------
+     *                              
+     *                      CLIENTES
+     * 
+     * ------------------------------------------------------------------------------------------
+     */
     public function agregarCliente(int $sessionIdEstacion,string $cuenta,string $cliente,string $tipo,string $rfc) : bool{
         $result = false;
         $aleatorio = uniqid();

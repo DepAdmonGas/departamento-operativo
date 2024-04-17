@@ -124,6 +124,7 @@ $result_c = mysqli_query($con, $sql_c);
 $numero_c = mysqli_num_rows($result_c);
 
 if ($numero_c > 0) {
+$total = 0;
 while($row_c = mysqli_fetch_array($result_c, MYSQLI_ASSOC)){
 $total = $total + $row_c['total'];
 }

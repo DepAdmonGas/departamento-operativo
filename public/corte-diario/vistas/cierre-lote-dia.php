@@ -344,42 +344,50 @@ function AgregarCierre(idReporte,empresa){
 
     var parametros = {
     "idReporte" : idReporte,
-    "empresa" : empresa
+    "empresa" : empresa,
+    "accion": "nuevo-cierre-lote"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-cierre-lote.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-cierre-lote.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-
-      if (empresa == "TICKETCARD") {
-        Ticketcard(idReporte,empresa);
-      }else if (empresa == "AMERICAN EXPRESS") {
-        Amex(idReporte,empresa);
-      }else if (empresa == "G500 FLETT") {
-        G500Fleet(idReporte,empresa);
-      }else if (empresa == "BBVA BANCOMER SA") {
-        BANCOMER(idReporte,empresa);
-      }else if (empresa == "EFECTICARD") {
-        Efecticard(idReporte,empresa);
-      }else if (empresa == "SODEXO") {
-        Sodexo(idReporte,empresa);
-      }else if (empresa == "INBURGAS") {
-        Inburgas(idReporte,empresa);
-      }else if (empresa == "ULTRAGAS") {
-        Ultragas(idReporte,empresa);
-      }else if (empresa == "ENERGEX") {
-        Energex(idReporte,empresa);
-      }else if (empresa == "INBURSA") {
-        Inbursa(idReporte,empresa);
-      }
-
-     },
+     beforeSend: function() {},
+     complete: function(){},
      success:  function (response) {
-
+      switch(response){
+      case "TICKETCARD":
+        Ticketcard(idReporte,empresa);
+        break;
+      case "AMERICAN EXPRESS":
+        Amex(idReporte,empresa);
+        break;
+      case "G500 FLETT":
+        G500Fleet(idReporte,empresa);
+        break;
+      case "BBVA BANCOMER SA":
+        BANCOMER(idReporte,empresa);
+        break;
+      case "EFECTICARD":
+        Efecticard(idReporte,empresa);
+        break;
+      case "SODEXO":
+        Sodexo(idReporte,empresa);
+        break;
+      case "INBURGAS":
+        Inburgas(idReporte,empresa);
+        break;
+      case "ULTRAGAS":
+        Ultragas(idReporte,empresa);
+        break;
+      case "ENERGEX":
+        Energex(idReporte,empresa);
+        break;
+      case "INBURSA":
+        Inbursa(idReporte,empresa);
+        break;
+      }
      }
      });
 
@@ -391,47 +399,52 @@ function EditNoCierre(val,idReporte,idCierre,empresa){
   var parametros = {
     "type" : "nocierre",
     "idCierre" : idCierre,
-    "nocierre" : nocierre
+    "nocierre" : nocierre,
+    "accion" : "editar-cierre-lote"
     };
 
     $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
+     beforeSend: function() {},
+     complete: function(){},
      success:  function (response) {
-
-      if (response == 0) {
-       
-      if (empresa == "TICKETCARD") {
-        Ticketcard(idReporte,empresa);
-      }else if (empresa == "AMERICAN EXPRESS") {
-        Amex(idReporte,empresa);
-      }else if (empresa == "G500 FLETT") {
-        G500Fleet(idReporte,empresa);
-      }else if (empresa == "BBVA BANCOMER SA") {
-        BANCOMER(idReporte,empresa);
-      }else if (empresa == "EFECTICARD") {
-        Efecticard(idReporte,empresa);
-      }else if (empresa == "SODEXO") {
-        Sodexo(idReporte,empresa);
-      }else if (empresa == "INBURGAS") {
-        Inburgas(idReporte,empresa);
-      }else if (empresa == "ULTRAGAS") {
-        Ultragas(idReporte,empresa);
-      }else if (empresa == "ENERGEX") {
-        Energex(idReporte,empresa);
-      }else if (empresa == "INBURSA") {
-        Inbursa(idReporte,empresa);
+      if (!response) {
+        switch(response){
+          case "TICKETCARD":
+            Ticketcard(idReporte,empresa);
+            break;
+          case "AMERICAN EXPRESS":
+            Amex(idReporte,empresa);
+            break;
+          case "G500 FLETT":
+            G500Fleet(idReporte,empresa);
+            break;
+          case "BBVA BANCOMER SA":
+            BANCOMER(idReporte,empresa);
+            break;
+          case "EFECTICARD":
+            Efecticard(idReporte,empresa);
+            break;
+          case "SODEXO":
+            Sodexo(idReporte,empresa);
+            break;
+          case "INBURGAS":
+            Inburgas(idReporte,empresa);
+            break;
+          case "ULTRAGAS":
+            Ultragas(idReporte,empresa);
+            break;
+          case "ENERGEX":
+            Energex(idReporte,empresa);
+            break;
+          case "INBURSA":
+            Inbursa(idReporte,empresa);
+            break;
+        }
       }
-
-      }else{
-      }
-
      }
      });
 
@@ -444,48 +457,54 @@ function EditImporte(val,idReporte,idCierre,empresa){
     "idCierre" : idCierre,
     "importe" : importe,
     "idReporte" : idReporte,
-    "empresa" : empresa
+    "empresa" : empresa,
+    "accion" : "editar-cierre-lote"
     };
 
     $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
+     beforeSend: function() {},
+     complete: function(){},
      success:  function (response) {
-
-      if (response == 0) {
-
-      if (empresa == "TICKETCARD") {
-        Ticketcard(idReporte,empresa);
-      }else if (empresa == "AMERICAN EXPRESS") {
-        Amex(idReporte,empresa);
-      }else if (empresa == "G500 FLETT") {
-        G500Fleet(idReporte,empresa);
-      }else if (empresa == "BBVA BANCOMER SA") {
-        BANCOMER(idReporte,empresa);
-      }else if (empresa == "EFECTICARD") {
-        Efecticard(idReporte,empresa);
-      }else if (empresa == "SODEXO") {
-        Sodexo(idReporte,empresa);
-      }else if (empresa == "INBURGAS") {
-        Inburgas(idReporte,empresa);
-      }else if (empresa == "ULTRAGAS") {
-        Ultragas(idReporte,empresa);
-      }else if (empresa == "ENERGEX") {
-        Energex(idReporte,empresa);
-      }else if (empresa == "INBURSA") {
-        Inbursa(idReporte,empresa);
-      }
-
+      if (!response) {
+        switch(response){
+          case "TICKETCARD":
+            Ticketcard(idReporte,empresa);
+            break;
+          case "AMERICAN EXPRESS":
+            Amex(idReporte,empresa);
+            break;
+          case "G500 FLETT":
+            G500Fleet(idReporte,empresa);
+            break;
+          case "BBVA BANCOMER SA":
+            BANCOMER(idReporte,empresa);
+            break;
+          case "EFECTICARD":
+            Efecticard(idReporte,empresa);
+            break;
+          case "SODEXO":
+            Sodexo(idReporte,empresa);
+            break;
+          case "INBURGAS":
+            Inburgas(idReporte,empresa);
+            break;
+          case "ULTRAGAS":
+            Ultragas(idReporte,empresa);
+            break;
+          case "ENERGEX":
+            Energex(idReporte,empresa);
+            break;
+          case "INBURSA":
+            Inbursa(idReporte,empresa);
+            break;
+        }
       }else{
         TotalCierre(idReporte,empresa);
       }
-
      }
      });
 
@@ -496,44 +515,52 @@ function EditNoTicket(val,idReporte,idCierre,empresa){
   var parametros = {
     "type" : "noticket",
     "idCierre" : idCierre,
-    "noticket" : noticket
+    "noticket" : noticket,
+    "accion" : "editar-cierre-lote"
     };
 
     $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
+     beforeSend: function(){},
+     complete: function(){},
      success:  function (response) {
-
-      if (response == 0) {
-      
-      if (empresa == "TICKETCARD") {
-        Ticketcard(idReporte,empresa);
-      }else if (empresa == "AMERICAN EXPRESS") {
-        Amex(idReporte,empresa);
-      }else if (empresa == "G500 FLETT") {
-        G500Fleet(idReporte,empresa);
-      }else if (empresa == "BBVA BANCOMER SA") {
-        BANCOMER(idReporte,empresa);
-      }else if (empresa == "EFECTICARD") {
-        Efecticard(idReporte,empresa);
-      }else if (empresa == "SODEXO") {
-        Sodexo(idReporte,empresa);
-      }else if (empresa == "INBURGAS") {
-        Inburgas(idReporte,empresa);
-      }else if (empresa == "ULTRAGAS") {
-        Ultragas(idReporte,empresa);
-      }else if (empresa == "ENERGEX") {
-        Energex(idReporte,empresa);
-      }else if (empresa == "INBURSA") {
-        Inbursa(idReporte,empresa);
-      }
-
+      console.log(response);
+      if (!response) {
+        switch(response){
+          case "TICKETCARD":
+            Ticketcard(idReporte,empresa);
+            break;
+          case "AMERICAN EXPRESS":
+            Amex(idReporte,empresa);
+            break;
+          case "G500 FLETT":
+            G500Fleet(idReporte,empresa);
+            break;
+          case "BBVA BANCOMER SA":
+            BANCOMER(idReporte,empresa);
+            break;
+          case "EFECTICARD":
+            Efecticard(idReporte,empresa);
+            break;
+          case "SODEXO":
+            Sodexo(idReporte,empresa);
+            break;
+          case "INBURGAS":
+            Inburgas(idReporte,empresa);
+            break;
+          case "ULTRAGAS":
+            Ultragas(idReporte,empresa);
+            break;
+          case "ENERGEX":
+            Energex(idReporte,empresa);
+            break;
+          case "INBURSA":
+            Inbursa(idReporte,empresa);
+            break;
+        }
       }else{
         TotalCierre(idReporte,empresa);
       }
@@ -550,42 +577,52 @@ function(){
 
   var parametros = {
     "estado" : 1,
-    "idCierre" : idCierre
+    "idCierre" : idCierre,
+    "accion" : "editar-pendiente-cierre-lote"
     };
 
     $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-pendiente-cierre-lote.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-pendiente-cierre-lote.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
+     beforeSend: function() {},
+     complete: function(){},
      success:  function (response) {
-
-     if (empresa == "TICKETCARD") {
-        Ticketcard(idReporte,empresa);
-      }else if (empresa == "AMERICAN EXPRESS") {
-        Amex(idReporte,empresa);
-      }else if (empresa == "G500 FLETT") {
-        G500Fleet(idReporte,empresa);
-      }else if (empresa == "BBVA BANCOMER SA") {
-        BANCOMER(idReporte,empresa);
-      }else if (empresa == "EFECTICARD") {
-        Efecticard(idReporte,empresa);
-      }else if (empresa == "SODEXO") {
-        Sodexo(idReporte,empresa);
-      }else if (empresa == "INBURGAS") {
-        Inburgas(idReporte,empresa);
-      }else if (empresa == "ULTRAGAS") {
-        Ultragas(idReporte,empresa);
-      }else if (empresa == "ENERGEX") {
-        Energex(idReporte,empresa);
-      }else if (empresa == "INBURSA") {
-        Inbursa(idReporte,empresa);
+      if(response){
+       switch(empresa){
+          case "TICKETCARD":
+            Ticketcard(idReporte,empresa);
+            break;
+          case "AMERICAN EXPRESS":
+            Amex(idReporte,empresa);
+            break;
+          case "G500 FLETT":
+            G500Fleet(idReporte,empresa);
+            break;
+          case "BBVA BANCOMER SA":
+            BANCOMER(idReporte,empresa);
+            break;
+          case "EFECTICARD":
+            Efecticard(idReporte,empresa);
+            break;
+          case "SODEXO":
+            Sodexo(idReporte,empresa);
+            break;
+          case "INBURGAS":
+            Inburgas(idReporte,empresa);
+            break;
+          case "ULTRAGAS":
+            Ultragas(idReporte,empresa);
+            break;
+          case "ENERGEX":
+            Energex(idReporte,empresa);
+            break;
+          case "INBURSA":
+            Inbursa(idReporte,empresa);
+            break;
+        }
       }
-
      }
      });
 
