@@ -1,16 +1,17 @@
 <?php
 require "../bd/DataBase.php";
 class solicitudCheque{
-    private static $classConexionBD;
-    private static $con;
+    private $classConexionBD;
+    private $con;
     public function __construct(){
 
-        self::$classConexionBD = Database::getInstance();
-        self::$con = self::$classConexionBD->getConnection();
+        $this->classConexionBD = new Database();
+        $this->con = $this->classConexionBD->getInstance()->getConnection();
 
     }
-    public static function agregarArchivoSolicitudCheque(int $sessionIdUsuario,int $idReporte,String $documento): bool{
+    public function agregarArchivoSolicitudCheque(int $sessionIdUsuario,int $idReporte,String $documento): bool{
         $aleatorio = uniqid();
+        $factura = "Factura contra entrega";
         $NoDoc1  =   $_FILES['Archivo_file']['name'];
         $UpDoc1 = "../../archivos/".$aleatorio."-".$NoDoc1;
         $NomDoc1 = $aleatorio."-".$NoDoc1;
@@ -22,7 +23,7 @@ class solicitudCheque{
             documento
             )
             VALUES(?,?,?)";
-            $stmt = self::$con->prepare($sql_insert);
+            $stmt = $this->con->prepare($sql_insert);
             if($stmt){
                 $stmt->bind_param("iss",$idReporte, $documento, $NomDoc1);
                 if ($stmt->execute()) {
@@ -37,19 +38,19 @@ class solicitudCheque{
                         comentario
                         )
                         VALUES(?,?,?)";
-                    $stmt=self::$con->prepare($sqlComent);
-                    $stmt->bind_param("iis",$idReporte, $sessionIdUsuario, 'Factura contra entrega');
+                    $stmt=$this->con->prepare($sqlComent);
+                    $stmt->bind_param("iis",$idReporte, $sessionIdUsuario, $factura);
                     $stmt->execute();
                 }
                 $stmt->close();
             }else {
-                throw new Exception("Error al preparar la consulta SQL: " . self::$con->error);
+                throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
             }
         }
-        self::$classConexionBD->disconnect();
+        $this->classConexionBD->disconnect();
         return $result;
     }
-    public static function agregarComentarioSolicitudCheque(int $sessionIdUsuario,int $idReporte, string $comentario): bool{
+    public function agregarComentarioSolicitudCheque(int $sessionIdUsuario,int $idReporte, string $comentario): bool{
         $result = false;
         $sql_insert = "INSERT INTO op_solicitud_cheque_comentario (
             id_solicitud,
@@ -62,13 +63,13 @@ class solicitudCheque{
             '".$sessionIdUsuario."',
             '".$comentario."'
             )";
-        $stmt = self::$con->prepare($sql_insert);
+        $stmt = $this->con->prepare($sql_insert);
         if($stmt->execute()){
             $result = true;
         }else{
-            echo "Error en la consulta SQL: " . mysqli_error(self::$con);
+            echo "Error en la consulta SQL: " . mysqli_error($this->con);
         }
-        self::$classConexionBD->disconnect();
+        $this->classConexionBD->disconnect();
         return $result;
     }
 }

@@ -91,14 +91,14 @@ header("Location:".PORTAL."");
     $pagoC = $row_CCPC['pago'];
     $consumoC = $row_CCPC['consumo'];
     }
-
     $sql_CDPC = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$GET_idReporte."' AND concepto = 'DEBITO (ANEXO)' LIMIT 1 ";
     $result_CDPC = mysqli_query($con, $sql_CDPC);
     while($row_CDPC = mysqli_fetch_array($result_CDPC, MYSQLI_ASSOC)){
     $pagoD = $row_CDPC['pago'];
     $consumoD = $row_CDPC['consumo'];
     }
-
+    $totalPago = $pagoC + $pagoD;
+    $totalConsumo = $consumoC + $consumoD;
 
     function fechaReporte($GET_idReporte,$con){
 

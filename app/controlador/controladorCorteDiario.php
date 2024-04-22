@@ -141,5 +141,70 @@ switch($_POST['accion']):
      *                          Clientes
      * 
      */
+    case 'agregar-pagos-cliente':
+        $file  =   $_FILES['Comprobante_file'] ?? [''];
+        $idReporte = $_POST['idReporte'];
+        $cliente = $_POST['Cliente'];
+        $total = $_POST['Total'];
+        $tipo = $_POST['Tipo'];
+        $formaPago = $_POST['FormaPago'];
+        echo $CorteDiario->agregarPagosClientes($file,$idReporte,$cliente,$total,$tipo,$formaPago);
+        break;
+    case 'agregar-consumos-cliente':
+        $idReporte = $_POST['idReporte'];
+        $cliente = $_POST['Cliente'];
+        $total = $_POST['Total'];
+        $tipo = $_POST['Tipo'];
+        echo $CorteDiario->agregarConsumos($idReporte,$cliente,$total,$tipo);
+        break;
+    case 'eliminar-consumo-pago':
+        $id = $_POST['id'];
+        echo $CorteDiario->elimarConsumosPagos($id);
+    case 'agregar-cliente':
+        $idEstacion = $_POST['idestacion'];
+        $cuenta = $_POST['Cuenta'];
+        $cliente = $_POST['Cliente'];
+        $tipo = $_POST['Tipo'];
+        $rfc = $_POST['RFC'];
+        $Doc1  =   $_FILES['CartaCredito_file'] ?? [''];
+        $Doc2  =   $_FILES['ActaConstitutiva_file'] ?? [''];
+        $Doc3  =   $_FILES['ComprobanteDom_file'] ?? [''];
+        $Doc4  =   $_FILES['Identificacion_file'] ?? [''];
+        $doc = [$Doc1,$Doc2,$Doc3,$Doc4];
+        echo $CorteDiario->agregarCliente($idEstacion,$cuenta,$cliente,$tipo,$rfc,$doc);
+        break;
+    case 'editar-cliente-credito':
+        $idCliente = $_POST['idCliente'];
+        $cuenta = $_POST['Cuenta'];
+        $cliente = $_POST['Cliente'];
+        $tipo = $_POST['Tipo'];
+        $rfc = $_POST['RFC'];
+        $Doc1  =   $_FILES['CartaCredito_file'] ?? [''];
+        $Doc2  =   $_FILES['ActaConstitutiva_file'] ?? [''];
+        $Doc3  =   $_FILES['ComprobanteDom_file'] ?? [''];
+        $Doc4  =   $_FILES['Identificacion_file'] ?? [''];
+        $doc = [$Doc1,$Doc2,$Doc3,$Doc4];
+        echo $CorteDiario->editarClienteCredito($idCliente,$cuenta,$cliente,$tipo,$rfc,$doc);
+        break;
+    case 'editar-cliente-debito':
+        $cuenta = $_POST['Cuenta'];
+        $cliente = $_POST['Cliente'];
+        $tipo = $_POST['Tipo'];
+        $id=$_POST['idCliente'];
+        echo $CorteDiario->editarClienteDebito($cuenta,$cliente,$tipo,$id);
+        break;
+        /**
+         * 
+         *              ACEITES
+         * 
+         */
+    case 'editar-reporte-aceite':
+        $tipo = $_POST['type'] ?? '';
+        $valor =  $_POST['pedido'] ?? $_POST['fisico'] ?? $_POST['facturado'] ?? $_POST['mostrador'] ??[''];
+        $id = $_POST['idaceite'];
+        echo $CorteDiario->editarReporteAceite($tipo,$valor,$id);
+        break;
+    case 'agregar-pago-diferencia':
+        break;
     endswitch;
 ?>

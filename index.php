@@ -281,11 +281,7 @@ else if(count($partes_ruta) == 2)
         case 'pedido-material':
         $ruta_elegida = 'public/corte-diario/vistas/pedido-material-index.php';
         break;
-
-        case 'pedido-material':
-        $ruta_elegida = 'public/corte-diario/vistas/pedido-material-index.php';
-        break;
-
+        
         case 'miselanea-30-31':
         $ruta_elegida = 'public/miselanea-30-31/vistas/index.php';
         break;
