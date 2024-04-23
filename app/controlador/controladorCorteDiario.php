@@ -204,7 +204,35 @@ switch($_POST['accion']):
         $id = $_POST['idaceite'];
         echo $CorteDiario->editarReporteAceite($tipo,$valor,$id);
         break;
-    case 'agregar-pago-diferencia':
+    case 'agregar-documento-aceite':
+        $doc1 = $_FILES['Ficha_file'] ?? [''];
+        $doc2 = $_FILES['Imagen_file'] ?? [''];
+        $doc3 = $_FILES['Factura_file'] ?? [''];
+        $doc = [$doc1,$doc2,$doc3];
+        $idReporte = $_POST['idReporte'];
+        $year = $_POST['year'];
+        $mes = $_POST['mes'];
+        $CorteDiario->agregarDocumentoAceite($doc,$idReporte,$year,$mes);
+        break;
+    case 'editar-documento-aceite':
+        $doc1 = $_FILES['Ficha_file'] ?? [''];
+        $doc2 = $_FILES['Imagen_file'] ?? [''];
+        $doc3 = $_FILES['Factura_file'] ?? [''];
+        $doc = [$doc1,$doc2,$doc3];
+        $year = $_POST['year'];
+        $mes = $_POST['mes'];
+        $id = $_POST['id'];
+        $CorteDiario->editarDocumentoAceite($doc,$id,$year,$mes);
+        break;
+    case 'eliminar-documento-aceite':
+        $id = $_POST['id'];
+        echo $CorteDiario->eliminarDocumentoAceite($id);
+        break;
+    case 'finalizar-aceites':
+        $idReporte = $_POST['IdReporte'];
+        $idEstacion = $_POST['idEstacion'];
+        $nombreEstacion = $_POST['nombreEstacion'];
+        echo $CorteDiario->finalizarAceite($idEstacion,$idReporte,$nombreEstacion);
         break;
     endswitch;
 ?>

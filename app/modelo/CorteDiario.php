@@ -1,15 +1,17 @@
 <?php
+require "FormatoFechas.php";
 require "../bd/DataBase.php";
 class CorteDiario extends Exception
 {
     private $classConexionBD;
     private $con;
+    private $formato;
     public function __construct()
     {
 
         $this->classConexionBD = new Database();
         $this->con = $this->classConexionBD->getInstance()->getConnection();
-
+        $this->formato = new FormatoFechas();
     }
     /**--------------------------------------------------------------------------------------------
      * 
@@ -880,6 +882,7 @@ class CorteDiario extends Exception
         $superviso = "Superviso";
         $vitstoB = "VoBo";
         $corte = 1;
+        $accion = "";
         if (file_put_contents('../../imgs/firma/' . $fileName, $fileData)):
             $sql_insert = "INSERT INTO op_corte_dia_firmas (
                 id_reportedia,
@@ -906,7 +909,7 @@ class CorteDiario extends Exception
             $token = $this->toquenUser($num19);
             $detalle = 'Se finalizo el corte del día ' . $dia . ' de la estación ' . $nombreEstacion;
             $result = true;
-            $this->sendNotification($token, $detalle);
+            $this->sendNotification($token, $detalle,$accion);
             $stmt->close();
         endif;
         $this->classConexionBD->disconnect();
@@ -957,7 +960,7 @@ class CorteDiario extends Exception
             $sql->close();
         endif;
     }
-    public function sendNotification($token, $detalle): void
+    public function sendNotification($token, $detalle,$accion): void
     {
         $url = "https://fcm.googleapis.com/fcm/send";
 
@@ -967,7 +970,7 @@ class CorteDiario extends Exception
                 "body" => $detalle,
                 "title" => "Portal AdmonGas",
                 "icon" => "",
-                "click_action" => ""
+                "click_action" => $accion
             )
         );
         $headers = array(
@@ -1339,9 +1342,8 @@ class CorteDiario extends Exception
      */
     public function finalizarAceite(int $idEstacion, int $idReporte, string $nombreEstacion): bool
     {   
-        // Checar si para obtener funcion 'nombremes' se pueda meter a una clase
-        include "../modelo/help.php";
         $result = true;
+        $accion = "https://asuntoslegales.tmfsmexico.com/asuntos-legales/";
         $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte_finalizar (id_mes) VALUES (?)";
         $nomMes = $this->mes($idReporte);
         $stmt = $this->con->prepare($sql_insert);
@@ -1355,8 +1357,8 @@ class CorteDiario extends Exception
         endif;
         $this->newAlmacen($idEstacion,$idReporte);
         $token = $this->toquenUser(19);
-        $detalle = 'Se finalizo el inventario de '.nombremes($nomMes).', de la estación '.$nombreEstacion;
-        sendNotification($token,$detalle);
+        $detalle = 'Se finalizo el inventario de '.$this->formato->nombremes($nomMes).', de la estación '.$nombreEstacion;
+        $this->sendNotification($token,$detalle,$accion);
         $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
@@ -1385,7 +1387,7 @@ class CorteDiario extends Exception
             $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
         else :
           $newmes = $mes + 1;
-          $idyear = $mes['idyear'];
+          $idyear = $mes;
           $idMes = $this->validaMesReporte($idyear, $newmes);
           $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
         endif;
@@ -1434,7 +1436,7 @@ class CorteDiario extends Exception
         $stmt->close();
         return $id;
     }
-    public function validaMesReporte(int $idYear, int $fecha_mes): int {
+    private function validaMesReporte(int $idYear, int $fecha_mes): int {
         $sql_reporte = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ?";
         $stmt = $this->con->prepare($sql_reporte);
         if (!$stmt) :
@@ -1462,7 +1464,7 @@ class CorteDiario extends Exception
     
         return $idMes;
     }
-    public function idMes() : int {
+    private function idMes() : int {
         $sql_reporte = "SELECT id FROM op_corte_mes ORDER BY id DESC LIMIT 1";
         $stmt = $this->con->prepare($sql_reporte);
         if (!$stmt) :
@@ -1474,7 +1476,7 @@ class CorteDiario extends Exception
         $stmt->close();
         return ($id + 1);
     }
-    function agregarAlmacen(int $IDEstacion, int $IdMes, int $idreporte)
+    private function agregarAlmacen(int $IDEstacion, int $IdMes, int $idreporte) : void
     {
         $sql1 = "DELETE FROM op_inventario_aceites WHERE id_mes = ? AND id_estacion = ?";
         $stmt1 = $this->con->prepare($sql1);
@@ -1493,8 +1495,8 @@ class CorteDiario extends Exception
         $stmt2->bind_param('i', $idreporte);
         $stmt2->execute();
         $stmt2->bind_result($idAceite, $inventarioExibidores, $inventarioBodega);
-        while ($stmt2->fetch()) {
-            $idAeite = idAeite($idAceite, $this->con);
+        while ($stmt2->fetch()):
+            $idAeite = $this->idAceite($idAceite);
             $sql_insert = "INSERT INTO op_inventario_aceites (id_mes, id_estacion, id_aceite, exhibidores, bodega) VALUES (?, ?, ?, ?, ?)";
             $stmt3 = $this->con->prepare($sql_insert);
             if (!$stmt3) {
@@ -1502,14 +1504,26 @@ class CorteDiario extends Exception
             }
             $stmt3->bind_param('iiiii', $IdMes, $IDEstacion, $idAeite, $inventarioExibidores, $inventarioBodega);
             if (!$stmt3->execute()) {
-                // Manejar el error si la ejecución de la consulta falla
+                throw new Exception("Error al ejecutar la consulta" . $stmt3->error);
             }
-        }
+        endwhile;
         $stmt1->close();
         $stmt2->close();
         $stmt3->close();
     }
-    
+    public function idAceite(int $idAceite) : int {
+        $sql_reporte = "SELECT id FROM op_aceites WHERE id_aceite = ? LIMIT 1";
+        $stmt = $this->con->prepare($sql_reporte);
+        if (!$stmt) {
+            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
+        }
+        $stmt->bind_param('i', $idAceite);
+        $stmt->execute();
+        $stmt->bind_result($id);
+        $stmt->fetch();
+        $stmt->close();
+        return $id;
+    }
     public function editarReporteAceite($tipo,$valor,int $id): bool
     {   
         if($valor == "producto_facturado" || $valor == "factura_venta_mostrador"):
@@ -1549,21 +1563,10 @@ class CorteDiario extends Exception
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function agregarPagoDiferencia(): void 
-    {
-
-    }
-
-    public function agregarDocumentoAceite(): bool
+    public function agregarDocumentoAceite(array $doc,int $idReporte,int $year,int $mes): bool
     {
         $result = false;
         $aleatorio = uniqid();
-        $Ficha = $_FILES['Ficha_file']['name'];
-        $Imagen = $_FILES['Imagen_file']['name'];
-        $Factura = $_FILES['Factura_file']['name'];
-
-        $year = $_POST['year'];
-        $mes = $_POST['mes'];
         $mes_formateado = sprintf("%02d", $mes);
         $fecha_actual = date("Y-m-d");
 
@@ -1571,82 +1574,65 @@ class CorteDiario extends Exception
         $fecha_02 = date("$year-$mes_formateado-02");
         $fecha_03 = date("$year-$mes_formateado-03");
         $fecha_04 = date("$year-$mes_formateado-04");
+        
+        $puntajeFactura = 0;
+        if ($fecha_actual <= $fecha_02) :
+            $puntajeFactura = 3;
 
-        if ($fecha_actual <= $fecha_02) {
-            $puntaje_facturas = 3;
+        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03) :
+            $puntajeFactura = 2;
 
-        } else if ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03) {
-            $puntaje_facturas = 2;
+        elseif($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04) :
+            $puntajeFactura = 1;
 
-        } else if ($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04) {
-            $puntaje_facturas = 1;
-
-        } else {
-            $puntaje_facturas = 0;
-
-        }
+        endif;
         //---------- FECHAS FICHA----------
         $fecha_10 = date("$year-$mes_formateado-10");
         $fecha_20 = date("$year-$mes_formateado-20");
+        $puntajeFicha = 0;
+        if ($fecha_actual <= $fecha_02) :
+            $puntajeFicha = 3;
 
-        if ($fecha_actual <= $fecha_02) {
-            $puntaje_fichas = 3;
+        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10) :
+            $puntajeFicha = 2;
 
-        } else if ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10) {
-            $puntaje_fichas = 2;
-
-        } else if ($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20) {
-            $puntaje_fichas = 1;
-
-        } else {
-            $puntaje_fichas = 0;
-
-        }
+        elseif($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20) :
+            $puntajeFicha = 1;
+        endif;
         //---------- FICHA DE DEPOSITO FALTANTE ----------
-        if ($Ficha != "") {
-            $upload_Ficha = "../../archivos/" . $aleatorio . "-" . $Ficha;
-            $DocumentoFicha = $aleatorio . "-" . $Ficha;
-            move_uploaded_file($_FILES['Ficha_file']['tmp_name'], $upload_Ficha);
-            $fecha_ficha = $fecha_actual;
-            $puntaje_ficha = $puntaje_fichas;
-
-        } else {
-            $upload_Ficha = "";
-            $DocumentoFicha = "";
-            $fecha_ficha = "";
-            $puntaje_ficha = "";
-
-        }
+        $upload_Ficha = "";
+        $documentoFicha = "";
+        $fechaFicha = "";
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
+            $ficha = $doc[0]['name'];
+            $upload_Ficha = "../../archivos/" . $aleatorio . "-" . $ficha;
+            $documentoFicha = $aleatorio . "-" . $ficha;
+            move_uploaded_file($doc[0]['tmp_name'], $upload_Ficha);
+            $fechaFicha = $fecha_actual;
+        endif;
 
         //---------- IMAGEN DE BODEGA ----------
-        if ($Imagen != "") {
-            $upload_Imagen = "../../../archivos/" . $aleatorio . "-" . $Imagen;
-            $DocumentoImagen = $aleatorio . "-" . $Imagen;
-            move_uploaded_file($_FILES['Imagen_file']['tmp_name'], $upload_Imagen);
-
-        } else {
-            $upload_Imagen = "";
-            $DocumentoImagen = "";
-
-        }
+        $upload_Imagen = "";
+        $documentoImagen = "";
+        if (!empty($doc[1]) && isset($doc[1]['name'])) :
+            $imagen = $doc[1]['name'];
+            $upload_Imagen = "../../../archivos/" . $aleatorio . "-" . $imagen;
+            $documentoImagen = $aleatorio . "-" . $imagen;
+            move_uploaded_file($doc[1]['tmp_name'], $upload_Imagen);
+        endif;
 
         //---------- FACTURA ----------
-
-        if ($Factura != "") {
-            $upload_Factura = "../../archivos/" . $aleatorio . "-" . $Factura;
-            $DocumentoFactura = $aleatorio . "-" . $Factura;
-            move_uploaded_file($_FILES['Factura_file']['tmp_name'], $upload_Factura);
-            $fecha_factura = $fecha_actual;
-            $puntaje_factura = $puntaje_facturas;
-
-        } else {
-            $upload_Factura = "";
-            $DocumentoFactura = "";
-            $fecha_factura = "";
-            $puntaje_factura = "";
-
-        }
-        $fecha_del_dia = "";
+        $upload_Factura = "";
+        $documentoFactura = "";
+        $fechaFactura = "";
+        if (!empty($doc[2]) && isset($doc[2]['name'])):
+            $factura = $doc[2]['name'];
+            $upload_Factura = "../../archivos/" . $aleatorio . "-" . $factura;
+            $documentoFactura = $aleatorio . "-" . $factura;
+            move_uploaded_file($doc[2]['tmp_name'], $upload_Factura);
+            $fechaFactura = $fecha_actual;
+        endif;
+        $fechaDia = date("Y-m-d");
         $sql_insert = "INSERT INTO op_aceites_documento (
             id_mes,
             fecha,
@@ -1658,32 +1644,101 @@ class CorteDiario extends Exception
             fecha_evaluacion_factura,
             puntaje_factura
             )
-            VALUES(?,?,?,?,?,?,?,?,?)
-            (
-            '" . $_POST['IdReporte'] . "',
-            '" . $fecha_del_dia . "',
-            '" . $DocumentoFicha . "',
-            '" . $fecha_ficha . "',
-            '" . $puntaje_ficha . "',
-            '" . $DocumentoImagen . "',
-            '" . $DocumentoFactura . "',
-            '" . $fecha_factura . "',
-            '" . $puntaje_factura . "'
-            )";
+            VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
-        if ($stmt) {
-            $stmt->bind_param("i", $puntaje_factura);
-            if ($stmt->execute()) {
-                $result = true;
-            } else {
-                throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-            }
-            $stmt->close();
-        } else {
-            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-        }
+        if (!$stmt) :
+            throw new Exception("Error al preparar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->bind_param("isssisssi", $idReporte,$fechaDia,$documentoFicha,$fechaFicha,$puntajeFicha
+                                ,$documentoImagen,$documentoFactura,$fechaFactura,$puntajeFactura);
+        if (!$stmt->execute()) :
+            $result = true;
+            throw new Exception("Error al ejecutar la consulta SQL: " . $this->con->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
+    }
+    public function editarDocumentoAceite(array $doc,int $id,int $year, int $mes): void 
+    {
+        $mes_formateado = sprintf("%02d", $mes);
+        $fecha_actual = date("Y-m-d"); 
+        //---------- FECHAS FACTURA----------
+        $fecha_02 = date("$year-$mes_formateado-02");
+        $fecha_03 = date("$year-$mes_formateado-03");
+        $fecha_04 = date("$year-$mes_formateado-04");
+        $puntaje_facturas = 0;
+        if($fecha_actual <= $fecha_02):
+            $puntaje_facturas = 3;
+        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03):
+            $puntaje_facturas = 2;
+        elseif($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04):
+            $puntaje_facturas = 1;  
+        endif;
+        //---------- FECHAS FICHA----------
+        $fecha_10 = date("$year-$mes_formateado-10");
+        $fecha_20 = date("$year-$mes_formateado-20");
+        $puntaje_fichas = 0;
+        if($fecha_actual <= $fecha_02):
+            $puntaje_fichas = 3;
+        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10):
+            $puntaje_fichas = 2; 
+        elseif($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20):
+            $puntaje_fichas = 1;  
+        endif;
+    
+        $aleatorio = uniqid();
+        $campo = "";
+        $valor = "ssii";
+        if(!empty($doc[0]) && isset($doc[0]['name'])):
+            $ficha = $doc[0]['name'];
+            $upload_Ficha = "../../archivos/".$aleatorio."-".$ficha;
+            $DocumentoFicha = $aleatorio."-".$ficha;
+            $campo = "ficha_deposito = ?,fecha_evaluacion_ficha = ?,puntaje_ficha = ?";
+            if(move_uploaded_file($doc[0]['tmp_name'], $upload_Ficha)) :
+                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoFicha,$fecha_actual,$puntaje_fichas);
+            endif;
+        elseif(!empty($doc[1]) && isset($doc[1]['name'])):
+            $imagen = $doc[1]['name'];
+            $upload_Imagen = "../../archivos/".$aleatorio."-".$imagen;
+            $DocumentoImagen = $aleatorio."-".$imagen;
+            $fecha = "";
+            $puntaje = 0;
+            $campo = "imagen_bodega = ?";
+            $valor = "si";
+            if(move_uploaded_file($doc[1]['tmp_name'], $upload_Imagen)) :
+                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoImagen,$fecha,$puntaje);
+            endif;
+        
+        elseif(!empty($doc[2]) && isset($doc[2]['name'])):
+            $factura = $doc[2]['name'];
+            $upload_Factura = "../../archivos/".$aleatorio."-".$factura;
+            $DocumentoFactura = $aleatorio."-".$factura;
+            $campo = "factura_venta = ?,fecha_evaluacion_factura = ?, puntaje_factura = ?";
+            if(move_uploaded_file($doc[2]['tmp_name'], $upload_Factura)) {
+                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoFactura,$fecha_actual,$puntaje_facturas);
+            }
+        endif;
+    }
+    private function actualizaDocumentoAceite(int $id,string $campo,string $valor,string $archivo,string $fecha,int $puntaje):void{
+        
+        $sql = "UPDATE op_aceites_documento SET $campo WHERE id=?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta ".$stmt->error);
+        endif;
+        
+        if($fecha == "" && $puntaje == 0):
+            $stmt->bind_param($valor,$archivo,$id);
+        elseif($fecha != ""):
+            $stmt->bind_param($valor,$archivo,$fecha,$puntaje,$id);
+        endif;
+
+        if(!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta".$this->con->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
     }
     public function eliminarDocumentoAceite(int $id): bool 
     {
@@ -1702,11 +1757,6 @@ class CorteDiario extends Exception
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function editarDocumentoAceite(): void 
-    {
-
-    }
-
     public function agregarFacturaArchivoAceite(): void 
     {
 
@@ -1715,6 +1765,12 @@ class CorteDiario extends Exception
     {
 
     }
+
+
+
+
+
+
 
 
     public function agregarComentarioEmbarques(int $sessionIdUsuario, int $id, string $comentario): bool
@@ -1791,5 +1847,3 @@ class CorteDiario extends Exception
     }
     
 }
-
-?>

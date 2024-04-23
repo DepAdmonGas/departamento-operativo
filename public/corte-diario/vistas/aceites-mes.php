@@ -455,14 +455,18 @@ $('#ModalPrincipal').modal('show');
  $('#DivModal').load('../../public/corte-diario/vistas/modal-detalle-pago-aceite.php?idaceite=' + idaceite);
 }
 
-function GuardarFinalizar(IdReporte){
+function GuardarFinalizar(IdReporte,idEstacion,nombreEstacion){
 
  var parametros = {
-    "IdReporte" : IdReporte
+    "IdReporte" : IdReporte,
+    "idEstacion":idEstacion,
+    "nombreEstacion" :nombreEstacion,
+    "accion":"finalizar-aceites"
     };
 
    $.ajax({
      data:  parametros,
+     //url : '../../app/controlador/controladorCorteDiario.php',
      url:   '../../public/corte-diario/modelo/finalizar-aceites.php',
      type:  'post',
      beforeSend: function() {
@@ -504,7 +508,8 @@ function Cancelar(IdReporte,year,mes){
 function Guardar(IdReporte,year,mes){
 
     var data = new FormData();
-    var url = '../../public/corte-diario/modelo/agregar-documento-aceite.php';
+    var url = '../../app/controlador/controladorCorteDiario.php';
+    //var url = '../../public/corte-diario/modelo/agregar-documento-aceite.php';
  
     Ficha = document.getElementById("Ficha");
     Ficha_file = Ficha.files[0];
@@ -518,12 +523,13 @@ function Guardar(IdReporte,year,mes){
     Factura_file = Factura.files[0];
     Factura_filePath = Factura.value;
 
-    data.append('IdReporte', IdReporte);
+    data.append('idReporte', IdReporte);
     data.append('year', year);
     data.append('mes', mes);
     data.append('Ficha_file', Ficha_file);
     data.append('Imagen_file', Imagen_file);
     data.append('Factura_file', Factura_file);
+    data.append('accion', 'agregar-documento-aceite');
     
     $(".LoaderPage").show();
 
@@ -548,12 +554,14 @@ function Eliminar(IdReporte,year,mes,id){
 
     var parametros = {
   "IdReporte" : IdReporte,
-    "id" : id
+    "id" : id,
+    "accion" : "eliminar-documento-aceite"
     };
 
        $.ajax({
      data:  parametros,
-     url:   '../../public/corte-diario/modelo/eliminar-documento-aceite.php',
+     url:'../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../public/corte-diario/modelo/eliminar-documento-aceite.php',
      type:  'post',
      beforeSend: function() {
     $(".LoaderPage").show();
@@ -562,7 +570,6 @@ function Eliminar(IdReporte,year,mes,id){
     
      },
      success:  function (response) {
-
     if (response == 1) {
 
     $(".LoaderPage").hide();
@@ -586,8 +593,9 @@ function Eliminar(IdReporte,year,mes,id){
  
   function EditarInfo(IdReporte,year,mes,id){
  
- var data = new FormData();
-    var url = '../../public/corte-diario/modelo/editar-documento-aceite.php';
+    var data = new FormData();
+    var url = '../../app/controlador/controladorCorteDiario.php';
+    //var url = '../../public/corte-diario/modelo/editar-documento-aceite.php';
 
     Ficha = document.getElementById("Ficha");
     Ficha_file = Ficha.files[0];
@@ -607,7 +615,8 @@ function Eliminar(IdReporte,year,mes,id){
     data.append('Ficha_file', Ficha_file);
     data.append('Imagen_file', Imagen_file);
     data.append('Factura_file', Factura_file);
-    
+    data.append('accion', 'editar-documento-aceite');
+
     $(".LoaderPage").show();
 
     $.ajax({
@@ -618,7 +627,6 @@ function Eliminar(IdReporte,year,mes,id){
     processData: false,
     cache: false
     }).done(function(data){
-
       $(".LoaderPage").hide();
       Cancelar(IdReporte,year,mes);
 
@@ -791,7 +799,8 @@ function Eliminar(IdReporte,year,mes,id){
     echo '  <div class="row">
 
     <div class="col-12">
-      <button type="button" class="btn btn-success btn-sm float-end" onclick="GuardarFinalizar('.$IdReporte.')">Guardar y Finalizar</button>
+    <button type="button" class="btn btn-success btn-sm float-end" onclick="GuardarFinalizar('.$IdReporte.', '.$Session_IDEstacion.', \''.$session_nomestacion.'\')">Guardar y Finalizar</button>
+
     </div> 
 
     </div>';
