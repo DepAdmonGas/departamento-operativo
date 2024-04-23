@@ -110,7 +110,11 @@ $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
 
     if($numero_reporte > 0){
 
-
+    $totalVV = 0;
+    $totalISI = 0;
+    $totalIV2 = 0;
+    $totalIEPS2 = 0;
+    $totalneto = 0;
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
 
       $idventas = $row_listayear['id'];
@@ -152,6 +156,9 @@ $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
 
     $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$GET_idReporte."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
+    $aceitessiniva = 0;
+    $aceitesiva = 0;
+    $totalPrecio = 0;
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
 
     $importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];

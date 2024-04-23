@@ -1,6 +1,5 @@
 <?php
-require('../../../app/help.php');
-
+include'../../../app/help.php';
 $sql_insert = "INSERT INTO op_ventas_dia (
 idreporte_dia,
 producto,
@@ -18,8 +17,7 @@ VALUES
 0,
 0
 )";
-mysqli_query($con, $sql_insert);
-
+$resultado = mysqli_query($con, $sql_insert);
 //------------------
 mysqli_close($con);
 //------------------

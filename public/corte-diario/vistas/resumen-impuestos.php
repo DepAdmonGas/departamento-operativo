@@ -306,6 +306,9 @@ $id = $row_dia['id'];
 $sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$id."' AND producto = '".$producto."' ";
 $result_listayear = mysqli_query($con, $sql_listayear);
 $numero_reporte = mysqli_num_rows($result_listayear);
+$tolitros = 0;
+$tojarras = 0;
+$toprecio = 0;
 while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
 
 $litros = $row_listayear['litros'];
@@ -340,6 +343,7 @@ $id = $row_dia['id'];
 
 $sql_listatotal = "SELECT cantidad, precio_unitario FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' ";
 $result_listatotal = mysqli_query($con, $sql_listatotal);
+$totalimporte = 0;
 while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
 $cantidad = $row_listatotal['cantidad'];
 $precio = $row_listatotal['precio_unitario'];

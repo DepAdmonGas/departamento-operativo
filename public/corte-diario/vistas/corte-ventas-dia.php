@@ -3,7 +3,7 @@ require('app/help.php');
 
 if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
-} 
+}
 
 function Firma($idReporte,$detalle,$rutafirma,$con){
 
@@ -17,20 +17,18 @@ FROM op_corte_dia_firmas
 INNER JOIN tb_usuarios
 ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '".$idReporte."' AND detalle = '".$detalle."' ORDER BY idFirma DESC LIMIT 1";
    $result_firma = mysqli_query($con, $sql_firma);
-   while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-   $idFirma = $row_firma['idFirma'];
-   $nombre = $row_firma['nombre'];
-   $firma = $row_firma['firma'];
-   $explode = explode(' ', $row_firma['fecha']);
-   }
- 
+   while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)):
+    $idFirma = $row_firma['idFirma'];
+    $nombre = $row_firma['nombre'];
+    $firma = $row_firma['firma'];
+    $explode = explode(' ', $row_firma['fecha']);
+   endwhile;
+   $contenido = '';
    if($detalle == "Elaboró"){
-
-   $contenido .= '<div class="text-center mt-1">';
-   $contenido .= '<img src="'.$rutafirma.$firma.'" width="150px" height="70px">';
-   $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>'.$nombre.'</b></div>';
-   $contenido .= '</div>';
-
+    $contenido .= '<div class="text-center mt-1">';
+    $contenido .= '<img src="'.$rutafirma.$firma.'" width="150px" height="70px">';
+    $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>'.$nombre.'</b></div>';
+    $contenido .= '</div>';
    }else if($detalle == "Superviso" || $detalle == "VoBo"){
 
     $NewFecha = date("Y-m-d",strtotime($explode[0]."+ 2 days")); 
@@ -124,10 +122,10 @@ function aperturaReporte($GET_idReporte,$con){
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
 
-  VentasOtros(<?=$GET_idReporte;?>);
+  VentasOtros(<?=$GET_idReporte;?>,<?=$Session_IDEstacion;?>);
 
   ProsegurAgregar(<?=$GET_idReporte;?>);
-  TarjetasBancariasAgregar(<?=$GET_idReporte;?>);
+  TarjetasBancariasAgregar(<?=$GET_idReporte;?>,<?=$Session_IDEstacion;?>);
   ClientesControlgasAgregar(<?=$GET_idReporte;?>);
   PagoClientesAgregar(<?=$GET_idReporte;?>);
 
@@ -135,7 +133,7 @@ function aperturaReporte($GET_idReporte,$con){
   DiferenciaTotal(<?=$GET_idReporte;?>);
   DifPagoCliente(<?=$GET_idReporte;?>);
 
-  Aceites(<?=$GET_year;?>,<?=$GET_mes;?>,<?=$GET_idReporte;?>);
+  Aceites(<?=$GET_year;?>,<?=$GET_mes;?>,<?=$GET_idReporte;?>,<?=$Session_IDEstacion;?>);
   ListaDocumentos(<?=$GET_idReporte;?>)
   
   });
@@ -150,16 +148,19 @@ function aperturaReporte($GET_idReporte,$con){
   $('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
   } 
  
-    function VentasOtros(idReporte){
+    function VentasOtros(idReporte,idEstacion){
 
 
      var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionIdEstacion" : idEstacion,
+    "accion" : "nuevo-concentrado-ventas-otros"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-concentrado-ventas-otros.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-concentrado-ventas-otros.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -167,7 +168,6 @@ function aperturaReporte($GET_idReporte,$con){
       Ventas(idReporte);
      },
      success:  function (response) {
-
      }
      });
 
@@ -177,12 +177,14 @@ function aperturaReporte($GET_idReporte,$con){
 
   function ProsegurAgregar(idReporte){
      var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "nuevo-registro-prosegur"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-prosegur.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-registro-prosegur.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -210,12 +212,14 @@ function aperturaReporte($GET_idReporte,$con){
       var parametros = {
     "type" : "recibo",
     "idProsegur" : idProsegur,
-    "recibo" : recibo
+    "recibo" : recibo,
+    "accion": "editar-prosegur"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-prosegur.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-prosegur.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -243,12 +247,14 @@ function aperturaReporte($GET_idReporte,$con){
       var parametros = {
     "type" : "importe",
     "idProsegur" : idProsegur,
-    "importe" : importe
+    "importe" : importe,
+    "accion": "editar-prosegur"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-prosegur.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-prosegur.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -272,14 +278,17 @@ function aperturaReporte($GET_idReporte,$con){
 
   /*------------------------------------------------------------------------*/
 
-  function TarjetasBancariasAgregar(idReporte){
+  function TarjetasBancariasAgregar(idReporte,idEstacion){
      var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionEstacion" : idEstacion,
+    "accion" : "registro-tarjetas-bancarias"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-tarjetas-bancarias.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-registro-tarjetas-bancarias.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -287,7 +296,6 @@ function aperturaReporte($GET_idReporte,$con){
       TarjetasBancarias(idReporte);
      },
      success:  function (response) {
-
      }
      });
   } 
@@ -299,39 +307,32 @@ function aperturaReporte($GET_idReporte,$con){
 
   function EditTBaucher(val,idReporte,idTarjeta){
 
-        var baucher = val.value;
+    var baucher = val.value;
 
-      var parametros = {
-    "type" : "baucher",
-    "idTarjeta" : idTarjeta,
-    "baucher" : baucher
+    var parametros = {
+      "idTarjeta" : idTarjeta,
+      "baucher" : baucher,
+      "accion" : "editar-tarjetas-CB"
     };
 
-     $.ajax({
-     data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-tarjetas-c-b.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
-
-      if (response == 0) {
-        TarjetasBancarias(idReporte);
-      }else{
-        TarjetasTotal(idReporte); 
-        Total1234(idReporte);
+    $.ajax({
+      data:  parametros,
+      url:'../../../app/controlador/controladorCorteDiario.php',
+      //url:   '../../../public/corte-diario/modelo/editar-tarjetas-c-b.php',
+      type:  'post',
+      beforeSend: function() {
+      },
+      complete: function(){},
+      success:  function (response) {
+        if (response == 0) {
+          TarjetasBancarias(idReporte);
+        }else{
+          TarjetasTotal(idReporte); 
+          Total1234(idReporte);
+        }
       }
-
-     }
-     });
-
-
+    });
   }
-
-
 
 function formatAsMoney(n) {
   n = (Number(n).toFixed(2) + '').split('.');
@@ -342,12 +343,14 @@ function formatAsMoney(n) {
 
   function ClientesControlgasAgregar(idReporte){
      var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "nuevo-registro-controlgas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-controlgas.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-registro-controlgas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -355,7 +358,6 @@ function formatAsMoney(n) {
       ClientesControlgas(idReporte)
      },
      success:  function (response) {
-
      }
      });
   }
@@ -371,12 +373,14 @@ function formatAsMoney(n) {
       var parametros = {
     "type" : "pago",
     "idControl" : idControl,
-    "pago" : pago
+    "pago" : pago,
+    "accion" : "editar-controlgas"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -402,12 +406,14 @@ function formatAsMoney(n) {
       var parametros = {
     "type" : "consumo",
     "idControl" : idControl,
-    "consumo" : consumo
+    "consumo" : consumo,
+    "accion" : "editar-controlgas"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -432,12 +438,14 @@ function formatAsMoney(n) {
 
   function PagoClientesAgregar(idReporte){
      var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "nuevo-registro-pago-clientes"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-pagoclientes.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/nuevo-registro-pagoclientes.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -460,12 +468,14 @@ function formatAsMoney(n) {
       var parametros = {
     "type" : "importe",
     "idPagoCliente" : idPagoCliente,
-    "importe" : importe
+    "importe" : importe,
+    "accion" : "editar-pago-clientes"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -493,12 +503,14 @@ function formatAsMoney(n) {
       var parametros = {
     "type" : "nota",
     "idPagoCliente" : idPagoCliente,
-    "nota" : nota
+    "nota" : nota,
+    "accion" : "editar-pago-clientes"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
+     //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -520,31 +532,26 @@ function formatAsMoney(n) {
 //----------------------------------------------------------------------------
   function NewVentas(idReporte){
  
-
  var parametros = {
+    "accion": "nuevo-registro-venta",
     "idReporte" : idReporte
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/nuevo-registro-ventas.php',
-     type:  'post',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:'../../../public/corte-diario/modelo/nuevo-registro-ventas.php',
+     type:'POST',
      beforeSend: function() {
      },
      complete: function(){
       Ventas(idReporte);
      },
      success:  function (response) {
-
      }
      });
-
-  
-
   }
-
   //------------------------------------------------------
-
   function EditProducto(val,idReporte,idVentas){
 
     var producto = val.value;
@@ -554,21 +561,21 @@ function formatAsMoney(n) {
       var parametros = {
     "type" : "producto",
     "idVentas" : idVentas,
-    "producto" : producto
+    "producto" : producto,
+    "accion": "editar-ventas"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
      complete: function(){
-    
      },
      success:  function (response) {
-
-      if (response == 0) {
+      if (!response) {
         Ventas(idReporte);
       }else{
         VentasSubTotales(idReporte);
@@ -591,21 +598,21 @@ function formatAsMoney(n) {
   var parametros = {
     "type" : "litros",
     "idVentas" : idVentas,
-    "litros" : litros
+    "litros" : litros,
+    "accion": "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
-     type:  'post',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     type:  'POST',
      beforeSend: function() {
      },
      complete: function(){
-    
      },
      success:  function (response) {
-
-      if (response == 0) {
+      if (!response) {
         Ventas(idReporte);
       }else{
         ValTotalLitros(idVentas);
@@ -627,12 +634,14 @@ function formatAsMoney(n) {
   var parametros = {
     "type" : "jarras",
     "idVentas" : idVentas,
-    "jarras" : jarras
+    "jarras" : jarras,
+    "accion": "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -663,12 +672,14 @@ function formatAsMoney(n) {
   var parametros = {
     "type" : "preciolitro",
     "idVentas" : idVentas,
-    "preciolitro" : preciolitro
+    "preciolitro" : preciolitro,
+    "accion": "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -750,20 +761,21 @@ function EditPrecioOtros(val,idReporte,idOtros){
   var parametros = {
     "type" : "otros",
     "idOtros" : idOtros,
-    "otros" : otros
+    "otros" : otros,
+    "accion": "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
      complete: function(){
-    
      },
      success:  function (response) {
-
+      console.log(response);
       if (response == 0) {
         Ventas(idReporte);
       }else{
@@ -782,12 +794,14 @@ var observaciones = val.value;
 
 var parametros = {
     "observaciones" : observaciones,
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "editar-observaciones"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-observaciones.php',
+     //url:   '../../../public/corte-diario/modelo/editar-observaciones.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -818,26 +832,27 @@ function DifPagoCliente(idReporte){
 
 //------------------------------------------------------------------------
 
-function Aceites(year,mes,idReporte){
+function Aceites(year,mes,idReporte,idEstacion){
 
   var parametros = {
     "year" : year,
     "mes" : mes,
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionIdEstacion" : idEstacion,
+    "accion" : "nuevo-registro-aceites"
     };
 
    $.ajax({
      data:  parametros,
+     //url:'../../../app/controlador/controladorCorteDiario.php',
      url:   '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
      complete: function(){
       AceitesLubricantes(idReporte);
-       
      },
      success:  function (response) {
-
      }
      });
 
@@ -855,12 +870,14 @@ function Aceites(year,mes,idReporte){
   var parametros = {
     "type" : "cantidad",
     "idAceite" : idAceite,
-    "cantidad" : cantidad
+    "cantidad" : cantidad,
+    "accion": "editar-aceites-lubricantes"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -868,7 +885,6 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
-
       if (response == 0) {
         AceitesLubricantes(idReporte);
       }else{
@@ -890,12 +906,14 @@ function Aceites(year,mes,idReporte){
   var parametros = {
     "type" : "precio",
     "idAceite" : idAceite,
-    "precio" : precio
+    "precio" : precio,
+    "accion": "editar-aceites-lubricantes"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -922,7 +940,7 @@ function Aceites(year,mes,idReporte){
 
     var cantidad = $("#cantidadAL-" + idAceite).val();
     var precio = $("#precioAL-" + idAceite).val();
-    //var precio = $("#precioAL-" + idAceite).text();
+    var precio = $("#precioAL-" + idAceite).text();
 
     if (cantidad == "") {
       valcantidad = 0;
@@ -945,12 +963,14 @@ function Aceites(year,mes,idReporte){
 
     var parametros = {
     "type" : "piezas",
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "accion" : "editar-ventas"
     };
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -958,7 +978,7 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
-
+      console.log(response);
       if (response == 0) {
         AceitesLubricantes(idReporte);
       }else{
@@ -974,7 +994,7 @@ function Aceites(year,mes,idReporte){
   window.location = "../../../public/corte-diario/vistas/pdf-corte-ventas.php?idReporte=" + idReporte;
   }
 
-  function FirmarCorte(idReporte){
+  function FirmarCorte(idReporte,sessionIdUsuario,sessionNomEstacion){
 
       let signatureBlank = signaturePad.isEmpty();
 
@@ -990,12 +1010,16 @@ function Aceites(year,mes,idReporte){
   
    var parametros = {
     "base64" : base64,
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "sessionUsuario" : sessionIdUsuario,
+    "nombreEstacion" : sessionNomEstacion,
+    "accion" : "firma-corte"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/agregar-firma.php',
+     url: '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/agregar-firma.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -1003,6 +1027,7 @@ function Aceites(year,mes,idReporte){
     
      },
      success:  function (response) {
+      console.log(response);
 
     if (response == 1) {
     location.reload();
@@ -1037,7 +1062,8 @@ alertify.error('Error al firmar el corte')
     var Documento = $('#Documento').val();
 
     var data = new FormData();
-    var url = '../../../public/corte-diario/modelo/agregar-documento.php';
+    var url= '../../../app/controlador/controladorCorteDiario.php';
+    //var url = '../../../public/corte-diario/modelo/agregar-documento.php';
 
     Documento = document.getElementById("Documento");
     Documento_file = Documento.files[0];
@@ -1051,6 +1077,7 @@ alertify.error('Error al firmar el corte')
     data.append('idReporte', idReporte);
     data.append('NombreDocumento', NombreDocumento);
     data.append('Documento_file', Documento_file);
+    data.append('accion','agregar-documento');
 
     $.ajax({
     url: url,
@@ -1060,7 +1087,6 @@ alertify.error('Error al firmar el corte')
     processData: false,
     cache: false
     }).done(function(data){
-
     $('#NombreDocumento').val('');
     $('#Documento').val('');
     ListaDocumentos(idReporte);
@@ -1080,16 +1106,17 @@ alertify.error('Error al firmar el corte')
   function EliminarDoc(id,idReporte){
 
     var parametros = {
-    "id" : id
+    "id" : id,
+    "accion": "eliminar-documento-corte"
     };
 
  
-alertify.confirm('',
+    alertify.confirm('',
   function(){
 
    $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/eliminar-documento-corte.php',
+     url:   '../../../app/controlador/controladorCorteDiario.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -1321,6 +1348,7 @@ alertify.confirm('',
 
             $sql_observaciones = "SELECT * FROM op_observaciones WHERE idreporte_dia = '".$GET_idReporte."' ";
             $result_observaciones = mysqli_query($con, $sql_observaciones);
+            $observaciones = "";
             while($row_observaciones = mysqli_fetch_array($result_observaciones, MYSQLI_ASSOC)){
 
             $observaciones = $row_observaciones['observaciones'];
@@ -1365,7 +1393,7 @@ alertify.confirm('',
 <hr>
 
     <div class="text-end pointer">
-    <button class="btn btn-success mt-2" onclick="FirmarCorte(<?=$GET_idReporte;?>)">Guardar y Finalizar</button>
+    <button class="btn btn-success mt-2" onclick="FirmarCorte(<?=$GET_idReporte;?>,<?=$Session_IDUsuarioBD;?>,'<?=$session_nomestacion;?>')">Guardar y Finalizar</button>
     </div>
 
   </div>

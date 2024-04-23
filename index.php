@@ -5,8 +5,8 @@ $rura = $componentes_url['path'];
 $partes_ruta = explode("/", $rura);
 $partes_ruta = array_filter($partes_ruta);
 $partes_ruta = array_slice($partes_ruta, 0);
+$ruta_elegida = 'app/vistas/home/error.php';
 
-$ruta_elegida = '';
 if ($partes_ruta[0] == 'departamento-operativo') 
 {
 if (count($partes_ruta) == 1)
@@ -17,8 +17,6 @@ else if(count($partes_ruta) == 2)
 {
     switch ($partes_ruta[1])  
     {
-          
-
         case 'corte-diario':
         $ruta_elegida = 'public/corte-diario/vistas/index.php';
         break;  
@@ -283,11 +281,7 @@ else if(count($partes_ruta) == 2)
         case 'pedido-material':
         $ruta_elegida = 'public/corte-diario/vistas/pedido-material-index.php';
         break;
-
-        case 'pedido-material':
-        $ruta_elegida = 'public/corte-diario/vistas/pedido-material-index.php';
-        break;
-
+        
         case 'miselanea-30-31':
         $ruta_elegida = 'public/miselanea-30-31/vistas/index.php';
         break;

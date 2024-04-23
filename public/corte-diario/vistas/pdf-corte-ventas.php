@@ -1,6 +1,7 @@
 <?php
-require_once '../../../dompdf/autoload.inc.php';
-require('../../../app/help.php');
+error_reporting(0);
+require_once '../../../dompdf2/vendor/autoload.php';
+require ('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
 
@@ -9,31 +10,37 @@ function ConcentradoVentas($idReporte,$con){
 $sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$idReporte."' ";
 $result_listayear = mysqli_query($con, $sql_listayear);
 $numero_reporte = mysqli_num_rows($result_listayear);
-
+$resultado = "";
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
-<thead>
-	<tr>
-	<th class="text-center align-middle">PRODUCTO</th>
-	<th class="text-center align-middle">LITROS</th>
-	<th class="text-center align-middle">JARRAS</th>
-	<th class="text-center align-middle">TOTAL LITROS</th>
-	<th class="text-center align-middle">PRECIO POR LITRO</th>
-	<th class="text-center align-middle">IMPORTE TOTAL</th>
-	</tr>
+<thead> 
+    <tr>
+    <th class="text-center align-middle">PRODUCTO</th>
+    <th class="text-center align-middle">LITROS</th>
+    <th class="text-center align-middle">JARRAS</th>
+    <th class="text-center align-middle">TOTAL LITROS</th>
+    <th class="text-center align-middle">PRECIO POR LITRO</th>
+    <th class="text-center align-middle">IMPORTE TOTAL</th>
+    </tr>
 </thead>
 <tbody>';
+$SubTLitros = 0;
+$SubJarras = 0;
+$SubTLitros = 0;
+$SubJarras = 0;
+$SubTotalLitros = 0;
+$SubImporteTotal = 0;
 while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
 
         $idventas = $row_listayear['id'];
-    	$producto = $row_listayear['producto'];
-    	$litrosventas = $row_listayear['litros'];
-    	$jarrasventas = $row_listayear['jarras'];
-    	$precio_litroventas = $row_listayear['precio_litro'];
+        $producto = $row_listayear['producto'];
+        $litrosventas = $row_listayear['litros'];
+        $jarrasventas = $row_listayear['jarras'];
+        $precio_litroventas = $row_listayear['precio_litro'];
 
-    	$litros =  $litrosventas;
-    	$jarras = $jarrasventas;
-    	$preciolitro = $precio_litroventas;
-    	$totalLitros = $litrosventas - $jarrasventas;
+        $litros =  $litrosventas;
+        $jarras = $jarrasventas;
+        $preciolitro = $precio_litroventas;
+        $totalLitros = $litrosventas - $jarrasventas;
         $importeTotal = $totalLitros * $precio_litroventas;
 
         $SubTLitros = $SubTLitros + $litros;
@@ -61,35 +68,36 @@ $resultado .= '<tr class="bg-light">
 
 $sql_listaotros = "SELECT * FROM op_ventas_dia_otros WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaotros = mysqli_query($con, $sql_listaotros);
+    $sumImporte = 0;
     while($row_listaotros = mysqli_fetch_array($result_listaotros, MYSQLI_ASSOC)){
 
-    	$idOtros = $row_listaotros['id'];
-    	$concepto = $row_listaotros['concepto'];
-    	$piezas = $row_listaotros['piezas'];
+        $idOtros = $row_listaotros['id'];
+        $concepto = $row_listaotros['concepto'];
+        $piezas = $row_listaotros['piezas'];
 
-    	$importe = $row_listaotros['importe'];
+        $importe = $row_listaotros['importe'];
 
-    	if ($concepto == "4 ACEITES Y LUBRICANTES") {
-    		$disabled = "disabled";
+        if ($concepto == "4 ACEITES Y LUBRICANTES") {
+            $disabled = "disabled";
             $cssaceite = "bg-light text-right";
             
-    	}else{
-    		$disabled = "";
+        }else{
+            $disabled = "";
             $cssaceite = "p-0";
-    	}
+        }
 
         $sumImporte = $sumImporte + $importe;
 
 $resultado .= '<tr>
-		<td>'.$concepto.'</td>
-		<td class="align-middle text-right">'.$piezas.'</td>
-		<td class="align-middle text-right"></td>
-		<td class="align-middle text-right"></td>
-		<td class="align-middle text-right"></td>
-		<td class="align-middle text-right">
+        <td>'.$concepto.'</td>
+        <td class="align-middle text-right">'.$piezas.'</td>
+        <td class="align-middle text-right"></td>
+        <td class="align-middle text-right"></td>
+        <td class="align-middle text-right"></td>
+        <td class="align-middle text-right">
            '.number_format($importe,2).'
-    	</td>
-	</tr>';
+        </td>
+    </tr>';
 
         }
 
@@ -107,44 +115,45 @@ $resultado .= '<tr class="bg-light">
 $resultado .= '</tbody>
 </table>';
 
-	return $resultado;
+    return $resultado;
 }
 
 //-------------------------------------------------------------------------
 
 function VentaAceitesLubricantes($idReporte,$con){
-
+$resultado="";
 $resultado .= '<table class="table table-sm table-bordered table-striped pb-0 mb-0" style="font-size: .8em;">
 <thead>
 <tr>
-	<th colspan="2" class="align-middle text-center">CONCEPTO</th>
-	<th class="align-middle text-center">CANTDAD</th>
-	<th class="align-middle text-center">PRECIO UNITARIO</th>
-	<th class="align-middle text-center">IMPORTE</th>
+    <th colspan="2" class="align-middle text-center">CONCEPTO</th>
+    <th class="align-middle text-center">CANTDAD</th>
+    <th class="align-middle text-center">PRECIO UNITARIO</th>
+    <th class="align-middle text-center">IMPORTE</th>
 </tr>
 </thead>
 <tbody>';
 
 $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
+    $totalCantidad =0;
+    $totalPrecio = 0;
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
+      $idAceite = $row_listaaceites['id'];
+        $numAceite = $row_listaaceites['id_aceite'];
+        $concepto = $row_listaaceites['concepto'];
+        
 
-		$idAceite = $row_listaaceites['id'];
-		$numAceite = $row_listaaceites['id_aceite'];
-		$concepto = $row_listaaceites['concepto'];
-		
+        if ($row_listaaceites['cantidad'] == 0) {
+            $cantidad = "";
+        }else{
+            $cantidad =  $row_listaaceites['cantidad'];
+        }
 
-		if ($row_listaaceites['cantidad'] == 0) {
-    		$cantidad = "";
-    	}else{
-    		$cantidad =  $row_listaaceites['cantidad'];
-    	}
-
-    	if ($row_listaaceites['precio_unitario'] == 0) {
-    		$precio = "";
-    	}else{
-    		$precio =  number_format($row_listaaceites['precio_unitario'], 2, '.', '');
-    	}
+        if ($row_listaaceites['precio_unitario'] == 0) {
+            $precio = "";
+        }else{
+            $precio =  number_format($row_listaaceites['precio_unitario'], 2, '.', '');
+        }
 
     $importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];
 
@@ -152,15 +161,15 @@ $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = 
     $totalPrecio = $totalPrecio + $importe;
 
  $resultado .= '<tr>
-    	<td class="align-middle">'.$numAceite.'</td>
-    	<td class="align-middle">'.$concepto.'</td>
-    	<td class="p-0 align-middle text-center">
-    		'.$cantidad.'
-    	</td>
-    	<td class="align-middle text-right">
-    		'.$precio.'
-    	</td>
-    	<td class="align-middle text-right">'.number_format($importe,2).'</td>
+        <td class="align-middle">'.$numAceite.'</td>
+        <td class="align-middle">'.$concepto.'</td>
+        <td class="p-0 align-middle text-center">
+            '.$cantidad.'
+        </td>
+        <td class="align-middle text-right">
+            '.$precio.'
+        </td>
+        <td class="align-middle text-right">'.number_format($importe,2).'</td>
     </tr>';
 
     }
@@ -177,44 +186,45 @@ $resultado .= '<tr>
 $resultado .= '</tbody>
 </table>';
 
-return $resultado;	
+return $resultado;  
 }
 //-------------------------------------------------------------------------
 
 function Prosegur($idReporte,$con){
-
+$resultado = '';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
-	<th class="text-center">DENOMINACION</th>
-	<th class="text-center">RECIBO</th>
-	<th class="text-center">IMPORTE</th>
+    <th class="text-center">DENOMINACION</th>
+    <th class="text-center">RECIBO</th>
+    <th class="text-center">IMPORTE</th>
 </tr>
 </thead>
 <tbody>';
 
-	$sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
+    $sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
+    
     while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
 
-		$idProsegur = $row_listaprosegur['id'];
-		$denominacion = $row_listaprosegur['denominacion'];
-		$recibo = $row_listaprosegur['recibo'];
+        $idProsegur = $row_listaprosegur['id'];
+        $denominacion = $row_listaprosegur['denominacion'];
+        $recibo = $row_listaprosegur['recibo'];
 
-		$valimporte =  $row_listaprosegur['importe'];
+        $valimporte =  $row_listaprosegur['importe'];
 
         $importe = $row_listaprosegur['importe'];
 
     $totalImporte = $totalImporte + $importe;
 
 $resultado .= '<tr>
-    	<td class="align-middle">'.$denominacion.'</td>
-    	<td class="p-0 align-middle">
-    	'.$recibo.'
-    	</td>
-    	<td class="p-0 align-middle text-right">
-    	'.number_format($valimporte,2).'
-    	</td>
+        <td class="align-middle">'.$denominacion.'</td>
+        <td class="p-0 align-middle">
+        '.$recibo.'
+        </td>
+        <td class="p-0 align-middle text-right">
+        '.number_format($valimporte,2).'
+        </td>
     </tr>';
 
    
@@ -228,7 +238,7 @@ $resultado .= '<tr>
 </tbody>
 </table>';
 
-return $resultado;	
+return $resultado;  
 }
 
 //---------------------------------------------------
@@ -238,27 +248,27 @@ function MonederosBancos($idReporte,$con){
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
-	<th class="text-center" colspan="2">CONCEPTO / BANCO</th>
-	<th class="text-center">IMPORTE</th>
+    <th class="text-center" colspan="2">CONCEPTO / BANCO</th>
+    <th class="text-center">IMPORTE</th>
 </tr>
 </thead>
 <tbody>';
 
 
-	$sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' ";
+    $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' ";
     $result_listatarjetas = mysqli_query($con, $sql_listatarjetas);
     while($row_listatarjetas = mysqli_fetch_array($result_listatarjetas, MYSQLI_ASSOC)){
 
-		$idTarjeta = $row_listatarjetas['id'];
+        $idTarjeta = $row_listatarjetas['id'];
         $num = $row_listatarjetas['num'];
-		$conceptoTarjeta = $row_listatarjetas['concepto'];
-    	$baucher =  $row_listatarjetas['baucher'];
+        $conceptoTarjeta = $row_listatarjetas['concepto'];
+        $baucher =  $row_listatarjetas['baucher'];
         $baucherTotal = $baucherTotal + $baucher;
 
 
 $resultado .= '<tr>
         <td class="align-middle"><b>'.$num.'</b></td>
-    	<td class="align-middle">'.$conceptoTarjeta.'</td>        
+        <td class="align-middle">'.$conceptoTarjeta.'</td>        
            <td class="p-1 align-middle text-right">
            '.number_format($baucher,2).'
            </td> 
@@ -271,7 +281,7 @@ $resultado .= '<tr>
 </tbody>
 </table>';
 
-return $resultado;	
+return $resultado;  
 }
 //-------------------------------------------
 
@@ -280,20 +290,20 @@ function ClientesAtio($idReporte,$con){
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
-	<th class="text-center">CONCEPTO</th>
-	<th class="text-center">PAGOS</th>
-	<th class="text-center">CONSUMOS</th>
-	</tr>
+    <th class="text-center">CONCEPTO</th>
+    <th class="text-center">PAGOS</th>
+    <th class="text-center">CONSUMOS</th>
+    </tr>
 </thead>
 <tbody>';
 
 
-	$sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
+    $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
     $result_listacontrol = mysqli_query($con, $sql_listacontrol);
     while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
 
-	$idControl = $row_listacontrol['id'];
-	$concepto = $row_listacontrol['concepto'];
+    $idControl = $row_listacontrol['id'];
+    $concepto = $row_listacontrol['concepto'];
     $pago =  $row_listacontrol['pago'];
     $consumo =  $row_listacontrol['consumo'];
 
@@ -301,13 +311,13 @@ $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
     $Toconsumo = $Toconsumo + $consumo;
 
 $resultado .= '<tr>
-    	<td class="align-middle">'.$concepto.'</td>
-    	<td class="p-1 align-middle text-right">
-    	'.number_format($pago,2).'
-    	</td>
-    	<td class="p-1 align-middle text-right">
-    	'.number_format($consumo,2).'
-    	</td>
+        <td class="align-middle">'.$concepto.'</td>
+        <td class="p-1 align-middle text-right">
+        '.number_format($pago,2).'
+        </td>
+        <td class="p-1 align-middle text-right">
+        '.number_format($consumo,2).'
+        </td>
     </tr>';
 
     }
@@ -320,7 +330,7 @@ $resultado .= '<tr>
 </tbody>
 </table>';
 
-return $resultado;	
+return $resultado;  
 }
 
 //-----------------------------------------------------------
@@ -353,14 +363,14 @@ function Total1234($idReporte,$con){
 
     $resultado = "<strong>".number_format($totalImporte + $baucherTotal + $consumo,2)."</strong>";
 
-	return $resultado;
+    return $resultado;
 }
 
 //------------------------------------------------------------
 
 function DiferenciaTotal($idReporte,$con){
 
-	$sql_listaprosegur = "SELECT importe FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
+    $sql_listaprosegur = "SELECT importe FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
     while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
     $importe = $row_listaprosegur['importe'];
@@ -388,39 +398,39 @@ function DiferenciaTotal($idReporte,$con){
     $result_listayear = mysqli_query($con, $sql_listayear);
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
 
-    	$idventas = $row_listayear['id'];
-    	$producto = $row_listayear['producto'];
-    	$litrosventas = $row_listayear['litros'];
-    	$jarrasventas = $row_listayear['jarras'];
-    	$precio_litroventas = $row_listayear['precio_litro'];
+        $idventas = $row_listayear['id'];
+        $producto = $row_listayear['producto'];
+        $litrosventas = $row_listayear['litros'];
+        $jarrasventas = $row_listayear['jarras'];
+        $precio_litroventas = $row_listayear['precio_litro'];
 
  
 
-    	if ($litrosventas == 0) {
-    		$litros = "";
-    	}else{
-    		$litros =  $litrosventas;
-    	}
+        if ($litrosventas == 0) {
+            $litros = 0;
+        }else{
+            $litros =  $litrosventas;
+        }
 
-    	if ($jarrasventas == 0) {
-    		$jarras = "";
-    	}else{
-    		$jarras = $jarrasventas;
-    	}
+        if ($jarrasventas == 0) {
+            $jarras = 0;
+        }else{
+            $jarras = $jarrasventas;
+        }
 
-    	if ($precio_litroventas == 0) {
-    		$preciolitro = "";
-    	}else{
-    		$preciolitro = $precio_litroventas;
-    	}
+        if ($precio_litroventas == 0) {
+            $preciolitro = 0;
+        }else{
+            $preciolitro = $precio_litroventas;
+        }
 
-    	$totalLitros = $litrosventas - $jarrasventas;
-    	$importeTotal = $totalLitros * $precio_litroventas;
+        $totalLitros = $litrosventas - $jarrasventas;
+        $importeTotal = $totalLitros * $precio_litroventas;
 
-		$SubTLitros = $SubTLitros + $litros;
-		$SubJarras = $SubJarras + $jarras;
-		$SubTotalLitros = $SubTotalLitros + $totalLitros;
-		$SubImporteTotal = $SubImporteTotal + $importeTotal;
+        $SubTLitros = $SubTLitros + $litros;
+        $SubJarras = $SubJarras + $jarras;
+        $SubTotalLitros = $SubTotalLitros + $totalLitros;
+        $SubImporteTotal = $SubImporteTotal + $importeTotal;
     }
 
     $sql_listaotros = "SELECT importe FROM op_ventas_dia_otros WHERE idreporte_dia = '".$idReporte."' ";
@@ -444,42 +454,45 @@ function DiferenciaTotal($idReporte,$con){
     return $resultado;
 }
 //-------------------------------------------------------
-
+ 
 function PagoClientes($idReporte,$con){
 
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
-	<th class="text-center">CONCEPTO</th>
-	<th class="text-center">IMPORTE</th>
-	<th class="text-center">NOTA</th>
-	</tr>
+    <th class="text-center">CONCEPTO</th>
+    <th class="text-center">IMPORTE</th>
+    <th class="text-center">NOTA</th>
+    </tr>
 </thead>
 <tbody>';
 
-	$sql_listaclientes = "SELECT id,concepto,nota,importe FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
+
+
+
+    $sql_listaclientes = "SELECT id,concepto,nota,importe FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaclientes = mysqli_query($con, $sql_listaclientes);
     while($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASSOC)){
 
-		$idPagoCliente = $row_listaclientes['id'];
-		$concepto = $row_listaclientes['concepto'];
-		$nota = $row_listaclientes['nota'];
+        $idPagoCliente = $row_listaclientes['id'];
+        $concepto = $row_listaclientes['concepto'];
+        $nota = $row_listaclientes['nota'];
 
-		
-    	$importe = $row_listaclientes['importe'];
+        
+        $importe = $row_listaclientes['importe'];
 
         $totalImporte = $totalImporte + $importe;
 
 
 
 $resultado .= '<tr>
-    	<td class="align-middle">'.$concepto.'</td>
-    	<td class="p-1 align-middle text-right">
-    	'.number_format($importe,2).'
-    	</td>
-    	<td class="p-1 align-middle">
-    	'.$nota.'
-    	</td>
+        <td class="align-middle">'.$concepto.'</td>
+        <td class="p-1 align-middle text-right">
+        '.number_format($importe,2).'
+        </td>
+        <td class="p-1 align-middle">
+        '.$nota.'
+        </td>
     </tr>';
 
     }
@@ -493,7 +506,7 @@ $resultado .= '<tr>
 </tbody>
 </table>';
 
-	return $resultado;
+    return $resultado;
 }
 //-----------------------------------------------------
 function DiferenciaPC($idReporte,$con){
@@ -520,40 +533,73 @@ $resultado = number_format($pago - $totalImporte,2);
 return $resultado;
 }
 
-function Firma($idReporte,$detalle,$rutafirma,$con){
-
+function Firma($idReporte, $detalle, $rutafirma, $con) {
   $sql_firma = "SELECT 
-op_corte_dia_firmas.id_usuario, 
-op_corte_dia_firmas.firma,
-tb_usuarios.nombre
-FROM op_corte_dia_firmas
-INNER JOIN tb_usuarios
-ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '".$idReporte."' AND detalle = '".$detalle."' ";
-   $result_firma = mysqli_query($con, $sql_firma);
-   while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-   $nombre = $row_firma['nombre'];
-   $firma = $rutafirma.$row_firma['firma'];
-   }
+      op_corte_dia_firmas.id_usuario, 
+      op_corte_dia_firmas.firma,
+      op_corte_dia_firmas.fecha,
+      tb_usuarios.nombre
+      FROM op_corte_dia_firmas
+      INNER JOIN tb_usuarios
+      ON op_corte_dia_firmas.id_usuario = tb_usuarios.id 
+      WHERE id_reportedia  = '".$idReporte."' AND detalle = '".$detalle."' ";
+  $result_firma = mysqli_query($con, $sql_firma);
+  $contenido = ''; // Inicializar la variable $contenido
+  
+  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
+      $nombre = $row_firma['nombre'];
+      $firma = $rutafirma.$row_firma['firma'];
+      $explode = explode(' ', $row_firma['fecha']);
 
-   $DataImagen = file_get_contents($firma);
-   $baseImagen = 'data:image/' . $type . ';base64,' . base64_encode($DataImagen); 
+      if($detalle == "Elaboró"){
 
-   if ($firma != "") {
-    
-   $contenido .= '<div class="text-center mt-1">';
-   $contenido .= '<img src="'.$baseImagen.'" width="140px" height="60px">';
-   $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>'.$nombre.'</b></div>';
-   $contenido .= '</div>';
+        if (!empty($firma)) { // Verificar si $firma no está vacío
+          $DataImagen = file_get_contents($firma);
+          $type = pathinfo($firma, PATHINFO_EXTENSION); // Obtener la extensión del archivo
+          $baseImagen = 'data:image/' . $type . ';base64,' . base64_encode($DataImagen); 
+          
+          $contenido .= '<div class="text-center mt-1">';
+          $contenido .= '<img src="'.$baseImagen.'" width="140px" height="60px">';
+          $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>'.$nombre.'</b></div>';
+          $contenido .= '</div>';
+      }
 
-   }
-   return $contenido;
 
+    }else if($detalle == "Superviso" || $detalle == "VoBo"){
+      
+    $Detalles = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+
+    $contenido .= '<div class="text-center mt-2">';
+    $contenido .= $Detalles;
+    $contenido .= '<div class="mb-1 text-center pt-3"><b>'.$nombre.'</b></div>';
+    $contenido .= '</div>';
+
+  
+    }
+
+
+  }
+  
+  return $contenido;
 }
 
 
+
+// Include Dompdf required namespaces
 use Dompdf\Dompdf;
+//use Dompdf\Options;
+
+// Create an instance of Options
+// $options = new Options();
+
+// Enable remote file access
+//$options->set('isRemoteEnabled', true);
+
+// Instantiate Dompdf with options
 $dompdf = new Dompdf();
 
+ 
+$contenido = '';
 $contenido .= '<html lang="es">';
 $contenido .= '<head>';
 $contenido .= '<style type="text/css">';
@@ -852,6 +898,7 @@ $contenido .= '</tbody>';
 $contenido .= '</tr>';
 $contenido .= '</table>';
 
+
 $contenido .= '
 <table class="table table-bordered table-sm pb-0 mb-0">
 <tr>
@@ -871,6 +918,7 @@ $contenido .= '
 </table>
 ';
 
+
 $contenido .= '</body>';
 $contenido .= '</head>';
 $contenido .= '</html>';
@@ -878,5 +926,7 @@ $contenido .= '</html>';
 $dompdf->loadHtml($contenido);
 $dompdf->setPaper("A4", "portrait");
 $dompdf->render();
+//$canvas = $dompdf->get_canvas();
+//$canvas->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", "Arial", 6, array(0,0,0));
 $dompdf->get_canvas()->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font, 6, array(0,0,0));
 $dompdf->stream("Corte ".FormatoFecha($dia).".pdf");

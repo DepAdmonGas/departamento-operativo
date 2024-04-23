@@ -5,6 +5,10 @@ require('../../../app/help.php');
 
 	$sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$idReporte."' ";
     $result_listayear = mysqli_query($con, $sql_listayear);
+	$SubImporteTotal = 0;
+	$SubTLitros = 0;
+	$SubJarras = 0;
+	$SubTotalLitros = 0;
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
 
     	$idventas = $row_listayear['id'];
@@ -13,23 +17,19 @@ require('../../../app/help.php');
     	$jarrasventas = $row_listayear['jarras'];
     	$precio_litroventas = $row_listayear['precio_litro'];
 
- 
+		$litros = 0;
+		$jarras = 0;
+		$preciolitro = 0;
 
-    	if ($litrosventas == 0) {
-    		$litros = "";
-    	}else{
+    	if ($litrosventas != 0) {
     		$litros =  $litrosventas;
     	}
 
-    	if ($jarrasventas == 0) {
-    		$jarras = "";
-    	}else{
+    	if ($jarrasventas != 0) {
     		$jarras = $jarrasventas;
     	}
 
-    	if ($precio_litroventas == 0) {
-    		$preciolitro = "";
-    	}else{
+    	if ($precio_litroventas != 0) {
     		$preciolitro = $precio_litroventas;
     	}
 
@@ -44,9 +44,10 @@ require('../../../app/help.php');
 
     $sql_listaotros = "SELECT * FROM op_ventas_dia_otros WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaotros = mysqli_query($con, $sql_listaotros);
-    while($row_listaotros = mysqli_fetch_array($result_listaotros, MYSQLI_ASSOC)){
+    $sumImporte = 0;
+	while($row_listaotros = mysqli_fetch_array($result_listaotros, MYSQLI_ASSOC)){
 
-   $importe = $row_listaotros['importe'];
+   	$importe = $row_listaotros['importe'];
 
     $sumImporte = $sumImporte + $importe;
 

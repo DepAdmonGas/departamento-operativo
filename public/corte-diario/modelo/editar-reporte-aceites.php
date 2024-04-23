@@ -14,7 +14,7 @@ if ($_POST['type'] == "pedido") {
 	}
 
 }
-else if ($_POST['type'] == "ventas") {
+/*else if ($_POST['type'] == "ventas") {
 	
 	$sql = "UPDATE op_aceites_lubricantes_reporte SET ventas ='".$_POST['ventas']."' WHERE id='".$_POST['idaceite']."' ";
 
@@ -24,7 +24,7 @@ else if ($_POST['type'] == "ventas") {
 	  echo 0;
 	}
 
-}
+}*/
 else if ($_POST['type'] == "fisicobodega") {
 	
 	$sql = "UPDATE op_aceites_lubricantes_reporte SET inventario_bodega ='".$_POST['fisico']."' WHERE id='".$_POST['idaceite']."' ";

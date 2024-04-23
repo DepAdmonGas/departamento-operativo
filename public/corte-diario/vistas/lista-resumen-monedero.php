@@ -7,6 +7,7 @@ $GET_mes = $_GET['mes'];
     function TarjetasCB($idReporte,$concepto,$con){
     $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
     $result_cb = mysqli_query($con, $sql_cb);
+    $baucher = 0;
     while($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)){
     $baucher = $row_cb['baucher'];
     }
@@ -142,6 +143,10 @@ $GTVales = 0;
     $sql_CCPC = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idDias."' AND concepto = 'CRÉDITO (ANEXO)' LIMIT 1 ";
     $result_CCPC = mysqli_query($con, $sql_CCPC);
     $numero_CCPC = mysqli_num_rows($result_CCPC);
+    $Tovalaccord =0;
+    $Tovalefectivale =0;
+    $Tovalsodexo =0;
+    $Tovalvale =0;
     if ($numero_CCPC == 1) {
     while($row_CCPC = mysqli_fetch_array($result_CCPC, MYSQLI_ASSOC)){
     $pagoC = $row_CCPC['pago'];

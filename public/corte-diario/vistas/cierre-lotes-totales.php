@@ -6,6 +6,8 @@ require('../../../app/help.php');
 
  $sql_listacierre = "SELECT * FROM op_cierre_lote WHERE idreporte_dia = '".$idReporte."' AND empresa = '".$empresa."' ";
     $result_listacierre = mysqli_query($con, $sql_listacierre);
+    $TotalImporte =0;
+    $TotalTicket = 0;
     while($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC)){
 
         $TotalImporte = $TotalImporte + $row_listacierre['importe'];

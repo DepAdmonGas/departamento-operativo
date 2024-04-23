@@ -1,6 +1,6 @@
 <?php
 require('app/help.php');
-
+error_reporting(0);
 if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
@@ -54,7 +54,7 @@ header("Location:".PORTAL."");
   $('#Modal').modal('show');
   }
 
-  function Guardar(){
+  function Guardar(sessionidEstacion){
 
   var Cuenta = $('#Cuenta').val();
   var Cliente = $('#Cliente').val();
@@ -78,40 +78,41 @@ header("Location:".PORTAL."");
   Identificacion_filePath = Identificacion.value;
 
   var data = new FormData();
-  var url = '../../../public/corte-diario/modelo/agregar-cliente.php';
+  data.append("idestacion", sessionidEstacion);
+  data.append("accion", "agregar-cliente");
+  var url='../../../app/controlador/controladorCorteDiario.php';
+  //var url = '../../../public/corte-diario/modelo/agregar-cliente.php';
 
   if (Tipo != "") {
-  $('#Tipo').css('border','');
+    $('#Tipo').css('border','');
 
-  data.append('Cuenta', Cuenta);
-  data.append('Cliente', Cliente);
-  data.append('Tipo', Tipo);
-  data.append('RFC', RFC);
-  data.append('CartaCredito_file', CartaCredito_file);
-  data.append('ActaConstitutiva_file', ActaConstitutiva_file);
-  data.append('ComprobanteDom_file', ComprobanteDom_file);
-  data.append('Identificacion_file', Identificacion_file);
-  
-    $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false
-    }).done(function(response){
+    data.append('Cuenta', Cuenta);
+    data.append('Cliente', Cliente);
+    data.append('Tipo', Tipo);
+    data.append('RFC', RFC);
+    data.append('CartaCredito_file', CartaCredito_file);
+    data.append('ActaConstitutiva_file', ActaConstitutiva_file);
+    data.append('ComprobanteDom_file', ComprobanteDom_file);
+    data.append('Identificacion_file', Identificacion_file);
+    
+      $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false
+      }).done(function(response){
+      if (response == 1) {
+      $('#Modal').modal('hide');
+      ListaClientes(<?=$Session_IDEstacion;?>);
+      alertify.success('Cliente agregado exitosamente.')
 
-    if (response == 1) {
-    $('#Modal').modal('hide');
-    ListaClientes(<?=$Session_IDEstacion;?>);
-    alertify.success('Cliente agregado exitosamente.')
-
-    $('#Cuenta').val('');
-    $('#Cliente').val('');
-    $('#Tipo').val('');
-
+      $('#Cuenta').val('');
+      $('#Cliente').val('');
+      $('#Tipo').val('');
     }else{
-    alertify.error('Error al agregar cliente')
+      alertify.error('Error al agregar cliente')
     }
 
     });
@@ -151,8 +152,10 @@ header("Location:".PORTAL."");
   Identificacion_filePath = Identificacion.value;
 
   var data = new FormData();
-  var url = '../../../public/corte-diario/modelo/editar-cliente.php';
-
+  
+  //var url = '../../../public/corte-diario/modelo/editar-cliente.php';
+  var url='../../../app/controlador/controladorCorteDiario.php';
+  data.append('accion','editar-cliente-credito');
   data.append('idCliente', idCliente);
   data.append('Cuenta', Cuenta);
   data.append('Cliente', Cliente);
@@ -172,7 +175,6 @@ header("Location:".PORTAL."");
     processData: false,
     cache: false
     }).done(function(response){
-
     if (response == 1) {
     $('#ModalEditar').modal('hide');
     ListaClientes(<?=$Session_IDEstacion;?>);
@@ -212,8 +214,9 @@ SelCredito.style.display = "none";
 
 
   var data = new FormData();
-  var url = '../../../public/corte-diario/modelo/editar-cliente-debito.php';
-
+  //var url = '../../../public/corte-diario/modelo/editar-cliente-debito.php';
+  var url='../../../app/controlador/controladorCorteDiario.php';
+  data.append('accion','editar-cliente-debito');
   data.append('idCliente', idCliente);
   data.append('Cuenta', Cuenta);
   data.append('Cliente', Cliente);
@@ -227,7 +230,6 @@ SelCredito.style.display = "none";
     processData: false,
     cache: false
     }).done(function(response){
-
     if (response == 1) {
     $('#ModalEditar').modal('hide');
     ListaClientes(<?=$Session_IDEstacion;?>);
@@ -341,7 +343,7 @@ SelCredito.style.display = "none";
     
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+      <button type="button" class="btn btn-primary" onclick="Guardar(<?=$Session_IDEstacion;?>)">Guardar</button>
       </div>
     </div>
   </div>

@@ -40,6 +40,7 @@ $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = '".$idReporte."' LIMIT 1 
 
 	$sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
+    $totalImporte = 0;
     while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
 
 		$idProsegur = $row_listaprosegur['id'];

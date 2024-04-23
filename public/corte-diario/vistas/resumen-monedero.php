@@ -141,7 +141,9 @@ function Edi(IdReporte,id){
     var Complemento = $('#Complemento').val();
 
     var data = new FormData();
+    data.append("accion", "guardar-documento-edi");
     var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
+    //var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
 
     PDF = document.getElementById("PDF");
     PDF_file = PDF.files[0];

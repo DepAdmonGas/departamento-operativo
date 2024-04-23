@@ -7,7 +7,7 @@ $idEstacion = $_GET['idEstacion'];
 $sql_lista = "SELECT * FROM op_control_volumetrico_prefijos WHERE id_mes = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
-
+$suma = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $serie = $row_lista['serie'];
@@ -23,6 +23,14 @@ $suma = $suma + $total;
 $sql_lista = "SELECT * FROM op_control_volumetrico_resumen WHERE id_mes = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+$GTdato3 = 0;
+$GTdato4 = 0;
+$GTdato5 = 0;
+$GTdato6 = 0;
+$GTdato7 = 0;
+$GTdato8 = 0;
+$GTdato9 = 0;
+$GTdato10 = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $producto = $row_lista['producto'];
@@ -145,7 +153,7 @@ function Aceites($IdReporte,$con){
 $sql_lista = "SELECT * FROM op_control_volumetrico_prefijos WHERE id_mes = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
-
+$SumGasolina = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $serie = $row_lista['serie'];

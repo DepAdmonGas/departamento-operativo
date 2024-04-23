@@ -88,7 +88,9 @@ header("Location:".PORTAL."");
 
   var agregar = 0;
   var data = new FormData();
-  var url = '../../../public/corte-diario/modelo/agregar-pagos.php';
+  data.append('accion','agregar-pagos-cliente');
+  var url = '../../../app/controlador/controladorCorteDiario.php';
+  //var url = '../../../public/corte-diario/modelo/agregar-pagos.php';
 
   var Cliente = $('#Cliente').val();
   var Total = $('#Total').val();
@@ -166,7 +168,6 @@ if (FormaPago == "Tarjeta") {
     processData: false,
     cache: false
     }).done(function(data){
-
     if (data == 1) {
 
     $('#Modal').modal('hide');
@@ -223,12 +224,14 @@ if (FormaPago == "Tarjeta") {
   "idReporte" : idReporte,
     "Cliente" : Cliente,
     "Total" : Total,
-    "Tipo" : Tipo
+    "Tipo" : Tipo,
+    "accion" : "agregar-consumos-cliente"
     };
 
            $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/agregar-consumos.php',
+     url : '../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/agregar-consumos.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -236,7 +239,6 @@ if (FormaPago == "Tarjeta") {
     
      },
      success:  function (response) {
-
     if (response == 1) {
     $('#Modal').modal('hide');
     
@@ -268,20 +270,18 @@ if (FormaPago == "Tarjeta") {
 
 var parametros = {
   "idReporte" : idReporte,
-    "id" : id
+    "id" : id,
+    "accion" : "eliminar-consumo-pago"
     };
 
        $.ajax({
      data:  parametros,
-     url:   '../../../public/corte-diario/modelo/eliminar-consumos-pagos.php',
+     url:'../../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../../public/corte-diario/modelo/eliminar-consumos-pagos.php',
      type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
+     beforeSend: function() {},
+     complete: function(){},
      success:  function (response) {
-
     if (response == 1) {
    
     ListaConsumoPago(idReporte);

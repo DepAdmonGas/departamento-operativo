@@ -5,6 +5,7 @@ require('../../../app/help.php');
 
     $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' ";
     $result_listatarjetas = mysqli_query($con, $sql_listatarjetas);
+    $baucherTotal = 0;
     while($row_listatarjetas = mysqli_fetch_array($result_listatarjetas, MYSQLI_ASSOC)){
     
 

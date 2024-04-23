@@ -7,6 +7,19 @@ $GET_mes = $_GET['Mes'];
 $sql_lista = "SELECT * FROM op_control_volumetrico_resumen WHERE id_mes = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+$GTdato3 = 0;
+$GTdato4 = 0;
+$GTdato5 = 0;
+$GTdato6 = 0;
+$GTdato7 = 0;
+$GTdato8 = 0;
+$GTdato9 = 0;
+$GTdato10 = 0;
+
+$GTdato11 = 0;
+$GTdato12 = 0;
+$GTdato13 = 0;
+$GTdato14 = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $producto = $row_lista['producto'];
@@ -109,18 +122,15 @@ $color7 = "text-danger";
 
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
-    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+    $cantidad = 0;
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)):
       $id = $row_listaaceite['id'];
-
-       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
-    $result_listatotal = mysqli_query($con, $sql_listatotal);
-    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
-      $cantidad = $cantidad + $row_listatotal['cantidad'];
-
-
-    }
-
-    }
+      $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+      $result_listatotal = mysqli_query($con, $sql_listatotal);
+      while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)):
+        $cantidad = $cantidad + $row_listatotal['cantidad'];
+      endwhile;
+    endwhile;
 
     return $cantidad;
 
@@ -130,6 +140,8 @@ function Aceites($IdReporte,$con){
 
     $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
+    $TotAceites = 0;
+    $Grantotal = 0;
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
     $noaceite = $row_listaaceites['id_aceite'];
     $preciou = $row_listaaceites['precio'];

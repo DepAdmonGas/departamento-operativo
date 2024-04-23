@@ -55,6 +55,7 @@ header("Location:".PORTAL."");
    function TarjetasCB($idReporte,$concepto,$con){
     $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
     $result_cb = mysqli_query($con, $sql_cb);
+    $baucher = 0;
     while($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)){
     $baucher = $row_cb['baucher'];
     }
@@ -90,14 +91,14 @@ header("Location:".PORTAL."");
     $pagoC = $row_CCPC['pago'];
     $consumoC = $row_CCPC['consumo'];
     }
-
     $sql_CDPC = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$GET_idReporte."' AND concepto = 'DEBITO (ANEXO)' LIMIT 1 ";
     $result_CDPC = mysqli_query($con, $sql_CDPC);
     while($row_CDPC = mysqli_fetch_array($result_CDPC, MYSQLI_ASSOC)){
     $pagoD = $row_CDPC['pago'];
     $consumoD = $row_CDPC['consumo'];
     }
-
+    $totalPago = $pagoC + $pagoD;
+    $totalConsumo = $consumoC + $consumoD;
 
     function fechaReporte($GET_idReporte,$con){
 

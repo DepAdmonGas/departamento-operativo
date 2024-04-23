@@ -79,6 +79,10 @@ echo '<div class="text-end mb-3">
 <tbody>
 <?php
 if ($numero_credito > 0) {
+    $TSIC = 0;
+    $TCC = 0;
+    $TPC = 0;
+    $TSFC = 0;
 while($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)){
 $id = $row_credito['id'];
 
@@ -147,7 +151,15 @@ echo '<tr><td colspan="2" class="text-center"><small>No se encontró informació
 </thead>
 <tbody>
 <?php
+$TSIC = 0;
+$TCC = 0;
+$TPC = 0;
+$TSFC = 0;
 if ($numero_debito > 0) {
+    $TSID = 0;
+    $TCD = 0;
+    $TPD = 0;
+    $TSFD = 0;
 while($row_debito = mysqli_fetch_array($result_debito, MYSQLI_ASSOC)){
 $id = $row_debito['id'];
 
