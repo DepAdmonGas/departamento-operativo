@@ -1,6 +1,6 @@
 <?php
 require "FormatoFechas.php";
-require "../bd/DataBase.php";
+require "../bd/inc.conexion.php";
 class CorteDiario extends Exception
 {
     private $classConexionBD;

@@ -2,7 +2,7 @@
 include_once 'lib/jwt/vendor/autoload.php';
 include_once "config/inc.configuracion.php";
 include_once "config/ConfiguracionSesiones.php";
-include_once "bd/Database.php";
+include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
 
 use Firebase\JWT\JWT;
