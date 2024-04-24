@@ -103,6 +103,7 @@ header("Location:".PORTAL."");
       processData: false,
       cache: false
       }).done(function(response){
+        console.log(response);
       if (response == 1) {
       $('#Modal').modal('hide');
       ListaClientes(<?=$Session_IDEstacion;?>);

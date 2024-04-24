@@ -940,7 +940,7 @@ function Aceites(year,mes,idReporte,idEstacion){
 
     var cantidad = $("#cantidadAL-" + idAceite).val();
     var precio = $("#precioAL-" + idAceite).val();
-    var precio = $("#precioAL-" + idAceite).text();
+    //var precio = $("#precioAL-" + idAceite).text();
 
     if (cantidad == "") {
       valcantidad = 0;

@@ -103,11 +103,11 @@ $sql_listacierre = "SELECT * FROM op_cierre_lote WHERE idreporte_dia = '".$idRep
         if ($estado == 0) {
         ?>
 
-        <img class="pointer" src="<?=RUTA_IMG_ICONOS;?>info-24-tb.png" onclick="Pendiente('<?=$idReporte;?>','<?=$idCierre;?>','<?=$empresa;?>')">
+        <img class="pointer" src="<?=RUTA_IMG_ICONOS;?>info-24-tb.png" onclick="Pendiente('<?=$idReporte;?>','<?=$idCierre;?>','<?=$empresa;?>',1)">
         <?php
         }else{
         ?>
-         <img class="pointer" src="<?=RUTA_IMG_ICONOS;?>info-24-red-tb.png" onclick="Activar('<?=$idReporte;?>','<?=$idCierre;?>','<?=$empresa;?>')">
+         <img class="pointer" src="<?=RUTA_IMG_ICONOS;?>info-24-red-tb.png" onclick="Pendiente('<?=$idReporte;?>','<?=$idCierre;?>','<?=$empresa;?>',0)">
         <?php
         }
         ?>

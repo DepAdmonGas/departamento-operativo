@@ -7,6 +7,7 @@ $id = $_GET['id'];
 $sql_lista = "SELECT * FROM op_monedero_documento WHERE id = '".$id."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+$monedero = '';
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $fecha = $row_lista['fecha']; 
 $monedero = $row_lista['monedero']; 

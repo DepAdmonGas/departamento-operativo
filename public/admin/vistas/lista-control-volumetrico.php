@@ -1,4 +1,5 @@
 <?php
+
 require('../../../app/help.php');
 
 $IdReporte = $_GET['IdReporte'];

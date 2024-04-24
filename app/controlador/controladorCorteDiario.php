@@ -6,7 +6,7 @@ switch($_POST['accion']):
     /**  
      *               Corte Ventas
      * 
-    */
+    */ 
     case 'nuevo-concentrado-ventas-otros':
         $sessionIdEstacion = $_POST['sessionIdEstacion'];
         $idReporte = $_POST['idReporte'];
@@ -160,6 +160,7 @@ switch($_POST['accion']):
     case 'eliminar-consumo-pago':
         $id = $_POST['id'];
         echo $CorteDiario->elimarConsumosPagos($id);
+        break;
     case 'agregar-cliente':
         $idEstacion = $_POST['idestacion'];
         $cuenta = $_POST['Cuenta'];
@@ -193,6 +194,10 @@ switch($_POST['accion']):
         $id=$_POST['idCliente'];
         echo $CorteDiario->editarClienteDebito($cuenta,$cliente,$tipo,$id);
         break;
+        case 'finaliza-resumen-cliente-mes':
+            $id = $_POST['IdReporte'];
+            $CorteDiario->finalizaResumenClientesMes($id);
+            break;
         /**
          * 
          *              ACEITES
@@ -234,5 +239,109 @@ switch($_POST['accion']):
         $nombreEstacion = $_POST['nombreEstacion'];
         echo $CorteDiario->finalizarAceite($idEstacion,$idReporte,$nombreEstacion);
         break;
+    case 'agregar-factura-archivo-aceite':
+        $factura = $_FILES['Factura_file'] ?? [''];
+        $year = $_POST['year'];
+        $mes = $_POST['mes'];
+        $id = $_POST['IdReporte'];
+        $fechaAceite = $_POST['fechaAceite'];
+        $conceptoAceite = $_POST['conceptoAceite'];
+        echo $CorteDiario->agregarFacturaArchivoAceite($id,$fechaAceite, $conceptoAceite, $factura, $mes,$year);
+        break;
+    case 'eliminar-factura-archivo-aceite':
+        $id = $_POST['id'];
+        echo $CorteDiario->eliminarFacturaArchivoAceite( $id );
+        break;
+    /**
+     * 
+     *      MONEDEROS
+     * 
+     * 
+     */
+    case 'editar-documento-monedero':
+        $id = $_POST['id'];
+        $fecha = $_POST['Fecha'];
+        $monedero = $_POST['Cilote'];
+        $diferencia = $_POST['Diferencia'];
+        $pdf = $_FILES['PDF_file'] ?? [''];
+        $xml = $_FILES['XML_file'] ?? [''];
+        $excel = $_FILES['EXCEL_file'] ?? [''];
+        $doc = [$pdf,$xml,$excel];
+        $CorteDiario->agregarDocumentoMonedero($doc, $id, $fecha, $monedero,$diferencia);
+        break;
+    case 'guardar-documento-edi':
+        $id = $_POST['id'];
+        $complemento = $_POST['Complemento'];
+        $pdf  = $_FILES['PDF_file'] ?? [''];
+        $xml  = $_FILES['XML_file'] ?? [''];
+        $doc = [$pdf,$xml];
+        echo $CorteDiario->agregarDocumentoEdi($doc,$id,$complemento);
+        break;
+    /**
+     * 
+     *      EMBARQUES
+     * 
+     * 
+     * 
+     */
+    case 'agregar-comentario-embarques':
+        $idEmbarque = $_POST['id'];
+        $idEstacion = $_POST['idEstacion'];
+        $comentario = $_POST['Comentario'];
+        echo $CorteDiario->agregarComentarioEmbarques($idEmbarque, $idEstacion, $comentario);
+        break;
+    case 'agregar-embarque':
+        $idReporte = $_POST['IdReporte'] ?? "";
+        $fecha = $_POST['Fecha'] ?? "";
+        $embarque = $_POST['Embarque'] ?? "";
+        $noDocumento = $_POST['NoDocumento'] ?? "";
+        $importe = $_POST['ImporteF'] ?? "";
+        $merma = $_POST['Merma'] ?? "";
+        $nombreTransporte = $_POST['NombreTransporte'] ?? "";
+        $producto = $_POST['Producto'] ?? "";
+        $chofer = $_POST['Chofer'] ?? "";
+        $unidad = $_POST['Unidad'] ?? "";
+        $precioLitro = $_POST['PrecioLitro'] ?? "";
+        $tad = $_POST['Tad'] ?? "";
+        $valores = [$idReporte,$fecha,$embarque,$noDocumento,$importe,$merma, $nombreTransporte,$producto,$chofer, $unidad,$precioLitro, $tad];
+        $file = $_FILES['Documento_file']??[''];
+        $pdf = $_FILES['PDF_file']??[''];
+        $xml = $_FILES['XML_file']??[''];
+        $copa = $_FILES['CoPa_file']??[''];
+        $ncpdf = $_FILES['NCPDF_file']??[''];
+        $ncxml = $_FILES['NCXML_file']??[''];
+        $compdf = $_FILES['ComPDF_file']??[''];
+        $comxml = $_FILES['ComXML_file']??[''];
+        $doc = [$file,$pdf, $xml,$copa,$ncpdf,$ncxml, $compdf,$comxml];
+        echo $CorteDiario->agregarEmbarques($doc,$valores);
+        break;
+    case 'elimina-embarque':
+        $id = $_POST['id'];
+        echo $CorteDiario->eliminaEmbarque($id);
+        break;
+    case 'actualiza-embarque':
+        $fecha = $_POST['Fecha'] ?? "";
+        $embarque = $_POST['Embarque'] ?? "";
+        $noDocumento = $_POST['NoDocumento'] ?? "";
+        $importe = $_POST['ImporteF'] ?? "";
+        $merma = $_POST['Merma'] ?? "";
+        $nombreTransporte = $_POST['NombreTransporte'] ?? "";
+        $producto = $_POST['Producto'] ?? "";
+        $chofer = $_POST['Chofer'] ?? "";
+        $unidad = $_POST['Unidad'] ?? "";
+        $precioLitro = $_POST['PrecioLitro'] ?? "";
+        $tad = $_POST['Tad'] ?? "";
+        $id = $_POST['id'] ?? "";
+        $valores = [$fecha,$embarque,$noDocumento,$importe,$merma, $nombreTransporte,$producto,$chofer, $unidad,$precioLitro, $tad,$id];
+        $file = $_FILES['Documento_file']??[''];
+        $pdf = $_FILES['PDF_file']??[''];
+        $xml = $_FILES['XML_file']??[''];
+        $copa = $_FILES['CoPa_file']??[''];
+        $ncpdf = $_FILES['NCPDF_file']??[''];
+        $ncxml = $_FILES['NCXML_file']??[''];
+        $compdf = $_FILES['ComPDF_file']??[''];
+        $comxml = $_FILES['ComXML_file']??[''];
+        $doc = [$file,$pdf, $xml,$copa,$ncpdf,$ncxml, $compdf,$comxml];
+        echo $CorteDiario->actualizaEmbarque($doc,$valores);
+        break;
     endswitch;
-?>

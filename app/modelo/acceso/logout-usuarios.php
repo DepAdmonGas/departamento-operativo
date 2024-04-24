@@ -9,4 +9,3 @@ setcookie('COOKIEADMONGAS', '', time() - 1, '/');
 //Redireccionamos a el index
 header("Location:".PORTAL);
 die();
-?> 

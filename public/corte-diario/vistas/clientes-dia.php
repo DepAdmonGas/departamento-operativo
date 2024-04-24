@@ -282,7 +282,9 @@ var parametros = {
      beforeSend: function() {},
      complete: function(){},
      success:  function (response) {
-    if (response == 1) {
+
+      if (response == 1) {
+      
    
     ListaConsumoPago(idReporte);
      alertify.success('Registro eliminado exitosamente.')
