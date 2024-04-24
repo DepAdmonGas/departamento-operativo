@@ -2,7 +2,7 @@
 require "FormatoFechas.php";
 require "../bd/inc.conexion.php";
 class CorteDiario extends Exception
-{
+{ 
     private $classConexionBD;
     private $con;
     private $formato;
@@ -93,8 +93,7 @@ class CorteDiario extends Exception
             $denominacion2,
             $denominacion3,
             $denominacion4,
-            $denominacion5
-            ,
+            $denominacion5,
             $denominacion6,
             $denominacion7,
             $denominacion8,
@@ -1130,7 +1129,8 @@ class CorteDiario extends Exception
     {
         $result = true;
         $pdfNombre = "";
-        if ($file != ""):
+        
+        if (!empty($file) && isset($file['name'])):
             $archivo = $file['name'];
             $aleatorio = uniqid();
             $upload_folder = "../../archivos/" . $aleatorio . "-" . $archivo;
@@ -1332,6 +1332,19 @@ class CorteDiario extends Exception
         $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
+    }
+    public function finalizaResumenClientesMes(int $id):void {
+        $sql = "INSERT INTO op_consumos_pagos_resumen_finalizar (id_mes) VALUES(?)";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+        endif;
+        $stmt->bind_param("i", $id);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
     }
     /**
      * 
@@ -1647,13 +1660,13 @@ class CorteDiario extends Exception
             VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
         if (!$stmt) :
-            throw new Exception("Error al preparar la consulta SQL: " . $stmt->error);
+            throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
         endif;
         $stmt->bind_param("isssisssi", $idReporte,$fechaDia,$documentoFicha,$fechaFicha,$puntajeFicha
                                 ,$documentoImagen,$documentoFactura,$fechaFactura,$puntajeFactura);
         if (!$stmt->execute()) :
             $result = true;
-            throw new Exception("Error al ejecutar la consulta SQL: " . $this->con->error);
+            throw new Exception("Error al ejecutar la consulta SQL: " .$stmt->error );
         endif;
         $stmt->close();
         $this->classConexionBD->disconnect();
@@ -1757,93 +1770,453 @@ class CorteDiario extends Exception
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function agregarFacturaArchivoAceite(): void 
-    {
+    public function agregarFacturaArchivoAceite(int $id, string $fechaAceite, string $conceptoAceite, array $archivo, int $mes,int $year): bool {
+        $result = true;
+        $aleatorio = uniqid();
+        $upload_Factura = "";
+        $documentoFactura = "";
+        if (!empty($archivo) && isset($archivo['name'])) :
+            $factura = $archivo['name'];
+            $upload_Factura = "../../archivos/aceites-facturas/" . $aleatorio . "-" . $factura;
+            $documentoFactura = $aleatorio . "-" . $factura;
+            move_uploaded_file($archivo['tmp_name'], $upload_Factura);
+        endif;
 
+        $mes_formateado = sprintf("%02d", $mes);
+        
+        $fecha_20 = date("$year-$mes_formateado-20");
+        $fecha_25 = date("$year-$mes_formateado-25");
+        $fecha_28 = date("$year-$mes_formateado-28");
+        
+        $fecha_actual = date("Y-m-d");
+        $puntaje = 0;
+        if ($fecha_actual <= $fecha_20) :
+            $puntaje = 3;
+        elseif ($fecha_actual > $fecha_20 && $fecha_actual <= $fecha_25) :
+            $puntaje = 2;
+        elseif($fecha_actual > $fecha_25 && $fecha_actual <= $fecha_28) :
+            $puntaje = 1;
+        endif;
+        
+        $sql_insert = "INSERT INTO op_aceites_factura (
+            id_mes,
+            fecha,
+            nombre_anexo,
+            archivo,
+            fecha_evaluacion,
+            puntaje
+            ) VALUES (?,?,?,?,?,?)";
+        $stmt = $this->con->prepare($sql_insert);
+        if(! $stmt) :
+            throw new Exception("Error al preparar la consulta ". $stmt->error);
+        endif;
+        $stmt->bind_param("issssi", $id,$fechaAceite,$conceptoAceite,$documentoFactura,$fecha_actual,$puntaje);
+        if(!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta". $this->con->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
     }
-    public function eliminarFacturaArchivoAceite() : void 
-    {
-
+    public function eliminarFacturaArchivoAceite($id) : bool {
+        $result = true;
+        $sql = "DELETE FROM op_aceites_factura WHERE id = ? ";
+        $stmt = $this->con->prepare($sql);
+        if(! $stmt) :
+            throw new Exception("Error al preparar la consulta ".$this->con->error );
+        endif;
+        $stmt->bind_param("i", $id);
+        if(!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta".$stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
     }
 
-
-
-
-
-
-
-
-    public function agregarComentarioEmbarques(int $sessionIdUsuario, int $id, string $comentario): bool
+    /**
+     * 
+     * 
+     * 
+     * MONEDEROS
+     * 
+     * 
+     */
+    public function agregarDocumentoMonedero(array $doc,int $id,string $fecha,string $monedero, float $diferencia): void 
     {
-        $result = false;
-        $sql_insert = "INSERT INTO op_embarques_comentario (
+        $aleatorio = uniqid();
+        $valor = "";
+        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+            $valor = "pdf = ?";
+            $pdf = $doc[0]['name'];
+            $upload_PDF = "../../archivos/".$aleatorio."-".$pdf;
+            $documentoPDF = $aleatorio."-".$pdf;
+            if(move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)) :
+                $this->actualizaDocumentoMonedero($documentoPDF,$id,$valor);
+            endif;
+        endif;
+        if(!empty($doc[1]) && isset($doc[1]['name'])):
+            $valor = "xml = ?";
+            $xml  =   $doc[1]['name'];
+            $upload_XML = "../../archivos/".$aleatorio."-".$xml;
+            $documentoXML = $aleatorio."-".$xml;
+            if(move_uploaded_file($doc[1]['tmp_name'], $upload_XML)) :
+                $this->actualizaDocumentoMonedero($documentoXML,$id,$valor);
+            endif;
+        endif;
+        
+        if(!empty($doc[2]) && isset($doc[2]['name'])):
+            $valor = "excel = ?";
+            $excel  =   $doc[2]['name'];
+            $upload_EXCEL = "../../archivos/".$aleatorio."-".$excel;
+            $documentoEXCEL = $aleatorio."-".$excel;
+            if(move_uploaded_file($doc[2]['tmp_name'], $upload_EXCEL)):
+                $this->actualizaDocumentoMonedero($documentoEXCEL,$id,$valor);
+            endif;
+        endif;
+        
+        $sql = "UPDATE op_monedero_documento SET fecha = ?, monedero = ?, diferencia = ? WHERE id=? ";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("ssdi", $fecha,$monedero,$diferencia,$id);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+    }
+    private function actualizaDocumentoMonedero(string $documento,int $id, string $valor): void {
+        $sql = "UPDATE op_monedero_documento SET $valor WHERE id=?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("si", $documento,$id);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+    }
+    public function agregarDocumentoEdi(array $doc, int $id,string $complemento):void {
+        $sql = "INSERT INTO op_monedero_edi (id_documento,complemento) VALUES (?,?)";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("is",$id,$complemento);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        $aleatorio = uniqid();
+        $valor = "";
+        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+            $valor = "pdf = ?";
+            $pdf = $doc[0]['name'];
+            $upload_PDF = "../../archivos/".$aleatorio."-".$pdf;
+            $documentoPDF = $aleatorio."-".$pdf;
+            if(move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)) :
+                $this->agregarDocumentosEdi($documentoPDF,$id,$valor);
+            endif;
+        endif;
+        if(!empty($doc[1]) && isset($doc[1]['name'])):
+            $valor = "xml = ?";
+            $xml  =   $doc[1]['name'];
+            $upload_XML = "../../archivos/".$aleatorio."-".$xml;
+            $documentoXML = $aleatorio."-".$xml;
+            if(move_uploaded_file($doc[1]['tmp_name'], $upload_XML)) :
+                $this->agregarDocumentosEdi($documentoXML,$id,$valor);
+            endif;
+        endif;
+        
+    }
+    private function agregarDocumentosEdi(string $documento, int $id, string $valor): void {
+        $sql = "UPDATE op_monedero_edi SET $valor WHERE id_documento = ?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("si",$documento,$id);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+    }
+    /***
+     * 
+     * 
+     * 
+     *          EMBARQUES
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+
+    public function agregarComentarioEmbarques(int $idEmbarque, int $idEstacion, string $comentario): bool
+    {
+        $result = true;
+        $sql = "INSERT INTO op_embarques_comentario (
             id_embarques,
             id_usuario,
             comentario
-            )
-            VALUES 
-            (
-            '" . $id . "',
-            '" . $sessionIdUsuario . "',
-            '" . $comentario . "'
-            )";
-        $stmt = $this->con->prepare($sql_insert);
-        if ($stmt->execute()) {
-            $result = true;
-        } else {
-            echo "Error en la consulta SQL: " . $this->con->error;
-        }
+            ) VALUES (?,?,?)";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("iis",$idEmbarque, $idEstacion, $comentario);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
         return $result;
     }
-    public function agregarComentarioSolicitudAditivo(int $sessionIdUsuario, int $idReporte, string $comentario): bool
-    {
-        $result = false;
-        $sql_insert = "INSERT INTO op_solicitud_aditivo_comentario (
-            id_reporte,
-            id_usuario,
-            comentario
+    public function agregarEmbarques(array $doc, array $val ): void {
+        $sql = "INSERT INTO op_embarques (
+            id_mes,
+            fecha,
+            embarque,
+            documentocv,
+            importef,
+            merma,
+            nom_transporte,
+            producto,
+            chofer,
+            unidad,
+            precio_litro,
+            tad
             )
             VALUES 
-            (
-            '" . $idReporte . "',
-            '" . $sessionIdUsuario . "',
-            '" . $comentario . "'
-            )";
-        $stmt = $this->con->prepare($sql_insert);
-        if ($stmt->execute()) {
-            $result = true;
-        } else {
-            echo "Error en la consulta SQL: " . $this->con->error;
-        }
+            (?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("isssddssssds",$val[0], $val[1], $val[2],$val[3],$val[4],$val[5]
+                                        ,$val[6], $val[7], $val[8],$val[9],$val[10],$val[11]);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
         $this->classConexionBD->disconnect();
-        return $result;
-    }
-    public function agregarControlDespacho() 
-    {
+        // Agrega los formatos en caso de requerrilos
         $aleatorio = uniqid();
-        $File = $_FILES['Documento_file']['name'];
-        $upload_folder = "../../../archivos/" . $aleatorio . "-" . $File;
-        // $PDFNombre = $aleatorio . "-" . $File;
-
-        if (move_uploaded_file($_FILES['Documento_file']['tmp_name'], $upload_folder)) {
-
-            $sql_insert = "INSERT INTO op_control_despacho (id_mes,documento) VALUES (?,?)";
-            $stmt = $this->con->prepare($sql_insert);
-            if ($stmt) {
-                $stmt->bind_param("iifsss", $idReporte, $cliente, $total, $tipo, $pago, $comprobante);
-                if ($stmt->execute()) {
-                    $result = true;
-                } else {
-                    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-                }
-                $stmt->close();
-            } else {
-                throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
-            }
-            $this->classConexionBD->disconnect();
-            return $result;
-        }
+        $valor = "";
+        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+            $valor = "documento = ?";
+            $docu = $doc[0]['name'];
+            $documento = "../../archivos/".$aleatorio."-".$docu;
+            $documentoPDF = $aleatorio."-".$docu;
+            if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
+                $this->actualizaDocumentoEmbarques($documentoPDF,$val[0],$valor);
+            endif;
+        endif;
+        if(!empty($doc[1]) && isset($doc[1]['name'])):
+            $valor = "pdf = ?";
+            $pdf  =   $doc[1]['name'];
+            $uploadPdf = "../../archivos/".$aleatorio."-".$pdf;
+            $documentoPdf = $aleatorio."-".$pdf;
+            if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoPdf,$val[0],$valor);
+            endif;
+        endif;
+        
+        if(!empty($doc[2]) && isset($doc[2]['name'])):
+            $valor = "xml = ?";
+            $xml  =   $doc[2]['name'];
+            $uploadXml = "../../archivos/".$aleatorio."-".$xml;
+            $documentoXml = $aleatorio."-".$xml;
+            if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
+                $this->actualizaDocumentoEmbarques($documentoXml,$val[0],$valor);
+            endif;
+        endif;
+        if (!empty($doc[3]) && isset($doc[3]['name'])) :
+            $valor = "comprobante_p = ?";
+            $comprobante = $doc[3]['name'];
+            $upload_comprobante = "../../archivos/".$aleatorio."-".$comprobante;
+            $documentoComprobante = $aleatorio."-".$comprobante;
+            if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
+                $this->actualizaDocumentoEmbarques($documentoComprobante,$val[0],$valor);
+            endif;
+        endif;
+        if(!empty($doc[4]) && isset($doc[4]['name'])):
+            $valor = "nc_pdf = ?";
+            $nc_pdf  =   $doc[4]['name'];
+            $uploadNc = "../../archivos/".$aleatorio."-".$nc_pdf;
+            $documentoNc = $aleatorio."-".$nc_pdf;
+            if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
+                $this->actualizaDocumentoEmbarques($documentoNc,$val[0],$valor);
+            endif;
+        endif;
+        
+        if(!empty($doc[5]) && isset($doc[5]['name'])):
+            $valor = "nc_xml = ?";
+            $nc_xml  =   $doc[5]['name'];
+            $uploadNc = "../../archivos/".$aleatorio."-".$nc_xml;
+            $documentoNc = $aleatorio."-".$nc_xml;
+            if(move_uploaded_file($doc[2]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc,$val[0],$valor);
+            endif;
+        endif;
+        if (!empty($doc[6]) && isset($doc[6]['name'])) :
+            $valor = "comPDF = ?";
+            $comPDf = $doc[6]['name'];
+            $uploadComPdf = "../../archivos/".$aleatorio."-".$comPDf;
+            $documentoComPdf = $aleatorio."-".$comPDf;
+            if(move_uploaded_file($doc[0]['tmp_name'], $uploadComPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoComPdf,$val[0],$valor);
+            endif;
+        endif;
+        if(!empty($doc[7]) && isset($doc[7]['name'])):
+            $valor = "comXML = ?";
+            $comXml  =   $doc[7]['name'];
+            $uploadComXml = "../../archivos/".$aleatorio."-".$comXml;
+            $documentoXML = $aleatorio."-".$comXml;
+            if(move_uploaded_file($doc[1]['tmp_name'], $uploadComXml)) :
+                $this->actualizaDocumentoEmbarques($documentoXML,$val[0],$valor);
+            endif;
+        endif;
     }
-    
+    private function actualizaDocumentoEmbarques(string $documento,int $id, string $valor ) : void {
+        $sql = "UPDATE op_embarques SET $valor WHERE id_mes = ?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("si",$documento,$id);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+    }
+    public function eliminaEmbarque(int $id): bool {
+        $result = true;
+        $sql = "DELETE FROM op_embarques WHERE id = ? ";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("i",$id);
+        if(!$stmt->execute()):
+            $result = false;
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
+    }
+    public function actualizaEmbarque(array $doc,array $val): void {
+        $sql = "UPDATE op_embarques 
+            fecha = ?,
+            embarque = ?,
+            documentocv = ?,
+            importef = ?,
+            merma = ?,
+            nom_transporte = ?,
+            producto = ?,
+            chofer = ?,
+            unidad = ?,
+            precio_litro = ?,
+            tad = ?
+            WHERE id = ?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_Param("sssddssssdsi",$val[0], $val[1], $val[2],$val[3],$val[4],$val[5]
+                                        ,$val[6], $val[7], $val[8],$val[9],$val[10],$val[11]);
+        if(!$stmt->execute()):
+            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        // Agrega los formatos en caso de requerrilos
+        $aleatorio = uniqid();
+        $valor = "";
+        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+            $valor = "documento = ?";
+            $docu = $doc[0]['name'];
+            $documento = "../../archivos/".$aleatorio."-".$docu;
+            $documentoPDF = $aleatorio."-".$docu;
+            if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
+                $this->actualizaDocumentoEmbarques($documentoPDF,$val[11],$valor);
+            endif;
+        endif;
+        if(!empty($doc[1]) && isset($doc[1]['name'])):
+            $valor = "pdf = ?";
+            $pdf  =   $doc[1]['name'];
+            $uploadPdf = "../../archivos/".$aleatorio."-".$pdf;
+            $documentoPdf = $aleatorio."-".$pdf;
+            if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoPdf,$val[11],$valor);
+            endif;
+        endif;
+        
+        if(!empty($doc[2]) && isset($doc[2]['name'])):
+            $valor = "xml = ?";
+            $xml  =   $doc[2]['name'];
+            $uploadXml = "../../archivos/".$aleatorio."-".$xml;
+            $documentoXml = $aleatorio."-".$xml;
+            if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
+                $this->actualizaDocumentoEmbarques($documentoXml,$val[11],$valor);
+            endif;
+        endif;
+        if (!empty($doc[3]) && isset($doc[3]['name'])) :
+            $valor = "comprobante_p = ?";
+            $comprobante = $doc[3]['name'];
+            $upload_comprobante = "../../archivos/".$aleatorio."-".$comprobante;
+            $documentoComprobante = $aleatorio."-".$comprobante;
+            if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
+                $this->actualizaDocumentoEmbarques($documentoComprobante,$val[11],$valor);
+            endif;
+        endif;
+        if(!empty($doc[4]) && isset($doc[4]['name'])):
+            $valor = "nc_pdf = ?";
+            $nc_pdf  =   $doc[4]['name'];
+            $uploadNc = "../../archivos/".$aleatorio."-".$nc_pdf;
+            $documentoNc = $aleatorio."-".$nc_pdf;
+            if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
+                $this->actualizaDocumentoEmbarques($documentoNc,$val[11],$valor);
+            endif;
+        endif;
+        
+        if(!empty($doc[5]) && isset($doc[5]['name'])):
+            $valor = "nc_xml = ?";
+            $nc_xml  =   $doc[5]['name'];
+            $uploadNc = "../../archivos/".$aleatorio."-".$nc_xml;
+            $documentoNc = $aleatorio."-".$nc_xml;
+            if(move_uploaded_file($doc[2]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc,$val[11],$valor);
+            endif;
+        endif;
+        if (!empty($doc[6]) && isset($doc[6]['name'])) :
+            $valor = "comPDF = ?";
+            $comPDf = $doc[6]['name'];
+            $uploadComPdf = "../../archivos/".$aleatorio."-".$comPDf;
+            $documentoComPdf = $aleatorio."-".$comPDf;
+            if(move_uploaded_file($doc[0]['tmp_name'], $uploadComPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoComPdf,$val[11],$valor);
+            endif;
+        endif;
+        if(!empty($doc[7]) && isset($doc[7]['name'])):
+            $valor = "comXML = ?";
+            $comXml  =   $doc[7]['name'];
+            $uploadComXml = "../../archivos/".$aleatorio."-".$comXml;
+            $documentoXML = $aleatorio."-".$comXml;
+            if(move_uploaded_file($doc[1]['tmp_name'], $uploadComXml)) :
+                $this->actualizaDocumentoEmbarques($documentoXML,$val[11],$valor);
+            endif;
+        endif;
+    }
 }

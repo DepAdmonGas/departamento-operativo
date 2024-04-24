@@ -1,5 +1,6 @@
 
 <?php
+
 require('app/help.php');
 
 if ($Session_IDUsuarioBD == "") {

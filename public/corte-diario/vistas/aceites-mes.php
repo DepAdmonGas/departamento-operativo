@@ -648,7 +648,8 @@ function Eliminar(IdReporte,year,mes,id){
     var facturaAceite = $('#facturaAceite').val();
 
     var data = new FormData();
-    var url = '../../public/admin/modelo/agregar-factura-archivo-aceite.php';
+    var url = '../../app/controlador/controladorCorteDiario.php';
+    //var url = '../../public/admin/modelo/agregar-factura-archivo-aceite.php';
 
     Factura = document.getElementById("facturaAceite");
     Factura_file = Factura.files[0];
@@ -670,6 +671,7 @@ function Eliminar(IdReporte,year,mes,id){
     data.append('fechaAceite', fechaAceite);
     data.append('conceptoAceite', conceptoAceite);
     data.append('Factura_file', Factura_file);
+    data.append('accion','agregar-factura-archivo-aceite');
     
     $(".LoaderPage").show();
 
@@ -681,7 +683,6 @@ function Eliminar(IdReporte,year,mes,id){
     processData: false,
     cache: false
     }).done(function(data){
-
     $(".LoaderPage").hide();
     $('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     alertify.success('Archivo agregado exitosamente')
@@ -708,7 +709,8 @@ function Eliminar(IdReporte,year,mes,id){
 
     var parametros = {
     "IdReporte" : IdReporte,
-    "id" : id
+    "id" : id,
+    "accion" : "eliminar-factura-archivo-aceite"
     };
 
 
@@ -717,7 +719,8 @@ function Eliminar(IdReporte,year,mes,id){
  
        $.ajax({
      data:  parametros,
-     url:   '../../public/admin/modelo/eliminar-factura-archivo-aceite.php',
+      url: '../../app/controlador/controladorCorteDiario.php',
+     //url:   '../../public/admin/modelo/eliminar-factura-archivo-aceite.php',
      type:  'post',
      beforeSend: function() {
     $(".LoaderPage").show();
@@ -726,7 +729,6 @@ function Eliminar(IdReporte,year,mes,id){
     
      },
      success:  function (response) {
-
     if (response == 1) {
 
     $(".LoaderPage").hide();

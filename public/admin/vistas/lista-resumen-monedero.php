@@ -8,6 +8,7 @@ $GET_mes = $_GET['mes'];
   function TarjetasCB($idReporte,$concepto,$con){
     $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
     $result_cb = mysqli_query($con, $sql_cb);
+    $baucher = 0;
     while($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)){
     $baucher = $row_cb['baucher'];
     }
@@ -21,7 +22,7 @@ $GET_mes = $_GET['mes'];
     $sql_listaprosegur2 = "SELECT importe FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' AND denominacion = '".$denominacion."' LIMIT 1 ";
     $result_listaprosegur2 = mysqli_query($con, $sql_listaprosegur2);
     $numero_listaprosegur2 = mysqli_num_rows($result_listaprosegur2);
-    
+    $importe2 = 0;
     while($row_listaprosegur2 = mysqli_fetch_array($result_listaprosegur2, MYSQLI_ASSOC)){
     $importe2 = $row_listaprosegur2['importe'];
 
@@ -212,6 +213,22 @@ $GTVales = 0;
     $consumoD = 0;
     }
     
+    $Toultragas = 0;
+    $Toenergex = 0;
+    $Tovalefectivale = 0;
+    $Tovalsodexo = 0;
+    $Tovalvale = 0;
+    $Tovalaccord = 0;
+    $ToBilleteM = 0;
+    $ToBilleteV = 0;
+    $ToBilleteN = 0;
+    $ToMorralla = 0;
+    $ToDesposito = 0;
+    $ToCheque1 = 0;
+    $ToTransferencia1 = 0;
+    $ToCheque2 = 0;
+    $ToTransferencia2 = 0;
+    $Toprosegur = 0;
 
 $totalPago = $pagoC + $pagoD;
 $totalConsumo = $consumoC + $consumoD;

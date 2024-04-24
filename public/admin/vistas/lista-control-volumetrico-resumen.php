@@ -24,7 +24,6 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
   $dato3 = $row_lista['dato3'];
   $dato4 = $row_lista['dato4'];
-  echo $dato4;
   $dato5 = $row_lista['dato5'];
   $dato6 = $row_lista['dato6'];
 
@@ -107,7 +106,13 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     $color7 = "text-danger";
   }
 
-  $valP1 = ($dato3 * 100) / $dato4;
+  if ($dato4 != 0) {
+    $valP1 = ($dato3 * 100) / $dato4;
+  } else {
+    $valP1 = 0;
+  }
+
+
   $valTotalP = $valP1 - 100;
 
   $ParametroP = number_format($valTotalP, 2);

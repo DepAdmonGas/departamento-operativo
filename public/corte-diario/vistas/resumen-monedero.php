@@ -91,7 +91,8 @@ function EditarInfo(IdReporte,id){
     var Diferencia = $('#Diferencia').val();
 
     var data = new FormData();
-    var url = '../../public/corte-diario/modelo/editar-documento-monedero.php';
+    var url = '../../app/controlador/controladorCorteDiario.php/';
+    //var url = '../../public/corte-diario/modelo/editar-documento-monedero.php';
 
     PDF = document.getElementById("PDF");
     PDF_file = PDF.files[0];
@@ -113,6 +114,7 @@ function EditarInfo(IdReporte,id){
     data.append('XML_file', XML_file);
     data.append('PDF_file', PDF_file);
     data.append('EXCEL_file', EXCEL_file);
+    data.append('accion','editar-documento-monedero');
     
     $(".LoaderPage").show();
 
@@ -124,7 +126,6 @@ function EditarInfo(IdReporte,id){
     processData: false,
     cache: false
     }).done(function(data){
-
       $(".LoaderPage").hide();
       Cancelar(IdReporte);
 
@@ -142,7 +143,7 @@ function Edi(IdReporte,id){
 
     var data = new FormData();
     data.append("accion", "guardar-documento-edi");
-    var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
+    var url = '../../app/controlador/controladorCorteDiario.php';
     //var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
 
     PDF = document.getElementById("PDF");
@@ -169,7 +170,7 @@ function Edi(IdReporte,id){
     processData: false,
     cache: false
     }).done(function(data){
-
+      console.log(data);
       $(".LoaderPage").hide();
       Edi(IdReporte,id);
 

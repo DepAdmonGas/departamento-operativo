@@ -527,7 +527,6 @@ function EditNoTicket(val,idReporte,idCierre,empresa){
      beforeSend: function(){},
      complete: function(){},
      success:  function (response) {
-      console.log(response);
       if (!response) {
         switch(response){
           case "TICKETCARD":
@@ -570,13 +569,18 @@ function EditNoTicket(val,idReporte,idCierre,empresa){
 
 }
 
-function Pendiente(idReporte,idCierre,empresa){
-
+function Pendiente(idReporte,idCierre,empresa,status){
+let desc;
+  if(status==0){
+  desc = "Activo";
+}else{
+  desc = "Pendiente";
+}
 alertify.confirm('',
 function(){
 
   var parametros = {
-    "estado" : 1,
+    "estado" : status,
     "idCierre" : idCierre,
     "accion" : "editar-pendiente-cierre-lote"
     };
@@ -628,7 +632,7 @@ function(){
 
 },
 function(){
-}).setHeader('Pendiente').set({transition:'zoom',message: '¿Desea poner en pendiente el cierre de lote seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+}).setHeader(''+desc).set({transition:'zoom',message: '¿Desea poner el estado '+desc+' del cierre de lote seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 
 }
