@@ -5,7 +5,7 @@ $rura = $componentes_url['path'];
 $partes_ruta = explode("/", $rura);
 $partes_ruta = array_filter($partes_ruta);
 $partes_ruta = array_slice($partes_ruta, 0);
-$ruta_elegida = 'app/vistas/home/error.php';
+$ruta_elegida = 'app/vistas/error/error.php';
 
 if ($partes_ruta[0] == 'departamento-operativo') 
 {
