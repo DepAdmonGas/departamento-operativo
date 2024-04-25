@@ -194,7 +194,7 @@ switch($_POST['accion']):
         $id=$_POST['idCliente'];
         echo $CorteDiario->editarClienteDebito($cuenta,$cliente,$tipo,$id);
         break;
-        case 'finaliza-resumen-cliente-mes':
+    case 'finaliza-resumen-cliente-mes':
             $id = $_POST['IdReporte'];
             $CorteDiario->finalizaResumenClientesMes($id);
             break;
