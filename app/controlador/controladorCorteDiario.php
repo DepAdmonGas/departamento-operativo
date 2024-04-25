@@ -291,6 +291,7 @@ switch($_POST['accion']):
         echo $CorteDiario->agregarComentarioEmbarques($idEmbarque, $idEstacion, $comentario);
         break;
     case 'agregar-embarque':
+        // valores del formulario 
         $idReporte = $_POST['IdReporte'] ?? "";
         $fecha = $_POST['Fecha'] ?? "";
         $embarque = $_POST['Embarque'] ?? "";
@@ -304,6 +305,7 @@ switch($_POST['accion']):
         $precioLitro = $_POST['PrecioLitro'] ?? "";
         $tad = $_POST['Tad'] ?? "";
         $valores = [$idReporte,$fecha,$embarque,$noDocumento,$importe,$merma, $nombreTransporte,$producto,$chofer, $unidad,$precioLitro, $tad];
+        // archivos del formulario
         $file = $_FILES['Documento_file']??[''];
         $pdf = $_FILES['PDF_file']??[''];
         $xml = $_FILES['XML_file']??[''];
@@ -342,6 +344,6 @@ switch($_POST['accion']):
         $compdf = $_FILES['ComPDF_file']??[''];
         $comxml = $_FILES['ComXML_file']??[''];
         $doc = [$file,$pdf, $xml,$copa,$ncpdf,$ncxml, $compdf,$comxml];
-        echo $CorteDiario->actualizaEmbarque($doc,$valores);
+        $CorteDiario->actualizaEmbarque($doc,$valores);
         break;
     endswitch;

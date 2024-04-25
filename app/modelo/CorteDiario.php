@@ -1882,7 +1882,7 @@ class CorteDiario extends Exception
         if(!$stmt):
             throw new Exception("Error al preparar la consulta". $this->con->error);
         endif;
-        $stmt->bind_Param("ssdi", $fecha,$monedero,$diferencia,$id);
+        $stmt->bind_param("ssdi", $fecha,$monedero,$diferencia,$id);
         if(!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
@@ -1895,7 +1895,7 @@ class CorteDiario extends Exception
         if(!$stmt):
             throw new Exception("Error al preparar la consulta". $this->con->error);
         endif;
-        $stmt->bind_Param("si", $documento,$id);
+        $stmt->bind_param("si", $documento,$id);
         if(!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
@@ -1903,51 +1903,38 @@ class CorteDiario extends Exception
         $this->classConexionBD->disconnect();
     }
     public function agregarDocumentoEdi(array $doc, int $id,string $complemento):void {
-        $sql = "INSERT INTO op_monedero_edi (id_documento,complemento) VALUES (?,?)";
-        $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
-        endif;
-        $stmt->bind_Param("is",$id,$complemento);
-        if(!$stmt->execute()):
-            throw new Exception("Erro al ejecutar la consulta", $stmt->error);
-        endif;
-        $stmt->close();
-        $this->classConexionBD->disconnect();
+        
         $aleatorio = uniqid();
-        $valor = "";
+        $archivoPdf = "";
+        $archivoXml = "";
         if (!empty($doc[0]) && isset($doc[0]['name'])) :
-            $valor = "pdf = ?";
             $pdf = $doc[0]['name'];
             $upload_PDF = "../../archivos/".$aleatorio."-".$pdf;
             $documentoPDF = $aleatorio."-".$pdf;
             if(move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)) :
-                $this->agregarDocumentosEdi($documentoPDF,$id,$valor);
+                $archivoPdf = $documentoPDF;
             endif;
         endif;
         if(!empty($doc[1]) && isset($doc[1]['name'])):
-            $valor = "xml = ?";
             $xml  =   $doc[1]['name'];
             $upload_XML = "../../archivos/".$aleatorio."-".$xml;
             $documentoXML = $aleatorio."-".$xml;
             if(move_uploaded_file($doc[1]['tmp_name'], $upload_XML)) :
-                $this->agregarDocumentosEdi($documentoXML,$id,$valor);
+                $archivoXml = $documentoXML;
             endif;
         endif;
-        
-    }
-    private function agregarDocumentosEdi(string $documento, int $id, string $valor): void {
-        $sql = "UPDATE op_monedero_edi SET $valor WHERE id_documento = ?";
+        $sql = "INSERT INTO op_monedero_edi (id_documento,complemento,pdf,xml) VALUES (?,?,?,?)";
         $stmt = $this->con->prepare($sql);
         if(!$stmt):
             throw new Exception("Error al preparar la consulta". $this->con->error);
         endif;
-        $stmt->bind_Param("si",$documento,$id);
+        $stmt->bind_param("isss",$id,$complemento,$archivoPdf,$archivoXml);
         if(!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
         $this->classConexionBD->disconnect();
+        
     }
     /***
      * 
@@ -2010,15 +1997,17 @@ class CorteDiario extends Exception
         $stmt->close();
         $this->classConexionBD->disconnect();
         // Agrega los formatos en caso de requerrilos
+        $id_mes = $val[0];
         $aleatorio = uniqid();
         $valor = "";
+        $consulta = "id_mes = ?";
         if (!empty($doc[0]) && isset($doc[0]['name'])) :
             $valor = "documento = ?";
             $docu = $doc[0]['name'];
             $documento = "../../archivos/".$aleatorio."-".$docu;
             $documentoPDF = $aleatorio."-".$docu;
             if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
-                $this->actualizaDocumentoEmbarques($documentoPDF,$val[0],$valor);
+                $this->actualizaDocumentoEmbarques($documentoPDF,$id_mes,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[1]) && isset($doc[1]['name'])):
@@ -2027,7 +2016,7 @@ class CorteDiario extends Exception
             $uploadPdf = "../../archivos/".$aleatorio."-".$pdf;
             $documentoPdf = $aleatorio."-".$pdf;
             if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoPdf,$val[0],$valor);
+                $this->actualizaDocumentoEmbarques($documentoPdf,$id_mes,$valor,$consulta);
             endif;
         endif;
         
@@ -2037,7 +2026,7 @@ class CorteDiario extends Exception
             $uploadXml = "../../archivos/".$aleatorio."-".$xml;
             $documentoXml = $aleatorio."-".$xml;
             if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
-                $this->actualizaDocumentoEmbarques($documentoXml,$val[0],$valor);
+                $this->actualizaDocumentoEmbarques($documentoXml,$id_mes,$valor,$consulta);
             endif;
         endif;
         if (!empty($doc[3]) && isset($doc[3]['name'])) :
@@ -2046,7 +2035,7 @@ class CorteDiario extends Exception
             $upload_comprobante = "../../archivos/".$aleatorio."-".$comprobante;
             $documentoComprobante = $aleatorio."-".$comprobante;
             if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
-                $this->actualizaDocumentoEmbarques($documentoComprobante,$val[0],$valor);
+                $this->actualizaDocumentoEmbarques($documentoComprobante,$id_mes,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[4]) && isset($doc[4]['name'])):
@@ -2055,7 +2044,7 @@ class CorteDiario extends Exception
             $uploadNc = "../../archivos/".$aleatorio."-".$nc_pdf;
             $documentoNc = $aleatorio."-".$nc_pdf;
             if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
-                $this->actualizaDocumentoEmbarques($documentoNc,$val[0],$valor);
+                $this->actualizaDocumentoEmbarques($documentoNc,$id_mes,$valor,$consulta);
             endif;
         endif;
         
@@ -2064,8 +2053,8 @@ class CorteDiario extends Exception
             $nc_xml  =   $doc[5]['name'];
             $uploadNc = "../../archivos/".$aleatorio."-".$nc_xml;
             $documentoNc = $aleatorio."-".$nc_xml;
-            if(move_uploaded_file($doc[2]['tmp_name'], $uploadNc)):
-                $this->actualizaDocumentoEmbarques($documentoNc,$val[0],$valor);
+            if(move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc,$id_mes,$valor,$consulta);
             endif;
         endif;
         if (!empty($doc[6]) && isset($doc[6]['name'])) :
@@ -2073,8 +2062,8 @@ class CorteDiario extends Exception
             $comPDf = $doc[6]['name'];
             $uploadComPdf = "../../archivos/".$aleatorio."-".$comPDf;
             $documentoComPdf = $aleatorio."-".$comPDf;
-            if(move_uploaded_file($doc[0]['tmp_name'], $uploadComPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoComPdf,$val[0],$valor);
+            if(move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoComPdf,$id_mes,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[7]) && isset($doc[7]['name'])):
@@ -2082,13 +2071,13 @@ class CorteDiario extends Exception
             $comXml  =   $doc[7]['name'];
             $uploadComXml = "../../archivos/".$aleatorio."-".$comXml;
             $documentoXML = $aleatorio."-".$comXml;
-            if(move_uploaded_file($doc[1]['tmp_name'], $uploadComXml)) :
-                $this->actualizaDocumentoEmbarques($documentoXML,$val[0],$valor);
+            if(move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)) :
+                $this->actualizaDocumentoEmbarques($documentoXML,$id_mes,$valor,$consulta);
             endif;
         endif;
     }
-    private function actualizaDocumentoEmbarques(string $documento,int $id, string $valor ) : void {
-        $sql = "UPDATE op_embarques SET $valor WHERE id_mes = ?";
+    private function actualizaDocumentoEmbarques(string $documento,int $id, string $valor, string $consulta ) : void {
+        $sql = "UPDATE op_embarques SET $valor WHERE $consulta";
         $stmt = $this->con->prepare($sql);
         if(!$stmt):
             throw new Exception("Error al preparar la consulta". $this->con->error);
@@ -2117,7 +2106,7 @@ class CorteDiario extends Exception
         return $result;
     }
     public function actualizaEmbarque(array $doc,array $val): void {
-        $sql = "UPDATE op_embarques 
+        $sql = "UPDATE op_embarques SET
             fecha = ?,
             embarque = ?,
             documentocv = ?,
@@ -2142,15 +2131,18 @@ class CorteDiario extends Exception
         $stmt->close();
         $this->classConexionBD->disconnect();
         // Agrega los formatos en caso de requerrilos
+        // toma el valor del id del array
+        $id = $val[11];
         $aleatorio = uniqid();
         $valor = "";
+        $consulta = "id = ?";
         if (!empty($doc[0]) && isset($doc[0]['name'])) :
             $valor = "documento = ?";
             $docu = $doc[0]['name'];
             $documento = "../../archivos/".$aleatorio."-".$docu;
             $documentoPDF = $aleatorio."-".$docu;
             if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
-                $this->actualizaDocumentoEmbarques($documentoPDF,$val[11],$valor);
+                $this->actualizaDocumentoEmbarques($documentoPDF,$id,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[1]) && isset($doc[1]['name'])):
@@ -2159,7 +2151,7 @@ class CorteDiario extends Exception
             $uploadPdf = "../../archivos/".$aleatorio."-".$pdf;
             $documentoPdf = $aleatorio."-".$pdf;
             if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoPdf,$val[11],$valor);
+                $this->actualizaDocumentoEmbarques($documentoPdf,$id,$valor,$consulta);
             endif;
         endif;
         
@@ -2169,7 +2161,7 @@ class CorteDiario extends Exception
             $uploadXml = "../../archivos/".$aleatorio."-".$xml;
             $documentoXml = $aleatorio."-".$xml;
             if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
-                $this->actualizaDocumentoEmbarques($documentoXml,$val[11],$valor);
+                $this->actualizaDocumentoEmbarques($documentoXml,$id,$valor,$consulta);
             endif;
         endif;
         if (!empty($doc[3]) && isset($doc[3]['name'])) :
@@ -2178,7 +2170,7 @@ class CorteDiario extends Exception
             $upload_comprobante = "../../archivos/".$aleatorio."-".$comprobante;
             $documentoComprobante = $aleatorio."-".$comprobante;
             if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
-                $this->actualizaDocumentoEmbarques($documentoComprobante,$val[11],$valor);
+                $this->actualizaDocumentoEmbarques($documentoComprobante,$id,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[4]) && isset($doc[4]['name'])):
@@ -2187,7 +2179,7 @@ class CorteDiario extends Exception
             $uploadNc = "../../archivos/".$aleatorio."-".$nc_pdf;
             $documentoNc = $aleatorio."-".$nc_pdf;
             if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
-                $this->actualizaDocumentoEmbarques($documentoNc,$val[11],$valor);
+                $this->actualizaDocumentoEmbarques($documentoNc,$id,$valor,$consulta);
             endif;
         endif;
         
@@ -2196,8 +2188,8 @@ class CorteDiario extends Exception
             $nc_xml  =   $doc[5]['name'];
             $uploadNc = "../../archivos/".$aleatorio."-".$nc_xml;
             $documentoNc = $aleatorio."-".$nc_xml;
-            if(move_uploaded_file($doc[2]['tmp_name'], $uploadNc)):
-                $this->actualizaDocumentoEmbarques($documentoNc,$val[11],$valor);
+            if(move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc,$id,$valor,$consulta);
             endif;
         endif;
         if (!empty($doc[6]) && isset($doc[6]['name'])) :
@@ -2205,8 +2197,8 @@ class CorteDiario extends Exception
             $comPDf = $doc[6]['name'];
             $uploadComPdf = "../../archivos/".$aleatorio."-".$comPDf;
             $documentoComPdf = $aleatorio."-".$comPDf;
-            if(move_uploaded_file($doc[0]['tmp_name'], $uploadComPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoComPdf,$val[11],$valor);
+            if(move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)) :
+                $this->actualizaDocumentoEmbarques($documentoComPdf,$id,$valor,$consulta);
             endif;
         endif;
         if(!empty($doc[7]) && isset($doc[7]['name'])):
@@ -2214,8 +2206,8 @@ class CorteDiario extends Exception
             $comXml  =   $doc[7]['name'];
             $uploadComXml = "../../archivos/".$aleatorio."-".$comXml;
             $documentoXML = $aleatorio."-".$comXml;
-            if(move_uploaded_file($doc[1]['tmp_name'], $uploadComXml)) :
-                $this->actualizaDocumentoEmbarques($documentoXML,$val[11],$valor);
+            if(move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)) :
+                $this->actualizaDocumentoEmbarques($documentoXML,$id,$valor,$consulta);
             endif;
         endif;
     }
