@@ -400,7 +400,7 @@ $sql_lista = "SELECT * FROM op_control_volumetrico_prefijos WHERE id_mes = '".$I
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 if ($numero_lista == 0) {
-
+ 
 $sql_insert = "INSERT INTO op_control_volumetrico_prefijos (
     id_mes,  
     serie, 
