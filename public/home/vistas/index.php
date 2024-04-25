@@ -144,7 +144,7 @@ function ReciboNominaV2(){
     window.location.href = "administracion/acuses-recepcion"; 
 
   }
- 
+
   function DescargaTuxpanAuditor(){
     window.location.href = "descarga-tuxpan"; 
 
