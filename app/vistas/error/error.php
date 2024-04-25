@@ -1,7 +1,8 @@
 <?php 
-include_once __DIR__ . "\\..\\..\\help.php";
-?>
+require('app/help.php');
 
+?>
+ 
   <!DOCTYPE html>
   <html lang="es">
   
