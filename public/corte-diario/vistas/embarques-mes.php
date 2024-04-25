@@ -466,7 +466,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
       $.ajax({
         data: parametros,
-        url: '../../app/controlador/controladorCortediario.php',
+        url: '../../app/controlador/controladorCorteDiario.php',
         //url: '../../public/corte-diario/modelo/eliminar-embarque-mes.php',
         type: 'post',
         beforeSend: function () {
