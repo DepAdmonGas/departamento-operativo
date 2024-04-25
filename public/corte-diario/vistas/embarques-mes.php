@@ -400,7 +400,6 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
         processData: false,
         cache: false
       }).done(function (data) {
-        console.log(data);
         $(".LoaderPage").hide();
         $('#Modal').modal('hide');
         ListaEmbarques(IdReporte);
@@ -432,7 +431,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
         $.ajax({
           data: parametros,
-          url: '../../app/controlador/controladorCortediario.php',
+          url: '../../app/controlador/controladorCorteDiario.php',
           //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
           type: 'post',
           beforeSend: function () {
