@@ -145,16 +145,18 @@ function ReciboNominaV2(){
 
   }
 
+
   function DescargaTuxpanAuditor(){
     window.location.href = "descarga-tuxpan"; 
 
   }
 
-  </script>
+  </script>t>
   </head>
   <body>
 
-<div class="LoaderPage"></div>
+<div class="LoaderPag
+div>
  
 
 <?php 
@@ -265,8 +267,7 @@ if ($session_nompuesto == "Auditor") {
 
 
   if($vistaComunicados == 0){
-  $spanAlert = ''; 
-
+   $spanAlert = '';  
   }else{
   $spanAlert = '<span class="ml-1 badge bg-danger text-white rounded-circle">
     <small>'.$vistaComunicados.'</small>
@@ -292,8 +293,9 @@ if ($session_nompuesto == "Auditor") {
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script
   
+
 
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 

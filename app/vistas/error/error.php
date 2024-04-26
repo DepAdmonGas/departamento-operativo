@@ -30,7 +30,7 @@ require('app/help.php');
                   <div class="py-4 px-4">
                     <div class="row p-3">
                       <div class="d-flex align-items-center mb-2">
-                        <img class="img-logo" src="imgs/logo/Logo.png" style="width: 70%;">
+                        <img class="img-logo" src="<?=RUTA_IMG_LOGOS?>Logo.png" style="width: 70%;">
                       </div>
 
                       <!----- INPUT USUARIO ----->
@@ -48,7 +48,7 @@ require('app/help.php');
                 </div>
                 <!----- IMAGEN DE LA ESTACION DE SERVICIO ----->                           
                 <div class="col-md-5 d-none d-md-block">
-                  <img class="img-fluid py-4 px-4 row p-3 " src="imgs/logo/error-404.png" style="height: 10%;">
+                  <img class="img-fluid py-4 px-4 row p-3 " src="<?=RUTA_IMG_LOGOS?>error-404.png" style="height: 10%;">
                 </div>
               </div>
             </div>
