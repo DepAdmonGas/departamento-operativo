@@ -1333,6 +1333,50 @@ class CorteDiario extends Exception
         $this->classConexionBD->disconnect();
         return $result;
     }
+    public function editarSaldoInicial(int $id,float $total): string
+    {
+        $result = "";
+        $sql = "UPDATE op_consumos_pagos_resumen SET saldo_inicial=? WHERE id=? ";
+        $stmt = $this->con->prepare($sql);
+        if( !$stmt ):
+            throw new Exception("Erros al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_param("di", $total,$id);
+        if( !$stmt->execute() ):
+            $sql_credito = "SELECT 
+            op_consumos_pagos_resumen.saldo_inicial,
+            op_consumos_pagos_resumen.consumos,
+            op_consumos_pagos_resumen.pagos,
+            FROM op_consumos_pagos_resumen
+            INNER JOIN op_cliente 
+            ON op_consumos_pagos_resumen.id_cliente = op_cliente.id
+            WHERE op_consumos_pagos_resumen.id = '".$_POST['id']."' ";
+            $stmt2 = $this->con->prepare($sql_credito);
+            if( !$stmt2 ):
+                throw new Exception("Erros al preparar la consulta". $this->con->error);
+            endif;
+            $stmt2->bind_param("i",$id);
+            $stmt2->execute();
+            $stmt2->bind_result($saldo_inicial, $consumos, $pagos);
+            while ($stmt2->fetch()):
+                $saldofinalC = $saldo_inicial + $consumos - $pagos;
+            endwhile;
+            $stmt2->close();
+            $sql1 = "UPDATE op_consumos_pagos_resumen SET saldo_final='".$saldofinalC."' WHERE id='".$_POST['id']."' ";
+            $stmt3 = $this->con->prepare($sql1);
+            if(! !$stmt3 ):
+                throw new Exception("Error al preparar la consulta ". $this->con->error);
+            endif;
+            $stmt3->bind_param("di",$saldofinalC,$id);
+            if ($stmt3->execute()) :
+                $result =  "$ ".number_format($saldofinalC,2);
+            endif;
+            $stmt3->close();
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+        return $result;
+    }
     public function finalizaResumenClientesMes(int $id):void {
         $sql = "INSERT INTO op_consumos_pagos_resumen_finalizar (id_mes) VALUES(?)";
         $stmt = $this->con->prepare($sql);
@@ -1935,6 +1979,20 @@ class CorteDiario extends Exception
         $stmt->close();
         $this->classConexionBD->disconnect();
         
+    }
+    public function eliminarDocumentoEdi(int $id) :bool {
+        $result =true;
+        $sql = "DELETE FROM op_monedero_edi WHERE id= ? ";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_param("i",$id);
+        if(!$stmt->execute()) :
+            $result = false;
+            throw new Exception("Error al ejecutar la consulta".$stmt->error);    
+        endif;
+        return $result;
     }
     /***
      * 

@@ -139,12 +139,14 @@ function EditPedido(val,idaceite){
       var parametros = {
     "type" : "pedido",
     "idaceite" : idaceite,
-    "pedido" : pedido
+    "pedido" : pedido,
+    "accion" : "editar-reporte-aceite"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+     url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+     //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -189,12 +191,14 @@ function EditPedido(val,idaceite){
       var parametros = {
     "type" : "fisicobodega",
     "idaceite" : idaceite,
-    "fisico" : fisico
+    "fisico" : fisico,
+    "accion" : "editar-reporte-aceite"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+     url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+     //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -241,12 +245,14 @@ function EditPedido(val,idaceite){
       var parametros = {
     "type" : "fisicoexhibidor",
     "idaceite" : idaceite,
-    "fisico" : fisico
+    "fisico" : fisico,
+    "accion" : "editar-reporte-aceite"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+     url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+     //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
      },
@@ -315,11 +321,13 @@ function EditFacturados(val,idaceite){
       var parametros = {
     "type" : "facturado",
     "idaceite" : idaceite,
-    "facturado" : facturado
+    "facturado" : facturado,
+    "accion" : "editar-reporte-aceite"
     };
 
      $.ajax({
      data:  parametros,
+     url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
      url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
@@ -348,12 +356,14 @@ function EditMostrador(val,idaceite){
       var parametros = {
     "type" : "mostrador",
     "idaceite" : idaceite,
-    "mostrador" : mostrador
+    "mostrador" : mostrador,
+    "accion" : "editar-reporte-aceite"
     };
 
      $.ajax({
      data:  parametros,
-     url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+     url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+     //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
      },

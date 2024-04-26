@@ -194,6 +194,11 @@ switch($_POST['accion']):
         $id=$_POST['idCliente'];
         echo $CorteDiario->editarClienteDebito($cuenta,$cliente,$tipo,$id);
         break;
+    case 'editar-saldo-inicial':
+        $total = $_POST['total'];
+        $id = $_POST['id'];
+        echo $CorteDiario->editarSaldoInicial($id,$total);
+        break;
     case 'finaliza-resumen-cliente-mes':
             $id = $_POST['IdReporte'];
             $CorteDiario->finalizaResumenClientesMes($id);
@@ -205,7 +210,7 @@ switch($_POST['accion']):
          */
     case 'editar-reporte-aceite':
         $tipo = $_POST['type'] ?? '';
-        $valor =  $_POST['pedido'] ?? $_POST['fisico'] ?? $_POST['facturado'] ?? $_POST['mostrador'] ??[''];
+        $valor =  $_POST['pedido'] ?? $_POST['fisico'] ?? $_POST['facturado'] ?? $_POST['mostrador'] ?? '';
         $id = $_POST['idaceite'];
         echo $CorteDiario->editarReporteAceite($tipo,$valor,$id);
         break;
@@ -276,6 +281,10 @@ switch($_POST['accion']):
         $xml  = $_FILES['XML_file'] ?? [''];
         $doc = [$pdf,$xml];
         echo $CorteDiario->agregarDocumentoEdi($doc,$id,$complemento);
+        break;
+    case 'eliminar-documento-monedero-edi':
+        $id = $_POST['id'];
+        echo $CorteDiario->eliminarDocumentoEdi($id);
         break;
     /**
      * 

@@ -181,14 +181,14 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
     function EliminarEdi(IdReporte, iddoc, id) {
 
       var parametros = {
-        "IdReporte": IdReporte,
-        "iddoc": iddoc,
-        "id": id
+        "id": id,
+        "accion":"eliminar-documento-monedero-edi"
       };
 
       $.ajax({
         data: parametros,
-        url: '../../public/corte-diario/modelo/eliminar-documento-monedero-edi.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+        //url: '../../public/corte-diario/modelo/eliminar-documento-monedero-edi.php',
         type: 'post',
         beforeSend: function () {
           $(".LoaderPage").show();
