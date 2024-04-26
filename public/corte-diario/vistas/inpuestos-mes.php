@@ -1,17 +1,9 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-$sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
-   $result_dia = mysqli_query($con, $sql_dia);
-   while($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)){
-   $dia = $row_dia['fecha'];
-   }
+include_once 'app/modelo/1-corporativo/CorteDiarioGeneral.php';
+$funcion = new CorteDiarioGeneral();
+$dia = $funcion->getDia($GET_idReporte);
 ?>
-
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -102,12 +94,9 @@ $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
 <tbody>
 
   <?php
-
-
     $sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '".$GET_idReporte."' ";
     $result_listayear = mysqli_query($con, $sql_listayear);
     $numero_reporte = mysqli_num_rows($result_listayear);
-
     if($numero_reporte > 0){
 
     $totalVV = 0;

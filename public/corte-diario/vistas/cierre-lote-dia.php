@@ -1,5 +1,4 @@
 <?php
-require('app/help.php');
 include_once 'app/modelo/CorteDiarioGeneral.php';
 $funcion = new CorteDiarioGeneral();
 $tpv = $funcion->getTpv();
@@ -8,6 +7,7 @@ $tpv = $funcion->getTpv();
    while($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)){
    $tpv = $row_dia['tpv'];   
   }
+
 ?>
 <html lang="es">
   <head>

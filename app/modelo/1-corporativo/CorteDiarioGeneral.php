@@ -145,8 +145,5 @@ class CorteDiarioGeneral extends Exception
      *  CIRRE LOTE
      * 
      * 
-     */
-    public function getTpv(): int {
-        
-    }
+     */    
 }
