@@ -374,8 +374,10 @@ var parametros = {
 
 
 
-<div class="modal" id="Modal">
-  <div class="modal-dialog" style="margin-top: 83px;">
+
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Agregar anexos</h5>

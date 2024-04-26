@@ -138,7 +138,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
 
       var data = new FormData();
-      var url = '../../app/controlador/controladorCorteDiario.php';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
       //var url = '../../public/corte-diario/modelo/agregar-embarques-mes.php';
 
       Documento = document.getElementById("Documento");
@@ -229,7 +229,6 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
               processData: false,
               cache: false
             }).done(function (data) {
-              
               $(".LoaderPage").hide();
               $('#Modal').modal('hide');
 
@@ -249,46 +248,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
       }
 
     }
-
-
-
-    function Eliminar(IdReporte, id) {
-
-      var parametros = {
-        "idReporte": IdReporte,
-        "id": id
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../public/corte-diario/modelo/eliminar-embarque-mes.php',
-        type: 'post',
-        beforeSend: function () {
-          $(".LoaderPage").show();
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 1) {
-
-            $(".LoaderPage").hide();
-
-            ListaEmbarques(IdReporte);
-            alertify.success('Embarque eliminado exitosamente.')
-
-          } else {
-            alertify.error('Error al eliminar')
-            $(".LoaderPage").hide();
-
-          }
-
-        }
-      });
-
-    }
-
+    
     function Editar(idReporte, id, idestacion) {
       $('#Modal').modal('show');
       $('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
@@ -317,7 +277,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
 
       var data = new FormData();
-      var url = '../../app/controlador/controladorCorteDiario.php';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
       //var url = '../../public/corte-diario/modelo/editar-embarques-mes.php';
 
       Documento = document.getElementById("Documento");
@@ -400,7 +360,6 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
         processData: false,
         cache: false
       }).done(function (data) {
-        console.log(data);
         $(".LoaderPage").hide();
         $('#Modal').modal('hide');
         ListaEmbarques(IdReporte);
@@ -432,7 +391,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
         $.ajax({
           data: parametros,
-          url: '../../app/controlador/controladorCortediario.php',
+          url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
           //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
           type: 'post',
           beforeSend: function () {
@@ -467,7 +426,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
       $.ajax({
         data: parametros,
-        url: '../../app/controlador/controladorCortediario.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
         //url: '../../public/corte-diario/modelo/eliminar-embarque-mes.php',
         type: 'post',
         beforeSend: function () {

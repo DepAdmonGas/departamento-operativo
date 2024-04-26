@@ -275,22 +275,19 @@ function ActSaldoFinal($IdReporte, $IdReporteA, $con)
 
       var parametros = {
         "id": id,
-        "total": total
+        "total": total,
+        "accion":"editar-saldo-inicial"
       };
 
       $.ajax({
         data: parametros,
-        url: '../../public/corte-diario/modelo/editar-saldo-inicial.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+        //url: '../../public/corte-diario/modelo/editar-saldo-inicial.php',
         type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
+        beforeSend: function () {},
+        complete: function () {},
         success: function (response) {
-
           $('#SaldoF' + id).text(response)
-
         }
       });
 
@@ -305,7 +302,7 @@ function ActSaldoFinal($IdReporte, $IdReporteA, $con)
 
       $.ajax({
         data: parametros,
-        url: '../../app/controlador/controladorCorteDiario.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
         //url:   '../../public/corte-diario/modelo/finalizar-resumen-clientes-mes.php',
         type: 'post',
         beforeSend: function () {

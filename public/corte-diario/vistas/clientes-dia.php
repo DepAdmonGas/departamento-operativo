@@ -89,7 +89,7 @@ header("Location:".PORTAL."");
   var agregar = 0;
   var data = new FormData();
   data.append('accion','agregar-pagos-cliente');
-  var url = '../../../app/controlador/controladorCorteDiario.php';
+  var url = '../../../app/controlador/1-corporativo/controladorCorteDiario.php';
   //var url = '../../../public/corte-diario/modelo/agregar-pagos.php';
 
   var Cliente = $('#Cliente').val();
@@ -230,7 +230,7 @@ if (FormaPago == "Tarjeta") {
 
            $.ajax({
      data:  parametros,
-     url : '../../../app/controlador/controladorCorteDiario.php',
+     url : '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/agregar-consumos.php',
      type:  'post',
      beforeSend: function() {
@@ -276,7 +276,7 @@ var parametros = {
 
        $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/eliminar-consumos-pagos.php',
      type:  'post',
      beforeSend: function() {},

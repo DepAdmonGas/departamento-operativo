@@ -1,12 +1,12 @@
 <?php
-require "../modelo/CorteDiario.php";
+require "../../modelo/1-corporativo/CorteDiario.php";
 $CorteDiario = new CorteDiario();
 
 switch($_POST['accion']):
     /**  
      *               Corte Ventas
      * 
-    */ 
+    */
     case 'nuevo-concentrado-ventas-otros':
         $sessionIdEstacion = $_POST['sessionIdEstacion'];
         $idReporte = $_POST['idReporte'];
@@ -194,7 +194,12 @@ switch($_POST['accion']):
         $id=$_POST['idCliente'];
         echo $CorteDiario->editarClienteDebito($cuenta,$cliente,$tipo,$id);
         break;
-        case 'finaliza-resumen-cliente-mes':
+    case 'editar-saldo-inicial':
+        $total = $_POST['total'];
+        $id = $_POST['id'];
+        echo $CorteDiario->editarSaldoInicial($id,$total);
+        break;
+    case 'finaliza-resumen-cliente-mes':
             $id = $_POST['IdReporte'];
             $CorteDiario->finalizaResumenClientesMes($id);
             break;
@@ -205,7 +210,7 @@ switch($_POST['accion']):
          */
     case 'editar-reporte-aceite':
         $tipo = $_POST['type'] ?? '';
-        $valor =  $_POST['pedido'] ?? $_POST['fisico'] ?? $_POST['facturado'] ?? $_POST['mostrador'] ??[''];
+        $valor =  $_POST['pedido'] ?? $_POST['fisico'] ?? $_POST['facturado'] ?? $_POST['mostrador'] ?? '';
         $id = $_POST['idaceite'];
         echo $CorteDiario->editarReporteAceite($tipo,$valor,$id);
         break;
@@ -277,6 +282,10 @@ switch($_POST['accion']):
         $doc = [$pdf,$xml];
         echo $CorteDiario->agregarDocumentoEdi($doc,$id,$complemento);
         break;
+    case 'eliminar-documento-monedero-edi':
+        $id = $_POST['id'];
+        echo $CorteDiario->eliminarDocumentoEdi($id);
+        break;
     /**
      * 
      *      EMBARQUES
@@ -291,6 +300,7 @@ switch($_POST['accion']):
         echo $CorteDiario->agregarComentarioEmbarques($idEmbarque, $idEstacion, $comentario);
         break;
     case 'agregar-embarque':
+        // valores del formulario 
         $idReporte = $_POST['IdReporte'] ?? "";
         $fecha = $_POST['Fecha'] ?? "";
         $embarque = $_POST['Embarque'] ?? "";
@@ -304,6 +314,7 @@ switch($_POST['accion']):
         $precioLitro = $_POST['PrecioLitro'] ?? "";
         $tad = $_POST['Tad'] ?? "";
         $valores = [$idReporte,$fecha,$embarque,$noDocumento,$importe,$merma, $nombreTransporte,$producto,$chofer, $unidad,$precioLitro, $tad];
+        // archivos del formulario
         $file = $_FILES['Documento_file']??[''];
         $pdf = $_FILES['PDF_file']??[''];
         $xml = $_FILES['XML_file']??[''];
@@ -342,6 +353,6 @@ switch($_POST['accion']):
         $compdf = $_FILES['ComPDF_file']??[''];
         $comxml = $_FILES['ComXML_file']??[''];
         $doc = [$file,$pdf, $xml,$copa,$ncpdf,$ncxml, $compdf,$comxml];
-        echo $CorteDiario->actualizaEmbarque($doc,$valores);
+        $CorteDiario->actualizaEmbarque($doc,$valores);
         break;
     endswitch;

@@ -5,7 +5,7 @@ $idEstacion = $Session_IDEstacion;
 
 
 function validaExtencion($extension){
-
+$icon = '';
 if ($extension == "xml") {
 $icon = RUTA_IMG_ICONOS.'xml.png';
 }else if ($extension == "pdf") {
