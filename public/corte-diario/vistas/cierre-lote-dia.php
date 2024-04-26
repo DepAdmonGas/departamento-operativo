@@ -1,13 +1,8 @@
 <?php
 require('app/help.php');
-include_once 'app/modelo/CorteDiarioGeneral.php';
+include_once 'app/modelo/1-corporativo/CorteDiarioGeneral.php';
 $funcion = new CorteDiarioGeneral();
-$tpv = $funcion->getTpv();
- $sql_dia = "SELECT tpv FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
-   $result_dia = mysqli_query($con, $sql_dia);
-   while($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)){
-   $tpv = $row_dia['tpv'];   
-  }
+$tpv = $funcion->getTpv($GET_idReporte);
 ?>
 <html lang="es">
   <head>

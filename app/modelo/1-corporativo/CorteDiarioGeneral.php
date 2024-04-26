@@ -146,7 +146,24 @@ class CorteDiarioGeneral extends Exception
      * 
      * 
      */
-    public function getTpv(): int {
+    public function getTpv(int $idReporte): int {
         
+        $sql_dia = "SELECT tpv FROM op_corte_dia WHERE id =? ";
+        $stmt = $this->con->prepare($sql_dia);
+        if( !$stmt ) :
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->bind_param("i", $idReporte);
+        if (!$stmt->execute()) :
+            throw new Exception("Erro al ejecutar la sentencia". $stmt->error);
+        endif;
+        $stmt->bind_result($tpv);
+        $stmt->fetch();
+        if($tpv == null):
+            $tpv = 0;
+        endif;
+        $stmt->close();
+        $this->classConexionBD->disconnect();
+       return $tpv;
     }
 }
