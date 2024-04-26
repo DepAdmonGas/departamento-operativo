@@ -1,7 +1,7 @@
 <?php
 require('app/help.php');
 include 'app/modelo/1-corporativo/CorteDiarioGeneral.php';
-$corteVenta = new CorteDiarioGeneral(); 
+$corteVenta = new CorteDiarioGeneral();
 ?>
 
 <html lang="es">

@@ -4,7 +4,6 @@ include_once 'app/modelo/1-corporativo/CorteDiarioGeneral.php';
 $funcion = new CorteDiarioGeneral();
 $dia = $funcion->getDia($GET_idReporte);
 ?>
-
 <html lang="es">
   <head>
   <meta charset="utf-8">
