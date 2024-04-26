@@ -145,5 +145,5 @@ class CorteDiarioGeneral extends Exception
      *  CIRRE LOTE
      * 
      * 
-     */    
+     */
 }
