@@ -5,16 +5,16 @@ $rura = $componentes_url['path'];
 $partes_ruta = explode("/", $rura);
 $partes_ruta = array_filter($partes_ruta);
 $partes_ruta = array_slice($partes_ruta, 0);
-$ruta_elegida = 'app/vistas/home/error.php';
+$ruta_elegida = 'app/vistas/error/error.php';
 
 if ($partes_ruta[0] == 'departamento-operativo') 
 {
-if (count($partes_ruta) == 1)
-{
-$ruta_elegida = 'public/home/vistas/index.php';
-}
-else if(count($partes_ruta) == 2)
-{
+
+if (count($partes_ruta) == 1){
+$ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
+
+
+}else if(count($partes_ruta) == 2){
     switch ($partes_ruta[1])  
     {
         case 'corte-diario':
@@ -275,7 +275,7 @@ else if(count($partes_ruta) == 2)
         break;
 
         case 'perfil':
-        $ruta_elegida = 'public/home/vistas/perfil-index.php';
+        $ruta_elegida = 'app/vistas/perfil-personal/perfil-index.php';
         break;
 
         case 'pedido-material':
@@ -321,7 +321,7 @@ else if(count($partes_ruta) == 2)
         //-------------- VISTAS USUARIOS DEIRECCION DE OPERACIONES -------------------------
 
         case 'corporativo':
-        $ruta_elegida = 'public/corte-diario/vistas/corporativo-index.php';
+        $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-index.php';
         break;
 
         case 'importacion':
