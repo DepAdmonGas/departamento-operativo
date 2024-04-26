@@ -93,7 +93,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
       var Diferencia = $('#Diferencia').val();
 
       var data = new FormData();
-      var url = '../../app/controlador/controladorCorteDiario.php/';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php/';
       //var url = '../../public/corte-diario/modelo/editar-documento-monedero.php';
 
       PDF = document.getElementById("PDF");
@@ -145,7 +145,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
       var data = new FormData();
       data.append("accion", "guardar-documento-edi");
-      var url = '../../app/controlador/controladorCorteDiario.php';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
       //var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
 
       PDF = document.getElementById("PDF");

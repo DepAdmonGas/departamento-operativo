@@ -187,6 +187,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
     $cantidad = 0;
+    $total = 0;
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
       $id = $row_listaaceite['id'];
 

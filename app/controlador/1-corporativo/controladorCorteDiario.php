@@ -1,12 +1,12 @@
 <?php
-require "../modelo/CorteDiario.php";
+require "../../modelo/1-corporativo/CorteDiario.php";
 $CorteDiario = new CorteDiario();
 
 switch($_POST['accion']):
     /**  
      *               Corte Ventas
      * 
-    */ 
+    */
     case 'nuevo-concentrado-ventas-otros':
         $sessionIdEstacion = $_POST['sessionIdEstacion'];
         $idReporte = $_POST['idReporte'];

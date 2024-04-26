@@ -350,7 +350,7 @@ function AgregarCierre(idReporte,empresa){
 
    $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/nuevo-cierre-lote.php',
      type:  'post',
      beforeSend: function() {},
@@ -405,7 +405,7 @@ function EditNoCierre(val,idReporte,idCierre,empresa){
 
     $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
      beforeSend: function() {},
@@ -463,7 +463,7 @@ function EditImporte(val,idReporte,idCierre,empresa){
 
     $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
      beforeSend: function() {},
@@ -521,7 +521,7 @@ function EditNoTicket(val,idReporte,idCierre,empresa){
 
     $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/editar-cierre-lote.php',
      type:  'post',
      beforeSend: function(){},
@@ -587,7 +587,7 @@ function(){
 
     $.ajax({
      data:  parametros,
-     url:'../../../app/controlador/controladorCorteDiario.php',
+     url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
      //url:   '../../../public/corte-diario/modelo/editar-pendiente-cierre-lote.php',
      type:  'post',
      beforeSend: function() {},
