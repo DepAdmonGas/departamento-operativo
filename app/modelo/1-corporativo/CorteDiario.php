@@ -882,7 +882,7 @@ class CorteDiario extends Exception
         $vitstoB = "VoBo";
         $corte = 1;
         $accion = "";
-        if (file_put_contents('../../imgs/firma/' . $fileName, $fileData)):
+        if (file_put_contents('../../../imgs/firma/' . $fileName, $fileData)):
             $sql_insert = "INSERT INTO op_corte_dia_firmas (
                 id_reportedia,
                 id_usuario,

@@ -1,9 +1,91 @@
 <?php
-require ('app/help.php');
+require('app/help.php');
 include 'app/modelo/1-corporativo/CorteVentas.php';
-if ($Session_IDUsuarioBD == ""): header("Location:" . PORTAL . ""); endif;
-$corteVenta = new CorteVentas();
+
+if ($Session_IDUsuarioBD == ""): header("Location:".PORTAL.""); endif;
+$corteVenta = new CorteDiarioGeneral();
+
+function Firma($idReporte,$detalle,$rutafirma,$con){
+
+$sql_firma = "SELECT 
+op_corte_dia_firmas.id AS idFirma,
+op_corte_dia_firmas.id_usuario, 
+op_corte_dia_firmas.firma,
+op_corte_dia_firmas.fecha,
+tb_usuarios.nombre
+FROM op_corte_dia_firmas
+INNER JOIN tb_usuarios
+ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '".$idReporte."' AND detalle = '".$detalle."' ORDER BY idFirma DESC LIMIT 1";
+   $result_firma = mysqli_query($con, $sql_firma);
+   while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)):
+    $idFirma = $row_firma['idFirma'];
+    $nombre = $row_firma['nombre'];
+    $firma = $row_firma['firma'];
+    $explode = explode(' ', $row_firma['fecha']);
+   endwhile;
+   $contenido = '';
+   if($detalle == "Elaboró"){
+    $contenido .= '<div class="text-center mt-1">';
+    $contenido .= '<img src="'.$rutafirma.$firma.'" width="150px" height="70px">';
+    $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>'.$nombre.'</b></div>';
+    $contenido .= '</div>';
+   }else if($detalle == "Superviso" || $detalle == "VoBo"){
+
+    $NewFecha = date("Y-m-d",strtotime($explode[0]."+ 2 days")); 
+
+    $timestamp1 = strtotime(date("Y-m-d"));
+    $timestamp2 = strtotime($NewFecha);
+
+    if($timestamp1 >= $timestamp2){
+
+    $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+
+    $contenido .= '<div class="">';
+    $contenido .= $Detalle;
+    $contenido .= '<div class="mb-1 text-center pt-2"><b>'.$nombre.'</b></div>';
+    $contenido .= '</div>';
+
+    }else{
+
+    $contenido .= '<div class="text-center mt-1">';
+    $contenido .= '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
+    $contenido .= '<div class="text-center mt-1 border-top pt-2"></div>';
+    $contenido .= '</div>';
+
+    }
+ 
+   }
+
+   return $contenido;
+
+}
+
+
+function fechaReporte($GET_idReporte,$con){
+
+$sql_corte = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
+$result_corte = mysqli_query($con, $sql_corte);
+
+while($row_corte = mysqli_fetch_array($result_corte, MYSQLI_ASSOC)){
+$fecha_reporte = $row_corte['fecha'];
+}
+
+return $fecha_reporte;
+}
+
+
+function aperturaReporte($GET_idReporte,$con){
+  $sql_corte_activado = "SELECT id FROM op_corte_dia_hist WHERE id_corte = '".$GET_idReporte."' ";
+  $result_corte_activado = mysqli_query($con, $sql_corte_activado );
+  return $numero_corte_activado  = mysqli_num_rows($result_corte_activado );
+
+}
+
+ 
+
+ 
 ?>
+
 <html lang="es">
 <head>
   <meta charset="utf-8">
