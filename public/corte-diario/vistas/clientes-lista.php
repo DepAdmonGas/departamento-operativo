@@ -80,7 +80,7 @@ header("Location:".PORTAL."");
   var data = new FormData();
   data.append("idestacion", sessionidEstacion);
   data.append("accion", "agregar-cliente");
-  var url='../../../app/controlador/controladorCorteDiario.php';
+  var url='../../../app/controlador/1-corporativo/controladorCorteDiario.php';
   //var url = '../../../public/corte-diario/modelo/agregar-cliente.php';
 
   if (Tipo != "") {
@@ -155,7 +155,7 @@ header("Location:".PORTAL."");
   var data = new FormData();
   
   //var url = '../../../public/corte-diario/modelo/editar-cliente.php';
-  var url='../../../app/controlador/controladorCorteDiario.php';
+  var url='../../../app/controlador/1-corporativo/controladorCorteDiario.php';
   data.append('accion','editar-cliente-credito');
   data.append('idCliente', idCliente);
   data.append('Cuenta', Cuenta);
@@ -216,7 +216,7 @@ SelCredito.style.display = "none";
 
   var data = new FormData();
   //var url = '../../../public/corte-diario/modelo/editar-cliente-debito.php';
-  var url='../../../app/controlador/controladorCorteDiario.php';
+  var url='../../../app/controlador/1-corporativo/controladorCorteDiario.php';
   data.append('accion','editar-cliente-debito');
   data.append('idCliente', idCliente);
   data.append('Cuenta', Cuenta);

@@ -305,7 +305,7 @@ function ActSaldoFinal($IdReporte, $IdReporteA, $con)
 
       $.ajax({
         data: parametros,
-        url: '../../app/controlador/controladorCorteDiario.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
         //url:   '../../public/corte-diario/modelo/finalizar-resumen-clientes-mes.php',
         type: 'post',
         beforeSend: function () {

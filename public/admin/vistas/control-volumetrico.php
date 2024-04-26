@@ -1,4 +1,3 @@
- 
 <?php
 require('app/help.php');
 
@@ -544,8 +543,7 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
     '".$IdReporte."',
     '".$detalle."',
     '".$posicion."',
-    0,0,0,0,0,0,0,0,0,0,0,0  
-    )";
+    0,0,0,0,0,0,0,0,0,0,0,0)";
 
  mysqli_query($con, $sql_insert);
 

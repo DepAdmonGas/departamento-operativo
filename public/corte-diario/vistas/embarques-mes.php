@@ -138,7 +138,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
 
       var data = new FormData();
-      var url = '../../app/controlador/controladorCorteDiario.php';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
       //var url = '../../public/corte-diario/modelo/agregar-embarques-mes.php';
 
       Documento = document.getElementById("Documento");
@@ -229,7 +229,6 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
               processData: false,
               cache: false
             }).done(function (data) {
-              
               $(".LoaderPage").hide();
               $('#Modal').modal('hide');
 
@@ -317,7 +316,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
 
       var data = new FormData();
-      var url = '../../app/controlador/controladorCorteDiario.php';
+      var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
       //var url = '../../public/corte-diario/modelo/editar-embarques-mes.php';
 
       Documento = document.getElementById("Documento");
@@ -431,7 +430,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
         $.ajax({
           data: parametros,
-          url: '../../app/controlador/controladorCorteDiario.php',
+          url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
           //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
           type: 'post',
           beforeSend: function () {
@@ -466,7 +465,7 @@ $IdReporte = IdReporte($Session_IDEstacion, $GET_year, $GET_mes, $con);
 
       $.ajax({
         data: parametros,
-        url: '../../app/controlador/controladorCorteDiario.php',
+        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
         //url: '../../public/corte-diario/modelo/eliminar-embarque-mes.php',
         type: 'post',
         beforeSend: function () {
