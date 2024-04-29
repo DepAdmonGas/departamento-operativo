@@ -1,6 +1,31 @@
 <?php
 require('app/help.php');
 
+if ($Pagina == "corte-diario"){
+$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year,$con);
+$breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+
+}else if($Pagina == "solicitud-cheque"){
+$breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+
+}else if($Pagina == "ingresos-facturacion"){
+$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year,$con);
+$breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+
+}else if($Pagina == "despacho-factura"){
+$breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+
+}else if($Pagina == "solicitud-vales"){
+$breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+
+}
+ 
+
 ?> 
 
 <html lang="es">
@@ -30,27 +55,23 @@ require('app/help.php');
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  listaSubMenu('Corporativo')
+
   });
 
-  //---------- LISTADO SUB MENU ----------//
-  function listaSubMenu(elemento){
-  $('#DivlistaSubMenuDO').load('app/vistas/personal-general/1-corporativo/lista-submenu.php?elemento=' + elemento);    
+  function menuCorporativoYear(referencia){
+  window.location.href = referencia;
   }
- 
-  
-  
-  //---------- RUTAS SUBMENU DIRECCION DE OPERACIONES ----------//
-  function rutaSubMenuDO(ruta){
-  //window.location.href = ruta + '/' + 2024 + '/' + 1;
-  window.location.href = ruta;
+
+  function corporativoYear(ruta,year){
+  window.location.href = ruta + "/" + year;
+
   }
- 
- 
+
+
   </script> 
   </head>
 
-  <body>
+  <body> 
  
   <div class="LoaderPage"></div>
 
@@ -59,31 +80,14 @@ require('app/help.php');
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  
   <div class="contendAG">
 
   <div class="row"> 
- 
-  <div class="col-12">
-  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-  <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a href="<?=SERVIDOR?>" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Inicio</a></li>
-  <li aria-current="page" class="breadcrumb-item active text-uppercase">Corporativo</li>
-  </ol>
-  </div>
- 
-  <div class="row"> 
-  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Corporativo</h3> </div>
+  <?=$breadcrumbYear?>
+  <?=$cardsYear?>
   </div>
 
-  <hr>
   </div>
-
-  <div class="col-12"> <div id="DivlistaSubMenuDO"></div> </div>
-
-  </div>
-  </div>
-
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

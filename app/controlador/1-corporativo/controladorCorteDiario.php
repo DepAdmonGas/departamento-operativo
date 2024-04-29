@@ -31,7 +31,7 @@ switch($_POST['accion']):
         $baucher = $_POST['baucher'];
         $idTarjeta = $_POST['idTarjeta'];
         echo $CorteDiario->editarTarjetasCB($baucher,$idTarjeta);
-        break;
+        break;  
     case 'nuevo-registro-controlgas':
         $idReporte = $_POST['idReporte'];
         $credito = "CRÉDITO (ANEXO)";
