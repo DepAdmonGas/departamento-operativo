@@ -4,6 +4,8 @@ include_once "config/inc.configuracion.php";
 include_once "config/ConfiguracionSesiones.php";
 include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
+include_once "modelo/1-corporativo/HomeCorporativo.php";
+
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -41,6 +43,8 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
         $session_idpuesto = $decoded->id_puesto_usuario;
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
+        $ClassHomeCorporativo = new HomeCorporativo();
+
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();
     }
