@@ -9,17 +9,56 @@ $ruta_elegida = 'app/vistas/error/error.php';
 
 if ($partes_ruta[0] == 'departamento-operativo') 
 {
-
+ 
 if (count($partes_ruta) == 1){
 $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
-
 }else if(count($partes_ruta) == 2){
-    switch ($partes_ruta[1])  
-    {
-        case 'corte-diario':
-        $ruta_elegida = 'public/corte-diario/vistas/index.php';
-        break;  
+   
+    switch ($partes_ruta[1])  {
+       
+    //---------- 1.CORPORATIVO ---------- 
+    case 'corporativo':
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-index.php';
+    break;
+
+    case 'corte-diario':
+    //$ruta_elegida = 'public/corte-diario/vistas/index.php';
+    $Pagina = 'corte-diario';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;  
+ 
+    case 'solicitud-cheque':
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
+    $Pagina = 'solicitud-cheque';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
+ 
+    case 'ingresos-facturacion':
+    //$ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-index.php';
+    $Pagina = 'ingresos-facturacion';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break; 
+
+    case 'estimulo-fiscal':
+    $ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
+    break;
+
+    case 'despacho-factura':
+    //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-index.php';
+    $Pagina = 'despacho-factura';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
+    
+    case 'solicitud-vales':
+    //$ruta_elegida = 'public/solicitud-vales/vistas/index.php';
+    $Pagina = 'solicitud-vales';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
+
+
+    
+    //---------- 2. RECURSOS HUMANOS ----------
 
         case 'administracion':
         $ruta_elegida = 'public/admin/vistas/index.php';
@@ -33,9 +72,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         $ruta_elegida = 'public/corte-diario/vistas/mediciones-index.php';
         break;
 
-        case 'ingresos-facturacion':
-        $ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-index.php';
-        break; 
+
 
         case 'terminales-tpv':
         $ruta_elegida = 'public/corte-diario/vistas/terminales-tpv-index.php';
@@ -87,9 +124,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         $ruta_elegida = 'public/corte-diario/vistas/limpieza-reporte-index.php';
         break;
 
-        case 'solicitud-cheque':
-        $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
-        break;
+
 
         case 'solicitud-aditivo':
         $ruta_elegida = 'public/corte-diario/vistas/solicitud-aditivo-index.php';
@@ -99,9 +134,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         $ruta_elegida = 'public/firma-electronica/firma-electronica-index.php';
         break;
 
-        case 'estimulo-fiscal':
-        $ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
-        break;
+
 
         case 'recursos-humanos':
         $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-index.php'; 
@@ -185,9 +218,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-lista-negra.php';
         break;        
 
-        case 'despacho-factura':
-        $ruta_elegida = 'public/corte-diario/vistas/despacho-factura-index.php';
-        break;
+
  
         //---------- RECIBOS DE NOMINA V2 ----------
         case 'recibos-nomina':
@@ -320,9 +351,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
         //-------------- VISTAS USUARIOS DEIRECCION DE OPERACIONES -------------------------
 
-        case 'corporativo':
-        $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-index.php';
-        break;
+
 
         case 'importacion':
         $ruta_elegida = 'public/corte-diario/vistas/importacion-index.php';
@@ -341,11 +370,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         break;
 
 
-        //-----  VALES -----//
 
-        case 'solicitud-vales':
-        $ruta_elegida = 'public/solicitud-vales/vistas/index.php';
-        break;
 
         //----- Mantenimiento preventivo -----//
         case 'mantenimiento-preventivo':
@@ -360,21 +385,60 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
         
     }
-}
-else if(count($partes_ruta) == 3)
-{
 
-        //-------------- CONTRATOS -------------------------
-    if ($partes_ruta[1] == 'contratos') {
+}else if(count($partes_ruta) == 3){
+
+    //---------- 1.CORPORATIVO ---------- 
+    if ($partes_ruta[1] == 'corte-diario') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    }
+
+    else if ($partes_ruta[1] == 'solicitud-cheque') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    }
+
+    else if ($partes_ruta[1] == 'ingresos-facturacion') {
+    $GET_year = $partes_ruta[2];
+    $ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-year.php';
+    }
+
+    else if ($partes_ruta[1] == 'despacho-factura') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    }
+
+    else if ($partes_ruta[1] == 'solicitud-vales') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+
+    }
+
+
+
+
+    
+
+    //-------------- CONTRATOS -------------------------
+    else if ($partes_ruta[1] == 'contratos') {
     $GET_Categoria = $partes_ruta[2];
     $ruta_elegida = 'public/contratos/vistas/contratos-index.php';
     }
- 
-    else if ($partes_ruta[1] == 'corte-diario') {
-    $GET_year = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/corte-diario-year.php';
+
+    else if ($partes_ruta[2] == 'despacho-factura') {
+    $GET_year = $partes_ruta[3];
+    $ruta_elegida = 'public/admin/vistas/despacho-factura-year.php';
     }
-    
+
     else if ($partes_ruta[2] == 'aceites') {
     $ruta_elegida = 'public/aceites/vistas/index.php';
 
@@ -451,10 +515,7 @@ else if(count($partes_ruta) == 3)
     else if ($partes_ruta[2] == 'mediciones') { 
     $ruta_elegida = 'public/admin/vistas/mediciones-index.php';
     }
-    else if ($partes_ruta[1] == 'ingresos-facturacion') {
-    $GET_year = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-year.php';
-    }
+
     else if ($partes_ruta[2] == 'ingresos-facturacion') {
     $ruta_elegida = 'public/admin/vistas/ingresos-facturacion-index.php';
     }
@@ -525,10 +586,7 @@ else if(count($partes_ruta) == 3)
     else if ($partes_ruta[2] == 'solicitud-cheque') {
     $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
     }
-    else if ($partes_ruta[1] == 'solicitud-cheque') {
-    $GET_year = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-year.php';
-    }
+
     else if ($partes_ruta[1] == 'solicitud-cheque-editar') {
     $GET_idReporte = $partes_ruta[2];
     $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-editar.php';
@@ -558,10 +616,7 @@ else if(count($partes_ruta) == 3)
     else if ($partes_ruta[2] == 'despacho-factura') {
     $ruta_elegida = 'public/admin/vistas/despacho-factura-index.php';
     }
-    else if ($partes_ruta[1] == 'despacho-factura') {
-    $GET_year = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/despacho-factura-year.php';
-    }
+
     else if ($partes_ruta[1] == 'solicitud-cheque-pdf') {
     $GET_idReporte = $partes_ruta[2];
     $ruta_elegida = 'public/admin/vistas/solicitud-cheque-pdf.php';
@@ -849,10 +904,6 @@ else if(count($partes_ruta) == 3)
 
 
     //----- Vales
-    else if ($partes_ruta[1] == 'solicitud-vales') {
-    $GET_year = $partes_ruta[2];
-    $ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
-    }
     else if ($partes_ruta[1] == 'solicitud-vales-firmar') {
     $GET_idReporte = $partes_ruta[2];
     $ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-firmar.php';
@@ -1016,12 +1067,6 @@ else if(count($partes_ruta) == 4)
     else if ($partes_ruta[2] == 'pedido-material-firma') {
     $GET_idPedido = $partes_ruta[3];
     $ruta_elegida = 'public/admin/vistas/pedido-material-firma.php';
-    }
-
-
-    else if ($partes_ruta[2] == 'despacho-factura') {
-    $GET_year = $partes_ruta[3];
-    $ruta_elegida = 'public/admin/vistas/despacho-factura-year.php';
     }
 
     else if ($partes_ruta[1] == 'despacho-factura') {

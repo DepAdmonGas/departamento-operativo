@@ -1,7 +1,30 @@
 <?php
 require('app/help.php');
+ 
+if ($Pagina == "corte-diario"){
+$IdReporte = $ClassHomeCorporativo->IdReporte($Session_IDEstacion,$GET_year,$con); 
+$ClassHomeCorporativo->ValidaMesReporte($IdReporte,$fecha_mes,$con);
+$breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+   
+}else if($Pagina == "solicitud-cheque"){
+$IdReporte = ""; 
+$breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
 
-?> 
+}else if($Pagina == "despacho-factura"){
+$IdReporte = ""; 
+$breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+   
+}else if($Pagina == "solicitud-vales"){
+$IdReporte = ""; 
+$breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+   
+}
+
+?>  
 
 <html lang="es">
   <head>
@@ -30,27 +53,22 @@ require('app/help.php');
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  listaSubMenu('Corporativo')
+
   });
 
-  //---------- LISTADO SUB MENU ----------//
-  function listaSubMenu(elemento){
-  $('#DivlistaSubMenuDO').load('app/vistas/personal-general/1-corporativo/lista-submenu.php?elemento=' + elemento);    
+  function menuCorporativoMes(referencia){
+    window.location.href = referencia;
   }
- 
-  
-  
-  //---------- RUTAS SUBMENU DIRECCION DE OPERACIONES ----------//
-  function rutaSubMenuDO(ruta){
-  //window.location.href = ruta + '/' + 2024 + '/' + 1;
-  window.location.href = ruta;
+
+  function corporativoMes(year,mes){
+  window.location.href = year + "/" + mes;
   }
- 
- 
+
+
   </script> 
   </head>
 
-  <body>
+  <body> 
  
   <div class="LoaderPage"></div>
 
@@ -59,31 +77,14 @@ require('app/help.php');
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  
   <div class="contendAG">
 
   <div class="row"> 
- 
-  <div class="col-12">
-  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-  <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a href="<?=SERVIDOR?>" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Inicio</a></li>
-  <li aria-current="page" class="breadcrumb-item active text-uppercase">Corporativo</li>
-  </ol>
-  </div>
- 
-  <div class="row"> 
-  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Corporativo</h3> </div>
+  <?=$breadcrumbMes?>
+  <?=$cardsMes?>
   </div>
 
-  <hr>
   </div>
-
-  <div class="col-12"> <div id="DivlistaSubMenuDO"></div> </div>
-
-  </div>
-  </div>
-
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
