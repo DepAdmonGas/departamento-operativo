@@ -5,7 +5,7 @@ $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 
     function TarjetasCB($idReporte,$concepto,$con){
-    $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
+    $sql_cb = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
     $result_cb = mysqli_query($con, $sql_cb);
     $baucher = 0;
     while($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)){

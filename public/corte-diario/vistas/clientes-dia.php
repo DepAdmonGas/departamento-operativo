@@ -1,15 +1,6 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-   $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = '".$GET_idReporte."' ";
-   $result_dia = mysqli_query($con, $sql_dia);
-   while($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)){
-   $dia = $row_dia['fecha'];
-   }
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 <html lang="es">
   <head>

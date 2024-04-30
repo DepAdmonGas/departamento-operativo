@@ -1,37 +1,7 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
-function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
-   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
-   $result_year = mysqli_query($con, $sql_year);
-   while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
-   $idyear = $row_year['id'];
-   }
-
-   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
-   $result_mes = mysqli_query($con, $sql_mes);
-   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
-   $idmes = $row_mes['id'];
-   }
-
-   return $idmes;  
-   }
-
-   function InventarioFin($IdReporte,$con){
-  $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = '".$IdReporte."' LIMIT 1 ";
-   $result_reporte = mysqli_query($con, $sql_reporte);
-   $numero_reporte = mysqli_num_rows($result_reporte);
-
-   return $numero_reporte;
-   }
-
-  $IdReporte = IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con); 
-   $InventarioFin = InventarioFin($IdReporte,$con);
+$IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
+$InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 ?>
 
 <html lang="es">
@@ -328,7 +298,7 @@ function EditFacturados(val,idaceite){
      $.ajax({
      data:  parametros,
      url:   '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-     url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+     //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
      type:  'post',
      beforeSend: function() {
      },

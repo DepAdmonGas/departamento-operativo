@@ -5,35 +5,19 @@ include_once "config/ConfiguracionSesiones.php";
 include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
 include_once "modelo/1-corporativo/HomeCorporativo.php";
-
-
+include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+// clase para recursos humanos
 $ClassEncriptar = new Encriptar();
 
-// Crea una instancia de la clase Database
-$database = new Database();
-
-// Obtén una instancia y obtiene la  conexión a la base de datos
-$con = $database->getInstance()->getConnection();
-
-// Instancia la clase configuracion-sesiones
-$configuracionSesiones = new ConfiguracionSesiones();
-
-// Obtiene keyJWT
-$keyJWT = $configuracionSesiones->obtenerKey();
-
-date_default_timezone_set('America/Mexico_City');
-$fecha_del_dia = date("Y-m-d");
-$hora_del_dia = date("H:i:s");
-$hoy = date("Y-m-d H:i:s");
-
-$fecha_year = date("Y");
-$fecha_mes = date("m");
-$fecha_dia = date("d");
 // Valida si esta activa la sesion por medio de la cookie
-if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
+if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
+    // Instancia la clase configuracion-sesiones
+    $configuracionSesiones = new ConfiguracionSesiones();
+    // Obtiene keyJWT
+    $keyJWT = $configuracionSesiones->obtenerKey();
     $token = $_COOKIE['COOKIEADMONGAS'];
     try {
         $decoded = JWT::decode($token, new Key($keyJWT, 'HS256'));
@@ -44,18 +28,34 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
         $ClassHomeCorporativo = new HomeCorporativo();
+        // Instancia a la base de datos
+        $database = Database::getInstance();
+        // Obtiene la  conexión a la base de datos
+        $con = $database->getConnection();
+        // clase donde vienen consultas generales para las vistas en corte diario
+        $corteDiarioGeneral = new CorteDiarioGeneral($con);
+
 
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();
     }
-} else {
+else :
     $database->disconnect();
     header("Location:" . PORTAL . "");
     die();
-}
+endif;
 
 //--------------------------------------------------------------------------------
 //---------------------------------Formato Fechas---------------------------------
+date_default_timezone_set('America/Mexico_City');
+$fecha_del_dia = date("Y-m-d");
+$hora_del_dia = date("H:i:s");
+$hoy = date("Y-m-d H:i:s");
+
+$fecha_year = date("Y");
+$fecha_mes = date("m");
+$fecha_dia = date("d");
+
 function nombremes($mes)
 {
 
@@ -93,25 +93,18 @@ function get_nombre_dia($fecha)
     switch (date('w', $fechats)) {
         case 0:
             return "Domingo";
-            break;
         case 1:
             return "Lunes";
-            break;
         case 2:
             return "Martes";
-            break;
         case 3:
             return "Miercoles";
-            break;
         case 4:
             return "Jueves";
-            break;
         case 5:
             return "Viernes";
-            break;
         case 6:
             return "Sabado";
-            break;
     }
 }
 
@@ -122,26 +115,18 @@ function nombreDia($fecha)
     switch (date('w', $fechaTS)) {
         case 0:
             return "Domingo";
-            break;
         case 1:
             return "Lunes";
-            break;
         case 2:
             return "Martes";
-            break;
         case 3:
             return "Miércoles";
-            break;
         case 4:
             return "Jueves";
-            break;
         case 5:
             return "Viernes";
-            break;
         case 6:
             return "Sábado";
-            break;
-
     }
 }
 
