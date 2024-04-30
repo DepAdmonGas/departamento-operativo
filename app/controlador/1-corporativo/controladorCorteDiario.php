@@ -65,7 +65,7 @@ switch($_POST['accion']):
         $idVentas = $_POST['idVentas'] ?? $_POST['idOtros'] ?? $_POST['idReporte'] ?? null;
         $tipo = $_POST['type'];
         $valor = $_POST['producto'] ?? $_POST['litros'] ?? $_POST['jarras'] ?? $_POST['preciolitro'] 
-                    ?? $_POST['otros']?? null;
+                    ?? $_POST['otros']?? "";
         if($tipo == "producto"):
             echo $CorteDiario->editarVentasProducto($valor,$idVentas);
         elseif($tipo == "piezas"):
