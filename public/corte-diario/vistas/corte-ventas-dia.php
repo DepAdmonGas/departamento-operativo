@@ -1,45 +1,11 @@
 <?php
-require('app/help.php');
-include 'app/modelo/1-corporativo/CorteDiarioGeneral.php';
-$corteVenta = new CorteDiarioGeneral();
+require 'app/vistas/contenido/header.php';
+$ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
 ?>
-
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Dirección de operaciones</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width initial-scale=1.0">
-  <link rel="shortcut icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="apple-touch-icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>alertify.css">
-  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>themes/default.rtl.css">
-  <link href="<?= RUTA_CSS2; ?>bootstrap.min.css" rel="stylesheet" />
-  <link href="<?= RUTA_CSS2; ?>navbar-general.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-  <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
-
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
 
       VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
 
@@ -239,20 +205,13 @@ $corteVenta = new CorteDiarioGeneral();
       DifPagoCliente(<?= $GET_idReporte; ?>);
 
       Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ListaDocumentos(<?= $GET_idReporte; ?>)
-
-    });
-
-    function Regresar() {
-      window.history.back();
-    }
-
+      ListaDocumentos(<?= $GET_idReporte; ?>);
+    };
     function Ventas(idReporte) {
       $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
 
       $('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
     }
-
     function VentasOtros(idReporte, idEstacion) {
 
 
@@ -482,111 +441,122 @@ $corteVenta = new CorteDiarioGeneral();
         "pago": pago,
         "accion": "editar-controlgas"
 
-    }
+      }
 
-    function formatAsMoney(n) {
-      n = (Number(n).toFixed(2) + '').split('.');
-      return n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (n[1] || '00');
-    }
+      function formatAsMoney(n) {
+        n = (Number(n).toFixed(2) + '').split('.');
+        return n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '.' + (n[1] || '00');
+      }
 
-    //-------------------------------------------------------------------------
+      //-------------------------------------------------------------------------
 
-    function ClientesControlgasAgregar(idReporte) {
-      var parametros = {
-        "idReporte": idReporte,
-        "accion": "nuevo-registro-controlgas"
+      function ClientesControlgasAgregar(idReporte) {
+        var parametros = {
+          "idReporte": idReporte,
+          "accion": "nuevo-registro-controlgas"
 
-      };
+        };
 
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
 
-        //url:   '../../../public/corte-diario/modelo/nuevo-registro-controlgas.php',
+          //url:   '../../../public/corte-diario/modelo/nuevo-registro-controlgas.php',
 
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
 
 
-        },
-        success: function (response) {
+          },
+          success: function (response) {
 
-          if (response == 0) {
-            ClientesControlgas(idReporte);
-          } else {
-            ControlGTotal(idReporte);
-            DifPagoCliente(idReporte);
-          }
-
-        }
-      });
-    }
-
-    function EditCGConsumo(val, idReporte, idControl) {
-      var consumo = val.value;
-
-      var parametros = {
-        "type": "consumo",
-        "idControl": idControl,
-        "consumo": consumo,
-
-          ClientesControlgas(idReporte)
-        },
-        success: function (response) {
-        }
-      });
-    }
-
-    function ClientesControlgas(idReporte) {
-      $('#DivControlgas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
-    }
-
-    function EditCGPago(val, idReporte, idControl) {
-      var pago = val.value;
-
-      var parametros = {
-        "type": "pago",
-        "idControl": idControl,
-        "pago": pago,
-        "accion": "editar-controlgas"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            ClientesControlgas(idReporte);
-          } else {
-            ControlGTotal(idReporte);
-
-            Total1234(idReporte);
+            if (response == 0) {
+              ClientesControlgas(idReporte);
+            } else {
+              ControlGTotal(idReporte);
+              DifPagoCliente(idReporte);
+            }
 
           }
+        });
+      }
 
+      function EditCGConsumo(val, idReporte, idControl) {
+        var consumo = val.value;
+
+        var parametros = {
+          "type": "consumo",
+          "idControl": idControl,
+          "consumo": consumo,
+          "accion": "editar-controlgas"
         }
-      });
-    }
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
 
+          },
+          success: function (response) {
 
-            DifPagoCliente(idReporte);
+            if (response == 0) {
+              ClientesControlgas(idReporte);
+            } else {
+              ControlGTotal(idReporte);
+              Total1234(idReporte);
+
+            }
+
           }
+        });
+      }
 
-        }
-      });
+      function ClientesControlgas(idReporte) {
+        $('#DivControlgas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
+        $('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
+      }
+
+      function EditCGPago(val, idReporte, idControl) {
+        var pago = val.value;
+
+        var parametros = {
+          "type": "pago",
+          "idControl": idControl,
+          "pago": pago,
+          "accion": "editar-controlgas"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-controlgas.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+            if (response == 0) {
+              ClientesControlgas(idReporte);
+            } else {
+              ControlGTotal(idReporte);
+
+              Total1234(idReporte);
+
+            }
+
+          }
+        });
+      }
+      DifPagoCliente(idReporte);
     }
-
     function EditCGConsumo(val, idReporte, idControl) {
       var consumo = val.value;
 
@@ -915,106 +885,311 @@ $corteVenta = new CorteDiarioGeneral();
       }
 
 
-    function EditPCimporte(val, idReporte, idPagoCliente) {
-      var importe = val.value;
-
-      var parametros = {
-        "type": "importe",
-        "idPagoCliente": idPagoCliente,
-        "importe": importe,
-        "accion": "editar-pago-clientes"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            PagoCliente(idReporte);
-          } else {
-            PagoCTotal(idReporte);
-            DifPagoCliente(idReporte);
-          }
-
-        }
-      });
-    }
-
-    function EditPCnota(e, idReporte, idPagoCliente) {
-
-      e.value = e.value.toUpperCase();
-      var nota = e.value;
-
-      var parametros = {
-        "type": "nota",
-        "idPagoCliente": idPagoCliente,
-        "nota": nota,
-        "accion": "editar-pago-clientes"
-      };
-
-      $.ajax({
-        data: parametros,
-        //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            PagoCliente(idReporte);
-          } else {
-            PagoCTotal(idReporte);
-          }
-
-        }
-      });
-    }
-
-    //----------------------------------------------------------------------------
-    function NewVentas(idReporte) {
-
-      var parametros = {
-        "accion": "nuevo-registro-venta",
-        "idReporte": idReporte
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:'../../../public/corte-diario/modelo/nuevo-registro-ventas.php',
-        type: 'POST',
-        beforeSend: function () {
-        },
-        complete: function () {
-          Ventas(idReporte);
-        },
-        success: function (response) {
-        }
-      });
-    }
-    //------------------------------------------------------
-    function EditProducto(val, idReporte, idVentas) {
-
-      var producto = val.value;
-
-      if (producto != "") {
+      function EditPCimporte(val, idReporte, idPagoCliente) {
+        var importe = val.value;
 
         var parametros = {
-          "type": "producto",
+          "type": "importe",
+          "idPagoCliente": idPagoCliente,
+          "importe": importe,
+          "accion": "editar-pago-clientes"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+            if (response == 0) {
+              PagoCliente(idReporte);
+            } else {
+              PagoCTotal(idReporte);
+              DifPagoCliente(idReporte);
+            }
+
+          }
+        });
+      }
+
+      function EditPCnota(e, idReporte, idPagoCliente) {
+
+        e.value = e.value.toUpperCase();
+        var nota = e.value;
+
+        var parametros = {
+          "type": "nota",
+          "idPagoCliente": idPagoCliente,
+          "nota": nota,
+          "accion": "editar-pago-clientes"
+        };
+
+        $.ajax({
+          data: parametros,
+          //url:   '../../../public/corte-diario/modelo/editar-pagoclientes.php',
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+            if (response == 0) {
+              PagoCliente(idReporte);
+            } else {
+              PagoCTotal(idReporte);
+            }
+
+          }
+        });
+      }
+
+      //----------------------------------------------------------------------------
+      function NewVentas(idReporte) {
+
+        var parametros = {
+          "accion": "nuevo-registro-venta",
+          "idReporte": idReporte
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:'../../../public/corte-diario/modelo/nuevo-registro-ventas.php',
+          type: 'POST',
+          beforeSend: function () {
+          },
+          complete: function () {
+            Ventas(idReporte);
+          },
+          success: function (response) {
+          }
+        });
+      }
+      //------------------------------------------------------
+      function EditProducto(val, idReporte, idVentas) {
+
+        var producto = val.value;
+
+        if (producto != "") {
+
+          var parametros = {
+            "type": "producto",
+            "idVentas": idVentas,
+            "producto": producto,
+            "accion": "editar-ventas"
+          };
+
+          $.ajax({
+            data: parametros,
+            url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+            //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+            type: 'post',
+            beforeSend: function () {
+            },
+            complete: function () {
+            },
+            success: function (response) {
+              if (!response) {
+                Ventas(idReporte);
+              } else {
+                VentasSubTotales(idReporte);
+                VentasTotales(idReporte);
+              }
+
+            }
+          });
+
+        } else {
+          $("#producto-" + idVentas).css({ 'border': '2px solid #CF2500' });
+        }
+
+      }
+
+      function EditLitros(val, idReporte, idVentas) {
+
+        var litros = val.value;
+
+        var parametros = {
+          "type": "litros",
           "idVentas": idVentas,
-          "producto": producto,
+          "litros": litros,
+          "accion": "editar-ventas"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+          type: 'POST',
+          beforeSend: function () {
+          },
+          complete: function () {
+          },
+          success: function (response) {
+            if (!response) {
+              Ventas(idReporte);
+            } else {
+              ValTotalLitros(idVentas);
+              VentasSubTotales(idReporte);
+              VentasTotales(idReporte);
+              DiferenciaTotal(idReporte);
+            }
+
+          }
+        });
+
+      }
+
+
+      function EditJarras(val, idReporte, idVentas) {
+
+        var jarras = val.value;
+
+        var parametros = {
+          "type": "jarras",
+          "idVentas": idVentas,
+          "jarras": jarras,
+          "accion": "editar-ventas"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+            if (response == 0) {
+              Ventas(idReporte);
+            } else {
+              ValTotalLitros(idVentas);
+              VentasSubTotales(idReporte);
+              VentasTotales(idReporte);
+              DiferenciaTotal(idReporte);
+
+            }
+
+          }
+        });
+
+      }
+
+      function EditPrecioLitro(val, idReporte, idVentas) {
+
+        var preciolitro = val.value;
+
+        var parametros = {
+          "type": "preciolitro",
+          "idVentas": idVentas,
+          "preciolitro": preciolitro,
+          "accion": "editar-ventas"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+            if (response == 0) {
+              Ventas(idReporte);
+            } else {
+              ValTotalLitros(idVentas);
+              VentasSubTotales(idReporte);
+              VentasTotales(idReporte);
+              DiferenciaTotal(idReporte);
+
+            }
+
+          }
+        });
+
+      }
+
+      function ValTotalLitros(idVentas) {
+
+        var litros = $("#litros-" + idVentas).val();
+        var jarras = $("#jarras-" + idVentas).val();
+        var preciolitro = $("#preciolitro-" + idVentas).val();
+        var totalLitros = 0;
+        var importetotal = 0;
+
+        if (jarras == "") {
+
+          totalLitros = litros - 0;
+
+        } else {
+          totalLitros = litros - jarras;
+        }
+
+        if (preciolitro == "") {
+          importetotal = totalLitros * 0;
+        } else {
+          importetotal = totalLitros * preciolitro;
+        }
+
+
+
+        $("#totallitros-" + idVentas).text(number_format(totalLitros, 2));
+        $("#importetotal-" + idVentas).text(number_format(importetotal, 2));
+
+
+        $("#totallitros-" + idVentas).text(number_format(totalLitros, 2));
+        $("#importetotal-" + idVentas).text(number_format(importetotal, 2));
+
+      }
+
+      function number_format(amount, decimals) {
+
+        amount += ''; // por si pasan un numero en vez de un string
+        amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
+
+        decimals = decimals || 0; // por si la variable no fue fue pasada
+
+        // si no es un numero o es igual a cero retorno el mismo cero
+        if (isNaN(amount) || amount === 0)
+          return parseFloat(0).toFixed(decimals);
+
+        // si es mayor o menor que cero retorno el valor formateado como numero
+        amount = '' + amount.toFixed(decimals);
+
+        var amount_parts = amount.split('.'),
+          regexp = /(\d+)(\d{3})/;
+
+        while (regexp.test(amount_parts[0]))
+          amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
+
+        return amount_parts.join('.');
+      }
+
+      function EditPrecioOtros(val, idReporte, idOtros) {
+
+        var otros = val.value;
+
+        var parametros = {
+          "type": "otros",
+          "idOtros": idOtros,
+          "otros": otros,
           "accion": "editar-ventas"
         };
 
@@ -1028,164 +1203,166 @@ $corteVenta = new CorteDiarioGeneral();
           complete: function () {
           },
           success: function (response) {
-            if (!response) {
+            console.log(response);
+            if (response == 0) {
               Ventas(idReporte);
             } else {
-              VentasSubTotales(idReporte);
+              VentasTotales(idReporte);
+              DiferenciaTotal(idReporte);
+            }
+
+          }
+        });
+
+      }
+
+      function EditObservaciones(val, idReporte) {
+
+        var observaciones = val.value;
+
+        var parametros = {
+          "observaciones": observaciones,
+          "idReporte": idReporte,
+          "accion": "editar-observaciones"
+        };
+
+        $.ajax({
+          data: parametros,
+          //url:   '../../../public/corte-diario/modelo/editar-observaciones.php',
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+
+          }
+        });
+
+      }
+
+      function Total1234(idReporte) {
+
+        $('#Total1234').load('../../../public/corte-diario/vistas/totales-1234.php?idReporte=' + idReporte);
+      }
+
+      function DiferenciaTotal(idReporte) {
+
+        $('#DiferenciaTotal').load('../../../public/corte-diario/vistas/diferencia-total.php?idReporte=' + idReporte);
+      }
+
+      function DifPagoCliente(idReporte) {
+
+        $('#DifPagoCliente').load('../../../public/corte-diario/vistas/diferencia-pagocliente-total.php?idReporte=' + idReporte);
+      }
+
+      //------------------------------------------------------------------------
+
+      function Aceites(year, mes, idReporte, idEstacion) {
+
+        var parametros = {
+          "year": year,
+          "mes": mes,
+          "idReporte": idReporte,
+          "sessionIdEstacion": idEstacion,
+          "accion": "nuevo-registro-aceites"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url: '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+            AceitesLubricantes(idReporte);
+          },
+          success: function (response) {
+          }
+        });
+
+      }
+
+      function AceitesLubricantes(idReporte) {
+        $('#DivAceitesLubricantes').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
+        $('#DivAceitesLubricantes').load('../../../public/corte-diario/vistas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
+      }
+
+      function EditALCantidad(val, idReporte, idAceite) {
+
+        var cantidad = val.value;
+
+        var parametros = {
+          "type": "cantidad",
+          "idAceite": idAceite,
+          "cantidad": cantidad,
+          "accion": "editar-aceites-lubricantes"
+        };
+
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+
+          },
+          success: function (response) {
+            if (response == 0) {
+              AceitesLubricantes(idReporte);
+            } else {
+              ValAceitesLubricantes(idAceite);
+              AceitesLTotal(idReporte);
+              ActualizarVentasAL(idReporte);
               VentasTotales(idReporte);
             }
 
           }
         });
 
-      } else {
-        $("#producto-" + idVentas).css({ 'border': '2px solid #CF2500' });
       }
 
-    }
+      function EditALPrecio(val, idReporte, idAceite) {
 
-    function EditLitros(val, idReporte, idVentas) {
+        var precio = val.value;
 
-      var litros = val.value;
+        var parametros = {
+          "type": "precio",
+          "idAceite": idAceite,
+          "precio": precio,
+          "accion": "editar-aceites-lubricantes"
+        };
 
-      var parametros = {
-        "type": "litros",
-        "idVentas": idVentas,
-        "litros": litros,
-        "accion": "editar-ventas"
-      };
+        $.ajax({
+          data: parametros,
+          url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+          //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
 
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
-        type: 'POST',
-        beforeSend: function () {
-        },
-        complete: function () {
-        },
-        success: function (response) {
-          if (!response) {
-            Ventas(idReporte);
-          } else {
-            ValTotalLitros(idVentas);
-            VentasSubTotales(idReporte);
-            VentasTotales(idReporte);
-            DiferenciaTotal(idReporte);
-          }
+          },
+          success: function (response) {
 
-        }
-      });
-
-    }
-
-
-    function EditJarras(val, idReporte, idVentas) {
-
-      var jarras = val.value;
-
-      var parametros = {
-        "type": "jarras",
-        "idVentas": idVentas,
-        "jarras": jarras,
-        "accion": "editar-ventas"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            Ventas(idReporte);
-          } else {
-            ValTotalLitros(idVentas);
-            VentasSubTotales(idReporte);
-            VentasTotales(idReporte);
-            DiferenciaTotal(idReporte);
+            if (response == 0) {
+              AceitesLubricantes(idReporte);
+            } else {
+              ValAceitesLubricantes(idAceite);
+              AceitesLTotal(idReporte);
+              ActualizarVentasAL(idReporte);
+              VentasTotales(idReporte);
+            }
 
           }
+        });
 
-        }
-      });
-
-    }
-
-    function EditPrecioLitro(val, idReporte, idVentas) {
-
-      var preciolitro = val.value;
-
-      var parametros = {
-        "type": "preciolitro",
-        "idVentas": idVentas,
-        "preciolitro": preciolitro,
-        "accion": "editar-ventas"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            Ventas(idReporte);
-          } else {
-            ValTotalLitros(idVentas);
-            VentasSubTotales(idReporte);
-            VentasTotales(idReporte);
-            DiferenciaTotal(idReporte);
-
-          }
-
-        }
-      });
-
-    }
-
-    function ValTotalLitros(idVentas) {
-
-      var litros = $("#litros-" + idVentas).val();
-      var jarras = $("#jarras-" + idVentas).val();
-      var preciolitro = $("#preciolitro-" + idVentas).val();
-      var totalLitros = 0;
-      var importetotal = 0;
-
-      if (jarras == "") {
-
-        totalLitros = litros - 0;
-
-      } else {
-        totalLitros = litros - jarras;
       }
-
-      if (preciolitro == "") {
-        importetotal = totalLitros * 0;
-      } else {
-        importetotal = totalLitros * preciolitro;
-      }
-
-
-
-      $("#totallitros-" + idVentas).text(number_format(totalLitros, 2));
-      $("#importetotal-" + idVentas).text(number_format(importetotal, 2));
-
-
-      $("#totallitros-" + idVentas).text(number_format(totalLitros, 2));
-      $("#importetotal-" + idVentas).text(number_format(importetotal, 2));
 
     }
 
@@ -1302,214 +1479,7 @@ $corteVenta = new CorteDiarioGeneral();
 
       $.ajax({
         data: parametros,
-        url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url: '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-          AceitesLubricantes(idReporte);
-        },
-        success: function (response) {
-        }
-      });
-
-    }
-
-    function AceitesLubricantes(idReporte) {
-      $('#DivAceitesLubricantes').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivAceitesLubricantes').load('../../../public/corte-diario/vistas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
-    }
-
-    function EditALCantidad(val, idReporte, idAceite) {
-
-      var cantidad = val.value;
-
-      var parametros = {
-        "type": "cantidad",
-        "idAceite": idAceite,
-        "cantidad": cantidad,
-        "accion": "editar-aceites-lubricantes"
-      };
-
-      $.ajax({
-        data: parametros,
         url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-          if (response == 0) {
-            AceitesLubricantes(idReporte);
-          } else {
-            ValAceitesLubricantes(idAceite);
-            AceitesLTotal(idReporte);
-            ActualizarVentasAL(idReporte);
-            VentasTotales(idReporte);
-          }
-
-        }
-      });
-
-    }
-
-    function EditALPrecio(val, idReporte, idAceite) {
-
-      var precio = val.value;
-
-      var parametros = {
-        "type": "precio",
-        "idAceite": idAceite,
-        "precio": precio,
-        "accion": "editar-aceites-lubricantes"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-aceites-lubricantes.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            AceitesLubricantes(idReporte);
-          } else {
-            ValAceitesLubricantes(idAceite);
-            AceitesLTotal(idReporte);
-            ActualizarVentasAL(idReporte);
-            VentasTotales(idReporte);
-          }
-
-        }
-      });
-
-    }
-
-    }
-
-    function number_format(amount, decimals) {
-
-      amount += ''; // por si pasan un numero en vez de un string
-      amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-
-      decimals = decimals || 0; // por si la variable no fue fue pasada
-
-      // si no es un numero o es igual a cero retorno el mismo cero
-      if (isNaN(amount) || amount === 0)
-        return parseFloat(0).toFixed(decimals);
-
-      // si es mayor o menor que cero retorno el valor formateado como numero
-      amount = '' + amount.toFixed(decimals);
-
-      var amount_parts = amount.split('.'),
-        regexp = /(\d+)(\d{3})/;
-
-      while (regexp.test(amount_parts[0]))
-        amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-
-      return amount_parts.join('.');
-    }
-
-    function EditPrecioOtros(val, idReporte, idOtros) {
-
-      var otros = val.value;
-
-      var parametros = {
-        "type": "otros",
-        "idOtros": idOtros,
-        "otros": otros,
-        "accion": "editar-ventas"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-        },
-        success: function (response) {
-          console.log(response);
-          if (response == 0) {
-            Ventas(idReporte);
-          } else {
-            VentasTotales(idReporte);
-            DiferenciaTotal(idReporte);
-          }
-
-        }
-      });
-
-    }
-
-    function EditObservaciones(val, idReporte) {
-
-      var observaciones = val.value;
-
-      var parametros = {
-        "observaciones": observaciones,
-        "idReporte": idReporte,
-        "accion": "editar-observaciones"
-      };
-
-      $.ajax({
-        data: parametros,
-        //url:   '../../../public/corte-diario/modelo/editar-observaciones.php',
-        url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-        }
-      });
-
-    }
-
-    function Total1234(idReporte) {
-
-      $('#Total1234').load('../../../public/corte-diario/vistas/totales-1234.php?idReporte=' + idReporte);
-    }
-
-    function DiferenciaTotal(idReporte) {
-
-      $('#DiferenciaTotal').load('../../../public/corte-diario/vistas/diferencia-total.php?idReporte=' + idReporte);
-    }
-
-    function DifPagoCliente(idReporte) {
-
-      $('#DifPagoCliente').load('../../../public/corte-diario/vistas/diferencia-pagocliente-total.php?idReporte=' + idReporte);
-    }
-
-    //------------------------------------------------------------------------
-
-    function Aceites(year, mes, idReporte, idEstacion) {
-
-      var parametros = {
-        "year": year,
-        "mes": mes,
-        "idReporte": idReporte,
-        "sessionIdEstacion": idEstacion,
-        "accion": "nuevo-registro-aceites"
-      };
-
-      $.ajax({
-        data: parametros,
-        url:'../../../app/controlador/1-corporativo/controladorCorteDiario.php',
         //url: '../../../public/corte-diario/modelo/nuevo-registro-aceites.php',
         type: 'post',
         beforeSend: function () {
@@ -1807,14 +1777,11 @@ $corteVenta = new CorteDiarioGeneral();
 
     }
   </script>
-</head>
 <body>
   <div class="LoaderPage"></div>
   <?php
-  $dia = $corteVenta->getDia($GET_idReporte);
-  $ventas = $corteVenta->getEstado($GET_idReporte);
   $estado = "";
-  if ($ventas == 1) :
+  if ($ventas == 1):
     $estado = "disabled";
   endif;
   ?>
@@ -1830,7 +1797,7 @@ $corteVenta = new CorteDiarioGeneral();
             <div class="border-0 p-3">
               <div class="row">
                 <div class="col-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
+                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-11">
                       <h5><?= FormatoFecha($dia); ?></h5>
@@ -1944,7 +1911,7 @@ $corteVenta = new CorteDiarioGeneral();
                     </div>
                     <div class="p-2">
                       <?php
-                      $observaciones = $corteVenta->getObsevaciones($GET_idReporte);
+                      $observaciones = $corteDiarioGeneral->getObsevaciones($GET_idReporte);
                       ?>
                       <textarea class="form-control" onkeyup="EditObservaciones(this,<?= $GET_idReporte; ?>)"
                         <?= $estado; ?>><?= $observaciones; ?></textarea>
@@ -1982,9 +1949,9 @@ $corteVenta = new CorteDiarioGeneral();
                 <div class="border">
                   <div class="p-3">
                     <?php
-                    $Elaboro = $corteVenta->validaFirma($GET_idReporte, 'Elaboró');
-                    $Superviso = $corteVenta->validaFirma($GET_idReporte, 'Superviso');
-                    $VoBo = $corteVenta->validaFirma($GET_idReporte, 'VoBo');
+                    $Elaboro = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Elaboró');
+                    $Superviso = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Superviso');
+                    $VoBo = $corteDiarioGeneral->validaFirma($GET_idReporte, 'VoBo');
                     ?>
                     <div class="row">
                       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
@@ -1994,7 +1961,7 @@ $corteVenta = new CorteDiarioGeneral();
                             <hr>
                             <?php
                             if ($Elaboro > 0) {
-                              $RElaboro = $corteVenta->firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma, );
+                              $RElaboro = $corteDiarioGeneral->firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma, );
                               echo $RElaboro;
                             } else {
                               echo '<div class=" col-12 text-center mb-3">';
@@ -2013,7 +1980,7 @@ $corteVenta = new CorteDiarioGeneral();
                             if ($Superviso > 0) {
                               echo '<div class="text-center font-weight-bold">SUPERVISO</div>';
                               echo '<hr>';
-                              $RSuperviso = $corteVenta->firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma);
+                              $RSuperviso = $corteDiarioGeneral->firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma);
                               echo $RSuperviso;
                             } else {
                               echo '<div class="text-center font-weight-bold">SUPERVISO</div>';
@@ -2034,7 +2001,7 @@ $corteVenta = new CorteDiarioGeneral();
                             if ($VoBo > 0) {
                               echo '<div class="text-center font-weight-bold">VO.BO.</div>';
                               echo '<hr>';
-                              $RVoBo = $corteVenta->firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma);
+                              $RVoBo = $corteDiarioGeneral->firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma);
                               echo $RVoBo;
                             } else {
                               echo '<div class="text-center font-weight-bold">VO.BO.</div>';
@@ -2110,4 +2077,5 @@ $corteVenta = new CorteDiarioGeneral();
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -10,11 +10,11 @@ $sql_reporte = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id = '".$idac
    $numero_reporte = mysqli_num_rows($result_reporte);
     while($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)){
     $concepto = $row_reporte['concepto'];
-    $inventario_bodega = valRow($row_reporte['inventario_bodega']);
-    $inventario_exibidores = valRow($row_reporte['inventario_exibidores']);
-    $bodega = valRow($row_reporte['bodega']);
-    $exibidores = valRow($row_reporte['exibidores']);
-    $pedido = valRow($row_reporte['pedido']);
+    $inventario_bodega = $row_reporte['inventario_bodega'];
+    $inventario_exibidores = $row_reporte['inventario_exibidores'];
+    $bodega = $row_reporte['bodega'];
+    $exibidores =$row_reporte['exibidores'];
+    $pedido = $row_reporte['pedido'];
     $noaceite = $row_reporte['id_aceite'];
     $IdReporte = $row_reporte['id_mes'];
     $totalaceites = totalaceites($IdReporte, $noaceite, $con);
@@ -42,6 +42,7 @@ $sql_reporte = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id = '".$idac
 
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    $cantidad = 0;
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
       $id = $row_listaaceite['id'];
 

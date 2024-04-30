@@ -188,7 +188,7 @@ class HomeCorporativo
 
     }else{
 
-    $sql_listayear = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY year ASC";
+    $sql_listayear = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY year DESC";
     $result_listayear = mysqli_query($con, $sql_listayear);
       
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
