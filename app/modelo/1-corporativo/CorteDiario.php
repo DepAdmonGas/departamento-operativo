@@ -9,8 +9,8 @@ class CorteDiario extends Exception
     public function __construct()
     {
 
-        $this->classConexionBD = new Database();
-        $this->con = $this->classConexionBD->getInstance()->getConnection();
+        $this->classConexionBD = Database::getInstance();
+        $this->con = $this->classConexionBD->getConnection();
         $this->formato = new FormatoFechas();
     }
     /**--------------------------------------------------------------------------------------------
@@ -45,6 +45,7 @@ class CorteDiario extends Exception
     {
         $piezas = "";
         $importe = 0;
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_ventas_dia_otros WHERE idreporte_dia =? AND concepto =? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -68,7 +69,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function nuevoProsegur(int $idReporte): void
     {
@@ -133,7 +133,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function nuevoTarjetas(int $idReporte, int $IdEstacion): void
     {
@@ -379,7 +378,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function nuevoRegistroTarjetasBancarias(int $idReporte, string $num, string $concepto): void
@@ -414,7 +412,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function monederosBancos(int $idReporte, string $empresa): void
     {
@@ -434,7 +431,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     public function editarTarjetasCB(float $baucher, int $idTarjeta): bool
     {
@@ -450,7 +446,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function nuevoRegistroControlGas(int $idReporte, string $concepto): void
@@ -486,7 +481,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function editarControlGas($tipo, $valor, $idControl): bool
     {
@@ -508,7 +502,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function nuevoRegistroPago(int $idReporte): void
@@ -560,7 +553,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function editarPagoClientes($tipo, $valor, $idPagoCliente): bool
     {
@@ -584,7 +576,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function nuevoRegistroVentas(int $idReporte): void
@@ -613,7 +604,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     public function editarVentas($tipo, $valor, $idVentas): bool
     {
@@ -657,7 +647,6 @@ class CorteDiario extends Exception
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarVentasProducto($producto, $idVentas)
@@ -685,7 +674,6 @@ class CorteDiario extends Exception
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarVentasPiezas($idReporte): bool
@@ -719,7 +707,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarObservaciones(int $idReporte, string $observaciones): bool
@@ -744,7 +731,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
 
     }
@@ -827,7 +813,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
     }
     public function editarAceitesLubricantes($tipo, $valor, $idAceite): bool
     {
@@ -853,7 +838,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarFirma($idReporte, $img, $sessionIdUsuario, $nombreEstacion): bool
@@ -911,7 +895,6 @@ class CorteDiario extends Exception
             $this->sendNotification($token, $detalle,$accion);
             $stmt->close();
         endif;
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function firmar($idReporte, $idUsuario, $tipoFirma, $Fecha): void
@@ -1025,8 +1008,6 @@ class CorteDiario extends Exception
         $stmt->execute();
         $stmt->close();
 
-        $this->classConexionBD->disconnect();
-
     }
     public function eliminarDocumentoCorte(int $id): bool
     {
@@ -1042,7 +1023,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     /***
@@ -1074,7 +1054,6 @@ class CorteDiario extends Exception
         $stmt->bind_param("issdi", $idReporte, $empresa, $noCierre, $importe, $tickets);
         $stmt->execute();
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $empresa;
     }
     public function editarCierreLote(string $tipo, string $cierre, int $idCierre, int $idReporte, string $empresa): bool
@@ -1101,7 +1080,6 @@ class CorteDiario extends Exception
         $stmt->execute();
         $this->monederosBancos($idReporte, $empresa);
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarPendienteCierreLote(int $estado, int $idCierre): bool
@@ -1115,7 +1093,6 @@ class CorteDiario extends Exception
         $stmt->bind_param("ii", $estado, $idCierre);
         $stmt->execute();
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     /***
@@ -1152,7 +1129,6 @@ class CorteDiario extends Exception
         $stmt->bind_param("iidsss", $idReporte, $cliente, $total, $tipo, $formaPago, $pdfNombre);
         $stmt->execute();
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarConsumos(int $idReporte, int $cliente, float $total, string $tipo): bool
@@ -1179,7 +1155,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function elimarConsumosPagos(int $id): bool
@@ -1196,7 +1171,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarCliente(int $idEstacion, string $cuenta, string $cliente, string $tipo, string $rfc, array $doc): bool
@@ -1242,7 +1216,6 @@ class CorteDiario extends Exception
             $campo = "doc_io = ?";
             $this->agregarDocumentoCliente($doc,$indice,$campo,$idEstacion);
         endif;
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarDocumentoCliente(array $doc,int $indice,string $campo,int $idEstacion):void
@@ -1299,7 +1272,6 @@ class CorteDiario extends Exception
             $campo = "doc_io = ?";
             $this->actualizaDocumento($doc,$indice,$campo,$idCliente);
         endif;
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function actualizaDocumento(array $doc,int $indice,string $campo,int $idCliente):void{
@@ -1330,7 +1302,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarSaldoInicial(int $id,float $total): string
@@ -1374,7 +1345,6 @@ class CorteDiario extends Exception
             $stmt3->close();
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function finalizaResumenClientesMes(int $id):void {
@@ -1388,7 +1358,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     /**
      * 
@@ -1417,7 +1386,6 @@ class CorteDiario extends Exception
         $detalle = 'Se finalizo el inventario de '.$this->formato->nombremes($nomMes).', de la estación '.$nombreEstacion;
         $this->sendNotification($token,$detalle,$accion);
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     private function mes(int $idReporte): int {
@@ -1617,7 +1585,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarDocumentoAceite(array $doc,int $idReporte,int $year,int $mes): bool
@@ -1713,7 +1680,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " .$stmt->error );
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function editarDocumentoAceite(array $doc,int $id,int $year, int $mes): void 
@@ -1795,7 +1761,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta".$this->con->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     public function eliminarDocumentoAceite(int $id): bool 
     {
@@ -1811,7 +1776,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta". $this->con->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarFacturaArchivoAceite(int $id, string $fechaAceite, string $conceptoAceite, array $archivo, int $mes,int $year): bool {
@@ -1860,7 +1824,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta". $this->con->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function eliminarFacturaArchivoAceite($id) : bool {
@@ -1876,7 +1839,6 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta".$stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
 
@@ -1931,7 +1893,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     private function actualizaDocumentoMonedero(string $documento,int $id, string $valor): void {
         $sql = "UPDATE op_monedero_documento SET $valor WHERE id=?";
@@ -1944,7 +1905,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     public function agregarDocumentoEdi(array $doc, int $id,string $complemento):void {
         
@@ -1977,7 +1937,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         
     }
     public function eliminarDocumentoEdi(int $id) :bool {
@@ -2023,7 +1982,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function agregarEmbarques(array $doc, array $val ): void {
@@ -2053,7 +2011,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         // Agrega los formatos en caso de requerrilos
         $id_mes = $val[0];
         $aleatorio = uniqid();
@@ -2145,7 +2102,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
     }
     public function eliminaEmbarque(int $id): bool {
         $result = true;
@@ -2160,7 +2116,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         return $result;
     }
     public function actualizaEmbarque(array $doc,array $val): void {
@@ -2187,7 +2142,6 @@ class CorteDiario extends Exception
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        $this->classConexionBD->disconnect();
         // Agrega los formatos en caso de requerrilos
         // toma el valor del id del array
         $id = $val[11];

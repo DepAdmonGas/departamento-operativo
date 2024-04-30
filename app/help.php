@@ -5,18 +5,23 @@ include_once "config/ConfiguracionSesiones.php";
 include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
 include_once "modelo/1-corporativo/HomeCorporativo.php";
+include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
 
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+// clase para recursos humanos
 $ClassEncriptar = new Encriptar();
 
 // Crea una instancia de la clase Database
-$database = new Database();
+$database = Database::getInstance();
 
 // Obtén una instancia y obtiene la  conexión a la base de datos
-$con = $database->getInstance()->getConnection();
+$con = $database->getConnection();
+
+// clase donde vienen consultas generales para las vistas en corte diario
+$corteDiarioGeneral = new CorteDiarioGeneral($con);
 
 // Instancia la clase configuracion-sesiones
 $configuracionSesiones = new ConfiguracionSesiones();
@@ -33,7 +38,7 @@ $fecha_year = date("Y");
 $fecha_mes = date("m");
 $fecha_dia = date("d");
 // Valida si esta activa la sesion por medio de la cookie
-if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
+if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
     $token = $_COOKIE['COOKIEADMONGAS'];
     try {
         $decoded = JWT::decode($token, new Key($keyJWT, 'HS256'));
@@ -48,11 +53,11 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) {
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();
     }
-} else {
+else :
     $database->disconnect();
     header("Location:" . PORTAL . "");
     die();
-}
+endif;
 
 //--------------------------------------------------------------------------------
 //---------------------------------Formato Fechas---------------------------------
@@ -93,25 +98,18 @@ function get_nombre_dia($fecha)
     switch (date('w', $fechats)) {
         case 0:
             return "Domingo";
-            break;
         case 1:
             return "Lunes";
-            break;
         case 2:
             return "Martes";
-            break;
         case 3:
             return "Miercoles";
-            break;
         case 4:
             return "Jueves";
-            break;
         case 5:
             return "Viernes";
-            break;
         case 6:
             return "Sabado";
-            break;
     }
 }
 
@@ -122,26 +120,18 @@ function nombreDia($fecha)
     switch (date('w', $fechaTS)) {
         case 0:
             return "Domingo";
-            break;
         case 1:
             return "Lunes";
-            break;
         case 2:
             return "Martes";
-            break;
         case 3:
             return "Miércoles";
-            break;
         case 4:
             return "Jueves";
-            break;
         case 5:
             return "Viernes";
-            break;
         case 6:
             return "Sábado";
-            break;
-
     }
 }
 
