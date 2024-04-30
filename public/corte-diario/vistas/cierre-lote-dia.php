@@ -21,13 +21,7 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
     Inbursa(<?= $GET_idReporte; ?>, 'INBURSA');
 
   });
-
-  function Regresar() {
-    window.history.back();
-  }
-
   function Ticketcard(idReporte, empresa) {
-
     var parametros = {
       "idReporte": idReporte,
       "empresa": empresa
@@ -602,7 +596,7 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               <div class="row">
                 <div class="col-12">
 
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
+                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
 
                   <div class="row">
                     <div class="col-12">
