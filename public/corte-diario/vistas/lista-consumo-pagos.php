@@ -22,7 +22,7 @@ $result_credito = mysqli_query($con, $sql_credito);
 $numero_credito = mysqli_num_rows($result_credito);
 
 
-function Resumen($idReporte, $tipo, $consumo,$con)
+function Resumen($idReporte, $tipo, $consumo, $con)
 {
 
 
@@ -53,9 +53,9 @@ WHERE op_consumos_pagos.id_reportedia = '" . $idReporte . "' AND op_cliente.tipo
 
 
 $DC = Resumen($idReporte, utf8_encode('Débito'), 'Consumo', $con);
-$DP = Resumen($idReporte, utf8_encode('Débito'),'Pago',$con);
-$CC = Resumen($idReporte, utf8_encode('Crédito'),'Consumo',$con);
-$CP = Resumen($idReporte, utf8_encode('Crédito'),'Pago',$con);
+$DP = Resumen($idReporte, utf8_encode('Débito'), 'Pago', $con);
+$CC = Resumen($idReporte, utf8_encode('Crédito'), 'Consumo', $con);
+$CP = Resumen($idReporte, utf8_encode('Crédito'), 'Pago', $con);
 
 $sql1 = "UPDATE op_clientes_controlgas SET pago = '" . $DP . "', consumo = '" . $DC . "' WHERE idreporte_dia ='" . $idReporte . "' AND concepto = 'DEBITO (ANEXO)' ";
 mysqli_query($con, $sql1);
@@ -121,7 +121,7 @@ mysqli_query($con, $sql2);
 <td class="align-middle font-weight-light text-center"  style="font-size: 1em;">' . $row_credito['id'] . '</td>
 <td class="align-middle font-weight-light">' . $row_credito['cuenta'] . '</td>
 <td class="align-middle font-weight-light">' . $row_credito['cliente'] . '</td>
-<td class="align-middle font-weight-light '.$CTipo.' ">'.utf8_encode($row_credito['tipo']).'</td>
+<td class="align-middle font-weight-light ' . $CTipo . ' ">' . utf8_encode($row_credito['tipo']) . '</td>
 <td class="align-middle font-weight-light">' . $row_credito['ConsumoTipo'] . '</td>
 <td class="align-middle font-weight-light">' . $TipoPago . '</td>
 <td class="align-middle font-weight-light text-center">' . $comprobante . '</td>
@@ -159,16 +159,20 @@ mysqli_query($con, $sql2);
 		<tr>
 			<td class="text-success pl-4 pr-4 text-center font-weight-light">Débito</td>
 			<td class="text-end pl-4 pr-2 font-weight-light">$
-				<?= number_format(Resumen($idReporte, 'Débito', 'Consumo', $con), 2); ?></td>
+				<?= number_format(Resumen($idReporte, 'Débito', 'Consumo', $con), 2); ?>
+			</td>
 			<td class="text-end pl-4 pr-2 font-weight-light">$
-				<?= number_format(Resumen($idReporte, 'Débito', 'Pago', $con), 2); ?></td>
+				<?= number_format(Resumen($idReporte, 'Débito', 'Pago', $con), 2); ?>
+			</td>
 		</tr>
 		<tr>
 			<td class="text-primary pl-4 pr-4 text-center font-weight-light">Crédito</td>
 			<td class="text-end pl-4 pr-2 font-weight-light">$
-				<?= number_format(Resumen($idReporte, 'Crédito', 'Consumo', $con), 2); ?></td>
+				<?= number_format(Resumen($idReporte, 'Crédito', 'Consumo', $con), 2); ?>
+			</td>
 			<td class="text-end pl-4 pr-2 font-weight-light">$
-				<?= number_format(Resumen($idReporte, 'Crédito', 'Pago', $con), 2); ?></td>
+				<?= number_format(Resumen($idReporte, 'Crédito', 'Pago', $con), 2); ?>
+			</td>
 		</tr>
 	</table>
 

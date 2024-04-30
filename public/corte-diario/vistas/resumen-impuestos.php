@@ -1,34 +1,7 @@
 <?php
-require ('app/help.php');
+require 'app/vistas/contenido/header.php';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 ?>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Dirección de operaciones</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width initial-scale=1.0">
-  <link rel="shortcut icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="apple-touch-icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>alertify.css">
-  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>themes/default.rtl.css">
-  <link href="<?= RUTA_CSS2; ?>bootstrap.min.css" rel="stylesheet" />
-  <link href="<?= RUTA_CSS2; ?>navbar-general.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  <script type="text/javascript">
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-    });
-  </script>
-</head>
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -38,34 +11,23 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-
         <div class="col-12 mb-3">
           <div class="cardAG">
             <div class="border-0 p-3">
-
               <div class="row">
                 <div class="col-12">
-
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
-
                   <div class="row">
                     <div class="col-12">
-
                       <h5>Resumen Impuestos, <?= nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
-
                     </div>
                   </div>
-
                 </div>
               </div>
-
               <hr>
-
-
               <?php
               // Llamar a la función para obtener la lista de días
               $listaDias = $corteDiarioGeneral->obtenerListaDias($Session_IDEstacion, $GET_year, $GET_mes);
-
               // Recorrer la lista de días y mostrar los resultados
               foreach ($listaDias as $dia) :
                   $idDias = $dia['idDia'];
@@ -212,16 +174,11 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
               echo '</div>';
                     endforeach;
               ?>
-
-
-
               <div class="border p-3 mt-3 mb-0">
                 <b>Resumen Impuestos</b>
                 <hr>
-
                 <div class="table-responsive">
                   <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
-
                     <thead class="tables-bg">
                       <tr>
                         <th class="align-middle text-center">Producto</th>
@@ -238,10 +195,8 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                     </thead>
                     <tbody>
                       <?php
-
                       function ProductoResultado($IdReporte, $producto, $con)
                       {
-
                         $sql_dia = "SELECT id FROM op_corte_dia WHERE id_mes = '" . $IdReporte . "' ";
                         $result_dia = mysqli_query($con, $sql_dia);
                         while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
@@ -264,11 +219,8 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
 
                             $toprecio = ($toprecio + $precio) / 2;
                             $precioP = $toprecio / 30.5;
-
                           }
-
                         }
-
                         $array = array(
                           'Litros' => $tolitros,
                           'Jarras' => $tojarras,
@@ -400,25 +352,12 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                   </table>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
   </div>
-
-
-
-
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-
 </body>
 
 </html>
