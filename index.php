@@ -426,7 +426,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
 
 
-    
+
 
     //-------------- CONTRATOS -------------------------
     else if ($partes_ruta[1] == 'contratos') {
@@ -620,7 +620,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     else if ($partes_ruta[1] == 'solicitud-cheque-pdf') {
     $GET_idReporte = $partes_ruta[2];
     $ruta_elegida = 'public/admin/vistas/solicitud-cheque-pdf.php';
-    }
+    } 
    
     else if ($partes_ruta[1] == 'recursos-humanos-nomina') {
     $GET_year = $partes_ruta[2];
@@ -941,11 +941,21 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-evaluacion-personal-index.php';
     }
  
-} 
-else if(count($partes_ruta) == 4)
-{
+    }else if(count($partes_ruta) == 4){
 
-    if ($partes_ruta[1] == 'corte-diario') {
+
+    //---------- 1. CORPOTATIVO ----------
+    if ($partes_ruta[1] == 'solicitud-cheque') {
+    $Pagina = 'solicitud-cheque';
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-mes.php';
+
+    }
+
+
+    else if ($partes_ruta[1] == 'corte-diario') {
     $GET_year = $partes_ruta[2];
     $GET_mes = $partes_ruta[3];
     $ruta_elegida = 'public/corte-diario/vistas/corte-diario-mes.php';
@@ -1040,12 +1050,6 @@ else if(count($partes_ruta) == 4)
     else if ($partes_ruta[2] == 'solicitud-cheque-firmar') {
     $GET_idReporte = $partes_ruta[3];
     $ruta_elegida = 'public/admin/vistas/solicitud-cheque-firmar.php';
-    }
-
-    else if ($partes_ruta[1] == 'solicitud-cheque') {
-    $GET_year = $partes_ruta[2];
-    $GET_mes = $partes_ruta[3];
-    $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
     }
 
     else if ($partes_ruta[1] == 'solicitud-cheque-crear') {

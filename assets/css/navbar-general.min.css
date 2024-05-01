@@ -459,6 +459,10 @@ filter: opacity(50%);
     cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
     }
     
+    .dt-empty {
+        background-color: #fff; /* Cambiar el color de fondo */
+        /* Otros estilos */
+    }
     
     
     /* ---------------------------------------------------

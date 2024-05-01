@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require('../../../../../app/help.php');
 
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
@@ -80,13 +80,14 @@ $('[data-toggle="tooltip"]').tooltip();
   </tr>
 </thead> 
 <tbody>
-<?php
+<?php 
+$TotalMonto = 0;
 if ($numero_lista > 0) {
 $num = 1;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $pago = Pago($id,$con);
-$TotalMonto = 0;
+
  
 if($row_lista['status'] == 0){
 $trColor = 'style="background-color: #fcfcda"';
@@ -130,7 +131,7 @@ $Eliminar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclic
 $ToComentarios = ToComentarios($id,$con);
 
 if($ToComentarios > 0){
-$Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><small>'.$ToComentarios.'</small></span></div>';
+$Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 11px;">'.$ToComentarios.'</span></span></div>';
 }else{
 
 $Nuevo = ''; 

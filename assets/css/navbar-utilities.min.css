@@ -547,6 +547,11 @@ background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace
 cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
 }
 
+.dt-empty {
+    background-color: #fff; /* Cambiar el color de fondo */
+    /* Otros estilos */
+}
+
 
 
 /* ---------------------------------------------------

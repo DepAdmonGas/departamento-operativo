@@ -1,5 +1,6 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
+error_reporting(0);
+require_once 'dompdf2/vendor/autoload.php';
 require('app/help.php');
 
 $sql_lista = "SELECT * FROM op_solicitud_cheque WHERE id = '".$GET_idReporte."' ";
