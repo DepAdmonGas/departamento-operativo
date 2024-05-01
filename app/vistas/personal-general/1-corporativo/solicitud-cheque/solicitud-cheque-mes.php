@@ -1,4 +1,4 @@
-  <?php
+<?php
   require('app/help.php');
   $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$GET_mes);
   
@@ -29,8 +29,7 @@
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
-
- 
+  
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -66,7 +65,7 @@
   
   }
 
-  $('#ListaSolicitudes').load('../../public/corte-diario/vistas/lista-solicitud-cheques-mes.php?year=' + year + '&mes=' + mes, function() {
+  $('#ListaSolicitudes').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/lista-solicitud-cheques-mes.php?year=' + year + '&mes=' + mes, function() {
   // Una vez que se carguen los datos en la tabla, inicializa DataTables
   $('#tabla_solicitud_cheque').DataTable({
     "language": { // Corrección de "lenguage" a "language"
@@ -88,9 +87,9 @@
 
   function ModalDetalle(id){
   $('#Modal').modal('show');  
-  $('#DivContenido').load('../../public/corte-diario/vistas/modal-detalle-solicitud-cheque.php?idReporte=' + id);
+  $('#DivContenido').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-detalle-solicitud-cheque.php?idReporte=' + id);
   }  
- 
+  
   function Editar(idReporte){
   window.location.href = "../../solicitud-cheque-editar/" + idReporte;  
   }
@@ -98,15 +97,17 @@
   function Eliminar(year,mes,idReporte){
   
   var parametros = {
-  "idReporte" : idReporte
+  "idReporte" : idReporte,
+  "Accion" : "eliminar-solicitud-cheque"
   };
 
   alertify.confirm('',
   function(){
 
-  $.ajax({
+  $.ajax({  
   data:  parametros,
-  url:   '../../public/corte-diario/modelo/eliminar-solicitud-cheque.php',
+  //url:   '../../public/corte-diario/modelo/eliminar-solicitud-cheque.php',
+  url : '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
   type:  'post',
   beforeSend: function() {
   },
@@ -134,7 +135,7 @@
 
   function ModalComentario(year,mes,id){
   $('#ModalComentario').modal('show');  
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-comentarios-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-comentarios-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
   }
 
   function GuardarComentario(year,mes,idReporte){
@@ -143,15 +144,18 @@
 
   var parametros = {
   "idReporte" : idReporte,
-  "Comentario" : Comentario
+  "idUsuario" : <?=$Session_IDUsuarioBD?>,
+  "Comentario" : Comentario,
+  "Accion" : "agregar-comentario-solicitud-cheque"
   };
 
   if(Comentario != ""){
   $('#Comentario').css('border',''); 
 
-  $.ajax({
+  $.ajax({ 
   data:  parametros,
-  url:   '../../public/corte-diario/modelo/agregar-comentario-solicitud-cheque.php',
+  //url:   '../../public/corte-diario/modelo/agregar-comentario-solicitud-cheque.php',
+  url : '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
   type:  'post',
   beforeSend: function() {
   },
@@ -163,10 +167,11 @@
   if (response == 1) {
   $('#Comentario').val('');
   SelEstacion(year,mes);     
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-comentarios-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes);
-  
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-comentarios-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes);
+  alertify.success('Comentario agregado exitosamente');  
+
   }else{
-  alertify.error('Error al eliminar la solicitud');  
+  alertify.error('Error al agregar el comentario');  
   }
 
   }
@@ -176,31 +181,35 @@
   $('#Comentario').css('border','2px solid #A52525'); 
   }
 
-  }
+  } 
 
   function DescargarPDF(idReporte){
   window.location.href = "../../solicitud-cheque-pdf/" + idReporte;  
   }
-
+ 
   function Pago(year,mes,id){
   $('#ModalComentario').modal('show');  
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-pagos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes); 
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-pagos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes); 
   }
-
+  
   function AgregarPago(year,mes,id){
 
   var data = new FormData();
-  var url = '../../public/corte-diario/modelo/agregar-pago-solicitud-cheque.php';
+  //var url = '../../public/corte-diario/modelo/agregar-pago-solicitud-cheque.php';
+  var url = '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
 
   Documento = document.getElementById("Documento");
   Documento_file = Documento.files[0];
   Documento_filePath = Documento.value;
-
+ 
   if(Documento_filePath != ""){
   $('#Documento').css('border','');
 
   data.append('idReporte', id);
-  data.append('Documento_file', Documento_file);
+  data.append('idUsuario', 0);
+  data.append('Documento', 'PAGO');
+  data.append('Archivo_file', Documento_file);
+  data.append('Accion','agregar-archivos-solicitud-cheque');
 
   $(".LoaderPage").show();
 
@@ -215,9 +224,10 @@
 
   if(data == 1){
   $(".LoaderPage").hide();
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-pagos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes);
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-pagos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes);
   SelEstacion(year,mes)
-  
+  alertify.success('Pago agregado exitosamente'); 
+
   }else{
   $(".LoaderPage").hide();
   alertify.error('Error al guardar pago'); 
@@ -234,18 +244,19 @@
   //---------------------------------------------------------------------
   function Firmar(year,mes,idReporte){
   window.location.href = "../../solicitud-cheque-firmar/" + idReporte;  
-  }
+  } 
 
   function ModalArchivos(year,mes,id){
   $('#ModalComentario').modal('show');  
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
   }
  
   function AgregarArchivo(year,mes,id){
 
   var Documento = $('#Documento').val();
   var data = new FormData();
-  var url = '../../public/corte-diario/modelo/agregar-archivo-solicitud-cheque.php';
+  //var url = '../../public/corte-diario/modelo/agregar-archivo-solicitud-cheque.php';
+  var url = '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
 
   Archivo = document.getElementById("Archivo");
   Archivo_file = Archivo.files[0];
@@ -257,9 +268,11 @@
   $('#Archivo').css('border','');
 
   data.append('idReporte', id);
+  data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
   data.append('Documento', Documento);
   data.append('Archivo_file', Archivo_file);
-
+  data.append('Accion','agregar-archivos-solicitud-cheque');
+ 
   $(".LoaderPage").show();
 
   $.ajax({
@@ -275,10 +288,10 @@
   $(".LoaderPage").hide();
   alertify.success('Archivo agregado exitosamente')
   SelEstacion(year,mes)
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes );
   }else{
   $(".LoaderPage").hide();
-  alertify.error('Error al guardar pago'); 
+  alertify.error('Error al guardar el archivo'); 
   } 
   });      
 
@@ -293,7 +306,8 @@
   function EliminarArchivo(year,mes,idReporte,id){
   
   var parametros = {
-  "id" : id
+  "idDocumento" : id,
+  "Accion" : "eliminar-documentos-solicitud-cheque"
   };
 
   alertify.confirm('',
@@ -301,7 +315,8 @@
 
   $.ajax({
   data:  parametros,
-  url:   '../../public/corte-diario/modelo/eliminar-documento-solicitud-cheque.php',
+  // url:   '../../public/corte-diario/modelo/eliminar-documento-solicitud-cheque.php',
+  url : '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
   type:  'post',
   beforeSend: function() {
   },
@@ -312,11 +327,11 @@
 
   if (response == 1) {
   SelEstacion(year,mes)
-  $('#DivContenidoComentario').load('../../public/corte-diario/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes );
-  alertify.success('Archivo eliminado exitosamente')
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-archivos-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes );
+  alertify.success('Documento eliminado exitosamente')
   
   }else{
-  alertify.error('Error al eliminar el archivo');  
+  alertify.error('Error al eliminar el documento');  
   }
 
   }
@@ -331,29 +346,34 @@
     
   //-----------------------------------------------------------------------------------
   function FacTelcel(idEstacion,year,mes){
-  $('#Modal').modal('show');  
-  $('#DivContenido').load('../../public/corte-diario/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);   
+  $('#ModalComentario').modal('show');  
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);   
   }
 
   function EditarTelcel(idEstacion,year,mes,id){
-  $('#DivContenido').load('../../public/corte-diario/vistas/modal-editar-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&id=' + id); 
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-editar-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&id=' + id); 
   }
 
   function CancelarTelcel(idEstacion,year,mes){
-  $('#DivContenido').load('../../public/corte-diario/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes); 
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes); 
   }
 
   function EditarTelcelInfo(idEstacion,year,mes,id){
 
   var data = new FormData();
-  var url = '../../public/corte-diario/modelo/editar-factura-telcel-solicitud-cheque.php';
-
+  //var url = '../../public/corte-diario/modelo/editar-factura-telcel-solicitud-cheque.php';
+  var url = '../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
+ 
   Pago = document.getElementById("Pago");
   Pago_file = Pago.files[0];
   Pago_filePath = Pago.value;
 
-  data.append('id', id);
+  if(Pago_filePath != ""){
+  $('#Pago').css('border','');
+
+  data.append('idFactura', id);
   data.append('Pago_file', Pago_file);
+  data.append('Accion','editar-factura-telcel-solicitud-cheque');
 
   $(".LoaderPage").show();
 
@@ -368,7 +388,7 @@
 
   if(data == 1){
   $(".LoaderPage").hide();
-  $('#DivContenido').load('../../public/corte-diario/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);  
+  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);  
   alertify.success('Comprobante editado exitosamente'); 
     
   }else{
@@ -376,6 +396,11 @@
   alertify.error('Error al editar'); 
   }   
   }); 
+
+
+  }else{
+  $('#Pago').css('border','2px solid #A52525'); 
+  }
 
   }
 
@@ -436,7 +461,7 @@
   </div>
 
   </div>
-
+ 
 
   <!---------- MODAL (RIGHT)---------->  
   <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -447,7 +472,7 @@
   
   <!---------- MODAL (CENTER)---------->  
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>

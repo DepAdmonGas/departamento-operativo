@@ -6,11 +6,16 @@ include_once "bd/inc.conexion.php";
 include_once "modelo/Encriptar.php";
 include_once "modelo/1-corporativo/HomeCorporativo.php";
 include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-// clase para recursos humanos
-$ClassEncriptar = new Encriptar();
+
+// Instancia a la base de datos
+$database = Database::getInstance();
+
+// Obtiene la  conexión a la base de datos
+$con = $database->getConnection();
 
 // Valida si esta activa la sesion por medio de la cookie
 if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
@@ -28,13 +33,11 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
         $ClassHomeCorporativo = new HomeCorporativo();
-        // Instancia a la base de datos
-        $database = Database::getInstance();
-        // Obtiene la  conexión a la base de datos
-        $con = $database->getConnection();
+
         // clase donde vienen consultas generales para las vistas en corte diario
         $corteDiarioGeneral = new CorteDiarioGeneral($con);
-
+        // clase para recursos humanos
+        $ClassEncriptar = new Encriptar();
 
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();

@@ -57,7 +57,7 @@ $cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Sessi
   });
 
   function menuCorporativoMes(referencia){
-    window.location.href = referencia;
+  window.location.href = referencia;
   }
 
   function corporativoMes(year,mes){

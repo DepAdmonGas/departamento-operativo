@@ -369,5 +369,52 @@ class HomeCorporativo
 
     }
 
+
+    function tituloMenuCorporativoYearMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$year,$mes){
+    $result = '';
+    
+    if($Pagina == "solicitud-cheque"){
+    $titulo = "Solicitud de Cheques";
+    $referencia = "corporativo";
+    $menuName = "Corporativo";
+    $returnReferencia = $Pagina;
+    }
+
+    if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
+    $referencia = "../../administracion/corporativo";
+    $menuName = "Corporativo";
+        
+    }else if($session_idpuesto == 6 || $session_idpuesto == 3){
+    $referencia = "../corporativo";
+    $menuName = "Corporativo";
+        
+    }else if($session_idpuesto == 5){
+    $referencia = "../../departamento-operativo";
+    $menuName = "Inicio";
+        
+    }else if($session_idpuesto == 15 || $Session_IDUsuarioBD == 292){
+    $referencia = "../../../portal-app/home";
+    $menuName = "Portal";
+        
+    }
+    
+
+
+    $result = ' <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+    <ol class="breadcrumb breadcrumb-caret">
+    <li class="breadcrumb-item"><a onclick="menuCorporativoYearMes(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
+    <li class="breadcrumb-item"><a onclick="returnCorporativoItem(\''.$returnReferencia.'\')" class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer">'.$year.'</a></li>
+    <li aria-current="page" class="breadcrumb-item active text-uppercase">'.nombremes($mes).'</li>
+    </ol>
+    </div>';
+
+    
+    return $result;
+    }
+
+
+
+
 }
 
