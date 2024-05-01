@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require('../../../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
 
@@ -186,8 +186,7 @@ class NumeroALetras
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Detalle de Solicitud de cheque</h5>
-<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
 
 <div class="modal-body">
 <?php

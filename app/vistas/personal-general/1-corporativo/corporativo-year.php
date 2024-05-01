@@ -64,7 +64,6 @@ $cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEsta
 
   function corporativoYear(ruta,year){
   window.location.href = ruta + "/" + year;
-
   }
 
 
