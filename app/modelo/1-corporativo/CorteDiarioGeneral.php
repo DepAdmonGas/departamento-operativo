@@ -6,6 +6,58 @@ class CorteDiarioGeneral extends Exception
     {
         $this->con = $con;
     }
+    /**
+     * 
+     * Corte Diario mes
+     * 
+     * 
+     */
+    public function validaFechaReporte($IdReporte,$GET_year,$GET_mes,$Pdia){
+        $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
+        $sql_reporte = "SELECT id, id_mes, fecha FROM op_corte_dia WHERE id_mes = ? AND fecha = ?";
+        $stmt_reporte = $this->con->prepare($sql_reporte);
+        if(!$stmt_reporte):
+            throw new Exception("Error al preparar la consulta".$this->con->error);
+        endif;
+        $stmt_reporte->bind_param("is", $IdReporte, $fecha);
+        if(!$stmt_reporte->execute()):
+            throw new Exception("Error al ejecutar la consulta".$stmt_reporte->error);
+        endif;
+        $result_reporte = $stmt_reporte->get_result();
+        $numero_reporte = $result_reporte->num_rows;
+        if ($numero_reporte == 0) :
+            $sql_insert = "INSERT INTO op_corte_dia (id_mes,fecha,
+                            ventas,
+                            tpv,
+                            monedero
+                          )
+                          VALUES (?,?,0,0,0)";
+            $stmt_insert = $this->con->prepare($sql_insert);
+            if( !$stmt_insert ):
+                throw new Exception("Error al preparar la consulta".$this->con->error);
+            endif;
+            $stmt_insert->bind_param("is", $IdReporte, $fecha);
+            if($stmt_insert->execute()):
+                throw new Exception("Error al ejecutar la consulta".$stmt_insert->error);
+            endif;
+            $stmt_insert->close();
+        endif;
+        $stmt_reporte->close();
+    }
+    public function ultimoDia($GET_year, $GET_mes)
+    {
+      $month = $GET_mes;
+      $year = $GET_year;
+      $day = date("d", mktime(0, 0, 0, $month + 1, 0, $year));
+      return date('d', mktime(0, 0, 0, $month, $day, $year));
+    }
+
+    public function primerDia($GET_year, $GET_mes)
+    {
+      $month = $GET_mes;
+      $year = $GET_year;
+      return date('d', mktime(0, 0, 0, $month, 1, $year));
+    }
     /***
      * 
      * 
@@ -277,6 +329,34 @@ class CorteDiarioGeneral extends Exception
         endif;
         // Retornar el número de filas encontradas
         return $numero_reporte;
+    }
+    /**
+     * 
+     * 
+     * CLIENTES
+     * 
+     * 
+     */
+    function generarOpcionesClientes($Session_IDEstacion) {
+        $sql_cliente = "SELECT id, cliente FROM op_cliente WHERE id_estacion = ?";
+        $stmt_cliente = $this->con->prepare($sql_cliente);
+        if (!$stmt_cliente) :
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
+        $stmt_cliente->bind_param("s", $Session_IDEstacion);
+        if (!$stmt_cliente->execute()) :
+            throw new Exception("Error al ejecutar la consulta: " . $stmt_cliente->error);
+        endif;
+        $result_cliente = $stmt_cliente->get_result();
+    
+        $ocultar = "d-none"; // Por defecto, no se oculta
+    
+        while ($row_cliente = $result_cliente->fetch_assoc()) :
+            if (empty($row_cliente['cliente'])) :
+                $ocultar = "d-none"; // Si algún cliente está vacío, se oculta
+            endif;
+            echo '<option value="' . $row_cliente['id'] . '">' . $row_cliente['cliente'] . '</option>';
+        endwhile;
     }
     
 }

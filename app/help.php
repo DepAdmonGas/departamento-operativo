@@ -10,7 +10,6 @@ include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-
 // Instancia a la base de datos
 $database = Database::getInstance();
 

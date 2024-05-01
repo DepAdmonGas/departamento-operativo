@@ -1,8 +1,12 @@
 <?php
 require 'app/vistas/contenido/header.php';
 $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
+$estado = "";
+if ($ventas == 1):
+  $estado = "disabled";
+endif;
 ?>
-<script type="text/javascript" src="<?php echo RUTA_JSCORTEDIARIO ?>corteVentaDia.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corteVentaDia.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
@@ -42,12 +46,6 @@ $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
 </script>
 <body>
   <div class="LoaderPage"></div>
-  <?php
-  $estado = "";
-  if ($ventas == 1):
-    $estado = "disabled";
-  endif;
-  ?>
   <!---------- DIV - CONTENIDO ---------->
   <div id="content">
     <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
@@ -335,10 +333,6 @@ $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
     window.onresize = resizeCanvas;
     resizeCanvas();
   </script>
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 </body>
 
 </html>
