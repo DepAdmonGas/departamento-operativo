@@ -10,7 +10,7 @@ $idPuesto = $_POST['Depto'];
 $idEstacion = $Session_IDEstacion;
 $idPuesto = $session_idpuesto;
 }
-
+  
 function idReporte($con){
 $sql = "SELECT id FROM op_solicitud_cheque ORDER BY id desc LIMIT 1";
 $result = mysqli_query($con, $sql);
@@ -132,7 +132,7 @@ observaciones,
 depto,
 razonsocial,
 status
-    )
+)
     VALUES 
     (
     '".$idReporte."',
@@ -547,9 +547,10 @@ echo 0;
 
 
 
-function toquenUser($id,$con){
 
-$sql_firma = "SELECT * FROM tb_usuarios_token WHERE id_usuario = '".$id."' AND herramienta = 'token-web' ORDER BY id DESC LIMIT 1 ";
+function toquenUser($id,$con){
+ 
+$sql_firma = "SELECT token FROM tb_usuarios_token WHERE id_usuario = '".$id."' AND herramienta = 'token-web' ORDER BY id DESC LIMIT 1 ";
 $result_firma = mysqli_query($con, $sql_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 $token = $row_firma['token'];

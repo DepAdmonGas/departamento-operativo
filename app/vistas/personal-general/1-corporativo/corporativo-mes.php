@@ -2,28 +2,30 @@
 require('app/help.php');
  
 if ($Pagina == "corte-diario"){
-$IdReporte = $ClassHomeCorporativo->IdReporte($Session_IDEstacion,$GET_year,$con); 
-$ClassHomeCorporativo->ValidaMesReporte($IdReporte,$fecha_mes,$con);
+$IdReporte = $ClassHomeCorporativo->IdReporte($Session_IDEstacion,$GET_year); 
+$ClassHomeCorporativo->ValidaMesReporte($IdReporte,$fecha_mes);
 $breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
-$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
    
 }else if($Pagina == "solicitud-cheque"){
 $IdReporte = ""; 
 $breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
-$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
 
 }else if($Pagina == "despacho-factura"){
 $IdReporte = ""; 
 $breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
-$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
    
 }else if($Pagina == "solicitud-vales"){
 $IdReporte = ""; 
 $breadcrumbMes = $ClassHomeCorporativo->tituloMenuCorporativoMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
-$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$con);
+$cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$GET_year);
    
 }
+ 
 
+ 
 ?>  
 
 <html lang="es">
