@@ -3,6 +3,8 @@ require 'app/vistas/contenido/header.php';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 ?>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>aceites-mes-function.js"></script>
+
 <style media="screen">
   .inputD:disabled {
     background: white;
@@ -23,693 +25,246 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-
     var margint = 140;
     var ventana_alto = $(document).height();
     ResultAlto = ventana_alto - margint;
     box = document.getElementsByClassName('tableFixHead')[0];
     box.style.height = ResultAlto + 'px';
-
     ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-
   });
-
-  function Regresar() {
-    window.history.back();
-  }
-
-  function ReporteAceites(year, mes) {
-    $('#DivReporteAceites').html('<div class="text-center mt-5 pt-5"><img class="mt-5 pt-5" width="50px" src="../../imgs/iconos/load-img.gif"></div>');
-    $('#DivReporteAceites').load('../../public/corte-diario/vistas/reporte-aceites-mes.php?year=' + year + '&mes=' + mes);
-
-  }
-
-  function InventarioInicial(idaceite) {
-
-    var bodega = $("#bodega-" + idaceite).val();
-    var exibidor = $("#exibidor-" + idaceite).val();
-
-    total = parseInt(bodega) + parseInt(exibidor);
-
-
-    $("#inventarioi-" + idaceite).text(number_format(total, 2));
-
-  }
-
-  function number_format(amount, decimals) {
-
-    amount += ''; // por si pasan un numero en vez de un string
-    amount = parseFloat(amount.replace(/[^0-9\.]/g, '')); // elimino cualquier cosa que no sea numero o punto
-
-    decimals = decimals || 0; // por si la variable no fue fue pasada
-
-    // si no es un numero o es igual a cero retorno el mismo cero
-    if (isNaN(amount) || amount === 0)
-      return parseFloat(0).toFixed(decimals);
-
-    // si es mayor o menor que cero retorno el valor formateado como numero
-    amount = '' + amount.toFixed(decimals);
-
-    var amount_parts = amount.split('.'),
-      regexp = /(\d+)(\d{3})/;
-
-    while (regexp.test(amount_parts[0]))
-      amount_parts[0] = amount_parts[0].replace(regexp, '$1' + ',' + '$2');
-
-    return amount_parts.join('.');
-  }
-
   function EditPedido(val, idaceite) {
 
-    var pedido = val.value;
+var pedido = val.value;
 
-    var parametros = {
-      "type": "pedido",
-      "idaceite": idaceite,
-      "pedido": pedido,
-      "accion": "editar-reporte-aceite"
-    };
+var parametros = {
+  "type": "pedido",
+  "idaceite": idaceite,
+  "pedido": pedido,
+  "accion": "editar-reporte-aceite"
+};
 
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-      },
-      complete: function () {
+$.ajax({
+  data: parametros,
+  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+  type: 'post',
+  beforeSend: function () {
+  },
+  complete: function () {
 
-      },
-      success: function (response) {
+  },
+  success: function (response) {
 
-        if (response == 0) {
-          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-        } else {
-          InventarioFinal(idaceite);
-          diferencia(idaceite);
-        }
-
-      }
-    });
-
-  }
-
-  function InventarioFinal(idaceite) {
-
-    var inventarioi = $("#inventarioi-" + idaceite).text();
-    var pedido = 0;
-    var ventas = $("#ventas-" + idaceite).text();
-
-    if ($("#pedido-" + idaceite).val() == "") {
-      pedido = 0;
+    if (response == 0) {
+      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
     } else {
-      pedido = $("#pedido-" + idaceite).val();
+      InventarioFinal(idaceite);
+      diferencia(idaceite);
     }
 
-    total = parseInt(inventarioi) + parseInt(pedido) - parseInt(ventas);
-    $("#inventariof-" + idaceite).text(number_format(total, 2));
-
   }
+});
 
-  function EditFisicoBodega(val, idaceite) {
+}
+function EditFisicoBodega(val, idaceite) {
 
-    var fisico = val.value;
+var fisico = val.value;
 
-    var parametros = {
-      "type": "fisicobodega",
-      "idaceite": idaceite,
-      "fisico": fisico,
-      "accion": "editar-reporte-aceite"
-    };
+var parametros = {
+  "type": "fisicobodega",
+  "idaceite": idaceite,
+  "fisico": fisico,
+  "accion": "editar-reporte-aceite"
+};
 
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-      },
-      complete: function () {
+$.ajax({
+  data: parametros,
+  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+  type: 'post',
+  beforeSend: function () {
+  },
+  complete: function () {
 
-      },
-      success: function (response) {
+  },
+  success: function (response) {
 
-        if (response == 0) {
-          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-        } else {
+    if (response == 0) {
+      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+    } else {
 
-          var fisicoB = $("#fisicoB-" + idaceite).val();
-          var fisicoE = $("#fisicoE-" + idaceite).val();
+      var fisicoB = $("#fisicoB-" + idaceite).val();
+      var fisicoE = $("#fisicoE-" + idaceite).val();
 
-          if (fisicoB != "") {
-            TfisicoB = fisicoB;
-          } else {
-            TfisicoB = 0;
-          }
-
-          if (fisicoE != "") {
-            TfisicoE = fisicoE;
-          } else {
-            TfisicoE = 0;
-          }
-
-
-          fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
-          $("#fisicoFin-" + idaceite).text(fisico + ".00");
-
-          diferencia(idaceite);
-        }
-
-      }
-    });
-
-  }
-
-  function EditFisicoExhibidor(val, idaceite) {
-
-    var fisico = val.value;
-
-    var parametros = {
-      "type": "fisicoexhibidor",
-      "idaceite": idaceite,
-      "fisico": fisico,
-      "accion": "editar-reporte-aceite"
-    };
-
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-      },
-      complete: function () {
-
-      },
-      success: function (response) {
-
-        if (response == 0) {
-          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-        } else {
-
-          var fisicoB = $("#fisicoB-" + idaceite).val();
-          var fisicoE = $("#fisicoE-" + idaceite).val();
-
-          if (fisicoB != "") {
-            TfisicoB = fisicoB;
-          } else {
-            TfisicoB = 0;
-          }
-
-          if (fisicoE != "") {
-            TfisicoE = fisicoE;
-          } else {
-            TfisicoE = 0;
-          }
-
-
-          fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
-          $("#fisicoFin-" + idaceite).text(fisico + ".00");
-
-          diferencia(idaceite);
-        }
-
-      }
-    });
-
-  }
-
-  function diferencia(idaceite) {
-
-    var inventariof = $("#inventariof-" + idaceite).text();
-    var fisicoB = $("#fisicoB-" + idaceite).val();
-    var fisicoE = $("#fisicoE-" + idaceite).val();
-
-
-    if (inventariof != 0.00) {
-      if (fisicoB != "" && fisicoE != "") {
-        fisico = parseInt(fisicoB) + parseInt(fisicoE);
-        total = parseInt(fisico) - parseInt(inventariof);
+      if (fisicoB != "") {
+        TfisicoB = fisicoB;
       } else {
-        total = -inventariof;
+        TfisicoB = 0;
       }
-    } else {
-      total = 0;
-    }
 
-    $("#diferencia-" + idaceite).text(total + ".00");
-
-  }
-
-  function EditFacturados(val, idaceite) {
-
-    var facturado = val.value;
-
-    var parametros = {
-      "type": "facturado",
-      "idaceite": idaceite,
-      "facturado": facturado,
-      "accion": "editar-reporte-aceite"
-    };
-
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-      },
-      complete: function () {
-
-      },
-      success: function (response) {
-
-        if (response == 0) {
-          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-        } else {
-          factotal(idaceite);
-          diffactura(idaceite);
-        }
-
-      }
-    });
-
-  }
-
-  function EditMostrador(val, idaceite) {
-
-    var mostrador = val.value;
-
-    var parametros = {
-      "type": "mostrador",
-      "idaceite": idaceite,
-      "mostrador": mostrador,
-      "accion": "editar-reporte-aceite"
-    };
-
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-      },
-      complete: function () {
-
-      },
-      success: function (response) {
-
-        if (response == 0) {
-          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-        } else {
-          factotal(idaceite);
-          diffactura(idaceite);
-        }
-
-      }
-    });
-
-  }
-
-  function factotal(idaceite) {
-
-    var mostrador = $("#mostrador-" + idaceite).val();
-    var facturado = $("#facturado-" + idaceite).val();
-
-    total = parseInt(mostrador) + parseInt(facturado);
-
-
-    $("#factotal-" + idaceite).text(number_format(total, 2));
-  }
-
-  function diffactura(idaceite) {
-
-    var factotal = $("#factotal-" + idaceite).text();
-    var ventas = $("#ventas-" + idaceite).val();
-
-    total = parseInt(factotal) - parseInt(ventas);
-
-
-    $("#diffactura-" + idaceite).text(number_format(total, 2));
-  }
-
-  function ModalDiferencia(idaceite, year, mes) {
-
-    $('#ModalPrincipal').modal('show');
-    $('#DivModal').load('../../public/corte-diario/vistas/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
-  }
-
-  function PagarDiferencia(idaceite, year, mes) {
-
-    var Documento = $('#Documento').val();
-    var Comentario = $('#Comentario').val();
-
-    var data = new FormData();
-    var url = '../../public/corte-diario/modelo/agregar-pago-diferencia.php';
-
-    Documento = document.getElementById("Documento");
-    Documento_file = Documento.files[0];
-    Documento_filePath = Documento.value;
-    var ext = Documento_filePath.split('.').reverse()[0]
-
-
-    if (Documento_filePath != "") {
-      $('#Documento').css('border', '');
-      if (ext == "pdf") {
-        $('#Documento').css('border', '');
-
-        data.append('idaceite', idaceite);
-        data.append('year', year);
-        data.append('mes', mes);
-        data.append('Documento_file', Documento_file);
-        data.append('Comentario', Comentario);
-
-        $.ajax({
-          url: url,
-          type: 'POST',
-          contentType: false,
-          data: data,
-          processData: false,
-          cache: false
-        }).done(function (data) {
-
-          ReporteAceites(year, mes);
-          $('#ModalPrincipal').modal('hide');
-
-        });
-
+      if (fisicoE != "") {
+        TfisicoE = fisicoE;
       } else {
-        $('#Documento').css('border', '2px solid #A52525');
+        TfisicoE = 0;
       }
-    } else {
-      $('#Documento').css('border', '2px solid #A52525');
+
+
+      fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
+      $("#fisicoFin-" + idaceite).text(fisico + ".00");
+
+      diferencia(idaceite);
     }
 
   }
+});
 
-  function ModalDetalle(idaceite) {
-    $('#ModalPrincipal').modal('show');
-    $('#DivModal').load('../../public/corte-diario/vistas/modal-detalle-pago-aceite.php?idaceite=' + idaceite);
-  }
+}
+function EditFacturados(val, idaceite) {
 
-  function GuardarFinalizar(IdReporte, idEstacion, nombreEstacion) {
+var facturado = val.value;
 
-    var parametros = {
-      "IdReporte": IdReporte,
-      "idEstacion": idEstacion,
-      "nombreEstacion": nombreEstacion,
-      "accion": "finalizar-aceites"
-    };
+var parametros = {
+  "type": "facturado",
+  "idaceite": idaceite,
+  "facturado": facturado,
+  "accion": "editar-reporte-aceite"
+};
 
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/finalizar-aceites.php',
-      type: 'post',
-      beforeSend: function () {
-        $(".LoaderPage").show();
-      },
-      complete: function () {
+$.ajax({
+  data: parametros,
+  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+  type: 'post',
+  beforeSend: function () {
+  },
+  complete: function () {
 
-      },
-      success: function (response) {
+  },
+  success: function (response) {
 
-        $(".LoaderPage").hide();
-        $('#ModalPrincipal').modal('show');
-        $('#DivModal').load('../../public/corte-diario/vistas/modal-info-diferencias.php');
-
-
-      }
-    });
-  }
-
-  function Finalizar() {
-    location.reload();
-  }
-
-  //----------------------------------------------------------------------
-
-  function ListaModal(IdReporte, year, mes) {
-    $('#Modal').modal('show');
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-  }
-
-  function Nuevo(IdReporte, year, mes) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/formulario-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-  }
-
-  function Cancelar(IdReporte, year, mes) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-  }
-
-  function Guardar(IdReporte, year, mes) {
-
-    var data = new FormData();
-    var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-    //var url = '../../public/corte-diario/modelo/agregar-documento-aceite.php';
-
-    Ficha = document.getElementById("Ficha");
-    Ficha_file = Ficha.files[0];
-    Ficha_filePath = Ficha.value;
-
-    Imagen = document.getElementById("Imagen");
-    Imagen_file = Imagen.files[0];
-    Imagen_filePath = Imagen.value;
-
-    Factura = document.getElementById("Factura");
-    Factura_file = Factura.files[0];
-    Factura_filePath = Factura.value;
-
-    data.append('idReporte', IdReporte);
-    data.append('year', year);
-    data.append('mes', mes);
-    data.append('Ficha_file', Ficha_file);
-    data.append('Imagen_file', Imagen_file);
-    data.append('Factura_file', Factura_file);
-    data.append('accion', 'agregar-documento-aceite');
-
-    $(".LoaderPage").show();
-
-    $.ajax({
-      url: url,
-      type: 'POST',
-      contentType: false,
-      data: data,
-      processData: false,
-      cache: false
-    }).done(function (data) {
-
-      $(".LoaderPage").hide();
-      Cancelar(IdReporte, year, mes);
-
-    });
-
+    if (response == 0) {
+      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+    } else {
+      factotal(idaceite);
+      diffactura(idaceite);
+    }
 
   }
+});
 
-  function Eliminar(IdReporte, year, mes, id) {
+}
+function EditFisicoExhibidor(val, idaceite) {
 
-    var parametros = {
-      "IdReporte": IdReporte,
-      "id": id,
-      "accion": "eliminar-documento-aceite"
-    };
+var fisico = val.value;
 
-    $.ajax({
-      data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/eliminar-documento-aceite.php',
-      type: 'post',
-      beforeSend: function () {
-        $(".LoaderPage").show();
-      },
-      complete: function () {
+var parametros = {
+  "type": "fisicoexhibidor",
+  "idaceite": idaceite,
+  "fisico": fisico,
+  "accion": "editar-reporte-aceite"
+};
 
-      },
-      success: function (response) {
-        if (response == 1) {
+$.ajax({
+  data: parametros,
+  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+  type: 'post',
+  beforeSend: function () {
+  },
+  complete: function () {
 
-          $(".LoaderPage").hide();
-          alertify.success('Registro eliminado exitosamente.')
-          Cancelar(IdReporte, year, mes);
+  },
+  success: function (response) {
 
-        } else {
-          alertify.error('Error al eliminar')
-          $(".LoaderPage").hide();
+    if (response == 0) {
+      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+    } else {
 
-        }
+      var fisicoB = $("#fisicoB-" + idaceite).val();
+      var fisicoE = $("#fisicoE-" + idaceite).val();
 
-      }
-    });
-
-  }
-
-  function Editar(IdReporte, year, mes, id) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/editar-aceite-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes + '&id=' + id);
-  }
-
-  function EditarInfo(IdReporte, year, mes, id) {
-
-    var data = new FormData();
-    var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-    //var url = '../../public/corte-diario/modelo/editar-documento-aceite.php';
-
-    Ficha = document.getElementById("Ficha");
-    Ficha_file = Ficha.files[0];
-    Ficha_filePath = Ficha.value;
-
-    Imagen = document.getElementById("Imagen");
-    Imagen_file = Imagen.files[0];
-    Imagen_filePath = Imagen.value;
-
-    Factura = document.getElementById("Factura");
-    Factura_file = Factura.files[0];
-    Factura_filePath = Factura.value;
-
-    data.append('id', id);
-    data.append('year', year);
-    data.append('mes', mes);
-    data.append('Ficha_file', Ficha_file);
-    data.append('Imagen_file', Imagen_file);
-    data.append('Factura_file', Factura_file);
-    data.append('accion', 'editar-documento-aceite');
-
-    $(".LoaderPage").show();
-
-    $.ajax({
-      url: url,
-      type: 'POST',
-      contentType: false,
-      data: data,
-      processData: false,
-      cache: false
-    }).done(function (data) {
-      $(".LoaderPage").hide();
-      Cancelar(IdReporte, year, mes);
-
-    });
-
-
-  }
-
-
-  function DocumentacionAceites(IdReporte, year, mes) {
-    $('#Modal').modal('show');
-    $('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-  }
-
-  function GuardarFactura(IdReporte, year, mes) {
-
-    var fechaAceite = $('#fechaAceite').val();
-    var conceptoAceite = $('#conceptoAceite').val();
-    var facturaAceite = $('#facturaAceite').val();
-
-    var data = new FormData();
-    var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-    //var url = '../../public/admin/modelo/agregar-factura-archivo-aceite.php';
-
-    Factura = document.getElementById("facturaAceite");
-    Factura_file = Factura.files[0];
-    Factura_filePath = Factura.value;
-
-
-    if (fechaAceite != "") {
-      $('#fechaAceite').css('border', '');
-
-      if (conceptoAceite != "") {
-        $('#conceptoAceite').css('border', '');
-
-        if (facturaAceite != "") {
-          $('#facturaAceite').css('border', '');
-
-          data.append('IdReporte', IdReporte);
-          data.append('year', year);
-          data.append('mes', mes);
-          data.append('fechaAceite', fechaAceite);
-          data.append('conceptoAceite', conceptoAceite);
-          data.append('Factura_file', Factura_file);
-          data.append('accion', 'agregar-factura-archivo-aceite');
-
-          $(".LoaderPage").show();
-
-          $.ajax({
-            url: url,
-            type: 'POST',
-            contentType: false,
-            data: data,
-            processData: false,
-            cache: false
-          }).done(function (data) {
-            $(".LoaderPage").hide();
-            $('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-            alertify.success('Archivo agregado exitosamente')
-
-          });
-
-
-        } else {
-          $('#facturaAceite').css('border', '2px solid #A52525');
-        }
-
+      if (fisicoB != "") {
+        TfisicoB = fisicoB;
       } else {
-        $('#conceptoAceite').css('border', '2px solid #A52525');
+        TfisicoB = 0;
       }
 
-    } else {
-      $('#fechaAceite').css('border', '2px solid #A52525');
+      if (fisicoE != "") {
+        TfisicoE = fisicoE;
+      } else {
+        TfisicoE = 0;
+      }
+
+
+      fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
+      $("#fisicoFin-" + idaceite).text(fisico + ".00");
+
+      diferencia(idaceite);
     }
 
   }
+});
 
-  function EliminarFacturaAceite(IdReporte, year, mes, id) {
+}
+
+function diferencia(idaceite) {
+
+var inventariof = $("#inventariof-" + idaceite).text();
+var fisicoB = $("#fisicoB-" + idaceite).val();
+var fisicoE = $("#fisicoE-" + idaceite).val();
 
 
-    var parametros = {
-      "IdReporte": IdReporte,
-      "id": id,
-      "accion": "eliminar-factura-archivo-aceite"
-    };
+if (inventariof != 0.00) {
+  if (fisicoB != "" && fisicoE != "") {
+    fisico = parseInt(fisicoB) + parseInt(fisicoE);
+    total = parseInt(fisico) - parseInt(inventariof);
+  } else {
+    total = -inventariof;
+  }
+} else {
+  total = 0;
+}
+
+$("#diferencia-" + idaceite).text(total + ".00");
+
+}
 
 
-    alertify.confirm('',
-      function () {
 
-        $.ajax({
-          data: parametros,
-          url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-          //url:   '../../public/admin/modelo/eliminar-factura-archivo-aceite.php',
-          type: 'post',
-          beforeSend: function () {
-            $(".LoaderPage").show();
-          },
-          complete: function () {
+function EditMostrador(val, idaceite) {
 
-          },
-          success: function (response) {
-            if (response == 1) {
+var mostrador = val.value;
 
-              $(".LoaderPage").hide();
-              $('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
-              alertify.success('Archivo agregado exitosamente');
+var parametros = {
+  "type": "mostrador",
+  "idaceite": idaceite,
+  "mostrador": mostrador,
+  "accion": "editar-reporte-aceite"
+};
 
-            } else {
-              alertify.error('Error al eliminar')
-              $(".LoaderPage").hide();
+$.ajax({
+  data: parametros,
+  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+  type: 'post',
+  beforeSend: function () {
+  },
+  complete: function () {
 
-            }
+  },
+  success: function (response) {
 
-          }
-        });
-
-      },
-      function () {
-
-      }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar el registro seleccionado?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-
+    if (response == 0) {
+      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+    } else {
+      factotal(idaceite);
+      diffactura(idaceite);
+    }
 
   }
+});
 
-
+}
 </script>
 
 <body>
@@ -729,7 +284,7 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 
                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-1">
 
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
+                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
 
                     <div class="col-12">

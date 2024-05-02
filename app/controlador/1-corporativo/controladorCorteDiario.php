@@ -257,6 +257,15 @@ switch($_POST['accion']):
         $id = $_POST['id'];
         echo $CorteDiario->eliminarFacturaArchivoAceite( $id );
         break;
+    case 'agregar-pago-diferencia':
+        $repAceite = $_POST['idaceite'];
+        $year = $_POST['year'];
+        $mes = $_POST['mes'];
+        $file = $_FILES['Documento_file'] ?? [''];
+        $comentario = $_POST['Comentario'] ?? '';
+        $idEstacion = $_POST['idEstacion'];
+        $CorteDiario->agregarPagoDiferencia($repAceite,$year,$mes,$file,$idEstacion,$comentario);
+        break;
     /**
      * 
      *      MONEDEROS

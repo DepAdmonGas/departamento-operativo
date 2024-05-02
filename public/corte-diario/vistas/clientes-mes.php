@@ -4,188 +4,26 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
 if ($GET_mes == 1) :
   $Year = $GET_year - 1;
   $Mes = 12;
-  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes) == "") :
+  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes) == 0) :
     $IdReporteA = 0;
   else :
     $IdReporteA = $corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes);
   endif;
 else :
   $Mes = $GET_mes - 1;
-  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes) == "") :
+  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes) == 0) :
     $IdReporteA = 0;
   else :
     $IdReporteA = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes);
   endif;
 endif;
-$sql_fin = "SELECT id FROM op_consumos_pagos_resumen_finalizar WHERE id_mes = '" . $IdReporte . "' LIMIT 1 ";
-$result_fin = mysqli_query($con, $sql_fin);
-$numero_fin = mysqli_num_rows($result_fin);
-if ($numero_fin == 0) {
-  Resumen($IdReporte, $Session_IDEstacion, $con);
-  ActSaldoInicial($IdReporte, $IdReporteA, $con);
-  ActPagosConsumos($IdReporte, $IdReporteA, $con);
-  ActSaldoFinal($IdReporte, $IdReporteA, $con);
-} else {
-  //ActPagosConsumos($IdReporte,$IdReporteA,$con);
-  //ActSaldoFinal($IdReporte,$IdReporteA,$con);
-}
-
-function Resumen($IdReporte, $idEstacion, $con)
-{
-  $sql = "SELECT * FROM op_cliente WHERE id_estacion = '" . $idEstacion . "' AND estado = 1 ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $id = $row['id'];
-    ValidaResumen($IdReporte, $id, $con);
-  }
-}
-
-function ValidaResumen($IdReporte, $id, $con)
-{
-  $sql = "SELECT * FROM op_consumos_pagos_resumen WHERE id_mes = '" . $IdReporte . "' AND id_cliente = '" . $id . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-
-  if ($numero == 0) {
-    $sql_insert = "INSERT INTO op_consumos_pagos_resumen (
-    id_mes,
-    id_cliente,
-    saldo_inicial,
-    consumos,
-    pagos,
-    saldo_final
-    )
-    VALUES
-    (
-    '" . $IdReporte . "',
-    '" . $id . "',
-    0,
-    0,
-    0,
-    0
-    )";
-
-    mysqli_query($con, $sql_insert);
-  }
-}
-
-//-----------------------------------------------------------------------------
-
-function ConsumoPago($idResumen, $IdReporte, $idcliente, $con)
-{
-  $sql = "SELECT id FROM op_corte_dia WHERE id_mes = '" . $IdReporte . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  $totalCo = 0;
-  $totalPa = 0;
-  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $reportedia = $row['id'];
-
-    $Consumo = TotalCP($reportedia, $idcliente, 'Consumo', $con);
-    $totalCo = $totalCo + $Consumo;
-
-    $Pago = TotalCP($reportedia, $idcliente, 'Pago', $con);
-    $totalPa = $totalPa + $Pago;
-
-  }
-
-  $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = '" . $totalCo . "' WHERE id='" . $idResumen . "' ";
-  mysqli_query($con, $sql_edit1);
-
-  $sql_edit2 = "UPDATE op_consumos_pagos_resumen SET pagos = '" . $totalPa . "' WHERE id='" . $idResumen . "' ";
-  mysqli_query($con, $sql_edit2);
-}
-
-function TotalCP($reportedia, $idCliente, $tipo, $con)
-{
-
-  $sql_c = "SELECT total FROM op_consumos_pagos WHERE id_reportedia = '" . $reportedia . "' AND id_cliente = '" . $idCliente . "' AND tipo = '" . $tipo . "' ";
-  $result_c = mysqli_query($con, $sql_c);
-  $numero_c = mysqli_num_rows($result_c);
-
-  if ($numero_c > 0) {
-    $total = 0;
-    while ($row_c = mysqli_fetch_array($result_c, MYSQLI_ASSOC)) {
-      $total = $total + $row_c['total'];
-    }
-  } else {
-    $total = 0;
-  }
-
-  return $total;
-
-}
-
-function SaldoInicial($IdReporteA, $idResumen, $idcliente, $con)
-{
-
-  $sql = "SELECT saldo_final FROM op_consumos_pagos_resumen WHERE id_mes = '" . $IdReporteA . "' AND id_cliente = '" . $idcliente . "' LIMIT 1 ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  if ($numero == 1) {
-
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $saldoFinal = $row['saldo_final'];
-    }
-
-    if ($saldoFinal != 0) {
-
-      $sql_edit = "UPDATE op_consumos_pagos_resumen SET saldo_inicial = '" . $saldoFinal . "' WHERE id='" . $idResumen . "' ";
-      mysqli_query($con, $sql_edit);
-
-    }
-  }
-}
-
-function SaldoFinal($idResumen, $saldoFinal, $con)
-{
-  $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET saldo_final = '" . $saldoFinal . "' WHERE id='" . $idResumen . "' ";
-  mysqli_query($con, $sql_edit1);
-}
-
-//-----------------------------------------------------------------
-
-function ActSaldoInicial($IdReporte, $IdReporteA, $con)
-{
-  $saldoFinal = 0;
-  $sql = "SELECT id, id_mes, id_cliente,saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = '" . $IdReporte . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $idResumen = $row['id'];
-    $idcliente = $row['id_cliente'];
-    SaldoInicial($IdReporteA, $idResumen, $idcliente, $con);
-    ConsumoPago($idResumen, $IdReporte, $idcliente, $con);
-  }
-}
-
-function ActPagosConsumos($IdReporte, $IdReporteA, $con)
-{
-  $saldoFinal = 0;
-  $sql = "SELECT id, id_mes, id_cliente,saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = '" . $IdReporte . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $idResumen = $row['id'];
-    $idcliente = $row['id_cliente'];
-    ConsumoPago($idResumen, $IdReporte, $idcliente, $con);
-  }
-}
-
-function ActSaldoFinal($IdReporte, $IdReporteA, $con)
-{
-  $saldoFinal = 0;
-  $sql = "SELECT id, id_mes, id_cliente,saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = '" . $IdReporte . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $idResumen = $row['id'];
-    $idcliente = $row['id_cliente'];
-    $saldoFinal = $row['saldo_inicial'] + $row['consumos'] - $row['pagos'];
-    SaldoFinal($idResumen, $saldoFinal, $con);
-  }
-}
+$numero_fin = $corteDiarioGeneral->resumenFinalizar($IdReporte);
+if ($numero_fin == 0):
+  $corteDiarioGeneral->resumen($IdReporte, $Session_IDEstacion);
+  $corteDiarioGeneral->actSaldoInicial($IdReporte, $IdReporteA);
+  $corteDiarioGeneral->actPagosConsumos($IdReporte);
+  $corteDiarioGeneral->actSaldoFinal($IdReporte);
+endif;
 ?>
   <style media="screen">
     .inputD:disabled {
@@ -202,72 +40,12 @@ function ActSaldoFinal($IdReporte, $IdReporteA, $con)
       box-shadow: 2px 2px 7px #ECECEC;
     }
   </style>
-
+  <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-mes-functions.js"></script>
   <script type="text/javascript">
-
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
       ReporteClientes(<?= $IdReporte; ?>);
-
     });
-
-    function Regresar() {
-      window.history.back();
-    }
-
-    function ReporteClientes(IdReporte) {
-      $('#DivReporteClientes').load('../../public/corte-diario/vistas/reporte-clientes-mes.php?IdReporte=' + IdReporte);
-    }
-
-    function ESICredito(id) {
-
-
-      var total = $('#ESICredito' + id).val();
-
-
-      var parametros = {
-        "id": id,
-        "total": total,
-        "accion":"editar-saldo-inicial"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url: '../../public/corte-diario/modelo/editar-saldo-inicial.php',
-        type: 'post',
-        beforeSend: function () {},
-        complete: function () {},
-        success: function (response) {
-          $('#SaldoF' + id).text(response)
-        }
-      });
-
-    }
-
-    function Finalizar(IdReporte) {
-
-      var parametros = {
-        "IdReporte": IdReporte,
-        "accion":"finaliza-resumen-cliente-mes"
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-        //url:   '../../public/corte-diario/modelo/finalizar-resumen-clientes-mes.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-          ReporteClientes(IdReporte);
-
-        }
-      });
-    }
   </script>
 <body>
   <div class="LoaderPage"></div>
@@ -283,7 +61,7 @@ function ActSaldoFinal($IdReporte, $IdReporteA, $con)
             <div class="border-0 p-3">
               <div class="row">
                 <div class="col-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
+                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-12">
                       <h5>
