@@ -59,4 +59,3 @@
     window.location.href = "../../administracion/concentrado-ventas/" + estacion + "/" + year + "/" + mes;
 
   }
-s
