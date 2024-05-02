@@ -38,7 +38,7 @@ class CorteDiarioGeneral extends Exception
                 throw new Exception("Error al preparar la consulta" . $this->con->error);
             endif;
             $stmt_insert->bind_param("is", $IdReporte, $fecha);
-            if ($stmt_insert->execute()):
+            if (!$stmt_insert->execute()):
                 throw new Exception("Error al ejecutar la consulta" . $stmt_insert->error);
             endif;
             $stmt_insert->close();
