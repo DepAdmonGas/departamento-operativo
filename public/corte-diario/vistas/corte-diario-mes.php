@@ -41,8 +41,8 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
   .grayscale {
     filter: grayscale(100%);
   }
-</style>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corteDiarioMes.js"></script>
+</style> 
+<script type="text/javascript" src="<?=RUTA_CORTEDIARIO_JS?>corteDiarioMes.js"></script>
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->

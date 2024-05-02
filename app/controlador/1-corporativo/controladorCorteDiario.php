@@ -117,7 +117,7 @@ switch($_POST['accion']):
     *                         TPV
     * 
     */
-
+ 
     case 'nuevo-cierre-lote':
         $idReporte = $_POST['idReporte'];
         $empresa = $_POST['empresa'];

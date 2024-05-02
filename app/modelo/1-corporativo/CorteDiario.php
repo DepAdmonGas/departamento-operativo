@@ -1,17 +1,25 @@
 <?php
 require "FormatoFechas.php";
 require "../../bd/inc.conexion.php";
+require_once '../../modelo/HerramientasDptoOperativo.php';
+
 class CorteDiario extends Exception
 { 
     private $classConexionBD;
     private $con;
     private $formato;
+    private $herramientasDptoOperativo;
+
+    
     public function __construct()
     {
-
+ 
         $this->classConexionBD = Database::getInstance();
         $this->con = $this->classConexionBD->getConnection();
         $this->formato = new FormatoFechas();
+
+        parent::__construct("Error en el Corte Diario");
+        $this->herramientasDptoOperativo  = new herramientasDptoOperativo($this->con);
     }
     /**--------------------------------------------------------------------------------------------
      * 
@@ -653,6 +661,7 @@ class CorteDiario extends Exception
     {
         $result = true;
         $ieps = 0;
+        
         switch ($producto):
             case 'G Super':
                 $ieps = 0.4369;
@@ -762,6 +771,7 @@ class CorteDiario extends Exception
         $stmt_mes->close();
         return $idmes;
     }
+
     public function nuevoRegistroAceites(int $idReporte, int $IdMes, int $sessionIdEstacion): void
     {
         $sql_listaaceite = "SELECT
@@ -889,10 +899,13 @@ class CorteDiario extends Exception
             $consulta->bind_param('iiii', $corte, $corte, $corte, $idReporte);
             $consulta->execute();
             $consulta->close();
-            $token = $this->toquenUser($num19);
+            //$token = $this->toquenUser($num19);
+            $token = $this->herramientasDptoOperativo->toquenUser($num19);
+
             $detalle = 'Se finalizo el corte del día ' . $dia . ' de la estación ' . $nombreEstacion;
             $result = true;
-            $this->sendNotification($token, $detalle,$accion);
+            //$this->sendNotification($token, $detalle,$accion);
+            $this->herramientasDptoOperativo->sendNotification($token,$detalle,$accion);
             $stmt->close();
         endif;
         return $result;
@@ -942,51 +955,8 @@ class CorteDiario extends Exception
             $sql->close();
         endif;
     }
-    public function sendNotification($token, $detalle,$accion): void
-    {
-        $url = "https://fcm.googleapis.com/fcm/send";
 
-        $fields = array(
-            "to" => $token,
-            "notification" => array(
-                "body" => $detalle,
-                "title" => "Portal AdmonGas",
-                "icon" => "",
-                "click_action" => $accion
-            )
-        );
-        $headers = array(
-            'Authorization: key=AAAAccs8Ry4:APA91bFc3rlPHpHHyABA01dZPc4J9ZChulB2nmBZp0VW5ODR-uDq2Lnz0YvlpROjZrFgIl2UBFHqOPhPM8c5ho-8IR6XuFpwv8_WT_Y-av9vXav4_6eGsZrUdtrMl9GwDWDNZee0Ppli',
-            'Content-Type:application/json'
-        );
-        $ch = curl_init();
-        // Set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // Disabling SSL Certificate support temporarily
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        $result = curl_exec($ch);
-        curl_close($ch);
-    }
-    public function toquenUser(int $id): string
-    {
-        $herramienta = "token-web";
-        $sql_firma = "SELECT token FROM tb_usuarios_token WHERE id_usuario = ? AND herramienta = ? ORDER BY id DESC LIMIT 1 ";
-        $result_firma = $this->con->prepare($sql_firma);
-        if (!$result_firma):
-            // Manejo de error
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        endif;
-        $result_firma->bind_param('is', $id, $herramienta);
-        $result_firma->execute();
-        $result_firma->bind_result($token);
-        $result_firma->fetch();
-        $result_firma->close();
-        return $token;
-    }
+
     public function agregarDocumento(int $idReporte, string $nombreDocumento, array $file): void
     {
         $aleatorio = uniqid();
@@ -1047,6 +1017,7 @@ class CorteDiario extends Exception
             ticktes
             )
             VALUES (?,?,?,?,?)";
+
         $stmt = $this->con->prepare($sql_insert);
         if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
@@ -1054,8 +1025,9 @@ class CorteDiario extends Exception
         $stmt->bind_param("issdi", $idReporte, $empresa, $noCierre, $importe, $tickets);
         $stmt->execute();
         $stmt->close();
-        return $empresa;
+        return $empresa; 
     }
+
     public function editarCierreLote(string $tipo, string $cierre, int $idCierre, int $idReporte, string $empresa): bool
     {
         $result = true;
@@ -1363,7 +1335,7 @@ class CorteDiario extends Exception
      * 
      * 
      * ACEITES
-     * 
+     *  
      * 
      */
     public function finalizarAceite(int $idEstacion, int $idReporte, string $nombreEstacion): bool
@@ -1382,9 +1354,13 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $this->newAlmacen($idEstacion,$idReporte);
-        $token = $this->toquenUser(19);
+        //$token = $this->toquenUser(19);
+        $token = $this->herramientasDptoOperativo->toquenUser(19);
+
         $detalle = 'Se finalizo el inventario de '.$this->formato->nombremes($nomMes).', de la estación '.$nombreEstacion;
-        $this->sendNotification($token,$detalle,$accion);
+        //$this->sendNotification($token,$detalle,$accion);
+        $this->herramientasDptoOperativo->sendNotification($token,$detalle,$accion);
+
         $stmt->close();
         return $result;
     }
@@ -1627,6 +1603,7 @@ class CorteDiario extends Exception
         $upload_Ficha = "";
         $documentoFicha = "";
         $fechaFicha = "";
+        
         if (!empty($doc[0]) && isset($doc[0]['name'])):
             $ficha = $doc[0]['name'];
             $upload_Ficha = "../../../archivos/" . $aleatorio . "-" . $ficha;
@@ -1657,6 +1634,7 @@ class CorteDiario extends Exception
             $fechaFactura = $fecha_actual;
         endif;
         $fechaDia = date("Y-m-d");
+        
         $sql_insert = "INSERT INTO op_aceites_documento (
             id_mes,
             fecha,

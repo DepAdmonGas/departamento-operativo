@@ -29,7 +29,7 @@
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
-  
+
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -206,6 +206,7 @@
   $('#Documento').css('border','');
 
   data.append('idReporte', id);
+  
   data.append('idUsuario', 0);
   data.append('Documento', 'PAGO');
   data.append('Archivo_file', Documento_file);
@@ -283,7 +284,7 @@
   processData: false,
   cache: false
   }).done(function(data){
-
+  console.log(data)
   if(data == 1){
   $(".LoaderPage").hide();
   alertify.success('Archivo agregado exitosamente')
