@@ -6,7 +6,7 @@ if ($ventas == 1):
   $estado = "disabled";
 endif;
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corteVentaDia.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");

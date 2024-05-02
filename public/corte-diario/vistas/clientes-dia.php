@@ -1,7 +1,7 @@
 <?php
 require 'app/vistas/contenido/header.php';
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientesDia.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");

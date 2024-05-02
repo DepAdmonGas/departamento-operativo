@@ -84,5 +84,5 @@ $sql_reporte = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id = '".$idac
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="PagarDiferencia(<?=$idaceite;?>,<?=$year?>,<?=$mes;?>)">Pagar</button>
+<button type="button" class="btn btn-primary" onclick="PagarDiferencia(<?=$idaceite;?>,<?=$year?>,<?=$mes;?>,<?=$Session_IDEstacion;?>)">Pagar</button>
  </div>

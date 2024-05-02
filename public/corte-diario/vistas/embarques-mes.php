@@ -2,7 +2,7 @@
 require 'app/vistas/contenido/header.php';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>embarqueMes.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>embarque-mes-function.js"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");

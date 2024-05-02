@@ -2,7 +2,7 @@
 require 'app/vistas/contenido/header.php';
 $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>cierreLote.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>cierre-lote-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
