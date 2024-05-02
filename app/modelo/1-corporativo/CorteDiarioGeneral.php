@@ -430,7 +430,7 @@ class CorteDiarioGeneral extends Exception
             if (!$stmt_insert):
                 throw new Exception("Error al preparar la inserción: " . $this->con->error);
             endif;
-            $stmt_insert->bind_param("ii", $IdReporte, $id, $val, $val, $val, $val);
+            $stmt_insert->bind_param("iiiiii", $IdReporte, $id, $val, $val, $val, $val);
             if (!$stmt_insert->execute()):
                 throw new Exception("Error al ejecutar la inserción: " . $stmt_insert->error);
             endif;
