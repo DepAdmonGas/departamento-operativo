@@ -1,10 +1,5 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 function IdReporte($Session_IDEstacion,$GET_year,$con){
    $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
    $result_year = mysqli_query($con, $sql_year);
@@ -23,30 +18,30 @@ $GDiesel = $row['producto_tres'];
 
 $IdReporte = IdReporte($Session_IDEstacion,$GET_year,$con);
 
-ValidaIF($idReporte,'G SUPER',1,$con);
-ValidaIF($idReporte,'G PREMIUM',1,$con);
+ValidaIF($IdReporte,'G SUPER',1,$con);
+ValidaIF($IdReporte,'G PREMIUM',1,$con);
 
 if($GDiesel != ""){
-ValidaIF($idReporte,'G DIESEL',1,$con);
+ValidaIF($IdReporte,'G DIESEL',1,$con);
 }
 
-ValidaIF($idReporte,'Aceites y Lubricantes',1,$con);
+ValidaIF($IdReporte,'Aceites y Lubricantes',1,$con);
 if($Session_IDEstacion == 2){
-ValidaIF($idReporte,'Autolavado',1,$con);
+ValidaIF($IdReporte,'Autolavado',1,$con);
 }
-ValidaIF($idReporte,'Rentas',1,$con);
-ValidaIF($idReporte,'IEPS',1,$con);
+ValidaIF($IdReporte,'Rentas',1,$con);
+ValidaIF($IdReporte,'IEPS',1,$con);
 
-ValidaIF($idReporte,'Público en General',2,$con);
-ValidaIF($idReporte,'Clientes crédito',2,$con);
-ValidaIF($idReporte,'Monederos electronicos',2,$con);
-ValidaIF($idReporte,'Facturas aceites y lubricantes',2,$con);
-//ValidaIF($idReporte,'Rentas',2,$con);
-ValidaIF($idReporte,'Clientes débito',2,$con);
-ValidaIF($idReporte,'Ventas mostrador',2,$con);
-ValidaIF($idReporte,'TPV',2,$con);
-ValidaIF($idReporte,'Página WEB',2,$con);
-ValidaIF($idReporte,'Clientes débito',2,$con);
+ValidaIF($IdReporte,'Público en General',2,$con);
+ValidaIF($IdReporte,'Clientes crédito',2,$con);
+ValidaIF($IdReporte,'Monederos electronicos',2,$con);
+ValidaIF($IdReporte,'Facturas aceites y lubricantes',2,$con);
+//ValidaIF($IdReporte,'Rentas',2,$con);
+ValidaIF($IdReporte,'Clientes débito',2,$con);
+ValidaIF($IdReporte,'Ventas mostrador',2,$con);
+ValidaIF($IdReporte,'TPV',2,$con);
+ValidaIF($IdReporte,'Página WEB',2,$con);
+ValidaIF($IdReporte,'Clientes débito',2,$con);
 //ValidaIF($idReporte,'Clientes anticipo',2,$con);
 
 
@@ -90,6 +85,7 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
 //---------------------------------------------------------------------------------------------------------------------------------------------
 
 function IdReporteMes($IdYear,$GET_mes,$con){
+  $idmes = 0;
   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$IdYear."' AND mes = '".$GET_mes."' ";
   $result_mes = mysqli_query($con, $sql_mes);
   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
@@ -182,7 +178,7 @@ UpdateProductoIF($IdReporte,11,$con);
 UpdateProductoIF($IdReporte,12,$con);
 
 function totalaceites($IdReporte,$noaceite, $con){
-
+  $cantidad = 0;
   $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
   $result_listaaceite = mysqli_query($con, $sql_listaaceite);
   while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
@@ -219,7 +215,8 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 if(mysqli_query($con, $sql_edit1)){}
 
 }
-
+    $TotAceites = 0;
+    $Grantotal = 0;
     $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$IdReporteMes."' ";
     $result_listaaceites = mysqli_query($con, $sql_listaaceites);
     while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){

@@ -1,7 +1,7 @@
 <?php
 require 'app/vistas/contenido/header.php';
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientesLista.js"></script>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-lista-function.js"></script>
 <script type="text/javascript">
 
   $(document).ready(function ($) {
