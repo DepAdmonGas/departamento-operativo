@@ -100,7 +100,7 @@ observaciones = '".$_POST['Observaciones']."',
 razonsocial = '".$_POST['RazonSocial']."'
 
 WHERE id = '".$_POST['IdReporte']."' ";
-
+ 
 
 if(mysqli_query($con, $sql)){
 

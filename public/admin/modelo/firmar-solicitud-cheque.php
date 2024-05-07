@@ -12,8 +12,7 @@ $estado = 1;
 }else if($tipoFirma == "C"){
 $estado = 2;
 }
-
-
+ 
 $sql = "SELECT * FROM op_solicitud_cheque_token WHERE id_solicitud = '".$idReporte."' and id_usuario = '".$Session_IDUsuarioBD."' and token = '".$TokenValidacion."' ORDER BY id ASC LIMIT 1 ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
@@ -31,7 +30,7 @@ id_solicitud,
 id_usuario,
 tipo_firma,
 firma
-    )
+    ) 
     VALUES 
     (
     '".$idReporte."',

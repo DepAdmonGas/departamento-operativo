@@ -10,50 +10,50 @@ $result_documento = mysqli_query($con, $sql_documento);
 $numero_documento = mysqli_num_rows($result_documento);
 
 ?>
+
 <div class="modal-header">
 <h5 class="modal-title">Archivos</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
 
-	<div class="mb-1 text-secondary">Documento:</div>
-	<select class="form-select" id="Documento">
-	<option></option>
-	<option>PRESUPUESTO</option>
-	<option>FACTURA PDF</option>
-	<option>FACTURA XML</option>	
-	<option>CARATULA BANCARIA</option>
-	<option>CONSTANCIA DE SITUACION</option>
-	<option>PRORRATEO</option>
-	<option>ORDEN DE SERVICIO</option> 
-	<option>ORDEN DE COMPRA</option>
-	<option>ORDEN DE MANTENIMIENTO</option>
-	<option>PÓLIZA DE GARANTÍA</option>
-	<option>COMPLEMENTO DE PAGO</option>
-	<option>REEMBOLSO CAJA CHICA</option>
-	<option>COTIZACIÓN</option>
-	<option>NOTA DE CREDITO PDF</option>
-	<option>NOTA DE CREDITO XML</option>
-	<option>CONTRATO</option>
-	<option>COMPLEMENTO DE PAGO PDF</option>
-	<option>COMPLEMENTO DE PAGO XML</option>
-	<option>EVIDENCIA</option>
-	 
+<div class="mb-1 text-secondary">Documento:</div>
+<select class="form-select" id="Documento">
+<option></option>
+<option>PRESUPUESTO</option>
+<option>FACTURA PDF</option>
+<option>FACTURA XML</option>	
+<option>CARATULA BANCARIA</option>
+<option>CONSTANCIA DE SITUACION</option>
+<option>PRORRATEO</option>
+<option>ORDEN DE SERVICIO</option> 
+<option>ORDEN DE COMPRA</option>
+<option>ORDEN DE MANTENIMIENTO</option>
+<option>PÓLIZA DE GARANTÍA</option>
+<option>COMPLEMENTO DE PAGO</option>
+<option>REEMBOLSO CAJA CHICA</option>
+<option>COTIZACIÓN</option>
+<option>NOTA DE CREDITO PDF</option>
+<option>NOTA DE CREDITO XML</option>
+<option>CONTRATO</option>
+<option>COMPLEMENTO DE PAGO PDF</option>
+<option>COMPLEMENTO DE PAGO XML</option>
+<option>EVIDENCIA</option>
 </select>
 
 <div class="mb-1 mt-3 text-secondary">Archivo:</div>
 <div class="input-group">
-  <input type="file" class="form-control" id="Archivo">
+<input type="file" class="form-control" id="Archivo">
 </div>
  
 <hr> 
 
 <div class="row">
 <div class="col-12">
-	<button class="btn btn-outline-secondary btn-sm float-end mb-3" type="button" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idReporte;?>)">Agregar archivo</button>
+<button class="btn btn-outline-secondary btn-sm float-end mb-3" type="button" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idReporte;?>)">Agregar archivo</button>
 </div>
 </div>
-
 
 
 <div class="table-responsive">
