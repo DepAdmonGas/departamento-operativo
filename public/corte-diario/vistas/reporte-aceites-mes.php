@@ -104,7 +104,6 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
 
   function ultimodia($year,$mes) { 
       $month = $mes;
-      $year = $year;
       $day = date("d", mktime(0,0,0, $month+1, 0, $year)); 
       return date('d', mktime(0,0,0, $month, $day, $year));
   };
@@ -112,7 +111,6 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
   
   function primerdia($year,$mes) {
       $month = $mes;
-      $year = $year;
       return date('d', mktime(0,0,0, $month, 1, $year));
   }
 
