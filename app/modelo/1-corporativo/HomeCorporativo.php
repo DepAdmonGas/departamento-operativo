@@ -6,10 +6,9 @@ class HomeCorporativo
     private $con;
     public function __construct($con)
     {
-        $this->con = $con;
+    $this->con = $con;
     }
- 
-
+  
     function tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto){
     $result = "";
 
@@ -57,7 +56,7 @@ class HomeCorporativo
     
     }
         
-    $result .= '  <div class="col-12">
+    $result .= '<div class="col-12">
     <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
     <li class="breadcrumb-item"><a onclick="menuCorporativoYear(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
@@ -140,7 +139,6 @@ class HomeCorporativo
 
 
     function ValidaYearReporte($Session_IDEstacion,$fecha_year){
-
     $sql_reporte = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$fecha_year."' ";
     $result_reporte = mysqli_query($this->con, $sql_reporte);
     $numero_reporte = mysqli_num_rows($result_reporte);
@@ -161,7 +159,6 @@ class HomeCorporativo
     }
 
     }
-
 
     function cardsCorporativoYear($Pagina,$Session_IDEstacion){
     $result = "";
@@ -250,7 +247,6 @@ class HomeCorporativo
     }
     }
 
-
     function cardsCorporativoMes($Pagina,$idReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$year){
     $result = "";
 
@@ -280,7 +276,6 @@ class HomeCorporativo
     </div>';
     
     }
-
 
     }else if($Pagina == "solicitud-vales"){
 
@@ -364,8 +359,6 @@ class HomeCorporativo
     }
    
     }
-
-
     return $result;
 
     }
@@ -376,7 +369,7 @@ class HomeCorporativo
     
     if($Pagina == "solicitud-cheque"){
     $titulo = "Solicitud de Cheques";
-    $referencia = "corporativo";
+    $referencia = "../departamento-operativo/corporativo";
     $menuName = "Corporativo";
     $returnReferencia = $Pagina;
     }
@@ -386,7 +379,7 @@ class HomeCorporativo
     $menuName = "Corporativo";
         
     }else if($session_idpuesto == 6 || $session_idpuesto == 3){
-    $referencia = "../corporativo";
+    $referencia = "../departamento-operativo/corporativo";
     $menuName = "Corporativo";
         
     }else if($session_idpuesto == 5){
@@ -415,6 +408,8 @@ class HomeCorporativo
     }
 
 
+
+    
 
 
 }

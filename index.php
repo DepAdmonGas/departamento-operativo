@@ -41,9 +41,11 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     break; 
 
     case 'estimulo-fiscal':
-    $ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
-    break;
+    //$ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/estimulo-fiscal/estimulo-fiscal-index.php';
 
+    break;
+ 
     case 'despacho-factura':
     //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-index.php';
     $Pagina = 'despacho-factura';
@@ -388,7 +390,9 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
 }else if(count($partes_ruta) == 3){
 
-    //---------- 1.CORPORATIVO ---------- 
+    //-------------------- 1.CORPORATIVO (GERENTES) -------------------- 
+    
+    // 1. Corte Diario -----
     if ($partes_ruta[1] == 'corte-diario') {
     $Pagina = $partes_ruta[1];
     $GET_year = $partes_ruta[2];
@@ -396,6 +400,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
     }
 
+    // 2. Solicitud de Cheque -----
     else if ($partes_ruta[1] == 'solicitud-cheque') {
     $Pagina = $partes_ruta[1];
     $GET_year = $partes_ruta[2];
@@ -403,11 +408,25 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
     }
 
+    else if ($partes_ruta[1] == 'solicitud-cheque-editar') {
+    $GET_idReporte = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-editar.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-editar.php';
+    }
+
+    else if ($partes_ruta[1] == 'solicitud-cheque-firmar') {
+    $GET_idReporte = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-firmar.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-firmar.php';
+    }
+     
+    // 3. Ingresos vs Facturacion -----
     else if ($partes_ruta[1] == 'ingresos-facturacion') {
     $GET_year = $partes_ruta[2];
     $ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-year.php';
     }
 
+    // 5. Despacho vs Ventas -----
     else if ($partes_ruta[1] == 'despacho-factura') {
     $Pagina = $partes_ruta[1];
     $GET_year = $partes_ruta[2];
@@ -415,18 +434,13 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
     }
 
+    // 6. Solicitud de Vales -----
     else if ($partes_ruta[1] == 'solicitud-vales') {
     $Pagina = $partes_ruta[1];
     $GET_year = $partes_ruta[2];
     //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
-
     }
-
-
-
-
-
 
     //-------------- CONTRATOS -------------------------
     else if ($partes_ruta[1] == 'contratos') {
@@ -587,10 +601,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
     }
 
-    else if ($partes_ruta[1] == 'solicitud-cheque-editar') {
-    $GET_idReporte = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-editar.php';
-    }
     else if ($partes_ruta[1] == 'pinturas-reporte') {
     $GET_idReporte = $partes_ruta[2];
     $ruta_elegida = 'public/corte-diario/vistas/pinturas-reporte-detalle-index.php';
@@ -707,11 +717,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'public/admin/vistas/pivoteo-index.php';
     }
  
-    else if ($partes_ruta[1] == 'solicitud-cheque-firmar') {
-    $GET_idReporte = $partes_ruta[2];
-    $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-firmar.php';
-    }
-
     else if ($partes_ruta[1] == 'recursos-humanos-formatos-firma') {
     $GET_idFormato = $partes_ruta[2];
     $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-firmar.php';

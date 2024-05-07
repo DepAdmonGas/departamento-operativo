@@ -1,9 +1,9 @@
-<?php
+  <?php
   require('app/help.php');
   $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$GET_mes);
   
-  ?>
- 
+  ?> 
+  
   <html lang="es">
   <head> 
   <meta charset="utf-8">
@@ -31,14 +31,14 @@
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
-
+ 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   $('[data-toggle="tooltip"]').tooltip();
   
   SelEstacion(<?=$GET_year;?>,<?=$GET_mes;?>);
 
-  });
+  }); 
 
   function Regresar(){
    window.history.back();
@@ -93,7 +93,7 @@
   function Editar(idReporte){
   window.location.href = "../../solicitud-cheque-editar/" + idReporte;  
   }
-
+ 
   function Eliminar(year,mes,idReporte){
   
   var parametros = {

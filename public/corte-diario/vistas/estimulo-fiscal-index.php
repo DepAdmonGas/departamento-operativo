@@ -9,6 +9,7 @@ header("Location:".PORTAL."");
   $FTermino = date("Y-m-t", strtotime($FInicio));
 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
