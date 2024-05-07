@@ -5,12 +5,7 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 $mes = $_GET['mes'];
 $id = $_GET['id'];
-
-$sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$idEstacion."' ";
-$result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['razonsocial'];
-} 
+$estacion = $ClassHerramientasDptoOperativo->obtenerEstacion($idEstacion);
 
 ?> 
 

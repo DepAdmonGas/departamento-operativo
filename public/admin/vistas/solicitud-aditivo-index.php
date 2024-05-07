@@ -6,10 +6,40 @@ header("Location:".PORTAL."");
 }
 
 function ToSolicitud($idEstacion,$con){
-$sql_lista = "SELECT id FROM op_solicitud_aditivo WHERE id_estacion = '".$idEstacion."' AND status = 0 ";
+
+$sql_lista = "SELECT * FROM op_solicitud_aditivo WHERE id_estacion = '".$idEstacion."' ORDER BY orden_compra DESC ";
 $result_lista = mysqli_query($con, $sql_lista);
-return $numero_lista = mysqli_num_rows($result_lista);
+$numero_lista = mysqli_num_rows($result_lista);
+$sumatoria = 0;
+
+while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+
+$fecha_del_dia = date("Y-m-d");
+$fechaMas = date("Y-m-d",strtotime($row_lista['fecha']."+ 15 days"));
+$fecha_actual = strtotime($fecha_del_dia);
+$fecha_entrada = strtotime($fechaMas);  
+
+
+if($row_lista['status'] == 1){
+  
+if($fecha_actual >= $fecha_entrada){
+$valor = 0;
+}else{
+$valor = 1;
+} 
+  
+}else if($row_lista['status'] == 0){
+$valor = 1;
 }
+
+$sumatoria += $valor;
+
+}
+
+return $sumatoria;
+}
+
+
 ?>
 <html lang="es">
   <head>

@@ -2,27 +2,12 @@
 require('../../../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
-
 $year = $_GET['year'];
 $mes = $_GET['mes'];
-
-function Responsable($id, $con){
-
-$sql_resp = "SELECT * FROM tb_usuarios WHERE id = '".$id."'  ";
-$result_resp = mysqli_query($con, $sql_resp);
-$numero_resp = mysqli_num_rows($result_resp);
-while($row_resp = mysqli_fetch_array($result_resp, MYSQLI_ASSOC)){
-$Usuario = $row_resp['nombre'];
-          
-}
-return $Usuario;
-
-}
 
 $sql_comen = "SELECT * FROM op_solicitud_cheque_comentario WHERE id_solicitud = '".$idReporte."' ORDER BY id DESC ";
 $result_comen = mysqli_query($con, $sql_comen);
 $numero_comen = mysqli_num_rows($result_comen);
-
 
 echo '
 <div class="modal-header">
@@ -38,7 +23,7 @@ while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
 $idUsuario = $row_comen['id_usuario'];
 $comentario = $row_comen['comentario'];
 
-$NomUsuario = Responsable($idUsuario, $con);
+$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
 
 if ($Session_IDUsuarioBD == $idUsuario) {
 $margin = "margin-left: 30px;margin-right: 5px;";
@@ -62,7 +47,7 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <?php
 }
 }else{
-	echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
+echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
 }
 ?>
 </div>

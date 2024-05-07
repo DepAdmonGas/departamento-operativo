@@ -16,7 +16,6 @@ $sql_lista = "SELECT * FROM op_solicitud_cheque WHERE id_year = '".$GET_year."' 
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-
 function ToComentarios($IdReporte,$con){
 $sql_lista = "SELECT id FROM op_solicitud_cheque_comentario WHERE id_solicitud = '".$IdReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -35,8 +34,6 @@ $(document).ready(function($){
 $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
-
-
 
 <div class="table-responsive">
 <table id="tabla_solicitud_cheque" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
@@ -79,15 +76,14 @@ $('[data-toggle="tooltip"]').tooltip();
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
   </tr>
 </thead> 
-<tbody>
-<?php 
+<tbody> 
+<?php  
 $TotalMonto = 0;
 if ($numero_lista > 0) {
 $num = 1;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $pago = Pago($id,$con);
-
  
 if($row_lista['status'] == 0){
 $trColor = 'style="background-color: #fcfcda"';
@@ -136,7 +132,6 @@ $Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge 
 
 $Nuevo = ''; 
 }
-
 
 echo '<tr '.$trColor.'>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
