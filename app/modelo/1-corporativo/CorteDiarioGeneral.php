@@ -617,6 +617,358 @@ $stmt->execute();
 $stmt->close();
 }
 
+    public function getNumeroClientesPorTipo(int $idEstacion, string $tipo): int {
+        $estado = 1;
+        $sql = "SELECT * FROM op_cliente WHERE id_estacion = ? AND tipo = ? AND estado = ?";
+        $numeroClientes = 0;
+        if ($stmt = $this->con->prepare($sql)) {
+            $stmt->bind_param("isi", $idEstacion, $tipo,$estado);
+            $stmt->execute();
+            $stmt->store_result();
+            $numeroClientes = $stmt->num_rows();
+            $stmt->close();
+        }
+        // Devuelve el número de clientes
+        return $numeroClientes;
+    }
+    /**
+     * 
+     * 
+     *  ACEITES
+     * 
+     * 
+     * 
+     */
+    public function listaAceite(int $idEstacion, int $idReporte, int $InventarioFin): void
+    {
+        if ($InventarioFin == 0):
+            $noAceite = 0;
+            $concepto = "";
+            $precio = 0;
+            $exhibidores = 0;
+            $bodega = 0;
+            $sql = "SELECT
+            op_aceites.id_aceite,
+            op_aceites.concepto,
+            op_aceites.precio,
+            op_inventario_aceites.exhibidores,
+            op_inventario_aceites.bodega
+            FROM op_inventario_aceites
+            INNER JOIN op_aceites
+            ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.id_estacion = ? AND op_inventario_aceites.id_mes = ? ";
+            $stmt = $this->con->prepare($sql);
+            if (!$stmt):
+                throw new Exception("Error al preparar la consulta" . $this->con->error);
+            endif;
+            $stmt->bind_param("ii", $idEstacion, $idReporte);
+            if (!$stmt->execute()):
+                throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+            endif;
+            $stmt->bind_result($noAceite, $concepto, $precio, $exhibidores, $bodega);
+            $stmt->close();
+            $this->validAceites($idReporte, $noAceite, $concepto, $precio, $exhibidores, $bodega);
+
+        endif;
+    }
+    private function validAceites(int $idReporte, int $noAceite, string $concepto, float $precio, int $exhibidores, int $bodega): void
+    {
+        $sql_reporte = "SELECT id_mes, concepto FROM op_aceites_lubricantes_reporte WHERE id_mes = ? AND concepto = ? ";
+        $stmt = $this->con->prepare($sql_reporte);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt->bind_param("is", $idReporte, $concepto);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+        $numero_reporte = $stmt->num_rows;
+        $stmt->close();
+        if ($numero_reporte == 0) {
+            $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte (
+            id_mes,
+            id_aceite,
+            concepto,
+            precio,
+            bodega,
+            exibidores
+            )
+            VALUES (?,?,?,?,?,?)";
+            $stmt1 = $this->con->prepare($sql_insert);
+            $stmt1->bind_param("iisdii", $idReporte, $noAceite, $concepto, $precio, $bodega, $exhibidores);
+            $stmt1->execute();
+            $stmt1->close();
+        }
+    }
+    public function pagoDiferencias(int $idReporte): void
+    {
+        $id = 0;
+        $estado = 0;
+        $nomaceite = 0;
+        $diferencia = 0;
+        $sql = "SELECT id,nomaceite,diferencia FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_reporte = ? AND estado = ? ";
+        $result = $this->con->prepare($sql);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result->bind_param("ii", $idReporte, $estado);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        endif;
+        $result->bind_result($id, $nomaceite, $diferencia);
+        $result->close();
+        $this->actualizarAlmacen($id, $idReporte, $nomaceite, $diferencia);
+    }
+
+    function actualizarAlmacen(int $id, int $idReporte, int $idAceite, int $diferencia)
+    {
+        $idLubricante = 0;
+        $bodega = 0;
+        $estado = 1;
+        $sql1 = "SELECT id, bodega FROM op_aceites_lubricantes_reporte WHERE id_mes = ? AND id_aceite = ? ";
+        $result = $this->con->prepare($sql1);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result->bind_param("ii", $idReporte, $idAceite);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        endif;
+        $result->bind_result($idLubricante, $bodega);
+        $result->fetch();
+        $result->close();
+        $bode = $bodega + $diferencia;
+        $sql2 = "UPDATE op_aceites_lubricantes_reporte SET bodega =? WHERE id =? ";
+        $stmt = $this->con->prepare($sql2);
+        $stmt->bind_param("ii", $bode, $idLubricante);
+        $stmt->execute();
+        $stmt->close();
+        $sql3 = "UPDATE op_aceites_lubricantes_reporte_pagodiferencia SET estado = ? WHERE id =? ";
+        $stmt1 = $this->con->prepare($sql3);
+        $stmt1->bind_param("ii", $estado, $id);
+        $stmt1->execute();
+        $stmt1->close();
+    }
+    public function cantidadAceites(int $idReporte, string $fecha, int $noaceite): int
+    {
+        $cantidad = 0;
+        $sql = "SELECT cantidad FROM op_aceites_lubricantes WHERE idreporte_dia = (SELECT id FROM op_corte_dia WHERE id_mes = ? AND fecha = ? LIMIT 1 ) AND id_aceite = ? LIMIT 1 ";
+        $result = $this->con->prepare($sql);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result->bind_param("isi", $idReporte, $fecha, $noaceite);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        endif;
+        $result->bind_result($cantidad);
+        $result->close();
+        return $cantidad;
+    }
+    public function totalAceites(int $IdReporte, int $noaceite): int
+    {
+        $cantidad = 0;
+        // Consulta preparada para obtener la suma de la cantidad de aceites lubricantes
+        $sql = "SELECT SUM(ol.cantidad) AS total_cantidad
+                FROM op_corte_dia cd
+                INNER JOIN op_aceites_lubricantes ol ON cd.id = ol.idreporte_dia
+                WHERE cd.id_mes = ?
+                AND ol.id_aceite = ?";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt->bind_param("ii", $IdReporte, $noaceite);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+        $stmt->bind_result($cantidad);
+        $stmt->fetch();
+        $stmt->close();
+        if ($cantidad == null):
+            $cantidad = 0;
+        endif;
+        return $cantidad;
+    }
+    function precioAceite(int $IdReporte, string $fecha, int $noaceite): int
+    {
+        $total_precio = 0;
+        // Consulta para obtener el precio total del aceite lubricante utilizando subconsultas
+        $sql = "SELECT SUM(ol.cantidad * ol.precio_unitario) AS total_precio
+                FROM op_corte_dia cd
+                INNER JOIN op_aceites_lubricantes ol ON cd.id = ol.idreporte_dia
+                WHERE cd.id_mes = ?
+                AND cd.fecha = ?
+                AND ol.id_aceite = ?
+                LIMIT 1";
+
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt->bind_param("isi", $IdReporte, $fecha, $noaceite);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+        $stmt->bind_result($total_precio);
+        $stmt->fetch();
+        $stmt->close();
+        if ($total_precio == null):
+            $total_precio = 0;
+        endif;
+        return $total_precio;
+    }
+    public function validaPagoD(int $idaceite): int
+    {
+        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = ?";
+        $result_reporte = $this->con->prepare($sql_reporte);
+        if (!$result_reporte):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result_reporte->bind_param("i", $idaceite);
+        if (!$result_reporte->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result_reporte->error);
+        endif;
+        $numero_reporte = $result_reporte->num_rows;
+        return $numero_reporte;
+    }
+    public function valRow($valor): int
+    {
+        $resultado = 0;
+        if ($valor != 0):
+            $resultado = number_format($valor, 2, '.', '.');
+        endif;
+        return $resultado;
+    }
+    public function modalPagoAceite(int $idAceite): array
+    {
+        $concepto = "";
+        $inventario_bodega = 0;
+        $inventario_exibidores = 0;
+        $bodega = 0;
+        $exibidores = 0;
+        $pedido = 0;
+        $noaceite = 0;
+        $IdReporte = 0;
+        $sql_reporte = "SELECT concepto, inventario_bodega, inventario_exibidores, bodega, exibidores, pedido, id_aceite, id_mes 
+                FROM op_aceites_lubricantes_reporte 
+                WHERE id = ?";
+        $stmt = $this->con->prepare($sql_reporte);
+        $stmt->bind_param("i", $idAceite);
+        $stmt->execute();
+        $stmt->bind_result($concepto, $inventario_bodega, $inventario_exibidores, $bodega, $exibidores, $pedido, $noaceite, $IdReporte);
+        $stmt->fetch();
+        $stmt->close();
+        $inventarioI = $bodega + $exibidores;
+        $totalaceites = $this->totalAceites($IdReporte, $noaceite);
+        $inventarioF = $inventarioI + $pedido - $totalaceites;
+        $inventario_final = $inventario_bodega + $inventario_exibidores;
+        $diferencia = $inventario_final - $inventarioF;
+        $resultado = [$diferencia, $concepto];
+        return $resultado;
+    }
+    public function modalDetallePagoAceite(int $idAceite): array
+    {
+        $fecha = "";
+        $comentario = "";
+        $documento = "";
+        $sql_reporte_pago = "SELECT fecha, comentario, documento 
+                     FROM op_aceites_lubricantes_reporte_pagodiferencia 
+                     WHERE id_aceite = ?";
+        $stmt = $this->con->prepare($sql_reporte_pago);
+        $stmt->bind_param("i", $idAceite);
+        $stmt->execute();
+        $stmt->bind_result($fecha, $comentario, $documento);
+        $stmt->fetch();
+        $fechaHora = explode(' ', $fecha);
+        $resultado_pago = [$fechaHora[0], $comentario, $documento];
+        $stmt->close();
+        return $resultado_pago;
+    }
+    /**
+     * 
+     * 
+     *  CORTE VENTAS
+     * 
+     * 
+     * 
+     */
+
+    public function ventas(int $idReporte): int
+    {
+        $ventas = 0;
+        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? LIMIT 1 ";
+        $result = $this->con->prepare($sql_dia);
+        $result->bind_param("i", $idReporte);
+        $result->execute();
+        $result->bind_result($ventas);
+        $ventas = $result->fetch();
+        $result->close();
+        return $ventas;
+    }
+    public function getTotalImporte(int $idReporte) : int {
+        $sql = "SELECT importe FROM op_prosegur WHERE idreporte_dia = ?";
+        $importe = 0;
+        $totalImporte=0;
+        if ($stmt = $this->con->prepare($sql)) :
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($importe);
+            while ($stmt->fetch()) :
+                $totalImporte += $importe;
+            endwhile;
+            $stmt->close();
+        endif;
+        return $totalImporte;
+    }
+    
+    public function getBaucherTotal(int $idReporte) :int{
+        $sql = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ?";
+        $baucher = 0;
+        $baucherTotal = 0;
+        if ($stmt = $this->con->prepare($sql)) :
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($baucher);
+            while ($stmt->fetch()) :
+                $baucherTotal += $baucher;
+            endwhile;
+            $stmt->close();
+        endif;
+        return $baucherTotal;
+    }
+    
+    function getConsumoTotal(int $idReporte) {
+        $sql = "SELECT consumo FROM op_clientes_controlgas WHERE idreporte_dia = ?";
+        $consumo = 0;
+        $consumoTotal=0;
+        if ($stmt = $this->con->prepare($sql)) :
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($consumo);
+            while ($stmt->fetch()) :
+                $consumoTotal += $consumo;
+            endwhile;
+            $stmt->close();
+        endif;
+        return $consumoTotal;
+    }
+    public function getPagoTotal($idReporte) :int {
+        $sql = "SELECT pago FROM op_clientes_controlgas WHERE idreporte_dia = ?";
+        $pago = 0;
+        $pagoTotal = 0;
+        if ($stmt = $this->con->prepare($sql)) :
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($pago);
+            while ($stmt->fetch()) :
+                $pagoTotal += $pago;
+            endwhile;
+            $stmt->close();
+        endif;
+        return $pagoTotal;
+    }
+
+  
 
 /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
 function obtenerDatosSolicitudCheque($idReporte)

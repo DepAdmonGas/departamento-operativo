@@ -1,8 +1,4 @@
 
-  function CoreteDiarioM(year, mes) {
-    window.location.href = year + "/" + mes;
-  }
-
   function ventas(year, mes, idDias) {
     console.log(window.location.href = "../../corte-ventas/" + year + "/" + mes + "/" + idDias);
   }
