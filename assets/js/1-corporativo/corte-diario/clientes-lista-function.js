@@ -1,5 +1,6 @@
 function ListaClientes(idestacion) {
-    $('#ListaClientes').load('../../../public/corte-diario/vistas/lista-clientes.php?idEstacion=' + idestacion);
+  $('#ListaClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-clientes.php?idEstacion=' + idestacion);  
+  //$('#ListaClientes').load('../../../public/corte-diario/vistas/lista-clientes.php?idEstacion=' + idestacion);
   }
 
   function Agregar() {
@@ -78,7 +79,8 @@ function ListaClientes(idestacion) {
 
   function Editar(id) {
     $('#ModalEditar').modal('show');
-    $('#ModalEditarCliente').load('../../../public/corte-diario/vistas/modal-editar-cliente.php?idCliente=' + id);
+    $('#ModalEditarCliente').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/modal-editar-cliente.php?idCliente=' + id);
+    //$('#ModalEditarCliente').load('../../../public/corte-diario/vistas/modal-editar-cliente.php?idCliente=' + id);
   }
 
   

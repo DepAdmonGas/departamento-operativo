@@ -1,7 +1,7 @@
 
     function Ventas(idReporte) {
       $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-
+      //$('#DivConecntradoVentas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/concentrado-ventas.php?idReporte=' + idReporte);
       $('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
     }
     function VentasOtros(idReporte, idEstacion) {
@@ -49,7 +49,8 @@
 
     function Prosegur(idReporte) {
       $('#DivProsegur').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
+      $('#DivProsegur').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/prosegur.php?idReporte=' + idReporte);
+      //$('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
     }
 
 
@@ -152,12 +153,8 @@
 
     function TarjetasBancarias(idReporte) {
       $('#DivTarjetasBancarias').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivTarjetasBancarias').load('../../../public/corte-diario/vistas/tarjetas-bancarias.php?idReporte=' + idReporte);
-    }
-    function Ventas(idReporte) {
-      $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-
-      $('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
+      $('#DivTarjetasBancarias').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/tarjetas-bancarias.php?idReporte=' + idReporte);
+      //$('#DivTarjetasBancarias').load('../../../public/corte-diario/vistas/tarjetas-bancarias.php?idReporte=' + idReporte);
     }
     function VentasOtros(idReporte, idEstacion) {
 
@@ -210,7 +207,8 @@
 
     function Prosegur(idReporte) {
       $('#DivProsegur').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
+      $('#DivProsegur').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/prosegur.php?idReporte=' + idReporte);
+      //$('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
     }
 
 
@@ -313,7 +311,8 @@
 
     function TarjetasBancarias(idReporte) {
       $('#DivTarjetasBancarias').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivTarjetasBancarias').load('../../../public/corte-diario/vistas/tarjetas-bancarias.php?idReporte=' + idReporte);
+      $('#DivTarjetasBancarias').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/tarjetas-bancarias.php?idReporte=' + idReporte);
+      //$('#DivTarjetasBancarias').load('../../../public/corte-diario/vistas/tarjetas-bancarias.php?idReporte=' + idReporte);
     }
 
     function EditTBaucher(val, idReporte, idTarjeta) {
@@ -376,7 +375,8 @@
 
     function ClientesControlgas(idReporte) {
       $('#DivControlgas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
+      $('#DivControlgas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes-controlgas.php?idReporte=' + idReporte);
+      //$('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
     }
 
     function EditCGPago(val, idReporte, idControl) {
@@ -465,7 +465,8 @@
 
       function ClientesControlgas(idReporte) {
         $('#DivControlgas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-        $('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
+        $('#DivControlgas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes-controlgas.php?idReporte=' + idReporte);
+        //$('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
       }
 
       function EditCGPago(val, idReporte, idControl) {
@@ -564,7 +565,8 @@
     }
     function PagoCliente(idReporte) {
       $('#DivPagoClientes').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivPagoClientes').load('../../../public/corte-diario/vistas/pago-clientes.php?idReporte=' + idReporte);
+      $('#DivPagoClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/pago-clientes.php?idReporte=' + idReporte);
+      //$('#DivPagoClientes').load('../../../public/corte-diario/vistas/pago-clientes.php?idReporte=' + idReporte);
     }
 
 
@@ -1398,18 +1400,18 @@
     }
 
     function Total1234(idReporte) {
-
-      $('#Total1234').load('../../../public/corte-diario/vistas/totales-1234.php?idReporte=' + idReporte);
+      $('#Total1234').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/totales-1234.php?idReporte=' + idReporte);
+      //$('#Total1234').load('../../../public/corte-diario/vistas/totales-1234.php?idReporte=' + idReporte);
     }
 
     function DiferenciaTotal(idReporte) {
-
-      $('#DiferenciaTotal').load('../../../public/corte-diario/vistas/diferencia-total.php?idReporte=' + idReporte);
+      $('#DiferenciaTotal').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/diferencia-total.php?idReporte=' + idReporte);
+      //$('#DiferenciaTotal').load('../../../public/corte-diario/vistas/diferencia-total.php?idReporte=' + idReporte);
     }
 
     function DifPagoCliente(idReporte) {
-
-      $('#DifPagoCliente').load('../../../public/corte-diario/vistas/diferencia-pagocliente-total.php?idReporte=' + idReporte);
+      $('#DifPagoCliente').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/diferencia-pagocliente-total.php?idReporte=' + idReporte);
+      //$('#DifPagoCliente').load('../../../public/corte-diario/vistas/diferencia-pagocliente-total.php?idReporte=' + idReporte);
     }
 
     //------------------------------------------------------------------------
@@ -1442,7 +1444,8 @@
 
     function AceitesLubricantes(idReporte) {
       $('#DivAceitesLubricantes').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-      $('#DivAceitesLubricantes').load('../../../public/corte-diario/vistas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
+      $('#DivAceitesLubricantes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/venta-aceites-lubricantes.php?idReporte=' + idReporte);
+      //$('#DivAceitesLubricantes').load('../../../public/corte-diario/vistas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
     }
 
     function EditALCantidad(val, idReporte, idAceite) {
@@ -1573,7 +1576,8 @@
     }
 
     function PDF(idReporte) {
-      window.location = "../../../public/corte-diario/vistas/pdf-corte-ventas.php?idReporte=" + idReporte;
+      window.location = "../../../app/vistas/personal-general/1-corporativo/corte-diario/pdf-corte-ventas.php?idReporte=" + idReporte;
+      //window.location = "../../../public/corte-diario/vistas/pdf-corte-ventas.php?idReporte=" + idReporte;
     }
 
     function FirmarCorte(idReporte, sessionIdUsuario, sessionNomEstacion) {
@@ -1632,7 +1636,8 @@
     }
 
     function ListaDocumentos(idReporte) {
-      $('#Documentos').load('../../../public/corte-diario/vistas/lista-documentos.php?idReporte=' + idReporte);
+      $('#Documentos').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-documentos.php?idReporte=' + idReporte);
+      //$('#Documentos').load('../../../public/corte-diario/vistas/lista-documentos.php?idReporte=' + idReporte);
     }
 
     function NewDocumento(idReporte) {
