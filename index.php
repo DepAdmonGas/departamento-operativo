@@ -951,8 +951,17 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $GET_mes = $partes_ruta[3];
     //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-mes.php';
+    }
+
+
+    else if ($partes_ruta[1] == 'solicitud-cheque-crear') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-crear.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-crear.php';
 
     }
+
 
 
     else if ($partes_ruta[1] == 'corte-diario') {
@@ -1058,11 +1067,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'public/admin/vistas/solicitud-cheque-firmar.php';
     }
 
-    else if ($partes_ruta[1] == 'solicitud-cheque-crear') {
-    $GET_year = $partes_ruta[2];
-    $GET_mes = $partes_ruta[3];
-    $ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-crear.php';
-    }
 
     else if ($partes_ruta[2] == 'pedido-pinturas') {
     $GET_idPedido = $partes_ruta[3];

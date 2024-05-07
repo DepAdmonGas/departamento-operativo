@@ -3,11 +3,12 @@
 class HomeCorporativo
 {
 
-	function __construct()
-	{
-
-	}
-
+    private $con;
+    public function __construct($con)
+    {
+        $this->con = $con;
+    }
+ 
 
     function tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto){
     $result = "";
@@ -138,10 +139,10 @@ class HomeCorporativo
     }
 
 
-    function ValidaYearReporte($Session_IDEstacion,$fecha_year,$con){
+    function ValidaYearReporte($Session_IDEstacion,$fecha_year){
 
     $sql_reporte = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$fecha_year."' ";
-    $result_reporte = mysqli_query($con, $sql_reporte);
+    $result_reporte = mysqli_query($this->con, $sql_reporte);
     $numero_reporte = mysqli_num_rows($result_reporte);
 
     if($numero_reporte == 0){
@@ -155,14 +156,14 @@ class HomeCorporativo
     '".$fecha_year."'
     )";
 
-    return mysqli_query($con, $sql_insert);
+    return mysqli_query($this->con, $sql_insert);
 
     }
 
     }
 
 
-    function cardsCorporativoYear($Pagina,$Session_IDEstacion,$con){
+    function cardsCorporativoYear($Pagina,$Session_IDEstacion){
     $result = "";
     
     if($Pagina == "solicitud-vales"){
@@ -189,7 +190,7 @@ class HomeCorporativo
     }else{
 
     $sql_listayear = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY year DESC";
-    $result_listayear = mysqli_query($con, $sql_listayear);
+    $result_listayear = mysqli_query($this->con, $sql_listayear);
       
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
     $year = $row_listayear['year'];
@@ -217,9 +218,9 @@ class HomeCorporativo
     }
 
 
-    function IdReporte($Session_IDEstacion,$year,$con){
+    function IdReporte($Session_IDEstacion,$year){
     $sql_reporte = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$year."' ";
-    $result_reporte = mysqli_query($con, $sql_reporte);
+    $result_reporte = mysqli_query($this->con, $sql_reporte);
     while($row_listayear = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)){
     $id = $row_listayear['id'];
     }
@@ -227,11 +228,11 @@ class HomeCorporativo
     return $id;
     }
 
-    function ValidaMesReporte($IdReporte,$fecha_mes,$con){
+    function ValidaMesReporte($IdReporte,$fecha_mes){
     $fecha_mes = date("m");
 
     $sql_reporte = "SELECT id_year, mes FROM op_corte_mes WHERE id_year = '".$IdReporte."' AND mes = '".$fecha_mes."' ";
-    $result_reporte = mysqli_query($con, $sql_reporte);
+    $result_reporte = mysqli_query($this->con, $sql_reporte);
     $numero_reporte = mysqli_num_rows($result_reporte);
       
     if($numero_reporte == 0){
@@ -244,13 +245,13 @@ class HomeCorporativo
     '".$IdReporte."',
     '".$fecha_mes."'
     )";
-    return mysqli_query($con, $sql_insert);
+    return mysqli_query($this->con, $sql_insert);
 
     }
     }
 
 
-    function cardsCorporativoMes($Pagina,$idReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$year,$con){
+    function cardsCorporativoMes($Pagina,$idReporte,$Session_IDEstacion,$Session_IDUsuarioBD,$session_idpuesto,$year){
     $result = "";
 
     $year_c = date("Y");
@@ -258,7 +259,7 @@ class HomeCorporativo
 
     if($Pagina == "corte-diario"){
     $sql_listayear = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idReporte."' ORDER BY mes ASC";
-    $result_listayear = mysqli_query($con, $sql_listayear);
+    $result_listayear = mysqli_query($this->con, $sql_listayear);
 
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
     $id = $row_listayear['id'];
