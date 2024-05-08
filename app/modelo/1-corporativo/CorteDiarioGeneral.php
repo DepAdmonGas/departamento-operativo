@@ -526,7 +526,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $Consumo = $this->totalCP($reportedia, $idcliente, 'Consumo');
         $totalCo = $totalCo + $Consumo;
         $Pago = $this->totalCP($reportedia, $idcliente, 'Pago');
-        $totalPa = $totalPa + $Pago;        
+        $totalPa = $totalPa + $Pago;
         $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = ?, pagos = ? WHERE id=? ";
         $query = $this->con->prepare($sql_edit1);
         $query->bind_param("ddi",$totalCo,$totalPa,$idResumen);
@@ -1069,4 +1069,6 @@ $consulta->close();
 
 return $datosEstimuloFiscal;
 }
+}
+    
 }
