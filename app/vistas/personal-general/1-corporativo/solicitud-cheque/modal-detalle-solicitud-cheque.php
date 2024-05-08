@@ -69,7 +69,7 @@ echo $mensaje;
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3"> 
 <div class="border p-3">
 <h6 class="text-secondary border-bottom pb-2">FECHA:</h6>
-<?=FormatoFecha($fecha);?>
+<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha);?>
 </div>
 </div>
 
@@ -247,7 +247,10 @@ $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
 $idUsuario = $row_firma['id_usuario'];
-$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
+
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+$NomUsuario = $datosUsuario['nombre'];
+
 
 $explode = explode(' ', $row_firma['fecha']);
 if($row_firma['tipo_firma'] == "A"){
@@ -259,11 +262,11 @@ $Detalle = '<div class="border p-1 text-center">
 
 }else if($row_firma['tipo_firma'] == "B"){
 $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 
 }else if($row_firma['tipo_firma'] == "C"){
 $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 }
  
 echo '<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">';

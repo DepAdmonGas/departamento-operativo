@@ -49,7 +49,7 @@ $sql_edit3 = "UPDATE op_estimulo_fiscal_pago SET
 mysqli_query($con, $sql_edit3);
 
 }
-}
+} 
 
 //--------------------------------------------------------------------------
 

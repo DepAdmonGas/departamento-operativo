@@ -52,7 +52,7 @@ $id = $row_lista['id'];
 $explode = explode(' ', $row_lista['fecha']);
 
 echo '<tr>';
-echo '<th class="align-middle font-weight-light">'.FormatoFecha($explode[0]).'</th>';
+echo '<th class="align-middle font-weight-light">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).'</th>';
 echo '<td class="align-middle font-weight-light"><a href="../../archivos/'.$row_lista['documento'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '</tr>';
 
