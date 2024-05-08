@@ -5,7 +5,8 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 $mes = $_GET['mes'];
 
-$estacion = $ClassHerramientasDptoOperativo->obtenerEstacion($idEstacion);
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
+$estacion = $datosEstacion['razonsocial'];
 
 $sql_lista = "SELECT * FROM op_solicitud_cheque_telcel WHERE id_year = '".$year."' AND id_mes = '".$mes."' AND id_estacion = '".$idEstacion."' ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -13,7 +14,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="modal-header">
-<h5 class="modal-title">Facturas telcel, <?=nombremes($mes);?> del <?=$year;?></h5>
+<h5 class="modal-title">Facturas telcel, <?=$ClassHerramientasDptoOperativo->nombremes($mes);?> del <?=$year;?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 

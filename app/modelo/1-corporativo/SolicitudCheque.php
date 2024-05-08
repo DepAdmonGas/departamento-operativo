@@ -316,10 +316,11 @@ class SolicitudCheque extends Exception
     endif;   
     $stmt_insert->close();
 
-    $telefonoUser = $this->herramientasDptoOperativo->obtenerTelefonoUsuario($idUsuario);
+    $datosUsuario = $this->herramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+    $telefonoUser = $datosUsuario['telefono'];
+
     $this->herramientasDptoOperativo->destinatarioToken($telefonoUser,$aleatorio);
  
-
     return $result;
     }
 

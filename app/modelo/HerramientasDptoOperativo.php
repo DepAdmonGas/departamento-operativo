@@ -16,48 +16,39 @@ class HerramientasDptoOperativo extends Exception
     }
  
     /* ---------- CONSULTAS GENERALES ----------*/
-    public function obtenerNombreUsuario(int $id): string
+    public function obtenerDatosUsuario($id)
     {
-    $nombreUsuario = "";
-    $sql = "SELECT nombre FROM tb_usuarios WHERE id = ?";
+    $nombreUsuario = $telefono = null;
+    $sql = "SELECT nombre, telefono FROM tb_usuarios WHERE id = ?";
     $consulta = $this->con->prepare($sql);
         
     if (!$consulta) {
     throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-    }
+    } 
         
     $consulta->bind_param('i', $id);
     $consulta->execute();
-    $consulta->bind_result($nombreUsuario);
-    $consulta->fetch();
+    $consulta->bind_result($nombreUsuario, $telefono);
+    if ($consulta->fetch()) {
+    // Procesamiento de los datos obtenidos
+    $datosUsuario = array(
+    'nombre' => $nombreUsuario,
+    'telefono' => $telefono
+    );
+        
+    } else {
+    // Manejo de caso cuando no se encuentra el registro
+    $datosUsuario = null;
+    }    
     $consulta->close();
         
-    return $nombreUsuario;
+    return $datosUsuario;
     }
 
-    public function obtenerTelefonoUsuario(int $id): string
+    function obtenerDatosEstacion($idEstacion)
     {
-    $telefonoUser = "";
-    $sql = "SELECT telefono FROM tb_usuarios WHERE id = ?";
-    $consulta = $this->con->prepare($sql);
-        
-    if (!$consulta) {
-    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-    }
-        
-    $consulta->bind_param('i', $id);
-    $consulta->execute();
-    $consulta->bind_result($telefonoUser);
-    $consulta->fetch();
-    $consulta->close();
-        
-    return $telefonoUser;
-    }
-
-    function obtenerEstacion($idEstacion)
-    {
-    $nombreEstacion = "";
-    $sql = "SELECT razonsocial FROM tb_estaciones WHERE id = ?";
+    $nombreEstacion = $razonEstacion = null;
+    $sql = "SELECT nombre, razonsocial FROM tb_estaciones WHERE id = ?";
     $consulta = $this->con->prepare($sql);
     
     if (!$consulta) {
@@ -66,13 +57,44 @@ class HerramientasDptoOperativo extends Exception
     
     $consulta->bind_param('i', $idEstacion);
     $consulta->execute();
-    $consulta->bind_result($nombreEstacion);
+    $consulta->bind_result($nombreEstacion,$razonEstacion);
+
+    if ($consulta->fetch()) {
+    // Procesamiento de los datos obtenidos
+    $datosEstacion = array(
+    'nombre' => $nombreEstacion,
+    'razonsocial' => $razonEstacion
+    );
+            
+    } else {
+    // Manejo de caso cuando no se encuentra el registro
+    $datosEstacion = null;
+    }  
+
+    $consulta->close();
+    
+    return $datosEstacion;
+    } 
+    
+    function obtenerPuesto($idPuesto)
+    {
+    $tipo_puesto = "";
+    $sql = "SELECT tipo_puesto FROM tb_puestos WHERE id = ?";
+    $consulta = $this->con->prepare($sql);
+    
+    if (!$consulta) {
+    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+    }
+    
+    $consulta->bind_param('i', $idPuesto);
+    $consulta->execute();
+    $consulta->bind_result($tipo_puesto);
     $consulta->fetch();
     $consulta->close();
     
-    return $nombreEstacion;
+    return $tipo_puesto;
     }
-    
+
     /* ---------- CONVERTIR UNIDADES  ----------*/
     private static $UNIDADES = [
         '',
@@ -282,9 +304,51 @@ class HerramientasDptoOperativo extends Exception
     return $token;
     }
 
+    /* ---------- FORMATOS DE FECHAS  ----------*/
 
+    public function nombremes(int $mes): string {
+    switch ($mes) :
+    case "01": $mes = "Enero"; return $mes;
+    case "02": $mes = "Febrero"; return $mes;
+    case "03": $mes = "Marzo"; return $mes;
+    case "04": $mes = "Abril"; return $mes;
+    case "05": $mes = "Mayo"; return $mes;
+    case "06": $mes = "Junio"; return $mes;
+    case "07": $mes = "Julio"; return $mes;
+    case "08": $mes = "Agosto"; return $mes;
+    case "09": $mes = "Septiembre"; return $mes;
+    case "10": $mes = "Octubre"; return $mes;
+    case "11": $mes = "Noviembre";  return $mes;
+    case "12": $mes = "Diciembre"; return $mes;
+    default:
+    $mes = "Mes inválido"; return $mes;
+    endswitch;
 
+    }
 
+    public function get_nombre_dia(string $fecha): string {
+    $fechats = strtotime($fecha);
+    switch (date('w', $fechats)) :
+    case 0: $dia = "Domingo"; return $dia;
+    case 1: $dia = "Lunes"; return $dia;
+    case 2: $dia = "Martes"; return $dia;
+    case 3: $dia = "Miercoles"; return $dia;
+    case 4: $dia = "Jueves"; return $dia;
+    case 5: $dia = "Viernes"; return $dia;
+    case 6: $dia = "Sabado"; return $dia;
+    default:
+    $dia = "Dia inválido"; return $dia;
+    endswitch;
+    
+    }
+
+    public function FormatoFecha(string $fechaFormato): string 
+    {
+    $formato_fecha = explode("-", $fechaFormato);
+    $resultado = get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
+    return $resultado;
+
+    }
 
 
 }
