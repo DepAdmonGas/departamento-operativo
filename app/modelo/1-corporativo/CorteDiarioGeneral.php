@@ -6,7 +6,7 @@ public function __construct($con)
 {
 $this->con = $con;
 }
- 
+
 /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
 
 /* ---------- Corte Diario - Mes ---------- */

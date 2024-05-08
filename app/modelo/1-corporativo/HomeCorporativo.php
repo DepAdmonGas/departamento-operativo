@@ -1,16 +1,12 @@
 <?php
 
-class HomeCorporativo extends Exception
+class HomeCorporativo
 {
-    private $con;
-    private $herramientasDptoOperativo;
 
+    private $con;
     public function __construct($con)
     {
     $this->con = $con;
-    
-    parent::__construct("Error en el Corte Diario");
-    $this->herramientasDptoOperativo  = new herramientasDptoOperativo($this->con);
     }
   
     function tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto){
@@ -39,13 +35,6 @@ class HomeCorporativo extends Exception
     }else if($Pagina == "solicitud-vales"){
     $titulo = "Solicitud de Vales";
     $menuName = "Corporativo";
-
-    if($session_idpuesto == 13){
-    $referencia = "administracion/corporativo";
-    }else{
-    $referencia = "corporativo";
-    }
-
     } 
 
 
@@ -106,13 +95,8 @@ class HomeCorporativo extends Exception
 
     }else if($Pagina == "solicitud-vales"){
     $titulo = "Solicitud de Vales";
-    $menuName = "Corporativo"; 
-
-    if($session_idpuesto == 13){
-    $referencia = "../administracion/corporativo";
-    }else{
     $referencia = "corporativo";
-    }
+    $menuName = "Corporativo"; 
     }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
@@ -284,12 +268,9 @@ class HomeCorporativo extends Exception
     <div class="inner">
     <div class="row">
     <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar-days"></i></span> </div>
-    <div class="col-10"><h5 class="text-white text-center">'.$this->herramientasDptoOperativo->nombremes($mes).' '.$year.'</h5></div>
+    <div class="col-10"><h5 class="text-white text-center">'.nombremes($mes).' '.$year.'</h5></div>
     </div>
    
-   
-
-
     </div>
     </article>
     </div>';
@@ -320,7 +301,7 @@ class HomeCorporativo extends Exception
     <div class="inner">
     <div class="row">
     <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar-days"></i></span> </div>
-    <div class="col-10"><h5 class="text-white text-center">'.$this->herramientasDptoOperativo->nombremes($i).' '.$year.'</h5></div>
+    <div class="col-10"><h5 class="text-white text-center">'.nombremes($i).' '.$year.'</h5></div>
     </div>
        
     </div>
@@ -337,7 +318,7 @@ class HomeCorporativo extends Exception
     <div class="inner">
     <div class="row">
     <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar-days"></i></span> </div>
-    <div class="col-10"><h5 class="text-white text-center">'.$this->herramientasDptoOperativo->nombremes($i).' '.$year.'</h5></div>
+    <div class="col-10"><h5 class="text-white text-center">'.nombremes($i).' '.$year.'</h5></div>
     </div>
            
     </div>
@@ -368,7 +349,7 @@ class HomeCorporativo extends Exception
     <div class="inner">
     <div class="row">
     <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar-days"></i></span> </div>
-    <div class="col-10"><h5 class="text-white text-center">'.$this->herramientasDptoOperativo->nombremes($i).' '.$year.'</h5></div>
+    <div class="col-10"><h5 class="text-white text-center">'.nombremes($i).' '.$year.'</h5></div>
     </div>
                    
     </div>
@@ -391,19 +372,6 @@ class HomeCorporativo extends Exception
     $referencia = "../departamento-operativo/corporativo";
     $menuName = "Corporativo";
     $returnReferencia = $Pagina;
-    
-    }else if($Pagina == "solicitud-vales"){
-    $titulo = "Solicitud de Vales";
-    $referencia = "../departamento-operativo/corporativo";
-    $menuName = "Corporativo";
-    $returnReferencia = $Pagina;
-
-    if($session_idpuesto == 13){
-    $referencia = "administracion/corporativo";
-    }else{
-    $referencia = "../departamento-operativo/corporativo";
-    }
-
     }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
@@ -431,7 +399,7 @@ class HomeCorporativo extends Exception
     <li class="breadcrumb-item"><a onclick="menuCorporativoYearMes(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
     <li class="breadcrumb-item"><a onclick="returnCorporativoItem(\''.$returnReferencia.'\')" class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
     <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer">'.$year.'</a></li>
-    <li aria-current="page" class="breadcrumb-item active text-uppercase">'.$this->herramientasDptoOperativo->nombremes($mes).'</li>
+    <li aria-current="page" class="breadcrumb-item active text-uppercase">'.nombremes($mes).'</li>
     </ol>
     </div>';
 
