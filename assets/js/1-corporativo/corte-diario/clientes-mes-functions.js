@@ -1,6 +1,5 @@
 function ReporteClientes(IdReporte) {
-    $('#DivReporteClientes').load('../../app/vistas/personal-general/1-corporativo/corte-diario/reporte-clientes-mes.php?IdReporte=' + IdReporte);
-    //$('#DivReporteClientes').load('../../public/corte-diario/vistas/reporte-clientes-mes.php?IdReporte=' + IdReporte);
+    $('#DivReporteClientes').load('../../public/corte-diario/vistas/reporte-clientes-mes.php?IdReporte=' + IdReporte);
 }
 
 function ESICredito(id) {
