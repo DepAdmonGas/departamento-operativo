@@ -466,7 +466,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         endif;
         $result->close();
     }
-    public function actSaldoInicial(int $idReporte, int $idReporteA): void
+    public function actSaldoInicial(int $idReporte, int $idReporteA) : void
     {
         $idResumen = 0;
         $idcliente = 0;
@@ -484,7 +484,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $this->saldoInicial($idReporteA, $idResumen, $idcliente);
         $this->consumoPago($idResumen, $idReporte, $idcliente);
     }
-    private function saldoInicial(int $idReporteA, int $idResumen, int $idcliente): void
+    private function saldoInicial(int $idReporteA, int $idResumen, int $idcliente) : void
     {
         $saldoFinal = "";
         $sql = "SELECT saldo_final FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ? LIMIT 1";
@@ -506,17 +506,17 @@ $ocultar = "d-none"; // Por defecto, no se oculta
             endif;
         endif;
     }
-    private function consumoPago(int $idResumen, int $idReporte, int $idcliente): void
+    private function consumoPago(int $idResumen, int $idReporte, int $idcliente) : void
     {
         $reportedia = "";
         $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
         $result = $this->con->prepare($sql);
         if (!$result):
-            throw new Exception("Error al preparar la consulta" . $this->con->error);
+            throw new Exception("Error al preparar la consulta".$this->con->error);
         endif;
-        $result->bind_param("i", $idReporte);
-        if (!$result->execute()):
-            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        $result->bind_param("i",$idReporte);
+        if(!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta".$result->error);
         endif;
         $result->bind_result($reportedia);
         $result->fetch();
@@ -526,14 +526,14 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $Consumo = $this->totalCP($reportedia, $idcliente, 'Consumo');
         $totalCo = $totalCo + $Consumo;
         $Pago = $this->totalCP($reportedia, $idcliente, 'Pago');
-        $totalPa = $totalPa + $Pago;
+        $totalPa = $totalPa + $Pago;        
         $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = ?, pagos = ? WHERE id=? ";
         $query = $this->con->prepare($sql_edit1);
-        $query->bind_param("ddi", $totalCo, $totalPa, $idResumen);
+        $query->bind_param("ddi",$totalCo,$totalPa,$idResumen);
         $query->execute();
         $query->close();
     }
-    private function totalCP(int $reportedia, int $idCliente, string $tipo): float
+    private function totalCP(int $reportedia, int $idCliente, string $tipo) : float 
     {
         $sql_c = "SELECT total FROM op_consumos_pagos WHERE id_reportedia = ? AND id_cliente = ? AND tipo = ?";
         $stmt_c = $this->con->prepare($sql_c);
@@ -543,16 +543,16 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $numero_c = $stmt_c->num_rows;
         $total = 0;
         $total_row = 0;
-        if ($numero_c > 0):
+        if ($numero_c > 0) :
             $stmt_c->bind_result($total_row);
-            while ($stmt_c->fetch()):
+            while ($stmt_c->fetch()) :
                 $total += $total_row;
             endwhile;
         endif;
         $stmt_c->close();
         return $total;
     }
-    public function actPagosConsumos(int $idReporte): void
+    public function actPagosConsumos(int $idReporte) :void
     {
         $idResumen = 0;
         $idcliente = 0;
@@ -560,33 +560,33 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $result = $this->con->prepare($sql);
         $result->bind_param("i", $idReporte);
         $result->execute();
-        $result->bind_result($idResumen, $idcliente);
+        $result->bind_result($idResumen,$idcliente);
         $result->fetch();
         $result->close();
         $this->consumoPago($idResumen, $idReporte, $idcliente);
     }
-    public function actSaldoFinal($idReporte): void
+    public function actSaldoFinal($idReporte) : void
     {
         $saldoFinal = 0;
         $idResumen = 0;
-        $saldo = 0;
+        $saldo=0;
         $consumo = 0;
-        $pago = 0;
+        $pago=0;
         $sql = "SELECT id, saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = ?";
         $result = $this->con->prepare($sql);
         $result->bind_param("i", $idReporte);
         $result->execute();
-        $result->bind_result($idResumen, $saldo, $consumo, $pago);
+        $result->bind_result($idResumen,$saldo,$consumo,$pago);
         $result->fetch();
         $result->close();
         $saldoFinal = $saldo + $consumo - $pago;
         $this->saldoFinal($idResumen, $saldoFinal);
     }
-    private function saldoFinal($idResumen, $saldoFinal): void
+    private function saldoFinal($idResumen, $saldoFinal) : void
     {
         $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET saldo_final = ? WHERE id=? ";
         $stmt = $this->con->prepare($sql_edit1);
-        $stmt->bind_param("di", $saldoFinal, $idResumen);
+        $stmt->bind_param("di", $saldoFinal,$idResumen);
         $stmt->execute();
         $stmt->close();
     }
