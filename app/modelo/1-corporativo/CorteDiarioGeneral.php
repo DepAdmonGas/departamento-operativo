@@ -389,233 +389,207 @@ endif;
 $result_cliente = $stmt_cliente->get_result();
 $ocultar = "d-none"; // Por defecto, no se oculta
 
-while ($row_cliente = $result_cliente->fetch_assoc()):
-if (empty($row_cliente['cliente'])):
-$ocultar = "d-none"; // Si algún cliente está vacío, se oculta
-endif;
-echo '<option value="' . $row_cliente['id'] . '">' . $row_cliente['cliente'] . '</option>';
-endwhile;
-}
-
-public function resumenFinalizar(int $idReporte): int
-{
-$id = 0;
-$sql = "SELECT id FROM op_consumos_pagos_resumen_finalizar WHERE id_mes =? LIMIT 1 ";
-
-$stmt = $this->con->prepare($sql);
-if (!$stmt):
-throw new Exception("Error al preparar la consula" . $this->con->error);
-endif;
-
-$stmt->bind_param("i", $idReporte);
-if (!$stmt->execute()):
-throw new Exception("Error al ejecutar la consulta" . $stmt->error);
-endif;
-        
-$stmt->bind_result($id);
-$stmt->fetch();
-$stmt->close();
-return $id;
-}
-public function resumen(int $IdReporte, int $idEstacion)
-{
-$id = 0;
-$sql = "SELECT id FROM op_cliente WHERE id_estacion = ? AND estado = 1 ";
-
-$stmt = $this->con->prepare($sql);
-if (!$stmt):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-        
-$stmt->bind_param("i", $idEstacion);
-if (!$stmt->execute()):
-throw new Exception("Error al ejecutar la consulta" . $stmt->error);
-endif;
-        
-$stmt->bind_result($id);
-$stmt->fetch();
-$stmt->close();
-$this->validaResumen($IdReporte, $id);
-}
-
-private function validaResumen(int $IdReporte, int $id)
-{
-$sql = "SELECT * FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ?";
-
-$stmt = $this->con->prepare($sql);
-if (!$stmt):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
-        
-$stmt->bind_param("ii", $IdReporte, $id);
-if (!$stmt->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
-endif;
-        
-$result = $stmt->get_result();
-$numero = $result->num_rows;
-$val = 0;
-        
-if ($numero == 0):
-$sql_insert = "INSERT INTO op_consumos_pagos_resumen (id_mes,id_cliente,saldo_inicial,consumos,pagos,saldo_final)VALUES(?,?,?,?,?,?)";
-            
-$stmt_insert = $this->con->prepare($sql_insert);
-if (!$stmt_insert):
-throw new Exception("Error al preparar la inserción: " . $this->con->error);
-endif;
-            
-$stmt_insert->bind_param("iiiiii", $IdReporte, $id, $val, $val, $val, $val);
-if (!$stmt_insert->execute()):
-throw new Exception("Error al ejecutar la inserción: " . $stmt_insert->error);
-endif;
-            
-$stmt_insert->close();
-endif;
-
-$result->close();
-}
-    
-public function actSaldoInicial(int $idReporte, int $idReporteA) : void
-{
-$idResumen = 0;
-$idcliente = 0;
-$sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
-        
-$result = $this->con->prepare($sql);
-if (!$result):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-        
-$result->bind_param("i", $idReporte);
-if (!$result->execute()):
-throw new Exception("Error al ejecutar la consulta" . $result->error);
-endif;
-        
-$result->bind_result($idResumen, $idcliente);
-$result->close();
-        
-$this->saldoInicial($idReporteA, $idResumen, $idcliente);  
-$this->consumoPago($idResumen, $idReporte, $idcliente);
-}
-
-private function saldoInicial(int $idReporteA, int $idResumen, int $idcliente) : void
-{
-$saldoFinal = "";
-$sql = "SELECT saldo_final FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ? LIMIT 1";
-$stmt = $this->con->prepare($sql);
-$stmt->bind_param("ii", $idReporteA, $idcliente);
-$stmt->execute();
-$stmt->store_result();
-$numero = $stmt->num_rows;
-        
-if ($numero == 1):
-$stmt->bind_result($saldoFinal);
-$stmt->fetch();
-$stmt->close();
-            
-if ($saldoFinal != 0):
-$sql_edit = "UPDATE op_consumos_pagos_resumen SET saldo_inicial = ? WHERE id = ?";
-$stmt_edit = $this->con->prepare($sql_edit);
-$stmt_edit->bind_param("di", $saldoFinal, $idResumen);
-$stmt_edit->execute();
-$stmt_edit->close();
-endif;
-        
-endif;
-}
-    
-private function consumoPago(int $idResumen, int $idReporte, int $idcliente) : void
-{
-$reportedia = "";
-$sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
-        
-$result = $this->con->prepare($sql);
-if (!$result):
-throw new Exception("Error al preparar la consulta".$this->con->error);
-endif;
-        
-$result->bind_param("i",$idReporte);
-if(!$result->execute()):
-throw new Exception("Error al ejecutar la consulta".$result->error);
-endif;
-        
-$result->bind_result($reportedia);
-$result->fetch();
-$result->close();
-$totalCo = 0;
-$totalPa = 0;
-$Consumo = $this->totalCP($reportedia, $idcliente, 'Consumo');
-$totalCo = $totalCo + $Consumo;
-$Pago = $this->totalCP($reportedia, $idcliente, 'Pago');
-$totalPa = $totalPa + $Pago;        
-$sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = ?, pagos = ? WHERE id=? ";
-$query = $this->con->prepare($sql_edit1);
-$query->bind_param("ddi",$totalCo,$totalPa,$idResumen);
-$query->execute();
-$query->close();
-}
-private function totalCP(int $reportedia, int $idCliente, string $tipo) : float 
-{
-$sql_c = "SELECT total FROM op_consumos_pagos WHERE id_reportedia = ? AND id_cliente = ? AND tipo = ?";
-$stmt_c = $this->con->prepare($sql_c);
-$stmt_c->bind_param("iis", $reportedia, $idCliente, $tipo);
-$stmt_c->execute();
-$stmt_c->store_result();
-$numero_c = $stmt_c->num_rows;
-
-$total = 0;
-$total_row = 0;
-if ($numero_c > 0) :       
-$stmt_c->bind_result($total_row);
-while ($stmt_c->fetch()) :
-$total += $total_row;
-endwhile;
-endif;
-        
-$stmt_c->close();
-return $total;
-}
-public function actPagosConsumos(int $idReporte) :void
-{
-$idResumen = 0;
-$idcliente = 0;
-$sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
-        
-$result = $this->con->prepare($sql);
-$result->bind_param("i", $idReporte);
-$result->execute();
-$result->bind_result($idResumen,$idcliente);
-$result->fetch();
-$result->close();
-$this->consumoPago($idResumen, $idReporte, $idcliente);
-}
-
-public function actSaldoFinal($idReporte) : void
-{
-$saldoFinal = 0;
-$idResumen = 0;
-$saldo=0;
-$consumo = 0;
-$pago=0;
-$sql = "SELECT id, saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = ?";
-$result = $this->con->prepare($sql);
-$result->bind_param("i", $idReporte);
-$result->execute();
-$result->bind_result($idResumen,$saldo,$consumo,$pago);
-$result->fetch();
-$result->close();
-$saldoFinal = $saldo + $consumo - $pago;
-$this->saldoFinal($idResumen, $saldoFinal);
-}
-
-private function saldoFinal($idResumen, $saldoFinal) : void
-{
-$sql_edit1 = "UPDATE op_consumos_pagos_resumen SET saldo_final = ? WHERE id=? ";
-$stmt = $this->con->prepare($sql_edit1);
-$stmt->bind_param("di", $saldoFinal,$idResumen);
-$stmt->execute();
-$stmt->close();
-}
+        while ($row_cliente = $result_cliente->fetch_assoc()):
+            if (empty($row_cliente['cliente'])):
+                $ocultar = "d-none"; // Si algún cliente está vacío, se oculta
+            endif;
+            echo '<option value="' . $row_cliente['id'] . '">' . $row_cliente['cliente'] . '</option>';
+        endwhile;
+    }
+    public function resumenFinalizar(int $idReporte): int
+    {
+        $id = 0;
+        $sql = "SELECT id FROM op_consumos_pagos_resumen_finalizar WHERE id_mes =? LIMIT 1 ";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consula" . $this->con->error);
+        endif;
+        $stmt->bind_param("i", $idReporte);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+        $stmt->bind_result($id);
+        $stmt->fetch();
+        $stmt->close();
+        return $id;
+    }
+    public function resumen(int $IdReporte, int $idEstacion)
+    {
+        $id = 0;
+        $sql = "SELECT id FROM op_cliente WHERE id_estacion = ? AND estado = 1 ";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt->bind_param("i", $idEstacion);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+        $stmt->bind_result($id);
+        $stmt->fetch();
+        $stmt->close();
+        $this->validaResumen($IdReporte, $id);
+    }
+    private function validaResumen(int $IdReporte, int $id)
+    {
+        $sql = "SELECT * FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ?";
+        $stmt = $this->con->prepare($sql);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
+        $stmt->bind_param("ii", $IdReporte, $id);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+        endif;
+        $result = $stmt->get_result();
+        $numero = $result->num_rows;
+        $val = 0;
+        if ($numero == 0):
+            $sql_insert = "INSERT INTO op_consumos_pagos_resumen (
+                id_mes,
+                id_cliente,
+                saldo_inicial,
+                consumos,
+                pagos,
+                saldo_final
+                )
+                VALUES(?,?,?,?,?,?)";
+            $stmt_insert = $this->con->prepare($sql_insert);
+            if (!$stmt_insert):
+                throw new Exception("Error al preparar la inserción: " . $this->con->error);
+            endif;
+            $stmt_insert->bind_param("iiiiii", $IdReporte, $id, $val, $val, $val, $val);
+            if (!$stmt_insert->execute()):
+                throw new Exception("Error al ejecutar la inserción: " . $stmt_insert->error);
+            endif;
+            $stmt_insert->close();
+        endif;
+        $result->close();
+    }
+    public function actSaldoInicial(int $idReporte, int $idReporteA): void
+    {
+        $idResumen = 0;
+        $idcliente = 0;
+        $sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
+        $result = $this->con->prepare($sql);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result->bind_param("i", $idReporte);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        endif;
+        $result->bind_result($idResumen, $idcliente);
+        $result->close();
+        $this->saldoInicial($idReporteA, $idResumen, $idcliente);
+        $this->consumoPago($idResumen, $idReporte, $idcliente);
+    }
+    private function saldoInicial(int $idReporteA, int $idResumen, int $idcliente): void
+    {
+        $saldoFinal = "";
+        $sql = "SELECT saldo_final FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ? LIMIT 1";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bind_param("ii", $idReporteA, $idcliente);
+        $stmt->execute();
+        $stmt->store_result();
+        $numero = $stmt->num_rows;
+        if ($numero == 1):
+            $stmt->bind_result($saldoFinal);
+            $stmt->fetch();
+            $stmt->close();
+            if ($saldoFinal != 0):
+                $sql_edit = "UPDATE op_consumos_pagos_resumen SET saldo_inicial = ? WHERE id = ?";
+                $stmt_edit = $this->con->prepare($sql_edit);
+                $stmt_edit->bind_param("di", $saldoFinal, $idResumen);
+                $stmt_edit->execute();
+                $stmt_edit->close();
+            endif;
+        endif;
+    }
+    private function consumoPago(int $idResumen, int $idReporte, int $idcliente): void
+    {
+        $reportedia = "";
+        $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
+        $result = $this->con->prepare($sql);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result->bind_param("i", $idReporte);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
+        endif;
+        $result->bind_result($reportedia);
+        $result->fetch();
+        $result->close();
+        $totalCo = 0;
+        $totalPa = 0;
+        $Consumo = $this->totalCP($reportedia, $idcliente, 'Consumo');
+        $totalCo = $totalCo + $Consumo;
+        $Pago = $this->totalCP($reportedia, $idcliente, 'Pago');
+        $totalPa = $totalPa + $Pago;
+        $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = ?, pagos = ? WHERE id=? ";
+        $query = $this->con->prepare($sql_edit1);
+        $query->bind_param("ddi", $totalCo, $totalPa, $idResumen);
+        $query->execute();
+        $query->close();
+    }
+    private function totalCP(int $reportedia, int $idCliente, string $tipo): float
+    {
+        $sql_c = "SELECT total FROM op_consumos_pagos WHERE id_reportedia = ? AND id_cliente = ? AND tipo = ?";
+        $stmt_c = $this->con->prepare($sql_c);
+        $stmt_c->bind_param("iis", $reportedia, $idCliente, $tipo);
+        $stmt_c->execute();
+        $stmt_c->store_result();
+        $numero_c = $stmt_c->num_rows;
+        $total = 0;
+        $total_row = 0;
+        if ($numero_c > 0):
+            $stmt_c->bind_result($total_row);
+            while ($stmt_c->fetch()):
+                $total += $total_row;
+            endwhile;
+        endif;
+        $stmt_c->close();
+        return $total;
+    }
+    public function actPagosConsumos(int $idReporte): void
+    {
+        $idResumen = 0;
+        $idcliente = 0;
+        $sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i", $idReporte);
+        $result->execute();
+        $result->bind_result($idResumen, $idcliente);
+        $result->fetch();
+        $result->close();
+        $this->consumoPago($idResumen, $idReporte, $idcliente);
+    }
+    public function actSaldoFinal($idReporte): void
+    {
+        $saldoFinal = 0;
+        $idResumen = 0;
+        $saldo = 0;
+        $consumo = 0;
+        $pago = 0;
+        $sql = "SELECT id, saldo_inicial,consumos,pagos FROM op_consumos_pagos_resumen WHERE id_mes = ?";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i", $idReporte);
+        $result->execute();
+        $result->bind_result($idResumen, $saldo, $consumo, $pago);
+        $result->fetch();
+        $result->close();
+        $saldoFinal = $saldo + $consumo - $pago;
+        $this->saldoFinal($idResumen, $saldoFinal);
+    }
+    private function saldoFinal($idResumen, $saldoFinal): void
+    {
+        $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET saldo_final = ? WHERE id=? ";
+        $stmt = $this->con->prepare($sql_edit1);
+        $stmt->bind_param("di", $saldoFinal, $idResumen);
+        $stmt->execute();
+        $stmt->close();
+    }
 
     public function getNumeroClientesPorTipo(int $idEstacion, string $tipo): int {
         $estado = 1;
@@ -967,10 +941,7 @@ $stmt->close();
         endif;
         return $pagoTotal;
     }
-
-  
-
-/* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
+    /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
 function obtenerDatosSolicitudCheque($idReporte)
 {
 
@@ -1098,8 +1069,4 @@ $consulta->close();
 
 return $datosEstimuloFiscal;
 }
-    
-
-
-
 }

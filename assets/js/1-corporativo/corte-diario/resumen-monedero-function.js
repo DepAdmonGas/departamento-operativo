@@ -1,150 +1,147 @@
 function ListaMonedero(year, mes) {
-  $('#Monedero').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
-  //$('#Monedero').load('../../public/corte-diario/vistas/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
-}
 
-function ListaModal(IdReporte) {
-  $('#Modal').modal('show');
-  $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-monedero-documento.php?IdReporte=' + IdReporte);
-  //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
-}
+    $('#Monedero').load('../../public/corte-diario/vistas/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
+  }
 
-function Editar(IdReporte, id) {
-  $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
-  //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
-}
+  function ListaModal(IdReporte) {
+    $('#Modal').modal('show');
 
-function Cancelar(IdReporte) {
-  $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-monedero-documento.php?IdReporte=' + IdReporte);
-  //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
-}
+    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
+  }
 
-function EditarInfo(IdReporte, id) {
+  function Editar(IdReporte, id) {
+    $('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
+  }
 
-  var Fecha = $('#Fecha').val();
-  var Cilote = $('#Cilote').val();
-  var Diferencia = $('#Diferencia').val();
+  function Cancelar(IdReporte) {
+    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
+  }
 
-  var data = new FormData();
-  var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php/';
-  //var url = '../../public/corte-diario/modelo/editar-documento-monedero.php';
+  function EditarInfo(IdReporte, id) {
 
-  PDF = document.getElementById("PDF");
-  PDF_file = PDF.files[0];
-  PDF_filePath = PDF.value;
+    var Fecha = $('#Fecha').val();
+    var Cilote = $('#Cilote').val();
+    var Diferencia = $('#Diferencia').val();
 
-  XML = document.getElementById("XML");
-  XML_file = XML.files[0];
-  XML_filePath = XML.value;
+    var data = new FormData();
+    var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php/';
+    //var url = '../../public/corte-diario/modelo/editar-documento-monedero.php';
 
-  EXCEL = document.getElementById("EXCEL");
-  EXCEL_file = EXCEL.files[0];
-  EXCEL_filePath = EXCEL.value;
+    PDF = document.getElementById("PDF");
+    PDF_file = PDF.files[0];
+    PDF_filePath = PDF.value;
+
+    XML = document.getElementById("XML");
+    XML_file = XML.files[0];
+    XML_filePath = XML.value;
+
+    EXCEL = document.getElementById("EXCEL");
+    EXCEL_file = EXCEL.files[0];
+    EXCEL_filePath = EXCEL.value;
 
 
-  data.append('id', id);
-  data.append('Fecha', Fecha);
-  data.append('Cilote', Cilote);
-  data.append('Diferencia', Diferencia);
-  data.append('XML_file', XML_file);
-  data.append('PDF_file', PDF_file);
-  data.append('EXCEL_file', EXCEL_file);
-  data.append('accion', 'editar-documento-monedero');
+    data.append('id', id);
+    data.append('Fecha', Fecha);
+    data.append('Cilote', Cilote);
+    data.append('Diferencia', Diferencia);
+    data.append('XML_file', XML_file);
+    data.append('PDF_file', PDF_file);
+    data.append('EXCEL_file', EXCEL_file);
+    data.append('accion', 'editar-documento-monedero');
 
-  $(".LoaderPage").show();
+    $(".LoaderPage").show();
 
-  $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false
-  }).done(function (data) {
-    $(".LoaderPage").hide();
-    Cancelar(IdReporte);
+    $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false
+    }).done(function (data) {
+      $(".LoaderPage").hide();
+      Cancelar(IdReporte);
 
-  });
+    });
 
-}
+  }
 
-function Edi(IdReporte, id) {
-  $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
-  //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
-}
+  function Edi(IdReporte, id) {
+    $('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
+  }
 
-function GuardarC(IdReporte, id) {
+  function GuardarC(IdReporte, id) {
 
-  var Complemento = $('#Complemento').val();
+    var Complemento = $('#Complemento').val();
 
-  var data = new FormData();
-  data.append("accion", "guardar-documento-edi");
-  var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-  //var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
+    var data = new FormData();
+    data.append("accion", "guardar-documento-edi");
+    var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
+    //var url = '../../public/corte-diario/modelo/agregar-documento-monedero-edi.php';
 
-  PDF = document.getElementById("PDF");
-  PDF_file = PDF.files[0];
-  PDF_filePath = PDF.value;
+    PDF = document.getElementById("PDF");
+    PDF_file = PDF.files[0];
+    PDF_filePath = PDF.value;
 
-  XML = document.getElementById("XML");
-  XML_file = XML.files[0];
-  XML_filePath = XML.value;
+    XML = document.getElementById("XML");
+    XML_file = XML.files[0];
+    XML_filePath = XML.value;
 
 
-  data.append('id', id);
-  data.append('Complemento', Complemento);
-  data.append('XML_file', XML_file);
-  data.append('PDF_file', PDF_file);
+    data.append('id', id);
+    data.append('Complemento', Complemento);
+    data.append('XML_file', XML_file);
+    data.append('PDF_file', PDF_file);
 
-  $(".LoaderPage").show();
+    $(".LoaderPage").show();
 
-  $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false
-  }).done(function (data) {
-    $(".LoaderPage").hide();
-    Edi(IdReporte, id);
-  });
+    $.ajax({
+      url: url,
+      type: 'POST',
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false
+    }).done(function (data) {
+      $(".LoaderPage").hide();
+      Edi(IdReporte, id);
+    });
 
-}
+  }
 
-function EliminarEdi(IdReporte, iddoc, id) {
+  function EliminarEdi(IdReporte, iddoc, id) {
 
-  var parametros = {
-    "id": id,
-    "accion": "eliminar-documento-monedero-edi"
-  };
+    var parametros = {
+      "id": id,
+      "accion":"eliminar-documento-monedero-edi"
+    };
 
-  $.ajax({
-    data: parametros,
-    url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-    //url: '../../public/corte-diario/modelo/eliminar-documento-monedero-edi.php',
-    type: 'post',
-    beforeSend: function () {
-      $(".LoaderPage").show();
-    },
-    complete: function () {
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url: '../../public/corte-diario/modelo/eliminar-documento-monedero-edi.php',
+      type: 'post',
+      beforeSend: function () {
+        $(".LoaderPage").show();
+      },
+      complete: function () {
 
-    },
-    success: function (response) {
+      },
+      success: function (response) {
 
-      if (response == 1) {
+        if (response == 1) {
 
-        $(".LoaderPage").hide();
+          $(".LoaderPage").hide();
 
-        Edi(IdReporte, iddoc);
+          Edi(IdReporte, iddoc);
 
-      } else {
-        alertify.error('Error al eliminar')
-        $(".LoaderPage").hide();
+        } else {
+          alertify.error('Error al eliminar')
+          $(".LoaderPage").hide();
+
+        }
 
       }
+    });
 
-    }
-  });
-
-}
+  }

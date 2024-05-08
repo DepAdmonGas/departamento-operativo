@@ -267,22 +267,24 @@ function UpdateProductoIF($IdReporte, $mes, $con)
       var parametros = {
         "id": id,
         "mes": mes,
-        "valor": valor,
-        "accion" : "editar-ingreso-facturacion"
+        "valor": valor
       };
 
       $.ajax({
         data: parametros,
-        url: '../app/controlador/1-corporativo/controladorIngresos.php',
-        //url: '../public/corte-diario/modelo/editar-ingreso-facturacion.php',
+        url: '../public/corte-diario/modelo/editar-ingreso-facturacion.php',
         type: 'post',
         beforeSend: function () {
         },
         complete: function () {
+
         },
         success: function (response) {
+
           if (response == 1) {
+
             if (posicion == 1) {
+
               D1 = $('#D11' + id).val();
               D2 = $('#D12' + id).val();
               D3 = $('#D13' + id).val();
@@ -466,8 +468,7 @@ function UpdateProductoIF($IdReporte, $mes, $con)
     function GuardarArchivo(idReporte) {
 
       var data = new FormData();
-      var url= '../app/controlador/1-corporativo/controladorIngresos.php';
-      //var url = '../public/corte-diario/modelo/agregar-ingreso-facturacion-archivo.php';
+      var url = '../public/corte-diario/modelo/agregar-ingreso-facturacion-archivo.php';
 
       Archivo = document.getElementById("Archivo");
       Archivo_file = Archivo.files[0];
@@ -478,7 +479,6 @@ function UpdateProductoIF($IdReporte, $mes, $con)
 
         data.append('idReporte', idReporte);
         data.append('Archivo_file', Archivo_file);
-        data.append('accion','agregar-ingreso-facturacion-archivo');
         $(".LoaderPage").show();
 
         $.ajax({
@@ -489,6 +489,7 @@ function UpdateProductoIF($IdReporte, $mes, $con)
           processData: false,
           cache: false
         }).done(function (data) {
+
           if (data == 1) {
             $(".LoaderPage").hide();
             alertify.success('Archivo guardado exitosamente.');
@@ -509,8 +510,7 @@ function UpdateProductoIF($IdReporte, $mes, $con)
     function EliminarDoc(id, idReporte) {
 
       var parametros = {
-        "id": id,
-        "accion" : "eliminar-ingreso-facturacion-archivo"
+        "id": id
       };
 
       alertify.confirm('',
@@ -518,8 +518,7 @@ function UpdateProductoIF($IdReporte, $mes, $con)
 
           $.ajax({
             data: parametros,
-            url: '../app/controlador/1-corporativo/controladorIngresos.php',
-            //url: '../public/corte-diario/modelo/eliminar-ingresos-facturacion-entregables.php',
+            url: '../public/corte-diario/modelo/eliminar-ingresos-facturacion-entregables.php',
             type: 'post',
             beforeSend: function () {
             },
@@ -527,23 +526,30 @@ function UpdateProductoIF($IdReporte, $mes, $con)
 
             },
             success: function (response) {
-              console.log(response)
+
               if (response == 1) {
                 alertify.success('Archivo eliminado exitosamente.');
                 $('#DivContenidoModal').load('../public/corte-diario/vistas/modal-ingresos-facturacion-entregables.php?idReporte=' + idReporte);
               } else {
                 alertify.error('Error al eliminar el archivo.');
               }
+
             }
           });
+
         },
         function () {
+
         }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar la información seleccionada?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+
     }
+
   </script>
 </head>
+
 <body>
   <div class="LoaderPage"></div>
+
   <!---------- DIV - CONTENIDO ---------->
   <div id="content">
     <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
@@ -551,31 +557,49 @@ function UpdateProductoIF($IdReporte, $mes, $con)
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
+
         <div class="col-12 mb-3">
           <div class="cardAG">
             <div class="border-0 p-3">
+
               <div class="row">
                 <div class="col-11">
+
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
+
                   <div class="row">
                     <div class="col-12">
+
                       <h5>Ingresos VS Facturación <?= $GET_year; ?></h5>
+
                     </div>
                   </div>
+
                 </div>
+
+
                 <div class="col-1">
                   <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>control-despacho.png" width="24px"
                     class="ml-2" onclick="Entregables(<?= $IdReporte; ?>)">
                 </div>
+
               </div>
+
               <hr>
+
+
               <div id="DivContenido"></div>
+
+
             </div>
           </div>
         </div>
+
       </div>
     </div>
+
   </div>
+
   <div class="modal" id="Modal">
     <div class="modal-dialog">
       <div class="modal-content" style="margin-top: 83px;">
@@ -583,7 +607,13 @@ function UpdateProductoIF($IdReporte, $mes, $con)
       </div>
     </div>
   </div>
-  
+
+
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 </body>
 
 </html>

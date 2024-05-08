@@ -4,7 +4,7 @@ require "../../bd/inc.conexion.php";
 require_once '../../modelo/HerramientasDptoOperativo.php';
 
 class CorteDiario extends Exception
-{
+{ 
     private $classConexionBD;
     private $con;
     private $formato;
@@ -793,8 +793,8 @@ class CorteDiario extends Exception
         while ($result_listaAceite->fetch()):
             $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
         endwhile;
-        $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
         $result_listaAceite->close();
+        $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
     }
     public function validaAceites(int $idReporte, int $noAceite, string $concepto, float $precio): void
     {
@@ -808,6 +808,7 @@ class CorteDiario extends Exception
         $result_reporte->execute();
         $result_reporte->bind_result($numero_reporte);
         $result_reporte->fetch();
+        $result_reporte->close();
         if ($numero_reporte == 0):
             $cantidad = 0;
             $sql_insert = "INSERT INTO op_aceites_lubricantes(idreporte_dia,id_aceite,concepto,cantidad,precio_unitario)
@@ -822,7 +823,6 @@ class CorteDiario extends Exception
             endif;
             $stmt->close();
         endif;
-        $result_reporte->close();
     }
     public function editarAceitesLubricantes($tipo, $valor, $idAceite): bool
     {
