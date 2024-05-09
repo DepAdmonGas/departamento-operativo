@@ -950,24 +950,34 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
 
     //---------- 1. CORPOTATIVO ----------
+
+    // 2. Solicitud de Cheque
     if ($partes_ruta[1] == 'solicitud-cheque') {
-    $Pagina = 'solicitud-cheque';
+    $Pagina = $partes_ruta[1];
     $GET_year = $partes_ruta[2];
     $GET_mes = $partes_ruta[3];
     //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-mes.php';
     }
 
-
     else if ($partes_ruta[1] == 'solicitud-cheque-crear') {
     $GET_year = $partes_ruta[2];
     $GET_mes = $partes_ruta[3];
     //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-crear.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-crear.php';
+    }
 
+    // 6. Solicitud de Vales 
+    else if ($partes_ruta[1] == 'solicitud-vales') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-vales/solicitud-vales-mes.php';
     }
 
 
+      
 
     else if ($partes_ruta[1] == 'corte-diario') {
     $GET_year = $partes_ruta[2];
@@ -1312,11 +1322,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes-admin.php';
     }
 
-    else if ($partes_ruta[1] == 'solicitud-vales') {
-    $GET_year = $partes_ruta[2];
-    $GET_mes = $partes_ruta[3];
-    $ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
-    }
 
     else if ($partes_ruta[2] == 'procedimientos') {
     $GET_modulo = $partes_ruta[3];

@@ -6,7 +6,6 @@ $GET_year = $_GET['year'];
 $GET_idMes = $_GET['mes'];
 
 
-
 if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
 $descripcion = "Semana";
 //---------- ARRAY DEL NUMERO DE SEMANAS DEL MES ----------
@@ -21,7 +20,7 @@ if($GET_idEstacion == 9){
   </a>';
 
 }
-
+ 
 }else{
 $descripcion = "Quincena";
 //---------- ARRAY DEL NUMERO DE QUINCENAS DEL MES ----------
@@ -240,6 +239,16 @@ $quincenas[] = $quincena;
 return $quincenas;
 }
  
+function obtenerMesPorSemana($year, $semana) {
+  // Crear un objeto DateTime para el primer día de la semana
+  $primerDiaSemana = new DateTime();
+  $primerDiaSemana->setISODate($year, $semana);
+  
+  // Obtener el número del mes
+  $numeroMes = $primerDiaSemana->format('n');
+  
+  return $numeroMes;
+}
 
 function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$con){
 
@@ -248,6 +257,8 @@ if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_
 $fechaNomiaSemana = fechasNominaSemana($GET_year, $GET_idSemana);
 $inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
 $finFechas = $fechaNomiaSemana['finSemanaDay'];
+
+$GET_idMes = obtenerMesPorSemana($GET_year, $GET_idSemana);
 
 }else{
 

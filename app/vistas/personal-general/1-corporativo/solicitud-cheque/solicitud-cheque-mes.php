@@ -430,7 +430,7 @@
 
   <div class="col-12">
   <?=$breadcrumbYearMes?>
-       
+        
   <div class="row"> 
   <div class="col-lg-9 col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Solicitud de cheques, <?=nombreMes($GET_mes)?> <?=$GET_year?></h3> </div>
   
