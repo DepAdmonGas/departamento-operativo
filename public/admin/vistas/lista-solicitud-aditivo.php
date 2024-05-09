@@ -101,13 +101,14 @@ $trColor = "table-warning";
 $PDF = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
 $Pago = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pago-tb.png" data-toggle="tooltip" data-placement="top" title="Pago">';
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$id.')" data-toggle="tooltip" data-placement="top" title="Firmar solicitud">';
+
 }else if($row_lista['status'] == 1){
 $trColor = "table-primary";
 $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
 $Pago = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pago-tb.png" onclick="Pago('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Pago">';
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$id.')" data-toggle="tooltip" data-placement="top" title="Firmar solicitud">';
-}else if($row_lista['status'] == 2){
 
+}else if($row_lista['status'] == 2){
 $trColor = "table-success";
 $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
 $Pago = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pago-tb.png" onclick="Pago('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Pago">';

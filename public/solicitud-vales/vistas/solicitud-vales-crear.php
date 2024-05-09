@@ -133,6 +133,8 @@ $('#MetodoAutorizacion').css('border','');
     cache: false
     }).done(function(data){
 
+    console.log(data)
+
     if(data == 1){
       Regresar();
      }else{

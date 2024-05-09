@@ -66,7 +66,10 @@ $cardsMes = $ClassHomeCorporativo->cardsCorporativoMes($Pagina,$IdReporte,$Sessi
   window.location.href = year + "/" + mes;
   }
 
-
+  function corporativoMesAdmin(year,mes){
+  window.location.href = "../admin-solicitud-vales/" + year + "/" + mes;
+  }
+ 
   </script> 
   </head>
 

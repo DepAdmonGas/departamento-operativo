@@ -30,7 +30,7 @@ header("Location:".PORTAL."");
   .grayscale {
     filter: opacity(50%); 
   }
-
+ 
   </style>
   <script type="text/javascript">
  

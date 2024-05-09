@@ -21,6 +21,7 @@ class SolicitudCheque extends Exception
     /* ---------- CONSULTAS ---------- */
     public function idReporte(): int
     {
+    $id = "";
     $sql_reporte = "SELECT id FROM op_solicitud_cheque ORDER BY id DESC LIMIT 1";
     $stmt_reporte  = $this->con->prepare($sql_reporte);
     
@@ -640,7 +641,7 @@ class SolicitudCheque extends Exception
     }
 
 
-    /* ---------- ELIMINAR ---------- */
+    /* ---------- ELIMINAR ---------- */ 
     public function eliminarSolicitudCheque(int $idReporte): bool
     {
     $result = true;

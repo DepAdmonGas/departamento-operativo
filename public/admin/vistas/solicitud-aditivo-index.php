@@ -13,7 +13,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 $sumatoria = 0;
 
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-
+$idSolicitud = $row_lista['id'];
 $fecha_del_dia = date("Y-m-d");
 $fechaMas = date("Y-m-d",strtotime($row_lista['fecha']."+ 15 days"));
 $fecha_actual = strtotime($fecha_del_dia);
@@ -25,9 +25,19 @@ if($row_lista['status'] == 1){
 if($fecha_actual >= $fecha_entrada){
 $valor = 0;
 }else{
+
+$sql_lista2 = "SELECT id FROM op_solicitud_aditivo_firma WHERE id_reporte = '".$idSolicitud."' ";
+$result_lista2 = mysqli_query($con, $sql_lista2);
+$numero_lista2 = mysqli_num_rows($result_lista2);
+
+if($numero_lista2 > 0){
+$valor = 0;
+}else{
 $valor = 1;
+}
+
 } 
-  
+   
 }else if($row_lista['status'] == 0){
 $valor = 1;
 }

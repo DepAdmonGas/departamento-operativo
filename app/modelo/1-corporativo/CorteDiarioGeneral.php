@@ -1392,4 +1392,51 @@ $consulta->close();
 
 return $datosEstimuloFiscal;
 }
+
+    
+
+/* ------------------------------ PUNTO 6. SOLICITUD DE VALES ------------------------------ */
+
+function obtenerDatosSolicitudVale($idReporte)
+{
+    
+$folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
+$sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ?";
+$consulta = $this->con->prepare($sql);
+
+if (!$consulta) {
+throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+}
+
+$consulta->bind_param('i', $idReporte);
+$consulta->execute();
+$consulta->bind_result($folio, $fecha, $hora, $monto, $moneda, $concepto, $solicitante, $observaciones, $status, $idEstacion, $cuenta, $autorizadoPor, $metodoAutorizacion);
+
+if ($consulta->fetch()) {
+$datosSolicitudVale = array(
+'folio' => $folio,
+'fecha' => $fecha,
+'hora' => $hora,
+'monto' => $monto,
+'moneda' => $moneda,
+'concepto' => $concepto,
+'solicitante' => $solicitante,
+'observaciones' => $observaciones,
+'status' => $status,
+'idEstacion' => $idEstacion,
+'cuenta' => $cuenta,
+'autorizado_por' => $autorizadoPor,
+'metodo_autorizacion' => $metodoAutorizacion
+);
+} else {
+$datosSolicitudVale = null;
+}
+
+$consulta->close();
+
+return $datosSolicitudVale;
+}
+
+
+
 }
