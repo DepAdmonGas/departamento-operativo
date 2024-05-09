@@ -22,9 +22,8 @@ if ($numero_comen > 0) {
 while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
 $idUsuario = $row_comen['id_usuario'];
 $comentario = $row_comen['comentario'];
- 
-$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
-$NomUsuario = $datosUsuario['nombre'];
+
+$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
 
 if ($Session_IDUsuarioBD == $idUsuario) {
 $margin = "margin-left: 30px;margin-right: 5px;";
@@ -33,7 +32,7 @@ $margin = "margin-right: 30px;margin-left: 5px;";
 }
 
 $fechaExplode = explode(" ", $row_comen['fecha_hora']);
-$FechaFormato = $ClassHerramientasDptoOperativo->FormatoFecha($fechaExplode[0]);
+$FechaFormato = FormatoFecha($fechaExplode[0]);
 $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 ?>
 <div class="mt-1" style="<?=$margin;?>">
