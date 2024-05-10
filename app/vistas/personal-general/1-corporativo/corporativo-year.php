@@ -2,26 +2,26 @@
 require('app/help.php');
 
 if ($Pagina == "corte-diario"){
-$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year,$con);
+$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year);
 $breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
-$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion);
 
 }else if($Pagina == "solicitud-cheque"){
 $breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
-$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion);
 
 }else if($Pagina == "ingresos-facturacion"){
-$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year,$con);
+$ClassHomeCorporativo->ValidaYearReporte($Session_IDEstacion,$fecha_year);
 $breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
-$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion);
 
 }else if($Pagina == "despacho-factura"){
 $breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
-$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion);
 
 }else if($Pagina == "solicitud-vales"){
 $breadcrumbYear = $ClassHomeCorporativo->tituloMenuCorporativoYear($Pagina,$Session_IDUsuarioBD,$session_idpuesto);
-$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion,$con);
+$cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEstacion);
 
 }
  

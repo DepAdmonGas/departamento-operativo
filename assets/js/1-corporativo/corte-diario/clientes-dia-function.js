@@ -1,6 +1,7 @@
 
 function ListaConsumoPago(idReporte) {
-    $('#ConsumosPagos').load('../../../public/corte-diario/vistas/lista-consumo-pagos.php?idReporte=' + idReporte);
+  $('#ConsumosPagos').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-consumo-pagos.php?idReporte=' + idReporte);    
+  //$('#ConsumosPagos').load('../../../public/corte-diario/vistas/lista-consumo-pagos.php?idReporte=' + idReporte);
   }
 
   function ClientesLista(year, mes, idDias) {
