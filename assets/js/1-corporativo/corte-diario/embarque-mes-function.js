@@ -1,10 +1,10 @@
 function ListaEmbarques(IdReporte) {
-  $('#DivEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-embarques-mes.php?IdReporte=' + IdReporte);  
+  $('#DivEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/embarques/lista-embarques-mes.php?IdReporte=' + IdReporte);  
   //$('#DivEmbarques').load('../../public/corte-diario/vistas/lista-embarques-mes.php?IdReporte=' + IdReporte);
   }
   function Mas(IdReporte) {
     $('#Modal').modal('show');
-    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-embarques-mes.php?IdReporte=' + IdReporte);
+    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/embarques/modal-embarques-mes.php?IdReporte=' + IdReporte);
     //$('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-embarques-mes.php?IdReporte=' + IdReporte);
   }
   function Embarque(val) {
@@ -187,7 +187,7 @@ function ListaEmbarques(IdReporte) {
   
   function Editar(idReporte, id, idestacion) {
     $('#Modal').modal('show');
-    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
+    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/embarques/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
     //$('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
   }
 
@@ -309,7 +309,7 @@ function ListaEmbarques(IdReporte) {
 
   function ModalComentario(idReporte, id, idestacion) {
     $('#Modal').modal('show');
-    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
+    $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
     //$('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
   }
 
@@ -341,7 +341,7 @@ function ListaEmbarques(IdReporte) {
           if (response == 1) {
             $('#Comentario').val('');
             ListaEmbarques(idReporte);
-            $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
+            $('#ModalEmbarques').load('../../app/vistas/personal-general/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
             //$('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
           } else {
             alertify.error('Error al agregar comentario');
