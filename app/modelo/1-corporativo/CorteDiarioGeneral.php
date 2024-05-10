@@ -975,171 +975,6 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         endif;
         return $pagoTotal;
     }
-    /**
-     * 
-     * 
-     * 
-     *  3 -Ingreso VS Facturacion
-     * 
-     * 
-     */
-    public function idReporteFacturacion(int $idEstacion, int $year): int
-    {
-        $idyear = 0;
-        $sql = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year =? ";
-        $result = $this->con->prepare($sql);
-        $result->bind_param("ii", $idEstacion, $year);
-        $result->execute();
-        $result->bind_result($idyear);
-        $result->fetch();
-        $result->close();
-        return $idyear;
-    }
-    public function getProducto(int $idEstacion): string
-    {
-        $GDiesel = "";
-        $sql = "SELECT producto_tres FROM tb_estaciones WHERE id = ?";
-        $result = $this->con->prepare($sql);
-        $result->bind_param("i", $idEstacion);
-        $result->execute();
-        $result->bind_result($GDiesel);
-        $result->fetch();
-        $result->close();
-        return $GDiesel;
-    }
-    public function validaFacturacion(int $idReporte, string $descripcion): void
-    {
-        $posicion = 1;
-        if ($descripcion == "G DIESEL"):
-            $this->validaIngresoFacturacion($idReporte, $descripcion, $posicion);
-        elseif ($descripcion == "Autolavado"):
-            $this->validaIngresoFacturacion($idReporte, $descripcion, $posicion);
-        elseif ($descripcion == "general"):
-            // se mandan a llamar los conceptos con posicion 1
-            $concepto1 = $this->getDescripcion1();
-            foreach ($concepto1 as $concepto):
-                $this->validaIngresoFacturacion($idReporte, $concepto, $posicion);
-            endforeach;
-            // cuando termine el foreach se mandan a llamar los conceptos con posicion 2 
-            // y la variable $posicion se asigna un valor de 2
-            $posicion = 2;
-            $concepto2 = $this->getDescripcion2();
-            foreach ($concepto2 as $concepto):
-                $this->validaIngresoFacturacion($idReporte, $concepto, $posicion);
-            endforeach;
-        endif;
-    }
-    private function getDescripcion1(): array
-    {
-        $concepto1 = "G SUPER";
-        $concepto2 = "G PREMIUM";
-        $concepto3 = "Aceites y Lubricantes";
-        $concepto4 = "Rentas";
-        $concepto5 = "IEPS";
-        $conceptos = [$concepto1, $concepto2, $concepto3, $concepto4, $concepto5];
-        return $conceptos;
-    }
-    private function getDescripcion2(): array
-    {
-        $concepto1 = "Público en General";
-        $concepto2 = "Clientes crédito";
-        $concepto3 = "Monederos electronicos";
-        $concepto4 = "Facturas aceites y lubricantes";
-        $concepto5 = "Clientes débito";
-        $concepto6 = "Ventas mostrador";
-        $concepto7 = "TPV";
-        $concepto8 = "Página WEB";
-        $conceptos = [$concepto1, $concepto2, $concepto3, $concepto4, $concepto5, $concepto6, $concepto7, $concepto8];
-        return $conceptos;
-    }
-    private function validaIngresoFacturacion(int $idReporte, string $detalle, int $posicion)
-    {
-        $sql = "SELECT id_year FROM op_ingresos_facturacion_contabilidad WHERE id_year = ? AND detalle = ? AND posicion = ? ";
-        $result = $this->con->prepare($sql);
-        $result->bind_param("isi", $idReporte, $detalle, $posicion);
-        $result->execute();
-        $numero = $result->num_rows;
-        $result->fetch();
-        $result->close();
-        if ($numero == 0):
-            $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad (id_year,detalle,posicion)
-          VALUES (?,?,?)";
-            $result = $this->con->prepare($sql_insert);
-            $result->bind_param("isi", $idReporte, $detalle, $posicion);
-            $result->execute();
-            $result->close();
-        endif;
-    }
-    public function updateIngresoFacturacion($idReporte, $mes)
-    {
-        $descripcion = "";
-        $total = 0;
-        $idReporteMes = $this->idReporteMes($idReporte, $mes);
-        $sql = "SELECT descripcion, total FROM op_control_volumetrico_prefijos WHERE id_mes = ?";
-        $result = $this->con->prepare($sql);
-        $result->bind_param("i", $idReporteMes);
-        $result->execute();
-        $result->bind_result($descripcion, $total);
-        $result->fetch();
-        $result->close();
-        // Mapeo de descripciones
-        $descripcionMapeada = "";
-        switch ($descripcion):
-            case "PUBLICO EN GENERAL":
-                $descripcionMapeada = "Público en General";
-                break;
-            case "CLIENTES DE CREDITO":
-            case "Facturas de Crédito":
-                $descripcionMapeada = "Clientes crédito";
-                break;
-            case "MONEDEROS":
-                $descripcionMapeada = "Monederos electrónicos";
-                break;
-            case "FACTURA DE ACEITES":
-                $descripcionMapeada = "Facturas aceites y lubricantes";
-                break;
-            case "RENTAS":
-                $descripcionMapeada = "Rentas";
-                break;
-            case "CLIENTES DE DEBITO":
-                $descripcionMapeada = "Clientes débito";
-                break;
-            case "VENTA MOSTRADOR":
-                $descripcionMapeada = "Ventas mostrador";
-                break;
-            case "TPV":
-                $descripcionMapeada = "TPV";
-                break;
-            case "WEB":
-                $descripcionMapeada = "Página WEB";
-                break;
-            case "CLIENTES ANTICIPO":
-                $descripcionMapeada = "Clientes anticipo";
-                break;
-        endswitch;
-        $Mes = strtolower($this->formato->nombremes($mes));
-        // Consulta preparada para actualizar
-        $sql_edit3 = "UPDATE op_ingresos_facturacion_contabilidad SET $Mes = ? WHERE id_year = ? AND detalle = ?";
-        $stmt = $this->con->prepare($sql_edit3);
-        $stmt->bind_param("sss", $total, $idReporte, $descripcionMapeada);
-        $stmt->execute();
-        $stmt->close();
-    }
-    public function idReporteMes(int $year, int $mes): int
-    {
-        $idmes = 0;
-        $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ? ";
-        $result = $this->con->prepare($sql_mes);
-        $result->bind_param("ii", $year, $mes);
-        $result->execute();
-        $result->bind_result($idmes);
-        $result->fetch();
-        $result->close();
-        return $idmes;
-    }
-
-
-
     /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
     function obtenerDatosSolicitudCheque($idReporte)
     {
@@ -1489,57 +1324,55 @@ re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
         }
 
         $consulta->close();
-
-    
-
-/* ------------------------------ PUNTO 6. SOLICITUD DE VALES ------------------------------ */
-
-function obtenerDatosSolicitudVale($idReporte)
-{
-    
-$folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
-$sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ?";
-$consulta = $this->con->prepare($sql);
-
-if (!$consulta) {
-throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-}
-
-$consulta->bind_param('i', $idReporte);
-$consulta->execute();
-$consulta->bind_result($folio, $fecha, $hora, $monto, $moneda, $concepto, $solicitante, $observaciones, $status, $idEstacion, $cuenta, $autorizadoPor, $metodoAutorizacion);
-
-if ($consulta->fetch()) {
-$datosSolicitudVale = array(
-'folio' => $folio,
-'fecha' => $fecha,
-'hora' => $hora,
-'monto' => $monto,
-'moneda' => $moneda,
-'concepto' => $concepto,
-'solicitante' => $solicitante,
-'observaciones' => $observaciones,
-'status' => $status,
-'idEstacion' => $idEstacion,
-'cuenta' => $cuenta,
-'autorizado_por' => $autorizadoPor,
-'metodo_autorizacion' => $metodoAutorizacion
-);
-} else {
-$datosSolicitudVale = null;
-}
-
-$consulta->close();
-
-return $datosSolicitudVale;
-}
+        
         return $datosEstimuloFiscal;
     }
+        /* ------------------------------ PUNTO 6. SOLICITUD DE VALES ------------------------------ */
+
+        function obtenerDatosSolicitudVale($idReporte)
+        {
+
+            $folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
+            $sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ?";
+            $consulta = $this->con->prepare($sql);
+
+            if (!$consulta) {
+                throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+            }
+
+            $consulta->bind_param('i', $idReporte);
+            $consulta->execute();
+            $consulta->bind_result($folio, $fecha, $hora, $monto, $moneda, $concepto, $solicitante, $observaciones, $status, $idEstacion, $cuenta, $autorizadoPor, $metodoAutorizacion);
+
+            if ($consulta->fetch()) {
+                $datosSolicitudVale = array(
+                    'folio' => $folio,
+                    'fecha' => $fecha,
+                    'hora' => $hora,
+                    'monto' => $monto,
+                    'moneda' => $moneda,
+                    'concepto' => $concepto,
+                    'solicitante' => $solicitante,
+                    'observaciones' => $observaciones,
+                    'status' => $status,
+                    'idEstacion' => $idEstacion,
+                    'cuenta' => $cuenta,
+                    'autorizado_por' => $autorizadoPor,
+                    'metodo_autorizacion' => $metodoAutorizacion
+                );
+            } else {
+                $datosSolicitudVale = null;
+            }
+
+            $consulta->close();
+
+            return $datosSolicitudVale;
+        }
     /**
      * 
      * 
      * 
-     * Despacho VS Factura
+     * 5 Despacho VS Factura
      * 
      * 
      * 
@@ -1605,7 +1438,7 @@ return $datosSolicitudVale;
         $result = $stmt_select->get_result();
         $numero = $result->num_rows;
 
-        if ($numero == 0) :
+        if ($numero == 0):
             $sql_insert = "INSERT INTO op_despacho_factura (
             id_dia,
             litros_producto_uno,
@@ -1627,7 +1460,7 @@ return $datosSolicitudVale;
     public function esNegativo(float $num): string
     {
         $result = "style = color:#00000";
-        if (is_numeric($num) and $num < 0) :
+        if (is_numeric($num) and $num < 0):
             $result = "style = color:#dc3545";
         endif;
         return $result;
