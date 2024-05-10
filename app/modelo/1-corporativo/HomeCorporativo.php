@@ -98,6 +98,7 @@ class HomeCorporativo
     $referencia = "corporativo";
     $menuName = "Corporativo"; 
     }
+    
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
     $referencia = "../../administracion/corporativo";
@@ -372,6 +373,25 @@ class HomeCorporativo
     $referencia = "../departamento-operativo/corporativo";
     $menuName = "Corporativo";
     $returnReferencia = $Pagina;
+    
+    }else if($Pagina == "solicitud-vales"){
+    $titulo = "Solicitud de Vales";
+    $referencia = "../departamento-operativo/corporativo";
+    $menuName = "Corporativo";
+    $returnReferencia = $Pagina;
+
+    if($session_idpuesto == 13){
+    $referencia = "administracion/corporativo";
+    }else{
+    $referencia = "../departamento-operativo/corporativo";
+    }
+
+    }
+    elseif($Pagina == "despacho-factura"){
+        $titulo = "Despacho VS Factura";
+        $referencia = "../departamento-operativo/corporativo";
+        $menuName = "Corporativo";
+        $returnReferencia = $Pagina;
     }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){

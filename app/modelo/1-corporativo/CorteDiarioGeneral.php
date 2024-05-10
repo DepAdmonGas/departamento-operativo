@@ -1,73 +1,76 @@
 <?php
+require_once 'FormatoFechas.php';
 class CorteDiarioGeneral extends Exception
 {
-private $con;
-public function __construct($con)
-{
-$this->con = $con;
-}
+    private $con;
+    private $formato;
+    public function __construct($con)
+    {
+        $this->con = $con;
+        $this->formato = new FormatoFechas();
+    }
 
-/* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
+    /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
 
-/* ---------- Corte Diario - Mes ---------- */
-public function validaFechaReporte($IdReporte, $GET_year, $GET_mes, $Pdia)
-{
-$fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-$sql_reporte = "SELECT id, id_mes, fecha FROM op_corte_dia WHERE id_mes = ? AND fecha = ?";
-$stmt_reporte = $this->con->prepare($sql_reporte);
-        
-if (!$stmt_reporte):       
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
+    /* ---------- Corte Diario - Mes ---------- */
+    public function validaFechaReporte($IdReporte, $GET_year, $GET_mes, $Pdia)
+    {
+        $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
+        $sql_reporte = "SELECT id, id_mes, fecha FROM op_corte_dia WHERE id_mes = ? AND fecha = ?";
+        $stmt_reporte = $this->con->prepare($sql_reporte);
 
-$stmt_reporte->bind_param("is", $IdReporte, $fecha);
-if (!$stmt_reporte->execute()):
-throw new Exception("Error al ejecutar la consulta" . $stmt_reporte->error);
-endif;
-        
-$result_reporte = $stmt_reporte->get_result();
-$numero_reporte = $result_reporte->num_rows;
+        if (!$stmt_reporte):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
 
-if ($numero_reporte == 0):
-$sql_insert = "INSERT INTO op_corte_dia (id_mes,fecha,ventas,tpv,monedero) VALUES (?,?,0,0,0)";
-$stmt_insert = $this->con->prepare($sql_insert);
+        $stmt_reporte->bind_param("is", $IdReporte, $fecha);
+        if (!$stmt_reporte->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt_reporte->error);
+        endif;
 
-if (!$stmt_insert):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
+        $result_reporte = $stmt_reporte->get_result();
+        $numero_reporte = $result_reporte->num_rows;
 
-$stmt_insert->bind_param("is", $IdReporte, $fecha);
-if (!$stmt_insert->execute()):
-throw new Exception("Error al ejecutar la consulta" . $stmt_insert->error);
-endif;
+        if ($numero_reporte == 0):
+            $sql_insert = "INSERT INTO op_corte_dia (id_mes,fecha,ventas,tpv,monedero) VALUES (?,?,0,0,0)";
+            $stmt_insert = $this->con->prepare($sql_insert);
 
-$stmt_insert->close();
-endif;
-$stmt_reporte->close();
-}
-public function ultimoDia($GET_year, $GET_mes)
-{
-$month = $GET_mes;
-$year = $GET_year;
-$day = date("d", mktime(0, 0, 0, $month + 1, 0, $year));
-return date('d', mktime(0, 0, 0, $month, $day, $year));
-}
+            if (!$stmt_insert):
+                throw new Exception("Error al preparar la consulta" . $this->con->error);
+            endif;
 
-public function primerDia($GET_year, $GET_mes)
-{
-$month = $GET_mes;
-$year = $GET_year;
-return date('d', mktime(0, 0, 0, $month, 1, $year));
-}
+            $stmt_insert->bind_param("is", $IdReporte, $fecha);
+            if (!$stmt_insert->execute()):
+                throw new Exception("Error al ejecutar la consulta" . $stmt_insert->error);
+            endif;
+
+            $stmt_insert->close();
+        endif;
+        $stmt_reporte->close();
+    }
+    public function ultimoDia($GET_year, $GET_mes)
+    {
+        $month = $GET_mes;
+        $year = $GET_year;
+        $day = date("d", mktime(0, 0, 0, $month + 1, 0, $year));
+        return date('d', mktime(0, 0, 0, $month, $day, $year));
+    }
+
+    public function primerDia($GET_year, $GET_mes)
+    {
+        $month = $GET_mes;
+        $year = $GET_year;
+        return date('d', mktime(0, 0, 0, $month, 1, $year));
+    }
 
 
-/* ---------- Corte Ventas ---------- */
-public function firma(int $idReporte, string $detalle, string $rutafirma): string
-{
-$nombre = "";
-$firma = "";
-$fecha = "";
-$sql_firma = "SELECT
+    /* ---------- Corte Ventas ---------- */
+    public function firma(int $idReporte, string $detalle, string $rutafirma): string
+    {
+        $nombre = "";
+        $firma = "";
+        $fecha = "";
+        $sql_firma = "SELECT
 tb_usuarios.nombre,
 op_corte_dia_firmas.firma,
 op_corte_dia_firmas.fecha
@@ -76,59 +79,59 @@ INNER JOIN tb_usuarios
 ON op_corte_dia_firmas.id_usuario = tb_usuarios.id 
 WHERE id_reportedia  = ? AND detalle = ? ORDER BY op_corte_dia_firmas.id DESC LIMIT 1 ";
 
-$result_firma = $this->con->prepare($sql_firma);
+        $result_firma = $this->con->prepare($sql_firma);
 
-if (!$result_firma):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
+        if (!$result_firma):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
 
-$result_firma->bind_param("is", $idReporte, $detalle);
-if (!$result_firma->execute()):
-throw new Exception("" . $result_firma->error);
-endif;
+        $result_firma->bind_param("is", $idReporte, $detalle);
+        if (!$result_firma->execute()):
+            throw new Exception("" . $result_firma->error);
+        endif;
 
-$result_firma->bind_result($nombre, $firma, $fecha);
-while ($result_firma->fetch()):
-$explode = explode(' ', $fecha);
-endwhile;
+        $result_firma->bind_result($nombre, $firma, $fecha);
+        while ($result_firma->fetch()):
+            $explode = explode(' ', $fecha);
+        endwhile;
 
-$result_firma->close();
-$contenido = '';
+        $result_firma->close();
+        $contenido = '';
 
-if ($detalle == "Elaboró"):
-$contenido .= '<div class="text-center mt-1">';
-$contenido .= '<img src="' . $rutafirma . $firma . '" width="150px" height="70px">';
-$contenido .= '<div class="text-center mt-1 border-top pt-2"><b>' . $nombre . '</b></div>';
-$contenido .= '</div>';
+        if ($detalle == "Elaboró"):
+            $contenido .= '<div class="text-center mt-1">';
+            $contenido .= '<img src="' . $rutafirma . $firma . '" width="150px" height="70px">';
+            $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>' . $nombre . '</b></div>';
+            $contenido .= '</div>';
 
-elseif ($detalle == "Superviso" || $detalle == "VoBo"):
-$NewFecha = date("Y-m-d", strtotime($explode[0] . "+ 2 days"));
-$timestamp1 = strtotime(date("Y-m-d"));
-$timestamp2 = strtotime($NewFecha);
+        elseif ($detalle == "Superviso" || $detalle == "VoBo"):
+            $NewFecha = date("Y-m-d", strtotime($explode[0] . "+ 2 days"));
+            $timestamp1 = strtotime(date("Y-m-d"));
+            $timestamp2 = strtotime($NewFecha);
 
-if ($timestamp1 >= $timestamp2):
-$Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-$contenido .= '<div class="">';
-$contenido .= $Detalle;
-$contenido .= '<div class="mb-1 text-center pt-2"><b>' . $nombre . '</b></div>';
-$contenido .= '</div>';
+            if ($timestamp1 >= $timestamp2):
+                $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
+                $contenido .= '<div class="">';
+                $contenido .= $Detalle;
+                $contenido .= '<div class="mb-1 text-center pt-2"><b>' . $nombre . '</b></div>';
+                $contenido .= '</div>';
 
-else:
-$contenido .= '<div class="text-center mt-1">';
-$contenido .= '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
-$contenido .= '<div class="text-center mt-1 border-top pt-2"></div>';
-$contenido .= '</div>';
-endif;
+            else:
+                $contenido .= '<div class="text-center mt-1">';
+                $contenido .= '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
+                $contenido .= '<div class="text-center mt-1 border-top pt-2"></div>';
+                $contenido .= '</div>';
+            endif;
 
-endif;
+        endif;
 
-return $contenido;
-}
+        return $contenido;
+    }
 
-public function validaFirma($idReporte, $detalle): string
-{
+    public function validaFirma($idReporte, $detalle): string
+    {
 
-$sql_firma = "SELECT
+        $sql_firma = "SELECT
 op_corte_dia_firmas.id_usuario, 
 op_corte_dia_firmas.firma,
 tb_usuarios.nombre
@@ -136,188 +139,188 @@ FROM op_corte_dia_firmas
 INNER JOIN tb_usuarios
 ON op_corte_dia_firmas.id_usuario = tb_usuarios.id 
 WHERE id_reportedia = ? AND detalle = ?";
-$result_firma = $this->con->prepare($sql_firma);
+        $result_firma = $this->con->prepare($sql_firma);
 
-if (!$result_firma):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
+        if (!$result_firma):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
 
-$result_firma->bind_param("is", $idReporte, $detalle);     
-if (!$result_firma->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $result_firma->error);
-endif;
-        
-$result_firma->store_result();  
-$numero_lista = $result_firma->num_rows;
-$result_firma->close();
+        $result_firma->bind_param("is", $idReporte, $detalle);
+        if (!$result_firma->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $result_firma->error);
+        endif;
 
-return $numero_lista;
-}
+        $result_firma->store_result();
+        $numero_lista = $result_firma->num_rows;
+        $result_firma->close();
 
-public function getEstado(int $idReporte): string
-{
-$ventas = 0;
-$sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ?";
-$result_dia = $this->con->prepare($sql_dia);
+        return $numero_lista;
+    }
 
-if (!$result_dia):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
-        
-$result_dia->bind_param("i", $idReporte);
-if (!$result_dia->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $result_dia->error);
-endif;
+    public function getEstado(int $idReporte): string
+    {
+        $ventas = 0;
+        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ?";
+        $result_dia = $this->con->prepare($sql_dia);
 
-$result_dia->bind_result($ventas);
-$result_dia->fetch();
-$result_dia->close();
+        if (!$result_dia):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
 
-return $ventas;
-}
-public function getDia(int $idReporte): string
-{
-$dia = "";
-$sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = ? ";
-$result_dia = $this->con->prepare($sql_dia);
+        $result_dia->bind_param("i", $idReporte);
+        if (!$result_dia->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $result_dia->error);
+        endif;
 
-if (!$result_dia):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
+        $result_dia->bind_result($ventas);
+        $result_dia->fetch();
+        $result_dia->close();
 
-$result_dia->bind_param("i", $idReporte);
-if (!$result_dia->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $result_dia->error);
-endif;
-        
-$result_dia->bind_result($dia);
-$result_dia->fetch();
-$result_dia->close();
-return $dia;
-}
+        return $ventas;
+    }
+    public function getDia(int $idReporte): string
+    {
+        $dia = "";
+        $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id = ? ";
+        $result_dia = $this->con->prepare($sql_dia);
 
-public function getObsevaciones(int $idReporte): string
-{
-$observaciones = "";
-$sql_observaciones = "SELECT observaciones FROM op_observaciones WHERE idreporte_dia = ?";
-$result_observaciones = $this->con->prepare($sql_observaciones);
-        
-if (!$result_observaciones):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
-        
-$result_observaciones->bind_param("i", $idReporte);
-if (!$result_observaciones->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $result_observaciones->error);
-endif;
-        
-$result_observaciones->bind_result($observaciones);
-$result_observaciones->fetch();
-if ($observaciones == null):
-$observaciones = "";
-endif;
-        
-$result_observaciones->close();
-return $observaciones;
-}
+        if (!$result_dia):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
+
+        $result_dia->bind_param("i", $idReporte);
+        if (!$result_dia->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $result_dia->error);
+        endif;
+
+        $result_dia->bind_result($dia);
+        $result_dia->fetch();
+        $result_dia->close();
+        return $dia;
+    }
+
+    public function getObsevaciones(int $idReporte): string
+    {
+        $observaciones = "";
+        $sql_observaciones = "SELECT observaciones FROM op_observaciones WHERE idreporte_dia = ?";
+        $result_observaciones = $this->con->prepare($sql_observaciones);
+
+        if (!$result_observaciones):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
+
+        $result_observaciones->bind_param("i", $idReporte);
+        if (!$result_observaciones->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $result_observaciones->error);
+        endif;
+
+        $result_observaciones->bind_result($observaciones);
+        $result_observaciones->fetch();
+        if ($observaciones == null):
+            $observaciones = "";
+        endif;
+
+        $result_observaciones->close();
+        return $observaciones;
+    }
 
 
-/* ---------- Monedero ---------- */
-public function tarjetasCB(int $idReporte, string $concepto): float
-{
-$baucher = 0;
-$sql_cb = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ? AND concepto = ? LIMIT 1 ";
-$result_cb = $this->con->prepare($sql_cb);
-if (!$result_cb):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-$result_cb->bind_param("is", $idReporte, $concepto);
+    /* ---------- Monedero ---------- */
+    public function tarjetasCB(int $idReporte, string $concepto): float
+    {
+        $baucher = 0;
+        $sql_cb = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ? AND concepto = ? LIMIT 1 ";
+        $result_cb = $this->con->prepare($sql_cb);
+        if (!$result_cb):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result_cb->bind_param("is", $idReporte, $concepto);
 
-if (!$result_cb->execute()):
-throw new Exception("Error al ejecutar la consulta" . $result_cb->error);
-endif;
-        
-$result_cb->bind_result($baucher);   
-$result_cb->fetch();
-        
-if ($baucher == null):
-$baucher = 0;
-endif;
-        
-$result_cb->close();
-return $baucher;
-}
-public function clientesControlgas(string $nombre, int $idReporte, string $concepto): float
-{
-$valor = 0;
-$sql = "SELECT $nombre FROM op_clientes_controlgas WHERE idreporte_dia = ? AND concepto = ? ";
-$stmt = $this->con->prepare($sql);
-        
-if (!$stmt):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-        
-$stmt->bind_param("is", $idReporte, $concepto);
-if (!$stmt->execute()):
-throw new Exception("Error al ejecutar la consulta" . $stmt->error);
-endif;
-        
-$stmt->bind_result($valor);
-$stmt->fetch();
-        
-if ($valor == null):
-$valor = 0;
-endif;
-        
-$stmt->close();
-return $valor;
-}
+        if (!$result_cb->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result_cb->error);
+        endif;
 
-/* ---------- Cierre Lote ---------- */
-public function getTpv(int $idReporte): int
-{
-$tpv = 0;
-$sql_dia = "SELECT tpv FROM op_corte_dia WHERE id = ? ";
-$stmt = $this->con->prepare($sql_dia);
-        
-if (!$stmt):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-$stmt->bind_param("i", $idReporte, );
-$stmt->execute();
-$stmt->bind_result($tpv);
-$stmt->fetch();
+        $result_cb->bind_result($baucher);
+        $result_cb->fetch();
 
-if ($tpv == null):
-$tpv = 0;
-endif;
-$stmt->close();
-return $tpv;
-}
+        if ($baucher == null):
+            $baucher = 0;
+        endif;
 
-/* ---------- Resumen Impuestos ---------- */
-public function idReporte($Session_IDEstacion, $GET_year, $GET_mes): int
-{
-$idmes = 0;
-$sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = (SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?) AND mes = ?";
+        $result_cb->close();
+        return $baucher;
+    }
+    public function clientesControlgas(string $nombre, int $idReporte, string $concepto): float
+    {
+        $valor = 0;
+        $sql = "SELECT $nombre FROM op_clientes_controlgas WHERE idreporte_dia = ? AND concepto = ? ";
+        $stmt = $this->con->prepare($sql);
 
-$stmt_mes = $this->con->prepare($sql_mes);
-if (!$stmt_mes):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-        
-$stmt_mes->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
-if ($stmt_mes->execute()):
-$stmt_mes->bind_result($idmes);
-$stmt_mes->fetch();
-$stmt_mes->close();
-endif;
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
 
-return $idmes;
-}
-function obtenerListaDias(int $Session_IDEstacion, int $GET_year, int $GET_mes): array
-{
-$sql_listadia = "SELECT
+        $stmt->bind_param("is", $idReporte, $concepto);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
+        endif;
+
+        $stmt->bind_result($valor);
+        $stmt->fetch();
+
+        if ($valor == null):
+            $valor = 0;
+        endif;
+
+        $stmt->close();
+        return $valor;
+    }
+
+    /* ---------- Cierre Lote ---------- */
+    public function getTpv(int $idReporte): int
+    {
+        $tpv = 0;
+        $sql_dia = "SELECT tpv FROM op_corte_dia WHERE id = ? ";
+        $stmt = $this->con->prepare($sql_dia);
+
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt->bind_param("i", $idReporte, );
+        $stmt->execute();
+        $stmt->bind_result($tpv);
+        $stmt->fetch();
+
+        if ($tpv == null):
+            $tpv = 0;
+        endif;
+        $stmt->close();
+        return $tpv;
+    }
+
+    /* ---------- Resumen Impuestos ---------- */
+    public function idReporte($Session_IDEstacion, $GET_year, $GET_mes): int
+    {
+        $idmes = 0;
+        $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = (SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?) AND mes = ?";
+
+        $stmt_mes = $this->con->prepare($sql_mes);
+        if (!$stmt_mes):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+
+        $stmt_mes->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
+        if ($stmt_mes->execute()):
+            $stmt_mes->bind_result($idmes);
+            $stmt_mes->fetch();
+            $stmt_mes->close();
+        endif;
+
+        return $idmes;
+    }
+    function obtenerListaDias(int $Session_IDEstacion, int $GET_year, int $GET_mes): array
+    {
+        $sql_listadia = "SELECT
 op_corte_year.id_estacion,
 op_corte_year.year,
 op_corte_mes.mes,
@@ -328,66 +331,66 @@ INNER JOIN op_corte_mes ON op_corte_year.id = op_corte_mes.id_year
 INNER JOIN op_corte_dia ON op_corte_mes.id = op_corte_dia.id_mes 
 WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.mes = ?";
 
-$stmt = $this->con->prepare($sql_listadia);
-if (!$stmt):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-        
-$stmt->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
-$stmt->execute();
-$result_listadia = $stmt->get_result();
-$stmt->close();
+        $stmt = $this->con->prepare($sql_listadia);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
 
-// Crear un array para almacenar los resultados
-$listaDias = array();
-// Recorrer los resultados y almacenarlos en el array
-while ($row_listadia = mysqli_fetch_assoc($result_listadia)):
-$listaDias[] = $row_listadia;
-endwhile;
-// Retornar la lista de días
-return $listaDias;  
-}
-public function inventarioFin($IdReporte): int
-{
-// Consulta SQL preparada
-$sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = ? LIMIT 1";
+        $stmt->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
+        $stmt->execute();
+        $result_listadia = $stmt->get_result();
+        $stmt->close();
 
-$stmt = $this->con->prepare($sql_reporte);
-if ($stmt === false):
-throw new Exception("Error al preparar la consulta" . $this->con->error);
-endif;
-// Vincular parámetros
-$stmt->bind_param("i", $IdReporte);
-$stmt->execute();
-// Obtener el resultado
-$stmt->store_result();
-$numero_reporte = $stmt->num_rows();
-$stmt->close();
-        
-if ($numero_reporte == null):
-$numero_reporte = 0;
-endif;
-// Retornar el número de filas encontradas
-return $numero_reporte;
-}
+        // Crear un array para almacenar los resultados
+        $listaDias = array();
+        // Recorrer los resultados y almacenarlos en el array
+        while ($row_listadia = mysqli_fetch_assoc($result_listadia)):
+            $listaDias[] = $row_listadia;
+        endwhile;
+        // Retornar la lista de días
+        return $listaDias;
+    }
+    public function inventarioFin($IdReporte): int
+    {
+        // Consulta SQL preparada
+        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = ? LIMIT 1";
 
-/* ---------- Clientes ---------- */
-function generarOpcionesClientes($Session_IDEstacion)
-{
-$sql_cliente = "SELECT id, cliente FROM op_cliente WHERE id_estacion = ?";
+        $stmt = $this->con->prepare($sql_reporte);
+        if ($stmt === false):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        // Vincular parámetros
+        $stmt->bind_param("i", $IdReporte);
+        $stmt->execute();
+        // Obtener el resultado
+        $stmt->store_result();
+        $numero_reporte = $stmt->num_rows();
+        $stmt->close();
 
-$stmt_cliente = $this->con->prepare($sql_cliente);
-if (!$stmt_cliente):
-throw new Exception("Error al preparar la consulta: " . $this->con->error);
-endif;
-        
-$stmt_cliente->bind_param("s", $Session_IDEstacion);
-if (!$stmt_cliente->execute()):
-throw new Exception("Error al ejecutar la consulta: " . $stmt_cliente->error);
-endif;
+        if ($numero_reporte == null):
+            $numero_reporte = 0;
+        endif;
+        // Retornar el número de filas encontradas
+        return $numero_reporte;
+    }
 
-$result_cliente = $stmt_cliente->get_result();
-$ocultar = "d-none"; // Por defecto, no se oculta
+    /* ---------- Clientes ---------- */
+    function generarOpcionesClientes($Session_IDEstacion)
+    {
+        $sql_cliente = "SELECT id, cliente FROM op_cliente WHERE id_estacion = ?";
+
+        $stmt_cliente = $this->con->prepare($sql_cliente);
+        if (!$stmt_cliente):
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        endif;
+
+        $stmt_cliente->bind_param("s", $Session_IDEstacion);
+        if (!$stmt_cliente->execute()):
+            throw new Exception("Error al ejecutar la consulta: " . $stmt_cliente->error);
+        endif;
+
+        $result_cliente = $stmt_cliente->get_result();
+        $ocultar = "d-none"; // Por defecto, no se oculta
 
         while ($row_cliente = $result_cliente->fetch_assoc()):
             if (empty($row_cliente['cliente'])):
@@ -396,18 +399,22 @@ $ocultar = "d-none"; // Por defecto, no se oculta
             echo '<option value="' . $row_cliente['id'] . '">' . $row_cliente['cliente'] . '</option>';
         endwhile;
     }
+
     public function resumenFinalizar(int $idReporte): int
     {
         $id = 0;
         $sql = "SELECT id FROM op_consumos_pagos_resumen_finalizar WHERE id_mes =? LIMIT 1 ";
+
         $stmt = $this->con->prepare($sql);
         if (!$stmt):
             throw new Exception("Error al preparar la consula" . $this->con->error);
         endif;
+
         $stmt->bind_param("i", $idReporte);
         if (!$stmt->execute()):
             throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
+
         $stmt->bind_result($id);
         $stmt->fetch();
         $stmt->close();
@@ -417,73 +424,83 @@ $ocultar = "d-none"; // Por defecto, no se oculta
     {
         $id = 0;
         $sql = "SELECT id FROM op_cliente WHERE id_estacion = ? AND estado = 1 ";
+
         $stmt = $this->con->prepare($sql);
         if (!$stmt):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
+
         $stmt->bind_param("i", $idEstacion);
         if (!$stmt->execute()):
             throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
+
         $stmt->bind_result($id);
         $stmt->fetch();
         $stmt->close();
         $this->validaResumen($IdReporte, $id);
     }
+
     private function validaResumen(int $IdReporte, int $id)
     {
         $sql = "SELECT * FROM op_consumos_pagos_resumen WHERE id_mes = ? AND id_cliente = ?";
+
         $stmt = $this->con->prepare($sql);
         if (!$stmt):
             throw new Exception("Error al preparar la consulta: " . $this->con->error);
         endif;
+
         $stmt->bind_param("ii", $IdReporte, $id);
         if (!$stmt->execute()):
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         endif;
+
         $result = $stmt->get_result();
         $numero = $result->num_rows;
         $val = 0;
+
         if ($numero == 0):
-            $sql_insert = "INSERT INTO op_consumos_pagos_resumen (
-                id_mes,
-                id_cliente,
-                saldo_inicial,
-                consumos,
-                pagos,
-                saldo_final
-                )
-                VALUES(?,?,?,?,?,?)";
+            $sql_insert = "INSERT INTO op_consumos_pagos_resumen (id_mes,id_cliente,saldo_inicial,consumos,pagos,saldo_final)VALUES(?,?,?,?,?,?)";
+
             $stmt_insert = $this->con->prepare($sql_insert);
             if (!$stmt_insert):
                 throw new Exception("Error al preparar la inserción: " . $this->con->error);
             endif;
+
             $stmt_insert->bind_param("iiiiii", $IdReporte, $id, $val, $val, $val, $val);
             if (!$stmt_insert->execute()):
                 throw new Exception("Error al ejecutar la inserción: " . $stmt_insert->error);
             endif;
+
             $stmt_insert->close();
         endif;
+
         $result->close();
     }
+
     public function actSaldoInicial(int $idReporte, int $idReporteA): void
     {
         $idResumen = 0;
         $idcliente = 0;
         $sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
+
         $result = $this->con->prepare($sql);
         if (!$result):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
+
         $result->bind_param("i", $idReporte);
         if (!$result->execute()):
             throw new Exception("Error al ejecutar la consulta" . $result->error);
         endif;
+
         $result->bind_result($idResumen, $idcliente);
         $result->close();
+
         $this->saldoInicial($idReporteA, $idResumen, $idcliente);
         $this->consumoPago($idResumen, $idReporte, $idcliente);
     }
+
     private function saldoInicial(int $idReporteA, int $idResumen, int $idcliente): void
     {
         $saldoFinal = "";
@@ -493,10 +510,12 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $stmt->execute();
         $stmt->store_result();
         $numero = $stmt->num_rows;
+
         if ($numero == 1):
             $stmt->bind_result($saldoFinal);
             $stmt->fetch();
             $stmt->close();
+
             if ($saldoFinal != 0):
                 $sql_edit = "UPDATE op_consumos_pagos_resumen SET saldo_inicial = ? WHERE id = ?";
                 $stmt_edit = $this->con->prepare($sql_edit);
@@ -504,20 +523,25 @@ $ocultar = "d-none"; // Por defecto, no se oculta
                 $stmt_edit->execute();
                 $stmt_edit->close();
             endif;
+
         endif;
     }
+
     private function consumoPago(int $idResumen, int $idReporte, int $idcliente): void
     {
         $reportedia = "";
         $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
+
         $result = $this->con->prepare($sql);
         if (!$result):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
+
         $result->bind_param("i", $idReporte);
         if (!$result->execute()):
             throw new Exception("Error al ejecutar la consulta" . $result->error);
         endif;
+
         $result->bind_result($reportedia);
         $result->fetch();
         $result->close();
@@ -541,6 +565,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $stmt_c->execute();
         $stmt_c->store_result();
         $numero_c = $stmt_c->num_rows;
+
         $total = 0;
         $total_row = 0;
         if ($numero_c > 0):
@@ -549,6 +574,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
                 $total += $total_row;
             endwhile;
         endif;
+
         $stmt_c->close();
         return $total;
     }
@@ -557,6 +583,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $idResumen = 0;
         $idcliente = 0;
         $sql = "SELECT id,id_cliente FROM op_consumos_pagos_resumen WHERE id_mes = ? ";
+
         $result = $this->con->prepare($sql);
         $result->bind_param("i", $idReporte);
         $result->execute();
@@ -565,6 +592,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $result->close();
         $this->consumoPago($idResumen, $idReporte, $idcliente);
     }
+
     public function actSaldoFinal($idReporte): void
     {
         $saldoFinal = 0;
@@ -582,6 +610,7 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $saldoFinal = $saldo + $consumo - $pago;
         $this->saldoFinal($idResumen, $saldoFinal);
     }
+
     private function saldoFinal($idResumen, $saldoFinal): void
     {
         $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET saldo_final = ? WHERE id=? ";
@@ -591,12 +620,13 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $stmt->close();
     }
 
-    public function getNumeroClientesPorTipo(int $idEstacion, string $tipo): int {
+    public function getNumeroClientesPorTipo(int $idEstacion, string $tipo): int
+    {
         $estado = 1;
         $sql = "SELECT * FROM op_cliente WHERE id_estacion = ? AND tipo = ? AND estado = ?";
         $numeroClientes = 0;
         if ($stmt = $this->con->prepare($sql)) {
-            $stmt->bind_param("isi", $idEstacion, $tipo,$estado);
+            $stmt->bind_param("isi", $idEstacion, $tipo, $estado);
             $stmt->execute();
             $stmt->store_result();
             $numeroClientes = $stmt->num_rows();
@@ -879,62 +909,66 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $result->close();
         return $ventas;
     }
-    public function getTotalImporte(int $idReporte) : int {
+    public function getTotalImporte(int $idReporte): int
+    {
         $sql = "SELECT importe FROM op_prosegur WHERE idreporte_dia = ?";
         $importe = 0;
-        $totalImporte=0;
-        if ($stmt = $this->con->prepare($sql)) :
+        $totalImporte = 0;
+        if ($stmt = $this->con->prepare($sql)):
             $stmt->bind_param("i", $idReporte);
             $stmt->execute();
             $stmt->bind_result($importe);
-            while ($stmt->fetch()) :
+            while ($stmt->fetch()):
                 $totalImporte += $importe;
             endwhile;
             $stmt->close();
         endif;
         return $totalImporte;
     }
-    
-    public function getBaucherTotal(int $idReporte) :int{
+
+    public function getBaucherTotal(int $idReporte): int
+    {
         $sql = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ?";
         $baucher = 0;
         $baucherTotal = 0;
-        if ($stmt = $this->con->prepare($sql)) :
+        if ($stmt = $this->con->prepare($sql)):
             $stmt->bind_param("i", $idReporte);
             $stmt->execute();
             $stmt->bind_result($baucher);
-            while ($stmt->fetch()) :
+            while ($stmt->fetch()):
                 $baucherTotal += $baucher;
             endwhile;
             $stmt->close();
         endif;
         return $baucherTotal;
     }
-    
-    function getConsumoTotal(int $idReporte) {
+
+    function getConsumoTotal(int $idReporte)
+    {
         $sql = "SELECT consumo FROM op_clientes_controlgas WHERE idreporte_dia = ?";
         $consumo = 0;
-        $consumoTotal=0;
-        if ($stmt = $this->con->prepare($sql)) :
+        $consumoTotal = 0;
+        if ($stmt = $this->con->prepare($sql)):
             $stmt->bind_param("i", $idReporte);
             $stmt->execute();
             $stmt->bind_result($consumo);
-            while ($stmt->fetch()) :
+            while ($stmt->fetch()):
                 $consumoTotal += $consumo;
             endwhile;
             $stmt->close();
         endif;
         return $consumoTotal;
     }
-    public function getPagoTotal($idReporte) :int {
+    public function getPagoTotal($idReporte): int
+    {
         $sql = "SELECT pago FROM op_clientes_controlgas WHERE idreporte_dia = ?";
         $pago = 0;
         $pagoTotal = 0;
-        if ($stmt = $this->con->prepare($sql)) :
+        if ($stmt = $this->con->prepare($sql)):
             $stmt->bind_param("i", $idReporte);
             $stmt->execute();
             $stmt->bind_result($pago);
-            while ($stmt->fetch()) :
+            while ($stmt->fetch()):
                 $pagoTotal += $pago;
             endwhile;
             $stmt->close();
@@ -1103,59 +1137,62 @@ $ocultar = "d-none"; // Por defecto, no se oculta
         $result->close();
         return $idmes;
     }
+
+
+
     /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
-function obtenerDatosSolicitudCheque($idReporte)
-{
+    function obtenerDatosSolicitudCheque($idReporte)
+    {
 
-// Inicializar variables para evitar "use of assigned variable"
-$fecha = $beneficiario = $monto = $moneda = $nofactura = $email = $concepto = $solicitante = $telefono = $cfdi = $metodo_pago = $forma_pago = $banco = $nocuenta = $cuentaclabe = $referencia = $observaciones = $status = $razonsocial = null;
-    
-$sql = "SELECT fecha, beneficiario, monto, moneda, no_factura, email, concepto, solicitante, telefono, cfdi, metodo_pago, forma_pago, banco, no_cuenta, cuenta_clabe, referencia, observaciones, status, razonsocial FROM op_solicitud_cheque WHERE id = ?";
-$consulta = $this->con->prepare($sql);
+        // Inicializar variables para evitar "use of assigned variable"
+        $fecha = $beneficiario = $monto = $moneda = $nofactura = $email = $concepto = $solicitante = $telefono = $cfdi = $metodo_pago = $forma_pago = $banco = $nocuenta = $cuentaclabe = $referencia = $observaciones = $status = $razonsocial = null;
 
-if (!$consulta) {
-$result = false;
-throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-}
+        $sql = "SELECT fecha, beneficiario, monto, moneda, no_factura, email, concepto, solicitante, telefono, cfdi, metodo_pago, forma_pago, banco, no_cuenta, cuenta_clabe, referencia, observaciones, status, razonsocial FROM op_solicitud_cheque WHERE id = ?";
+        $consulta = $this->con->prepare($sql);
 
-$consulta->bind_param('i', $idReporte);
-$consulta->execute();
-$consulta->bind_result($fecha, $beneficiario, $monto, $moneda, $nofactura, $email, $concepto, $solicitante, $telefono, $cfdi, $metodo_pago, $forma_pago, $banco, $nocuenta, $cuentaclabe, $referencia, $observaciones, $status, $razonsocial);
+        if (!$consulta) {
+            $result = false;
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        }
 
-if ($consulta->fetch()) {
-// Procesamiento de los datos obtenidos
-$datosSolicitudCheque = array(
-'fecha' => $fecha,
-'beneficiario' => $beneficiario,
-'monto' => $monto,
-'moneda' => $moneda,
-'no_factura' => $nofactura,
-'email' => $email,
-'concepto' => $concepto,
-'solicitante' => $solicitante,
-'telefono' => $telefono,
-'cfdi' => $cfdi,
-'metodo_pago' => $metodo_pago,
-'forma_pago' => $forma_pago,
-'banco' => $banco,
-'no_cuenta' => $nocuenta,
-'cuenta_clabe' => $cuentaclabe,
-'referencia' => $referencia,
-'observaciones' => $observaciones,
-'status' => $status,
-'razonsocial' => $razonsocial
-);
+        $consulta->bind_param('i', $idReporte);
+        $consulta->execute();
+        $consulta->bind_result($fecha, $beneficiario, $monto, $moneda, $nofactura, $email, $concepto, $solicitante, $telefono, $cfdi, $metodo_pago, $forma_pago, $banco, $nocuenta, $cuentaclabe, $referencia, $observaciones, $status, $razonsocial);
 
-} else {
-// Manejo de caso cuando no se encuentra el registro
-$datosSolicitudCheque = null;
-}
+        if ($consulta->fetch()) {
+            // Procesamiento de los datos obtenidos
+            $datosSolicitudCheque = array(
+                'fecha' => $fecha,
+                'beneficiario' => $beneficiario,
+                'monto' => $monto,
+                'moneda' => $moneda,
+                'no_factura' => $nofactura,
+                'email' => $email,
+                'concepto' => $concepto,
+                'solicitante' => $solicitante,
+                'telefono' => $telefono,
+                'cfdi' => $cfdi,
+                'metodo_pago' => $metodo_pago,
+                'forma_pago' => $forma_pago,
+                'banco' => $banco,
+                'no_cuenta' => $nocuenta,
+                'cuenta_clabe' => $cuentaclabe,
+                'referencia' => $referencia,
+                'observaciones' => $observaciones,
+                'status' => $status,
+                'razonsocial' => $razonsocial
+            );
 
-$consulta->close();
+        } else {
+            // Manejo de caso cuando no se encuentra el registro
+            $datosSolicitudCheque = null;
+        }
 
-return $datosSolicitudCheque;
-}
-/**
+        $consulta->close();
+
+        return $datosSolicitudCheque;
+    }
+    /**
      * 
      * 
      * 
@@ -1175,17 +1212,17 @@ return $datosSolicitudCheque;
         $result->close();
         return $idyear;
     }
-    public function getProducto(int $idEstacion): string
+    public function getProducto(int $idEstacion, string $nombre): string
     {
-        $GDiesel = "";
-        $sql = "SELECT producto_tres FROM tb_estaciones WHERE id = ?";
+        $resultado = "";
+        $sql = "SELECT $nombre FROM tb_estaciones WHERE id = ?";
         $result = $this->con->prepare($sql);
         $result->bind_param("i", $idEstacion);
         $result->execute();
-        $result->bind_result($GDiesel);
+        $result->bind_result($resultado);
         $result->fetch();
         $result->close();
-        return $GDiesel;
+        return $resultado;
     }
     public function validaFacturacion(int $idReporte, string $descripcion): void
     {
@@ -1234,12 +1271,12 @@ return $datosSolicitudCheque;
     }
     private function validaIngresoFacturacion(int $idReporte, string $detalle, int $posicion)
     {
-        $sql = "SELECT id_year FROM op_ingresos_facturacion_contabilidad WHERE id_year = ? AND detalle = ? AND posicion = ? ";
+        $sql = "SELECT * FROM op_ingresos_facturacion_contabilidad WHERE id_year = ? AND detalle = ? AND posicion = ? ";
         $result = $this->con->prepare($sql);
         $result->bind_param("isi", $idReporte, $detalle, $posicion);
         $result->execute();
+        $result = $result->get_result();
         $numero = $result->num_rows;
-        $result->fetch();
         $result->close();
         if ($numero == 0):
             $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad (id_year,detalle,posicion)
@@ -1250,7 +1287,14 @@ return $datosSolicitudCheque;
             $result->close();
         endif;
     }
-    public function updateIngresoFacturacion($idReporte, $mes)
+    public function actualizarIngresoFacturacion(int $idReporte): void
+    {
+        $meses = range(1, 12);
+        foreach ($meses as $mes):
+            $this->updateIngresoFacturacion($idReporte, $mes);
+        endforeach;
+    }
+    private function updateIngresoFacturacion($idReporte, $mes)
     {
         $descripcion = "";
         $total = 0;
@@ -1305,7 +1349,7 @@ return $datosSolicitudCheque;
         $stmt->execute();
         $stmt->close();
     }
-    public function idReporteMes(int $year, int $mes): int
+    private function idReporteMes(int $year, int $mes): int
     {
         $idmes = 0;
         $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ? ";
@@ -1317,14 +1361,70 @@ return $datosSolicitudCheque;
         $result->close();
         return $idmes;
     }
-/* ------------------------------ PUNTO 4. ESTIMULO FISCAL ------------------------------ */
+    public function actualizarIF(int $idReporte): void
+    {
 
-function TotalProducto($idEstacion,$FInicio,$FTermino,$Producto)
-{
+        $meses = range(1, 12);
+        foreach ($meses as $mes):
+            $this->updateProductoIF($idReporte, $mes);
+        endforeach;
+    }
+    private function updateProductoIF($IdReporte, $mes)
+    {
+        $IdReporteMes = $this->idReporteMes($IdReporte, $mes);
+        $Mes = strtolower(nombremes($mes));
 
-$TotalProducto = null;
+        $sql_lista = "SELECT id, producto, dato10 FROM op_control_volumetrico_resumen WHERE id_mes = ?";
+        $stmt_lista = $this->con->prepare($sql_lista);
+        $stmt_lista->bind_param("i", $IdReporteMes);
+        $stmt_lista->execute();
+        $result_lista = $stmt_lista->get_result();
 
-$sql = "SELECT 
+        while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)):
+            $id = $row_lista['id'];
+            $producto = $row_lista['producto'];
+            $dato10 = $row_lista['dato10'];
+
+            $sql_edit1 = "UPDATE op_ingresos_facturacion_contabilidad SET $Mes = ? WHERE id_year = ? AND detalle = ?";
+            $stmt_edit1 = $this->con->prepare($sql_edit1);
+            $stmt_edit1->bind_param("dss", $dato10, $IdReporte, $producto);
+            $stmt_edit1->execute();
+        endwhile;
+
+        $TotAceites = 0;
+        $Grantotal = 0;
+        $sql_listaaceites = "SELECT id_aceite, precio FROM op_aceites_lubricantes_reporte WHERE id_mes = ?";
+        $stmt_listaaceites = $this->con->prepare($sql_listaaceites);
+        $stmt_listaaceites->bind_param("i", $IdReporteMes);
+        $stmt_listaaceites->execute();
+        $result_listaaceites = $stmt_listaaceites->get_result();
+
+        while ($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)) {
+            $noaceite = $row_listaaceites['id_aceite'];
+            $preciou = $row_listaaceites['precio'];
+            $totalaceites = $this->totalAceites($IdReporteMes, $noaceite);
+
+            $Total = $preciou * $totalaceites;
+            $TotAceites = $TotAceites + $totalaceites;
+            $Grantotal = $Grantotal + $Total;
+        }
+
+        $sql_edit2 = "UPDATE op_ingresos_facturacion_contabilidad SET $Mes = ? WHERE id_year = ? AND detalle = 'Aceites y Lubricantes'";
+        $stmt_edit2 = $this->con->prepare($sql_edit2);
+        $stmt_edit2->bind_param("di", $Grantotal, $IdReporte);
+        $stmt_edit2->execute();
+    }
+
+
+
+    /* ------------------------------ PUNTO 4. ESTIMULO FISCAL ------------------------------ */
+
+    function TotalProducto($idEstacion, $FInicio, $FTermino, $Producto)
+    {
+
+        $TotalProducto = null;
+
+        $sql = "SELECT 
 SUM(re_reporte_cre_pipas.volumen) AS TotalProducto
 FROM re_reporte_cre_mes 
 INNER JOIN re_reporte_cre_producto
@@ -1334,64 +1434,61 @@ ON re_reporte_cre_producto.id = re_reporte_cre_pipas.id_re_producto
 WHERE re_reporte_cre_mes.id_estacion = ? AND 
 re_reporte_cre_producto.producto = ? AND
 re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
-$consulta = $this->con->prepare($sql);
+        $consulta = $this->con->prepare($sql);
 
-if (!$consulta) {
-$result = false;
-throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-}
+        if (!$consulta) {
+            $result = false;
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        }
 
-$consulta->bind_param('isss', $idEstacion, $Producto, $FInicio, $FTermino);
-$consulta->execute();
-$consulta->bind_result($TotalProducto);
+        $consulta->bind_param('isss', $idEstacion, $Producto, $FInicio, $FTermino);
+        $consulta->execute();
+        $consulta->bind_result($TotalProducto);
 
-if ($consulta->fetch()) {
-$sumatoriaProducto = $TotalProducto;
-  
-}else{
-// Manejo de caso cuando no se encuentra el registro
-$sumatoriaProducto = 0;
-}
+        if ($consulta->fetch()) {
+            $sumatoriaProducto = $TotalProducto;
 
-$consulta->close();
+        } else {
+            // Manejo de caso cuando no se encuentra el registro
+            $sumatoriaProducto = 0;
+        }
 
-return $sumatoriaProducto;
-}
+        $consulta->close();
 
-function obtenerDatosEstimuloFiscal($idReporte)
-{
+        return $sumatoriaProducto;
+    }
 
-// Inicializar variables para evitar "use of assigned variable"
-$fechaInicio = $fechaFin = null;
-    
-$sql = "SELECT fecha_inicio, fecha_termino FROM op_estimulo_fiscal_pago WHERE id = ?";
-$consulta = $this->con->prepare($sql);
+    function obtenerDatosEstimuloFiscal($idReporte)
+    {
 
-if (!$consulta) {
-$result = false;
-throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-}
+        // Inicializar variables para evitar "use of assigned variable"
+        $fechaInicio = $fechaFin = null;
 
-$consulta->bind_param('i', $idReporte);
-$consulta->execute();
-$consulta->bind_result($fechaInicio, $fechaFin);
+        $sql = "SELECT fecha_inicio, fecha_termino FROM op_estimulo_fiscal_pago WHERE id = ?";
+        $consulta = $this->con->prepare($sql);
 
-if ($consulta->fetch()) {
-// Procesamiento de los datos obtenidos
-$datosEstimuloFiscal = array(
-'fecha_inicio' => $fechaInicio,
-'fecha_termino' => $fechaFin
-);
+        if (!$consulta) {
+            $result = false;
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        }
 
-} else {
-// Manejo de caso cuando no se encuentra el registro
-$datosEstimuloFiscal = null;
-}
+        $consulta->bind_param('i', $idReporte);
+        $consulta->execute();
+        $consulta->bind_result($fechaInicio, $fechaFin);
 
-$consulta->close();
+        if ($consulta->fetch()) {
+            // Procesamiento de los datos obtenidos
+            $datosEstimuloFiscal = array(
+                'fecha_inicio' => $fechaInicio,
+                'fecha_termino' => $fechaFin
+            );
 
-return $datosEstimuloFiscal;
-}
+        } else {
+            // Manejo de caso cuando no se encuentra el registro
+            $datosEstimuloFiscal = null;
+        }
+
+        $consulta->close();
 
     
 
@@ -1436,7 +1533,103 @@ $consulta->close();
 
 return $datosSolicitudVale;
 }
+        return $datosEstimuloFiscal;
+    }
+    /**
+     * 
+     * 
+     * 
+     * Despacho VS Factura
+     * 
+     * 
+     * 
+     */
+    public function totalVentas(int $idDias, string $Producto): array
+    {
+        $TotalLitros = 0;
+        $TotalPrecio = 0;
+        $sql = "SELECT litros,precio_litro FROM op_ventas_dia WHERE idreporte_dia = ? AND producto = ?";
+        $stmt = $this->con->prepare($sql);
+        $stmt->bind_param("is", $idDias, $Producto);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        while ($row = $result->fetch_assoc()):
+            $litros = $row['litros'];
+            $preciolitro = $row['precio_litro'];
+            $LitrosPrecio = $litros * $preciolitro;
 
+            $TotalLitros += $litros;
+            $TotalPrecio += $LitrosPrecio;
+        endwhile;
+        $array = array(
+            'TotalLitros' => $TotalLitros,
+            'TotalPrecio' => $TotalPrecio
+        );
+        return $array;
+    }
+    public function totalAtio(int $idDias): array
+    {
+        $LProductouno = 0;
+        $LProductodos = 0;
+        $LProductotres = 0;
+        $PProducto_uno = 0;
+        $PProducto_dos = 0;
+        $PProducto_tres = 0;
+        $sql = "SELECT 
+            litros_producto_uno,litros_producto_dos,litros_producto_tres,
+            pesos_producto_uno,pesos_producto_dos,pesos_producto_tres
+            FROM op_despacho_factura WHERE id_dia = ? ";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i", $idDias);
+        $result->execute();
+        $result->bind_result($LProductouno, $LProductodos, $LProductotres, $PProducto_uno, $PProducto_dos, $PProducto_tres);
+        $result->fetch();
+        $array = array(
+            'LProductouno' => $LProductouno,
+            'LProductodos' => $LProductodos,
+            'LProductotres' => $LProductotres,
+            'PProductouno' => $PProducto_uno,
+            'PProductodos' => $PProducto_dos,
+            'PProductotres' => $PProducto_tres
+        );
+        $result->close();
+        return $array;
+    }
+    public function validaDia(int $idDias)
+    {
+        $sql_select = "SELECT * FROM op_despacho_factura WHERE id_dia = ? LIMIT 1";
+        $stmt_select = $this->con->prepare($sql_select);
+        $stmt_select->bind_param("i", $idDias);
+        $stmt_select->execute();
+        $result = $stmt_select->get_result();
+        $numero = $result->num_rows;
 
+        if ($numero == 0) :
+            $sql_insert = "INSERT INTO op_despacho_factura (
+            id_dia,
+            litros_producto_uno,
+            litros_producto_dos,
+            litros_producto_tres,
+            pesos_producto_uno,
+            pesos_producto_dos,
+            pesos_producto_tres
+            )
+            VALUES 
+            (?,0,0,0,0,0,0)";
+
+            $stmt_insert = $this->con->prepare($sql_insert);
+            $stmt_insert->bind_param("i", $idDias);
+            $stmt_insert->execute();
+            $stmt_insert->close();
+        endif;
+    }
+    public function esNegativo(float $num): string
+    {
+        $result = "style = color:#00000";
+        if (is_numeric($num) and $num < 0) :
+            $result = "style = color:#dc3545";
+        endif;
+        return $result;
+    }
 }
