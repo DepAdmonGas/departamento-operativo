@@ -6,7 +6,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -32,7 +32,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -59,7 +59,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -86,7 +86,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -112,7 +112,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -138,7 +138,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -164,7 +164,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -191,7 +191,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
 //      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -218,7 +218,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
@@ -245,7 +245,7 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
       //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {

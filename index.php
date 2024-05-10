@@ -828,7 +828,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         }else if ($partes_ruta[1] == 'corte-diario') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-mes.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-index.php';
             //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-mes.php';
         } else if ($partes_ruta[1] == 'cuenta-litros') {
             $GET_idYear = $partes_ruta[2];
@@ -837,17 +837,17 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         } else if ($partes_ruta[1] == 'aceites-mes') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/aceites-mes.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/aceites/aceites-mes.php';
             //$ruta_elegida = 'public/corte-diario/vistas/aceites-mes.php';
         } else if ($partes_ruta[1] == 'clientes-mes') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes-mes.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes/clientes-mes.php';
             //$ruta_elegida = 'public/corte-diario/vistas/clientes-mes.php';
         } else if ($partes_ruta[1] == 'embarques-mes') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/embarques-mes.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/embarques/embarques-mes.php';
             //$ruta_elegida = 'public/corte-diario/vistas/embarques-mes.php';
         } else if ($partes_ruta[2] == 'corte-diario') {
             $GET_year = $partes_ruta[3];
@@ -872,12 +872,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         } else if ($partes_ruta[1] == 'resumen-impuestos') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/resumen-impuestos.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/impuestos/resumen-impuestos.php';
             //$ruta_elegida = 'public/corte-diario/vistas/resumen-impuestos.php';
         } else if ($partes_ruta[1] == 'resumen-monedero') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/resumen-monedero.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/monedero/resumen-monedero.php';
             //$ruta_elegida = 'public/corte-diario/vistas/resumen-monedero.php';
         } else if ($partes_ruta[2] == 'embarques') {
             $GET_year = $partes_ruta[3];
@@ -1105,25 +1105,25 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-ventas-dia.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/ventas/corte-ventas-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/corte-ventas-dia.php';
         } else if ($partes_ruta[1] == 'cierre-lote') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/cierre-lote-dia.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/tpv/cierre-lote-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/cierre-lote-dia.php';
         } else if ($partes_ruta[1] == 'monedero') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/monedero-dia.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/monedero/monedero-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/monedero-dia.php';
         } else if ($partes_ruta[1] == 'impuestos-mes') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/inpuestos-mes.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/impuestos/impuestos-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/inpuestos-mes.php';
         } else if ($partes_ruta[2] == 'corte-diario') {
             $GET_year = $partes_ruta[3];
@@ -1156,14 +1156,15 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes-dia.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes/clientes-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/clientes-dia.php';
         }
         if ($partes_ruta[1] == 'clientes-lista') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $GET_idReporte = $partes_ruta[4];
-            $ruta_elegida = 'public/corte-diario/vistas/clientes-lista.php';
+            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes/clientes-lista.php';
+            //$ruta_elegida = 'public/corte-diario/vistas/clientes-lista.php';
         } else if ($partes_ruta[2] == 'embarques') {
             $GET_year = $partes_ruta[3];
             $GET_mes = $partes_ruta[4];

@@ -1,8 +1,8 @@
 
 function ReporteAceites(year, mes) {
     $('#DivReporteAceites').html('<div class="text-center mt-5 pt-5"><img class="mt-5 pt-5" width="50px" src="../../imgs/iconos/load-img.gif"></div>');
-    $('#DivReporteAceites').load('../../public/corte-diario/vistas/reporte-aceites-mes.php?year=' + year + '&mes=' + mes);
-
+    $('#DivReporteAceites').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/reporte-aceites-mes.php?year=' + year + '&mes=' + mes);
+    //$('#DivReporteAceites').load('../../public/corte-diario/vistas/reporte-aceites-mes.php?year=' + year + '&mes=' + mes);
   }
 
   function InventarioInicial(idaceite) {
@@ -82,7 +82,7 @@ function ReporteAceites(year, mes) {
   function ModalDiferencia(idaceite, year, mes) {
 
     $('#ModalPrincipal').modal('show');
-    $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
+    $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
     //$('#DivModal').load('../../public/corte-diario/vistas/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
   }
 
@@ -137,7 +137,7 @@ function ReporteAceites(year, mes) {
 
   function ModalDetalle(idaceite) {
     $('#ModalPrincipal').modal('show');
-    $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/modal-detalle-pago-aceite.php?idaceite=' + idaceite);
+    $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/modal-detalle-pago-aceite.php?idaceite=' + idaceite);
     //$('#DivModal').load('../../public/corte-diario/vistas/modal-detalle-pago-aceite.php?idaceite=' + idaceite);
   }
 
@@ -165,7 +165,8 @@ function ReporteAceites(year, mes) {
 
         $(".LoaderPage").hide();
         $('#ModalPrincipal').modal('show');
-        $('#DivModal').load('../../public/corte-diario/vistas/modal-info-diferencias.php');
+        $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/modal-info-diferencias.php');
+        //$('#DivModal').load('../../public/corte-diario/vistas/modal-info-diferencias.php');
 
 
       }
@@ -180,17 +181,17 @@ function ReporteAceites(year, mes) {
 
   function ListaModal(IdReporte, year, mes) {
     $('#Modal').modal('show');
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
   }
 
   function Nuevo(IdReporte, year, mes) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/formulario-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/formulario-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
   }
 
   function Cancelar(IdReporte, year, mes) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
   }
 
@@ -277,7 +278,7 @@ function ReporteAceites(year, mes) {
   }
 
   function Editar(IdReporte, year, mes, id) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/editar-aceite-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes + '&id=' + id);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/editar-aceite-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes + '&id=' + id);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-aceite-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes + '&id=' + id);
   }
 
@@ -328,7 +329,7 @@ function ReporteAceites(year, mes) {
 
   function DocumentacionAceites(IdReporte, year, mes) {
     $('#Modal').modal('show');
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     //$('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
   }
 
@@ -375,7 +376,7 @@ function ReporteAceites(year, mes) {
             cache: false
           }).done(function (data) {
             $(".LoaderPage").hide();
-            $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+            $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
             //$('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
             alertify.success('Archivo agregado exitosamente')
 
@@ -424,7 +425,7 @@ function ReporteAceites(year, mes) {
             if (response == 1) {
 
               $(".LoaderPage").hide();
-              $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
+              $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
               //$('#ListaDocumento').load('../../public/admin/vistas/lista-aceites-facturas.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
               alertify.success('Archivo agregado exitosamente');
 

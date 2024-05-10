@@ -1,21 +1,21 @@
 function ListaMonedero(year, mes) {
-  $('#Monedero').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
+  $('#Monedero').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
     //$('#Monedero').load('../../public/corte-diario/vistas/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
   }
 
   function ListaModal(IdReporte) {
     $('#Modal').modal('show');
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-monedero-documento.php?IdReporte=' + IdReporte);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
   }
 
   function Editar(IdReporte, id) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
   }
 
   function Cancelar(IdReporte) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-monedero-documento.php?IdReporte=' + IdReporte);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
   }
 
@@ -69,7 +69,7 @@ function ListaMonedero(year, mes) {
   }
 
   function Edi(IdReporte, id) {
-    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
     //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
   }
 
