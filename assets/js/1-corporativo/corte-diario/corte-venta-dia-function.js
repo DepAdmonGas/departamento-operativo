@@ -1,7 +1,7 @@
 
 function Ventas(idReporte) {
   $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
-  $('#DivConecntradoVentas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas.php?idReporte=' + idReporte);
+  $('#DivConecntradoVentas').load('app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas.php?idReporte=' + idReporte);
   //$('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
 }
 function VentasOtros(idReporte, idEstacion) {

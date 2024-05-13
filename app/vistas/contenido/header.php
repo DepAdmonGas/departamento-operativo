@@ -1,8 +1,6 @@
 <?php
 include 'app/help.php';
-if(!isset($GET_idReporte)):
-  $GET_idReporte = $GET_idReporte ?? 0;
-endif;
+$GET_idReporte = $_GET['idReporte'] ?? 0;
 $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 <html lang="es">
