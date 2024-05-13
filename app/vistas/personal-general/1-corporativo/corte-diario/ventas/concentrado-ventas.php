@@ -1,6 +1,7 @@
 <?php
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
+echo $_GET['idReporte'];
 $estado = "";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
@@ -17,12 +18,12 @@ endif;
 	});
 
 	function VentasSubTotales(idReporte) {
-		$('#TrSubTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
+		$('#TrSubTotales').load('concentrado-ventas-subtotales.php?idReporte=' + idReporte);
 		//$('#TrSubTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
 	}
 
 	function VentasTotales(idReporte) {
-		$('#TrTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-totales.php?idReporte=' + idReporte);
+		$('#TrTotales').load('concentrado-ventas-totales.php?idReporte=' + idReporte);
 		//$('#TrTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-totales.php?idReporte=' + idReporte);
 	}
 
