@@ -1,34 +1,12 @@
 <?php
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
-echo $_GET['idReporte'];
 $estado = "";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
 	$estado = "disabled";
 endif;
 ?>
-<script type="text/javascript">
-	$(document).ready(function ($) {
-
-		VentasSubTotales(<?= $idReporte; ?>);
-		VentasTotales(<?= $idReporte; ?>);
-
-
-	});
-
-	function VentasSubTotales(idReporte) {
-		$('#TrSubTotales').load('concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-		//$('#TrSubTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-	}
-
-	function VentasTotales(idReporte) {
-		$('#TrTotales').load('concentrado-ventas-totales.php?idReporte=' + idReporte);
-		//$('#TrTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-totales.php?idReporte=' + idReporte);
-	}
-
-</script>
-
 <div style="overflow-y: hidden;">
 
 	<table class="table table-sm table-bordered mb-0" style="font-size: .9em;">

@@ -1,6 +1,7 @@
 <?php
 require 'app/vistas/contenido/header.php';
 $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $estado = "";
 if ($ventas == 1):
   $estado = "disabled";
@@ -9,41 +10,49 @@ endif;
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
+    $(".LoaderPage").fadeOut("slow");
 
-      VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
 
-      ProsegurAgregar(<?= $GET_idReporte; ?>);
-      TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
-      PagoClientesAgregar(<?= $GET_idReporte; ?>);
+    ProsegurAgregar(<?= $GET_idReporte; ?>);
+    TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
+    PagoClientesAgregar(<?= $GET_idReporte; ?>);
 
-      Total1234(<?= $GET_idReporte; ?>);
-      DiferenciaTotal(<?= $GET_idReporte; ?>);
-      DifPagoCliente(<?= $GET_idReporte; ?>);
+    Total1234(<?= $GET_idReporte; ?>);
+    DiferenciaTotal(<?= $GET_idReporte; ?>);
+    DifPagoCliente(<?= $GET_idReporte; ?>);
 
-      Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ListaDocumentos(<?= $GET_idReporte; ?>)
+    Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ListaDocumentos(<?= $GET_idReporte; ?>);
+    VentasSubTotales(<?= $GET_idReporte; ?>);
+    VentasTotales(<?= $GET_idReporte; ?>);
+    ProsegurTotal(<?= $GET_idReporte; ?>);
+    TarjetasTotal(<?= $GET_idReporte; ?>);
+    ControlGTotal(<?= $GET_idReporte; ?>);
+    PagoCTotal(<?= $GET_idReporte; ?>);
+    AceitesLTotal(<?= $GET_idReporte; ?>);
 
-    });
-    function EditTBaucher(val, idReporte, idTarjeta) {
+  });
+  function EditTBaucher(val, idReporte, idTarjeta) {
 
 
-      VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
 
-      ProsegurAgregar(<?= $GET_idReporte; ?>);
-      TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
-      PagoClientesAgregar(<?= $GET_idReporte; ?>);
+    ProsegurAgregar(<?= $GET_idReporte; ?>);
+    TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
+    PagoClientesAgregar(<?= $GET_idReporte; ?>);
 
-      Total1234(<?= $GET_idReporte; ?>);
-      DiferenciaTotal(<?= $GET_idReporte; ?>);
-      DifPagoCliente(<?= $GET_idReporte; ?>);
+    Total1234(<?= $GET_idReporte; ?>);
+    DiferenciaTotal(<?= $GET_idReporte; ?>);
+    DifPagoCliente(<?= $GET_idReporte; ?>);
 
-      Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ListaDocumentos(<?= $GET_idReporte; ?>);
-    };
+    Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ListaDocumentos(<?= $GET_idReporte; ?>);
+  };
 </script>
+
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->

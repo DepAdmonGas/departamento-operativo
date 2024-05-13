@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>cierre-lote-function.js"></script>

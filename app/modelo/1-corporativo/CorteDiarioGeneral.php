@@ -286,7 +286,7 @@ WHERE id_reportedia = ? AND detalle = ?";
         if (!$stmt):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("i", $idReporte, );
+        $stmt->bind_param("i", $idReporte );
         $stmt->execute();
         $stmt->bind_result($tpv);
         $stmt->fetch();
@@ -905,7 +905,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         $result->bind_param("i", $idReporte);
         $result->execute();
         $result->bind_result($ventas);
-        $ventas = $result->fetch();
+        $result->fetch();
         $result->close();
         return $ventas;
     }
