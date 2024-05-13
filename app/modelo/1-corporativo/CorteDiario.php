@@ -407,7 +407,7 @@ class CorteDiario extends Exception
             idreporte_dia,
             num,
             concepto,
-            baucher 
+            baucher
             )
             VALUES (?,?,?,?)";
             $stmt = $this->con->prepare($sql_insert);
