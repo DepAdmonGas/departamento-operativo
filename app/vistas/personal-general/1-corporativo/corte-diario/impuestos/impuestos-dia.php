@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 
 <body>

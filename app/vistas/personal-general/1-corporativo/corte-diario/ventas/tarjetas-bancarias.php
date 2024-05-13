@@ -7,20 +7,6 @@ if ($ventas == 1):
     $estado = "disabled";
 endif;
 ?>
-<script type="text/javascript">
-
-    $(document).ready(function ($) {
-
-        TarjetasTotal(<?= $idReporte; ?>);
-
-    });
-
-    function TarjetasTotal(idReporte) {
-        $('#TrTCBTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
-        //$('#TrTCBTotales').load('../../../public/corte-diario/vistas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
-    }
-</script>
-
 <div class="table-responsive">
     <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
         <thead class="tables-bg">

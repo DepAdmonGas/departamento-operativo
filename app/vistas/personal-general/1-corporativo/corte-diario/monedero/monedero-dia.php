@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
   $bancomer = $corteDiarioGeneral->tarjetasCB($GET_idReporte, "BBVA BANCOMER SA");
   $amex = $corteDiarioGeneral->tarjetasCB($GET_idReporte, "AMERICAN EXPRESS");
   $inburgas = $corteDiarioGeneral->tarjetasCB($GET_idReporte, "INBURGAS");
