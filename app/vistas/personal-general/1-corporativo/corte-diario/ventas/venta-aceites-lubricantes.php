@@ -11,6 +11,20 @@ $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = 
 $result_listaaceites = mysqli_query($con, $sql_listaaceites);
 $numero_listaaceites = mysqli_num_rows($result_listaaceites);
 ?>
+<script type="text/javascript">
+
+    $(document).ready(function ($) {
+
+        AceitesLTotal(<?= $idReporte; ?>);
+
+    });
+
+    function AceitesLTotal(idReporte) {
+        $('#TrAceitesTotal').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/aceites-lubricantes-totales.php?idReporte=' + idReporte);
+        //$('#TrAceitesTotal').load('../../../public/corte-diario/vistas/aceites-lubricantes-totales.php?idReporte=' + idReporte);
+    }
+</script>
+
 <div class="table-responsive">
     <table class="table table-sm table-bordered table-striped mb-0" style="font-size: .9em;">
         <thead class="tables-bg">

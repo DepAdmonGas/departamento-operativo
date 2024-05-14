@@ -290,7 +290,7 @@ $.ajax({
                     <div class="col-12">
 
                       <h5>
-                        Aceites, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+                        Aceites, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
                       </h5>
 
                     </div>

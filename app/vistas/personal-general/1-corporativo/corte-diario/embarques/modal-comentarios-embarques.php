@@ -49,7 +49,7 @@ if ($numero_comen > 0) {
         }
 
         $fechaExplode = explode(" ", $row_comen['fecha_hora']);
-        $FechaFormato = FormatoFecha($fechaExplode[0]);
+        $FechaFormato = $ClassHerramientasDptoOperativo->FormatoFecha($fechaExplode[0]);
         $HoraFormato = date("g:i a", strtotime($fechaExplode[1]));
         ?>
         <div class="mt-1" style="<?= $margin; ?>">

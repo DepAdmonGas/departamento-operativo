@@ -1,19 +1,8 @@
-
 function Ventas(idReporte) {
   $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
   $('#DivConecntradoVentas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas.php?idReporte=' + idReporte);
   //$('#DivConecntradoVentas').load('../../../public/corte-diario/vistas/concentrado-ventas.php?idReporte=' + idReporte);
 }
-function VentasSubTotales(idReporte) {
-  $('#TrSubTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-  //$('#TrSubTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-}
-
-function VentasTotales(idReporte) {
-  $('#TrTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-totales.php?idReporte=' + idReporte);
-  //$('#TrTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-totales.php?idReporte=' + idReporte);
-}
-
 function VentasOtros(idReporte, idEstacion) {
   var parametros = {
     "idReporte": idReporte,
@@ -62,12 +51,6 @@ function Prosegur(idReporte) {
   $('#DivProsegur').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/prosegur.php?idReporte=' + idReporte);
   //$('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
 }
-function ProsegurTotal(idReporte) {
-  $('#TrProTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/prosegur-totales.php?idReporte=' + idReporte);
-  //$('#TrProTotales').load('../../../public/corte-diario/vistas/prosegur-totales.php?idReporte=' + idReporte);
-}
-
-
 function TarjetasTotal(idReporte) {
   $('#TrTCBTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
   //$('#TrTCBTotales').load('../../../public/corte-diario/vistas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
@@ -244,10 +227,6 @@ function ClientesControlgas(idReporte) {
   $('#DivControlgas').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/clientes-controlgas.php?idReporte=' + idReporte);
   //$('#DivControlgas').load('../../../public/corte-diario/vistas/clientes-controlgas.php?idReporte=' + idReporte);
 }
-function ControlGTotal(idReporte) {
-  $('#TrControlGTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/controlgas-totales.php?idReporte=' + idReporte);
-  //$('#TrControlGTotales').load('../../../public/corte-diario/vistas/controlgas-totales.php?idReporte=' + idReporte);
-}
 function EditCGPago(val, idReporte, idControl) {
   var pago = val.value;
 
@@ -345,12 +324,6 @@ function PagoCliente(idReporte) {
   $('#DivPagoClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/pago-clientes.php?idReporte=' + idReporte);
   //$('#DivPagoClientes').load('../../../public/corte-diario/vistas/pago-clientes.php?idReporte=' + idReporte);
 }
-
-function PagoCTotal(idReporte) {
-  $('#TrClientesTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/pagoclientes-totales.php?idReporte=' + idReporte);
-  //$('#TrClientesTotales').load('../../../public/corte-diario/vistas/pagoclientes-totales.php?idReporte=' + idReporte);
-}
-
 
 function EditPCimporte(val, idReporte, idPagoCliente) {
   var importe = val.value;
@@ -760,11 +733,6 @@ function AceitesLubricantes(idReporte) {
   $('#DivAceitesLubricantes').html('<div class="text-center"><img width="30px" src="../../../imgs/iconos/load-img.gif"></div>');
   $('#DivAceitesLubricantes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
   //$('#DivAceitesLubricantes').load('../../../public/corte-diario/vistas/venta-aceites-lubricantes.php?idReporte=' + idReporte);
-}
-
-function AceitesLTotal(idReporte) {
-  $('#TrAceitesTotal').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/aceites-lubricantes-totales.php?idReporte=' + idReporte);
-  //$('#TrAceitesTotal').load('../../../public/corte-diario/vistas/aceites-lubricantes-totales.php?idReporte=' + idReporte);
 }
 
 function EditALCantidad(val, idReporte, idAceite) {

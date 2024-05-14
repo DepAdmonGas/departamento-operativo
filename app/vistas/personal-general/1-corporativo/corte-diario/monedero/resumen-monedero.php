@@ -54,7 +54,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                     <div class="col-12">
 
                       <h5>
-                        Resumen Monedero, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+                        Resumen Monedero, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
                       </h5>
 
                     </div>

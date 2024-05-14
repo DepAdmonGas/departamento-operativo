@@ -35,7 +35,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                   <div class="row">
                     <div class="col-12">
                       <h5>
-                        Clientes, <?= FormatoFecha($dia); ?>
+                        Clientes, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
                       </h5>
                     </div>
                   </div>

@@ -59,7 +59,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                 <div class="float-left col-xl-6 col-lg-6 col-md-6 col-12 mb-2">
                   <h5 class="card-title">
                     <img class="pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()"> Corte Diario,
-                    <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+                    <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
                   </h5>
                 </div>
                 <div class="text-end col-xl-6 col-lg-6 col-md-6 col-12 mb-2">
@@ -150,7 +150,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                     }
 
                     echo "<tr>";
-                    echo "<td class='align-middle " . $text . "'>" . FormatoFecha($fecha) . "</td>";
+                    echo "<td class='align-middle " . $text . "'>" . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . "</td>";
 
                     echo "<td class='align-middle text-center' onclick='ventas(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "ventas.png' ></td>";
                     echo "<td class='align-middle text-center' onclick='cierrelote(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "tpv.png' ></td>";

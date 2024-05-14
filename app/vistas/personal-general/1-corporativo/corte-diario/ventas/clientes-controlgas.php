@@ -7,6 +7,20 @@ if ($ventas == 1):
     $estado = "disabled";
 endif;
 ?>
+<script type="text/javascript">
+
+    $(document).ready(function ($) {
+
+        ControlGTotal(<?= $idReporte; ?>);
+
+    });
+
+    function ControlGTotal(idReporte) {
+        $('#TrControlGTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/controlgas-totales.php?idReporte=' + idReporte);
+        //$('#TrControlGTotales').load('../../../public/corte-diario/vistas/controlgas-totales.php?idReporte=' + idReporte);
+    }
+</script>
+
 <div class="table-responsive">
     <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
         <thead class="tables-bg">

@@ -19,7 +19,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-12">
-                      <h5>Resumen Impuestos, <?= nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
+                      <h5>Resumen Impuestos, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
                     </div>
                   </div>
                 </div>
@@ -33,7 +33,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                   $idDias = $dia['idDia'];
                   $fecha = $dia['fecha'];
                 echo '<div class="border p-3 mt-3 mb-3">';
-                echo '<b>' . FormatoFecha($fecha) . '</b>
+                echo '<b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b>
           <hr>';
                 ?>
                 <div class="table-responsive">

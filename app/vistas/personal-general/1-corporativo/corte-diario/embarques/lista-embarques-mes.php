@@ -242,7 +242,7 @@ function ToComentarios($IdReporte, $con)
                     }
 
                     echo '<tr ' . $bgTable . '>';
-                    echo '<td class="align-middle text-center">' . FormatoFecha($row_lista['fecha']) . '</td>';
+                    echo '<td class="align-middle text-center">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['embarque'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['producto'] . '</td>';
                     echo '<td class="align-middle text-center"><a href="../../archivos/' . $row_lista['documento'] . '" download  data-toggle="tooltip" data-placement="top" title="Documento"><img class=""pointer src="' . $icon . '"></a></td>';

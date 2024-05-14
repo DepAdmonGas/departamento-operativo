@@ -194,7 +194,7 @@ $GTVales = $GTVales + $totalVales;
 
           ?>
 <tr class="">
-  <td><?=FormatoFecha($fecha);?></td>
+  <td><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha);?></td>
   <td class="align-middle text-end">
     $<?=number_format($bancomer,2);?>
   </td>

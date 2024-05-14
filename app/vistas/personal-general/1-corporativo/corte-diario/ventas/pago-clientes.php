@@ -7,6 +7,20 @@ if ($ventas == 1):
     $estado = "disabled";
 endif;
 ?>
+<script type="text/javascript">
+
+    $(document).ready(function ($) {
+
+        PagoCTotal(<?= $idReporte; ?>);
+
+    });
+
+    function PagoCTotal(idReporte) {
+        $('#TrClientesTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/pagoclientes-totales.php?idReporte=' + idReporte);
+        //$('#TrClientesTotales').load('../../../public/corte-diario/vistas/pagoclientes-totales.php?idReporte=' + idReporte);
+    }
+</script>
+
 <div class="table-responsive">
     <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
         <thead class="tables-bg">

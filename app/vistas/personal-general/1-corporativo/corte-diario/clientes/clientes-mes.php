@@ -65,7 +65,7 @@ endif;
                   <div class="row">
                     <div class="col-12">
                       <h5>
-                        Clientes, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+                        Clientes, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
                       </h5>
                     </div>
                   </div>
