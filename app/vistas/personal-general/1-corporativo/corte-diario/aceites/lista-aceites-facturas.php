@@ -71,7 +71,7 @@ $numero_lista = mysqli_num_rows($result_lista);
             if ($numero_lista > 0) {
                 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
                     $id = $row_lista['id'];
-                    $fecha = FormatoFecha($row_lista['fecha']);
+                    $fecha = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']);
                     $anexo = $row_lista['nombre_anexo'];
                     $archivo = $row_lista['archivo'];
 

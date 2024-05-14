@@ -29,15 +29,15 @@ $numero_lista = mysqli_num_rows($result_lista);
     <div class="table-responsive">
         <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
             <thead class="navbar-bg">
-                <tr class="tables-bg">
+                <tr >
                     <th class="align-middle text-center">Fecha</th>
-                    <td class="align-middle text-end" width="110px"><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
+                    <td class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
                     </td>
-                    <td class="align-middle text-end"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png">
+                    <td class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png">
                     </td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="bg-light">
                 <?php
                 if ($numero_lista > 0) {
                     while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
@@ -46,7 +46,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                         $explode = explode(' ', $row_lista['fecha']);
 
                         echo "<tr>";
-                        echo "<th class='align-middle text-center'>" . FormatoFecha($explode[0]) . "</th>";
+                        echo "<th class='fw-normal align-middle text-center'>" . $ClassHerramientasDptoOperativo->FormatoFecha($explode[0]) . "</th>";
                         echo '<td class="align-middle text-end" width="24px"><a href="' . RUTA_ARCHIVOS . $row_lista['archivo'] . '" download><img src="' . RUTA_IMG_ICONOS . 'descargar.png"></a></td>';
                         echo '<td class="align-middle text-end" width="24px"><a class="pointer" onclick="EliminarDoc(' . $id . ', ' . $idReporte . ')"><img src="' . RUTA_IMG_ICONOS . 'eliminar.png"></a></td>';
                         echo "</tr>";

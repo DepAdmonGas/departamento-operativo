@@ -59,7 +59,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                         }
 
                         echo '<tr>';
-                        echo '<td class="align-middle">' . FormatoFecha($row_lista['fecha']) . '</td>';
+                        echo '<td class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</td>';
 
                         echo '<td class="text-center align-middle">' . $ficha . '</td>';
                         echo '<td class="text-center align-middle">' . $imagen . '</td>';

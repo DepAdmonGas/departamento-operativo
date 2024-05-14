@@ -114,7 +114,7 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
 
                 echo '<tr class = "bg-white">
                         <th class="bg-primary fw-normal text-white">VENTAS</th>
-                        <td class="align-middle" rowspan="3" class="text-center align-middle"><b>' . FormatoFecha($fecha) . '</b></td>
+                        <td class="align-middle" rowspan="3" class="text-center align-middle"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
                         <td class ="text-start" id="' . $idDias . 'L1">' . number_format($Producto1['TotalLitros'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L4">' . number_format($Producto1['TotalPrecio'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L2">' . number_format($Producto2['TotalLitros'], 2) . '</td>

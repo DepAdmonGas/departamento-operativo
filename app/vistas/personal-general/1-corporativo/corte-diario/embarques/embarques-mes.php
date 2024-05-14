@@ -27,7 +27,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-11">
-                      <h5> Embarques, <?= nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
+                      <h5> Embarques, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
                     </div>
                     <div class="col-1">
                       <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>agregar.png"

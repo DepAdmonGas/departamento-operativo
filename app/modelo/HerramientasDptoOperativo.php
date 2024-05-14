@@ -366,7 +366,7 @@ class HerramientasDptoOperativo extends Exception
         public function FormatoFecha(string $fechaFormato): string 
         {
         $formato_fecha = explode("-", $fechaFormato);
-        $resultado = get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
+        $resultado = $this->get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . $this->nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
         return $resultado;
     
         }

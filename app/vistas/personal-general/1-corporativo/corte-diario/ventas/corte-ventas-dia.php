@@ -25,14 +25,6 @@ endif;
 
     Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
     ListaDocumentos(<?= $GET_idReporte; ?>);
-    VentasSubTotales(<?= $GET_idReporte; ?>);
-    VentasTotales(<?= $GET_idReporte; ?>);
-    ProsegurTotal(<?= $GET_idReporte; ?>);
-    TarjetasTotal(<?= $GET_idReporte; ?>);
-    ControlGTotal(<?= $GET_idReporte; ?>);
-    PagoCTotal(<?= $GET_idReporte; ?>);
-    AceitesLTotal(<?= $GET_idReporte; ?>);
-
   });
   function EditTBaucher(val, idReporte, idTarjeta) {
 
@@ -70,7 +62,7 @@ endif;
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-11">
-                      <h5><?= FormatoFecha($dia); ?></h5>
+                      <h5><?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></h5>
                     </div>
                     <div class="col-1">
                       <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>pdf.png"
@@ -194,7 +186,7 @@ endif;
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" value="" id="terminosid">
                           <label class="form-check-label" for="terminosid">
-                            <small>Acepto los resultados del corte del día <?= FormatoFecha($dia); ?></small>
+                            <small>Acepto los resultados del corte del día <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></small>
                           </label>
                         </div>
                         <hr>

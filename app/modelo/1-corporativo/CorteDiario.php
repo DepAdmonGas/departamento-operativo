@@ -16,10 +16,7 @@ class CorteDiario extends Exception
  
         $this->classConexionBD = Database::getInstance();
         $this->con = $this->classConexionBD->getConnection();
-        $this->formato = new FormatoFechas();
-
-        parent::__construct("Error en el Corte Diario");
-        $this->herramientasDptoOperativo  = new herramientasDptoOperativo($this->con);
+        $this->formato = new herramientasDptoOperativo($this->con);
     }
     /**--------------------------------------------------------------------------------------------
      * 

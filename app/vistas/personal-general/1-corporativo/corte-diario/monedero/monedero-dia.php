@@ -49,7 +49,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-12">
-                      <h5>Monedero, <?= FormatoFecha($dia); ?></h5>
+                      <h5>Monedero, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></h5>
                     </div>
                   </div>
                 </div>

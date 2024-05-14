@@ -7,6 +7,21 @@ if ($ventas == 1):
     $estado = "disabled";
 endif;
 ?>
+<script type="text/javascript">
+
+    $(document).ready(function ($) {
+
+        ProsegurTotal(<?= $idReporte; ?>);
+
+    });
+
+    function ProsegurTotal(idReporte) {
+        $('#TrProTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/prosegur-totales.php?idReporte=' + idReporte);
+        //$('#TrProTotales').load('../../../public/corte-diario/vistas/prosegur-totales.php?idReporte=' + idReporte);
+    }
+
+</script>
+
 <div class="table-responsive">
     <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
         <thead class="tables-bg">

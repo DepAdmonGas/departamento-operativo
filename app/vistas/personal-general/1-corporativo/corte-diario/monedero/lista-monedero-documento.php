@@ -43,7 +43,7 @@ $excel = '<a href="../../archivos/'.$row_lista['excel'].'" download><img class="
 }
 
 echo '<tr>';
-echo '<td class="align-middle">'.FormatoFecha($row_lista['fecha']).'</td>';
+echo '<td class="align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['monedero'].'</td>';
 echo '<td class="align-middle text-end">$ '.number_format($row_lista['diferencia'],2).'</td>';
 echo '<td><a href="../../archivos/'.$row_lista['pdf'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
