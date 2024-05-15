@@ -31,7 +31,7 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 </div>
 
 <div class="modal-body">
-  <?= FormatoFecha($result[0]); ?></br>
+  <?= $ClassHerramientasDptoOperativo->FormatoFecha($result[0]); ?></br>
   Se pago la cantidad de <b><?= abs($diferencia); ?>pzs</b>, del siguiente aceite o lubricante</br>
   <b><?= $concepto; ?></b>
   <hr>

@@ -268,7 +268,7 @@ $corteDiarioGeneral->actualizarIF($IdReporte);
           if (data == 1) {
             $(".LoaderPage").hide();
             alertify.success('Archivo guardado exitosamente.');
-            $('#DivContenidoModal').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/modal-ingresos-facturacion-entregables.php?idReporte=' + IdReporte);
+            $('#DivContenidoModal').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/modal-ingresos-facturacion-entregables.php?idReporte=' + idReporte);
             //$('#DivContenidoModal').load('../public/corte-diario/vistas/modal-ingresos-facturacion-entregables.php?idReporte=' + idReporte);
 
           } else {
@@ -304,10 +304,9 @@ $corteDiarioGeneral->actualizarIF($IdReporte);
 
             },
             success: function (response) {
-              console.log(response)
               if (response == 1) {
                 alertify.success('Archivo eliminado exitosamente.');
-                $('#DivContenidoModal').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/modal-ingresos-facturacion-entregables.php?idReporte=' + IdReporte);
+                $('#DivContenidoModal').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/modal-ingresos-facturacion-entregables.php?idReporte=' + idReporte);
                 //$('#DivContenidoModal').load('../public/corte-diario/vistas/modal-ingresos-facturacion-entregables.php?idReporte=' + idReporte);
               } else {
                 alertify.error('Error al eliminar el archivo.');

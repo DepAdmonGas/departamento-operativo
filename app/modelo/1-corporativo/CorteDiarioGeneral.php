@@ -1,5 +1,4 @@
 <?php
-require_once 'FormatoFechas.php';
 class CorteDiarioGeneral extends Exception
 {
     private $con;
@@ -7,7 +6,7 @@ class CorteDiarioGeneral extends Exception
     public function __construct($con)
     {
         $this->con = $con;
-        $this->formato = new FormatoFechas();
+        $this->formato = new herramientasDptoOperativo($this->con);;
     }
 
     /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
@@ -110,7 +109,7 @@ WHERE id_reportedia  = ? AND detalle = ? ORDER BY op_corte_dia_firmas.id DESC LI
             $timestamp2 = strtotime($NewFecha);
 
             if ($timestamp1 >= $timestamp2):
-                $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
+                $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . $this->formato->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
                 $contenido .= '<div class="">';
                 $contenido .= $Detalle;
                 $contenido .= '<div class="mb-1 text-center pt-2"><b>' . $nombre . '</b></div>';
@@ -286,7 +285,7 @@ WHERE id_reportedia = ? AND detalle = ?";
         if (!$stmt):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("i", $idReporte, );
+        $stmt->bind_param("i", $idReporte );
         $stmt->execute();
         $stmt->bind_result($tpv);
         $stmt->fetch();
@@ -1210,7 +1209,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
     private function updateProductoIF($IdReporte, $mes)
     {
         $IdReporteMes = $this->idReporteMes($IdReporte, $mes);
-        $Mes = strtolower(nombremes($mes));
+        $Mes = strtolower($this->formato->nombremes($mes));
 
         $sql_lista = "SELECT id, producto, dato10 FROM op_control_volumetrico_resumen WHERE id_mes = ?";
         $stmt_lista = $this->con->prepare($sql_lista);

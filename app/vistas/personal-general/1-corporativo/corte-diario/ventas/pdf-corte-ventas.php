@@ -2,7 +2,6 @@
 error_reporting(0);
 require_once '../../../../../../dompdf2/vendor/autoload.php';
 require '../../../../../help.php';
-
 $idReporte = $_GET['idReporte'];
 
 function ConcentradoVentas($idReporte,$con){
@@ -785,7 +784,7 @@ $contenido .= '<body>';
    $dia = $row_dia['fecha'];
    }
 
-$contenido .= '<h3>'.FormatoFecha($dia).'</h3>';
+$contenido .= '<h3>'.$ClassHerramientasDptoOperativo->FormatoFecha($dia).'</h3>';
 
 $contenido .= '<table class="table table-sm border-0">';
 $contenido .= '<tbody>';
@@ -929,4 +928,4 @@ $dompdf->render();
 //$canvas = $dompdf->get_canvas();
 //$canvas->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", "Arial", 6, array(0,0,0));
 $dompdf->get_canvas()->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font, 6, array(0,0,0));
-$dompdf->stream("Corte ".FormatoFecha($dia).".pdf");
+$dompdf->stream("Corte ".$ClassHerramientasDptoOperativo->FormatoFecha($dia).".pdf");

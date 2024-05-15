@@ -1,69 +1,49 @@
 <?php
 require 'app/vistas/contenido/header.php';
-$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
-
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $estado = "";
 if ($ventas == 1):
-  $estado = "disabled"; 
+  $estado = "disabled";
 endif;
-?> 
+?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
+    $(".LoaderPage").fadeOut("slow");
 
-      VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
 
-      ProsegurAgregar(<?= $GET_idReporte; ?>);
-      TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
-      PagoClientesAgregar(<?= $GET_idReporte; ?>);
+    ProsegurAgregar(<?= $GET_idReporte; ?>);
+    TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
+    PagoClientesAgregar(<?= $GET_idReporte; ?>);
 
-      Total1234(<?= $GET_idReporte; ?>);
-      DiferenciaTotal(<?= $GET_idReporte; ?>);
-      DifPagoCliente(<?= $GET_idReporte; ?>);
+    Total1234(<?= $GET_idReporte; ?>);
+    DiferenciaTotal(<?= $GET_idReporte; ?>);
+    DifPagoCliente(<?= $GET_idReporte; ?>);
 
-      Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ListaDocumentos(<?= $GET_idReporte; ?>)
-
-
-      VentasSubTotales(<?=$GET_idReporte?>);
-		  VentasTotales(<?=$GET_idReporte?>);
-      
-    });
-    
-    function EditTBaucher(val, idReporte, idTarjeta) {
-
-      VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-
-      ProsegurAgregar(<?= $GET_idReporte; ?>);
-      TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
-      PagoClientesAgregar(<?= $GET_idReporte; ?>);
-
-      Total1234(<?= $GET_idReporte; ?>);
-      DiferenciaTotal(<?= $GET_idReporte; ?>);
-      DifPagoCliente(<?= $GET_idReporte; ?>);
-
-      Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
-      ListaDocumentos(<?= $GET_idReporte; ?>);
-    }
-
-    function VentasSubTotales(idReporte) {
-		$('#TrSubTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-		//$('#TrSubTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
-	}
- 
-
-	function VentasTotales(idReporte) {
-		$('#TrTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-totales.php?idReporte=' + idReporte);
-		//$('#TrTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-totales.php?idReporte=' + idReporte);
-	}
+    Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ListaDocumentos(<?= $GET_idReporte; ?>);
+  });
+  function EditTBaucher(val, idReporte, idTarjeta) {
 
 
+    VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+
+    ProsegurAgregar(<?= $GET_idReporte; ?>);
+    TarjetasBancariasAgregar(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ClientesControlgasAgregar(<?= $GET_idReporte; ?>);
+    PagoClientesAgregar(<?= $GET_idReporte; ?>);
+
+    Total1234(<?= $GET_idReporte; ?>);
+    DiferenciaTotal(<?= $GET_idReporte; ?>);
+    DifPagoCliente(<?= $GET_idReporte; ?>);
+
+    Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
+    ListaDocumentos(<?= $GET_idReporte; ?>);
+  };
 </script>
-
 
 <body>
   <div class="LoaderPage"></div>
@@ -82,7 +62,7 @@ endif;
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-11">
-                      <h5><?= FormatoFecha($dia); ?></h5>
+                      <h5><?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></h5>
                     </div>
                     <div class="col-1">
                       <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>pdf.png"
@@ -100,7 +80,7 @@ endif;
                       <strong>CONCENTRADO DE VENTAS</strong>
                       <?php if ($ventas == 0) { ?>
                         <div class="float-end pointer"><img src="<?= RUTA_IMG_ICONOS; ?>agregar.png"
-                            onclick="NewVentas(<?=$GET_idReporte?>)"></div>
+                            onclick="NewVentas(<?= $GET_idReporte; ?>)"></div>
                       <?php } ?>
                     </div>
                     <div class="p-2">
@@ -206,7 +186,7 @@ endif;
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" value="" id="terminosid">
                           <label class="form-check-label" for="terminosid">
-                            <small>Acepto los resultados del corte del día <?= FormatoFecha($dia); ?></small>
+                            <small>Acepto los resultados del corte del día <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></small>
                           </label>
                         </div>
                         <hr>

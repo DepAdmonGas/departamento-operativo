@@ -9,10 +9,12 @@ require 'app/vistas/contenido/header.php';
       SelEstacion(<?= $Session_IDEstacion; ?>,0);
     });
     function SelEstacion(idEstacion, idOrganigrama) {
-      $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+      //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+      $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
 
       if (idEstacion == 2) {
-        $('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
+        //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
+        $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
 
       }
 
@@ -20,7 +22,8 @@ require 'app/vistas/contenido/header.php';
 
     function Mas(idEstacion) {
       $('#Modal').modal('show');
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);
+      $('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
     }
 
     function Guardar(idEstacion) {
@@ -36,12 +39,13 @@ require 'app/vistas/contenido/header.php';
 
 
       //var URL = "public/recursos-humanos/modelo/agregar-organigrama-estacion.php";
-      var URL = "app/controlador/2-recursos-humanos/agregar-organigrama-estacion.php";
+      var URL = "app/controlador/2-recursos-humanos/controladorOrganigrama.php";
       var data = new FormData();
 
       data.append('idEstacion', idEstacion);
       data.append('seleccionArchivos_file', seleccionArchivos_file);
       data.append('Observaciones', Observaciones);
+      data.append('accion','guardar-organigrama');
 
       if (input != "") {
 
@@ -60,14 +64,17 @@ require 'app/vistas/contenido/header.php';
             cache: false
           }).done(function (data) {
 
-
             if (idEstacion == 9) {
-              $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+              //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
 
             } else if (idEstacion == 2) {
-              $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+              //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
 
             } else {
               SelEstacion(idEstacion, 0)
@@ -95,12 +102,14 @@ require 'app/vistas/contenido/header.php';
         function () {
 
           var parametros = {
-            "idOrganigrama": idOrganigrama
+            "idOrganigrama": idOrganigrama,
+            "accion": "eliminar-organigrama"
           };
 
           $.ajax({
             data: parametros,
-            url: 'public/recursos-humanos/modelo/eliminar-organigrama-estacion.php',
+            url:'app/controlador/2-recursos-humanos/controladorOrganigrama.php',
+            //url: 'public/recursos-humanos/modelo/eliminar-organigrama-estacion.php',
             type: 'post',
             beforeSend: function () {
             },
@@ -112,12 +121,16 @@ require 'app/vistas/contenido/header.php';
               if (response == 1) {
 
                 if (idEstacion == 9) {
-                  $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+                  //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
 
                 } else if (idEstacion == 2) {
-                  $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+                  //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
 
                 } else {
                   SelEstacion(idEstacion, 0)
@@ -213,11 +226,6 @@ require 'app/vistas/contenido/header.php';
     </div>
   </div>
 
-
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
 

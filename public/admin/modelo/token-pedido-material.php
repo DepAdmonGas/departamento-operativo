@@ -2,11 +2,9 @@
 require('../../../app/help.php');
 include_once '../../../app/modelo/httpPHPAltiria.php';
 $altiriaSMS = new AltiriaSMS();
-
 function notificacionesWA($Numero, $aleatorio){
     //TOKEN QUE NOS DA FACEBOOK
-    
-    $token = 'EAA06AwwBmgcBOzAk1xSABdnZCx4uuQqZAzJF3kyVfJijdbyK9EnpzfQ9bpm68BfbcQjPcXLpJ5F4lxe5Hj33AEWgaAovfKT4dRXzQ3Ds84GQcNZBcc4Dksbp5JVLJcz8MbJ7P4hs0zOVhZCQTKuSohBoCQqh04VWtpFiXMCT9eEpIF4QNSFN7W9rHPelCjzmri6X8VwaRoRk4AxCm9KTZAz6Ij6SuwfADGK0ZD';
+    $token = 'EAA06AwwBmgcBO55i0gFeGOxZAAKWQIsd89aw8J0NCGDIisqmfHDk7tkhhgSzi5pSH1Bib5RYajmvckNmPJLZBzqLm901Fb5ZBqdeH3iv2PeNl90cuBKj4Qr63tZC3j7CdyZCfVoZCar6BLZC1c34vxUq3OWT2FwH65qwme7ytT3LnqglsPZA4ZCUqqkWW92iwirRukF34Dk3m0QDzra3Cn6vW0QnFe6X4PGY7xU0ZD';
     $telefono = '52'.$Numero;
     
     //URL A DONDE SE MANDARA EL MENSAJE
@@ -20,7 +18,7 @@ function notificacionesWA($Numero, $aleatorio){
         "type": "text",
         "text": {
         "preview_url": "false",
-        "body": "AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
+        "body": "AdmonGas: Usa el siguiente token para firmar la solicitud de aditivo solicitada. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
       }
     }';
      
@@ -55,6 +53,7 @@ return $telefono;
 }
 
 $idReporte = $_POST['idReporte'];
+$idVal = $_POST['idVal'];
 $sql = "DELETE FROM op_pedido_materiales_token WHERE id_pedido = '".$idReporte."' AND id_usuario = '".$Session_IDUsuarioBD."' ";
 
 if (mysqli_query($con, $sql)) {
@@ -75,18 +74,20 @@ token
 
 if(mysqli_query($con, $sql_insert)){
 
-    $Numero = Numero($Session_IDUsuarioBD,$con);
-    notificacionesWA($Numero,$aleatorio);
-        
-    /*
-    $altiriaSMS->setLogin('sistemas.admongas@gmail.com');
-    $altiriaSMS->setPassword('hy8q4c7y');
-    $altiriaSMS->setSenderId('AdmonGas');
-    $sDestination = '52'.$Numero;
-    $response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la transacción de refacciones solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");
-    */
+$Numero = Numero($Session_IDUsuarioBD,$con);
+if($idVal == 1){
+$altiriaSMS->setLogin('sistemas.admongas@gmail.com');
+$altiriaSMS->setPassword('hy8q4c7y');
+$altiriaSMS->setSenderId('AdmonGas');
+$sDestination = '52'.$Numero;
+$response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la solicitud de aditivo solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");
 
 echo 1;
+}elseif($idVal == 2){
+    notificacionesWA($Numero,$aleatorio);
+echo 1;
+}
+
 }else{
 echo 0;
 }

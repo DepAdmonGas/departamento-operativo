@@ -146,7 +146,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'recursos-humanos-estacion-organigrama':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/estacion-organigrama.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
                 break;
 
             case 'recursos-humanos-formatos':
@@ -1104,7 +1105,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         if ($partes_ruta[1] == 'corte-ventas') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
-            $GET_idReporte = $partes_ruta[4];
+            $GET_idReporte = intval($partes_ruta[4]);
             $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/ventas/corte-ventas-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/corte-ventas-dia.php';
 

@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 
 <body>
@@ -25,7 +26,7 @@ require 'app/vistas/contenido/header.php';
                   <div class="row">
                     <div class="col-12">
 
-                      <h5>Impuestos, <?= FormatoFecha($dia); ?></h5>
+                      <h5>Impuestos, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></h5>
 
                     </div>
                   </div>

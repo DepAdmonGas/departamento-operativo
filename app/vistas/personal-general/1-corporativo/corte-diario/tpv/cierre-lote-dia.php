@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>cierre-lote-function.js"></script>
@@ -35,7 +36,7 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
                   <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
                   <div class="row">
                     <div class="col-12">
-                      <h5>Cierres de Lote, <?= FormatoFecha($dia); ?> </h5>
+                      <h5>Cierres de Lote, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?> </h5>
                     </div>
                   </div>
                 </div>

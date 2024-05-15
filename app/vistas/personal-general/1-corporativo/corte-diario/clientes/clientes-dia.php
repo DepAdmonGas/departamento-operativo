@@ -1,5 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
   <script type="text/javascript">
@@ -34,7 +35,7 @@ require 'app/vistas/contenido/header.php';
                   <div class="row">
                     <div class="col-12">
                       <h5>
-                        Clientes, <?= FormatoFecha($dia); ?>
+                        Clientes, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
                       </h5>
                     </div>
                   </div>

@@ -1,30 +1,30 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 include_once '../../../app/modelo/httpPHPAltiria.php';
 $altiriaSMS = new AltiriaSMS();
-
-function notificacionesWA($Numero, $aleatorio){
+function notificacionesWA($Numero, $aleatorio)
+{
     //TOKEN QUE NOS DA FACEBOOK
-    $token = 'EAA06AwwBmgcBOzAk1xSABdnZCx4uuQqZAzJF3kyVfJijdbyK9EnpzfQ9bpm68BfbcQjPcXLpJ5F4lxe5Hj33AEWgaAovfKT4dRXzQ3Ds84GQcNZBcc4Dksbp5JVLJcz8MbJ7P4hs0zOVhZCQTKuSohBoCQqh04VWtpFiXMCT9eEpIF4QNSFN7W9rHPelCjzmri6X8VwaRoRk4AxCm9KTZAz6Ij6SuwfADGK0ZD';
-    $telefono = '52'.$Numero;
-    
+    $token = 'EAA06AwwBmgcBO55i0gFeGOxZAAKWQIsd89aw8J0NCGDIisqmfHDk7tkhhgSzi5pSH1Bib5RYajmvckNmPJLZBzqLm901Fb5ZBqdeH3iv2PeNl90cuBKj4Qr63tZC3j7CdyZCfVoZCar6BLZC1c34vxUq3OWT2FwH65qwme7ytT3LnqglsPZA4ZCUqqkWW92iwirRukF34Dk3m0QDzra3Cn6vW0QnFe6X4PGY7xU0ZD';
+    $telefono = '52' . $Numero;
+
     //URL A DONDE SE MANDARA EL MENSAJE
     $url = 'https://graph.facebook.com/v19.0/343131472217554/messages';
-    
+
     //CONFIGURACION DEL MENSAJE
     $mensaje = '{
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
-        "to": "'.$telefono.'",
+        "to": "' . $telefono . '",
         "type": "text",
         "text": {
         "preview_url": "false",
-        "body": "AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
+        "body": "AdmonGas: Usa el siguiente token para firmar el pedido de limpieza. Token: ' . $aleatorio . ' Web: portal.admongas.com.mx"
       }
     }';
-     
+
     //DECLARAMOS LAS CABECERAS
-    $header = array("Authorization: Bearer " . $token, "Content-Type: application/json",);
+    $header = array("Authorization: Bearer " . $token, "Content-Type: application/json", );
     //INICIAMOS EL CURL
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -39,59 +39,62 @@ function notificacionesWA($Numero, $aleatorio){
     $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     //CERRAMOS EL CURL
     curl_close($curl);
-    
-    } 
 
-function Numero($IDUsuarioBD,$con){
-
-$sql = "SELECT telefono FROM tb_usuarios WHERE id = '".$IDUsuarioBD."' ";
-$result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($result);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$telefono = $row['telefono'];
 }
 
-return $telefono;
+function Numero($IDUsuarioBD, $con)
+{
+
+    $sql = "SELECT telefono FROM tb_usuarios WHERE id = '" . $IDUsuarioBD . "' ";
+    $result = mysqli_query($con, $sql);
+    $numero = mysqli_num_rows($result);
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $telefono = $row['telefono'];
+    }
+
+    return $telefono;
 }
 
 $idReporte = $_POST['idReporte'];
-$sql = "DELETE FROM op_pedido_limpieza_token WHERE id_pedido = '".$idReporte."' AND id_usuario = '".$Session_IDUsuarioBD."' ";
+$idVal = $_POST['idVal'];
+$sql = "DELETE FROM op_pedido_limpieza_token WHERE id_pedido = '" . $idReporte . "' AND id_usuario = '" . $Session_IDUsuarioBD . "' ";
 
 if (mysqli_query($con, $sql)) {
 
-$aleatorio = rand(100000, 999999);
+    $aleatorio = rand(100000, 999999);
 
-$sql_insert = "INSERT INTO op_pedido_limpieza_token (
+    $sql_insert = "INSERT INTO op_pedido_limpieza_token (
 id_pedido,
 id_usuario,
 token
     )
     VALUES 
     (
-    '".$idReporte."',
-    '".$Session_IDUsuarioBD."',
-    '".$aleatorio."'
+    '" . $idReporte . "',
+    '" . $Session_IDUsuarioBD . "',
+    '" . $aleatorio . "'
     )";
 
-if(mysqli_query($con, $sql_insert)){
+    if (mysqli_query($con, $sql_insert)) {
 
-    $Numero = Numero($Session_IDUsuarioBD,$con);
-    notificacionesWA($Numero,$aleatorio);
-        
-    /*
-    $altiriaSMS->setLogin('sistemas.admongas@gmail.com');
-    $altiriaSMS->setPassword('hy8q4c7y');
-    $altiriaSMS->setSenderId('AdmonGas');
-    $sDestination = '52'.$Numero;
-    $response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la transacción de refacciones solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");
-    */
-    
-echo 1;
-}else{
-echo 0;
-}
-}else{
-echo 0;
+        $Numero = Numero($Session_IDUsuarioBD, $con);
+        if ($idVal == 1) {
+            $altiriaSMS->setLogin('sistemas.admongas@gmail.com');
+            $altiriaSMS->setPassword('hy8q4c7y');
+            $altiriaSMS->setSenderId('AdmonGas');
+            $sDestination = '52' . $Numero;
+            $response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar el pedido de limpieza. Token: " . $aleatorio . " Web: portal.admongas.com.mx");
+
+            echo 1;
+        } elseif ($idVal == 2) {
+            notificacionesWA($Numero, $aleatorio);
+            echo 1;
+        }
+    } else {
+        echo 0;
+    }
+} else {
+    echo 0;
 }
 
 //------------------
