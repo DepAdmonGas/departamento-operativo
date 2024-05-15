@@ -101,7 +101,7 @@ class HomeCorporativo
     
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
-    $referencia = "../../administracion/corporativo";
+    $referencia = "../administracion/corporativo";
     $menuName = "Corporativo";
     
     }else if($session_idpuesto == 6 || $session_idpuesto == 3){
@@ -388,10 +388,10 @@ class HomeCorporativo
 
     }
     elseif($Pagina == "despacho-factura"){
-        $titulo = "Despacho VS Factura";
-        $referencia = "../departamento-operativo/corporativo";
-        $menuName = "Corporativo";
-        $returnReferencia = $Pagina;
+    $titulo = "Despacho VS Factura";
+    $referencia = "../departamento-operativo/corporativo";
+    $menuName = "Corporativo";
+    $returnReferencia = $Pagina;
     }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){

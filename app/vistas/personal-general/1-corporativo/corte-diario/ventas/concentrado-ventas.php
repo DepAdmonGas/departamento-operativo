@@ -6,6 +6,7 @@ $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
 	$estado = "disabled";
 endif;
+
 ?>
 <script type="text/javascript">
 	$(document).ready(function ($) {
@@ -24,6 +25,7 @@ endif;
 	}
 
 </script>
+
 
 <div style="overflow-y: hidden;">
 

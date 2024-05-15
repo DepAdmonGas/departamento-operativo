@@ -259,15 +259,15 @@ class HerramientasDptoOperativo extends Exception
     public function destinatarioToken($telefonoUser,$aleatorio): void
     {
 
-    $this->AltiriaSMS->setLogin('sistemas.admongas@gmail.com');
-    $this->AltiriaSMS->setPassword('hy8q4c7y');
+    $this->AltiriaSMS->setApikey('sistemas.admongas@gmail.com');
+    $this->AltiriaSMS->setApisecret('hy8q4c7y');
     $this->AltiriaSMS->setSenderId('AdmonGas');
-    $sDestination = '52'.$telefonoUser;
+    $sDestination = '525527314824';
     $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");  
+        
 
     }
-
-
+  
 
     /* ---------- NOTIFICACIONES  ----------*/
     public function sendNotification($token, $detalle, $accion): void
@@ -303,6 +303,8 @@ class HerramientasDptoOperativo extends Exception
     curl_close($ch);
 
     }
+
+
 
     public function toquenUser(int $id): string
     {
@@ -367,6 +369,7 @@ class HerramientasDptoOperativo extends Exception
         {
         $formato_fecha = explode("-", $fechaFormato);
         $resultado = $this->get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . $this->nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
+
         return $resultado;
     
         }

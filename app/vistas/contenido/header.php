@@ -1,5 +1,6 @@
 <?php
-include 'app/help.php'; 
+include 'app/help.php';
+
 ?>
 <html lang="es">
 <head>

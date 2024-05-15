@@ -54,12 +54,13 @@ $numero_documento = mysqli_num_rows($result_documento);
   $('#CotenidoVB').load('../public/modelo-negocio/vistas/modelo-negocio-vb.php?idReporte=' + idReporte); 
   } 
 
-  function CrearToken(idReporte){
+  function CrearToken(idReporte,idVal){
 
   $(".LoaderPage").show();
 
-    var parametros = {
-    "idReporte" : idReporte
+  var parametros = {
+    "idReporte" : idReporte,
+    "idVal" : idVal
     };
 
     $.ajax({
