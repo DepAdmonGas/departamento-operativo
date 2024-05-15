@@ -814,7 +814,8 @@ echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encont
 <hr>
 <h4 class="text-primary align-middle text-center">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light" onclick="CrearToken(<?=$GET_idFormato;?>)"><small>Crear nuevo token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
 <button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)"><small>Crear token vía email</small></button>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">

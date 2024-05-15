@@ -8,6 +8,7 @@ function Firma($idReporte, $detalle, $rutafirma, $con)
 {
 
   $sql_firma = "SELECT 
+op_corte_dia_firmas.id AS idFirma,
 op_corte_dia_firmas.id_usuario, 
 op_corte_dia_firmas.firma,
 op_corte_dia_firmas.fecha,
