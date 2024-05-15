@@ -113,13 +113,14 @@ return $Result;
   window.history.back();
   }
 
-    function CrearToken(idReporte){
+  function CrearToken(idReporte,idVal){
     $(".LoaderPage").show();
 
     var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "idVal" : idVal
     };
-
+    
     $.ajax({
     data:  parametros,
     url:   '../../public/admin/modelo/token-pedido-material.php',
@@ -475,7 +476,8 @@ if($firmaB == 0){
 <div class="mb-2 text-secondary text-center">FIRMA DE VOBO</div>
 <h4 class="text-primary">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light" onclick="CrearToken(<?=$GET_idPedido;?>)"><small>Crear token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)"><small>Crear token Whatsapp</small></button>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
@@ -500,7 +502,8 @@ if($firmaB == 1 && $firmaC == 0){
 <div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
 <h4 class="text-primary">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm" onclick="CrearToken(<?=$GET_idPedido;?>)"><small>Crear nuevo token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)"><small>Crear token Whatsapp</small></button>
 
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">

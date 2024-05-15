@@ -122,12 +122,14 @@ return $nombre;
   window.history.back();
   }
 
-  function CrearToken(idFormato){
-    $(".LoaderPage").show();
+  function CrearToken(idFormato,idVal){
 
+    $(".LoaderPage").show();
+    
     var parametros = {
-    "idFormato" : idFormato
-    }; 
+    "idFormato" : idFormato,
+    "idVal" : idVal
+    };
    
     $.ajax({
     data:  parametros,
@@ -814,7 +816,8 @@ echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encont
 <hr>
 <h4 class="text-primary align-middle text-center">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light" onclick="CrearToken(<?=$GET_idFormato;?>)"><small>Crear nuevo token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)"><small>Crear token Whatsapp</small></button>
 <button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)"><small>Crear token vía email</small></button>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -888,7 +891,8 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
 <hr>
 <h4 class="text-primary align-middle text-center">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light" onclick="CrearToken(<?=$GET_idFormato;?>)"><small>Crear nuevo token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)"><small>Crear token Whatsapp</small></button>
 <button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)"><small>Crear token vía email</small></button>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">

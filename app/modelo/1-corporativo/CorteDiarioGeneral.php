@@ -895,20 +895,28 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
      * 
      * 
      * 
-     */
+     */ 
 
     public function ventas(int $idReporte): int
     {
         $ventas = 0;
-        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? LIMIT 1 ";
+        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? ";
         $result = $this->con->prepare($sql_dia);
-        $result->bind_param("i", $idReporte);
+
+        if (!$result):
+        // Manejo de error
+        throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        endif;
+
+        $result->bind_param('i', $idReporte);
         $result->execute();
         $result->bind_result($ventas);
-        $ventas = $result->fetch();
+        $result->fetch();
         $result->close();
         return $ventas;
     }
+
+
     public function getTotalImporte(int $idReporte): int
     {
         $sql = "SELECT importe FROM op_prosegur WHERE idreporte_dia = ?";
@@ -1027,14 +1035,9 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
 
         return $datosSolicitudCheque;
     }
-    /**
-     * 
-     * 
-     * 
-     *  Ingreso VS Facturacion
-     * 
-     * 
-     */
+
+
+    /* ------------------------------ PUNTO 3. INGRESOS VS FACTURACION ------------------------------ */
     public function idReporteFacturacion(int $idEstacion, int $year): int
     {
         $idyear = 0;
@@ -1333,7 +1336,7 @@ re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
         {
 
             $folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
-            $sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ?";
+            $sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ? ";
             $consulta = $this->con->prepare($sql);
 
             if (!$consulta) {

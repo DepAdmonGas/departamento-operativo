@@ -12,7 +12,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
 }
 
 ?>
-
+ 
  
 <html lang="es">
   <head>

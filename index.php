@@ -1107,6 +1107,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $GET_idReporte = $partes_ruta[4];
             $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/ventas/corte-ventas-dia.php';
             //$ruta_elegida = 'public/corte-diario/vistas/corte-ventas-dia.php';
+
         } else if ($partes_ruta[1] == 'cierre-lote') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
@@ -1243,12 +1244,24 @@ if ($partes_ruta[0] == 'departamento-operativo') {
 
     } else if (count($partes_ruta) == 6) {
 
-        if ($partes_ruta[2] == 'corte-ventas') {
-            $GET_year = $partes_ruta[3];
-            $GET_mes = $partes_ruta[4];
-            $GET_idReporte = $partes_ruta[5];
-            $ruta_elegida = 'public/admin/vistas/corte-ventas-dia.php';
-        } else if ($partes_ruta[2] == 'cierre-lote') {
+    // ---------- 1. CORPORATIVO ----------//
+
+    // 6. Solicitud de Vales -----
+    if ($partes_ruta[1] == 'solicitud-vales-nuevo') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    $GET_idEstacion = $partes_ruta[4];
+    $GET_depu = $partes_ruta[5];
+    //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-crear.php';
+    $ruta_elegida = 'app/vistas/contenido/1-corporativo/solicitud-vales/solicitud-vales-crear.php';
+
+
+    }else if($partes_ruta[2] == 'corte-ventas') {
+    $GET_year = $partes_ruta[3];
+    $GET_mes = $partes_ruta[4];
+    $GET_idReporte = $partes_ruta[5];
+    $ruta_elegida = 'public/admin/vistas/corte-ventas-dia.php';
+    }else if ($partes_ruta[2] == 'cierre-lote') {
             $GET_year = $partes_ruta[3];
             $GET_mes = $partes_ruta[4];
             $GET_idReporte = $partes_ruta[5];
@@ -1362,14 +1375,6 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $GET_mes = $partes_ruta[5];
             $ruta_elegida = 'public/incidencias/vistas/incidencias-detalle-index.php';
 
-        }
-        //--------------------- VALES
-        else if ($partes_ruta[1] == 'solicitud-vales-nuevo') {
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            $GET_idEstacion = $partes_ruta[4];
-            $GET_depu = $partes_ruta[5];
-            $ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-crear.php';
         } else if ($partes_ruta[1] == 'solicitud-vales-editar') {
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];

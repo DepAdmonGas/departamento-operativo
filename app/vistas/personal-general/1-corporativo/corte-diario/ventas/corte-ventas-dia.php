@@ -1,11 +1,13 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$dia = $corteDiarioGeneral->getDia($GET_idReporte);
 $ventas = $corteDiarioGeneral->getEstado($GET_idReporte);
+
 $estado = "";
 if ($ventas == 1):
-  $estado = "disabled";
+  $estado = "disabled"; 
 endif;
-?>
+?> 
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
@@ -25,9 +27,13 @@ endif;
       Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
       ListaDocumentos(<?= $GET_idReporte; ?>)
 
-    });
-    function EditTBaucher(val, idReporte, idTarjeta) {
 
+      VentasSubTotales(<?=$GET_idReporte?>);
+		  VentasTotales(<?=$GET_idReporte?>);
+      
+    });
+    
+    function EditTBaucher(val, idReporte, idTarjeta) {
 
       VentasOtros(<?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
 
@@ -42,8 +48,23 @@ endif;
 
       Aceites(<?= $GET_year; ?>, <?= $GET_mes; ?>, <?= $GET_idReporte; ?>, <?= $Session_IDEstacion; ?>);
       ListaDocumentos(<?= $GET_idReporte; ?>);
-    };
+    }
+
+    function VentasSubTotales(idReporte) {
+		$('#TrSubTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
+		//$('#TrSubTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-subtotales.php?idReporte=' + idReporte);
+	}
+ 
+
+	function VentasTotales(idReporte) {
+		$('#TrTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/concentrado-ventas-totales.php?idReporte=' + idReporte);
+		//$('#TrTotales').load('../../../public/corte-diario/vistas/concentrado-ventas-totales.php?idReporte=' + idReporte);
+	}
+
+
 </script>
+
+
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -79,7 +100,7 @@ endif;
                       <strong>CONCENTRADO DE VENTAS</strong>
                       <?php if ($ventas == 0) { ?>
                         <div class="float-end pointer"><img src="<?= RUTA_IMG_ICONOS; ?>agregar.png"
-                            onclick="NewVentas(<?= $GET_idReporte; ?>)"></div>
+                            onclick="NewVentas(<?=$GET_idReporte?>)"></div>
                       <?php } ?>
                     </div>
                     <div class="p-2">
