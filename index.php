@@ -146,7 +146,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'recursos-humanos-estacion-organigrama':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/estacion-organigrama.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
                 break;
 
             case 'recursos-humanos-formatos':
