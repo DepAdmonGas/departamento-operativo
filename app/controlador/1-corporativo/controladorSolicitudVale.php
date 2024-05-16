@@ -11,7 +11,38 @@ $idReporte = $_POST['idReporte'];
 $nameDocumento = $_POST['Documento'];
 $doc1 = $_FILES['Archivo_file'] ?? [''];
 $docs = [$doc1];
-echo $SolicitudVale->agregararchivoSolicitudVale($idReporte,$nameDocumento,$docs);
+$indiceDoc = 0;
+echo $SolicitudVale->agregarArchivoSolicitudVale($idReporte,$nameDocumento,$docs,$indiceDoc);
+break;
+
+case 'agregar-solicitud-vale':
+$idEstacion = $_POST['idEstacion'];
+$GETdepu = $_POST['GETdepu'];
+$GETyear = $_POST['GETyear'];
+$GETmes = $_POST['GETmes'];
+$idUsuario = $_POST['idUsuario'];
+
+$Fecha = $_POST['Fecha'];
+$Monto = $_POST['Monto'];
+$Moneda = $_POST['Moneda'];
+$Concepto = $_POST['Concepto'];
+$Solicitante = $_POST['Solicitante'];
+$Observaciones = $_POST['Observaciones'];
+$Autorizadopor = $_POST['Autorizadopor'];
+$MetodoAutorizacion = $_POST['MetodoAutorizacion'];
+$Departamento = $_POST['Departamento'];
+$Estacion = $_POST['Estacion']; 
+$Cuentas = $_POST['Cuentas'];
+
+$doc1 = $_FILES['Vale_file'] ?? [''];
+$doc2 = $_FILES['Recibo_file'] ?? [''];
+$doc3 = $_FILES['Factura_file'] ?? [''];
+$doc4 = $_FILES['PDF_file'] ?? [''];
+$doc5 = $_FILES['XML_file'] ?? [''];
+
+$infoSolicitud = [$idEstacion,$GETdepu,$GETyear,$GETmes,$idUsuario,$Fecha,$Monto,$Moneda,$Concepto,$Solicitante,$Observaciones,$Autorizadopor,$MetodoAutorizacion,$Departamento,$Estacion,$Cuentas];
+$docs = [$doc1,$doc2,$doc3,$doc4,$doc5];
+echo $SolicitudVale->agregarSolicitudVale($infoSolicitud,$docs);
 break;
 
 /* ---------- AGREGAR ----------*/
