@@ -39,7 +39,6 @@ endif;
                     if (
                         $conceptoTarjeta == "TICKETCARD" ||
                         $conceptoTarjeta == "G500 FLETT" ||
-                        $conceptoTarjeta == "G500 FLETT" ||
                         $conceptoTarjeta == "EFECTICARD" ||
                         $conceptoTarjeta == "SODEXO" ||
                         $conceptoTarjeta == "AMERICAN EXPRESS" ||
@@ -47,7 +46,8 @@ endif;
                         $conceptoTarjeta == "INBURGAS" ||
                         $conceptoTarjeta == "ULTRAGAS" ||
                         $conceptoTarjeta == "ENERGEX" ||
-                        $conceptoTarjeta == "INBURSA"
+                        $conceptoTarjeta == "INBURSA" ||
+                        $conceptoTarjeta == "SHELL FLEET NAVIGATOR"
                     ) {
                         echo "<td class='p-0 align-middle text-end bg-light'>" . number_format($baucher, 2) . "</td>";
                     } else {

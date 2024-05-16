@@ -3,13 +3,14 @@ include_once 'lib/jwt/vendor/autoload.php';
 include_once "config/inc.configuracion.php";
 include_once "config/ConfiguracionSesiones.php";
 include_once "bd/inc.conexion.php";
+include_once "config/ConfiguracionTokenWhats.php";
 //----- CLASES GENERALES -----
 include_once "modelo/HerramientasDptoOperativo.php";
 include_once "modelo/Encriptar.php";
 //----- CLASES PUNTO 1. CORPORATIVO -----
 include_once "modelo/1-corporativo/HomeCorporativo.php";
 include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
- 
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -34,7 +35,8 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         $session_idpuesto = $decoded->id_puesto_usuario;
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
-
+        // Token WhatsApp
+        $tokenWhats = TokenWhats::get_token();
         //----- CLASES GENERALES -----
         $ClassHerramientasDptoOperativo = new HerramientasDptoOperativo($con);
         $ClassEncriptar = new Encriptar(); 
