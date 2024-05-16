@@ -1,5 +1,5 @@
 <?php
-require ('../../../help.php');
+require ('../../../../help.php');
 
 $idOrganigrama = $_GET['idOrganigrama'];
 $idEstacion = $_GET['idEstacion'];

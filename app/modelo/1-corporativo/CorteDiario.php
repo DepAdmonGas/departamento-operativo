@@ -229,6 +229,8 @@ class CorteDiario extends Exception
         $otros = "OTROS";
         $ultragas = "ULTRAGAS";
         $energex = "ENERGEX";
+        $shell = "SHELL FLEET NAVIGATOR";
+
         switch ($estacion):
             case 1:
                 $interlomas = [
@@ -248,7 +250,7 @@ class CorteDiario extends Exception
                 ];
                 return $interlomas ;
             case 2:
-                $paloSolo = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva, $inbursa, $otros];
+                $paloSolo = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva,$shell,$inbursa, $otros];
                 return $paloSolo;
             case 3:
                 $sanAgustin = [
@@ -336,7 +338,7 @@ class CorteDiario extends Exception
                 $numInter = [$num1, $num1_1, $numA, $num2, $numB, $num3, $numC, $num4, $num5, $num6, $numE, $num7, $num10];
                 return $numInter;
             case 2:
-                $numPalo = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $numE, $num10];
+                $numPalo = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6,$num7 ,$numE, $num10];
                 return $numPalo;
             case 3:
                 $numAgus = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $numE, $num7, $num8, $num9, $num10];
