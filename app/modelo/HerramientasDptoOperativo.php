@@ -35,36 +35,15 @@ class HerramientasDptoOperativo extends Exception
     'nombre' => $nombreUsuario,
     'telefono' => $telefono
     );
-
+ 
     } else {
     // Manejo de caso cuando no se encuentra el registro
     $datosUsuario = null;
     }    
-    $consulta->bind_result($nombreUsuario);
-    $consulta->fetch();
-    $consulta->close();
 
     return $datosUsuario;
     }
 
-    public function obtenerTelefonoUsuario(int $id): string
-    {
-    $telefonoUser = "";
-    $sql = "SELECT telefono FROM tb_usuarios WHERE id = ?";
-    $consulta = $this->con->prepare($sql);
-        
-    if (!$consulta) {
-    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-    }
-        
-    $consulta->bind_param('i', $id);
-    $consulta->execute();
-    $consulta->bind_result($telefonoUser);
-    $consulta->fetch();
-    $consulta->close();
-        
-    return $telefonoUser;
-    }
 
     function obtenerDatosEstacion($idEstacion)
     {
@@ -256,15 +235,66 @@ class HerramientasDptoOperativo extends Exception
 
     /* ---------- ENVIAR TOKEN SMS - USUARIOS   ----------*/
 
-    public function destinatarioToken($telefonoUser,$aleatorio): void
-    {
+    function notificacionesWA($Numero, $aleatorio, $textoN){
+    //TOKEN QUE NOS DA FACEBOOK
+    $token = 'EAA06AwwBmgcBO2JtMSSEbdGU54Yl2rNm1dV1ZBFlvjQnXZAZAomvt6qPIYUZAmsRYkvmlQaCdwot1SZBKwvJ6jak9ERQz1D2TGKZBqhSURRG1UfTYSDZAM7mxyu7jZCQOoPBQjtSBvLHZCSJtt9uvH2jpEmmhEmuBonZAjHZCbgZBRhvaIkc8AZCNMxOPT13AYRwhrYSZAJXWiZAEfO58KtTemwTiHnnxqhNOzyPDld21ZBJ';
+    $telefono = '52'.$Numero;
+        
+    //URL A DONDE SE MANDARA EL MENSAJE
+    $url = 'https://graph.facebook.com/v19.0/343131472217554/messages';
+        
+    //CONFIGURACION DEL MENSAJE
+    $mensaje = '{
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "'.$telefono.'",
+    "type": "text",
+    "text": {
+    "preview_url": "false",
+    "body": "AdmonGas: Usa el siguiente token para firmar '.$textoN.'. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
+    }
+    }';
+           
+    //DECLARAMOS LAS CABECERAS
+    $header = array("Authorization: Bearer " . $token, "Content-Type: application/json",);
+    //INICIAMOS EL CURL
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $mensaje);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    //OBTENEMOS LA RESPUESTA DEL ENVIO DE INFORMACION
+    $response = json_decode(curl_exec($curl), true);
+    //IMPRIMIMOS LA RESPUESTA 
+    //print_r($response);
+    //OBTENEMOS EL CODIGO DE LA RESPUESTA
+    $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    //CERRAMOS EL CURL
+    curl_close($curl);
+        
+    } 
 
+
+    function notificacionesSMS($Numero, $aleatorio, $textoN){
+    
     $this->AltiriaSMS->setApikey('sistemas.admongas@gmail.com');
     $this->AltiriaSMS->setApisecret('hy8q4c7y');
     $this->AltiriaSMS->setSenderId('AdmonGas');
-    $sDestination = '525527314824';
-    $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");  
+     $sDestination = '52'.$Numero;
+    $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar ".$textoN.". Token: ".$aleatorio." Web: portal.admongas.com.mx");  
+           
+    }
+
+    public function destinatarioToken($telefonoUser,$aleatorio,$idVal,$textoN): void
+    {
+
+    if($idVal == 1){
+    $this->notificacionesSMS($telefonoUser,$aleatorio,$textoN);
         
+    }else if($idVal == 2){
+    $this->notificacionesWA($telefonoUser,$aleatorio,$textoN);
+
+    }
 
     }
   

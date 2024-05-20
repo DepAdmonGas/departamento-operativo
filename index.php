@@ -146,7 +146,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'recursos-humanos-estacion-organigrama':
-                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/estacion-organigrama.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/organigrama.php';
                 //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
                 break;
 
@@ -189,7 +189,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'recursos-humanos-estacion-formatos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-formatos.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-formatos.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/formatos/formatos-index.php';
                 break;
 
             case 'recursos-humanos-configuracion-perfil':
@@ -654,7 +655,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos1.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-formatos-vacaciones') {
             $GET_idFormato = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-vacaciones.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-vacaciones.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/formato-vacaciones.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-personal-asistencia') {
             $GET_idPersonal = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
