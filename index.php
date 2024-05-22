@@ -178,7 +178,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'recursos-humanos-estacion-programar-horario':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/programar-horario/programar-horario-index.php';
                 break;
 
             case 'recursos-humanos-configuracion':
@@ -675,10 +676,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/admin/vistas/calibracion-dispensarios-index.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-estacion-programar-horario-nuevo') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-nuevo.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-nuevo.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/programar-horario/nuevo-horario.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-estacion-programar-horario-detalle') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-detalle.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-detalle.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/programar-horario/detalle-horario.php';
         } else if ($partes_ruta[2] == 'solicitud-aditivo') {
             $ruta_elegida = 'public/admin/vistas/solicitud-aditivo-index.php';
         } else if ($partes_ruta[1] == 'solicitud-aditivo-pdf') {
