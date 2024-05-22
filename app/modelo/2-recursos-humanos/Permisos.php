@@ -102,7 +102,7 @@ class Permisos extends Exception{
         if (!$stmt) :
             throw new Exception("Error al preparar la consulta: " . $this->con->error);
         endif;
-        
+    
         if (!$stmt->execute()) :
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         endif;
@@ -110,7 +110,7 @@ class Permisos extends Exception{
         $stmt->bind_result($max_id);
         $stmt->fetch();
         $id = ($max_id === null) ? 1 : $max_id + 1;
-        
+
         $stmt->close();
         return $id;
     }
