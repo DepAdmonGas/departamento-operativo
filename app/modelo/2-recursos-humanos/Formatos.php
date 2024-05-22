@@ -33,7 +33,6 @@ class Formatos{
         if (!$result->execute()) :
             throw new Exception("Error al ejecutar la consulta: " . $result->error);
         endif;
-        
         $result->bind_result($id);
         $result->fetch();
         
