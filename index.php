@@ -168,7 +168,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
 
 
             case 'recursos-humanos-estacion-permisos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-permisos.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/permisos/permiso-index.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-permisos.php';
                 break;
 
 
@@ -741,10 +742,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/admin/vistas/control-volumetrico-year.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permisos-firmar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-firmar.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-firmar.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/permisos/firmar.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permiso-nuevo') {
             $GET_idEstacion = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-nuevo.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-nuevo.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/permisos/nuevo-permiso.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permiso-editar') {
             $GET_idPermiso = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-editar.php';
