@@ -39,3 +39,8 @@ include 'app/help.php';
 
   });
 </script>
+
+<!---------- FUNCIONES - NAVBAR ---------->
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
