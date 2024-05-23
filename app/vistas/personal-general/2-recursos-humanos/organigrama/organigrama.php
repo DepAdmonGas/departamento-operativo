@@ -10,11 +10,11 @@ require 'app/vistas/contenido/header.php';
     });
     function SelEstacion(idEstacion, idOrganigrama) {
       //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
-      $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+      $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
 
       if (idEstacion == 2) {
         //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
-        $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
+        $('#ContenidoOrganigrama2').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + idOrganigrama);
 
       }
 
@@ -23,7 +23,7 @@ require 'app/vistas/contenido/header.php';
     function Mas(idEstacion) {
       $('#Modal').modal('show');
       //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);
-      $('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/organigrama/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/organigrama/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
     }
 
     function Guardar(idEstacion) {
@@ -67,14 +67,14 @@ require 'app/vistas/contenido/header.php';
             if (idEstacion == 9) {
               //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
               //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama2').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
 
             } else if (idEstacion == 2) {
               //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
               //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-              $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+              $('#ContenidoOrganigrama2').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
 
             } else {
               SelEstacion(idEstacion, 0)
@@ -123,14 +123,14 @@ require 'app/vistas/contenido/header.php';
                 if (idEstacion == 9) {
                   //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
                   //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 2 + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
 
                 } else if (idEstacion == 2) {
                   //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
                   //$('#ContenidoOrganigrama2').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
-                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + 0);
+                  $('#ContenidoOrganigrama2').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + 9 + "&idOrganigrama=" + 0);
 
                 } else {
                   SelEstacion(idEstacion, 0)

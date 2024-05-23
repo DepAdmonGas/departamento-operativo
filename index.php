@@ -174,7 +174,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
 
 
             case 'recursos-humanos-estacion-horario-personal':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-horario-personal.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-horario-personal.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/horario-personal/horario-index.php';
                 break;
 
             case 'recursos-humanos-estacion-programar-horario':

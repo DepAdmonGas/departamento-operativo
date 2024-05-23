@@ -157,4 +157,77 @@ class Horarios extends Exception
         endswitch;
         return $result;
     }
+    /**
+     * 
+     * Horario Personal
+     * 
+     * 
+     */
+    public function editarHorarioPersonal(string $horario,int $dia,int $idPersonal):bool {
+        $resultado = true;
+        $sql = "SELECT id_estacion FROM op_rh_personal WHERE id = ? ";
+        $stmt1 = $this->con->prepare($sql);
+        $stmt1->bind_param("i",$idPersonal);
+        if(!$stmt1->execute()):
+            throw new Exception("Error al ejecutar la consulta id estacion".$stmt1->error);
+        endif;
+        $stmt1->bind_result($idEstacion);
+        $stmt1->fetch();
+        $stmt1->close();
+        $idEstacionHorario = $idEstacion;
+        if ($idEstacion == 9) :
+            $idEstacionHorario = 2;
+        endif;
+        $NomDia = $this->nombreDia($dia);
+        $HoraEntrada = "00:00:00";
+        $HoraSalida = "00:00:00";
+        if ($horario != "Descanso"):
+            $sql = "SELECT hora_entrada,hora_salida FROM op_rh_localidades_horario WHERE id_estacion = ? AND titulo = ? ";
+            $result = $this->con->prepare($sql);
+            $result->bind_param("is",$idEstacionHorario,$horario);
+            if(!$result->execute()):
+                throw new Exception("Error al ejecutar la consulta horario".$result->error);
+            endif;
+            $result->bind_result($HoraEntrada,$HoraSalida);
+            $result->fetch();
+            $result->close();
+        endif;
+        $sql1 = "SELECT * FROM op_rh_personal_horario WHERE id_estacion = ? AND id_personal = ? AND dia = ? ";
+        $result1 = $this->con->prepare($sql1);
+        $result1->bind_param("iis",$idEstacion,$idPersonal,$NomDia);
+        $result1->execute();
+        $result1->store_result();
+        $numero1 = $result1->num_rows;
+        $result1->close();
+        if ($numero1 > 0) :
+            $sql_update= "UPDATE op_rh_personal_horario SET horario = ?,hora_entrada = ?,hora_salida = ?
+                        WHERE id_estacion =? AND id_personal =? AND dia = ? ";
+            $consulta = $this->con->prepare($sql_update);
+            $consulta->bind_param("sssiis",$horario,$HoraEntrada,$HoraSalida,$idEstacion,$idPersonal,$NomDia);
+            if(!$consulta->execute()):
+                $resultado = false;
+                throw new Exception("Error al ejecuar consulta Update".$consulta->error);
+            endif;
+            $consulta->close();
+        else:
+            $sql_insert = "INSERT INTO op_rh_personal_horario  (
+                id_estacion,
+                id_personal,
+                horario,
+                dia,
+                hora_entrada,
+                hora_salida
+                    )
+                    VALUES 
+                    (?,?,?,?,?,?)";
+            $consulta = $this->con->prepare($sql_insert);
+            $consulta->bind_param("iissss",$idEstacion,$idPersonal,$horario,$NomDia,$HoraEntrada,$HoraSalida);
+            if(!$consulta->execute()):
+                $resultado = false;
+                throw new Exception("Error al ejecutar consulta Insert".$consulta->error);
+            endif;
+            $consulta->close();
+        endif;
+        return $resultado;
+    }
 }
