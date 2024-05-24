@@ -106,7 +106,7 @@ class Permisos extends Exception{
         if (!$stmt->execute()) :
             throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
         endif;
-        
+    
         $stmt->bind_result($max_id);
         $stmt->fetch();
         $id = ($max_id === null) ? 1 : $max_id + 1;

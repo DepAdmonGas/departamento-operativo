@@ -82,15 +82,11 @@ function Comodin($idUsuario, $con)
         </div>
 
     </div>
-
-    <hr>
-
     <div class="table-responsive">
-
-        <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-            <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+            <thead class="navbar-bg">
                 <tr>
-                    <th class="text-center align-middle tableStyle font-weight-bold">#</th>
+                    <th class="text-center align-middle tableStyle font-weight-bold">#</t>
                     <th class="text-center align-middle tableStyle font-weight-bold">Colaborador</th>
                     <th class="text-center align-middle tableStyle font-weight-bold">Del</th>
                     <th class="text-center align-middle tableStyle font-weight-bold">Hasta</th>
@@ -127,21 +123,21 @@ function Comodin($idUsuario, $con)
                         $Comodin = Comodin($Cubre, $con);
 
                         if ($row_lista['estado'] == 0) {
-                            $trColor = "table-danger";
+                            $trColor = 'style="background-color: #ffb6af"';
                             $btnEliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $id . ',' . $idEstacion . ')">';
 
                         } else if ($row_lista['estado'] == 1) {
-                            $trColor = "table-warning";
+                            $trColor = 'style="background-color: #fcfcda"';
                             $btnEliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $id . ',' . $idEstacion . ')">';
 
                         } else if ($row_lista['estado'] == 2) {
-                            $trColor = "table-success";
+                            $trColor = 'style="background-color: #b0f2c2"';
                             $btnEliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
 
                         }
 
-                        echo '<tr class="' . $trColor . '">
-  <td class="text-center align-middle">' . $id . '</td>
+                        echo '<tr '.$trColor.'>
+  <th class="text-center align-middle">' . $id . '</th>
   <td class="text-center align-middle">' . $Responsable . '</td>
 
   <td class="text-center align-middle">' . FormatoFecha($FechaInicio) . '</td>

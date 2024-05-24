@@ -93,10 +93,10 @@ function NomDia($dia)
 ?>
 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
             <tr>
-                <th class="text-center align-middle">#</th>
+                <th class="text-center align-middle fw-bold">#</th>
                 <th class="align-middle">Nombre completo</th>
                 <th class="align-middle" width="170">Lunes</th>
                 <th class="align-middle" width="170">Martes</th>
@@ -104,7 +104,7 @@ function NomDia($dia)
                 <th class="align-middle" width="170">Jueves</th>
                 <th class="align-middle" width="170">Viernes</th>
                 <th class="align-middle" width="170">Sabado</th>
-                <th class="align-middle" width="170">Domingo</th>
+                <th class="align-middle fw-bold" width="170">Domingo</th>
             </tr>
         </thead>
         <tbody>
