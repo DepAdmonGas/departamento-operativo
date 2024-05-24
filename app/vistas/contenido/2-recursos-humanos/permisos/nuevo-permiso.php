@@ -17,8 +17,8 @@ require 'app/vistas/contenido/header.php';
     function Crear(idEstacion) {
 
         var data = new FormData();
-        var url = '../public/recursos-humanos/modelo/agregar-permisos.php';
-        //var url = '../app/controlador/2-recursos-humanos/controladorPermisos.php';
+        //var url = '../public/recursos-humanos/modelo/agregar-permisos.php';
+        var url = '../app/controlador/2-recursos-humanos/controladorPermisos.php';
 
         var Colaborador = $('#Colaborador').val();
         var DiasTomados = $('#DiasTomados').val();
@@ -65,6 +65,7 @@ require 'app/vistas/contenido/header.php';
                                 data.append('Cubre', Cubre);
                                 data.append('Motivo', Motivo);
                                 data.append('base64', base64);
+                                data.append('estacionCubre',estacionPersonal)
                                 data.append('accion','agregar-permiso')
                                 $.ajax({
                                     url: url,

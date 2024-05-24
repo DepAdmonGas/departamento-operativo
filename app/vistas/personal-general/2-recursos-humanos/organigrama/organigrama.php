@@ -186,9 +186,6 @@ require 'app/vistas/contenido/header.php';
 
                 </div>
               </div>
-
-              <hr>
-
               <div id="ContenidoOrganigrama"></div>
 
 
@@ -198,7 +195,6 @@ require 'app/vistas/contenido/header.php';
 
                 <div class="border p-3 mt-2">
                   <h5>Autolavado</h5>
-                  <hr>
                   <div id="ContenidoOrganigrama2"></div>
                 </div>
 

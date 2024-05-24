@@ -89,10 +89,13 @@ function NomDia($dia)
 }
 ?>
 <div class="table-responsive">
-    <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+				<th colspan="10" class="align-middle text-center"><?= $session_nomestacion; ?></th>
+			</tr>
             <tr>
-                <th class="text-center align-middle">#</th>
+                <td class="text-center align-middle fw-bold">#</td>
                 <th class="text-center align-middle">Nombre completo</th>
                 <th class="text-center align-middle">Puesto</th>
                 <th class="text-center align-middle " width="150">Lunes</th>
@@ -101,10 +104,10 @@ function NomDia($dia)
                 <th class="text-center align-middle " width="150">Jueves</th>
                 <th class="text-center align-middle " width="150">Viernes</th>
                 <th class="text-center align-middle " width="150">Sabado</th>
-                <th class="text-center align-middle " width="150">Domingo</th>
+                <td class="text-center align-middle fw-bold" width="150">Domingo</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
             if ($numero_personal > 0) {
                 while ($row_personal = mysqli_fetch_array($result_personal, MYSQLI_ASSOC)) {
@@ -217,13 +220,13 @@ WHERE op_rh_personal.id_estacion = 9 AND op_rh_personal.estado = 1 ORDER BY op_r
     ?>
 
     <div class="table-responsive">
-        <table class="table table-sm table-bordered table-hover mt-4 mb-0" style="font-size: .9em;">
-            <thead class="bg-light">
-                <th class="text-center align-middle" colspan="10">Autolavado</th>
-            </thead>
-            <thead class="tables-bg">
+        <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+            <thead class="navbar-bg">
+                <tr class="tables-bg">
+                    <th colspan="10" class="align-middle text-center">Autolavado</th>
+                </tr>
                 <tr>
-                    <th class="text-center align-middle">#</th>
+                    <td class="text-center align-middle fw-bold">#</td>
                     <th class="align-middle text-center">Nombre completo</th>
                     <th class="align-middle text-center">Puesto</th>
                     <th class="align-middle text-center" width="150">Lunes</th>
@@ -232,7 +235,7 @@ WHERE op_rh_personal.id_estacion = 9 AND op_rh_personal.estado = 1 ORDER BY op_r
                     <th class="align-middle text-center" width="150">Jueves</th>
                     <th class="align-middle text-center" width="150">Viernes</th>
                     <th class="align-middle text-center" width="150">Sabado</th>
-                    <th class="align-middle text-center" width="150">Domingo</th>
+                    <td class="align-middle text-center fw-bold" width="150">Domingo</td>
                 </tr>
             </thead>
             <tbody>

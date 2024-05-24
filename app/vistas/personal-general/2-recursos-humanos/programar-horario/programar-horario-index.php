@@ -108,11 +108,7 @@ require 'app/vistas/contenido/header.php';
                                     <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>agregar.png"
                                         onclick="Agregar(<?=$Session_IDEstacion?>)">
                                 </div>
-
                             </div>
-
-                            <hr>
-
                             <div id="Contenido"></div>
 
                         </div>

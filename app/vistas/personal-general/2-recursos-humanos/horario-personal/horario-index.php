@@ -81,9 +81,6 @@ require 'app/vistas/contenido/header.php';
 
                                 </div>
                             </div>
-
-                            <hr>
-
                             <div id="ContenidoOrganigrama"></div>
 
                         </div>
