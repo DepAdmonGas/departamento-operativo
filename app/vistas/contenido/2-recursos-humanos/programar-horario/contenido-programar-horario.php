@@ -7,9 +7,9 @@ $sql_empresa = "SELECT * FROM op_rh_personal_horario_programar WHERE id_estacion
 $result_empresa = mysqli_query($con, $sql_empresa);
 $numero_empresa = mysqli_num_rows($result_empresa);
 ?>
-
 <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+<table id="tabla_horario" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+
         <thead class="navbar-bg">
             <tr>
                 <th class="text-center align-middle" width="48px">#</th>

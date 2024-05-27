@@ -9,7 +9,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
     $estacion = $row_listaestacion['localidad'];
 }
 
-$sql_lista = "SELECT * FROM op_rh_permisos WHERE id_estacion = '" . $idEstacion . "' ORDER BY id DESC";
+$sql_lista = "SELECT * FROM op_rh_permisos WHERE id_estacion = '" . $idEstacion . "' OR estacion_cubre = '" . $idEstacion . "' ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
@@ -45,45 +45,10 @@ function Comodin($idUsuario, $con)
     return $usuario;
 }
 ?>
-<div class="border-0 p-3">
 
     <div class="row">
-
-        <div class="col-11">
-            <?php if ($idEstacion != $Session_IDEstacion) { ?>
-                <div class="float-start">
-                    <h5><?= $estacion; ?></h5>
-                </div>
-            <?php } else { ?>
-
-                <div class="row">
-                    <div class="col-12">
-
-                        <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
-
-                        <div class="row">
-                            <div class="col-12">
-
-                                <h5>Recursos humanos (Permisos) - <?= $session_nomestacion; ?></h5>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            <?php } ?>
-
-        </div>
-
-
-        <div class="col-1">
-            <img class="pointer float-end" src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="Registro(<?= $idEstacion; ?>)">
-        </div>
-
-    </div>
     <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+    <table class="custom-table " style="font-size: .8em;" width="100%">
             <thead class="navbar-bg">
                 <tr>
                     <th class="text-center align-middle tableStyle font-weight-bold">#</t>
@@ -137,23 +102,23 @@ function Comodin($idUsuario, $con)
                         }
 
                         echo '<tr '.$trColor.'>
-  <th class="text-center align-middle">' . $id . '</th>
-  <td class="text-center align-middle">' . $Responsable . '</td>
+                            <th class="text-center align-middle">' . $id . '</th>
+                            <td class="text-center align-middle">' . $Responsable . '</td>
 
-  <td class="text-center align-middle">' . FormatoFecha($FechaInicio) . '</td>
-  <td class="text-center align-middle">' . FormatoFecha($FechaTermino) . '</td>
-  <td class="text-center align-middle">' . $row_lista['dias_tomados'] . '</td>
-  <td class="text-center align-middle"><b>' . $Comodin . '</b></td>
+                            <td class="text-center align-middle">' . FormatoFecha($FechaInicio) . '</td>
+                            <td class="text-center align-middle">' . FormatoFecha($FechaTermino) . '</td>
+                            <td class="text-center align-middle">' . $row_lista['dias_tomados'] . '</td>
+                            <td class="text-center align-middle"><b>' . $Comodin . '</b></td>
 
-  <td class="text-center align-middle">' . $row_lista['motivo'] . '</td>
-  <td class="text-center align-middle">' . $row_lista['observaciones'] . '</td>
-  <td class="text-center align-middle"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="DetallePermiso(' . $id . ')"></td>
-  <td class="text-center align-middle"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png" onclick="Firmar(' . $id . ')"></td>';
+                            <td class="text-center align-middle">' . $row_lista['motivo'] . '</td>
+                            <td class="text-center align-middle">' . $row_lista['observaciones'] . '</td>
+                            <td class="text-center align-middle"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="DetallePermiso(' . $id . ')"></td>
+                            <td class="text-center align-middle"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png" onclick="Firmar(' . $id . ')"></td>';
 
                         // echo '<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="Editar('.$id.')"></td>';
                 
                         echo ' <td class="text-center align-middle">' . $btnEliminar . '</td>
-  </tr>';
+                            </tr>';
 
                     }
 
@@ -163,7 +128,6 @@ function Comodin($idUsuario, $con)
                 ?>
             </tbody>
         </table>
-
+        </div>
     </div>
-
-</div>
+    

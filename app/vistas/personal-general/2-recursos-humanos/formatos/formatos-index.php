@@ -1,12 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
 ?>
-<style media="screen">
-  .grayscale {
-    filter: opacity(50%);
-  }
-</style>
-
 <script type="text/javascript">
 
   $(document).ready(function ($) {
@@ -209,7 +203,7 @@ require 'app/vistas/contenido/header.php';
 
             if (response == 1) {
               //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-              $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
+              $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
               SelEstacion(idEstacion);
               alertify.success('Registro eliminado exitosamente.');
             } else {
@@ -302,22 +296,22 @@ require 'app/vistas/contenido/header.php';
     $('#Modal').modal('show');
 
     if (Formato == 1) {
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario1.php?idFormato=' + idFormato);
-      //$('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/formatos/modal-formulario1.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario1.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario1.php?idFormato=' + idFormato);
 
     } else if (Formato == 2) {
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario2.php?idFormato=' + idFormato);
-      //$('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/formatos/modal-formulario2.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario2.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario2.php?idFormato=' + idFormato);
 
     } else if (Formato == 3) {
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario3.php?idFormato=' + idFormato);
-      //$('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/formatos/modal-formulario3.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario3.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario3.php?idFormato=' + idFormato);
     } else if (Formato == 4) {
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario4.php?idFormato=' + idFormato);
-      //$('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/formatos/modal-formulario4.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario4.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario4.php?idFormato=' + idFormato);
     } else if (Formato == 5) {
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idFormato=' + idFormato);
-      //$('#ContenidoModal').load('app/vistas/contenido/recursos-humanos/formatos/modal-formulario5.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario5.php?idFormato=' + idFormato);
     }
 
   }

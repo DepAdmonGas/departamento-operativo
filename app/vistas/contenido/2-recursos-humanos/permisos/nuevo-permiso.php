@@ -65,7 +65,7 @@ require 'app/vistas/contenido/header.php';
                                 data.append('Cubre', Cubre);
                                 data.append('Motivo', Motivo);
                                 data.append('base64', base64);
-                                data.append('estacionCubre',estacionPersonal)
+                                data.append('estacionCubre',estacionPersonal);
                                 data.append('accion','agregar-permiso')
                                 $.ajax({
                                     url: url,
@@ -120,38 +120,33 @@ require 'app/vistas/contenido/header.php';
         <?php include_once "public/navbar/navbar-perfil.php"; ?>
         <!---------- CONTENIDO PAGINA WEB---------->
         <div class="contendAG">
+        <div class="container bg-white p-3">
+        
             <div class="row">
-
                 <div class="col-12 mb-3">
-                    <div class="cardAG">
-                        <div class="border-0 p-3">
+                <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+                        <ol class="breadcrumb breadcrumb-caret">
+                            <li class="breadcrumb-item"><a onclick="history.back()"
+                                    class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i>
+                                    Permisos</a></li>
+                            <li aria-current="page" class="breadcrumb-item active text-uppercase">Nuevo Permiso</li>
+                        </ol>
+                    </div>
 
-                            <div class="row">
-
-                                <div class="col-10">
-
-                                    <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png"
-                                        onclick="Regresar()">
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <h5>Crear permiso</h5>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Nuevo Permiso</h3>
                             <hr>
+                        </div>
+                    </div>
+
+                    <div class="cardAG">
+                        <div class="border-0">
 
                             <div class="alert alert-warning text-center" role="alert">
                                 <b>IMPORTANTE:</b> PARA SOLICITAR UN PERMISO DEBE DE SER CON MÍNIMO 15 DÍAS DE
                                 ANTICIPACIÓN
                             </div>
-
-
                             <div class="row">
 
                                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
@@ -280,17 +275,18 @@ require 'app/vistas/contenido/header.php';
                                         <input type="hidden" name="base64" value="" id="base64">
                                     </div>
                                     <div class="text-end mt-2">
-                                        <button class="btn btn-info btn-sm text-white"
-                                            onclick="resizeCanvas()"><small>Limpiar</small></button>
-                                    </div>
+                                            <button type="button" class="btn  btn-labeled2 btn-primary">
+         <span class="btn-label2"><i class="fa fa-trash-can" onclick="resizeCanvas()"></i></span>Limpiar</button>
+                                        </div>
+
                                 </div>
                             </div>
 
                             <hr>
 
-                            <div class="text-end mt-4">
-                                <button type="button" class="btn btn-primary"
-                                    onclick="Crear(<?= $GET_idEstacion; ?>)">Crear permiso</button>
+                            <div class="text-end">
+                            <button type="button" class="btn btn-labeled2 btn-success">
+         <span class="btn-label2"><i class="fa fa-check" onclick="Crear(<?= $GET_idEstacion; ?>)"></i></span>Crear Permiso</button>
                             </div>
 
                         </div>
@@ -301,7 +297,7 @@ require 'app/vistas/contenido/header.php';
         </div>
 
     </div>
-
+    </div>
     <script type="text/javascript">
 
         var wrapper = document.getElementById("signature-pad");

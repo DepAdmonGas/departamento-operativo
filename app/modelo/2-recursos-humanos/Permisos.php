@@ -42,7 +42,7 @@ class Permisos extends Exception{
         endif;
         $result->close();
     }
-    public function agregarPermiso(string $imgn,int $estacion,int $colaborador,string $fechaInicio,string $fechaFin,string $diasTomados,int $cubre,string $motivo,string $observacion): bool {
+    public function agregarPermiso(string $imgn,int $estacion,int $colaborador,string $fechaInicio,string $fechaFin,string $diasTomados,int $cubre,string $motivo,string $observacion,$estacionCubre): bool {
         $resultado = true;
         $status = 0;
         $aleatorio = uniqid();
@@ -60,13 +60,14 @@ class Permisos extends Exception{
             cubre_turno,
             motivo,
             observaciones,
-            estado)
-            VALUES(?,?,?,?,?,?,?,?,?,?)";
+            estado,
+            estacion_cubre)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         $result = $this->con->prepare($sql_insert);
         if(!$result):
             throw new Exception("Error al preparar la consulta".$this->con->error);
         endif;
-        $result->bind_param("iiisssissi",$idReporte,$estacion,$colaborador,$fechaInicio,$fechaFin,$diasTomados,$cubre,$motivo,$observacion,$status);
+        $result->bind_param("iiisssissii",$idReporte,$estacion,$colaborador,$fechaInicio,$fechaFin,$diasTomados,$cubre,$motivo,$observacion,$status,$estacionCubre);
         if(!$result->execute()):
             $resultado = false;
             throw new Exception("Error al ejecutar la consulta".$result->error);
@@ -146,7 +147,7 @@ class Permisos extends Exception{
         $result->close();
         return $resultado;
     }
-    private function Numero(int $idUsuario)
+    private function numero(int $idUsuario)
     {
         $sql = "SELECT telefono FROM tb_usuarios WHERE id = ? ";
         $result = $this->con->prepare($sql);
