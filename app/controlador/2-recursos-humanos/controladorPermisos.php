@@ -16,7 +16,8 @@ switch($_POST['accion']):
         $cubre = $_POST['Cubre'];
         $motivo = $_POST['Motivo'];
         $observacion = $_POST['Observacion'];
-        echo $permisos->agregarPermiso($img,$estacion,$colaborador,$fechaInicio,$fechaFin,$diasTomados,$cubre,$motivo,$observacion);
+        $estacionCubre = $_POST['estacionCubre'];
+        echo $permisos->agregarPermiso($img,$estacion,$colaborador,$fechaInicio,$fechaFin,$diasTomados,$cubre,$motivo,$observacion,$estacionCubre);
         break;
     case 'crear-token':
         $idReporte = $_POST['idReporte'];

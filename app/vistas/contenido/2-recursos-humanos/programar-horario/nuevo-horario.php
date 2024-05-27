@@ -24,29 +24,27 @@ require ('app/help.php');
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-    <style media="screen">
-        .sel-text {
-            font-size: .9em;
-        }
-    </style>
-
-
     <script type="text/javascript">
 
         $(document).ready(function ($) {
             $(".LoaderPage").fadeOut("slow");
-            ListaPersonal(<?= $GET_idReporte; ?>);
+            ListaPersonal(<?=$GET_idReporte?>,<?=$Session_IDEstacion?>);
+            if(<?=$Session_IDEstacion?>==2){
+                ListaPersonal(<?=$GET_idReporte?>,9);
+            }
         });
 
         function Regresar() {
             window.history.back();
         }
-
-        function ListaPersonal(idReporte) {
-            //$('#ListaPersonal').load('../public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-programar-horario-personal.php?idReporte=' + idReporte);
-            $('#ListaPersonal').load('../app/vistas/contenido/2-recursos-humanos/programar-horario/contenido-nuevo-horario.php?idReporte=' + idReporte);
+        function ListaPersonal(idReporte,idEstacion) {
+            if (idEstacion == 9) {
+                referencia = '#ListaPersonal2';
+            } else {
+                referencia = '#ListaPersonal';
+            }
+            $(referencia).load('../app/vistas/contenido/2-recursos-humanos/programar-horario/contenido-nuevo-horario.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
         }
-
         function EditHorario(titulo, dia, idPersonal, idReporte, idEstacion) {
             var horario = titulo.value;
 
@@ -56,7 +54,7 @@ require ('app/help.php');
                 "idPersonal": idPersonal,
                 "idReporte": idReporte,
                 "idEstacion": idEstacion,
-                "accion":"editar-horario"
+                "accion": "editar-horario"
             };
 
             $.ajax({
@@ -68,7 +66,7 @@ require ('app/help.php');
                 beforeSend: function () {
                     $(".LoaderPage").show();
                 },
-                complete: function () {},
+                complete: function () { },
                 success: function (response) {
                     if (response == 1) {
 
@@ -88,7 +86,7 @@ require ('app/help.php');
                 var parametros = {
                     "Fecha": Fecha,
                     "idReporte": idReporte,
-                    "accion":"guardar-horario"
+                    "accion": "guardar-horario"
                 };
                 $.ajax({
                     data: parametros,
@@ -97,7 +95,7 @@ require ('app/help.php');
                     type: 'POST',
                     beforeSend: function () {
                         $(".LoaderPage").show();
-                    },complete: function () {},
+                    }, complete: function () { },
                     success: function (response) {
                         if (response == 1) {
                             $(".LoaderPage").hide();
@@ -125,49 +123,36 @@ require ('app/help.php');
         <!---------- CONTENIDO PAGINA WEB---------->
         <div class="contendAG">
             <div class="row">
-
                 <div class="col-12 mb-3">
-                    <div class="cardAG">
-                        <div class="border-0 p-3">
+                    <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+                        <ol class="breadcrumb breadcrumb-caret">
+                            <li class="breadcrumb-item"><a onclick="history.back()"
+                                    class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i>
+                                    Programar Horario</a></li>
+                            <li aria-current="page" class="breadcrumb-item active text-uppercase">Nuevo Horario</li>
+                        </ol>
+                    </div>
 
-                            <div class="row">
-                                <div class="col-12">
-
-                                    <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png"
-                                        onclick="Regresar()">
-
-                                    <div class="row">
-                                        <div class="col-12">
-
-                                            <h5>Recursos humanos programar horario</h5>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
+                    <div class="row">
+                        <div class="col-10">
+                            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                                Nuevo Horario</h3>
+                        </div>
+                        <div class="col-2">
+                            <input type="date" class="form-control" id="Fecha">
+                        </div>
+                        <div class="col-12">
                             <hr>
-
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <label class=" text-secondary"><b>Fecha:</b></label>
-                                    <input type="date" class="form-control" id="Fecha">
-                                </div>
-                            </div>
-
-                            <div id="ListaPersonal"></div>
-
+                        </div>
+                        <div class="col-12" id="ListaPersonal"></div>
+                        <div class="col-12" id="ListaPersonal2"></div>
+                        <div class="col-12">
                             <hr>
-                            <div class="text-end">
-                                <button type="button" class="btn btn-success"
-                                    onclick="Guardar(<?= $GET_idReporte; ?>)">Guardar y programar</button>
-                            </div>
-
-
-
+                            <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?= $GET_idReporte; ?>)">
+         <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar y programar</button>
                         </div>
                     </div>
+
                 </div>
 
             </div>

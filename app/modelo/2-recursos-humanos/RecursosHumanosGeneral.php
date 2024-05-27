@@ -136,10 +136,10 @@ class RecursosHumanosGeneral extends Exception
         $result->close();
         $estacion = '
         <div class="table-responsive">
-        <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
-        <thead class="tables-bg">
-            <th><b>Nombre de la empresa</b></th>
-            <th><b>'.$nombre.'</b></th>
+        <table class="custom-table mt-3" style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <th>Nombre de la empresa</th>
+            <th>'.$nombre.'</th>
         </thead>
         <tbody class="bg-white">
 
