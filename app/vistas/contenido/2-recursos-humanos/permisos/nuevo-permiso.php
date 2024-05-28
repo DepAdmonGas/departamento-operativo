@@ -285,8 +285,8 @@ require 'app/vistas/contenido/header.php';
                             <hr>
 
                             <div class="text-end">
-                            <button type="button" class="btn btn-labeled2 btn-success">
-         <span class="btn-label2"><i class="fa fa-check" onclick="Crear(<?= $GET_idEstacion; ?>)"></i></span>Crear Permiso</button>
+                            <button type="button" class="btn btn-labeled2 btn-success" onclick="Crear(<?= $GET_idEstacion; ?>)">
+         <span class="btn-label2"><i class="fa fa-check"></i></span>Crear Permiso</button>
                             </div>
 
                         </div>

@@ -70,7 +70,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'mediciones':
-                $ruta_elegida = 'public/corte-diario/vistas/mediciones-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/mediciones-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/mediciones/mediciones-index.php';
                 break;
 
 

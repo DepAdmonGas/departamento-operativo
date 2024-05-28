@@ -45,6 +45,15 @@ function Comodin($idUsuario, $con)
     return $usuario;
 }
 ?>
+<!--Se ocupa cuando se registra un nuevo permiso y se actualice los datos de la vista-->
+<script>
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // Si la página está en la caché del navegador, recargarla
+                window.location.reload();
+            }
+        });
+</script>
 
     <div class="row">
     <div class="table-responsive">

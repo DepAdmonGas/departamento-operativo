@@ -1,6 +1,6 @@
 <?php
 require "../../bd/inc.conexion.php";
-class Formatos{
+class Formatos extends Exception{
     private $classConexionBD;
     private $con;
     public function __construct()
