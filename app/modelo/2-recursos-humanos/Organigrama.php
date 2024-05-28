@@ -1,6 +1,6 @@
 <?php
 require "../../bd/inc.conexion.php";
-class Organigrama{
+class Organigrama extends Exception{
     private $classConexionBD;
     private $con;
     public function __construct()
