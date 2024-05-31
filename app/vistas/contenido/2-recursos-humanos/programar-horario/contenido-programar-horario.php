@@ -8,15 +8,15 @@ $result_empresa = mysqli_query($con, $sql_empresa);
 $numero_empresa = mysqli_num_rows($result_empresa);
 ?>
 <div class="table-responsive">
-<table id="tabla_horario" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+    <table id="tabla_horario" class="custom-table mt-2" style="font-size: .8em;" width="100%">
 
         <thead class="navbar-bg">
             <tr>
                 <th class="text-center align-middle" width="48px">#</th>
                 <th class="text-center">Fecha programada</th>
                 <th class="text-center align-middle" width="32px"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png" /></th>
+            </tr>
         </thead>
-        </tr>
 
         <tbody>
             <?php
@@ -33,7 +33,7 @@ $numero_empresa = mysqli_num_rows($result_empresa);
                         $eliminar = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png" class="pointer"/>';
                     }
 
-                    echo '<tr '. $trcolor.' pointer">';
+                    echo '<tr ' . $trcolor . ' pointer">';
                     echo '<th class="text-center align-middle" onclick="Detalle(' . $id . ')">' . $row_empresa['id'] . '</th>';
                     echo '<td class="text-start" onclick="Detalle(' . $id . ')">' . FormatoFecha($row_empresa['fecha']) . '</td>';
                     echo '<td class="text-center align-middle">' . $eliminar . '</td>';
