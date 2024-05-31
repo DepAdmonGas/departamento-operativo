@@ -300,7 +300,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 break;
 
             case 'pivoteo':
-                $ruta_elegida = 'public/corte-diario/vistas/pivoteo-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/pivoteo-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/pivoteo/pivoteo-index.php';
                 break;
 
             //-----------------------------------------------------------------------------------------
@@ -714,10 +715,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/miselanea-30-31/vistas/miselanea-30-31.php';
         } else if ($partes_ruta[1] == 'pivoteo-editar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/corte-diario/vistas/pivoteo-editar.php';
+            //$ruta_elegida = 'public/corte-diario/vistas/pivoteo-editar.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/pivoteo/editar-pivoteo.php';
         } else if ($partes_ruta[1] == 'pivoteo-pdf') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/pivoteo-pdf.php';
+            //$ruta_elegida = 'public/admin/vistas/pivoteo-pdf.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/pivoteo/pivoteo-pdf.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-vacaciones-firmar') {
             $GET_idReporte = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-firmar.php';
