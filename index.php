@@ -306,10 +306,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             //-----------------------------------------------------------------------------------------
 
             case 'descarga-tuxpan':
-                $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-index.php';
+                //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/formato-descarga-merma/descarga-index.php';
                 break;
             case 'descarga-tuxpan-nuevo':
-                $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-nuevo.php';
+                //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-nuevo.php';
+                $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/nueva-descarga.php';
                 break;
 
             case 'perfil':
@@ -666,10 +668,12 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
         } else if ($partes_ruta[1] == 'descarga-tuxpan-detalle') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/detalle-merma.php';
         } else if ($partes_ruta[1] == 'descarga-tuxpan-editar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-editar.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-editar.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/editar-detalle-merma.php';
         } else if ($partes_ruta[2] == 'descarga-tuxpan') {
             $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-admin.php';
         } else if ($partes_ruta[2] == 'nivel-explosividad') {
@@ -949,7 +953,8 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle-admin.php';
         } else if ($partes_ruta[2] == 'descarga-tuxpan-pdf') {
             $GET_idReporte = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-pdf.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-pdf.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/descarga-pdf.php';
         } else if ($partes_ruta[2] == 'nivel-explosividad') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/nivel-explosividad-nuevo.php';
