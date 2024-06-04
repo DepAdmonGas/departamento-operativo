@@ -2,9 +2,7 @@
 require('../../../app/help.php');
 include_once '../../../app/modelo/httpPHPAltiria.php';
 $altiriaSMS = new AltiriaSMS();
-function notificacionesWA($Numero, $aleatorio){
-    //TOKEN QUE NOS DA FACEBOOK
-    $token = 'EAA06AwwBmgcBO55i0gFeGOxZAAKWQIsd89aw8J0NCGDIisqmfHDk7tkhhgSzi5pSH1Bib5RYajmvckNmPJLZBzqLm901Fb5ZBqdeH3iv2PeNl90cuBKj4Qr63tZC3j7CdyZCfVoZCar6BLZC1c34vxUq3OWT2FwH65qwme7ytT3LnqglsPZA4ZCUqqkWW92iwirRukF34Dk3m0QDzra3Cn6vW0QnFe6X4PGY7xU0ZD';
+function notificacionesWA($Numero, $aleatorio,$token){
     $telefono = '52'.$Numero;
     
     //URL A DONDE SE MANDARA EL MENSAJE
@@ -84,7 +82,7 @@ $response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente toke
 
 echo 1;
 }elseif($idVal == 2){
-    notificacionesWA($Numero,$aleatorio);
+    notificacionesWA($Numero,$aleatorio,$tokenWhats);
 echo 1;
 }
 

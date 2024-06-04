@@ -111,7 +111,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'mediciones':
-                $ruta_elegida = 'public/corte-diario/vistas/mediciones-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/mediciones-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/mediciones/mediciones-index.php';
                 break;
 
 
@@ -183,7 +184,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'recursos-humanos-estacion-organigrama':
-                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/estacion-organigrama.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/organigrama/organigrama.php';
                 //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-organigrama.php';
                 break;
 
@@ -197,16 +198,19 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
 
             case 'recursos-humanos-estacion-permisos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-permisos.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/permisos/permiso-index.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-permisos.php';
                 break;
 
 
             case 'recursos-humanos-estacion-horario-personal':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-horario-personal.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-horario-personal.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/horario-personal/horario-index.php';
                 break;
 
             case 'recursos-humanos-estacion-programar-horario':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/programar-horario/programar-horario-index.php';
                 break;
 
             case 'recursos-humanos-configuracion':
@@ -218,7 +222,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'recursos-humanos-estacion-formatos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-formatos.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-formatos.php';
+                $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/formatos/formatos-index.php';
                 break;
 
             case 'recursos-humanos-configuracion-perfil':
@@ -310,16 +315,19 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'pivoteo':
-                $ruta_elegida = 'public/corte-diario/vistas/pivoteo-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/pivoteo-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/pivoteo/pivoteo-index.php';
                 break;
 
             //-----------------------------------------------------------------------------------------
 
             case 'descarga-tuxpan':
-                $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-index.php';
+                //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/3-importacion/formato-descarga-merma/descarga-index.php';
                 break;
             case 'descarga-tuxpan-nuevo':
-                $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-nuevo.php';
+                //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-nuevo.php';
+                $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/nueva-descarga.php';
                 break;
 
             case 'perfil':
@@ -686,13 +694,20 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos1.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-formatos-vacaciones') {
             $GET_idFormato = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-vacaciones.php';
+           //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-vacaciones.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/formato-vacaciones.php';
+        } else if ($partes_ruta[1] == 'recursos-humanos-personal-asistencia') {
+            $GET_idPersonal = $partes_ruta[2];
+            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
+
         } else if ($partes_ruta[1] == 'descarga-tuxpan-detalle') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/detalle-merma.php';
         } else if ($partes_ruta[1] == 'descarga-tuxpan-editar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-editar.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-editar.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/editar-detalle-merma.php';
         } else if ($partes_ruta[2] == 'descarga-tuxpan') {
             $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-admin.php';
         } else if ($partes_ruta[2] == 'nivel-explosividad') {
@@ -701,10 +716,12 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/calibracion-dispensarios-index.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-estacion-programar-horario-nuevo') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-nuevo.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-nuevo.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/programar-horario/nuevo-horario.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-estacion-programar-horario-detalle') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-detalle.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-programar-horario-detalle.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/programar-horario/detalle-horario.php';
         } else if ($partes_ruta[2] == 'solicitud-aditivo') {
             $ruta_elegida = 'public/admin/vistas/solicitud-aditivo-index.php';
         } else if ($partes_ruta[1] == 'solicitud-aditivo-pdf') {
@@ -731,10 +748,12 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/miselanea-30-31/vistas/miselanea-30-31.php';
         } else if ($partes_ruta[1] == 'pivoteo-editar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/corte-diario/vistas/pivoteo-editar.php';
+            //$ruta_elegida = 'public/corte-diario/vistas/pivoteo-editar.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/pivoteo/editar-pivoteo.php';
         } else if ($partes_ruta[1] == 'pivoteo-pdf') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/pivoteo-pdf.php';
+            //$ruta_elegida = 'public/admin/vistas/pivoteo-pdf.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/pivoteo/pivoteo-pdf.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-vacaciones-firmar') {
             $GET_idReporte = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-firmar.php';
@@ -768,10 +787,12 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/control-volumetrico-year.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permisos-firmar') {
             $GET_idReporte = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-firmar.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-firmar.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/permisos/firmar.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permiso-nuevo') {
             $GET_idEstacion = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-nuevo.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-nuevo.php';
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/permisos/nuevo-permiso.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-permiso-editar') {
             $GET_idPermiso = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-editar.php';
@@ -968,7 +989,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle-admin.php';
         } else if ($partes_ruta[2] == 'descarga-tuxpan-pdf') {
             $GET_idReporte = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-pdf.php';
+            //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-pdf.php';
+            $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/descarga-pdf.php';
         } else if ($partes_ruta[2] == 'nivel-explosividad') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/nivel-explosividad-nuevo.php';

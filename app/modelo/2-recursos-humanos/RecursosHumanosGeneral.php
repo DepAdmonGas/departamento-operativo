@@ -388,4 +388,84 @@ $this->EditIncidencias($id,$idIncidencia);
 }
 }
 
+
+public function mostrarEstacion(int $idEstacion) :string {
+$nombre = "";
+$registro = "";
+$calle = "";
+$exterior = "";
+$colonia = "";
+$cp = "";
+$estado = "";
+$municipio ="";
+$telefono = "";
+$stmt = "SELECT nombre, registro_patronal,calle,numero_exterior,colonia,codigo_postal, estado,municipio,numero_telefono FROM tb_organigrama_estaciones WHERE id = ?";
+$result = $this->con->prepare($stmt);
+$result->bind_param("i",$idEstacion);
+$result->execute();
+$result->bind_result($nombre,$registro,$calle,$exterior,$colonia,$cp,$estado,$municipio,$telefono);
+$result->fetch();
+$result->close();
+$estacion = '
+<div class="table-responsive">
+<table class="custom-table mt-3" style="font-size: .8em;" width="100%">
+<thead class="navbar-bg">
+<th>Nombre de la empresa</th>
+<th>'.$nombre.'</th>
+</thead>
+<tbody class="bg-white">
+
+<tr>
+<th>Registro Patronal</th>
+<td>'.$registro.'</td>
+</tr>
+
+<tr>
+<th>Calle</th>
+<td>'.$calle.'</td>
+</tr>
+
+<tr>
+<th>Numero Ext.</th>
+<td>'.$exterior.'</td>
+</tr>
+
+<tr>
+<th>Numero Int. </th>
+<td> S/N </td>
+</tr>
+
+<tr>
+<th>Colonia</th>
+<td>'.$colonia.'</td>
+</tr>
+
+<tr>
+<th>Codigo Postal</th>
+<td>'.$cp.'</td>
+</tr>
+
+<tr>
+<th>Estado</th>
+<td>'.$estado.'</td>
+</tr>
+
+<tr>
+<th>Municipio</th>
+<td>'.$municipio.'</td>
+</tr>
+
+<tr>
+<th>Numero de telefono</th>
+<td>'.$telefono.'</td>
+</tr>
+
+
+</tbody>
+</table>
+</div>';
+return $estacion;
+}
+
+
 }

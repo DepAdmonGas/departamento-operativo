@@ -1,19 +1,12 @@
 <?php
 require "../../bd/inc.conexion.php";
-require_once '../../modelo/HerramientasDptoOperativo.php';
-class Organigrama{
+class Organigrama extends Exception{
     private $classConexionBD;
     private $con;
-    private $formato;
-    private $herramientasDptoOperativo;
-
-    
     public function __construct()
     {
- 
         $this->classConexionBD = Database::getInstance();
         $this->con = $this->classConexionBD->getConnection();
-        $this->formato = new herramientasDptoOperativo($this->con);
     }
     public function agregarOrganigrama(int $idEstacion,string $observaciones,array $doc) : bool {
         

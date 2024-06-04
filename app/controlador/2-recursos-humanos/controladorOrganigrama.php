@@ -2,10 +2,6 @@
 require "../../modelo/2-recursos-humanos/Organigrama.php";
 $organigrama = new Organigrama();
 switch($_POST['accion']):
-    /**  
-     *               
-     * 
-    */
     case 'guardar-organigrama':
         $idEstacion = $_POST['idEstacion'];
         $observaciones = $_POST['Observaciones'] ?? "";
