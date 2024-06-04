@@ -68,18 +68,16 @@ endif;
         MC20Grados_file = MC20Grados.files[0];
         MC20Grados_filePath = MC20Grados.value;
 
+        Sdvdld = 'NO';
+        Sellos = 'NO';
         if ($('#SellosAlterados1').is(':checked')) {
             Sellos = 'SI';
-        } else {
-            Sellos = 'NO';
         }
 
         if ($('#sdvdld1').is(':checked')) {
             Sdvdld = 'SI';
-        } else {
-            Sdvdld = 'NO';
         }
-
+        
         var baseImage1 = "";
         var baseImage2 = "";
         let signatureBlank1 = signaturePad1.isEmpty();
@@ -254,32 +252,6 @@ endif;
 
     }
 
-    function BuscarEstacion(e) {
-
-        var idEstacion = e.value
-
-        var parametros = {
-            "idEstacion": idEstacion
-        };
-
-        $.ajax({
-            data: parametros,
-            url: 'public/admin/modelo/buscar-personal-descarta-tuxpan.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-                $('#Personal').html(response);
-
-            }
-        });
-    }
-
-
     function mermaLts(e, num) {
 
         var valor = e.value;
@@ -344,7 +316,7 @@ endif;
 
                                 <div class="col-12 col-sm-6 mb-2">
                                     <div class="text-secondary mb-1">Estación de descarga:</div>
-                                    <select class="form-select" id="Estacion" onchange="BuscarEstacion(this)"
+                                    <select class="form-control" id="Estacion" 
                                         <?= $Disabled; ?>>
                                         <option value="<?= $idEstacion; ?>"><?= $NomEst; ?></option>
                                         <?php
@@ -362,7 +334,7 @@ endif;
                                 <div class="col-12 col-sm-6 mb-2">
                                     <div class="text-secondary mb-1">Responsable de la estación:</div>
                                     <div id="Personal">
-                                        <select class="form-select" id="Responsable" <?= $Disabled; ?>>
+                                        <select class="form-control" id="Responsable" <?= $Disabled; ?>>
                                             <option value="<?= $idUsuario; ?>"><?= $NomUsua; ?></option>
                                         </select>
                                     </div>
