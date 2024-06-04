@@ -23,7 +23,9 @@ while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
 $idUsuario = $row_comen['id_usuario'];
 $comentario = $row_comen['comentario'];
 
-$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+$NomUsuario = $datosUsuario['nombre'];
+
 
 if ($Session_IDUsuarioBD == $idUsuario) {
 $margin = "margin-left: 30px;margin-right: 5px;";

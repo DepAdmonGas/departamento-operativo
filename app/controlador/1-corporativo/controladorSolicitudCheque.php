@@ -24,9 +24,10 @@ break;
 
 case 'crear-token-solicitud-cheque':
 $idReporte = $_POST['idReporte'];
+$idVal = $_POST['idVal'];
 $idUsuario = $_POST['idUsuario'];
-echo $SolicitudCheque->crearTokenSolicitudCheque($idReporte,$idUsuario);
-break;
+echo $SolicitudCheque->crearTokenSolicitudCheque($idReporte,$idUsuario,$idVal);
+break; 
 
 case 'firmar-solicitud-cheque':
 $idReporte = $_POST['idReporte'];

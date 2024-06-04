@@ -19,10 +19,10 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <?php
 
-  if($session_nompuesto == "Gestoria"){
-  echo '<div class="mb-1 text-secondary">Documento:</div>
+if($session_nompuesto == "Gestoria"){
+echo '<div class="mb-1 text-secondary">Documento:</div>
 <div class="input-group">
-  <input type="file" class="form-control" id="Documento">
+<input type="file" class="form-control" id="Documento">
 </div>
 
 <div class="row">
@@ -32,8 +32,8 @@ $numero_lista = mysqli_num_rows($result_lista);
 </div>
 
 <hr>';
-  } ?>
-
+} ?>
+ 
 <div class="table-responsive">
 <table class="custom-table mt-2" style="font-size: 14px;" width="100%">
 <thead>
@@ -50,9 +50,8 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
 $id = $row_lista['id'];
 $explode = explode(' ', $row_lista['fecha']);
-
-echo '<tr>';
-echo '<th class="align-middle font-weight-light">'.FormatoFecha($explode[0]).'</th>';
+echo '<tr>';  
+echo '<th class="align-middle font-weight-light">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).'</th>';
 echo '<td class="align-middle font-weight-light"><a href="../../archivos/'.$row_lista['documento'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '</tr>';
 
@@ -64,5 +63,5 @@ echo "<tr><th colspan='2' class='text-center text-secondary'><small>No se encont
 </tbody>
 </table>
 </div>
-
+  
 </div>

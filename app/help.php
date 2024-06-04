@@ -50,6 +50,10 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         $ClassRecursosHumanosGeneral= new RecursosHumanosGeneral($con);
 
 
+        //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
+        $ClassRecursosHumanosGeneral= new RecursosHumanosGeneral($con);
+
+
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();
     }

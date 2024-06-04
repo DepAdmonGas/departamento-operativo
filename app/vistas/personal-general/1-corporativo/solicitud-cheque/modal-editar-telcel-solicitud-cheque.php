@@ -5,12 +5,14 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 $mes = $_GET['mes'];
 $id = $_GET['id'];
-$estacion = $ClassHerramientasDptoOperativo->obtenerEstacion($idEstacion);
 
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
+$estacion = $datosEstacion['razonsocial'];
+ 
 ?> 
 
 <div class="modal-header">
-<h5 class="modal-title">Facturas telcel, <?=nombremes($mes);?> del <?=$year;?></h5>
+<h5 class="modal-title">Facturas telcel, <?=$ClassHerramientasDptoOperativo->nombremes($mes)?> del <?=$year?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
