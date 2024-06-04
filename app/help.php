@@ -9,7 +9,10 @@ include_once "modelo/Encriptar.php";
 //----- CLASES PUNTO 1. CORPORATIVO -----
 include_once "modelo/1-corporativo/HomeCorporativo.php";
 include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
- 
+//----- CLASES PUNTO 2. RECURSOS HUMANOS -----
+include_once "modelo/2-recursos-humanos/RecursosHumanosGeneral.php";
+
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -42,6 +45,10 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         //----- CLASES PUNTO 1. CORPORATIVO -----
         $corteDiarioGeneral = new CorteDiarioGeneral($con);
         $ClassHomeCorporativo = new HomeCorporativo($con);
+
+        //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
+        $ClassRecursosHumanosGeneral= new RecursosHumanosGeneral($con);
+
 
     } catch (Exception $e) {
         echo 'Error: ', $e->getMessage();

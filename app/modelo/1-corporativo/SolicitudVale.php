@@ -21,6 +21,7 @@ class SolicitudVale extends Exception
     /* ---------- CONSULTAS ----------*/
     function obtenerUltimaSolicitudVale()
     {
+        
     $numid = 1; // Valor por defecto si no se encuentra ninguna solicitud
     $numfolio = 1; // Valor por defecto si no se encuentra ninguna solicitud
         
@@ -28,7 +29,7 @@ class SolicitudVale extends Exception
     $consulta = $this->con->prepare($sql);
         
     if (!$consulta) {
-    throw new Exception("Error en la preparación de la consulta: " . $con->error);
+    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
     }
         
     if (!$consulta->execute()) {

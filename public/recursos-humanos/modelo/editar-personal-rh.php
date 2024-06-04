@@ -22,7 +22,6 @@ $numeroAleatorio2 = rand(1000, 9999);
 $idEstacion = $_POST['idEstacion'];
 $localidad = nombreDepartamento($idEstacion,$con);
 
-  
 $DocumentoPersonal_file  =   $_FILES['DocumentoPersonal_file']['name'];
 $extension1 = pathinfo($DocumentoPersonal_file, PATHINFO_EXTENSION);
 $upload_DocumentoPersonal_file = "../../../archivos/documentos-personal/requisicion/".$numeroAleatorio."-Requisicion-".$localidad."-".$numeroAleatorio2 . "." . $extension1;
@@ -206,7 +205,7 @@ $RFC2 = $RFC;
 $RFC2 = "";
 }
 }
-    
+
 //----- CARTA DE ANTECEDENTES PENALES -----
 if($DocumentoAntecedentes_file != ""){
 if(move_uploaded_file($_FILES['DocumentoAntecedentes_file']['tmp_name'], $upload_DocumentoAntecedentes_file)) {
@@ -216,7 +215,7 @@ $A_Penales2 = $A_Penales;
 $A_Penales2 = "";
 }
 }   
-
+ 
     
 //----- CONTRATO  -----
 if($DocumentoContrato_file != ""){

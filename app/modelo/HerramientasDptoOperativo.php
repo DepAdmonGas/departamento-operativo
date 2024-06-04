@@ -35,36 +35,64 @@ class HerramientasDptoOperativo extends Exception
     'nombre' => $nombreUsuario,
     'telefono' => $telefono
     );
-
+ 
     } else {
     // Manejo de caso cuando no se encuentra el registro
     $datosUsuario = null;
     }    
-    $consulta->bind_result($nombreUsuario);
-    $consulta->fetch();
-    $consulta->close();
 
     return $datosUsuario;
     }
 
-    public function obtenerTelefonoUsuario(int $id): string
+    public function obtenerDatosPersonal($id)
     {
-    $telefonoUser = "";
-    $sql = "SELECT telefono FROM tb_usuarios WHERE id = ?";
+    $idPersonal = $idEstacion = $fecha_ingreso = $no_colaborador = $nombrePersonal = $idPuesto = $salario = $puesto = $estado = null;
+
+    $sql = "SELECT
+    op_rh_personal.id,
+    op_rh_personal.id_estacion,
+    op_rh_personal.fecha_ingreso,
+    op_rh_personal.no_colaborador,
+    op_rh_personal.nombre_completo,
+    op_rh_personal.puesto AS idPuesto,
+    op_rh_personal.sd,
+    op_rh_puestos.puesto,
+    op_rh_personal.estado
+    FROM op_rh_personal
+    INNER JOIN op_rh_puestos 
+    ON op_rh_personal.puesto = op_rh_puestos.id
+    WHERE op_rh_personal.id = ?";
     $consulta = $this->con->prepare($sql);
-        
+
     if (!$consulta) {
     throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-    }
-        
+    } 
+
     $consulta->bind_param('i', $id);
     $consulta->execute();
-    $consulta->bind_result($telefonoUser);
-    $consulta->fetch();
-    $consulta->close();
-        
-    return $telefonoUser;
+    $consulta->bind_result($idPersonal, $idEstacion, $fecha_ingreso, $no_colaborador, $nombrePersonal, $idPuesto, $salario, $puesto, $estado);
+    if ($consulta->fetch()) {
+    // Procesamiento de los datos obtenidos
+    $datosUsuario = array(
+    'idPersonal' => $idPersonal,
+    'idEstacion' => $idEstacion,
+    'fecha_ingreso' => $fecha_ingreso,
+    'no_colaborador' => $no_colaborador,
+    'nombre_personal' => $nombrePersonal,
+    'idPuesto' => $idPuesto,
+    'salario' => $salario,
+    'puesto' => $puesto,
+    'estado' => $estado
+    );
+ 
+    } else {
+    // Manejo de caso cuando no se encuentra el registro
+    $datosUsuario = null;
+    }    
+
+    return $datosUsuario;
     }
+
 
     function obtenerDatosEstacion($idEstacion)
     {
@@ -86,6 +114,38 @@ class HerramientasDptoOperativo extends Exception
     $datosEstacion = array(
     'nombre' => $nombreEstacion,
     'razonsocial' => $razonEstacion
+    );
+
+    } else {
+    // Manejo de caso cuando no se encuentra el registro
+    $datosEstacion = null;
+    }  
+
+    return $datosEstacion;
+    } 
+ 
+ 
+    function obtenerDatosLocalidades($idEstacion)
+    {
+    $numlista = $nombreLocalidad = $recuperacionV = null;
+    $sql = "SELECT numlista, localidad, recuperacion_vapores FROM op_rh_localidades WHERE id = ?";
+    $consulta = $this->con->prepare($sql);
+
+        
+    if (!$consulta) {
+    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+    }
+
+    $consulta->bind_param('i', $idEstacion);
+    $consulta->execute();
+    $consulta->bind_result($numlista,$nombreLocalidad,$recuperacionV);
+
+    if ($consulta->fetch()) {
+    // Procesamiento de los datos obtenidos
+    $datosEstacion = array(
+    'numlista' => $numlista,
+    'localidad' => $nombreLocalidad,
+    'recuperacion_vapores' => $recuperacionV
     );
 
     } else {
@@ -256,19 +316,68 @@ class HerramientasDptoOperativo extends Exception
 
     /* ---------- ENVIAR TOKEN SMS - USUARIOS   ----------*/
 
-    public function destinatarioToken($telefonoUser,$aleatorio): void
-    {
+    function notificacionesWA($Numero, $aleatorio, $textoN){
+    //TOKEN QUE NOS DA FACEBOOK
+    $token = 'EAA06AwwBmgcBO2JtMSSEbdGU54Yl2rNm1dV1ZBFlvjQnXZAZAomvt6qPIYUZAmsRYkvmlQaCdwot1SZBKwvJ6jak9ERQz1D2TGKZBqhSURRG1UfTYSDZAM7mxyu7jZCQOoPBQjtSBvLHZCSJtt9uvH2jpEmmhEmuBonZAjHZCbgZBRhvaIkc8AZCNMxOPT13AYRwhrYSZAJXWiZAEfO58KtTemwTiHnnxqhNOzyPDld21ZBJ';
+    $telefono = '52'.$Numero;
+        
+    //URL A DONDE SE MANDARA EL MENSAJE
+    $url = 'https://graph.facebook.com/v19.0/343131472217554/messages';
+        
+    //CONFIGURACION DEL MENSAJE
+    $mensaje = '{
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "'.$telefono.'",
+    "type": "text",
+    "text": {
+    "preview_url": "false",
+    "body": "AdmonGas: Usa el siguiente token para firmar '.$textoN.'. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
+    }
+    }';
+           
+    //DECLARAMOS LAS CABECERAS
+    $header = array("Authorization: Bearer " . $token, "Content-Type: application/json",);
+    //INICIAMOS EL CURL
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $mensaje);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    //OBTENEMOS LA RESPUESTA DEL ENVIO DE INFORMACION
+    $response = json_decode(curl_exec($curl), true);
+    //IMPRIMIMOS LA RESPUESTA 
+    //print_r($response);
+    //OBTENEMOS EL CODIGO DE LA RESPUESTA
+    $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    //CERRAMOS EL CURL
+    curl_close($curl);
+        
+    } 
 
+    function notificacionesSMS($Numero, $aleatorio, $textoN){
+    
     $this->AltiriaSMS->setApikey('sistemas.admongas@gmail.com');
     $this->AltiriaSMS->setApisecret('hy8q4c7y');
     $this->AltiriaSMS->setSenderId('AdmonGas');
-    $sDestination = '525527314824';
-    $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: ".$aleatorio." Web: portal.admongas.com.mx");  
+    $sDestination = '52'.$Numero;
+    $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar ".$textoN.". Token: ".$aleatorio." Web: portal.admongas.com.mx");  
+           
+    }
+
+    public function destinatarioToken($telefonoUser,$aleatorio,$idVal,$textoN): void
+    {
+
+    if($idVal == 1){
+    $this->notificacionesSMS($telefonoUser,$aleatorio,$textoN);
         
+    }else if($idVal == 2){
+    $this->notificacionesWA($telefonoUser,$aleatorio,$textoN);
+
+    }
 
     }
   
-
     /* ---------- NOTIFICACIONES  ----------*/
     public function sendNotification($token, $detalle, $accion): void
     {
@@ -304,8 +413,7 @@ class HerramientasDptoOperativo extends Exception
 
     }
 
-
-
+    
     public function toquenUser(int $id): string
     {
 
@@ -324,54 +432,59 @@ class HerramientasDptoOperativo extends Exception
     $result_firma->fetch();
     $result_firma->close();
     return $token;
-    }
+    } 
 
 
     /* ---------- FORMATOS DE FECHAS  ----------*/
 
     public function nombremes(int $mes): string {
-        switch ($mes) :
-        case "01": $mes = "Enero"; return $mes;
-        case "02": $mes = "Febrero"; return $mes;
-        case "03": $mes = "Marzo"; return $mes;
-        case "04": $mes = "Abril"; return $mes;
-        case "05": $mes = "Mayo"; return $mes;
-        case "06": $mes = "Junio"; return $mes;
-        case "07": $mes = "Julio"; return $mes;
-        case "08": $mes = "Agosto"; return $mes;
-        case "09": $mes = "Septiembre"; return $mes;
-        case "10": $mes = "Octubre"; return $mes;
-        case "11": $mes = "Noviembre";  return $mes;
-        case "12": $mes = "Diciembre"; return $mes;
-        default:
-        $mes = "Mes inválido"; return $mes;
-        endswitch;
+    switch ($mes) :
+    case "01": $mes = "Enero"; return $mes;
+    case "02": $mes = "Febrero"; return $mes;
+    case "03": $mes = "Marzo"; return $mes;
+    case "04": $mes = "Abril"; return $mes;
+    case "05": $mes = "Mayo"; return $mes;
+    case "06": $mes = "Junio"; return $mes;
+    case "07": $mes = "Julio"; return $mes;
+    case "08": $mes = "Agosto"; return $mes;
+    case "09": $mes = "Septiembre"; return $mes;
+    case "10": $mes = "Octubre"; return $mes;
+    case "11": $mes = "Noviembre";  return $mes;
+    case "12": $mes = "Diciembre"; return $mes;
+    default:
+    $mes = "Mes inválido"; return $mes;
+    endswitch;
     
-        }
+    }
     
-        public function get_nombre_dia(string $fecha): string {
-        $fechats = strtotime($fecha);
-        switch (date('w', $fechats)) :
-        case 0: $dia = "Domingo"; return $dia;
-        case 1: $dia = "Lunes"; return $dia;
-        case 2: $dia = "Martes"; return $dia;
-        case 3: $dia = "Miercoles"; return $dia;
-        case 4: $dia = "Jueves"; return $dia;
-        case 5: $dia = "Viernes"; return $dia;
-        case 6: $dia = "Sabado"; return $dia;
-        default:
-        $dia = "Dia inválido"; return $dia;
-        endswitch;
+    public function get_nombre_dia(string $fecha): string {
+    $fechats = strtotime($fecha);
+    switch (date('w', $fechats)) :
+    case 0: $dia = "Domingo"; return $dia;
+    case 1: $dia = "Lunes"; return $dia;
+    case 2: $dia = "Martes"; return $dia;
+    case 3: $dia = "Miercoles"; return $dia;
+    case 4: $dia = "Jueves"; return $dia;
+    case 5: $dia = "Viernes"; return $dia;
+    case 6: $dia = "Sabado"; return $dia;
+    default:
+    $dia = "Dia inválido"; return $dia;
+    endswitch;
     
-        }
+    }
     
-        public function FormatoFecha(string $fechaFormato): string 
-        {
-        $formato_fecha = explode("-", $fechaFormato);
-        $resultado = $this->get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . $this->nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
+    public function FormatoFecha(string $fechaFormato): string 
+    {
+    $formato_fecha = explode("-", $fechaFormato);
+    $resultado = $this->get_nombre_dia($fechaFormato) . " " . $formato_fecha[2] . " de " . $this->nombremes($formato_fecha[1]) . " del " . $formato_fecha[0];
 
-        return $resultado;
+    return $resultado;
     
-        }
+    }
+
+    /* ---------- EXTENCION DE ARCHIVOS  ----------*/
+    function obtenerExtensionArchivo($archivo) {
+    return pathinfo($archivo, PATHINFO_EXTENSION);
+    }
     
 }

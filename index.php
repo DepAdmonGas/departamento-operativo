@@ -9,59 +9,100 @@ $ruta_elegida = 'app/vistas/error/error.php';
 
 if ($partes_ruta[0] == 'departamento-operativo') {
 
-    if (count($partes_ruta) == 1) {
-        $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
+if (count($partes_ruta) == 1) {
+$ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
-    } else if (count($partes_ruta) == 2) {
+}else if (count($partes_ruta) == 2) {
 
-        switch ($partes_ruta[1]) {
+    switch ($partes_ruta[1]) {
 
-            //---------- 1.CORPORATIVO ---------- 
-            case 'corporativo':
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-index.php';
-                break;
+    //---------- 1.CORPORATIVO ---------- 
+    case 'corporativo':
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-index.php';
+    break;
 
-            case 'corte-diario':
-                //$ruta_elegida = 'public/corte-diario/vistas/index.php';
-                $Pagina = 'corte-diario';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
-                break;
+    case 'corte-diario':
+    //$ruta_elegida = 'public/corte-diario/vistas/index.php';
+    $Pagina = 'corte-diario';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
 
-            case 'solicitud-cheque':
-                //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
-                $Pagina = 'solicitud-cheque';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
-                break;
+    case 'solicitud-cheque':
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-index.php';
+    $Pagina = 'solicitud-cheque';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
 
-            case 'ingresos-facturacion':
-                $Pagina = 'ingresos-facturacion';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
-                //$ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-index.php';
-                break;
+    case 'ingresos-facturacion':
+    $Pagina = 'ingresos-facturacion';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    //$ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-index.php';
+    break;
 
-            case 'estimulo-fiscal':
-                //$ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/estimulo-fiscal/estimulo-fiscal-index.php';
+    case 'estimulo-fiscal':
+    //$ruta_elegida = 'public/corte-diario/vistas/estimulo-fiscal-index.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/estimulo-fiscal/estimulo-fiscal-index.php';
+    break;
 
-                break;
+    case 'despacho-factura':
+    //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-index.php';
+    $Pagina = 'despacho-factura';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break;
 
-            case 'despacho-factura':
-                //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-index.php';
-                $Pagina = 'despacho-factura';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
-                break;
+    case 'solicitud-vales':
+    //$ruta_elegida = 'public/solicitud-vales/vistas/index.php';
+    $Pagina = 'solicitud-vales';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
+    break; 
 
-            case 'solicitud-vales':
-                //$ruta_elegida = 'public/solicitud-vales/vistas/index.php';
-                $Pagina = 'solicitud-vales';
-                $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-year.php';
-                break;
+    //---------- 2. RECURSOS HUMANOS ----------
+    case 'recursos-humanos':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-index.php';
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/recursos-humanos-index.php';
+    break;
+ 
+    //----- Personal -----
+    case 'recursos-humanos-estacion-personal':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-personal.php';
+    $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/personal/personal-index.php';
+    break;
+   
+    case 'recursos-humanos-personal':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-index.php';
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/personal/personal-index.php';
+    break;
 
+    case 'recursos-humanos-baja-personal':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-baja-personal-index.php';
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/baja-personal/baja-personal-estaciones.php';
+    break;
 
+    //----- Lista negra -----
+    case 'recursos-humanos-estacion-lista-negra':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-lista-negra.php';
+    $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/lista-negra/lista-negra-index.php';
+    break;
 
-            //---------- 2. RECURSOS HUMANOS ----------
+    case 'recursos-humanos-lista-negra':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-lista-negra-index.php';
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/lista-negra/lista-negra-index.php';
+    break;
 
-            case 'administracion':
+    //----- Biometricos -----
+    case 'recursos-humanos-estacion-biometrico':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-asistencia.php';
+    $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/biometrico/biometrico-index.php';
+    break;
+ 
+    case 'recursos-humanos-biometrico':
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-asistencia.php';
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/biometrico/biometrico-index.php';
+
+    break;
+
+ 
+    case 'administracion':
                 $ruta_elegida = 'public/admin/vistas/index.php';
                 break;
 
@@ -137,10 +178,6 @@ if ($partes_ruta[0] == 'departamento-operativo') {
 
 
 
-            case 'recursos-humanos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-index.php';
-                break;
-
             case 'recursos-humanos-organigrama':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-organigrama-index.php';
                 break;
@@ -152,14 +189,6 @@ if ($partes_ruta[0] == 'departamento-operativo') {
 
             case 'recursos-humanos-formatos':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-index.php';
-                break;
-
-            case 'recursos-humanos-personal':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-index.php';
-                break;
-
-            case 'recursos-humanos-estacion-personal':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-personal.php';
                 break;
 
             case 'recursos-humanos-horario-personal':
@@ -208,17 +237,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-configuracion-retardo-horarios-incidencias.php';
                 break;
 
-            case 'recursos-humanos-asistencia':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-asistencia.php';
-                break;
 
-            case 'recursos-humanos-estacion-asistencia':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-asistencia.php';
-                break;
-
-            case 'recursos-humanos-estacion-lista-negra':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-lista-negra.php';
-                break;
 
 
 
@@ -260,13 +279,9 @@ if ($partes_ruta[0] == 'departamento-operativo') {
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-permisos-index.php';
                 break;
 
-            case 'recursos-humanos-lista-negra':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-lista-negra-index.php';
-                break;
 
-            case 'recursos-humanos-baja-personal':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-baja-personal-index.php';
-                break;
+
+
 
             case 'recursos-humanos-vacaciones':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-index.php';
@@ -389,59 +404,80 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         }
 
     } else if (count($partes_ruta) == 3) {
+    //-------------------- 1.CORPORATIVO -------------------- 
 
-        //-------------------- 1.CORPORATIVO (GERENTES) -------------------- 
+    // 1. Corte Diario -----
+    if ($partes_ruta[1] == 'corte-diario') {
+    $Pagina = $partes_ruta[1];
+     $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    
+    // 2. Solicitud de Cheque -----
+    }else if ($partes_ruta[1] == 'solicitud-cheque') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    } else if ($partes_ruta[1] == 'solicitud-cheque-editar') {
+    $GET_idReporte = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-editar.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-editar.php';
+    } else if ($partes_ruta[1] == 'solicitud-cheque-firmar') {
+    $GET_idReporte = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-firmar.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-firmar.php';
+    
+    // 3. Ingresos vs Facturacion -----
+    } else if ($partes_ruta[1] == 'ingresos-facturacion') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/ingresos-facturacion/ingresos-facturacion-index.php';
+    }
 
-        // 1. Corte Diario -----
-        if ($partes_ruta[1] == 'corte-diario') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-year.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
-        }
+    // 5. Despacho vs Ventas -----
+    else if ($partes_ruta[1] == 'despacho-factura') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-year.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    }
 
-        // 2. Solicitud de Cheque -----
-        else if ($partes_ruta[1] == 'solicitud-cheque') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-year.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
-        } else if ($partes_ruta[1] == 'solicitud-cheque-editar') {
-            $GET_idReporte = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-editar.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-editar.php';
-        } else if ($partes_ruta[1] == 'solicitud-cheque-firmar') {
-            $GET_idReporte = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-firmar.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-firmar.php';
-        }
+    // 6. Solicitud de Vales -----
+    else if ($partes_ruta[1] == 'solicitud-vales') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
+    }
 
-        // 3. Ingresos vs Facturacion -----
-        else if ($partes_ruta[1] == 'ingresos-facturacion') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/ingresos-facturacion-year.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/ingresos-facturacion/ingresos-facturacion-index.php';
-        }
+    //-------------------- 2. RECURSOS HUMANOS  -------------------- 
+    
+    // -- Asistencia Personal -----
+    else if ($partes_ruta[1] == 'recursos-humanos-personal-asistencia') {
+    $GET_idPersonal = $partes_ruta[2];
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/biometrico/biometrico-personal.php';
 
-        // 5. Despacho vs Ventas -----
-        else if ($partes_ruta[1] == 'despacho-factura') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            //$ruta_elegida = 'public/corte-diario/vistas/despacho-factura-year.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
-        }
+    //-- Baja Personal -----
+    }else if ($partes_ruta[1] == 'recursos-humanos-baja-personal') {
+    $GET_idPersonal = $partes_ruta[2];
+    //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-baja-personal-v2.php';
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/baja-personal/baja-personal.php';
 
-        // 6. Solicitud de Vales -----
-        else if ($partes_ruta[1] == 'solicitud-vales') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
-        }
+    }else if ($partes_ruta[1] == 'recursos-humanos-detalle-baja-personal') {
+    $GET_idBaja = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/baja-personal/detalle-baja-personal.php';
 
-        //-------------- CONTRATOS -------------------------
-        else if ($partes_ruta[1] == 'contratos') {
+    //-- Baja Personal -----
+
+
+
+
+
+    //-------------- CONTRATOS -------------------------
+    } else if ($partes_ruta[1] == 'contratos') {
             $GET_Categoria = $partes_ruta[2];
             $ruta_elegida = 'public/contratos/vistas/contratos-index.php';
         } else if ($partes_ruta[2] == 'despacho-factura') {
@@ -592,11 +628,7 @@ if ($partes_ruta[0] == 'departamento-operativo') {
             $ruta_elegida = 'public/recibo-nomina/vistas/recursos-humanos-recibo-nomina-year.php';
         }
 
-        //---------- BAJA PERSONAL (V2) ----------
-        else if ($partes_ruta[1] == 'recursos-humanos-baja-personal') {
-            $GET_idPersonal = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-baja-personal-v2.php';
-        } else if ($partes_ruta[1] == 'recursos-humanos-recibos-nomina-evaluacion') {
+        else if ($partes_ruta[1] == 'recursos-humanos-recibos-nomina-evaluacion') {
             $GET_year = $partes_ruta[2];
             $ruta_elegida = 'public/recibo-nomina/vistas/recursos-humanos-recibo-nomina-evaluacion.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-recibos-nomina-revision') {
@@ -655,9 +687,6 @@ if ($partes_ruta[0] == 'departamento-operativo') {
         } else if ($partes_ruta[1] == 'recursos-humanos-formatos-vacaciones') {
             $GET_idFormato = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-vacaciones.php';
-        } else if ($partes_ruta[1] == 'recursos-humanos-personal-asistencia') {
-            $GET_idPersonal = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
         } else if ($partes_ruta[1] == 'descarga-tuxpan-detalle') {
             $GET_idReporte = $partes_ruta[2];
             $ruta_elegida = 'public/admin/vistas/descarga-tuxpan-detalle.php';

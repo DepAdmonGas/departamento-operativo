@@ -40,10 +40,6 @@
 
   }); 
 
-  function Regresar(){
-   window.history.back();
-  } 
- 
   function SelEstacion(year,mes) {
     
   let nombrePuesto = "<?=$session_nompuesto?>";

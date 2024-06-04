@@ -456,9 +456,9 @@
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
   <div class="mb-1 text-secondary">MÉTODO DE PAGO:</div>
   <select class="form-select rounded-0" id="Metodopago">
-            <option value="<?=$metodo_pago;?>"><?=$metodo_pago;?></option>
-            <option>PUE Pago en una sola exhibición</option>
-            <option>PPD Pago en parcialidades o diferido</option>
+  <option value="<?=$metodo_pago;?>"><?=$metodo_pago;?></option>
+  <option>PUE Pago en una sola exhibición</option>
+  <option>PPD Pago en parcialidades o diferido</option>
   </select>
   </div>
 

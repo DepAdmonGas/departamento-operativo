@@ -51,7 +51,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 
 <div class="row">
 <div class="col-12">
-<button class="btn btn-outline-secondary btn-sm float-end mb-3" type="button" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idReporte;?>)">Agregar archivo</button>
+<button class="btn btn-outline-secondary btn-sm float-end mb-3" type="button" onclick="AgregarArchivo(<?=$year?>,<?=$mes?>,<?=$idReporte?>)">Agregar archivo</button>
 </div>
 </div>
 

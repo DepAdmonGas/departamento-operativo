@@ -328,6 +328,11 @@ background-color: #d2d2d2;
 
 }
 
+.title-table-bg {
+    background: #215d98;
+    color: white;
+}
+
 
 .avatar {
     height: 40px;

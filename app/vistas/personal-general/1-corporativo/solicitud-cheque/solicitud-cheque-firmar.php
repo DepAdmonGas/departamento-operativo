@@ -35,7 +35,7 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Direcciaedgón de operaciones</title>
+  <title>Dirección de operaciones</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width initial-scale=1.0">
   <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
@@ -67,15 +67,16 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
   }
 
 
-  function CrearToken(idReporte){
+  function CrearToken(idReporte,idVal){
   $(".LoaderPage").show();
 
-  var parametros = { 
+  var parametros = {  
   "idReporte" : idReporte,
+  "idVal" : idVal,
   "idUsuario" : <?=$Session_IDUsuarioBD?>,
   "Accion" : "crear-token-solicitud-cheque"
   };
-
+ 
   $.ajax({
   data:  parametros,
  
@@ -371,7 +372,6 @@ if($Session_IDUsuarioBD == 30){
 ?>
 
 <div class="row">
-<?php if($Session_IDUsuarioBD == 30){ ?>
 <?php if($firmaB == 0){ ?>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
@@ -379,8 +379,10 @@ if($Session_IDUsuarioBD == 30){
 <div class="mb-2 text-secondary text-center">FIRMA DE VOBO</div>
 <hr>
 <h4 class="text-primary text-center">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>)"><small>Crear token</small></button>
+<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en uno de los siguientes botón para crear uno</small>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
+
 <hr>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -392,8 +394,6 @@ if($Session_IDUsuarioBD == 30){
 </div>
 
 <?php }?>
-<?php }?>
-
 
 
 <?php }else{
@@ -410,7 +410,9 @@ $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
     
 $idUsuario = $row_firma['id_usuario'];
-$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+$NomUsuario = $datosUsuario['nombre'];
+
 $explode = explode(' ', $row_firma['fecha']);
 
 if($row_firma['tipo_firma'] == "A"){

@@ -237,17 +237,18 @@ echo '
 </div>
 
 <hr>
-
+ 
 <div class="row">
 <?php
-
+ 
 $sql_firma = "SELECT * FROM op_solicitud_cheque_firma WHERE id_solicitud = '".$idReporte."' ";
 $result_firma = mysqli_query($con, $sql_firma);
 $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
 $idUsuario = $row_firma['id_usuario'];
-$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+$NomUsuario = $datosUsuario['nombre'];
 
 $explode = explode(' ', $row_firma['fecha']);
 if($row_firma['tipo_firma'] == "A"){

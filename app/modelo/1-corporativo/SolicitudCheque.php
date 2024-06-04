@@ -101,7 +101,7 @@ class SolicitudCheque extends Exception
     
     $UpDoc1 = "";
     $NomDoc1 = "";
-    
+
     if (!empty($documento[$indice]) && isset($documento[$indice]['name'])):
     $NoDoc1 = $documento[$indice]['name'];
     $UpDoc1 = "../../../archivos/".$aleatorio."-".$NoDoc1;
@@ -296,7 +296,7 @@ class SolicitudCheque extends Exception
 
     }
 
-    public function crearTokenSolicitudCheque(int $idReporte, int $idUsuario): bool
+    public function crearTokenSolicitudCheque(int $idReporte, int $idUsuario, int $idVal): bool
     {
     $result = true; 
     
@@ -317,10 +317,12 @@ class SolicitudCheque extends Exception
     endif;   
     $stmt_insert->close();
 
-    $telefonoUser = $this->herramientasDptoOperativo->obtenerTelefonoUsuario($idUsuario);
-    $this->herramientasDptoOperativo->destinatarioToken($telefonoUser,$aleatorio);
- 
+    $datosUsuario = $this->herramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+    $telefonoUser = $datosUsuario['telefono'];
+    $textoN = "la solicitud de cheque solicitada";
 
+    $this->herramientasDptoOperativo->destinatarioToken($telefonoUser,$aleatorio,$idVal,$textoN);
+  
     return $result;
     }
 
@@ -434,7 +436,7 @@ class SolicitudCheque extends Exception
     endif;
     return $result;
     }
-
+ 
     public function editarFirmaSolicitudCheque(int $idSolicitud, int $idUsuario, string $tipo_firma, string $firma):bool
     {
     
