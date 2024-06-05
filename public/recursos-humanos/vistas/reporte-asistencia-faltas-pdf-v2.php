@@ -1,6 +1,7 @@
 <?php
+error_reporting(0);
 require ('../../../app/help.php');
-require_once '../../../dompdf2/vendor/autoload.php';
+require_once '../../../app/lib/dompdf/vendor/autoload.php';
 
 $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];

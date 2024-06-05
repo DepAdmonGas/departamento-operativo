@@ -122,11 +122,13 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'refacciones':
-                $ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/4-almacen/refacciones/refacciones-index.php';
                 break;
 
             case 'refacciones-almacen':
-                $ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
+                $ruta_elegida = 'app/vistas/contenido/4-almacen/refacciones/refacciones-almacen.php';
                 break;
 
             case 'refacciones-transaccion':

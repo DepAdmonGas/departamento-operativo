@@ -21,7 +21,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                 <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
             </tr>
         </thead>
-        <tbody class="bg-light">
+        <tbody class="bg-white">
             <?php
             if ($numero_lista > 0) {
 
