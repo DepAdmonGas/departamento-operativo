@@ -55,8 +55,6 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
   }  
   }
 
-
-
   function SelEstacion(idEstacion) {
   let referencia, targets;
     
@@ -85,9 +83,39 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
   }
 
 
+  //---------- MODAL BUSCAR REPORTE ----------
+  function ModalReporte(idEstacion){
+  $('#ModalIncidencias').modal('show');
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/biometrico/modal-buscar-reporte-biometrico.php?idEstacion=' + idEstacion); 
+  } 
+ 
+  function btnBuscar(idEstacion){
+  
+  var Year = $('#Year').val();
+  var Mes = $('#Mes').val();
+
+  if(Year != ""){
+  $('#Year').css('border','');
+  if(Mes != ""){
+  $('#Mes').css('border','');
+
+  $('#ModalIncidencias').modal('hide');
+  $('#DivBusquedaReporte').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
+  //$('#DivBusquedaReporte').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
+
+ 
+  }else{
+  $('#Mes').css('border','2px solid #A52525'); 
+  }
+  }else{
+  $('#Year').css('border','2px solid #A52525'); 
+  }
+
+  }
+
   function SelEstacionReturn(idEstacion){
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-asistencia.php?idEstacion=' + idEstacion);
+  SelEstacion(idEstacion)
   }
  
   function ModalDetalleI(idPersonal,id,idEstacion){
@@ -259,35 +287,6 @@ $('#FechaFin').css('border','2px solid #A52525');
 $('#Resultado').html('<div class="text-center text-danger"><small>El formato debe ser PDF</small></div>');
 }
 
-
-}
- 
-function ModalReporte(idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-reporte-asistencia.php?idEstacion=' + idEstacion); 
-} 
- 
-function btnBuscar(idEstacion){
-
-
-var Year = $('#Year').val();
-var Mes = $('#Mes').val();
-
-if(Year != ""){
-$('#Year').css('border','');
-if(Mes != ""){
-$('#Mes').css('border','');
-
- 
-$('#ModalIncidencias').modal('hide');
-$('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
- 
-}else{
-$('#Mes').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Year').css('border','2px solid #A52525'); 
-}
 
 }
 

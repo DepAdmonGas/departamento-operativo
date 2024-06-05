@@ -34,10 +34,9 @@ return $estacion;
 ?>
 
 <div class="border-0">
-
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
   <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
@@ -49,7 +48,7 @@ return $estacion;
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
   </tr>
 </thead> 
-<tbody>
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 
@@ -72,7 +71,7 @@ $EstacionProveedora = Estacion($row_lista['id_estacion'],$con);
 $Estacion = Estacion($row_lista['id_estacion_receptora'],$con);
 
 echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
+echo '<th class="align-middle text-center"><b>'.$id.'</b></th>';
 echo '<td class="align-middle text-center">'.FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
 echo '<td class="align-middle text-center">'.$NomRefaccion.'</td>';
 echo '<td class="align-middle text-center">1</td>';

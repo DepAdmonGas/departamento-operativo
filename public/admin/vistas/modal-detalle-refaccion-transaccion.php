@@ -117,8 +117,6 @@ $result_firma = mysqli_query($con, $sql_firma);
 $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
-$explode = explode(' ', $row_firma['fecha']);
-
 if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = "Realizo Responsable de almacen";
 $Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG_Firma.$row_firma['firma'].'" width="70%"></div>';

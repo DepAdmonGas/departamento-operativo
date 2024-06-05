@@ -25,7 +25,7 @@ function Estacion($idEstacion, $con) : string
                 </th>
             </tr>
         </thead>
-        <tbody class="bg-ligth">
+        <tbody class="bg-white">
             <?php
             $consulta = "WHERE id_estacion = '" . $Session_IDEstacion . "' ORDER BY folio desc";
             if ($Session_IDEstacion == 8) :

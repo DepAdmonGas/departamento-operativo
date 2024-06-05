@@ -116,10 +116,6 @@ require 'app/vistas/contenido/header.php';
             <div class="row">
 
                 <div class="col-12 mb-3">
-                    <div class="cardAG">
-                        <div class="border-0 p-3">
-
-
                             <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
                                 <ol class="breadcrumb breadcrumb-caret">
                                     <li class="breadcrumb-item"><a onclick="history.back()"
@@ -152,8 +148,6 @@ require 'app/vistas/contenido/header.php';
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
     <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-xl">

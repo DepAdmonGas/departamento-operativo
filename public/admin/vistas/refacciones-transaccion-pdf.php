@@ -1,6 +1,8 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
-require('app/help.php');
+error_reporting(0);
+require 'app/help.php';
+require 'app/lib/dompdf/vendor/autoload.php';
+
 
 $sql_lista = "SELECT * FROM op_refacciones_transaccion WHERE id = '".$GET_idReporte."' ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -65,7 +67,7 @@ if($FirmaTipo == "A"){
 
 $RutaFirma = "imgs/firma/".$Firma;
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/png;base64,' . base64_encode($DataFirma);
 
 $TipoFirma = "Realizo Responsable de almacen";
 $Detalle = '<div class="border text-center" style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></div>';
@@ -303,7 +305,7 @@ $contenido .= '<body>';
 
 $RutaLogo = RUTA_IMG_ICONOS.'Logo.png';
 $DataLogo = file_get_contents($RutaLogo);
-$baseLogo = 'data:image/' . $type . ';base64,' . base64_encode($DataLogo);
+$baseLogo = 'data:image/png;base64,' . base64_encode($DataLogo);
 
 $contenido .= '<img src="'.$baseLogo.'" style="width: 180px;">';
 $contenido .= '<div class="text-center" style="font-size: 1.8em;margin-top: 20px;">Transacción de refacciones</div>';

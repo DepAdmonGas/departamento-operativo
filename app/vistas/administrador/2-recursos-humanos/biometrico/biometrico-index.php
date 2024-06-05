@@ -2,7 +2,7 @@
 require('app/help.php');
 $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
 
-?>
+?> 
 
 <html lang="es">
   <head>
@@ -47,18 +47,17 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
  
   });  
 
-    function Regresar(){
-    sessionStorage.removeItem('idestacion');
-    window.history.back();
-    }
+  function Regresar(){
+  sessionStorage.removeItem('idestacion');
+  window.history.back();
+  }
 
 
-    function ConfiguracionBiometrico(valBiometrico){
-    if(valBiometrico == 1){
-    window.location.href = "recursos-humanos-configuracion";
-    }    
-    }
-
+  function ConfiguracionBiometrico(valBiometrico){
+  if(valBiometrico == 1){
+  window.location.href = "recursos-humanos-configuracion";
+  }    
+  }
 
   function SelEstacion(idEstacion) {
   let targets;
@@ -82,13 +81,9 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
   
   }
 
-
-
-
-
-    function SelEstacionReturn(idEstacion){
-    sessionStorage.setItem('idestacion', idEstacion);
-    $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-asistencia.php?idEstacion=' + idEstacion);
+  function SelEstacionReturn(idEstacion){
+  sessionStorage.setItem('idestacion', idEstacion);
+  $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-asistencia.php?idEstacion=' + idEstacion);
   }
 
 
@@ -303,7 +298,7 @@ $('#Year').css('border','2px solid #A52525');
   
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
           
@@ -311,126 +306,96 @@ $('#Year').css('border','2px solid #A52525');
   <img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;">
   </div>
 
-    <ul class="list-unstyled components">
+  <ul class="list-unstyled components">
    
-    <li>
-    <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
-    <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
-    </a>
-    </li>
+  <li>
+  <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
+  <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
+  </a>
+  </li>
 
-    <li>
-    <a class="pointer" onclick="Regresar()">
-    <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
-    </a>
-    </li>
+  <li>
+  <a class="pointer" onclick="Regresar()">
+  <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
+  </a>
+  </li>
 
-    <li>
-    <a class="pointer" onclick="Configuracion()">
-    <i class="fa-solid fa-gear" aria-hidden="true" style="padding-right: 10px;"></i><b>Configuración</b>
-    </a>
-    </li>
- 
   <?php
 
-  $FInicio = date("Y").'-'.date("m").'-01';
-  $FTermino = date("Y-m-t", strtotime($FInicio));
-
-  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE numlista <= 9 OR numlista = 10 ORDER BY numlista ASC";
+  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE numlista <= 8 OR numlista = 10 ORDER BY numlista ASC";
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
   $id = $row_listaestacion['id'];
   $estacion = $row_listaestacion['localidad'];
 
 
-if($estacion == "Comodines"){
- $icon = "fa-solid fa-users";
+  if($estacion == "Comodines"){
+  $icon = "fa-solid fa-users";
 
-}else if($estacion == "Autolavado"){
- $icon = "fa-solid fa-car";
+  }else if($estacion == "Autolavado"){
+  $icon = "fa-solid fa-car";
 
-}else if($estacion == "Almacen"){
-$icon = "fa-sharp fa-solid fa-shop";
+  }else if($estacion == "Almacen"){
+  $icon = "fa-sharp fa-solid fa-shop";
 
-}else if($estacion == "Directivos"){
-$icon = " fa-solid fa-user-tie"; 
+  }else if($estacion == "Directivos"){
+  $icon = " fa-solid fa-user-tie"; 
 
-}else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
-$icon = "fa-solid fa-screwdriver-wrench";
+  }else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
+  $icon = "fa-solid fa-screwdriver-wrench";
 
-}else if($estacion == "Dirección de operaciones" ||
- $estacion == "Departamento Gestión" ||
- $estacion == "Departamento Jurídico" ||
- $estacion == "Departamento Mantenimiento" ||
- $estacion == "Departamento Sistemas"){
-   $icon = "fa-solid fa-briefcase"; 
+  }else if($estacion == "Dirección de operaciones" || $estacion == "Departamento Gestión" || $estacion == "Departamento Jurídico" || $estacion == "Departamento Mantenimiento" || $estacion == "Departamento Sistemas"){
+  $icon = "fa-solid fa-briefcase"; 
 
+  }else{
+  $icon = "fa-solid fa-gas-pump";    
+  }
 
-}else{
- $icon = "fa-solid fa-gas-pump";    
-}
-
-  if($id <> 8){
   echo '  
   <li>
-    <a class="pointer" onclick="SelEstacion('.$id.')">
-    <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
-    '.$estacion.'
-    </a>
+  <a class="pointer" onclick="SelEstacion('.$id.')">
+  <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+  '.$estacion.'
+  </a>
   </li>';
-}
-  
   }
   ?> 
-</ul>
-</nav>
+
+  </ul>
+  </nav>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
- <nav class="navbar navbar-expand navbar-light navbar-bg" >
+  <nav class="navbar navbar-expand navbar-light navbar-bg" >
   
-  <i class="fa-solid fa-bars menu-btn rounded pointer" 
-  id="sidebarCollapse"></i>
+  <i class="fa-solid fa-bars menu-btn rounded pointer" id="sidebarCollapse"></i>
 
-  <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Recursos humanos</a>
-  </div>
+  <div class="pointer"> <a class="text-dark" onclick="history.back()">Recursos humanos</a> </div>
  
-   
   <div class="navbar-collapse collapse">
-
   <div class="dropdown-divider"></div>
 
   <ul class="navbar-nav navbar-align">
-
   <li class="nav-item dropdown">
   <a class=" dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
   <i class="align-middle" data-feather="settings"></i>
   </a>
 
- 
   <a class="nav-link dropdown-toggle d-none d-sm-inline-block pointer" data-bs-toggle="dropdown">
-  
   <img src="<?=RUTA_IMG_ICONOS."usuarioBar.png";?>" class="avatar img-fluid rounded-circle"/>
-
-  <span class="text-dark" style="padding-left: 10px;">
-  <?=$session_nompuesto;?>  
-  </span>
+  <span class="text-dark" style="padding-left: 10px;"> <?=$session_nompuesto;?> </span>
   </a>
   
   <div class="dropdown-menu dropdown-menu-end">
   
   <div class="user-box">
-
   <div class="u-text">
   <p class="text-muted">Nombre de usuario:</p>
   <h4><?=$session_nomusuario;?></h4>
   </div>
-
   </div>
 
- 
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">
   <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
@@ -455,9 +420,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   </div> 
 
   </div>
-
-</div>
-
+  </div>
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalIncidencias" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
