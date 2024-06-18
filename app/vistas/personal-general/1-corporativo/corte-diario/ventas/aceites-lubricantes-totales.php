@@ -17,8 +17,7 @@ while ($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC
 
 ?>
 
-<td class="bg-light text-center"></td>
-<td class="bg-light text-center"></td>
-<td class="bg-light align-middle text-center"><strong><?= $totalCantidad; ?></strong></td>
-<td class="bg-light align-middle text-end"></td>
-<td class="bg-light align-middle text-end"><strong><?= number_format($totalPrecio, 2); ?></strong></td>
+<th colspan="2" class="bg-white text-center">Total producto:</th>
+<td class="bg-white align-middle text-center"><strong><?= $totalCantidad; ?></strong></td>
+<th class="bg-white align-middle text-center">Total importe:</th>
+<td class="bg-white align-middle text-end"><strong><?= number_format($totalPrecio, 2); ?></strong></td>

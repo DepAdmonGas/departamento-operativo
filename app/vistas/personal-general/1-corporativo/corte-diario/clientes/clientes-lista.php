@@ -126,49 +126,41 @@ require 'app/vistas/contenido/header.php';
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-              <div class="row">
-                <div class="col-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
+        <div class="col-12">
 
-                  <div class="row">
-                    <div class="col-11">
-                      <h5>Lista Clientes </h5>
-                    </div>
-
-                    <div class="col-1">
-                      <img class="pointer float-end" src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="Agregar()">
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-              <hr>
-
-
-              <div id="ListaClientes"></div>
-
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>Clientes</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Lista Clientes</li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Lista Clientes
+              </h3>
+            </div>
+            <div class="col-2">
+              <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Agregar()">
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
         </div>
-
-      </div>
     </div>
-
+    <hr>
+    <div id="ListaClientes"></div>
+  </div>
   </div>
 
 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Crear Cliente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
 
@@ -206,7 +198,9 @@ require 'app/vistas/contenido/header.php';
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="Guardar(<?= $Session_IDEstacion; ?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$Session_IDEstacion?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+          
         </div>
       </div>
     </div>

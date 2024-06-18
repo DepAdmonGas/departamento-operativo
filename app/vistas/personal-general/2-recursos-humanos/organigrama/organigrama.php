@@ -18,8 +18,6 @@ require 'app/vistas/contenido/header.php';
     } else {
       referencia = '#ContenidoOrganigrama';
     }
-
-
     //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
     $(referencia).load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
 

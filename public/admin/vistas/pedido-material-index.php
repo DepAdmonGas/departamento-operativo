@@ -6,7 +6,6 @@ header("Location:".PORTAL."");
 } 
  
 function ToSolicitud($idEstacion,$con){
-
 $sql_lista = "SELECT id FROM op_pedido_materiales WHERE id_estacion = '".$idEstacion."' AND estatus < 2";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
@@ -367,8 +366,15 @@ function eliminarCausa(idEstacion,idReporte,id){
 
 }
 
-  </script>
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
+  </script>
   </head>
 
 <body> 
@@ -391,21 +397,21 @@ function eliminarCausa(idEstacion,idReporte,id){
     <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
     </a>
   </li>
-
+ 
 
   <li>
     <a class="pointer" onclick="Regresar()">
     <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
     </a>
   </li>
-
+ 
   
 <?php
-$sql_listaestacion = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
+$sql_listaestacion = "SELECT id, localidad, numlista FROM op_rh_localidades WHERE numlista <= 8 OR numlista = 10 ORDER BY numlista ASC";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
 $id = $row_listaestacion['id'];
-$estacion = $row_listaestacion['nombre'];
+$estacion = $row_listaestacion['localidad'];
 
 $ToSolicitud = ToSolicitud($id,$con);
 
@@ -415,13 +421,35 @@ $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded
 $Nuevo = ''; 
 }
 
+if($estacion == "Comodines"){
+  $icon = "fa-solid fa-users";
+
+  }else if($estacion == "Autolavado"){
+  $icon = "fa-solid fa-car";
+
+  }else if($estacion == "Almacen"){
+  $icon = "fa-sharp fa-solid fa-shop";
+
+  }else if($estacion == "Directivos"){
+  $icon = " fa-solid fa-user-tie"; 
+
+  }else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
+  $icon = "fa-solid fa-screwdriver-wrench";
+
+  }else if($estacion == "Dirección de operaciones" || $estacion == "Departamento Gestión" || $estacion == "Departamento Jurídico" ||
+  $estacion == "Departamento Mantenimiento" || $estacion == "Departamento Sistemas"){
+  $icon = "fa-solid fa-briefcase"; 
+
+  }else{
+  $icon = "fa-solid fa-gas-pump";    
+  }
+ 
   echo '  
   <li>
-    <a class="pointer" onclick="PedidoMaterial('.$id.')">
-    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-    '.$Nuevo.' '.$estacion.'
-    </a>
+  <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
   </li>';
+
+
 }
 
 ?> 
@@ -509,7 +537,7 @@ $Nuevo = '';
 
 </div>
 
-
+ 
 <div class="modal" id="Modal">
 <div class="modal-dialog modal-lg">
 <div class="modal-content" style="margin-top: 83px;">

@@ -1,9 +1,10 @@
-<?php 
+<?php
 require('../../../app/help.php');
 
   $idEstacion = $_GET['idEstacion'];
   $year = $_GET['year'];
-  $semana = $_GET['semana'];
+  $sem = $_GET['semana'];
+  $semana = intval($sem);
   $descripcion = "Semana";
 
   if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
@@ -199,7 +200,7 @@ require('../../../app/help.php');
   function botonFinalizar($idEstacion,$year,$mes,$semana,$descripcion,$con){
 
   $finalizacionMexdesa = finalizacionMexdesa($idEstacion,$year,$mes,$semana,$descripcion,$con);
-
+$numero_lista3 =0;
   if($finalizacionMexdesa != 0){
 
   $sql_lista3 = "SELECT id FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND actividad = 'Recibos Estacion'";
@@ -547,7 +548,7 @@ if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Adminis
 <div class="d-flex align-items-center">
 
 <!----- SELECT DE SEMANAS DEL AÑO ----->
-<select class="form-select ms-3" id="SemanaEstacion" onchange="SelNoSemana(<?=$idEstacion?>,<?=$year?>)"> 
+<select class="form-select ms-3" id="SemanaEstacion_<?=$idEstacion?>" onchange="SelNoSemana(<?=$idEstacion?>,<?=$year?>)"> 
 <option value="">Selecciona una semana...</option>
     
 <?php
@@ -767,7 +768,7 @@ if($importe_total == 1){
   $importe_total2 = $importe_total;
 }
 
-
+$totalGeneral=0;
 $totalGeneral = $totalGeneral + $importe_total2;
 
 echo '<tr '.$bgTable.'>';

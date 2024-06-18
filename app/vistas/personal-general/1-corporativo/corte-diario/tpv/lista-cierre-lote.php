@@ -2,23 +2,22 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $empresa = $_GET['empresa'];
-
+$tpv = $corteDiarioGeneral->getTpv($idReporte);
 $empresatotal = str_replace(' ', '', $empresa);
+$disabled = "";
+// se implemento addslashes ya que al llamar la funcion del js no me lo mandaba como string
+$agregarTPV = '<button type="button" class="btn btn-primary text-white pointer"
+                    onclick="AgregarCierre('.$idReporte.',\'' . addslashes($empresa) . '\')">
+                    <i class="fa fa-plus"></i>
+                </button>';
 
-$sql_dia = "SELECT tpv FROM op_corte_dia WHERE id = '" . $idReporte . "' ";
-$result_dia = mysqli_query($con, $sql_dia);
-while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
-    $tpv = $row_dia['tpv'];
-
-    if ($tpv == 1) {
-        $disabled = "disabled";
-    } else {
-        $disabled = "";
-    }
-
-}
+if ($tpv == 1) :
+    $disabled = "disabled";
+    $agregarTPV = '';
+endif;
 
 ?>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>cierre-lote-function.js"></script>
 <script type="text/javascript">
 
 
@@ -49,17 +48,20 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
         });
     }
 </script>
-
 <div class="table-responsive">
-
-    <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center align-middle">No. Cierre de lote</th>
-            <th class="text-center align-middle">Importe</th>
-            <th class="text-center align-middle">No. De ticktes</th>
-            <th class="text-center"></th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="4" class="align-middle text-center"><?=$empresa?></th>
+            </tr>
+            <tr>
+                <td class="text-center align-middle fw-bold">No. Cierre de lote</td>
+                <td class="text-center align-middle fw-bold">Importe</td>
+                <td class="text-center align-middle fw-bold">No. De ticktes</td>
+                <td class="text-center"><?=$agregarTPV?></td>
+            </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
             $sql_listacierre = "SELECT * FROM op_cierre_lote WHERE idreporte_dia = '" . $idReporte . "' AND empresa = '" . $empresa . "' ";
             $result_listacierre = mysqli_query($con, $sql_listacierre);
@@ -90,25 +92,25 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 
                 ?>
                 <tr>
-                    <td class="p-0 align-middle">
+                    <th class="p-2 align-middle">
                         <input id="nocierre-<?= $idCierre; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
+                            style="border: 0px;width: 100%;height: 100%; text-align: left;"
                             onkeyup="EditNoCierre(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $nocierre; ?>" <?= $disabled; ?>>
-                    </td>
-                    <td class="p-0 align-middle">
+                    </th>
+                    <td class="p-2 align-middle">
                         <input id="importe-<?= $idCierre; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditImporte(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $valimporte; ?>" <?= $disabled; ?>>
                     </td>
-                    <td class="p-0 align-middle">
+                    <td class="p-2 align-middle">
                         <input id="noticket-<?= $idCierre; ?>" type="number" min="0"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: center;"
+                            style="border: 0px;width: 100%;height: 100%; text-align: center;"
                             onkeyup="EditNoTicket(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $noticket; ?>" <?= $disabled; ?>>
                     </td>
-                    <td class="p-0 align-middle text-center">
+                    <td class="p-2 align-middle text-center">
                         <?php
                         if ($estado == 0) {
                             ?>

@@ -543,19 +543,31 @@ filter: opacity(50%);
 .custom-table tbody tr.active {
   opacity: .4; 
 }
-
-
-/* Estilo para el efecto hover */
+/* Mantener el estilo hover para las filas */
 .custom-table tbody tr:hover {
-background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
-cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
+    background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
+    cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
 }
 
+/* Quitar el estilo hover para celdas específicas */
+.custom-table tbody tr:hover th.no-hover, 
+.custom-table tbody tr:hover td.no-hover {
+    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+}
+
+/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+.custom-table tbody tr:hover th.no-hover,
+.custom-table tbody tr:hover td.no-hover {
+    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+}
 .dt-empty {
     background-color: #fff; /* Cambiar el color de fondo */
     /* Otros estilos */
 }
-
+.disabledOP {
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+}
 
 
 /* ---------------------------------------------------

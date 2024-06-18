@@ -22,13 +22,19 @@ endif;
 </script>
 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center">CONCEPTO</th>
-            <th class="text-center">PAGOS</th>
-            <th class="text-center">CONSUMOS</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="3" class="align-middle text-center">CLIENTES (ATIO)</th>
+            </tr>
+            <tr>
+                <td class="text-center">CONCEPTO</td>
+                <td class="text-center">PAGOS</td>
+                <td class="text-center">CONSUMOS</td>
+            </tr>
+
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -53,7 +59,7 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle"><?= $concepto; ?></td>
+                    <th class="align-middle"><?= $concepto; ?></th>
                     <td class="p-0 align-middle">
                         <input id="pago-<?= $idControl; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
@@ -72,10 +78,6 @@ endif;
 
             ?>
             <tr id="TrControlGTotales"></tr>
-
-            <tr>
-                <td class="p-2" colspan="3"></td>
-            </tr>
         </tbody>
     </table>
 </div>

@@ -1,6 +1,9 @@
 <?php
-require('app/help.php');
-require_once 'dompdf/autoload.inc.php';
+error_reporting(0);
+require 'app/help.php';
+require_once 'app/lib/dompdf/vendor/autoload.php';
+$contenido ="";
+$type = "";
 
 $sql_pedido = "SELECT * FROM op_pedido_materiales WHERE id = '".$GET_idPedido."' ";
 $result_pedido = mysqli_query($con, $sql_pedido);
@@ -24,6 +27,26 @@ $nombre = $row_listaestacion['nombre'];
 $razonsocial = $row_listaestacion['razonsocial'];
 $direccioncompleta = $row_listaestacion['direccioncompleta'];
 }
+
+
+$sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
+$razonsocial = $row_listaestacion['razonsocial'];
+}
+
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$direccionDesc = "Av. Palo Solo #3515, Huixquilucan, Estado de México, C.P. 52787";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+  
+}else{
+$razonsocialDesc = $razonsocial;
+$direccionDesc = $direccioncompleta;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+  
+}
+
 
 function EvidenciaImagen($idEvidencia,$con){
 
@@ -293,15 +316,15 @@ $contenido .= '</table>';
 	$contenido .= '</tr>';
     $contenido .= '<tr>';
       $contenido .= '<td class="align-middle">Razón social:</td>';
-      $contenido .= '<td class="align-middle">'.$razonsocial.'</td>';
+      $contenido .= '<td class="align-middle">'.$razonsocialDesc.'</td>';
     $contenido .= '</tr>';
     $contenido .= '<tr>';
       $contenido .= '<td class="align-middle">Dirección:</td>';
-      $contenido .= '<td class="align-middle">'.$direccioncompleta.'</td>';
+      $contenido .= '<td class="align-middle">'.$direccionDesc.'</td>';
     $contenido .= '</tr>';
   $contenido .= '</table>';
 
-  $contenido .= '<div class="h6 mt-2"><b>¿EN QUE AFECTA A LA ESTACIÓN?</b></div>';
+  $contenido .= '<div class="h6 mt-2"><b>'.$DescripcionES.'</b></div>';
   $contenido .= '<div class="border p-2 mt-2">'.$afectacion.'</div>';
   $contenido .= '<br>';
   $contenido .= '<br>';
@@ -426,13 +449,12 @@ $OR2 = '';
   </tr>
   </table>';
 
-
-  
+  if($id_estacion != 9){
   $contenido .= '<table class="table table-bordered table-sm mt-2">';
   $contenido .= '<thead>';
   $contenido .= '<tr>';
-    $contenido .= '<th class="text-center">Área</th>';
-    $contenido .= '<th class="text-center p-0 m-0" width="30"></th>';
+  $contenido .= '<th class="text-center">Área</th>';
+  $contenido .= '<th class="text-center p-0 m-0" width="30"></th>';
   $contenido .= '</tr>';
   $contenido .= '</thead>';
   $contenido .= '<tbody>';
@@ -446,25 +468,27 @@ $OR2 = '';
   $numero_lista = mysqli_num_rows($result_lista);
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
-    $id  = $row_lista['id'];
+  $id  = $row_lista['id'];
 
-    if($row_lista['estatus'] == 1){
+  if($row_lista['estatus'] == 1){
 	$checked = '<img style=""  src="'.$ImageArea.'">';
   $SADetalle = DetalleArea($id,$con);
-    }else{
-    $checked = '';
-    $SADetalle = '';
-    }
+    
+  }else{
+  $checked = '';
+  $SADetalle = '';
+  }
 
   $contenido .= '<tr>
-       <td>'.$row_lista['area'].' '.$SADetalle.'</td>
-       <td class="align-middle text-center">'.$checked.'</td>
-       </tr>';
+  <td>'.$row_lista['area'].' '.$SADetalle.'</td>
+  <td class="align-middle text-center">'.$checked.'</td>
+  </tr>';
 
   }
   
-$contenido .= '</tbody>';
-$contenido .= '</table>';
+  $contenido .= '</tbody>';
+  $contenido .= '</table>';
+  }
 
 $contenido .= '<div class="h6 mt-2"><b>REFACCCIONES</b></div>';
 

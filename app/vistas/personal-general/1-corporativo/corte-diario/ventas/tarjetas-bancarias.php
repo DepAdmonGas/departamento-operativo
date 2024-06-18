@@ -8,12 +8,17 @@ if ($ventas == 1):
 endif;
 ?>
 <div class="table-responsive">
-    <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center" colspan="2">CONCEPTO / BANCO</th>
-            <th class="text-center">IMPORTE</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="5" class="align-middle text-center">MONEDEROS Y BANCOS</th>
+            </tr>
+            <tr>
+                <td class="text-center" colspan="2">CONCEPTO / BANCO</td>
+                <td class="text-center">IMPORTE</td>
+            </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -31,7 +36,7 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle text-center"><b><?= $num; ?></b></td>
+                    <th class="align-middle text-center"><b><?= $num; ?></b></th>
                     <td class="align-middle"><?= $conceptoTarjeta; ?></td>
 
                     <?php
@@ -49,7 +54,7 @@ endif;
                         $conceptoTarjeta == "INBURSA" ||
                         $conceptoTarjeta == "SHELL FLEET NAVIGATOR"
                     ) {
-                        echo "<td class='p-0 align-middle text-end bg-light'>" . number_format($baucher, 2) . "</td>";
+                        echo "<td class='p-0 align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
                     } else {
                         ?>
                         <td class="p-0 align-middle text-end">

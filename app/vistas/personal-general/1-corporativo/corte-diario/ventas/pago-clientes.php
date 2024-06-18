@@ -22,13 +22,19 @@ endif;
 </script>
 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center">CONCEPTO</th>
-            <th class="text-center">IMPORTE</th>
-            <th class="text-center">NOTA</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="3" class="align-middle text-center">PAGO CLIENTES</th>
+            </tr>
+            <tr>
+                <td class="text-center">CONCEPTO</td>
+                <td class="text-center">IMPORTE</td>
+                <td class="text-center">NOTA</td>
+            </tr>
+            
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -48,7 +54,7 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle"><?= $concepto; ?></td>
+                    <th class="align-middle"><?= $concepto; ?></th>
                     <td class="p-0 align-middle">
                         <input id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"

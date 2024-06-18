@@ -1,5 +1,4 @@
 <?php
-require "FormatoFechas.php";
 require "../../bd/inc.conexion.php";
 require_once '../../modelo/HerramientasDptoOperativo.php';
 

@@ -41,13 +41,13 @@ while ($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)) {
     $SubImporteTotal = $SubImporteTotal + $importeTotal;
 }
 ?>
-<td>A SUB-TOTAL (1+2+3)</td>
-<td class="bg-light align-middle text-end" id="importetotal-<?= $idventas; ?>">
+<th>A SUB-TOTAL (1+2+3)</th>
+<td class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
     <strong><?= number_format($SubTLitros, 2); ?></strong></td>
-<td class="bg-light align-middle text-end" id="importetotal-<?= $idventas; ?>">
+<td class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
     <strong><?= number_format($SubJarras, 2); ?></strong></td>
-<td class="bg-light align-middle text-end" id="importetotal-<?= $idventas; ?>">
+<td class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
     <strong><?= number_format($SubTotalLitros, 2); ?></strong></td>
 <td class="bg-light"></td>
-<td class="bg-light align-middle text-end" id="importetotal-<?= $idventas; ?>">
+<td class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
     <strong><?= number_format($SubImporteTotal, 2); ?></strong></td>
