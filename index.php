@@ -879,6 +879,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
         $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-vales/solicitud-vales-mes.php';
         }else if ($partes_ruta[1] == 'corte-diario') {
+            $Pagina = $partes_ruta[1];
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-index.php';

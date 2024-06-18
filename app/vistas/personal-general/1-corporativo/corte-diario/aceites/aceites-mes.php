@@ -34,237 +34,237 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
   });
   function EditPedido(val, idaceite) {
 
-var pedido = val.value;
+    var pedido = val.value;
 
-var parametros = {
-  "type": "pedido",
-  "idaceite": idaceite,
-  "pedido": pedido,
-  "accion": "editar-reporte-aceite"
-};
+    var parametros = {
+      "type": "pedido",
+      "idaceite": idaceite,
+      "pedido": pedido,
+      "accion": "editar-reporte-aceite"
+    };
 
-$.ajax({
-  data: parametros,
-  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-  type: 'post',
-  beforeSend: function () {
-  },
-  complete: function () {
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
 
-  },
-  success: function (response) {
+      },
+      success: function (response) {
 
-    if (response == 0) {
-      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-    } else {
-      InventarioFinal(idaceite);
-      diferencia(idaceite);
-    }
+        if (response == 0) {
+          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+        } else {
+          InventarioFinal(idaceite);
+          diferencia(idaceite);
+        }
 
-  }
-});
-
-}
-function EditFisicoBodega(val, idaceite) {
-
-var fisico = val.value;
-
-var parametros = {
-  "type": "fisicobodega",
-  "idaceite": idaceite,
-  "fisico": fisico,
-  "accion": "editar-reporte-aceite"
-};
-
-$.ajax({
-  data: parametros,
-  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-  type: 'post',
-  beforeSend: function () {
-  },
-  complete: function () {
-
-  },
-  success: function (response) {
-
-    if (response == 0) {
-      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-    } else {
-
-      var fisicoB = $("#fisicoB-" + idaceite).val();
-      var fisicoE = $("#fisicoE-" + idaceite).val();
-
-      if (fisicoB != "") {
-        TfisicoB = fisicoB;
-      } else {
-        TfisicoB = 0;
       }
+    });
 
-      if (fisicoE != "") {
-        TfisicoE = fisicoE;
-      } else {
-        TfisicoE = 0;
+  }
+  function EditFisicoBodega(val, idaceite) {
+
+    var fisico = val.value;
+
+    var parametros = {
+      "type": "fisicobodega",
+      "idaceite": idaceite,
+      "fisico": fisico,
+      "accion": "editar-reporte-aceite"
+    };
+
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
+
+      },
+      success: function (response) {
+
+        if (response == 0) {
+          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+        } else {
+
+          var fisicoB = $("#fisicoB-" + idaceite).val();
+          var fisicoE = $("#fisicoE-" + idaceite).val();
+
+          if (fisicoB != "") {
+            TfisicoB = fisicoB;
+          } else {
+            TfisicoB = 0;
+          }
+
+          if (fisicoE != "") {
+            TfisicoE = fisicoE;
+          } else {
+            TfisicoE = 0;
+          }
+
+
+          fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
+          $("#fisicoFin-" + idaceite).text(fisico + ".00");
+
+          diferencia(idaceite);
+        }
+
       }
-
-
-      fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
-      $("#fisicoFin-" + idaceite).text(fisico + ".00");
-
-      diferencia(idaceite);
-    }
+    });
 
   }
-});
+  function EditFacturados(val, idaceite) {
 
-}
-function EditFacturados(val, idaceite) {
+    var facturado = val.value;
 
-var facturado = val.value;
+    var parametros = {
+      "type": "facturado",
+      "idaceite": idaceite,
+      "facturado": facturado,
+      "accion": "editar-reporte-aceite"
+    };
 
-var parametros = {
-  "type": "facturado",
-  "idaceite": idaceite,
-  "facturado": facturado,
-  "accion": "editar-reporte-aceite"
-};
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
 
-$.ajax({
-  data: parametros,
-  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-  type: 'post',
-  beforeSend: function () {
-  },
-  complete: function () {
+      },
+      success: function (response) {
 
-  },
-  success: function (response) {
+        if (response == 0) {
+          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+        } else {
+          factotal(idaceite);
+          diffactura(idaceite);
+        }
 
-    if (response == 0) {
-      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-    } else {
-      factotal(idaceite);
-      diffactura(idaceite);
-    }
-
-  }
-});
-
-}
-function EditFisicoExhibidor(val, idaceite) {
-
-var fisico = val.value;
-
-var parametros = {
-  "type": "fisicoexhibidor",
-  "idaceite": idaceite,
-  "fisico": fisico,
-  "accion": "editar-reporte-aceite"
-};
-
-$.ajax({
-  data: parametros,
-  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-  type: 'post',
-  beforeSend: function () {
-  },
-  complete: function () {
-
-  },
-  success: function (response) {
-
-    if (response == 0) {
-      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
-    } else {
-
-      var fisicoB = $("#fisicoB-" + idaceite).val();
-      var fisicoE = $("#fisicoE-" + idaceite).val();
-
-      if (fisicoB != "") {
-        TfisicoB = fisicoB;
-      } else {
-        TfisicoB = 0;
       }
+    });
 
-      if (fisicoE != "") {
-        TfisicoE = fisicoE;
-      } else {
-        TfisicoE = 0;
+  }
+  function EditFisicoExhibidor(val, idaceite) {
+
+    var fisico = val.value;
+
+    var parametros = {
+      "type": "fisicoexhibidor",
+      "idaceite": idaceite,
+      "fisico": fisico,
+      "accion": "editar-reporte-aceite"
+    };
+
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
+
+      },
+      success: function (response) {
+
+        if (response == 0) {
+          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+        } else {
+
+          var fisicoB = $("#fisicoB-" + idaceite).val();
+          var fisicoE = $("#fisicoE-" + idaceite).val();
+
+          if (fisicoB != "") {
+            TfisicoB = fisicoB;
+          } else {
+            TfisicoB = 0;
+          }
+
+          if (fisicoE != "") {
+            TfisicoE = fisicoE;
+          } else {
+            TfisicoE = 0;
+          }
+
+
+          fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
+          $("#fisicoFin-" + idaceite).text(fisico + ".00");
+
+          diferencia(idaceite);
+        }
+
       }
-
-
-      fisico = parseInt(TfisicoB) + parseInt(TfisicoE);
-      $("#fisicoFin-" + idaceite).text(fisico + ".00");
-
-      diferencia(idaceite);
-    }
+    });
 
   }
-});
 
-}
+  function diferencia(idaceite) {
 
-function diferencia(idaceite) {
-
-var inventariof = $("#inventariof-" + idaceite).text();
-var fisicoB = $("#fisicoB-" + idaceite).val();
-var fisicoE = $("#fisicoE-" + idaceite).val();
+    var inventariof = $("#inventariof-" + idaceite).text();
+    var fisicoB = $("#fisicoB-" + idaceite).val();
+    var fisicoE = $("#fisicoE-" + idaceite).val();
 
 
-if (inventariof != 0.00) {
-  if (fisicoB != "" && fisicoE != "") {
-    fisico = parseInt(fisicoB) + parseInt(fisicoE);
-    total = parseInt(fisico) - parseInt(inventariof);
-  } else {
-    total = -inventariof;
-  }
-} else {
-  total = 0;
-}
-
-$("#diferencia-" + idaceite).text(total + ".00");
-
-}
-
-
-
-function EditMostrador(val, idaceite) {
-
-var mostrador = val.value;
-
-var parametros = {
-  "type": "mostrador",
-  "idaceite": idaceite,
-  "mostrador": mostrador,
-  "accion": "editar-reporte-aceite"
-};
-
-$.ajax({
-  data: parametros,
-  url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-  //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
-  type: 'post',
-  beforeSend: function () {
-  },
-  complete: function () {
-
-  },
-  success: function (response) {
-
-    if (response == 0) {
-      ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+    if (inventariof != 0.00) {
+      if (fisicoB != "" && fisicoE != "") {
+        fisico = parseInt(fisicoB) + parseInt(fisicoE);
+        total = parseInt(fisico) - parseInt(inventariof);
+      } else {
+        total = -inventariof;
+      }
     } else {
-      factotal(idaceite);
-      diffactura(idaceite);
+      total = 0;
     }
 
-  }
-});
+    $("#diferencia-" + idaceite).text(total + ".00");
 
-}
+  }
+
+
+
+  function EditMostrador(val, idaceite) {
+
+    var mostrador = val.value;
+
+    var parametros = {
+      "type": "mostrador",
+      "idaceite": idaceite,
+      "mostrador": mostrador,
+      "accion": "editar-reporte-aceite"
+    };
+
+    $.ajax({
+      data: parametros,
+      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/editar-reporte-aceites.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
+
+      },
+      success: function (response) {
+
+        if (response == 0) {
+          ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+        } else {
+          factotal(idaceite);
+          diffactura(idaceite);
+        }
+
+      }
+    });
+
+  }
 </script>
 
 <body>
@@ -276,74 +276,81 @@ $.ajax({
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
 
-              <div class="row">
-
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-1">
-
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
-                  <div class="row">
-
-                    <div class="col-12">
-
-                      <h5>
-                        Aceites, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
-                      </h5>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-1">
-
-                  <img class="float-end mt-1 ms-2 pointer" src="<?= RUTA_IMG_ICONOS; ?>icon-lista.png"
-                    onclick="ListaModal(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                  <img class="float-end mt-1 pointer" src="<?= RUTA_IMG_ICONOS; ?>archivo-tb.png"
-                    onclick="DocumentacionAceites(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-
-                  <?php
-                  if ($InventarioFin == 0) {
-                    echo '  <div class="row">
-
-    <div class="col-12">
-    <button type="button" class="btn btn-success btn-sm float-end" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">Guardar y Finalizar</button>
-
-    </div> 
-
-    </div>';
-                  }
-                  ?>
-                </div>
-              </div>
-              <hr>
-              <div class="tableFixHead">
-                <div id="DivReporteAceites"></div>
-              </div>
+        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+          <ol class="breadcrumb breadcrumb-caret">
+            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                  class="fa-solid fa-chevron-left"></i>
+                Corte Diario</a></li>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen Aceites
+              <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
+              <?= $GET_year; ?>
+            </li>
+          </ol>
+        </div>
+        <div class="row">
+          <div class="col-9">
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Resumen Aceites
+              <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
+              <?= $GET_year; ?>
+            </h3>
+          </div>
+          <div class="col-3 d-flex justify-content-end align-items-center">
+            <?php
+                if ($InventarioFin == 0) :
+                  echo '
+                    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">
+                      <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar y Finalizar
+                    </button>
+                    ';
+                endif;
+              ?>
+            <div class="dropdown">
+              <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li onclick="DocumentacionAceites(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                  <a class="dropdown-item pointer"><i class="fa-solid fa-oil-can"></i>
+                    Archivos aceites</a>
+                </li>
+                <li onclick="ListaModal(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                  <a class="dropdown-item pointer"><i class="fa-solid fa-book"></i>
+                    Documentos</a>
+                </li>
+              </ul>
+    
             </div>
           </div>
         </div>
       </div>
+      <hr>
+      <div class="tableFixHead">
+        <div id="DivReporteAceites"></div>
+      </div>
+
     </div>
   </div>
   <div class="modal fade bd-example-modal-lg" id="ModalPrincipal" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content border-0 rounded-0" style="margin-top: 83px;">
+      <div class="modal-content border-0 rounded-0">
         <div id="DivModal"></div>
       </div>
     </div>
   </div>
   <div class="modal" id="Modal">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div id="ListaDocumento"></div>
       </div>
     </div>
   </div>
 </body>
+<!---------- FUNCIONES - NAVBAR ---------->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </html>

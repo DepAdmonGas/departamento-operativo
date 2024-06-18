@@ -11,7 +11,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 <div class="modal-header">
     <h5 class="modal-title">Documentos</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
     <div class="text-end mb-2">
@@ -19,8 +19,8 @@ $numero_lista = mysqli_num_rows($result_lista);
             onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">Nuevo</button>
     </div>
     <div class="table-responsive">
-        <table class="table table-sm table-bordered pb-0 mb-0 font-weight-light">
-            <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+    <thead class="navbar-bg">
                 <th class="align-middle text-center">FECHA</th>
                 <th class="align-middle text-center">FICHA DEPOSITO FALTANTE</th>
                 <th class="align-middle text-center">IMAGEN DE BODEGA</th>
@@ -28,7 +28,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                 <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
                 <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
             </thead>
-            <tbody>
+            <tbody class="bg-white">
 
                 <?php
                 if ($numero_lista > 0) {
@@ -59,20 +59,20 @@ $numero_lista = mysqli_num_rows($result_lista);
                         }
 
                         echo '<tr>';
-                        echo '<td class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</td>';
+                            echo '<th class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</th>';
 
-                        echo '<td class="text-center align-middle">' . $ficha . '</td>';
-                        echo '<td class="text-center align-middle">' . $imagen . '</td>';
-                        echo '<td class="text-center align-middle">' . $factura . '</td>';
+                            echo '<td class="text-center align-middle">' . $ficha . '</td>';
+                            echo '<td class="text-center align-middle">' . $imagen . '</td>';
+                            echo '<td class="text-center align-middle">' . $factura . '</td>';
 
 
-                        echo '<td class="align-middle" width="20"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $row_lista['id'] . ')"></td>';
-                        echo '<td class="align-middle" width="20">' . $eliminar . '</td>';
+                            echo '<td class="align-middle" width="20"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $row_lista['id'] . ')"></td>';
+                            echo '<td class="align-middle" width="20">' . $eliminar . '</td>';
                         echo '</tr>';
 
                     }
                 } else {
-                    echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+                    echo "<tr><th colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
                 }
                 ?>
             </tbody>

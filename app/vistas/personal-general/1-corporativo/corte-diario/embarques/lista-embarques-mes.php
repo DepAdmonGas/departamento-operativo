@@ -32,8 +32,8 @@ function ToComentarios($IdReporte, $con)
 ?>
 
 <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover mb-0" style="font-size: .8em">
-        <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+        <thead class="navbar-bg">
             <tr>
                 <th class="align-middle text-center">Fecha</th>
                 <th class="align-middle text-center">Embarque</th>
@@ -48,26 +48,26 @@ function ToComentarios($IdReporte, $con)
                 <th class="align-middle text-center">Chofer</th>
                 <th class="align-middle text-center">Unidad</th>
                 <th class="align-middle text-center" width="24">
-                    <small>Factura</small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
+                    <small><div class="text-white">Factura</div></small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
                 </th>
                 <th class="align-middle text-center" width="24">
-                    <small>Factura</small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
+                    <small><div class="text-white">Factura</div></small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
                 </th>
                 <th class="align-middle text-center" width="24">
-                    <small>CoPa</small><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
+                    <small><div class="text-white">CoPa</div></small><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
                 </th>
                 <th class="align-middle text-center" width="24">
-                    <small>NC</small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
+                    <small><div class="text-white">NC</div></small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
                 </th>
                 <th class="align-middle text-center" width="24">
-                    <small>NC</small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
+                    <small><div class="text-white">NC</div></small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
                 </th>
 
                 <th class="align-middle text-center" width="24">
-                    <small>CP</small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
+                    <small><div class="text-white">CP</div></small><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
                 </th>
                 <th class="align-middle text-center" width="24">
-                    <small>CP</small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
+                    <small><div class="text-white">CP</div></small><img src="<?= RUTA_IMG_ICONOS; ?>xml.png">
                 </th>
 
 
@@ -242,7 +242,7 @@ function ToComentarios($IdReporte, $con)
                     }
 
                     echo '<tr ' . $bgTable . '>';
-                    echo '<td class="align-middle text-center">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</td>';
+                    echo '<th class="align-middle text-center">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</th>';
                     echo '<td class="align-middle text-center">' . $row_lista['embarque'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['producto'] . '</td>';
                     echo '<td class="align-middle text-center"><a href="../../archivos/' . $row_lista['documento'] . '" download  data-toggle="tooltip" data-placement="top" title="Documento"><img class=""pointer src="' . $icon . '"></a></td>';

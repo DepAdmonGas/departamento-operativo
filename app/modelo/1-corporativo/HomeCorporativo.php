@@ -393,6 +393,12 @@ class HomeCorporativo
     $menuName = "Corporativo";
     $returnReferencia = $Pagina;
     }
+    elseif($Pagina == "corte-diario"){
+        $titulo = "Corte Diario";
+        $referencia = "../departamento-operativo/corporativo";
+        $menuName = "Corporativo";
+        $returnReferencia = $Pagina;
+    }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
     $referencia = "../../administracion/corporativo";

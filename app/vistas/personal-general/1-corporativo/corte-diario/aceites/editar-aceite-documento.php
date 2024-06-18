@@ -8,7 +8,7 @@ $id = $_GET['id'];
 
 <div class="modal-header">
     <h5 class="modal-title">Documentos</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -26,8 +26,11 @@ $id = $_GET['id'];
 
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger"
-        onclick="Cancelar(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">Cancelar</button>
-    <button type="button" class="btn btn-primary"
-        onclick="EditarInfo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $id; ?>)">Editar</button>
+    <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+        <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar
+    </button>
+    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="EditarInfo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $id; ?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Editar
+    </button>
+    
 </div>

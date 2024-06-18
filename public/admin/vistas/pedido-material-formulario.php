@@ -17,13 +17,24 @@ $estatus = $row_pedido['estatus'];
 $tiposervicio = $row_pedido['tipo_servicio'];
 $ordentrabajo = $row_pedido['orden_trabajo'];
 $ordenriesgo = $row_pedido['orden_riesgo'];
- 
 } 
 
 $sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
 $razonsocial = $row_listaestacion['razonsocial'];
+}
+
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+
 }
 
 function EvidenciaImagen($idEvidencia,$con){
@@ -567,7 +578,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="table-responsive">
   <table class="table table-bordered">
     <tr class="">
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
+      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocialDesc;?></td>
       <td class="align-middle"><b>Folio:</b> <br>00<?=$folio;?></td>
       <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
     </tr>
@@ -577,7 +588,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
 
 <!-- APARTADO ¿EN QUE AFECTA A LA ESTACION? -->
 <div class="p-3 border mb-3">
-<h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
+<h6><?=$DescripcionES?></h6>
 <hr>
 <div class="row p-1">
 
@@ -680,20 +691,19 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
 </div>
  
 
-<div class="p-3 border mb-3">
+<div class="p-3 border mb-3 <?=$ocultarDivs?>">
 
+<div class="row">
 
-      <div class="row">
+<div class="col-10 mt-2">
+<h6>ÁREA</h6>
+</div>
 
-      <div class="col-10 mt-2">
-        <h6>ÁREA</h6>
-      </div>
+<div class="col-2">
+<img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalArea(<?=$GET_idPedido;?>)">
+</div>
 
-      <div class="col-2">
-      <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalArea(<?=$GET_idPedido;?>)">
-      </div>
-
-    </div>
+</div>
 <hr>
 
 <div style="overflow-y: hidden;">

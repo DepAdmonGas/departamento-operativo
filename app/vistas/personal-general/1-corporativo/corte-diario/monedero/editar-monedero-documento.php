@@ -42,6 +42,8 @@ $diferencia = $row_lista['diferencia'];
         <hr>
 
       <div class="text-end">
-      	<button type="button" class="btn btn-danger" onclick="Cancelar(<?=$IdReporte;?>)">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="EditarInfo(<?=$IdReporte;?>,<?=$id;?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>)">
+          <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
+        <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="EditarInfo(<?=$IdReporte;?>,<?=$id;?>)">
+          <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div>

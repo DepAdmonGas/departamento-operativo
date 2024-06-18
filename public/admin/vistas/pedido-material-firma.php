@@ -26,9 +26,22 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $razonsocial = $row_listaestacion['razonsocial'];
 }
 
-function EvidenciaImagen($idEvidencia,$con){
- 
 
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+  
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+  
+}
+
+
+
+function EvidenciaImagen($idEvidencia,$con){
 $sql = "SELECT id, imagen FROM op_pedido_materiales_evidencia_foto WHERE id_evidencia = '".$idEvidencia."' ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -236,7 +249,7 @@ return $Result;
 <div class="table-responsive">
  <table class="table table-bordered">
     <tr>
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
+    <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocialDesc;?></td>
       <td class="align-middle"><b>Folio:</b><br> 00<?=$folio;?></td>
       <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
     </tr>
@@ -246,7 +259,7 @@ return $Result;
 
 <div class="border p-3 mb-3">
   
-  <h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
+  <h6><?=$DescripcionES?></h6>
   <hr>
 
   <label><?=$afectacion;?></label>
@@ -301,7 +314,7 @@ return $Result;
 </div>
 
 
-<div class="table-responsive">
+<div class="table-responsive <?=$ocultarDivs?>">
   <table class="table table-bordered table-sm mt-3">
   <thead class="tables-bg">
   <tr>

@@ -51,7 +51,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
 <div class="modal-header">
     <h5 class="modal-title">Editar embarque</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -245,6 +245,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary"
-        onclick="EditarE(<?= $IdReporte; ?>,<?= $id; ?>,<?= $idestacion; ?>)">Editar</button>
+    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="EditarE(<?= $IdReporte; ?>,<?= $id; ?>,<?= $idestacion; ?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Editar
+    </button>
 </div>

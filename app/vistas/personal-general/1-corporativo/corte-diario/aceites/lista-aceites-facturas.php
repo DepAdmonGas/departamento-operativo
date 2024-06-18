@@ -54,10 +54,8 @@ $numero_lista = mysqli_num_rows($result_lista);
     <hr>
 
     <div class="table-responsive">
-
-        <table class="table table-sm table-bordered mb-0 pb-0" style="font-size: .9em;">
-
-            <thead class="tables-bg">
+    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+    <thead class="navbar-bg">
                 <th class="text-center align-middle font-weight-bold">Fecha</th>
                 <th class="text-center align-middle font-weight-bold">Concepto</th>
                 <th class="text-center align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
@@ -66,7 +64,9 @@ $numero_lista = mysqli_num_rows($result_lista);
                         src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
             </thead>
 
+            <tbody class="bg-white">
 
+            
             <?php
             if ($numero_lista > 0) {
                 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
@@ -76,7 +76,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                     $archivo = $row_lista['archivo'];
 
                     echo '<tr>';
-                    echo '<td class="align-middle text-center">' . $fecha . '</td>';
+                    echo '<th class="align-middle text-center">' . $fecha . '</th>';
                     echo '<td class="align-middle text-center">' . $anexo . '</td>';
                     echo '<td class="align-middle text-center"><a href="' . RUTA_ARCHIVOS . 'aceites-facturas/' . $archivo . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a></td>';
                     echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarFacturaAceite(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $id . ')"></td>';
@@ -84,11 +84,11 @@ $numero_lista = mysqli_num_rows($result_lista);
 
                 }
             } else {
-                echo "<tr><td colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+                echo "<tr><th colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
             }
 
             ?>
-
+        </tbody>
         </table>
 
     </div>

@@ -18,12 +18,22 @@ $ordenriesgo = $row_pedido['orden_riesgo'];
 $comentarios = $row_pedido['comentarios'];
 }
   
-
-
 $sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
 $razonsocial = $row_listaestacion['razonsocial'];
+}
+
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+  
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+  
 }
 
 function EvidenciaImagen($idEvidencia,$con){
@@ -75,7 +85,7 @@ return $Result;
 <div class="table-responsive">
   <table class="table table-bordered">
     <tr>
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
+      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocialDesc;?></td>
       <td class="align-middle"><b>Folio:</b> <br>00<?=$folio;?></td>
       <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
     </tr>
@@ -86,7 +96,7 @@ return $Result;
 
 <!-- APARTADO ¿EN QUE AFECTA A LA ESTACION? -->
 <div class="p-3 border mb-3">
-<h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
+<h6><?=$DescripcionES?></h6>
 <hr>
 <div class="row p-1">
 
@@ -134,7 +144,7 @@ return $Result;
 
 
 
-  <div class="border p-3 mb-2">
+  <div class="border p-3 mb-3">
     <h6>LA ORDEN DE TRABAJO ES DE ALTO RIESGO</h6>
     <hr>
 
@@ -147,7 +157,7 @@ return $Result;
 
 
 
-<div class="table-responsive">
+<div class="table-responsive <?=$ocultarDivs?>">
   <table class="table table-bordered table-sm mt-3">
   <thead class="tables-bg">
   <tr>
