@@ -61,12 +61,16 @@ endif;
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Venta dia</li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Venta día -
+                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>
+              </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-9">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Venta Día -
                 <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
               </h3>
             </div>
@@ -120,31 +124,35 @@ endif;
             </div>
           </div>
           <!---------- C Total 1+2+3 ---------->
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-              <tr class="bg-white">
-                <td><strong>C TOTAL (1+2+3)</strong></td>
-                <td class="align-middle text-end pointer" id="Total1234"></td>
-              </tr>
-            </table>
-          </div>
+
+            <div class="table-responsive p-2">
+              <table class="table table-sm table-bordered">
+                <tr class="bg-white">
+                  <td><strong>C TOTAL (1+2+3)</strong></td>
+                  <td class="align-middle text-end pointer" id="Total1234"></td>
+                </tr>
+              </table>
+            </div>
+
           <!---------- Diferencia (B-C) ---------->
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-              <tr class="bg-white">
-                <td><strong>DIFERENCIA (B-C)</strong></td>
-                <td class="align-middle text-end pointer" id="DiferenciaTotal"></td>
-              </tr>
-            </table>
-          </div>
+
+            <div class="table-responsive p-2">
+              <table class="table table-sm table-bordered">
+                <tr class="bg-white">
+                  <td><strong>DIFERENCIA (B-C)</strong></td>
+                  <td class="align-middle text-end pointer" id="DiferenciaTotal"></td>
+                </tr>
+              </table>
+            </div>
+
           <!---------- TABLA - Pago de clientes ---------->
-          <div class="mt-3">
+          
             <div class="p-2">
               <div id="DivPagoClientes"></div>
             </div>
-          </div>
+          
           <!---------- Dif Pago de Clientes ---------->
-          <div class="table-responsive">
+          <div class="table-responsive p-2">
             <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
               <tr class="bg-white">
                 <td>DIF PAGO DE CLIENTES</td>
@@ -154,8 +162,8 @@ endif;
             </table>
           </div>
           <!---------- Observaciones ---------->
-          <div class="mt-3">
-            <div class="table-responsive">
+          
+            <div class="table-responsive p-2">
               <table class="custom-table " style="font-size: .8em;" width="100%">
                 <thead class="navbar-bg">
                   <tr>
@@ -175,7 +183,7 @@ endif;
                 </tbody>
               </table>
             </div>
-          </div>
+          
           <?php if ($ventas == 0) { ?>
             <div class="mt-3">
               <div class="p-3">
