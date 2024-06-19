@@ -2,9 +2,11 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
+    $deshabilitado="disabledOP";
 endif;
 
 $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '" . $idReporte . "' ORDER BY id_aceite ASC ";
@@ -65,23 +67,23 @@ $numero_listaaceites = mysqli_num_rows($result_listaaceites);
                     ?>
 
                     <tr>
-                        <th class="align-middle"><?= $numAceite; ?></th>
-                        <td class="align-middle"><?= $concepto; ?></td>
-                        <td class="p-0 align-middle">
+                        <th class="align-middle no-hover"><?= $numAceite; ?></th>
+                        <td class="align-middle no-hover"><?= $concepto; ?></td>
+                        <td class="p-0 align-middle no-hover <?= $deshabilitado?>">
                             <input id="cantidadAL-<?= $idAceite; ?>" type="number" min="0"
                                 style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: center;"
                                 onkeyup="EditALCantidad(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $cantidad; ?>"
-                                <?= $estado; ?>>
+                                <?=$estado?>>
                         </td>
                         <!-- <td class="align-middle text-end" id="precioAL-<?= $idAceite; ?>"> -->
-                        <td class="align-middle text-end">
+                        <td class="align-middle text-end no-hover <?= $deshabilitado?>">
 
                             <input id="precioAL-<?= $idAceite; ?>" type="number" min="0"
                                 style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: center;"
-                                onkeyup="EditALPrecio(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $preciounitario; ?>">
+                                onkeyup="EditALPrecio(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $preciounitario; ?>" <?=$estado?>>
                             <!--<?= $precio; ?> -->
                         </td>
-                        <td class="align-middle text-end" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
+                        <td class="align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
                     </tr>
 
                     <?php

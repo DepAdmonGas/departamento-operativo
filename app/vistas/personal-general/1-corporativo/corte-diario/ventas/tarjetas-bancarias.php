@@ -2,9 +2,11 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
+    $deshabilitado="disabledOP";
 endif;
 ?>
 <div class="table-responsive">
@@ -36,8 +38,8 @@ endif;
                 ?>
 
                 <tr>
-                    <th class="align-middle text-center"><b><?= $num; ?></b></th>
-                    <td class="align-middle"><?= $conceptoTarjeta; ?></td>
+                    <th class="align-middle text-center no-hover"><b><?= $num; ?></b></th>
+                    <td class="align-middle no-hover"><?= $conceptoTarjeta; ?></td>
 
                     <?php
 
@@ -54,11 +56,11 @@ endif;
                         $conceptoTarjeta == "INBURSA" ||
                         $conceptoTarjeta == "SHELL FLEET NAVIGATOR"
                     ) {
-                        echo "<td class='p-0 align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
+                        echo "<td class='align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
                     } else {
                         ?>
                         <td class="p-0 align-middle text-end">
-                            <input id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
+                            <input class="<?=$deshabilitado?>" id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
                                 style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                                 onkeyup="EditTBaucher(this,<?= $idReporte; ?>,<?= $idTarjeta; ?>)" value="<?= $baucher; ?>"
                                 <?= $estado; ?>>

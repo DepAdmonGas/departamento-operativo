@@ -2,9 +2,11 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
+    $deshabilitado="disabledOP";
 endif;
 ?>
 <script type="text/javascript">
@@ -54,14 +56,14 @@ endif;
                 ?>
 
                 <tr>
-                    <th class="align-middle"><?= $concepto; ?></th>
-                    <td class="p-0 align-middle">
+                    <th class="align-middle no-hover"><?= $concepto; ?></th>
+                    <td class="p-0 align-middle no-hover <?=$deshabilitado="disabledOP";?>">
                         <input id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPCimporte(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $importe; ?>"
                             <?= $estado; ?>>
                     </td>
-                    <td class="p-0 align-middle">
+                    <td class="p-0 align-middle no-hover <?=$deshabilitado="disabledOP";?>">
                         <input id="nota-<?= $idPagoCliente; ?>" type="text"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
                             onkeyup="EditPCnota(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $nota; ?>"

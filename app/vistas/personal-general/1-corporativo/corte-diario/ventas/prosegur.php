@@ -62,18 +62,19 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $denominacion; ?></th>
-                    <td class="p-0 align-middle <?=$deshabilitado?>">
+                    <td class="p-0 align-middle no-hover <?=$deshabilitado?>">
                         <input id="recibo-<?= $idProsegur; ?>" type="text"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
                             onkeyup="EditPRecibo(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $recibo; ?>"
-                            <?= $estado; ?>>
+                            <?=$estado?>>
                     </td>
-                    <td class="p-0 align-middle <?=$deshabilitado?>">
+                    <td class="p-0 align-middle no-hover <?=$deshabilitado?>">
                         <input id="importe-<?= $idProsegur; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPImporte(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $valimporte; ?>"
-                            <?= $estado; ?>>
+                            <?=$estado?>>
                     </td>
+                    
                 </tr>
 
                 <?php

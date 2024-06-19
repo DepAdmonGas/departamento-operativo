@@ -57,9 +57,5 @@ require('../../../../../help.php');
 
     $totalNeto = $SubImporteTotal + $sumImporte;
 ?>
-<th class="">B TOTAL (A+4+5+6)</th>
-<td class="align-middle text-end bg-light" ></td>
-<td class="align-middle text-end bg-light" ></td>
-<td class="align-middle text-end bg-light" ></td>
-<td class="bg-light"></td>
+<th colspan="5" class="bg-white text-end">B TOTAL (A+4+5+6)</th>
 <td class="align-middle text-end bg-white" ><strong><?=number_format($totalNeto, 2);?></strong></td>
