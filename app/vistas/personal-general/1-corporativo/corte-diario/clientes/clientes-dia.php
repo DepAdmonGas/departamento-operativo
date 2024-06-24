@@ -6,18 +6,12 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-    $('.select').selectize({
-      sortField: 'text'
-    });
-    var margint = -530;
-    var ventana_alto = $(document).height();
-    ResultAlto = ventana_alto - margint;
-    box = document.getElementsByClassName('tableFixHead')[0];
-    box.style.height = ResultAlto + 'px';
-    ListaConsumoPago(<?= $GET_idReporte; ?>);
+    
+    ListaConsumoPago(<?= $GET_idReporte?>,"<?=RUTA_JS2?>");
   });
 </script>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -34,13 +28,15 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Clientes</li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+              </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
+                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
             <div class="col-2">
@@ -54,7 +50,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                     <li onclick="Agregar()">
                       <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar clientes</a>
                     </li>
-                    <li onclick="ClientesLista(<?= $GET_year; ?>,<?= $GET_mes; ?>,<?= $GET_idReporte; ?>)">
+                    <li onclick="ClientesLista(<?=$GET_year?>,<?=$GET_mes?>,<?=$GET_idReporte?>)">
                       <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista clientes</a>
                     </li>
                   </ul>
@@ -63,9 +59,8 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             </div>
           </div>
           <hr>
-          <div class="tableFixHead">
             <div id="ConsumosPagos"></div>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -86,13 +81,13 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           <div id="BorderCliente">
             <select placeholder="Cliente" id="Cliente" class="select">
               <option value="">Cliente</option>
-              <?php
-              try {
-                $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
-              } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-              }
-              ?>
+                <?php
+                try {
+                  $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
+                } catch (Exception $e) {
+                  echo "Error: " . $e->getMessage();
+                }
+                ?>
             </select>
           </div>
           <div class="mt-2 mb-1"><small>* Agregue total</small></div>
@@ -123,7 +118,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           </div>
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$GET_idReporte?>)">
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$GET_idReporte?>,'<?=RUTA_JS2?>')">
         <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
         </div>
       </div>
@@ -135,5 +130,9 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
   src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </html>

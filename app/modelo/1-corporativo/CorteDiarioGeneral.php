@@ -6,7 +6,8 @@ class CorteDiarioGeneral extends Exception
     public function __construct($con)
     {
         $this->con = $con;
-        $this->formato = new herramientasDptoOperativo($this->con);;
+        $this->formato = new herramientasDptoOperativo($this->con);
+        ;
     }
 
     /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
@@ -98,10 +99,12 @@ WHERE id_reportedia  = ? AND detalle = ? ORDER BY op_corte_dia_firmas.id DESC LI
         $contenido = '';
 
         if ($detalle == "Elaboró"):
-            $contenido .= '<div class="text-center mt-1">';
-            $contenido .= '<img src="' . $rutafirma . $firma . '" width="150px" height="70px">';
-            $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>' . $nombre . '</b></div>';
-            $contenido .= '</div>';
+            $contenido .= '<tr class="text-center">
+            <th class="no-hover"><img src="' . $rutafirma . $firma . '" width="150px" height="70px"></th>';
+            $contenido .= '</tr>
+            <tr>';
+            $contenido .= '<th class="text-center no-hover"><b>' . $nombre . '</b></th>';
+            $contenido .= '</tr>';
 
         elseif ($detalle == "Superviso" || $detalle == "VoBo"):
             $NewFecha = date("Y-m-d", strtotime($explode[0] . "+ 2 days"));
@@ -109,17 +112,20 @@ WHERE id_reportedia  = ? AND detalle = ? ORDER BY op_corte_dia_firmas.id DESC LI
             $timestamp2 = strtotime($NewFecha);
 
             if ($timestamp1 >= $timestamp2):
-                $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . $this->formato->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-                $contenido .= '<div class="">';
+                $Detalle = '<tr class="text-center">
+                                <td class="no-hover">
+                                    <small class="text-secondary">El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . $this->formato->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small>
+                                </td>    
+                            </tr>';
                 $contenido .= $Detalle;
-                $contenido .= '<div class="mb-1 text-center pt-2"><b>' . $nombre . '</b></div>';
-                $contenido .= '</div>';
+                $contenido .= '<tr class="">';
+                $contenido .= '<th class="text-center no-hover">' . $nombre . '</th>';
+                $contenido .= '</tr>';
 
             else:
-                $contenido .= '<div class="text-center mt-1">';
-                $contenido .= '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
-                $contenido .= '<div class="text-center mt-1 border-top pt-2"></div>';
-                $contenido .= '</div>';
+                $contenido .= '<tr class="text-center">';
+                $contenido .= '<td class="no-hover">No se encontró firma del corte diario</td>';
+                $contenido .= '</tr>';
             endif;
 
         endif;
@@ -285,7 +291,7 @@ WHERE id_reportedia = ? AND detalle = ?";
         if (!$stmt):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("i", $idReporte );
+        $stmt->bind_param("i", $idReporte);
         $stmt->execute();
         $stmt->bind_result($tpv);
         $stmt->fetch();
@@ -894,7 +900,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
      * 
      * 
      * 
-     */ 
+     */
 
     public function ventas(int $idReporte): int
     {
@@ -903,8 +909,8 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         $result = $this->con->prepare($sql_dia);
 
         if (!$result):
-        // Manejo de error
-        throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+            // Manejo de error
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         endif;
 
         $result->bind_param('i', $idReporte);
@@ -1326,50 +1332,50 @@ re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
         }
 
         $consulta->close();
-        
+
         return $datosEstimuloFiscal;
     }
-        /* ------------------------------ PUNTO 6. SOLICITUD DE VALES ------------------------------ */
+    /* ------------------------------ PUNTO 6. SOLICITUD DE VALES ------------------------------ */
 
-        function obtenerDatosSolicitudVale($idReporte)
-        {
+    function obtenerDatosSolicitudVale($idReporte)
+    {
 
-            $folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
-            $sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ? ";
-            $consulta = $this->con->prepare($sql);
+        $folio = $fecha = $hora = $monto = $moneda = $concepto = $solicitante = $observaciones = $status = $idEstacion = $cuenta = $autorizadoPor = $metodoAutorizacion = null;
+        $sql = "SELECT folio, fecha, hora, monto, moneda, concepto, solicitante, observaciones, status, id_estacion, cuenta, autorizado_por, metodo_autorizacion FROM op_solicitud_vale WHERE id = ? ";
+        $consulta = $this->con->prepare($sql);
 
-            if (!$consulta) {
-                throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-            }
-
-            $consulta->bind_param('i', $idReporte);
-            $consulta->execute();
-            $consulta->bind_result($folio, $fecha, $hora, $monto, $moneda, $concepto, $solicitante, $observaciones, $status, $idEstacion, $cuenta, $autorizadoPor, $metodoAutorizacion);
-
-            if ($consulta->fetch()) {
-                $datosSolicitudVale = array(
-                    'folio' => $folio,
-                    'fecha' => $fecha,
-                    'hora' => $hora,
-                    'monto' => $monto,
-                    'moneda' => $moneda,
-                    'concepto' => $concepto,
-                    'solicitante' => $solicitante,
-                    'observaciones' => $observaciones,
-                    'status' => $status,
-                    'idEstacion' => $idEstacion,
-                    'cuenta' => $cuenta,
-                    'autorizado_por' => $autorizadoPor,
-                    'metodo_autorizacion' => $metodoAutorizacion
-                );
-            } else {
-                $datosSolicitudVale = null;
-            }
-
-            $consulta->close();
-
-            return $datosSolicitudVale;
+        if (!$consulta) {
+            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         }
+
+        $consulta->bind_param('i', $idReporte);
+        $consulta->execute();
+        $consulta->bind_result($folio, $fecha, $hora, $monto, $moneda, $concepto, $solicitante, $observaciones, $status, $idEstacion, $cuenta, $autorizadoPor, $metodoAutorizacion);
+
+        if ($consulta->fetch()) {
+            $datosSolicitudVale = array(
+                'folio' => $folio,
+                'fecha' => $fecha,
+                'hora' => $hora,
+                'monto' => $monto,
+                'moneda' => $moneda,
+                'concepto' => $concepto,
+                'solicitante' => $solicitante,
+                'observaciones' => $observaciones,
+                'status' => $status,
+                'idEstacion' => $idEstacion,
+                'cuenta' => $cuenta,
+                'autorizado_por' => $autorizadoPor,
+                'metodo_autorizacion' => $metodoAutorizacion
+            );
+        } else {
+            $datosSolicitudVale = null;
+        }
+
+        $consulta->close();
+
+        return $datosSolicitudVale;
+    }
     /**
      * 
      * 

@@ -21,7 +21,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 	<th class="align-middle text-end">EDI</th>
 	<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
 </thead>
-<tbody class="bg-white">
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){

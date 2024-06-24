@@ -19,7 +19,6 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-
       <div class="row">
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
@@ -27,17 +26,15 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen embarques
-                <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-                <?= $GET_year; ?>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Resumen embarques (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-9">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Resumen embarques
-                <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-                <?= $GET_year; ?>
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Resumen embarques (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
               </h3>
             </div>
             <div class="col-3">

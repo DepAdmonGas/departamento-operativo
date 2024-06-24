@@ -4,6 +4,7 @@ $idReporte = $_GET['idReporte'];
 $estado = "";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 $deshabilitado="";
+$hover="no-hover";
 $agregarProducto='<th colspan="5" class="align-middle text-center tables-bg">CONCENTRADO DE VENTAS</th>
 			<th class="align-middle text-center tables-bg">
 			<button type="button" class="btn btn-success" onclick="NewVentas(' . $idReporte . ')"><i class="fa fa-plus">
@@ -11,6 +12,7 @@ $agregarProducto='<th colspan="5" class="align-middle text-center tables-bg">CON
 			</th>
 			';
 if ($ventas == 1):
+	$hover="";
 	$deshabilitado="disabledOP";
 	$estado = "disabled";
 	$agregarProducto='<th colspan="6" class="align-middle text-center tables-bg">CONCENTRADO DE VENTAS</th>';
@@ -87,9 +89,9 @@ endif;
 				?>
 				<tr>
 
-					<th class="p-0 no-hover">
-						<select class="form-select <?=$deshabilitado?>" id="producto-<?= $idventas; ?>"
-							style="border: 0px;width: 100%;padding: 3px;font-size: 1.2em;"
+					<th class="p-0 <?=$deshabilitado ,$hover?>">
+						<select class="form-select border-0" id="producto-<?= $idventas; ?>"
+							style="font-size: 1.2em;"
 							onchange="EditProducto(this,<?= $idReporte; ?>,<?= $idventas; ?>)" <?= $estado; ?>>
 							<?php if ($producto == "") { ?>
 								<option value="">PRODUCTO</option>
@@ -113,30 +115,28 @@ endif;
 						</select>
 					</th>
 
-					<th class="p-0 align-middle no-hover <?=$deshabilitado?>">
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="litros-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditLitros(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $litros; ?>" <?= $estado; ?>>
 					</th>
 
-					<th class="p-0 align-middle no-hover <?=$deshabilitado?>">
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="jarras-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%;text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditJarras(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $jarras; ?>" <?= $estado; ?>>
 					</th>
 
 					<th class="bg-white align-middle text-end" id="totallitros-<?= $idventas; ?>">
-						<strong><?= number_format($totalLitros, 2); ?></strong></th>
-					<th class="p-0 align-middle no-hover <?=$deshabilitado?>">
+						<?= number_format($totalLitros, 2); ?></th>
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="preciolitro-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%;text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditPrecioLitro(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $preciolitro; ?>"
 							<?= $estado; ?>>
 					</th>
 					<th class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
-						<strong><?= number_format($importeTotal, 2); ?></strong></th>
-
-
+						<?= number_format($importeTotal, 2); ?></th>
 				</tr>
 				<?php
 			}
@@ -176,10 +176,10 @@ endif;
 						if ($disabled == "disabled") {
 							echo "<b>" . number_format($importe, 2) . "</b>";
 						} else { ?>
-							<input class="<?=$deshabilitado?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
-								style="border: 0px;width: 100%;padding: 3px;height: 100% !important;text-align: right;"
+							<input class="p-0 <?=$deshabilitado?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
+								style="border: 0px;width:100%;text-align: right;"
 								onkeyup="EditPrecioOtros(this,<?= $idReporte; ?>,<?= $idOtros; ?>)" value="<?= $importe; ?>"
-								<?= $estado; ?>>
+								<?=$estado?>>
 						<?php } ?>
 					</td>
 				</tr>

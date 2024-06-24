@@ -43,7 +43,7 @@ function TotalVentas($idDias, $Producto, $con)
 
 
 <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+    <table class="custom-table" style="font-size: .75em;" width="100%">
         <thead class="navbar-bg">
       <tr>
         <th class="text-center align-middle fw-bold" rowspan="2">FECHA</th>

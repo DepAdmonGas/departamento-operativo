@@ -62,22 +62,26 @@ endif;
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Venta día -
-                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>
+                Venta día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
               </li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-9">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Venta Día -
-                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
+                Venta Día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
-            <div class="col-3">
-              <button type="button" class="btn btn-labeled2 btn-danger float-end" onclick="PDF(<?= $GET_idReporte ?>)">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+              <button type="button" class="btn btn-labeled2 btn-danger float-end ms-2" onclick="PDF(<?= $GET_idReporte ?>)">
                 <span class="btn-label2"><i class="fa-solid fa-file-pdf"></i></span>PDF</button>
-            </div>
+                <?php if($ventas ==0) :?>
+                  <button type="button" class="btn btn-labeled2 btn-success float-end"
+                    onclick="FirmarCorte(<?= $GET_idReporte; ?>,<?= $Session_IDUsuarioBD; ?>,'<?= $session_nomestacion; ?>')">
+                    <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
+                    <input type="hidden" name="base64" value="" id="base64">
+                <?php endif; ?>
+              </div>
 
           </div>
         </div>
@@ -87,45 +91,39 @@ endif;
         <!---------- TABLA - CONCENTRADO DE VENTAS ---------->
         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
           <div class="mb-3">
-            <div class="p-2">
-              <div id="DivConecntradoVentas"></div>
-            </div>
+            <div id="DivConecntradoVentas"></div>
           </div>
           <!---------- TABLA - RELACION DE VENTA DE ACEITES Y LUBRICANTES ---------->
           <div class="mb-3">
-            <div class="p-2">
-              <div id="DivAceitesLubricantes"></div>
-            </div>
+
+            <div id="DivAceitesLubricantes"></div>
+
           </div>
           <!---------- TABLA - Documentos ---------->
           <div class="mb-3">
-            <div class="p-2">
-              <div id="Documentos"></div>
-            </div>
+
+            <div id="Documentos"></div>
+
           </div>
         </div>
-        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3">
           <!---------- TABLA - Prosegur ---------->
-          <div>
-            <div class="p-2">
-              <div id="DivProsegur"></div>
-            </div>
-          </div>
+          <div id="DivProsegur"></div>
           <!---------- TABLA - Monederos y bancos ---------->
           <div class="mt-3">
-            <div class="p-2">
-              <div id="DivTarjetasBancarias"></div>
-            </div>
+
+            <div id="DivTarjetasBancarias"></div>
+
           </div>
           <!---------- TABLA - Clientes Atio ---------->
           <div class="mt-3">
-            <div class="p-2">
-              <div id="DivControlgas"></div>
-            </div>
+
+            <div id="DivControlgas"></div>
+
           </div>
           <!---------- C Total 1+2+3 ---------->
-
-            <div class="table-responsive p-2">
+          <div class="mt-3">
+            <div class="table-responsive">
               <table class="table table-sm table-bordered">
                 <tr class="bg-white">
                   <td><strong>C TOTAL (1+2+3)</strong></td>
@@ -133,10 +131,10 @@ endif;
                 </tr>
               </table>
             </div>
-
+          </div>
           <!---------- Diferencia (B-C) ---------->
-
-            <div class="table-responsive p-2">
+          <div class="mt-3">
+            <div class="table-responsive">
               <table class="table table-sm table-bordered">
                 <tr class="bg-white">
                   <td><strong>DIFERENCIA (B-C)</strong></td>
@@ -144,146 +142,161 @@ endif;
                 </tr>
               </table>
             </div>
-
+          </div>
           <!---------- TABLA - Pago de clientes ---------->
-          
-            <div class="p-2">
-              <div id="DivPagoClientes"></div>
-            </div>
-          
+
+          <div class="mt-3">
+            <div id="DivPagoClientes"></div>
+          </div>
+
           <!---------- Dif Pago de Clientes ---------->
-          <div class="table-responsive p-2">
-            <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-              <tr class="bg-white">
-                <td>DIF PAGO DE CLIENTES</td>
-                <td class="align-middle text-end pointer" id="DifPagoCliente"></td>
-                <td>(4-5)</td>
-              </tr>
-            </table>
+          <div class="mt-3">
+            <div class="table-responsive">
+              <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
+                <tr class="bg-white">
+                  <td>DIF PAGO DE CLIENTES</td>
+                  <td class="align-middle text-end pointer" id="DifPagoCliente"></td>
+                  <td>(4-5)</td>
+                </tr>
+              </table>
+            </div>
           </div>
           <!---------- Observaciones ---------->
-          
-            <div class="table-responsive p-2">
+          <div class="mt-3">
+            <div class="table-responsive">
               <table class="custom-table " style="font-size: .8em;" width="100%">
-                <thead class="navbar-bg">
+                <thead class="title-table-bg">
                   <tr>
                     <th class="text-center align-middle">Observaciones</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white">
                   <tr>
-                    <th class="no-hover">
+                    <th class="no-hover p-0">
                       <?php
                       $observaciones = $corteDiarioGeneral->getObsevaciones($GET_idReporte);
                       ?>
-                      <textarea class="bg-white form-control" onkeyup="EditObservaciones(this,<?= $GET_idReporte; ?>)"
-                        <?= $estado; ?>><?= $observaciones; ?></textarea>
+                      <textarea class="bg-white form-control border-0" style="height:100px;"
+                        onkeyup="EditObservaciones(this,<?= $GET_idReporte; ?>)"
+                        <?= $estado ?>><?= $observaciones ?></textarea>
                     </th>
                   </tr>
                 </tbody>
               </table>
             </div>
-          
-          <?php if ($ventas == 0) { ?>
+          </div>
+          <?php if ($ventas == 0) : ?>
             <div class="mt-3">
-              <div class="p-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="terminosid">
-                  <label class="form-check-label" for="terminosid">
-                    <small>Acepto los resultados del corte del día
-                      <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></small>
-                  </label>
-                </div>
-                <div id="signature-pad" class="signature-pad mt-2">
-                  <div class="signature-pad--body">
-                    <canvas style="width: 100%; height: 200px; border: 1px black solid; " id="canvas"></canvas>
-                  </div>
-                </div>
-                <input type="hidden" name="base64" value="" id="base64">
-                <div class="text-end pointer">
-                  <button class="btn btn-success mt-2"
-                    onclick="FirmarCorte(<?= $GET_idReporte; ?>,<?= $Session_IDUsuarioBD; ?>,'<?= $session_nomestacion; ?>')">Guardar
-                    y Finalizar</button>
-                </div>
+              <div class="table-responsive">
+                <table class="custom-table" style="font-size: .8em;" width="100%">
+                  <thead class="title-table-bg">
+                    <tr>
+                      <th class="text-center align-middle">Firmar y Aceptar</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
+                    <tr>
+                      <td class="no-hover p-0">
+                        <div id="signature-pad" class="signature-pad border-0" style="cursor:crosshair">
+                          <div class="signature-pad--body"> 
+                            <canvas style="width: 100%; height: 200px;" id="canvas"></canvas>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()"><i class="fa-solid fa-broom"></i>  Limpiar firma</th>
+                    </tr>
+                    <tr>
+                      <th class="no-hover">
+                        <input class="form-check-input" type="checkbox" value="" id="terminosid">
+                        <label class="form-check-label" for="terminosid">
+                          <small class="text-primary">Acepto los resultados del corte del día
+                            <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?></small>
+                        </label>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-          <?php } ?>
+          <?php endif; ?>
         </div>
       </div>
-      <?php if ($ventas == 1) { ?>
-        <div>
-          <div>
-            <?php
-            $Elaboro = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Elaboró');
-            $Superviso = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Superviso');
-            $VoBo = $corteDiarioGeneral->validaFirma($GET_idReporte, 'VoBo');
-            ?>
-            <div class="row">
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                <div>
-                  <div class="p-3 bg-white">
-                    <div class="text-center font-weight-bold">ELABORÓ</div>
-                    <hr>
+      <?php if ($ventas == 1) : ?>
+        <div class="mt-3">
+          <?php
+          $Elaboro = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Elaboró');
+          $Superviso = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Superviso');
+          $VoBo = $corteDiarioGeneral->validaFirma($GET_idReporte, 'VoBo');
+          ?>
+          <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+              <div class="table-responsive">
+                <table class="custom-table" width="100%">
+                  <thead class="title-table-bg">
+                    <tr>
+                      <th class="align-middle text-center">ELABORÓ</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
                     <?php
                     if ($Elaboro > 0) {
-                      $RElaboro = $corteDiarioGeneral->firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma, );
-                      echo $RElaboro;
+                      echo $corteDiarioGeneral->firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma);
                     } else {
-                      echo '<div class=" col-12 text-center mb-3">';
-                      echo '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
-                      echo '<div class="text-center mt-1 border-top "></div>';
-                      echo '</div>';
+                      echo '<th class="p-2"><small>No se encontró firma del corte diario</small></th>';
                     }
                     ?>
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                <div>
-                  <div class="p-3 bg-white">
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+              <div class="table-responsive">
+                <table class="custom-table" width="100%">
+                  <thead class="title-table-bg">
+                    <tr>
+                      <th class="align-middle text-center">ELABORÓ</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
                     <?php
-                    if ($Superviso > 0) {
-                      echo '<div class="text-center font-weight-bold">SUPERVISO</div>';
-                      echo '<hr>';
-                      $RSuperviso = $corteDiarioGeneral->firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma);
-                      echo $RSuperviso;
+                    if ($Elaboro > 0) {
+                      echo $corteDiarioGeneral->firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma);
                     } else {
-                      echo '<div class="text-center font-weight-bold">SUPERVISO</div>';
-                      echo '<hr>';
-                      echo '<div class="text-center mt-1">';
-                      echo '<div class="p-2"><small>No se encontró firma del corte supervisor</small></div>';
-                      echo '<div class="text-center mt-1 border-top pt-2"></div>';
-                      echo '</div>';
+                      echo '<th class="p-2"><small>No se encontró firma del corte supervisor</small></th>';
                     }
                     ?>
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                <div>
-                  <div class="p-3 bg-white">
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+              <div class="table-responsive">
+                <table class="custom-table" width="100%">
+                  <thead class="title-table-bg">
+                    <tr>
+                      <th class="align-middle text-center">VO.BO.</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
                     <?php
-                    if ($VoBo > 0) {
-                      echo '<div class="text-center font-weight-bold">VO.BO.</div>';
-                      echo '<hr>';
-                      $RVoBo = $corteDiarioGeneral->firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma);
-                      echo $RVoBo;
+                    if ($Elaboro > 0) {
+                      echo $corteDiarioGeneral->firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma);
                     } else {
-                      echo '<div class="text-center font-weight-bold">VO.BO.</div>';
-                      echo '<hr>';
-                      echo '<div class="text-center mt-1">';
-                      echo '<div class="p-2"><small>No se encontró firma del VOBO</small></div>';
-                      echo '<div class="text-center mt-1 border-top pt-2"></div>';
-                      echo '</div>';
+                      echo '<th class="p-2"><small>No se encontró firma del corte supervisor</small></th>';
                     }
                     ?>
-                  </div>
-                </div>
+                  </tbody>
+                </table>
               </div>
+
             </div>
           </div>
         </div>
-      <?php } ?>
+
+      <?php endif; ?>
 
     </div>
   </div>
@@ -294,7 +307,7 @@ endif;
       <div class="modal-content border-0 rounded-0">
         <div class="modal-header">
           <h5 class="modal-title">Agegar Documento</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <small>* Documento</small>
@@ -314,8 +327,8 @@ endif;
           <input class="form-control" type="file" id="Documento">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="GuardarDocumento(<?= $GET_idReporte; ?>)">Guardar
-            documento</button>
+          <button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarDocumento(<?= $GET_idReporte; ?>)">
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar Documento</button>
         </div>
       </div>
     </div>

@@ -3,10 +3,12 @@ require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
 $deshabilitado="";
+$hover ='no-hover';
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
     $deshabilitado="disabledOP";
+    $hover ='';
 endif;
 ?>
 <script type="text/javascript">
@@ -30,9 +32,9 @@ endif;
                 <th colspan="3" class="align-middle text-center">CLIENTES (ATIO)</th>
             </tr>
             <tr>
-                <td class="text-center">CONCEPTO</td>
-                <td class="text-center">PAGOS</td>
-                <td class="text-center">CONSUMOS</td>
+                <td class="text-center fw-bold">CONCEPTO</td>
+                <td class="text-center fw-bold">PAGOS</td>
+                <td class="text-center fw-bold">CONSUMOS</td>
             </tr>
 
         </thead>
@@ -62,12 +64,12 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $concepto; ?></th>
-                    <td class="align-middle no-hover <?=$deshabilitado?>">
+                    <td class="align-middle <?=$deshabilitado,$hover?>">
                         <input id="pago-<?= $idControl; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditCGPago(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $pago; ?>" <?= $estado; ?>>
                     </td>
-                    <td class="align-middle no-hover <?=$deshabilitado?>">
+                    <td class="align-middle <?=$deshabilitado,$hover?>">
                         <input id="consumo-<?= $idControl; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditCGConsumo(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $consumo; ?>"

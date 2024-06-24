@@ -37,13 +37,13 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
                 <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                       class="fa-solid fa-chevron-left"></i>
                     Corte Diario</a></li>
-                <li aria-current="page" class="breadcrumb-item active text-uppercase">Cierre lote</li>
+                <li aria-current="page" class="breadcrumb-item active text-uppercase">Cierre lote día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
               </ol>
             </div>
             <div class="row">
               <div class="col-10">
                 <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                  <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
+                  Cierre Lote día (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>)
                 </h3>
               </div>
             </div>

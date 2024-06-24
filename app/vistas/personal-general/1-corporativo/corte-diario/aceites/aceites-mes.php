@@ -276,23 +276,21 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-
+        <div class="col-12">
         <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
           <ol class="breadcrumb breadcrumb-caret">
             <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                   class="fa-solid fa-chevron-left"></i>
                 Corte Diario</a></li>
-            <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen Aceites
-              <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-              <?= $GET_year; ?>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">
+              Resumen Aceites (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
             </li>
           </ol>
         </div>
         <div class="row">
           <div class="col-9">
-            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Resumen Aceites
-              <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-              <?= $GET_year; ?>
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+              Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
             </h3>
           </div>
           <div class="col-3 d-flex justify-content-end align-items-center">
@@ -324,6 +322,7 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
             </div>
           </div>
         </div>
+      </div>
       </div>
       <hr>
       <div class="tableFixHead">

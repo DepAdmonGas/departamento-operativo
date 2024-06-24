@@ -9,7 +9,7 @@ $GET_mes = $_GET['mes'];
   <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
     <thead class="navbar-bg">
       <tr class="tables-bg">
-        <th class="text-center align-middle fw-bold" colspan="17">Tarjetas y vales</th>
+        <th class="text-center align-middle fw-bold" colspan="17">Metodos de pago</th>
         <th class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </th>
       </tr>
 

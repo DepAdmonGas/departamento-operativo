@@ -66,11 +66,13 @@ mysqli_query($con, $sql2);
 
 ?>
 <div class="table-responsive">
-	<table class="custom-table " style="font-size: 1em;" width="100%">
+	<table id="tabla-principal" class="custom-table " style="font-size: 1em;" width="100%">
 		<thead class="navbar-bg">
 			<tr>
-				<th class="align-middle text-center " class="text-center">#</th>
-				<th class="align-middle text-start " colspan="3">Cliente</th>
+				<th class="align-middle text-center">#</th>
+				<th class="align-middle text-start">Cliente</th>
+				<th class="align-middle text-start">Nombre</th>
+				<th class="align-middle text-center">Tipo</th>
 				<th class="align-middle text-center ">Consumo/Pago</th>
 				<th class="align-middle text-center ">Forma Pago</th>
 				<th class="align-middle text-center  text-center" width="20px"><img width="20px"
@@ -126,52 +128,53 @@ mysqli_query($con, $sql2);
 							<td class="align-middle font-weight-light">' . $row_credito['ConsumoTipo'] . '</td>
 							<td class="align-middle font-weight-light">' . $TipoPago . '</td>
 							<td class="align-middle font-weight-light text-center">' . $comprobante . '</td>
-							<td class="align-middle text-end"><b>$ ' . number_format($row_credito['total'], 2) . '</b></td>
+							<td class="align-middle text-end"><b>$' . number_format($row_credito['total'], 2) . '</b></td>
 							<td class="align-middle text-center" width="20px">
-							<img width="20px" class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $idReporte . ',' . $id . ')">
+							<img width="20px" class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $idReporte . ',' . $id . ' '.RUTA_JS2.')">
 							</td>
 						</tr>';
-
 				endwhile;
-			else :
-				echo '<tr><td colspan="9" class="text-center"><small>No se encontró información</small></td></tr>';
 			endif;
 			?>
 		</tbody>
 	</table>
 </div>
-<div class="float-end mt-3">
-	<table class="custom-table " style="font-size: 1em;" width="100%">
+
+<div class="justify-content-center mt-3">
+	<table class="custom-table" style="font-size: 1em; width: 100%;">
 		<thead class="navbar-bg">
 			<tr>
-				<th class="text-center ">Tipo</th>
+				<th class="tables-bg" colspan="3">Totales</th>
+			</tr>
+			<tr>
+				<td class="text-center fw-bold">Tipo</td>
 				<th class="text-center ">Consumo</th>
-				<th class="text-center ">Pago</th>
+				<td class="text-center fw-bold">Pago</td>
 			</tr>
 		</thead>
 		<tbody class="bg-white">
 			<tr>
-				<th class="text-success text-center fw-bold">Débito</th>
-				<td class="text-end pl-4 pr-2 font-weight-light">$
+				<th class="text-success text-center fw-bold no-hover">Débito</th>
+				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
 					<?= number_format(Resumen($idReporte, 'Débito', 'Consumo', $con), 2); ?>
 				</td>
-				<td class="text-end pl-4 pr-2 font-weight-light">$
+				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
 					<?= number_format(Resumen($idReporte, 'Débito', 'Pago', $con), 2); ?>
 				</td>
 			</tr>
 			<tr>
-				<th class="text-primary text-center fw-bold">Crédito</th>
-				<td class="text-end pl-4 pr-2 font-weight-light">$
+				<th class="text-primary text-center fw-bold no-hover">Crédito</th>
+				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
 					<?= number_format(Resumen($idReporte, 'Crédito', 'Consumo', $con), 2); ?>
 				</td>
-				<td class="text-end pl-4 pr-2 font-weight-light">$
+				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
 					<?= number_format(Resumen($idReporte, 'Crédito', 'Pago', $con), 2); ?>
 				</td>
 			</tr>
 			<tr>
-				<th class="text-center fw-bold">Total</th>
-				<td class="text-end"><b>$ <?=number_format($Toconsumo, 2)?></b></td>
-				<td colspan="3" class="text-end"><b>$ <?=number_format($Topago, 2)?></b></td>
+				<th class="text-center fw-bold no-hover">Total</th>
+				<td class="text-end no-hover"><b>$ <?=number_format($Toconsumo, 2)?></b></td>
+				<td colspan="3" class="text-end no-hover"><b>$ <?=number_format($Topago, 2)?></b></td>
 			</tr>
 		</tbody>
 	</table>

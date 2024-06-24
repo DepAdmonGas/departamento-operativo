@@ -14,7 +14,7 @@ while ($row_listacierre = mysqli_fetch_array($result_listacierre, MYSQLI_ASSOC))
     $TotalTicket = $TotalTicket + $row_listacierre['ticktes'];
 }
 ?>
-<td class="align-middle text-center">Total</td>
+<th class="align-middle text-center fw-bold">Total</th>
 <td class="align-middle text-end"><b><?= number_format($TotalImporte, 2); ?></b></td>
 <td class="align-middle text-center"><b><?= $TotalTicket; ?></b></td>
 <td></td>

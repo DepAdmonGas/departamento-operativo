@@ -49,13 +49,13 @@ $totalConsumo = $consumoC + $consumoD;
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Monedero</li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Monedero día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
+                Monedero día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
           </div>
@@ -66,22 +66,23 @@ $totalConsumo = $consumoC + $consumoD;
         <div class="table-responsive">
           <table class="custom-table " style="font-size: 1em;" width="100%">
             <thead class="navbar-bg">
-              <tr>
-                <th style="background: #F3F6FA;" colspan="14"></th>
-                <th class="text-center align-middle" colspan="2">CRÉDITO</th>
-                <th class="text-center align-middle" colspan="2">DÉBITO</th>
-                <th class="text-center align-middle">PAGOS</th>
-                <th class="text-center align-middle">CONSUMOS</th>
+              <tr class="tables-bg">
+                <th class="text-center align-middle fw-bold" colspan="14">Metodos de Pago </th>
+                <th class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </th>
+                
               </tr>
 
               <tr>
                 <td class="text-center align-middle fw-bold" colspan="5">TARJETAS BANCARIAS</td>
-                <th class="text-center align-middle" colspan="4">TARJETAS</th>
+                <th class="text-center align-middle" colspan="4">TARJETAS OTROS</th>
                 <th class="text-center align-middle" colspan="5">VALES</th>
-                <td class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </td>
+                <th class="text-center align-middle" colspan="2">CRÉDITO</th>
+                <th class="text-center align-middle" colspan="2">DÉBITO</th>
+                <th class="text-center align-middle">PAGOS</th>
+                <td class="text-center align-middle fw-bold">CONSUMOS</td>
               </tr>
 
-              <tr class="tables-bg">
+              <tr>
                 <td class="text-center align-middle fw-bold">BANCOMER</td>
                 <th class="text-center align-middle">AMEX</th>
                 <th class="text-center align-middle">INBURGAS</th>

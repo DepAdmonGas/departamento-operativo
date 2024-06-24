@@ -7,7 +7,6 @@ class CorteDiario extends Exception
     private $classConexionBD;
     private $con;
     private $formato;
-    private $herramientasDptoOperativo;
 
     
     public function __construct()
@@ -899,13 +898,13 @@ class CorteDiario extends Exception
             $consulta->execute();
             $consulta->close();
             //$token = $this->toquenUser($num19);
-            $token = $this->herramientasDptoOperativo->toquenUser($num19);
+            $token = $this->formato->toquenUser($num19);
 
             $detalle = 'Se finalizo el corte del día ' . $dia . ' de la estación ' . $nombreEstacion;
 
             $result = true;
             //$this->sendNotification($token, $detalle,$accion);
-            $this->herramientasDptoOperativo->sendNotification($token,$detalle,$accion);
+            $this->formato->sendNotification($token,$detalle,$accion);
 
             $stmt->close();
         endif;
@@ -1358,11 +1357,11 @@ class CorteDiario extends Exception
         endif;
         $this->newAlmacen($idEstacion,$idReporte);
         //$token = $this->toquenUser(19);
-        $token = $this->herramientasDptoOperativo->toquenUser(19);
+        $token = $this->formato->toquenUser(19);
 
         $detalle = 'Se finalizo el inventario de '.$this->formato->nombremes($nomMes).', de la estación '.$nombreEstacion;
         //$this->sendNotification($token,$detalle,$accion);
-        $this->herramientasDptoOperativo->sendNotification($token,$detalle,$accion);
+        $this->formato->sendNotification($token,$detalle,$accion);
 
         $stmt->close();
         return $result;
