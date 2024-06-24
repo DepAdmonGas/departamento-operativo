@@ -3,10 +3,12 @@ require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
 $deshabilitado = "";
+$hover = "no-hover";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
     $deshabilitado="disabledOP";
+    $hover = "";
 endif;
 ?>
 <script type="text/javascript">
@@ -62,13 +64,13 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $denominacion; ?></th>
-                    <td class="p-0 align-middle no-hover <?=$deshabilitado?>">
+                    <td class="p-0 align-middle <?=$deshabilitado, $hover?>">
                         <input id="recibo-<?= $idProsegur; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
+                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPRecibo(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $recibo; ?>"
                             <?=$estado?>>
                     </td>
-                    <td class="p-0 align-middle no-hover <?=$deshabilitado?>">
+                    <td class="p-0 align-middle <?=$deshabilitado,$hover?>">
                         <input id="importe-<?= $idProsegur; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPImporte(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $valimporte; ?>"

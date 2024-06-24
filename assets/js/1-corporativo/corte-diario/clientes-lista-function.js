@@ -1,13 +1,42 @@
-function ListaClientes(idestacion) {
-  $('#ListaClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-clientes.php?idEstacion=' + idestacion);    
-  //$('#ListaClientes').load('../../../public/corte-diario/vistas/lista-clientes.php?idEstacion=' + idestacion);
-  }
+
+function ListaClientes(idestacion, ruta_js) {
+  let targetsCredito;
+  targetsCredito = [3];
+  let targetsDebito;
+  targetsDebito = [2];
+
+  $('#ListaClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-clientes.php?idEstacion=' + idestacion, function () {
+      $('#tabla_credito').DataTable({
+          "language": {
+              "url": ruta_js + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+              { "orderable": false, "targets": targetsCredito },
+              { "searchable": false, "targets": targetsCredito }
+          ]
+      });
+      $('#tabla_debito').DataTable({
+        "language": {
+            "url": ruta_js + "/es-ES.json"
+        },
+        "order": [[0, "desc"]],
+        "lengthMenu": [15, 30, 50, 100],
+        "columnDefs": [
+            { "orderable": false, "targets": targetsDebito },
+            { "searchable": false, "targets": targetsDebito }
+        ]
+      });
+  });
+
+}
 
   function Agregar() {
     $('#Modal').modal('show');
   }
 
-  function Guardar(sessionidEstacion) {
+  function Guardar(sessionidEstacion,ruta_js) {
 
     var Cuenta = $('#Cuenta').val();
     var Cliente = $('#Cliente').val();
@@ -56,10 +85,9 @@ function ListaClientes(idestacion) {
         processData: false,
         cache: false
       }).done(function (response) {
-        console.log(response);
         if (response == 1) {
           $('#Modal').modal('hide');
-          ListaClientes(sessionidEstacion);
+          ListaClientes(sessionidEstacion,ruta_js);
           alertify.success('Cliente agregado exitosamente.')
 
           $('#Cuenta').val('');

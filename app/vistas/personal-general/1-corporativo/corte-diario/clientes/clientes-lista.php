@@ -6,8 +6,7 @@ require 'app/vistas/contenido/header.php';
 
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-
-    ListaClientes(<?= $Session_IDEstacion; ?>);
+    ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
   });
   function EditarCliente(idCliente) {
 
@@ -58,7 +57,7 @@ require 'app/vistas/contenido/header.php';
     }).done(function (response) {
       if (response == 1) {
         $('#ModalEditar').modal('hide');
-        ListaClientes(<?= $Session_IDEstacion; ?>);
+        ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
 
         $('#EditCuenta').val('');
         $('#EditCliente').val('');
@@ -99,7 +98,7 @@ require 'app/vistas/contenido/header.php';
     }).done(function (response) {
       if (response == 1) {
         $('#ModalEditar').modal('hide');
-        ListaClientes(<?= $Session_IDEstacion; ?>);
+        ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
 
         $('#EditCuenta').val('');
         $('#EditCliente').val('');
@@ -116,7 +115,8 @@ require 'app/vistas/contenido/header.php';
   }
 
 </script>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -131,7 +131,7 @@ require 'app/vistas/contenido/header.php';
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-chevron-left"></i>Clientes</a></li>
+                    class="fa-solid fa-chevron-left"></i>Clientes día</a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">Lista Clientes</li>
             </ol>
           </div>
@@ -198,7 +198,7 @@ require 'app/vistas/contenido/header.php';
 
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$Session_IDEstacion?>)">
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$Session_IDEstacion?>,'<?=RUTA_JS2?>')">
         <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
           
         </div>
@@ -215,5 +215,9 @@ require 'app/vistas/contenido/header.php';
     </div>
   </div>
 </body>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+        src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </html>

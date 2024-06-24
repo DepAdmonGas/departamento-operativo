@@ -480,10 +480,17 @@ filter: opacity(50%);
         /* Otros estilos */
     }
     .disabledOP {
-        background-color: #f0f0f0;
+        background-color: #e9ecef;
         color: #a0a0a0;
     }
-    
+    /* mantener la ultima fila del datatable estatica*/
+    .ultima-fila {
+        background-color: #f9f9f9;
+        font-weight: bold;
+        position: sticky;
+        bottom: 0;
+        z-index: 10;/* Asegúrate de que esté por encima de otras filas */
+    }
     
     /* ---------------------------------------------------
         BOTONES DESING

@@ -1,8 +1,20 @@
-
-function ListaConsumoPago(idReporte) {
-  $('#ConsumosPagos').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-consumo-pagos.php?idReporte=' + idReporte);    
-  //$('#ConsumosPagos').load('../../../public/corte-diario/vistas/lista-consumo-pagos.php?idReporte=' + idReporte);
-  }
+function ListaConsumoPago(idReporte, ruta_js) {
+  let targets;
+  targets = [6,8];
+  $('#ConsumosPagos').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-consumo-pagos.php?idReporte=' + idReporte, function () {
+      $('#tabla-principal').DataTable({
+          "language": {
+            "url": ruta_js + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+              { "orderable": false, "targets": targets },
+              { "searchable": false, "targets": targets }
+          ]
+      });
+  });
+}
 
   function ClientesLista(year, mes, idDias) {
     window.location.href = "../../../clientes-lista/" + year + "/" + mes + "/" + idDias;
@@ -12,7 +24,7 @@ function ListaConsumoPago(idReporte) {
     $('#Modal').modal('show');
   }
 
-  function Guardar(idReporte) {
+  function Guardar(idReporte,ruta_js) {
 
     var agregar = 0;
     var data = new FormData();
@@ -37,7 +49,7 @@ function ListaConsumoPago(idReporte) {
           $('#Tipo').css('border', '');
 
           if (Tipo == "Consumo") {
-            AgregarConsumo(idReporte);
+            AgregarConsumo(idReporte,ruta_js);
           } else if (Tipo == "Pago") {
 
             if (FormaPago != "") {
@@ -96,6 +108,7 @@ function ListaConsumoPago(idReporte) {
                   processData: false,
                   cache: false
                 }).done(function (data) {
+                  console.log(data)
                   if (data == 1) {
 
                     $('#Modal').modal('hide');
@@ -111,7 +124,7 @@ function ListaConsumoPago(idReporte) {
 
                     document.getElementById("DivFPago").style.display = "none";
 
-                    ListaConsumoPago(idReporte);
+                    ListaConsumoPago(idReporte, ruta_js);
                     alertify.success('Registro agregado exitosamente.')
 
                   } else {
@@ -142,7 +155,7 @@ function ListaConsumoPago(idReporte) {
 
   }
 
-  function AgregarConsumo(idReporte) {
+  function AgregarConsumo(idReporte,ruta_js) {
 
     var Cliente = $('#Cliente').val();
     var Total = $('#Total').val();
@@ -181,7 +194,7 @@ function ListaConsumoPago(idReporte) {
           document.getElementById("DivFPago").style.display = "none";
 
 
-          ListaConsumoPago(idReporte);
+          ListaConsumoPago(idReporte, ruta_js);
           alertify.success('Registro agregado exitosamente.')
 
         } else {
@@ -194,7 +207,7 @@ function ListaConsumoPago(idReporte) {
   }
   //------------------------------------------------------------
 
-  function Eliminar(idReporte, id) {
+  function Eliminar(idReporte, id,ruta_js) {
 
     var parametros = {
       "idReporte": idReporte,
@@ -214,7 +227,7 @@ function ListaConsumoPago(idReporte) {
         if (response == 1) {
 
 
-          ListaConsumoPago(idReporte);
+          ListaConsumoPago(idReporte,ruta_js);
           alertify.success('Registro eliminado exitosamente.')
 
         } else {

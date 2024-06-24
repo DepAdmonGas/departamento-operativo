@@ -14,22 +14,6 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
     ListaMonedero(<?= $GET_year; ?>, <?= $GET_mes; ?>);
   });
 </script>
-<style media="screen">
-  .tableFixHead {
-    overflow-x: scroll;
-    overflow-y: scroll;
-  }
-
-  .tableFixHead thead th {
-    position: sticky;
-    top: 0px;
-    box-shadow: 2px 2px 4px #ECECEC;
-  }
-
-  .tableStyle {
-    box-shadow: 0px 0px 0px #ECECEC;
-  }
-</style>
 
 <body>
   <div class="LoaderPage"></div>
@@ -39,28 +23,22 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-
-
       <div class="row">
-
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen monedero 
-                <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-                <?= $GET_year; ?>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Resumen monedero (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-9">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Resumen Monedero
-                <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-                <?= $GET_year; ?>
+                Resumen Monedero (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
               </h3>
             </div>
             <div class="col-3">
@@ -90,7 +68,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
           <h5 class="modal-title">Facturas</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div>
           <div id="ListaDocumento"></div>
         </div>
       </div>

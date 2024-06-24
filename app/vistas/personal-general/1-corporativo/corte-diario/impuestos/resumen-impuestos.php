@@ -147,8 +147,7 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
                           <td colspan="6" class="align-middle text-end">ACEITES</td>
                           <td class="align-middle text-end"><?= number_format($aceitessiniva, 2); ?></td>
                           <td class="align-middle text-end"><?= number_format($aceitesiva, 2); ?></td>
-                          <td></td>
-                          <td class="align-middle text-end"><?= number_format($totalPrecio, 2); ?></td>
+                          <td colspan="2" class="align-middle text-end"><?= number_format($totalPrecio, 2); ?></td>
                         </tr>
                         <tr>
                           <?php

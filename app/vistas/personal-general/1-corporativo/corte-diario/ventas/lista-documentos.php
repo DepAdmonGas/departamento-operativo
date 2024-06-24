@@ -5,7 +5,7 @@ $idReporte = $_GET['idReporte'];
 // condicion que se ocupa para mostrar boton documento
 $ventas = $corteDiarioGeneral->getEstado($idReporte);
 $documentoVista='<th colspan="2" class="text-center align-middle">Documento</th>';
-$documentosinInfo = '<tr><th colspan="3" class="text-center text-secondary no-hover"><small>No se encontró información para mostrar </small></th></tr>';
+$documentosinInfo = '<tr><th colspan="4" class="text-center text-secondary no-hover"><small>No se encontró información para mostrar </small></th></tr>';
 if ($ventas == 0):
   $documentoVista = '
                     <th class="text-center align-middle">Documento</th>

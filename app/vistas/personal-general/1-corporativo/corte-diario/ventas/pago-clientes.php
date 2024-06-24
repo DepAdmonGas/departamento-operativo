@@ -3,8 +3,10 @@ require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
 $deshabilitado="";
+$hover="no-hover";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
+    $hover="";
     $estado = "disabled";
     $deshabilitado="disabledOP";
 endif;
@@ -57,15 +59,15 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $concepto; ?></th>
-                    <td class="p-0 align-middle no-hover <?=$deshabilitado="disabledOP";?>">
+                    <td class="align-middle <?=$deshabilitado, $hover?>">
                         <input id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPCimporte(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $importe; ?>"
                             <?= $estado; ?>>
                     </td>
-                    <td class="p-0 align-middle no-hover <?=$deshabilitado="disabledOP";?>">
+                    <td class="align-middle <?=$deshabilitado, $hover?>">
                         <input id="nota-<?= $idPagoCliente; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
+                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPCnota(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $nota; ?>"
                             <?= $estado; ?>>
                     </td>

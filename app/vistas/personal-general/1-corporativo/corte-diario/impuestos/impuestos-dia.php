@@ -19,13 +19,13 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Impuestos</li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Impuestos día (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
+                Impuestos día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
           </div>
@@ -130,8 +130,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                     <th colspan="6" class="align-middle text-end">ACEITES</th>
                     <td class="align-middle text-end"><?= number_format($aceitessiniva, 2); ?></td>
                     <td class="align-middle text-end"><?= number_format($aceitesiva, 2); ?></td>
-                    <td></td>
-                    <td class="align-middle text-end"><?= number_format($totalPrecio, 2); ?></td>
+                    <td colspan="2" class="align-middle text-end"><?= number_format($totalPrecio, 2); ?></td>
                   </tr>
                   <tr class="bg-white">
                     <?php
@@ -147,7 +146,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                   </tr>
                   <?php
                 } else {
-                  echo "<tr><td colspan='10' class='align-middle text-center p-3'>No se encontró información para mostrar </td></tr>";
+                  echo "<tr><th colspan='10' class='align-middle text-center p-3'><small>No se encontró información para mostrar </small></th></tr>";
                 }
                 ?>
               </tbody>

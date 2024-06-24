@@ -963,15 +963,15 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Control volumetrico
-                <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Control volumetrico (<?=nombremes($GET_mes)?> <?=$GET_year?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Control volumetrico
-                <?= nombremes($GET_mes) ?>,<?= $GET_year ?>
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Control volumetrico (<?=nombremes($GET_mes)?><?= $GET_year ?>)
               </h3>
             </div>
           </div>
