@@ -41,10 +41,40 @@ header("Location:".PORTAL."");
    window.history.back();
   }
 
-  function TPVLista(){
-  $('#TPVLista').load('public/corte-diario/vistas/lista-terminales-tpv.php');
-  }
+  function TPVLista() {
+    $('#TPVLista').load('public/corte-diario/vistas/lista-terminales-tpv.php', function () {
+        function initializeDataTable(tableId) {
+            // Clonar y remover las filas antes de inicializar DataTables
+            var $lastRows = $('#' + tableId + ' tr.ultima-fila').clone();
+            $('#' + tableId + ' tr.ultima-fila').remove();
+    
+            // Inicializar DataTables
+            $('#' + tableId).DataTable({
+                "language": {
+                    "url": "<?=RUTA_JS2?>" + "/es-ES.json"
+                },
+                "order": [[0, "desc"]],
+                "lengthMenu": [15, 30, 50, 100],
+                "columnDefs": [
+                    { "orderable": false,},
+                    { "searchable": false,}
+                ],
+                "drawCallback": function(settings) {
+                    // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+                    $('#' + tableId + ' tr.ultima-fila').remove();
+                    // Añadir las filas clonadas al final del tbody
+                    $('#' + tableId + ' tbody').append($lastRows.clone());
+                }
+            });
+    
+            // Añadir las filas clonadas al final del tbody inicial
+            $('#' + tableId + ' tbody').append($lastRows);
+        }
+        // Inicializar ambas tablas
+        initializeDataTable('terminales-punto-venta');
+    });
 
+}
   function Agregar(){
   $('#Modal').modal('show');  
   $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-terminales-tpv.php');
@@ -301,7 +331,8 @@ var NoLote = $('#NoLote').val();
     }
   </script>
   </head>
-  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <body>
   <div class="LoaderPage"></div>
 
@@ -363,7 +394,10 @@ var NoLote = $('#NoLote').val();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
   </body>
   </html>
 

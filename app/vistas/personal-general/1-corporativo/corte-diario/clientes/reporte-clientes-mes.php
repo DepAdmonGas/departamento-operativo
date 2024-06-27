@@ -71,16 +71,6 @@ $numero_debito = mysqli_num_rows($result_debito);
                     $TSFC = 0;
                     while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)):
                         $id = $row_credito['id'];
-
-                        /*
-                        $saldofinalC = $row_credito['saldo_inicial'] + $row_credito['consumos'] - $row_credito['pagos'];
-                        $Csaldoinicial = $Csaldoinicial + $row_credito['saldo_inicial'];
-                        $Cconsumos = $Cconsumos + $row_credito['consumos'];
-                        $Cpagos = $Cpagos + $row_credito['pagos'];
-                        $CSaFi = $CSaFi + $saldofinalC;
-                        <td class="text-end font-weight-light">$ '.number_format($row_credito['saldo_inicial'],2).'</td>
-                        */
-
                         echo '<tr>
                                 <th class="align-middle font-weight-light text-center"  style="font-size: .9em;">' . $row_credito['id'] . '</th>
                                 <td class="align-middle font-weight-light"  style="font-size: .9em;">' . $row_credito['cuenta'] . '</td>

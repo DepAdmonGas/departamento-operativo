@@ -13,6 +13,7 @@ $monedero = $row_lista['monedero'];
 $diferencia = $row_lista['diferencia']; 
 }
 ?>
+<div class="modal-body">
 <div class="mb-1 text-secondary">Agregar fecha</div>
 <input type="date" class="form-control" id="Fecha" value="<?=$fecha;?>">
 
@@ -46,4 +47,4 @@ $diferencia = $row_lista['diferencia'];
         <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="EditarInfo(<?=$IdReporte;?>,<?=$id;?>)">
           <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div>
-     
+      </div>

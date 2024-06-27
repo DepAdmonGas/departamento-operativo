@@ -79,7 +79,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             <small>* Selecciona el cliente</small>
           </div>
           <div id="BorderCliente">
-            <select placeholder="Cliente" id="Cliente" class="select">
+            <select placeholder="Cliente" id="Cliente" class="form-select">
               <option value="">Cliente</option>
                 <?php
                 try {

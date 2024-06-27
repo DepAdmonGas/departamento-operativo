@@ -27,7 +27,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
                     echo '<tr>';
-                    echo '<td class="align-middle text-center">' . $num . '</td>';
+                    echo '<th class="align-middle text-center">' . $num . '</th>';
                     echo '<td class="align-middle">' . FormatoFecha($row_lista['fecha']) . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['factura'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['neto'] . '</td>';
@@ -39,7 +39,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                     $num++;
                 }
             } else {
-                echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+                echo "<tr><th colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
             }
             ?>
         </tbody>
