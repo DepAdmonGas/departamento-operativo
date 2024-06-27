@@ -113,8 +113,7 @@ if ($Session_IDUsuarioBD == "") {
 
     function SelNoSemana(idEstacion, year) {
       sizeWindow();
-
-      var semana = $('#SemanaEstacion').val();
+      var semana = $('#SemanaEstacion_' + idEstacion).val();
       sessionStorage.setItem('semana', semana);
 
       $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion + '&year=' + year + '&semana=' + semana);

@@ -560,6 +560,19 @@ filter: opacity(50%);
 .custom-table tbody tr:hover td.no-hover {
     background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
 }
+/* Quitar el estilo hover para celdas específicas */
+.custom-table tbody tr:hover th.no-hover2, 
+.custom-table tbody tr:hover td.no-hover2 {
+background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+}
+
+/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+.custom-table tbody tr:hover th.no-hover2,
+.custom-table tbody tr:hover td.no-hover2 {
+background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+}
+
+
 .dt-empty {
     background-color: #fff; /* Cambiar el color de fondo */
     /* Otros estilos */
@@ -570,7 +583,6 @@ filter: opacity(50%);
 }
 /* mantener la ultima fila del datatable estatica*/
 .ultima-fila {
-    background-color: #f9f9f9;
     font-weight: bold;
     position: sticky;
     bottom: 0;

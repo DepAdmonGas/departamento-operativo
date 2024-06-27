@@ -4,9 +4,6 @@ require('../../../app/help.php');
 $idReporte = $_GET['idReporte'];
 $idEstacion = $_GET['idEstacion'];
 
-$year = $_GET['year'];
-$mes = $_GET['mes'];
-
 function Responsable($id, $con){
 
 $sql_resp = "SELECT * FROM tb_usuarios WHERE id = '".$id."'  ";
@@ -28,7 +25,7 @@ echo '
 
 <div class="modal-header">
         <h5 class="modal-title">Comentarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
 

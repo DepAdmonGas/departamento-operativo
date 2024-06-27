@@ -16,7 +16,7 @@ sortField: 'text'
 </script>
 <div class="modal-header">
 <h5 class="modal-title">Agregar pintura y complemento a inventario</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
       <div class="modal-body">
 
@@ -36,5 +36,7 @@ sortField: 'text'
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="CreateInventario(<?=$idEstacion;?>)">Guardar</button>
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="CreateInventario(<?=$idEstacion?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar producto</button>
+      
       </div>
