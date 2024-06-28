@@ -1,121 +1,108 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 $idEstacion = $_GET['idEstacion'];
 
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
+$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '" . $idEstacion . "' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $estacion = $row_listaestacion['nombre'];
+}
+function Personal($idpersonal, $con)
+{
+
+  $sql = "SELECT nombre, id_puesto FROM tb_usuarios WHERE id = '" . $idpersonal . "' ";
+  $result = mysqli_query($con, $sql);
+  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $nombre = $row['nombre'];
+    $idpuesto = $row['id_puesto'];
+  }
+
+  $sql = "SELECT tipo_puesto FROM tb_puestos WHERE id = '" . $idpuesto . "' ";
+  $result = mysqli_query($con, $sql);
+  while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $puesto = $row['tipo_puesto'];
+  }
+
+  $result = array('nombre' => $nombre, 'puesto' => $puesto);
+
+  return $result;
 }
 
- 
-function Personal($idpersonal, $con){
-
-$sql = "SELECT nombre, id_puesto FROM tb_usuarios WHERE id = '".$idpersonal."' ";
-$result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$nombre = $row['nombre'];
-$idpuesto = $row['id_puesto'];
-}
-
-$sql = "SELECT tipo_puesto FROM tb_puestos WHERE id = '".$idpuesto."' ";
-$result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$puesto = $row['tipo_puesto'];
-}
-
-$result = array('nombre' => $nombre, 'puesto' => $puesto);
-
-return $result;
-}
- 
-$sql_lista = "SELECT * FROM op_pedido_pinturas_complementos WHERE id_estacion = '".$idEstacion."' AND status >= 1 ORDER BY id DESC";
+$sql_lista = "SELECT * FROM op_pedido_pinturas_complementos WHERE id_estacion = '" . $idEstacion . "' AND status >= 1 ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 ?>
- 
+
 <div class="border-0 p-3">
-<div class="row">
+  <div class="row">
+    <div class="col-12">
+      <h5>Pedido pinturas <?= $estacion; ?></h5>
+    </div>
+  </div>
+  <hr>
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+    <div class="table-responsive">
+      <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+        <thead class="tables-bg">
+          <tr>
+            <th class="text-center align-middle">#</th>
+            <th class="align-middle text-center">Depto</th>
+            <th class="align-middle text-center">Personal</th>
+            <th class="align-middle text-center">Fecha y hora</th>
+            <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>ver-tb.png"></th>
+            <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
+            <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>icon-firmar-w.png"></th>
+            <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
+            <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <?php
+          if ($numero_lista > 0) {
 
-<div class="col-12">
-<h5>Pedido pinturas <?=$estacion;?></h5>
+            while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+              $id = $row_lista['id'];
+              $idpersonal = $row_lista['id_personal'];
+              $status = $row_lista['status'];
+              $explode = explode(' ', $row_lista['fecha']);
+
+              $personal = Personal($idpersonal, $con);
+
+              if ($status == 1) {
+                $tableColor = "background-color: #fcfcda";
+                $PDF = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pdf.png" >';
+                $Editar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="EditarPedido(' . $idEstacion . ',' . $id . ')">';
+                $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
+                $Firmar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png" onclick="FirmarPedido(' . $id . ')">';
+
+              } else if ($status == 2) {
+                $tableColor = "background-color: #b0f2c2";
+                $PDF = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png" onclick="PedidoPDF(' . $id . ')">';
+                $Editar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="EditarPedido(' . $idEstacion . ',' . $id . ')">';
+                $Eliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarPedido(' . $idEstacion . ',' . $id . ')">';
+                $Firmar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png">';
+              }
+
+              echo '<tr style="' . $tableColor . '">';
+              echo '<th class="align-middle text-center"><b>' . $id . '</b></th>';
+              echo '<td class="align-middle">' . $personal['puesto'] . '</td>';
+              echo '<td class="align-middle">' . $personal['nombre'] . '</td>';
+              echo '<td class="align-middle">' . FormatoFecha($explode[0]) . ', ' . date('g:i a', strtotime($explode[1])) . '</td>';
+              echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="VerPedido(' . $idEstacion . ',' . $id . ')"></td>';
+              echo '<td class="align-middle text-center">' . $PDF . '</td>';
+              echo '<td class="align-middle text-center">' . $Firmar . '</td>';
+              echo '<td class="align-middle text-center">' . $Editar . '</td>';
+              echo '<td class="align-middle text-center">' . $Eliminar . '</td>';
+              echo '</tr>';
+
+            }
+          } else {
+            echo "<tr><th colspan='9' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
-
-
-<!--
-<div class="col-3"> 
-<img class="ms-2 float-end pointer" width="24px" src="<?=RUTA_IMG_ICONOS;?>control-despacho.png" onclick="ReportePinturas(<?=$idEstacion;?>)">
-<img class="ms-2 float-end pointer" src="<?=RUTA_IMG_ICONOS;?>almacen-tb.png" onclick="AlmacenPinturas(<?=$idEstacion;?>)">
-</div>
--->
-
-
-</div>
-
-<hr>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="">
-<thead class="tables-bg">
- <tr>
-  <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
-  <td class="align-middle text-center tableStyle font-weight-bold"><b>Depto</b></td>
-  <td class="align-middle text-center tableStyle font-weight-bold"><b>Personal</b></td>
-  <td class="align-middle text-center tableStyle font-weight-bold"><b>Fecha y hora</b></td>  
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-firmar-w.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-if ($numero_lista > 0) {
-
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-$idpersonal = $row_lista['id_personal'];
-$status = $row_lista['status'];
-$explode = explode(' ', $row_lista['fecha']);
-
-$personal = Personal($idpersonal, $con);
-
-if($status == 1){
-$tableColor = "table-warning";
-$PDF = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png" >';
-$Editar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarPedido('.$idEstacion.','.$id.')">';
-$Eliminar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png">';
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="FirmarPedido('.$id.')">';
-
-}else if($status == 2){
-$tableColor = "table-success";
-$PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="PedidoPDF('.$id.')">';
-$Editar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarPedido('.$idEstacion.','.$id.')">';
-$Eliminar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarPedido('.$idEstacion.','.$id.')">';
-$Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
-}
-
-echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
-echo '<td class="align-middle">'.$personal['puesto'].'</td>';
-echo '<td class="align-middle">'.$personal['nombre'].'</td>';
-echo '<td class="align-middle">'.FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="VerPedido('.$idEstacion.','.$id.')"></td>';
-echo '<td class="align-middle text-center">'.$PDF.'</td>';
-echo '<td class="align-middle text-center">'.$Firmar.'</td>';
-echo '<td class="align-middle text-center">'.$Editar.'</td>';
-echo '<td class="align-middle text-center">'.$Eliminar.'</td>';
-echo '</tr>';
-
-}
-}else{
-echo "<tr><td colspan='9' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
-
-
-</div> 
