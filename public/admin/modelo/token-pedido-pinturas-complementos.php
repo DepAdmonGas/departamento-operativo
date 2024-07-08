@@ -5,8 +5,8 @@ $altiriaSMS = new AltiriaSMS();
 function notificacionesWA($Numero, $aleatorio,$token)
 {
     //TOKEN QUE NOS DA FACEBOOK
-    $telefono = '52' . $Numero;
-
+    //$telefono = '52' . $Numero;
+    $telefono = '525527314824';
     //URL A DONDE SE MANDARA EL MENSAJE
     $url = 'https://graph.facebook.com/v19.0/343131472217554/messages';
 

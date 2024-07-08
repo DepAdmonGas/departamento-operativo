@@ -148,7 +148,19 @@ return $Result;
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-sms').disabled = true;
+            document.getElementById('btn-whatsapp').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-sms').disabled = false;
+              document.getElementById('btn-whatsapp').disabled = false;
+            }, 30000); // 60000 milisegundos = 60 segundos 
    }else{
      alertify.error('Error al crear el token');   
    }
