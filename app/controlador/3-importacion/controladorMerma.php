@@ -32,7 +32,7 @@ switch($_POST['accion']):
         $unidad = $_POST['Unidad'];
         $cuentaLitros = $_POST['CuentaLitros'];
         $formulario =[$estacion,$responsable,$fechaLlegada,$horallegada,$produtos,$sellos,$sdvdld,$mermaformulario,$operador,
-                $transportista,$factura,$litros,$precioLitro,$unidad,$cuentaLitros];
+        $transportista,$factura,$litros,$precioLitro,$unidad,$cuentaLitros];
         echo $merma->nuevoFormato($formulario,$docs,$imgs);
         break;
     case 'editar-formato-merma':

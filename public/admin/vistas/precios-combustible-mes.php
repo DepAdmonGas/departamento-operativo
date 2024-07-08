@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?> 
  
 <html lang="es">
@@ -36,172 +32,89 @@ header("Location:".PORTAL."");
   ListaPrecios(<?=$GET_idYear;?>,<?=$GET_idMes;?>);
 
   }); 
-
+ 
   function Regresar(){
-   window.history.back();
+  window.history.back();
   }
 
- 
   function ListaPrecios(year,mes){
   $('#ListaFecha').load('../../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes);
   }  
 
-
-//---------- DETALLE FORMULARIO DE PRECIOS ----------
+  //---------- DETALLE FORMULARIO DE PRECIOS ----------
   function Detalle(id){
-window.location.href = "../../precios-combustible-detalle/" + id;
-  }
- 
-
-//---------- AGREGAR FORMULARIO DE PRECIOS ----------
-  function agregarNuevoFormato(year,mes){
-
-    var parametros = {
-    "Year" : year,
-    "Mes" : mes
-    };
-
-    $.ajax({   
-     data:  parametros,
-     url:   '../../../public/admin/modelo/agregar-formato-precios.php',
-     type:  'POST',
-     beforeSend: function() {
-    
-     },  
-     complete: function(){
-    
-     },
-     success:  function (response) {
-
-    if(response != 0){
-    window.location.href = "../../precios-combustible-nuevo/" + response; 
-    }
-
-     } 
-     });
- 
- 
+  window.location.href = "../../../precios-combustible-detalle/" + id;
   }
 
-//---------- EDITAR - FORMULARIO DE PRECIOS ----------
-  function editarFormatoPrecio(idReporte){
-  window.location.href = "../../precios-combustible-editar/" + idReporte; 
-
-  }
+  //---------- AGREGAR FORMULARIO DE PRECIOS ----------
+  function agregarNuevoFormato(year,mes,fecha){
+  
+  var parametros = {
+  "Year" : year,
+  "Mes" : mes,
+  "Fecha" : fecha
+  };
+ 
   
 
-//---------- ELIMINAR FORMULARIO DE PRECIOS ----------
-function eliminarPreciosD(idReporte){
+  $.ajax({    
+  data:  parametros,
+  url:   '../../../public/admin/modelo/agregar-formato-precios.php',
+  type:  'POST',
+  beforeSend: function() {
+    
+  },  
+  complete: function(){
+    
+  },
+  success:  function (response) {
 
-     alertify.confirm('',
-     function(){
+  if(response != 0){
+  window.location.href = "../../precios-combustible-formulario/" + response; 
+  }
 
-    var parametros = {
-    "idReporte" : idReporte
-    };
+  } 
+  });
  
-        $.ajax({
-        data:  parametros,
-        url:   '../../../public/admin/modelo/eliminar-formato-precios.php',
-        type:  'post',
-        beforeSend: function() {
-        },
-        complete: function(){
+  }
 
-        },
-        success:  function (response) {
+  //---------- EDITAR - FORMULARIO DE PRECIOS ----------
+  function editarFormatoPrecio(idReporte){
+  window.location.href = "../../precios-combustible-formulario/" + idReporte; 
 
-          if(response == 1){
-          window.location.reload()
-          }else{
-          alertify.error('Error al eliminar');    
-          }
-
-        }
-        });
-
-     },
-     function(){
-
-     }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-
-    }
-
- 
-
-
+  }
+   
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
+
   <body>
-
-
   <div class="LoaderPage"></div>
 
-    <!---------- DIV - CONTENIDO ----------> 
+  <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-
-    <div class="row">
-
-    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-      <h5>Formato de precios</h5>
-    </div>
-
-    </div>
-
-    </div>
-
-
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-    <img class="float-end pointer" onclick="agregarNuevoFormato(<?=$GET_idYear;?>,<?=$GET_idMes;?>)" src="<?=RUTA_IMG_ICONOS;?>agregar.png">
-    </div>
-
-    </div>
- 
-  <hr>
-
-  <div id="ListaFecha"></div>
- 
-  </div>
-  </div>
-  </div>
- 
-  </div>
+  <div class="col-12" id="ListaFecha"></div>
   </div>
 
   </div>
 
-
-<div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-
-      <div id="DivPrecios"></div>
-  
-    </div>
   </div>
-</div>
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
   </body>
   </html>

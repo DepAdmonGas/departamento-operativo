@@ -39,105 +39,141 @@ $factura = $row['factura'];
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Falla TPV: <?=$tpv;?>, No DE SERIE: <?=$noserie;?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
-
-<div class="border p-2 mb-2">
-<div class="font-weight-bold"><b>Fecha falla:</b></div>
+<div class="row">
+  
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
+<div class="font-weight-bold"><b>Fecha de falla:</b></div>
 <?=$Fecha;?>
 </div>
 
-<div class="row">
-
-
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Falla:</b></div>
-<?=$falla;?>
-</div>
+<?php 
+if($falla == ""){
+echo "S/I";
+}else{
+echo $falla;
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Atiende:</b></div>
-<?=$atiende;?>
-</div>
+<?php 
+if($atiende == ""){
+echo "S/I";
+}else{
+echo $falla;
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>No Reporte:</b></div>
-<?=$noreporte;?>
-</div>
+<?php 
+if($noreporte == ""){
+echo "S/I";
+}else{
+echo $noreporte;
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Día reporte:</b></div>
-<?=FormatoFecha($diareporte);?>
-</div>
+<?php 
+if($diareporte == "0000-00-00"){
+echo "S/I";
+}else{
+echo $ClassHerramientasDptoOperativo->FormatoFecha($diareporte);
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Día solución:</b></div>
-<?=FormatoFecha($diasolucion);?>
-</div>
+<?php 
+if($diasolucion == "0000-00-00"){
+echo "S/I";
+}else{
+echo $ClassHerramientasDptoOperativo->FormatoFecha($diasolucion);
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Costo:</b></div>
 $ <?=number_format($costo,2);?>
 </div>
-</div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Factura:</b></div>
 <?php 
 if($factura == ""){
 echo "S/I";
 }else{
-echo '<a href="../archivos/'.$factura.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
+echo '<a href="'.RUTA_ARCHIVOS.''.$factura.'" download>
+<button type="button" class="btn btn-labeled2 btn-success">
+<span class="btn-label2"><i class="fa-solid fa-file-arrow-down"></i></span>Descargar</button>
+</a>';
 }
 ?>
 </div>
-</div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Serie que se queda:</b></div>
-<?=$serie;?>
-</div>
+<?php 
+if($serie == ""){
+echo "S/I";
+}else{
+echo $serie;
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Modelo:</b></div>
-<?=$modelo;?>
-</div>
+<?php 
+if($modelo == ""){
+echo "S/I";
+}else{
+echo $modelo;
+}
+?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="border p-2">
 <div class="font-weight-bold"><b>Conexión:</b></div>
-<?=$conexion;?>
-</div>
-</div>
+<?php 
+if($conexion == ""){
+echo "S/I";
+}else{
+echo $conexion;
+}
+?>
 </div>
 
 
-<div class="border p-2 mt-2">
+<div class="col-12"> 
 <div class="font-weight-bold"><b>Observaciones:</b></div>
-<?=$observaciones;?>
+<?php 
+if($conexion == ""){
+echo "S/I";
+}else{
+echo $observaciones;
+}
+?>
 </div>
 
-
+</div>
 
 </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">Regresar</button>
-      </div>
+      
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">
+<span class="btn-label2"><i class="fa-solid fa-arrow-left"></i></span>Regresar</button>       
+</div>

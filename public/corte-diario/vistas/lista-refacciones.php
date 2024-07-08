@@ -11,13 +11,13 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $estacion = $row_listaestacion['nombre'];
 }
 
-
 ?>
  
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead>
-  <tr class="tables-bg">
+<table id="tabla_refacciones_a" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+
+<thead class="title-table-bg">
+  <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Nombre Refacción</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Unidades</th>
@@ -28,7 +28,8 @@ $estacion = $row_listaestacion['nombre'];
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>mas-tb.png"></th>
   </tr>
 </thead> 
-<tbody> 
+
+<tbody class="bg-white"> 
 <?php
 if ($numero_lista > 0) {
 $num = 1;
@@ -45,7 +46,7 @@ $estatusR = $row_lista['estado_r'];
 }
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.$num.'</td>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
 echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
 echo '<td class="align-middle text-center">'.$estatusR.'</td>';
@@ -57,8 +58,6 @@ echo '</tr>';
 
 $num++;
 }
-}else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
 </tbody>

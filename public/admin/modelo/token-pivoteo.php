@@ -1,10 +1,9 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 include_once '../../../app/modelo/httpPHPAltiria.php';
 $altiriaSMS = new AltiriaSMS();
 function notificacionesWA($Numero, $aleatorio,$token)
 {
-    //TOKEN QUE NOS DA FACEBOOK
     $telefono = '52' . $Numero;
 
     //URL A DONDE SE MANDARA EL MENSAJE
@@ -18,7 +17,7 @@ function notificacionesWA($Numero, $aleatorio,$token)
         "type": "text",
         "text": {
         "preview_url": "false",
-        "body": "AdmonGas: Usa el siguiente token para firmar el pedido de limpieza. Token: ' . $aleatorio . ' Web: portal.admongas.com.mx"
+        "body": "AdmonGas: Usa el siguiente token para firmar la transacción de refacciones solicitada. Token: ' . $aleatorio . ' Web: portal.admongas.com.mx"
       }
     }';
 
@@ -40,16 +39,17 @@ function notificacionesWA($Numero, $aleatorio,$token)
     curl_close($curl);
 
 }
-function Numero($IDUsuarioBD,$con){
+function Numero($IDUsuarioBD, $con)
+{
 
-$sql = "SELECT telefono FROM tb_usuarios WHERE id = '".$IDUsuarioBD."' ";
-$result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($result);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$telefono = $row['telefono'];
-}
+    $sql = "SELECT telefono FROM tb_usuarios WHERE id = '" . $IDUsuarioBD . "' ";
+    $result = mysqli_query($con, $sql);
+    $numero = mysqli_num_rows($result);
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $telefono = $row['telefono'];
+    }
 
-return $telefono;
+    return $telefono;
 }
 
 $idReporte = $_POST['idReporte'];
@@ -58,40 +58,40 @@ $sql = "DELETE FROM op_pivoteo_token WHERE id_pivoteo = '".$idReporte."' AND id_
 
 if (mysqli_query($con, $sql)) {
 
-$aleatorio = rand(100000, 999999);
+    $aleatorio = rand(100000, 999999);
 
-$sql_insert = "INSERT INTO op_pivoteo_token (
-id_pivoteo,
-id_usuario,
-token
+    $sql_insert = "INSERT INTO op_pivoteo_token (
+        id_pivoteo,
+    id_usuario,
+    token
     )
     VALUES 
     (
-    '".$idReporte."',
-    '".$Session_IDUsuarioBD."',
-    '".$aleatorio."'
+    '" . $idReporte . "',
+    '" . $Session_IDUsuarioBD . "',
+    '" . $aleatorio . "'
     )";
 
-if(mysqli_query($con, $sql_insert)){
+    if (mysqli_query($con, $sql_insert)) {
 
-$Numero = Numero($Session_IDUsuarioBD,$con);
-if ($idVal == 1) {
-$altiriaSMS->setLogin('sistemas.admongas@gmail.com');
-$altiriaSMS->setPassword('hy8q4c7y');
-$altiriaSMS->setSenderId('AdmonGas');
-$sDestination = '52'.$Numero;
-$response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar el poviteo solicitado. Token: ".$aleatorio." Web: portal.admongas.com.mx");
+        $Numero = Numero($Session_IDUsuarioBD, $con);
+        if ($idVal == 1) {
+            $altiriaSMS->setLogin('sistemas.admongas@gmail.com');
+            $altiriaSMS->setPassword('hy8q4c7y');
+            $altiriaSMS->setSenderId('AdmonGas');
+            $sDestination = '52' . $Numero;
+            $response = $altiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar la transacción de refacciones solicitada. Token: " . $aleatorio . " Web: portal.admongas.com.mx");
 
-echo 1;
-} elseif ($idVal == 2) {
-    notificacionesWA($Numero, $aleatorio,$tokenWhats);
-    echo 1;
-}
-}else{
-echo 0;
-}
-}else{
-echo 0;
+            echo 1;
+        } elseif ($idVal == 2) {
+            notificacionesWA($Numero, $aleatorio,$tokenWhats);
+            echo 1;
+        }
+    } else {
+        echo 0;
+    }
+} else {
+    echo 0;
 }
 
 //------------------

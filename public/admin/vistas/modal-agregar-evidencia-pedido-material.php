@@ -5,7 +5,7 @@ $idPedido = $_GET['idPedido'];
 ?>
 <div class="modal-header">
   <h5 class="modal-title">Evidencia</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
@@ -26,7 +26,12 @@ $idPedido = $_GET['idPedido'];
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-primary rounded-0" onclick="AgregarEvidencia(<?=$idPedido;?>)">Agregar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+         <span class="btn-label2"><i class="fa-regular fa-circle-xmark"></i></span>Cancelar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarEvidencia(<?=$idPedido;?>)">
+    <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
 </div>
   

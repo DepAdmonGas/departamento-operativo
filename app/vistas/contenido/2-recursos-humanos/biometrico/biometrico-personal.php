@@ -56,7 +56,7 @@ $personal = $datosUsuario['nombre_personal'];
   });
   });
   
-  }
+  }  
 
   function ModalDetalleI(idPersonal,id,idEstacion){
   $('#Modal').modal('show');
@@ -67,6 +67,176 @@ $personal = $datosUsuario['nombre_personal'];
   $('#Modal').modal('show');
   $('#ContenidoModal').load('../public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
   }
+
+
+
+  function GuardarIncidencia(idAsistencia,idPersonal,idEstacion){
+  var Comentario = $('#Comentario').val();
+
+  if(document.querySelector('input[name="CheckBox"]:checked')) {
+  var incidencia = document.querySelector('input[name="CheckBox"]:checked').value;
+  $('#bordercheck').css('border','');
+  if(Comentario != ""){
+  $('#Comentario').css('border','');
+
+alertify.confirm('',
+function(){
+
+var parametros = {
+"idAsistencia" : idAsistencia,
+"incidencia" : incidencia,
+"Comentario" : Comentario
+};
+
+$.ajax({
+data:  parametros,
+url:   '../public/recursos-humanos/modelo/agregar-incidencia.php',
+type:  'POST',
+        
+beforeSend: function() {
+$(".LoaderPage").show();
+},
+
+complete: function(){
+},
+
+success:  function (response) {
+
+if(response == 1){
+$(".LoaderPage").hide();
+$('#Modal').modal('hide'); 
+alertify.success('Se creo la incidencia');
+ListaAsistenciaPersonal(idPersonal)
+
+}else{
+$(".LoaderPage").hide();
+alertify.error('Error al crear la incidencia');
+}
+ 
+}
+});
+
+},
+function(){
+}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar la incidencia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+
+}else{
+$('#Comentario').css('border','2px solid #A52525');    
+}
+}else{
+$('#bordercheck').css('border','2px solid #A52525'); 
+}
+
+}
+
+
+function GuardarDoc(idAsistencia,idPersonal,idEstacion){
+var data = new FormData();
+var url = '../public/recursos-humanos/modelo/agregar-documento-incidencia.php';
+
+var FechaInicio = $('#FechaIni').val();
+var FechaFin = $('#FechaFin').val();
+var SueldoDiaI = $('#SueldoDiaI').val();
+
+var Documento = document.getElementById("Documento");
+var Documento_file = Documento.files[0];
+var Documento_filePath = Documento.value;
+var Documento_ext = $("#Documento").val().split('.').pop();
+
+if(Documento_ext == "pdf"){
+if(FechaInicio < FechaFin){
+$('#FechaFin').css('border',''); 
+
+data.append('Documento_file', Documento_file);
+data.append('idPersonal', idPersonal);
+data.append('idAsistencia', idAsistencia);
+data.append('idEstacion', idEstacion); 
+data.append('FechaInicio', FechaInicio);
+data.append('FechaFin', FechaFin);
+data.append('SueldoDiaI', SueldoDiaI);
+
+$.ajax({
+url: url,
+type: 'POST',
+contentType: false,
+data: data,
+processData: false,
+cache: false
+}).done(function(data){
+ 
+console.log(data)
+
+if(data == 1){
+alertify.success('Se agrego el documento');
+$('#ContenidoModal').load('../public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+ListaAsistenciaPersonal(idPersonal)
+ 
+}else{
+alertify.error('Error al agregar el documento');
+}
+ 
+});
+
+}else{
+$('#FechaFin').css('border','2px solid #A52525'); 
+}
+}else{
+alertify.error('El formato debe ser PDF');
+}
+
+
+}
+
+
+function EditarSaldoTMR(idAsistencia,idPersonal,idEstacion){
+
+var SueldoDiaTMR = $('#SueldoDiaTMR').val();
+
+if(SueldoDiaTMR != ""){
+$('#SueldoDiaTMR').css('border','');
+
+alertify.confirm('',
+function(){
+
+var parametros = {
+"idAsistencia" : idAsistencia,
+"SueldoDiaTMR" : SueldoDiaTMR
+};
+
+$.ajax({
+data:  parametros,
+url:   '../public/recursos-humanos/modelo/editar-sueldo-incidencia.php',
+type:  'POST',
+        
+beforeSend: function() {
+},
+complete: function(){
+},
+success:  function (response) {
+
+if(response == 1){
+
+alertify.success('Se edito la incidencia');
+$('#ContenidoModal').load('../public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+
+
+}else{
+$(".LoaderPage").hide();
+alertify.error('Error al editar la incidencia');
+}
+ 
+}
+});
+
+},
+function(){
+}).setHeader('Editar sueldo').set({transition:'zoom',message: '¿Desea editar el sueldo del día?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+
+}else{
+$('#SueldoDiaTMR').css('border','2px solid #A52525'); 
+}
+
+}
 
   </script>
   </head>
@@ -85,7 +255,7 @@ $personal = $datosUsuario['nombre_personal'];
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Control de documentos del personal</a></li>
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Control de documentos del personal</a></li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase">Asistencia <?=$personal?></li>
   </ol>
   </div>

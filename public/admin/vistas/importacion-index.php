@@ -1,11 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 if($Session_IDUsuarioBD == 353){
   $ocultarDivGrnl = "";
   $ocultarDivBitacora = "d-none";
@@ -34,25 +29,19 @@ if($Session_IDUsuarioBD == 353){
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   
-
-
   <script type="text/javascript">
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   
   });
-
-  function Regresar(){
-  window.history.back();
-  }
 
   function Embarques(){window.location.href = "embarques";}
   function Mediciones(){window.location.href = "mediciones";}
@@ -64,7 +53,7 @@ if($Session_IDUsuarioBD == 353){
   function CombustibleD(){window.location.href = "precios-combustible";}
 
   function CuentaLitros(){  
-    window.location.href = "cuenta-litros";
+  window.location.href = "cuenta-litros";
   }
 
   </script>
@@ -81,122 +70,146 @@ if($Session_IDUsuarioBD == 353){
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a href="<?=SERVIDOR_ADMIN?>" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Inicio</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Importación</li>
+  </ol>
+  </div>
+ 
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Importación</h3> </div>
+  </div>
 
-    <div class="row">
-    <div class="col-12"> 
+  <hr>
+  </div>
 
-    <?php if($Session_IDUsuarioBD != 509){ ?>
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <?php } ?>
+  <!---------- EMBARQUES ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="Embarques()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>embarques-tb.png" draggable="false"/></div>
     
-
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Importación</h5>
-     
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>  
-
-   <div class="row">
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="Embarques()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Embarques</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>embarques-tb.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="Mediciones()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Mediciones</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>mediciones-tb.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivBitacora?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="BitacoraAditivo()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Bitácora aditivo</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>aditivo-tb.png">
-  
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="DescargaTuxpan()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Formato de descarga merma</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>descarga-merma-tb.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="InventarioD()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Inventarios diarios</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>calendario.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="AnalisisCompra()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Análisis de compra</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>area-departamento-puesto.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="Pivoteo()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Pivoteo</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>icon-pivoteo.png">
-  </div>
-  </div>
-  </div>
-
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="CombustibleD()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Precios diarios de combustible</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>icon-combustible.png">   
-  </div>
-  </div>
-  </div>
-
-
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2 <?=$ocultarDivGrnl?>">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="CuentaLitros()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Tabla de Descarga (Cuenta Litros)</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>cuenta-litros.png">   
-  </div>
-  </div>
-  </div>
-
-
+  <div class="product-info">
+  <h2>Embarques</h2>
   </div>
 
   </div>
+  </section>
   </div>
+
+  <!---------- MEDICIONES ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="Mediciones()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>mediciones-tb.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Mediciones</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!---------- BITACORA DE ADITIVO ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivBitacora?>" onclick="BitacoraAditivo()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>aditivo-tb.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Bitácora aditivo</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!---------- DERCARGA DE MERMA ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="DescargaTuxpan()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>descarga-merma-tb.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Formato de descarga merma</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!---------- INVENTARIOS DIARIOS ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="InventarioD()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>calendario.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Inventarios diarios</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!----------  ANALISIS DE COMPRA ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="AnalisisCompra()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>area-departamento-puesto.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Análisis de compra</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!---------- PIVOTEO ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="Pivoteo()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>icon-pivoteo.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Pivoteo</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <!---------- PRECIOS DIARIOS DE COMBUSTIBLE ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="CombustibleD()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>icon-combustible.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Precios diarios de combustible</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+
+  <!---------- CUENTA LITROS ---------->
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="CuentaLitros()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>cuenta-litros.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Tabla de Descarga (Cuenta Litros)</h2>
+  </div>
+
+  </div>
+  </section>
   </div>
 
   </div>

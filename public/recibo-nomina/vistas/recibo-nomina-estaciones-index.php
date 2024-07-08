@@ -1,12 +1,17 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
+  //---------- CONFIGURACION REGRESO ----------
+  if($session_idpuesto == 15 || $Session_IDUsuarioBD == 292){
+  $menuName = "Portal";
+  }else if($session_idpuesto == 5){
+  $menuName = "Inicio";
+  }else{
+  $menuName = "Recursos Humanos";
+  }
 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,9 +25,10 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -35,9 +41,6 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   });
 
-  function Regresar(){
-  window.history.back();
-  }
 
   function Nomina(year){
   window.location.href = "recibos-nomina/" + year;
@@ -57,65 +60,48 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Recibos de nomina</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> <?=$menuName?></a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Recibos de nomina</li>
+  </ol>
+  </div>
+   
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Recibos de nomina</h3> </div>
+  </div>
 
   <hr>
-  <div class="row">
+  </div>
 
   <?php
   for ($i = $fecha_year; $i >= 2024; $i--) {
   $year = $i;
 
-  echo '  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mt-2 mb-1">
-  <div class="card card-menuB rounded shadow-sm pointer" onclick="Nomina('.$year.')">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon "> 
-  <i class="fa-solid fa-calendar color-CB"></i>
+  echo ' <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mt-1 mb-2">
+  <article class="plan card2 border-0 shadow position-relative" onclick="Nomina('.$year.')">
+         
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">'.$year.'</h5></div>
   </div>
  
-  <div class="m-details ms-2 mt-2"> 
-  <h6>'.$year.'</h6> 
   </div>
-  </div>
-
-  </div>
+  </article>
   </div>';
-
+       
   }
   echo '</div>';
   ?> 
 
   </div>
-
-  </div>
-  </div>
-  </div>
-
-  </div>
   </div>
 
   </div>
 
-
+ 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>

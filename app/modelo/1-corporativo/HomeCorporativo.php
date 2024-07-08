@@ -99,7 +99,6 @@ class HomeCorporativo
     $menuName = "Corporativo"; 
     }
     
-
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
     $referencia = "../administracion/corporativo";
     $menuName = "Corporativo";

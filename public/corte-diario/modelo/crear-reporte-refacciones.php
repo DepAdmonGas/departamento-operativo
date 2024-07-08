@@ -11,7 +11,7 @@ $Reporte = $row['id'] + 1;
 }else{
 $Reporte = 1;
 }
-
+ 
 $sql_insert = "INSERT INTO op_refacciones_reporte (
 id,
 id_estacion,
@@ -28,10 +28,10 @@ status
     '".$Reporte."',
     '".$Session_IDEstacion."',
     '".$Session_IDUsuarioBD."',
-    '".$_POST['Fecha']."',
-    '".$_POST['Hora']."',
-    '".$_POST['Dispensario']."',
-    '".$_POST['Motivo']."',
+    '".$fecha_del_dia."',
+    '".$hora_del_dia."',
+    '',
+    '',
     '',
     0
     )";

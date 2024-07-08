@@ -64,7 +64,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 </div>
 
 <div class="table-responsive">
-<table id="tabla_bitacora" class="custom-table style="font-size: .9em;" width="100%">
+<table id="tabla_bitacora" class="custom-table" style="font-size: .9em;" width="100%">
 
 <thead class="tables-bg">
 <tr> 

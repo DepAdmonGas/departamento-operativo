@@ -2,7 +2,6 @@
 require('../../../app/help.php');
 $idPrecio = $_GET['idPrecio'];
 
-
 $sql_lista_f = "SELECT fecha FROM op_formato_precios WHERE id = '".$idPrecio."' ";
 $result_lista_f = mysqli_query($con, $sql_lista_f);
 $numero_lista_f = mysqli_num_rows($result_lista_f);
@@ -20,15 +19,15 @@ $ocultarInfo = "";
 $colspanTB = "13";
 
 }
- 
+  
   
 ?>
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered mt-2 mb-0" style="font-size: .72em;">
-<thead class="">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead>
 
-<tr class="bg-light">
+<tr class="tables-bg">
 <th class="text-center align-middle"></th>
 <th class="text-center align-middle" colspan="<?=$colspanTB?>">Delivery</th>
 <th class="text-center align-middle" colspan="13">Pick Up</th>
@@ -36,7 +35,7 @@ $colspanTB = "13";
 
 <tr>
 
-<th class="text-center align-middle">Producto</th>
+<td class="text-center align-middle tables-bg fw-bold">Producto</td>
 <th class="text-center align-middle text-white" style="background-color: #535252;">Pemex</th>
 
 <th class="text-center align-middle" style="background-color: #d6dce4;">Delivery<br>G500 Network<br>Monterra</th>
@@ -64,13 +63,13 @@ $colspanTB = "13";
 <th class="text-center align-middle" style="background-color: #94b8da;">Diferencia<br>vs<br>Pemex</th>
 
 <th class="text-center align-middle" style="background-color: #922d9a;">Pick up<br>G500 Network<br>Puebla</th>
-<th class="text-center align-middle" style="background-color: #922d9a;">Diferencia<br>vs<br>Pemex</th>
+<td class="text-center align-middle fw-bold text-white" style="background-color: #922d9a;">Diferencia<br>vs<br>Pemex</td>
  
 		 
 </tr>
 </thead>
 
-<tbody>
+<tbody class="bg-white">
 
 <?php 
 
@@ -98,6 +97,8 @@ $detalle = "Puebla";
 $sql2 = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$idPrecio."' AND detalle = '".$detalle."' ";
 $result2 = mysqli_query($con, $sql2);
 $numero2 = mysqli_num_rows($result2);
+$valorprecio = 0;
+
 
 while($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)){
 $valorprecio = $row2['precio'];
@@ -208,84 +209,84 @@ $ColorProducto = "background-color: #e01883; ";
 $ColorProducto = "background-color: #5c108c;"; 
 }
 
-
+ 
 
 echo '<tr>
-<td class="align-middle text-white" style="'.$ColorProducto.'"><b>'.$productoFP.'</b></td>
+<th class="align-middle text-white" style="'.$ColorProducto.'">'.$productoFP.'</th>
 
-<td class="p-1 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle fw-bold" id="PemexV'.$id.'" value="'.$pemex.'" oninput="EditPrecio(this,'.$id.',1)" style="font-size: .9em;"/>
 </td>
 
-<td class="p-0 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle" id="MonterraVD'.$id.'" value="'.$delivery_montera.'" oninput="EditPrecio(this,'.$id.',2)" style="font-size: .9em;" />
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light align-middle fw-bold" id="MonterraD'.$id.'" value="'.number_format($DifPvsMoD,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle fw-bold" id="MonterraD'.$id.'" value="'.number_format($DifPvsMoD,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
-<td class="p-0 m-0 '.$ocultarInfo.' ">
+<td class="p-0 no-hover '.$ocultarInfo.'">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle" id="VopakVD'.$id.'" value="'.$delivery_vopak.'" oninput="EditPrecio(this,'.$id.',4)" style="font-size: .9em;"/>
 </td>
 
-<td class="table-light '.$ocultarInfo.'"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light align-middle fw-bold" id="VopakD'.$id.'" value="'.number_format($DifPvsVoD,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP  '.$ocultarInfo.'"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle fw-bold" id="VopakD'.$id.'" value="'.number_format($DifPvsVoD,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
-<td class="p-0 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-white align-middle" id="TuxpanVD'.$id.'" value="'.$delivery_tuxpan.'" onchange="EditPrecio(this,'.$id.',3)" style="font-size: .9em;" disabled/>
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light align-middle fw-bold" id="TuxpanD'.$id.'" value="'.number_format($DifPvsTuD,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center align-middle fw-bold" id="TuxpanD'.$id.'" value="'.number_format($DifPvsTuD,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
 
-<td class="p-0 m-0 '.$ocultarInfo.'">
+<td class="p-0 no-hover '.$ocultarInfo.'">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center" id="VopakVP'.$id.'" value="'.$pickup_vopak.'" oninput="EditPrecio(this,'.$id.',10,)" style="font-size: .9em;"/>
 </td>
 
-<td class="table-light '.$ocultarInfo.'"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light fw-bold" id="VopakP'.$id.'" value="'.number_format($DifPvsVoP,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP '.$ocultarInfo.'"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center fw-bold" id="VopakP'.$id.'" value="'.number_format($DifPvsVoP,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
-<td class="p-0 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center" id="TuxpanVP'.$id.'"  value="'.$pickup_tuxpan.'" oninput="EditPrecio(this,'.$id.',9)" style="font-size: .9em;"/>
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light fw-bold" id="TuxpanP'.$id.'" value="'.number_format($DifPvsTuP,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center fw-bold" id="TuxpanP'.$id.'" value="'.number_format($DifPvsTuP,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
-<td class="p-0 m-0"> 
+<td class="p-0 no-hover"> 
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-white" id="MonterraVP'.$id.'" value="'.$pickup_montera.'" oninput="EditPrecio(this,'.$id.',8)" style="font-size: .9em;" disabled/>
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light fw-bold" id="MonterraP'.$id.'" value="'.number_format($DifPvsMoP,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center fw-bold" id="MonterraP'.$id.'" value="'.number_format($DifPvsMoP,4).'" style="font-size: .9em; " disabled/>
 </td>
 
 
-<td class="p-0 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center" id="TizayuVP'.$id.'" value="'.$pickup_tizayuca.'" oninput="EditPrecio(this,'.$id.',12)" style="font-size: .9em;"/>
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light fw-bold" id="TizayuP'.$id.'" value="'.number_format($DifPvsTiP,4).'" style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center fw-bold" id="TizayuP'.$id.'" value="'.number_format($DifPvsTiP,4).'" style="font-size: .9em; " disabled/>
 </td>
 
-<td class="p-0 m-0">
+<td class="p-0 no-hover">
 <input type="number" class="form-control rounded-0 border-0 p-1 text-center" id="PueblaVP'.$id.'" value="'.$pickup_puebla.'" oninput="EditPrecio(this,'.$id.',13)" style="font-size: .9em;"/>
 </td>
 
-<td class="table-light"> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-light fw-bold" id="PueblaP'.$id.'" value="'.number_format($DifPvsPuP,4).'"style="font-size: .9em; " disabled/>
+<td class="disabledOP"> 
+<input type="number" class="form-control rounded-0 border-0 p-1 text-center fw-bold" id="PueblaP'.$id.'" value="'.number_format($DifPvsPuP,4).'"style="font-size: .9em; " disabled/>
 </td>
 
 </tr>';

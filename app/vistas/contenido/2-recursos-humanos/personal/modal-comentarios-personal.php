@@ -13,7 +13,6 @@ $numero_comen = mysqli_num_rows($result_comen);
 
 ?>
 
-
 <div class="modal-header">
 <h5 class="modal-title">Comentarios - <?=$personalName?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -64,7 +63,6 @@ echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontrar
 
 <div class="mb-1 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
-
 </div>
 
 <div class="modal-footer">

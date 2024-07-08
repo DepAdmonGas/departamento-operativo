@@ -95,7 +95,7 @@ $divisionTable = "<hr>";
 <div class="col-12 <?=$ocultarTitle?>">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
-<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Recursos Humanos</a></li>
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-home"></i> Recursos Humanos</a></li>
 <li aria-current="page" class="breadcrumb-item active text-uppercase">Control de Documentos del Personal <?=$Estacion?></li>
 </ol>
 </div>
@@ -104,6 +104,7 @@ $divisionTable = "<hr>";
 <div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Control de Documentos del Personal <?=$Estacion?></h3> </div>
   
 <div class="col-3">
+    
 <div class="text-end">
 <div class="dropdown d-inline ms-2 <?=$ocultarbtn?>">
 <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -119,7 +120,6 @@ $divisionTable = "<hr>";
 
 </ul>
 </div>
-
 </div>
 
 </div>

@@ -21,7 +21,7 @@ $nombre = $row['nombre'];
 }
 return $nombre;
 }
-
+ 
 function Estacion($idEstacion,$con){
 $sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
 $result = mysqli_query($con, $sql);
@@ -33,26 +33,26 @@ return $estacion;
 }
 ?>
 
-<div class="border-0">
-
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead class="tables-bg">
+<table id="tabla_transacciones" class="custom-table" style="font-size: .9em;" width="100%">
+
+<thead class="title-table-bg">
   <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Refacción</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Piezas</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Estación proveedora</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Estación receptora</th>
+  <th class="text-center align-middle">#</th>
+  <th class="text-center align-middle">Fecha y hora</th>
+  <th class="text-center align-middle">Refacción</th>
+  <th class="text-center align-middle">Piezas</th>
+  <th class="text-center align-middle">Estación proveedora</th>
+  <th class="text-center align-middle">Estación receptora</th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
-
+$num = 1;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $status = $row_lista['estado'];
@@ -72,7 +72,7 @@ $EstacionProveedora = Estacion($row_lista['id_estacion'],$con);
 $Estacion = Estacion($row_lista['id_estacion_receptora'],$con);
 
 echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
 echo '<td class="align-middle text-center">'.$NomRefaccion.'</td>';
 echo '<td class="align-middle text-center">1</td>';
@@ -81,13 +81,11 @@ echo '<td class="align-middle text-center"><b>'.$Estacion.'</b></td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarTransaccion('.$id.')"></td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleT('.$id.')"></td>';
 echo '</tr>';
-
+$num++;
 }
-}else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
 </tbody>
 </table>
 </div>
-</div>
+

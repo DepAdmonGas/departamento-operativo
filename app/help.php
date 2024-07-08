@@ -28,7 +28,7 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
     $configuracionSesiones = new ConfiguracionSesiones();
     // Obtiene keyJWT
     $keyJWT = $configuracionSesiones->obtenerKey();
-    $token = $_COOKIE['COOKIEADMONGAS'];
+    $token = $_COOKIE['COOKIEADMONGAS']; 
     try {
         $decoded = JWT::decode($token, new Key($keyJWT, 'HS256'));
         $Session_IDUsuarioBD = $decoded->id_usuario;
@@ -42,16 +42,12 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         //----- CLASES GENERALES -----
         $ClassHerramientasDptoOperativo = new HerramientasDptoOperativo($con);
         $ClassEncriptar = new Encriptar(); 
-
+ 
         //----- CLASES PUNTO 1. CORPORATIVO -----
         $corteDiarioGeneral = new CorteDiarioGeneral($con);
         $ClassHomeCorporativo = new HomeCorporativo($con);
         //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
-        $ClassRecursosHumanosGeneral= new RecursosHumanosGeneral($con);
-
-
-        //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
-        $ClassRecursosHumanosGeneral= new RecursosHumanosGeneral($con);
+        $ClassRecursosHumanosGeneral = new RecursosHumanosGeneral($con);
 
 
     } catch (Exception $e) {

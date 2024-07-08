@@ -21,8 +21,8 @@ $cargadores = $row_lista['cargadores'];
 $pedestales = $row_lista['pedestales'];
 $status = $row_lista['status'];
 }
-
-
+ 
+ 
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Falla TPV: <?=$tpv;?>, No DE SERIE: <?=$noserie;?></h5>
@@ -53,6 +53,7 @@ $sql = "SELECT * FROM op_terminales_tpv_reporte WHERE id_tpv = '".$idTPV."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
 if ($numero > 0) {
+$num = 1;
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $idFalla = $row['id'];
 $explode = explode(" ", $row['fechacreacion']);
@@ -65,13 +66,14 @@ $estado = "<small class='text-secondary'>Finalizada</small>";
 }
 
 echo '<tr class="'.$fondo.'">';
-echo '<td class="align-middle text-center">'.$row['id'].'</td>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.FormatoFecha($explode[0]).'</td>';
 echo '<td class="align-middle text-center">'.$row['falla'].'</td>';
 echo '<td class="align-middle text-center">'.$estado.'</td>';
 echo '<td class="align-middle text-center"><img width="16px" class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleFalla('.$idFalla.','.$idTPV.')"></td>';
 echo '<td class="align-middle text-center"><img width="16px" class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarFalla('.$idFalla.','.$idTPV.')"></td>';
 echo '</tr>';
+$num++;
 }
 }else{
 echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";

@@ -5,22 +5,26 @@ $idReporte = $_GET['idReporte'];
 $idEstacion = $_GET['idEstacion'];
 
 if($session_nompuesto == "Encargado"){
-  $ocultarTB = "d-none";
-  }else{
-  $ocultarTB = ""; 
-  }
+$ocultarTB = "d-none";
+
+}else{
+$ocultarTB = ""; 
+}
 
 ?>
+
 <div class="modal-header">
   <h5 class="modal-title">Agregar evidencia</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
 <label class="text-secondary">Imagen:</label>
 <div><input type="file" class="form-control" id="Imagen"></div>
 
-<div class="text-end">
-  <button type="button" class="btn btn-primary rounded-0 mt-3" onclick="AgregarEvidencia(<?=$idEstacion;?>,<?=$idReporte;?>)">Agregar</button>
+<div class="text-end mt-3">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarEvidencia(<?=$idEstacion;?>,<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
 </div>
 
 <hr>
@@ -48,7 +52,10 @@ echo '<div class="border mt-2 p-2">
 <div class="12">
 
 <div class="float-end">
-<img class="pointer '.$ocultarTB.'" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEvidencia('.$row_lista['id'].','.$idEstacion.','.$idReporte.')">
+
+<button type="button" class="btn btn-labeled2 btn-danger '.$ocultarTB.'" onclick="EliminarEvidencia('.$row_lista['id'].','.$idEstacion.','.$idReporte.')">
+<span class="btn-label2"><i class="fa-regular fa-trash-can"></i></span>Eliminar evidencia</button>
+
 </div>
 </div>
 </div>

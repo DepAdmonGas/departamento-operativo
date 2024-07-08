@@ -18,8 +18,23 @@ class HerramientasDptoOperativo extends Exception
     /* ---------- CONSULTAS GENERALES ----------*/
     public function obtenerDatosUsuario($id)
     {
-    $nombreUsuario = $telefono = null;
-    $sql = "SELECT nombre, telefono FROM tb_usuarios WHERE id = ?";
+    $nombreUsuario = $telefono = $email = $status = $idPuesto = $tipo_puesto = $idEstacion = $nombreES = null;
+    $sql = "SELECT
+    tb_usuarios.nombre,
+    tb_usuarios.telefono,
+    tb_usuarios.email,
+    tb_usuarios.estatus,
+    
+    tb_puestos.id,
+    tb_puestos.tipo_puesto,
+
+	tb_estaciones.id,
+    tb_estaciones.nombre AS nombreES
+    
+    FROM tb_usuarios
+    INNER JOIN tb_puestos ON tb_usuarios.id_puesto = tb_puestos.id
+    INNER JOIN tb_estaciones ON tb_usuarios.id_gas = tb_estaciones.id
+    WHERE tb_usuarios.id = ?";
     $consulta = $this->con->prepare($sql);
 
     if (!$consulta) {
@@ -28,12 +43,18 @@ class HerramientasDptoOperativo extends Exception
 
     $consulta->bind_param('i', $id);
     $consulta->execute();
-    $consulta->bind_result($nombreUsuario, $telefono);
+    $consulta->bind_result($nombreUsuario, $telefono, $email, $status, $idPuesto, $tipo_puesto, $idEstacion, $nombreES);
     if ($consulta->fetch()) {
     // Procesamiento de los datos obtenidos
     $datosUsuario = array(
     'nombre' => $nombreUsuario,
-    'telefono' => $telefono
+    'telefono' => $telefono,
+    'email' => $email,
+    'status' => $status,
+    'idPuesto' => $idPuesto,
+    'tipo_puesto' => $tipo_puesto,
+    'idEstacion' => $idEstacion,
+    'nombreES' => $nombreES
     );
  
     } else {
@@ -473,6 +494,24 @@ class HerramientasDptoOperativo extends Exception
     
     }
     
+    public function get_nombre_dia2(int $dia): string {
+    if ($dia == "1")
+     $dia = "Lunes";
+    if ($dia == "2")
+     $dia = "Martes";
+    if ($dia == "3")
+     $dia = "Miércoles";
+    if ($dia == "4")
+     $dia = "Jueves";
+    if ($dia == "5")
+     $dia = "Viernes";
+    if ($dia == "6")
+    $dia = "Sábado";
+    if ($dia == "7")
+    $dia = "Domingo";
+    return $dia;
+    }
+
     public function FormatoFecha(string $fechaFormato): string 
     {
     $formato_fecha = explode("-", $fechaFormato);

@@ -7,7 +7,7 @@ $sql_lista = "SELECT * FROM op_calibracion_dispensario WHERE id_estacion = '".$i
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-?>
+?>  
 
 <div class="table-responsive">
     <table class="table table-sm table-bordered table-hover mb-0">

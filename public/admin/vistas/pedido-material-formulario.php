@@ -1,11 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
- 
- 
 $sql_pedido = "SELECT * FROM op_pedido_materiales WHERE id = '".$GET_idPedido."' ";
 $result_pedido = mysqli_query($con, $sql_pedido);
 $numero_pedido = mysqli_num_rows($result_pedido);
@@ -17,7 +12,6 @@ $estatus = $row_pedido['estatus'];
 $tiposervicio = $row_pedido['tipo_servicio'];
 $ordentrabajo = $row_pedido['orden_trabajo'];
 $ordenriesgo = $row_pedido['orden_riesgo'];
- 
 } 
 
 $sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
@@ -26,40 +20,48 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $razonsocial = $row_listaestacion['razonsocial'];
 }
 
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+
+}
+
 function EvidenciaImagen($idEvidencia,$con){
- 
+$Contenido = "";
+
 $sql = "SELECT id, imagen FROM op_pedido_materiales_evidencia_foto WHERE id_evidencia = '".$idEvidencia."' ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $id = $row['id'];
 $imagen = $row['imagen'];
 
- 
-$Contenido .= '
-
- <iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.$imagen.'" width="250px" height="250px">
-  </iframe>
-
-<img style="position: absolute;margin-left: -35;margin-top: 10px;" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEvidenciaImagen('.$id.')">
-';
+$Contenido .= '<iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.$imagen.'" width="250px" height="250px"></iframe>
+<img style="position: absolute;margin-left: -35;margin-top: 10px;" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEvidenciaImagen('.$id.')">';
 } 
  
-
 return $Contenido;
 }
 
 function DetalleArea($id,$con){
+$Result = "";
 
 $sql = "SELECT * FROM op_pedido_materiales_area_otros WHERE id_area = '".$id."' AND estatus = 1 ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-  $Result .= '<small class="text-secondary">('.$row['sub_area'].')</small> '; 
-  }
+$result = mysqli_query($con, $sql);
+$numero = mysqli_num_rows($result);
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$Result .= '<small class="text-secondary">('.$row['sub_area'].')</small> '; 
+}
 
 return $Result;
 }
 ?> 
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -85,30 +87,7 @@ return $Result;
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
   <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-  
-  <style media="screen">
 
-    input[type=radio]
-  {
-  /* Double-sized Checkboxes */
-  -ms-transform: scale(1.5); /* IE */
-  -moz-transform: scale(1.5); /* FF */
-  -webkit-transform: scale(1.5); /* Safari and Chrome */
-  -o-transform: scale(1.5); /* Opera */
-  transform: scale(1.5);
-  
-  }
-
-  input[type=checkbox]
-  {
-  /* Double-sized Checkboxes */
-  -ms-transform: scale(1.5); /* IE */
-  -moz-transform: scale(1.5); /* FF */
-  -webkit-transform: scale(1.5); /* Safari and Chrome */
-  -o-transform: scale(1.5); /* Opera */
-  transform: scale(1.5);
-  }
-  </style>
 
   <script type="text/javascript">
 
@@ -118,13 +97,9 @@ return $Result;
   
   });
 
-  function Regresar(){
-  window.history.back();
-  }
  
 function EditRC(idPedido,categoria,valor){
 
- 
     if(categoria == 3){
     if (document.getElementById('Area' + idPedido).checked)
     {
@@ -168,9 +143,6 @@ function EditRC(idPedido,categoria,valor){
     }else{
     valor = valor;
     }
-
-
-
 
     var parametros = {
     "idPedido" : idPedido,
@@ -217,7 +189,7 @@ location.reload();
 function ModalArea(idPedido){
 $('#Modal').modal('show');  
   $('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-area-pedido-material.php?idPedido=' + idPedido);  
-} 
+}  
 
 function AgregarArea(idPedido){
 
@@ -255,7 +227,8 @@ function AgregarArea(idPedido){
 
 function ModalMateriales(idPedido){
 $('#Modal').modal('show');  
-  $('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-material-pedido-material.php?idPedido=' + idPedido);  
+$('#ContenidoModal').load('../../public/admin/vistas/modal-agregar-material-pedido-material.php?idPedido=' + idPedido);  
+
 } 
  
 function AgregarMaterial(idPedido){
@@ -495,6 +468,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
  
   if(signaturePad.isEmpty()){
   $('#canvas').css('border','2px solid #A52525'); 
+  alertify.error('Falta llenar el campo de firma');
   }else{
   $('#canvas').css('border','1px solid #000000'); 
 
@@ -512,14 +486,14 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
     cache: false
     }).done(function(data){
 
-    Regresar();
+      history.back();
       
     }); 
 
   }
 
   }else{
-  $('#afectacionOM').css('border','2px solid #A52525');
+  alertify.error('Falta llenar el campo de afectación');
   }
 
 
@@ -537,236 +511,262 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
+  <div class="contendAG container">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG"> 
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div class="cardAG p-3"> 
 
-    <div class="row">
-    <div class="col-12">
+  <div class="row">
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
+  <div class="col-12 ">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Orden de Mantenimiento</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Orden de Mantenimiento</li>
+  </ol>
+  </div>
 
-     <h5>Orden de Mantenimiento</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
+  <div class="row">
+  <div class="col-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Formulario Orden de Mantenimiento</h3></div>
+  </div>
   <hr>
+  </div>
 
-<div class="container">
-  
+  <!---------- INFORMACION FORMULARIO ---------->
+  <div class="col-12 mb-3">
   <div class="table-responsive">
-  <table class="table table-bordered">
-    <tr class="">
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
-      <td class="align-middle"><b>Folio:</b> <br>00<?=$folio;?></td>
-      <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
-    </tr>
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+    <th class="align-middle text-center">Razón social</th>
+    <th class="align-middle text-center">Folio</th>
+    <th class="align-middle text-center">Fecha</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light fw-normal"><?=$razonsocialDesc?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$folio?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?></th>
+  </tr>
+  </tbody>
   </table>
-</div>
 
 
-<!-- APARTADO ¿EN QUE AFECTA A LA ESTACION? -->
-<div class="p-3 border mb-3">
-<h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
-<hr>
-<div class="row p-1">
-
-<div class="col-12 mb-2">
-<textarea class="form-control rounded-0" id="afectacionOM" ></textarea>
-  
-</div>
-
-</div>
-</div> 
+  </table>
+  </div>
+  </div>
 
 
-<!-- OCULTAR EL TIPO DE SERVICIO (PREVENTIVO, CORRECTIVO Y EMERGENTE) -->
-<div class="p-3 border mb-3 d-none">
-<h6>TIPO DE SERVICIO</h6>
-<hr>
+  <!---------- APARTADO ¿EN QUE AFECTA A LA ESTACION? ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+    <th class="align-middle text-center"><?=$DescripcionES?></th>
+  </tr>
+  </thead>
 
-<div class="row p-1">
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center fw-normal p-0"><textarea class="form-control rounded-0 border-0 bg-light" id="afectacionOM" style="height: 150px;"></textarea></th>
+  </tr>
+  </tbody>
+  </table>
 
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+  </table>
+  </div>
+  </div>
+
+  <!---------- APARTADO TIPO DE SERVICIO ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">TIPO DE SERVICIO</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
   <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="TipoServicio" id="Preventivo" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 1, 1)" <?php if($tiposervicio == 1){echo 'checked';} ?> >
   <label class="form-check-label" for="Preventivo">PREVENTIVO</label>
-</div>
-</div>
- 
+  </div>
+  </td>
 
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-<div class="form-check form-check-inline">
+  <td class="align-middle text-center no-hover2 p-2">
+  <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="TipoServicio" id="Correctivo" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 1, 2)" <?php if($tiposervicio == 2){echo 'checked';} ?>>
   <label class="form-check-label" for="Correctivo">CORRECTIVO</label>
-</div>
-</div>
+  </div>
+  </td>
 
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-<div class="form-check form-check-inline">
+  <td class="align-middle text-center no-hover2 p-2">
+  <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="TipoServicio" id="Emergente" value="3" onChange="EditRC(<?=$GET_idPedido;?>, 1, 3)" <?php if($tiposervicio == 3){echo 'checked';} ?>>
   <label class="form-check-label" for="Emergente">EMERGENTE</label>
-</div>
-</div>
+  </div>
+  </td>
 
-</div>
+  </tr>
 
-</div> 
+  </tbody>
+  </table>
+  </div>
 
+  <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</th>
+  </tr>
+  </thead>
 
-<div class="p-3 border mb-3">
-<h6>LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</h6>
-<hr>
+  <tbody class="bg-light">
 
-<div class="row p-1">
-<div class="col-4 mb-2">
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
   <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="Trabajo" id="Si" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 2, 1)" <?php if($ordentrabajo == 1){echo 'checked';} ?> >
   <label class="form-check-label" for="Si">SI</label>
-</div>
-</div>
+  </div>
+  </td>
 
-<div class="col-4 mb-2">
-<div class="form-check form-check-inline">
+  <td class="align-middle text-center no-hover2 p-2">
+  <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="Trabajo" id="No" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 2, 2)" <?php if($ordentrabajo == 2){echo 'checked';} ?> >
   <label class="form-check-label" for="No">NO</label>
-</div>
-</div>
+  </div>
+  </td>
 
-<div class="col-4 mb-2">
-<div class="form-check form-check-inline">
+  <td class="align-middle text-center no-hover2 p-2">
+  <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="Trabajo" id="Ambas" value="3" onChange="EditRC(<?=$GET_idPedido;?>, 2, 3)" <?php if($ordentrabajo == 3){echo 'checked';} ?> >
   <label class="form-check-label" for="Ambas">AMBAS</label>
-</div>
-</div>
+  </div>
+  </td>
 
-</div>
-</div>
+  </tr>
 
+  </tbody>
+  </table>
+  </div>
 
-<div class="p-3 border mb-3">
-<h6>LA ORDEN DE TRABAJO ES DE ALTO RIESGO</h6>
-<hr>
+  <!---------- LA ORDEN DE TRABAJO ES DE ALTO RIESGO ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">LA ORDEN DE TRABAJO ES DE ALTO RIESGO</th>
+  </tr>
+  </thead>
 
-<div class="row p-1 ">
+  <tbody class="bg-light">
 
-<div class="col-4 mb-2">
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
   <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="Riesgo" id="Si" value="1" onChange="EditRC(<?=$GET_idPedido;?>, 8, 1)" <?php if($ordenriesgo == 1){echo 'checked';} ?> >
   <label class="form-check-label" for="Si">SI</label>
-</div>
-</div>
+  </div>
+  </td>
 
-<div class="col-4 mb-2">
-<div class="form-check form-check-inline">
+  <td class="align-middle text-center no-hover2 p-2">
+  <div class="form-check form-check-inline">
   <input class="form-check-input" type="radio" name="Riesgo" id="No" value="2" onChange="EditRC(<?=$GET_idPedido;?>, 8, 2)" <?php if($ordenriesgo == 2){echo 'checked';} ?> >
   <label class="form-check-label" for="No">NO</label>
-</div>
-</div>
+  </div>
+  </td>
 
+  </tr>
 
-</div>
-</div>
- 
+  </tbody>
+  </table>
+  </div>
 
-<div class="p-3 border mb-3">
+  <!---------- AREA ---------->
+  <div class="col-12 mb-3 <?=$ocultarDivs?>">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center p-2">ÁREA</th>
+  <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalArea(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
 
+  </tr>
+  </thead>
 
-      <div class="row">
+  <tbody class="bg-light">
 
-      <div class="col-10 mt-2">
-        <h6>ÁREA</h6>
-      </div>
-
-      <div class="col-2">
-      <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalArea(<?=$GET_idPedido;?>)">
-      </div>
-
-    </div>
-<hr>
-
-<div style="overflow-y: hidden;">
-<table class="table table-bordered table-sm">
-  <tbody>
   <?php  
   $sql_lista = "SELECT * FROM op_pedido_materiales_area WHERE id_pedido = '".$GET_idPedido."' ";
   $result_lista = mysqli_query($con, $sql_lista);
   $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) {
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  $id  = $row_lista['id'];
 
-    $id  = $row_lista['id'];
+  if($row_lista['estatus'] == 1){
+  $checked = 'checked';
+  if($row_lista['area'] == 'Zona de despacho' || $row_lista['area'] == 'Zona de tanques' || $row_lista['area'] == 'Baños clientes'){
 
-    if($row_lista['estatus'] == 1){
-    $checked = 'checked';
-    if($row_lista['area'] == 'Zona de despacho' || $row_lista['area'] == 'Zona de tanques' || $row_lista['area'] == 'Baños clientes'){
+  $EditArea = '<img class="float-end pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalAreaSeccion('.$id.')">';
+  $SADetalle = DetalleArea($id,$con);
+  
+  }else{
+  $EditArea = '';
+  $SADetalle = '';
+  } 
 
-    $EditArea = '<img class="float-end pointer" src="'.RUTA_IMG_ICONOS.'editar.png" onclick="ModalAreaSeccion('.$id.')">';
-    $SADetalle = DetalleArea($id,$con);
-    }else{
-    $EditArea = '';
-    $SADetalle = '';
-    }    
-    }else{
-    $checked = '';
-    $EditArea = '';
-    $SADetalle = '';
-    }
+  }else{
+  $checked = '';
+  $EditArea = '';
+  $SADetalle = '';
+  }
 
   echo '<tr>
-       <td>'.$row_lista['area'].' '.$SADetalle.' '.$EditArea.'</td>
-       <td class="align-middle text-center" width="30"><input type="checkbox" '.$checked.' id="Area'.$id.'" onChange="EditRC('.$id.', 3, 0)"></td>
-       </tr>';
-
+  <th class="align-middle text-start no-hover2 fw-normal">'.$row_lista['area'].' '.$SADetalle.' '.$EditArea.'</th>
+  <td class="align-middle text-center no-hover2"><input style="width: 12px; height: 12px; transform: scale(1.5);" type="checkbox" '.$checked.' id="Area'.$id.'" onChange="EditRC('.$id.', 3, 0)"></td>  
+  </tr>';
+  }
+  }else{
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
+
   </tbody>
-</table>
-</div>
+  </table>
+  </div>
+  </div>
 
-
-</div>
-
-<div class="p-3 border mb-3">
-
-      <div class="row">
-
-      <div class="col-10 mt-2">
-        <h6>REFACCIONES</h6>
-      </div>
-
-      <div class="col-2">
-        <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalMateriales(<?=$GET_idPedido;?>)">
-
-      </div>
- 
-    </div>
-
-    <hr>
-
-<div class="table-responsive">
-<table class="table table-bordered table-sm mb-0" style="margin-top: 5px;">
-  <thead class="tables-bg">
-  <tr>
-    <th class="">REFACCIÓN</th>
-    <th class="text-center">CANTIDAD</th>
-    <th class="">ESTATUS</th>
-    <th class="text-center" width="30">
-    <img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"> 
-    </th>
+  <!---------- REFACCIONES ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center p-2" colspan="3">REFACCIONES</th>
+  <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalMateriales(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
   </tr>
+
+  <tr class="tables-bg">
+  <td class="fw-bold align-middle">REFACCIÓN</td>
+  <th class="text-center align-middle">CANTIDAD</th>
+  <th class="text-center align-middle">ESTATUS</th>
+  <td class="text-center align-middle"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
+  </tr>
+
   </thead>
-  <tbody>
+
+  <tbody class="bg-light">
   <?php  
   $sql_detalle = "SELECT * FROM op_pedido_materiales_detalle WHERE id_pedido = '".$GET_idPedido."' ";
   $result_detalle = mysqli_query($con, $sql_detalle);
@@ -774,188 +774,167 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   if ($numero_detalle > 0) {
   while($row_detalle = mysqli_fetch_array($result_detalle, MYSQLI_ASSOC)){
 
-    $id  = $row_detalle['id'];
+  $id  = $row_detalle['id'];
 
-       echo '<tr>
-       <td>'.$row_detalle['concepto'].'</td>
-       <td class="text-center">'.$row_detalle['cantidad'].'</td>
-       <td>'.$row_detalle['nota'].'</td>
-       <td class="align-middle text-center" width="30"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarMaterial('.$id.')"></td>
-       </tr>';
+  echo '<tr>
+  <th class="fw-normal no-hover2">'.$row_detalle['concepto'].'</th>
+  <td class="text-center no-hover2">'.$row_detalle['cantidad'].'</td>
+  <td class="text-center no-hover2">'.$row_detalle['nota'].'</td>
+  <td class="align-middle text-center no-hover2" width="30"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarMaterial('.$id.')"></td>
+  </tr>';
   }
   }else{
-  echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";  
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
+
   </tbody>
-</table>
-</div>
+  </table>
+  </div>
+  </div>
 
-</div>
+  <!---------- EVIDENCIA ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> 
+  <th class="align-middle text-center p-2" colspan="3">EVIDENCIA</th>
+  <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalEvidencia(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
+  </tr>
 
- 
+  <tr class="tables-bg">
+  <td class="fw-bold align-middle" width="20px">ARCHIVO</td>
+  <th class="text-center align-middle">ÁREA</th>
+  <th class="text-center align-middle">MOTIVO</th>
+  <td class="text-center align-middle"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
+  </tr>
 
-<div class="p-3 border mb-3">
+  </thead>
 
-      <div class="row">
-
-      <div class="col-10 mt-2">
-        <h6>EVIDENCIA</h6>
-      </div>
-
-      <div class="col-2">
-      <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalEvidencia(<?=$GET_idPedido;?>)">
-      </div>
-
-    </div>
-
-<hr>
-
-
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 ">
-        <thead>
-        <tr class="tables-bg">
-        <th class="align-middle text-center" width="20" >ARCHIVO</th>
-        <th class="align-middle text-center">AREA</th>
-        <th class="align-middle text-center">MOTIVO</th>
-        <th class="align-middle text-center" width="24"><img src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
-        </tr>
-        </thead>
-  
-<?php  
+  <tbody class="bg-light">
+  <?php  
 
   $sql_evidencia = "SELECT * FROM op_pedido_materiales_evidencia_archivo WHERE id_pedido = '".$GET_idPedido."' ";
 
-  
   $result_evidencia = mysqli_query($con, $sql_evidencia);
   $numero_evidencia = mysqli_num_rows($result_evidencia);
+
+  if ($numero_evidencia > 0) {
   while($row_evidencia = mysqli_fetch_array($result_evidencia, MYSQLI_ASSOC)){
-  
   $idEvidencia = $row_evidencia['id'];
 
-echo'
-       
-        <tr>
-        <td class="align-middle text-center"> 
-        <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
-        </td> 
-        <td class="align-middle text-center">'.$row_evidencia['area'].'</td>
-        <td class="align-middle text-center">'.$row_evidencia['motivo'].'</td>
-        <td class="align-middle text-center"><img src="'.RUTA_IMG_ICONOS.'eliminar.png" class="pointer" onclick="EliminarEvidencia('.$idEvidencia.')"></td>
-        </tr>';
+  echo'
+  
+  <tr>
+  <td class="align-middle text-center no-hover2"> 
+  <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  </td> 
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>
+  <td class="align-middle text-center no-hover2"><img src="'.RUTA_IMG_ICONOS.'eliminar.png" class="pointer" onclick="EliminarEvidencia('.$idEvidencia.')"></td>
+  </tr>';
 
 
-/*
-echo '<div class="border p-3 mt-3 mb-3">';
+  /*
+  echo '<div class="border p-3 mt-3 mb-3">';
 
-echo '<div class="row">
-<div class="col-12"><button type="button" class="btn btn-sm btn-secondary rounded-0 float-end" onclick="ModalEvidenciaImagen('.$idEvidencia.')">Imagen</button>
-</div>
-</div>
- 
-<hr>';
+  echo '<div class="row">
+  <div class="col-12"><button type="button" class="btn btn-sm btn-secondary rounded-0 float-end" onclick="ModalEvidenciaImagen('.$idEvidencia.')">Imagen</button>
+  </div>
+  </div>
 
-echo '<div>'.EvidenciaImagen($idEvidencia,$con).'</div>';
+  <hr>';
 
-echo '</div>';
-*/
+  echo '<div>'.EvidenciaImagen($idEvidencia,$con).'</div>';
 
+  echo '</div>';
+  */
+
+  }
+  }else{
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
 
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 
-</table>
-</div>
-</div>
+  <!---------- COMENTARIO ---------->
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> <th class="align-middle text-center">COMENTARIOS</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center p-0 "><textarea class="form-control rounded-0 border-0 bg-light" id="Comentarios" style="height: 185px;"></textarea>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
 
 
+  <!---------- FIRMA ---------->
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="title-table-bg">
+  <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center p-0 no-hover2">          
+  <div id="signature-pad" class="signature-pad ">
+  <div class="signature-pad--body ">
+  <canvas style="width: 100%; height: 150px; border-right: .1px solid #215d98; border-left: .1px solid #215d98; cursor: crosshair;" id="canvas"></canvas>
+  </div>
+  <input type="hidden" name="base64" value="" id="base64">
+  </div> 
+  </th>
+  </tr>
 
-<div class="p-3 border mb-3">
-          
-          <div class="row">
-          
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-          <div class="mb-2 text-secondary mt-2">COMENTARIOS:</div>
-          <textarea class="form-control rounded-0" id="Comentarios"></textarea>
-          </div>
+  <tr>
+  <th class="align-middle text-center p-2 bg-danger text-white" onclick="resizeCanvas()">  
+  <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma        
+  </th>
+  </tr>
 
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 ">
-          <div class="mb-2 text-secondary text-center">FIRMA DEL ENCARGADO</div>
-          <div id="signature-pad" class="signature-pad mt-2" >
-          <div class="signature-pad--body">
-          <canvas style="width: 100%; height: 150px; border: 1px black solid;" id="canvas"></canvas>
-          </div>
-          <input type="hidden" name="base64" value="" id="base64">
-          </div> 
-          <div class="text-end mt-3">
-          <button class="btn btn-info text-white btn-sm" onclick="resizeCanvas()"><small>Limpiar</small></button>
-          </div>
-          </div>
+  </tbody>
+  </table>
+  </div>
 
-          </div>
 
-</div>
-
+  <div class="col-12 pt-0 mt-0">
   <hr>
-
-<div class="text-end">
-<button type="button" class="btn btn-success" onclick="Finalizar(<?=$GET_idPedido;?>)">Finalizar</button>
-</div>
-
-</div>
-
-
-  </div>
-  </div>
-  </div>
-
-  </div>
-  </div>
-
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idPedido;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
   </div>
 
 
 
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
+  </div>
 
-<script src="<?php echo RUTA_JS ?>bootstrap.min.js"></script>
-    <script type="text/javascript">
+  </div>
+  </div>
+  </div>
+  </div>
 
-var wrapper = document.getElementById("signature-pad");
-
-var canvas = wrapper.querySelector("canvas");
-var signaturePad = new SignaturePad(canvas, {
-  backgroundColor: 'rgb(255, 255, 255)'
-});
-
-function resizeCanvas() {
-
-  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-
-  canvas.width = canvas.offsetWidth * ratio;
-  canvas.height = canvas.offsetHeight * ratio;
-  canvas.getContext("2d").scale(ratio, ratio);
-
-  signaturePad.clear();
-}
-
-window.onresize = resizeCanvas;
-resizeCanvas();
-
-</script>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+  <script src="<?=RUTA_JS2 ?>signature-pad-functions.js"></script>
 
 </body>
 </html>

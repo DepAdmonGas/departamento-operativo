@@ -1,33 +1,8 @@
-  <?php
+<?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-$sql_lista_cl = "SELECT 
-op_cuenta_litros.fecha,
-op_cuenta_litros.estatus,
-tb_estaciones.nombre
-
-FROM op_cuenta_litros 
-INNER JOIN tb_estaciones ON op_cuenta_litros.id_estacion = tb_estaciones.id
-
-WHERE op_cuenta_litros.id_cuenta_litros = '".$GET_idCLitros."' ";
-
-
-$result_lista_cl = mysqli_query($con, $sql_lista_cl);
-$numero_lista_cl = mysqli_num_rows($result_lista_cl);
-while($row_lista_cl = mysqli_fetch_array($result_lista_cl, MYSQLI_ASSOC)){
-$fecha = $row_lista_cl['fecha']; 
-$nombreES = $row_lista_cl['nombre']; 
-$estatus = $row_lista_cl['estatus']; 
-}
- 
 
 ?> 
   
-    
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -43,7 +18,8 @@ $estatus = $row_lista_cl['estatus'];
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -55,7 +31,8 @@ $estatus = $row_lista_cl['estatus'];
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  tablasFormatoCL(<?=$GET_idCLitros?>)
+  tablasFormatoCL(<?=$GET_idCLitros?>);
+
   });
 
   function Regresar(){
@@ -69,14 +46,14 @@ $estatus = $row_lista_cl['estatus'];
 
    //---------- MODAL NUEVO CUENTA LITROS ----------
   function nuevoReporte(idCuentaLitros){
-    $('#ModalCL').modal('show');  
-    $('#ContenidoModalCL').load('../public/admin/vistas/modal-agregar-cuenta-litros.php?idCuentaLitros=' + idCuentaLitros);
+    $('#ModalCL2').modal('show');  
+    $('#DivCL2').load('../public/admin/vistas/modal-agregar-cuenta-litros.php?idCuentaLitros=' + idCuentaLitros);
   }
 
   //---------- MODAL EDITAR CUENTA LITROS ----------
   function EditarCLTB(idDetalle){
-    $('#ModalCL').modal('show');  
-    $('#ContenidoModalCL').load('../public/admin/vistas/modal-editar-cuenta-litros.php?idDetalle=' + idDetalle);
+    $('#ModalCL2').modal('show');  
+    $('#DivCL2').load('../public/admin/vistas/modal-editar-cuenta-litros.php?idDetalle=' + idDetalle);
   }
 
 
@@ -184,7 +161,7 @@ $estatus = $row_lista_cl['estatus'];
     alertify.success('Cuenta litros agregado exitosamente.');
 
     $(".LoaderPage").hide();
-    $('#ModalCL').modal('hide'); 
+    $('#ModalCL2').modal('hide'); 
     tablasFormatoCL(idCuentaLitros)
 
      }else{
@@ -353,7 +330,7 @@ if(horaCL != ""){
     alertify.success('Cuenta litros editado exitosamente.');
 
     $(".LoaderPage").hide();
-    $('#ModalCL').modal('hide'); 
+    $('#ModalCL2').modal('hide'); 
     tablasFormatoCL(idCuentaLitros)
 
      }else{
@@ -584,65 +561,26 @@ if(horaCL != ""){
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-     <h5>Tabla de Descarga (Cuenta Litros) - <?=$nombreES?></h5>
-    </div>
-
-    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-    <img class="float-end pointer ms-2" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="nuevoReporte(<?=$GET_idCLitros?>)">
-
-    <img class="float-end pointer ms-2" src="<?=RUTA_IMG_ICONOS;?>calendario-tb.png" onclick="fechaReporte(<?=$GET_idCLitros?>)">
-
-    </div>
-
-
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-
-  <div id="FormatoCuentaL"></div>
-
-  <hr>
-
-  <div class="text-end">
-  <button type="button" class="btn btn-success" onclick="btnFinalizar(<?=$GET_idCLitros?>)">Finalizar</button>
-  </div>
-
- 
+  <div class="col-12" id="FormatoCuentaL"></div>
   </div>
   </div>
   </div>
 
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalCL" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="ContenidoModalCL">
   </div>
   </div>
-
   </div>
 
-
-
-<div class="modal fade bd-example-modal-lg" id="ModalCL">
-<div class="modal-dialog">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModalCL"></div>
-</div>
-</div>
-</div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalCL2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivCL2"></div>
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

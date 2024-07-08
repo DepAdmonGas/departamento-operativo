@@ -6,110 +6,144 @@ $idReporte = $_GET['idReporte'];
 $sql_lista = "SELECT * FROM op_pivoteo_detalle WHERE id_pivoteo = '" . $idReporte . "' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+
+if ($numero_lista > 0){
+echo '<div class="row">';
+
 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-    $id = $row_lista['id'];
-    $id_pivoteo = $row_lista['id_pivoteo'];
-    $estacionfc = $row_lista['estacion_fc'];
-    $destinofc = $row_lista['destino_fc'];
-    $productofc = $row_lista['producto_fc'];
-    $tanquefc = $row_lista['tanque_fc'];
-    $facturafc = $row_lista['factura_fc'];
-    $litros = $row_lista['litros'];
-    $tad = $row_lista['tad'];
-    $unidad = $row_lista['unidad'];
-    $chofer = $row_lista['chofer'];
-    $estacionfn = $row_lista['estacion_fn'];
-    $destinofn = $row_lista['destino_fn'];
-    $tanquefn = $row_lista['tanque_fn'];
-    $facturafn = $row_lista['factura_fn'];
+$id = $row_lista['id'];
+$id_pivoteo = $row_lista['id_pivoteo'];
+$estacionfc = $row_lista['estacion_fc'];
+$destinofc = $row_lista['destino_fc'];
+$productofc = $row_lista['producto_fc'];
+$tanquefc = $row_lista['tanque_fc'];
+$facturafc = $row_lista['factura_fc'];
+$litros = $row_lista['litros'];
+$tad = $row_lista['tad'];
+$unidad = $row_lista['unidad'];
+$chofer = $row_lista['chofer'];
+$estacionfn = $row_lista['estacion_fn'];
+$destinofn = $row_lista['destino_fn'];
+$tanquefn = $row_lista['tanque_fn'];
+$facturafn = $row_lista['factura_fn'];
 
 
-    echo '<div class="p-3 border mb-3">';
+echo '<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-1">';
 
-    echo '<div class="text-end">
-<button type="button" class="btn btn-danger btn-sm" onclick="Eliminar(' . $idReporte . ',' . $id . ')">Eliminar</button>
-</div>
-<hr>';
+  echo '<div class="table-responsive">
+  <table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px;" width="100%">';
 
-    echo '<div class="table-responsive">';
-    echo '<table class="table table-sm table-bordered mb-0">';
-    echo '<tbody>';
-    echo '<tr class="bg-primary text-white text-center">
-	   <td width="50%" colspan="2"><b>Documentación Facturada (CANCELAR)</b></td>
-	   <td width="50%" colspan="2"><b>Documentación a refacturar</b></td>
-	 </tr>';
+    echo '
+	<thead  class="bg-white">
+	<tr class="title-table-bg text-white text-center">
+	<th width="50%" colspan="2">Documentación Facturada (CANCELAR)</th>
+	<th width="50%" colspan="2">Documentación a refacturar</th>
+	</tr>
+	</thead>';
+
+	echo '<tbody class="bg-white">';
+    echo '<tr>
+	<th class="no-hover">Estación:</th>
+	<td class="no-hover">' . $estacionfc . '</td>
+	<td class="no-hover"><b>Estación:</b></td>
+	<td class="no-hover">' . $estacionfn . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Estación:</b></td>
-	  <td>' . $estacionfc . '</td>
-	  <td><b>Estación:</b></td>
-	  <td>' . $estacionfn . '</td>
-	  </tr>';
+	<th class="no-hover">Destino:</th>
+	<td class="no-hover">' . $destinofc . '</td>
+	<td class="no-hover"><b>Destino:</b></td>
+	<td class="no-hover">' . $destinofn . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Destino:</b></td>
-	  <td>' . $destinofc . '</td>
-	  <td><b>Destino:</b></td>
-	  <td>' . $destinofn . '</td>
-	  </tr>';
+	<th class="no-hover">Producto:</th>
+	<td class="no-hover">' . $productofc . '</td>
+	<td class="no-hover"><b>Producto:</b></td>
+	<td class="no-hover">' . $productofc . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Producto:</b></td>
-	  <td>' . $productofc . '</td>
-	  <td><b>Producto:</b></td>
-	  <td>' . $productofc . '</td>
-	  </tr>';
+	<th class="no-hover">Tanque:</th>
+	<td class="no-hover">' . $tanquefc . '</td>
+	<td class="no-hover"><b>Tanque:</b></td>
+	<td class="no-hover">' . $tanquefn . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Tanque:</b></td>
-	  <td>' . $tanquefc . '</td>
-	  <td><b>Tanque:</b></td>
-	  <td>' . $tanquefn . '</td>
-	  </tr>';
+	<th class="no-hover">Factura:</th>
+	<td class="no-hover">' . $facturafc . '</td>
+	<td class="no-hover"><b>Factura:</b></td>
+	<td class="no-hover">' . $facturafn . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Factura:</b></td>
-	  <td>' . $facturafc . '</td>
-	  <td><b>Factura:</b></td>
-	  <td>' . $facturafn . '</td>
-	  </tr>';
+	<th class="no-hover">Litros:</th>
+	<td class="no-hover">' . number_format($litros, 2) . '</td>
+	<td class="no-hover"><b>Litros:</b></td>
+	<td class="no-hover">' . number_format($litros, 2) . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>Litros:</b></td>
-	  <td>' . number_format($litros, 2) . '</td>
-	  <td><b>Litros:</b></td>
-	  <td>' . number_format($litros, 2) . '</td>
-	  </tr>';
+	<th class="no-hover">TAD:</th>
+	<td class="no-hover">' . $tad . '</td>
+	<td class="no-hover"><b>TAD:</b></td>
+	<td class="no-hover">' . $tad . '</td>
+	</tr>';
 
     echo '<tr>
-	  <td><b>TAD:</b></td>
-	  <td>' . $tad . '</td>
-	  <td><b>TAD:</b></td>
-	  <td>' . $tad . '</td>
-	  </tr>';
+	<th class="no-hover">Unidad:</th>
+	<td class="no-hover">' . $unidad . '</td>
+	<td class="no-hover"><b>Unidad:</b></td>
+	<td class="no-hover">' . $unidad . '</td>
+    </tr>';
 
-    echo '<tr>
-	  <td><b>Unidad:</b></td>
-	  <td>' . $unidad . '</td>
-	  <td><b>Unidad:</b></td>
-	  <td>' . $unidad . '</td>
-	  </tr>';
+    echo '<tr >
+	<th class="no-hover">Chofer:</th>
+	<td class="no-hover">' . $chofer . '</td>
+	<td class="no-hover"><b>Chofer:</b></td>
+	<td class="no-hover">' . $chofer . '</td>
+	</tr>';
 
-    echo '<tr>
-	  <td><b>Chofer:</b></td>
-	  <td>' . $chofer . '</td>
-	  <td><b>Chofer:</b></td>
-	  <td>' . $chofer . '</td>
-	  </tr>';
+	echo '<tr>
+	<th colspan="4" class="bg-danger text-white p-2" onclick="Eliminar(' . $idReporte . ',' . $id . ')"> Eiminar Registro</th>
+	</tr>';
 
     echo '</tbody>';
     echo '</table>';
     echo '</div>';
-
     echo '</div>';
 
 }
 
-//------------------
-mysqli_close($con);
-//------------------
+echo '<div class="col-12">';
+echo '<hr>
+
+<button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar('.$idReporte.')">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar Pivoteo</button>';
+echo '</div>';
+
+echo '</div>';
+
+
+}else{
+
+	echo '<header class="bg-light py-5">
+    <div class="container px-5">
+    <div class="row gx-5 align-items-center justify-content-center">
+  
+    <div class="col-xl-5 col-xxl-6 d-xl-block text-center">
+    <img class="my-2" style="width: 100%" src="'.RUTA_IMG_ICONOS.'no-busqueda.png" width="50%">
+    </div>
+   
+    <div class="col-lg-8 col-xl-7 col-xxl-6">
+    <div class="my-2 text-center"> <h1 class="display-3 fw-bolder text-dark">No se encontró la información</h1> </div>
+    </div>
+    
+    </div>
+    </div>
+    </header>';
+
+
+}
+  

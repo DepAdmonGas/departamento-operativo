@@ -1,14 +1,15 @@
 <?php
 require('../../../app/help.php');
 $idEstacion = $_GET['idEstacion'];
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
 
 if($idEstacion == 8){
 $estacion = "Otros";
 }else{
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
+$sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
+$estacion = $row_listaestacion['localidad'];
 }
 }   
 
@@ -37,79 +38,137 @@ return $numero_lista = mysqli_num_rows($result_lista);
 }
 
 function ToCausa($IdReporte,$con){
-  $sql_lista = "SELECT id FROM op_pedido_materiales_causa WHERE id_reporte = '".$IdReporte."' ";
-  $result_lista = mysqli_query($con, $sql_lista);
-  return $numero_lista = mysqli_num_rows($result_lista);
+$sql_lista = "SELECT id FROM op_pedido_materiales_causa WHERE id_reporte = '".$IdReporte."' ";
+$result_lista = mysqli_query($con, $sql_lista);
+return $numero_lista = mysqli_num_rows($result_lista);
 
 }
 
 
+if($idEstacion == 9){
+$DescripcionES = "¿En que afecta al autolavado?";
+    
+}else{
+$DescripcionES = "¿En que afecta a la estación?";
+    
+}
 
+
+//---------- Configuracion personal ----------//
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+$ocultarOp = "d-none";
+$Estacion = '';
+$tituloTablaPersonal = "";
+$ocultarTitle = "";
+$divisionTable = "";
+$etqiuetaTB = 'th';
+
+if($idEstacion == 9){
+$ocultarTitle = "d-none";
+$divisionTable = "<hr>";
+$tituloTablaPersonal = '<tr class="tables-bg">
+<th class="text-center align-middle fw-bold" colspan="8">Autolavado</th>
+</tr>';
+$etqiuetaTB = 'td';
+}
+  
+}else{ 
+$ocultarOp = "";
+$tituloTablaPersonal = ''; 
+$ocultarTitle = "";
+$divisionTable = "";     
+$etqiuetaTB = 'th';  
+
+if($idEstacion == 9){
+$Estacion = '(Autolavado)';
+
+}else{
+$Estacion = '('.$datosEstacion['nombre'].')';
+
+}
+
+} 
 
 
 ?> 
-<script type="text/javascript">
-$(document).ready(function($){
-$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
 
-<div class="border-0 p-3">
+
+
+<div class="col-12 <?=$ocultarTitle?>">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Almacén</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Orden de Mantenimiento <?=$Estacion?></li>
+</ol>
+</div>
+
 <div class="row">
+<div class="col-xl-9 col-lg-9 col-md-6 col-sm-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Orden de Mantenimiento <?=$Estacion?></h3></div>
+<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
 
-<div class="col-10">
-<?php if($idEstacion != $Session_IDEstacion){ ?>
-<div><h5>Orden de Mantenimiento <?=$estacion;?></h5></div>
-<?php }else{ ?>
-   
-  
-    <div class="row">
-    <div class="col-12">
+<?php 
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+if($idEstacion == 2){
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
+echo '<div class="text-end">
+<div class="dropdown d-inline ms-2 <?=$ocultarbtn?>">
+<button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fa-solid fa-screwdriver-wrench"></i></span>
+</button>
 
-     <h5>Orden de Mantenimiento</h5>
-    
-    </div>
-    </div>
+<ul class="dropdown-menu">
+<li onclick="Nuevo('.$idEstacion.')"><a class="dropdown-item pointer"> <i class="fa-solid fa-gas-pump"></i> Agregar Orden Palo Solo</a></li>
+<li onclick="Nuevo(9)"><a class="dropdown-item pointer"> <i class="fa-solid fa-car"></i> Agregar Orden Autolavado</a></li>
 
-    </div>
-    </div> 
+</ul>
+</div>
+</div>';
 
-<?php } ?>
+
+
+}else{
+echo '<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Nuevo('.$idEstacion.')">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>';
+}
+
+}else{
+
+echo '<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Nuevo('.$idEstacion.')">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>';
+
+}
+
+
+?>
+</div>
 
 </div>
-  
- 
-<div class="col-2">
-<img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="Nuevo(<?=$idEstacion;?>)">
+<hr>
 </div>
 
-</div>
 
-<hr> 
+<?=$divisionTable?>
+
+
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0">
-<thead class="tables-bg">
+<table id="tabla_orden_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
+
+<thead class="title-table-bg">
+
+<?=$tituloTablaPersonal?>
+
  <tr>
-  <th class="align-middle tableStyle font-weight-bold text-center">Folio</th>
+  <<?=$etqiuetaTB?> class="align-middle tableStyle fw-bold text-center">Folio</<?=$etqiuetaTB?>>
   <th class="align-middle tableStyle font-weight-bold text-center">Fecha</th>
   <th class="align-middle tableStyle font-weight-bold text-center" width="350">Asunto</th>
   <!-- <th class="align-middle text-center tableStyle font-weight-bold">Tipo de servicio</td> -->
-  <th class="align-middle tableStyle font-weight-bold text-center">¿En que afecta a la estación?</th>
+  <th class="align-middle tableStyle font-weight-bold text-center"><?=$DescripcionES?></th>
   <th class="align-middle tableStyle font-weight-bold text-center">Estatus</td>  
-  <th class="align-middle tableStyle font-weight-bold text-center" width="20">Evidencia</td> 
-  <th class="align-middle tableStyle font-weight-bold text-center" width="20">Causa</td>   
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-firmar-w.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+  <<?=$etqiuetaTB?> class="align-middle text-center" width="40"><i class="fas fa-ellipsis-v"></i></<?=$etqiuetaTB?>>
+
   </tr>
 </thead> 
 <tbody>
@@ -136,76 +195,70 @@ $firmaC = FirmaSC($id,'C',$con);
 
 if($row_lista['estatus'] == 0){
 $bgTable = 'style="background-color: #fcfcda"';
-
-$PDF = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-$Pago = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pago.png" data-toggle="tooltip" data-placement="top" title="Agregar pago">';
-$Editar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="Editar('.$id.')" data-toggle="tooltip" data-placement="top" title="Editar">';
-$Eliminar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Eliminar">';
-$Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" data-toggle="tooltip" data-placement="top" title="Firmar Orden">';
-$evidencia = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'descargar.png" data-toggle="tooltip" data-placement="top" title="Evidencia" />';
-$causa = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" data-toggle="tooltip" data-placement="top" title="Causa" />';
-
-
+$PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$Editar = '<a class="dropdown-item" onclick="Editar('.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Eliminar = '<a class="dropdown-item" onclick="Eliminar('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" >';
+$evidencia = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-image"></i> Evidencia</a>';
+$causa = '<a class="dropdown-item grayscale"><i class="fa-regular fa-circle-question"></i> Causa</a>';
 $Estatus = 'Orden de Mantenimiento Pendiente';
  
 }else if($row_lista['estatus'] == 1){
 $bgTable = 'style="background-color: #fcfcda"';
-
-$PDF = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-$Editar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'editar-tb.png" data-toggle="tooltip" data-placement="top" title="Editar">';
-$Eliminar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="Eliminar">';
+$PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
 if($firmaB == 1){
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" onclick="Firmar('.$id.')" data-toggle="tooltip" data-placement="top" title="Firmar Orden">';  
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" onclick="Firmar('.$id.')" >';  
 }else{
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$id.')" data-toggle="tooltip" data-placement="top" title="Firmar Orden">';  
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$id.')" >';  
 }
 
-$evidencia = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'descargar.png" data-toggle="tooltip" data-placement="top" title="Evidencia" />';
-$causa = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" data-toggle="tooltip" data-placement="top" title="Causa" />';
+$evidencia = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-image"></i> Evidencia</a>';
+$causa = '<a class="dropdown-item grayscale"><i class="fa-regular fa-circle-question"></i> Causa</a>';
 
 
 $Estatus = 'Pendiente por firmar';
 
 }else if($row_lista['estatus'] == 2 || $row_lista['estatus'] == 3){
+$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png">';
+$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
-$PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-$Editar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'editar-tb.png" data-toggle="tooltip" data-placement="top" title="Editar">';
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png" data-toggle="tooltip" data-placement="top" title="Firmar solicitud">';
-$Eliminar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="Eliminar">';
-
-  
 $EvidenciaNum = ToEvidencia($id,$con); 
 $CausaNum = ToCausa($id,$con); 
 
 if($EvidenciaNum != 0){
-  $bgTable = 'style="background-color: #b0f2c2"';
-  $Estatus = 'Refacción Instalada';
-  $evidencia = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png" onclick="ModalEvidencia('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Evidencia" />';
-  $causa = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" data-toggle="tooltip" data-placement="top" title="Causa" />';
+$bgTable = 'style="background-color: #b0f2c2"';
+$Estatus = 'Refacción Instalada';
+$evidencia = '<a class="dropdown-item" onclick="ModalEvidencia('.$idEstacion.','.$id.')"><i class="fa-regular fa-file-image"></i> Evidencia</a>';
+$causa = '<a class="dropdown-item grayscale"><i class="fa-regular fa-circle-question"></i> Causa</a>';
   
   
-  }else if($CausaNum != 0){
-  $bgTable = 'style="background-color: #b0f2c2"';
-  $Estatus = 'Orden cerrada'; 
-  $evidencia = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'descargar.png" data-toggle="tooltip" data-placement="top" title="Evidencia" />';
-  $causa = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" onclick="ModalCausa('.$idEstacion.','.$id.')">';
+}else if($CausaNum != 0){
+$bgTable = 'style="background-color: #b0f2c2"';
+$Estatus = 'Orden cerrada'; 
+$evidencia = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-image"></i> Evidencia</a>';
+$causa = '<a class="dropdown-item" onclick="ModalCausa('.$idEstacion.','.$id.')"><i class="fa-regular fa-circle-question"></i> Causa</a>';
 
   
-  }else{ 
-  $bgTable = 'style="background-color: #ffb6af"';
-  $Estatus = 'Tienes 5 días hábiles para instalar la refacción';
-  $evidencia = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png" onclick="ModalEvidencia('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Evidencia" />';
-  $causa = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" onclick="ModalCausa('.$idEstacion.','.$id.')">';
+}else{ 
+$bgTable = 'style="background-color: #ffb6af"';
+$Estatus = 'Tienes 5 días hábiles para instalar la refacción';
+$evidencia = '<a class="dropdown-item" onclick="ModalEvidencia('.$idEstacion.','.$id.')"><i class="fa-regular fa-file-image"></i> Evidencia</a>';
+$causa = '<a class="dropdown-item" onclick="ModalCausa('.$idEstacion.','.$id.')"><i class="fa-regular fa-circle-question"></i> Causa</a>';
   
-  }
+}
 
 }   
 
   $ToComentarios = ToComentarios($id,$con);
 
-  if($ToComentarios > 0){
-    $Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><small>'.$ToComentarios.'</small></span></div>';
+  if($ToComentarios > 0){ 
+    $Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
+ 
   }else{
    $Nuevo = ''; 
   }
@@ -217,7 +270,7 @@ if($EvidenciaNum != 0){
 
 
 echo '<tr '.$bgTable.'>'; 
-echo '<td class="align-middle text-center"><b>00'.$row_lista['folio'].'</b></td>';
+echo '<th class="align-middle text-center"><b>00'.$row_lista['folio'].'</b></th>';
 echo '<td class="align-middle">'.FormatoFecha($row_lista['fecha']).'</td>';
  
 if ($numero_detalle > 0) {
@@ -233,26 +286,36 @@ echo '<td class="align-middle text-center"></td>';
 // echo '<td class="align-middle text-center">'.$TipoServicio.'</td>';
 echo '<td class="align-middle text-center">'.$afectacion.'</td>';
 echo '<td class="align-middle text-center">'.$Estatus.'</td>';
-echo '<td class="align-middle text-center">'.$evidencia.'</td>';
-echo '<th class="align-middle text-center" width="20">'.$causa.'</th>';
-echo '<td class="align-middle text-center">
-<img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalle('.$id.')" data-toggle="tooltip" data-placement="top" title="Detalle" /></td>';
-echo '<td class="align-middle text-center">'.$PDF.'</td>';
-echo '<td class="align-middle text-center">'.$Editar.'</td>';
 echo '<td class="align-middle text-center">'.$Firmar.'</td>';
-echo '<td class="align-middle text-center">'.$Nuevo.'<img class="pointer" width="20" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" onclick="ModalComentario('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
-echo '<td class="align-middle text-center">'.$Eliminar.'</td>';
+echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$idEstacion.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"  data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+
+echo '<td class="align-middle text-center">
+<div class="dropdown">
+
+<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
+
+<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+<a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>
+'.$evidencia.'
+'.$causa.'
+'.$PDF.'
+'.$Editar.'
+'.$Eliminar.'
+</div>
+</div>
+
+</td>';
 echo '</tr>';
   
 $num++;
 }
 
-}else{
-echo "<tr><td colspan='15' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
+
 </tbody>
 </table>   
 </div>
 
-</div>

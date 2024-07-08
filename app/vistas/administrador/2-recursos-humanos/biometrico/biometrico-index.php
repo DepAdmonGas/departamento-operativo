@@ -2,8 +2,8 @@
 require('app/help.php');
 $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
 
-?>
-
+?> 
+ 
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -47,18 +47,17 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
  
   });  
 
-    function Regresar(){
-    sessionStorage.removeItem('idestacion');
-    window.history.back();
-    }
+  function Regresar(){
+  sessionStorage.removeItem('idestacion');
+  window.history.back();
+  }
 
 
-    function ConfiguracionBiometrico(valBiometrico){
-    if(valBiometrico == 1){
-    window.location.href = "recursos-humanos-configuracion";
-    }    
-    }
-
+  function ConfiguracionBiometrico(valBiometrico){
+  if(valBiometrico == 1){
+  window.location.href = "recursos-humanos-configuracion";
+  }    
+  }
 
   function SelEstacion(idEstacion) {
   let targets;
@@ -82,35 +81,57 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
   
   }
 
-
-
-
-
-    function SelEstacionReturn(idEstacion){
-    sessionStorage.setItem('idestacion', idEstacion);
-    $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-asistencia.php?idEstacion=' + idEstacion);
+  function SelEstacionReturn(idEstacion){
+  sessionStorage.setItem('idestacion', idEstacion);
+  $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-asistencia.php?idEstacion=' + idEstacion);
   }
 
 
-function ModalDetalleI(idPersonal,id,idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-incidencias.php?idAsistencia=' + id);  
-}  
-
-function ModalIncidencias(idPersonal,id,idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
-}
-
-function GuardarIncidencia(idAsistencia,idEstacion){
-
-var Comentario = $('#Comentario').val();
+  function ModalDetalleI(idPersonal,id,idEstacion){
+  $('#ModalIncidencias').modal('show');
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/biometrico/modal-detalle-incidencias-asistencia.php?idAsistencia=' + id);  
+  }  
  
-if(document.querySelector('input[name="CheckBox"]:checked')) {
-var incidencia = document.querySelector('input[name="CheckBox"]:checked').value;
-$('#bordercheck').css('border','');
-if(Comentario != ""){
-$('#Comentario').css('border','');
+
+  function ModalIncidencias(idPersonal,id,idEstacion){
+  $('#ModalIncidencias').modal('show');
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+  }
+
+
+ 
+  function btnBuscar(idEstacion){
+  
+  var Year = $('#Year').val();
+  var Mes = $('#Mes').val();
+
+  if(Year != ""){
+  $('#Year').css('border','');
+  if(Mes != ""){
+  $('#Mes').css('border','');
+
+  $('#ModalIncidencias').modal('hide');
+  $('#DivBusquedaReporte').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
+
+  }else{
+  $('#Mes').css('border','2px solid #A52525'); 
+  }
+  }else{
+  $('#Year').css('border','2px solid #A52525'); 
+  }
+
+  }
+
+
+
+  function GuardarIncidencia(idAsistencia,idPersonal,idEstacion){
+  var Comentario = $('#Comentario').val();
+
+  if(document.querySelector('input[name="CheckBox"]:checked')) {
+  var incidencia = document.querySelector('input[name="CheckBox"]:checked').value;
+  $('#bordercheck').css('border','');
+  if(Comentario != ""){
+  $('#Comentario').css('border','');
 
 alertify.confirm('',
 function(){
@@ -151,7 +172,7 @@ alertify.error('Error al crear la incidencia');
 
 },
 function(){
-}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar incidenia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar la incidencia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 }else{
 $('#Comentario').css('border','2px solid #A52525');    
@@ -162,7 +183,10 @@ $('#bordercheck').css('border','2px solid #A52525');
 
 }
 
-function EditarSaldoTMR(idAsistencia){
+
+
+ 
+function EditarSaldoTMR(idAsistencia,idPersonal,idEstacion){
 
 var SueldoDiaTMR = $('#SueldoDiaTMR').val();
 
@@ -191,7 +215,8 @@ success:  function (response) {
 if(response == 1){
 
 alertify.success('Se edito la incidencia');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+
 
 }else{
 $(".LoaderPage").hide();
@@ -209,9 +234,9 @@ function(){
 $('#SueldoDiaTMR').css('border','2px solid #A52525'); 
 }
 
-} 
+}
 
-function GuardarDoc(idPersonal,idAsistencia,idEstacion){
+function GuardarDoc(idAsistencia,idPersonal,idEstacion){
 var data = new FormData();
 var url = 'public/recursos-humanos/modelo/agregar-documento-incidencia.php';
 
@@ -231,7 +256,7 @@ $('#FechaFin').css('border','');
 data.append('Documento_file', Documento_file);
 data.append('idPersonal', idPersonal);
 data.append('idAsistencia', idAsistencia);
-data.append('idEstacion', idEstacion);
+data.append('idEstacion', idEstacion); 
 data.append('FechaInicio', FechaInicio);
 data.append('FechaFin', FechaFin);
 data.append('SueldoDiaI', SueldoDiaI);
@@ -244,56 +269,29 @@ data: data,
 processData: false,
 cache: false
 }).done(function(data){
+ 
+console.log(data)
 
 if(data == 1){
 alertify.success('Se agrego el documento');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
 SelEstacion(idEstacion)
-  
+ 
 }else{
 alertify.error('Error al agregar el documento');
 }
  
-}); 
+});
 
 }else{
 $('#FechaFin').css('border','2px solid #A52525'); 
 }
 }else{
-$('#Resultado').html('<div class="text-center text-danger"><small>El formato debe ser PDF</small></div>');
-}
-}
-//---------------------------------------------------------------------
-//---------------------------------------------------------------------
-function ModalReporte(idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-reporte-asistencia.php?idEstacion=' + idEstacion); 
-} 
- 
-function btnBuscar(idEstacion){ 
- 
-var Year = $('#Year').val();
-var Mes = $('#Mes').val();
-
-if(Year != ""){ 
-$('#Year').css('border','');
-if(Mes != ""){
-$('#Mes').css('border',''); 
-
-$('#ModalIncidencias').modal('hide');
-//$('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
-$('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia-v2.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes + '&Val=1');        
-
-
-
-}else{
-$('#Mes').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Year').css('border','2px solid #A52525'); 
+alertify.error('El formato debe ser PDF');
 }
 
-} 
+
+}
 
   </script>
   </head>
@@ -303,7 +301,7 @@ $('#Year').css('border','2px solid #A52525');
   
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
           
@@ -311,126 +309,96 @@ $('#Year').css('border','2px solid #A52525');
   <img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;">
   </div>
 
-    <ul class="list-unstyled components">
+  <ul class="list-unstyled components">
    
-    <li>
-    <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
-    <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
-    </a>
-    </li>
+  <li>
+  <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
+  <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
+  </a>
+  </li>
 
-    <li>
-    <a class="pointer" onclick="Regresar()">
-    <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
-    </a>
-    </li>
+  <li>
+  <a class="pointer" onclick="Regresar()">
+  <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
+  </a>
+  </li>
 
-    <li>
-    <a class="pointer" onclick="Configuracion()">
-    <i class="fa-solid fa-gear" aria-hidden="true" style="padding-right: 10px;"></i><b>Configuración</b>
-    </a>
-    </li>
- 
   <?php
 
-  $FInicio = date("Y").'-'.date("m").'-01';
-  $FTermino = date("Y-m-t", strtotime($FInicio));
-
-  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE numlista <= 9 OR numlista = 10 ORDER BY numlista ASC";
+  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE numlista <= 8 OR numlista = 10 ORDER BY numlista ASC";
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
   $id = $row_listaestacion['id'];
   $estacion = $row_listaestacion['localidad'];
 
 
-if($estacion == "Comodines"){
- $icon = "fa-solid fa-users";
+  if($estacion == "Comodines"){
+  $icon = "fa-solid fa-users";
 
-}else if($estacion == "Autolavado"){
- $icon = "fa-solid fa-car";
+  }else if($estacion == "Autolavado"){
+  $icon = "fa-solid fa-car";
 
-}else if($estacion == "Almacen"){
-$icon = "fa-sharp fa-solid fa-shop";
+  }else if($estacion == "Almacen"){
+  $icon = "fa-sharp fa-solid fa-shop";
 
-}else if($estacion == "Directivos"){
-$icon = " fa-solid fa-user-tie"; 
+  }else if($estacion == "Directivos"){
+  $icon = " fa-solid fa-user-tie"; 
 
-}else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
-$icon = "fa-solid fa-screwdriver-wrench";
+  }else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
+  $icon = "fa-solid fa-screwdriver-wrench";
 
-}else if($estacion == "Dirección de operaciones" ||
- $estacion == "Departamento Gestión" ||
- $estacion == "Departamento Jurídico" ||
- $estacion == "Departamento Mantenimiento" ||
- $estacion == "Departamento Sistemas"){
-   $icon = "fa-solid fa-briefcase"; 
+  }else if($estacion == "Dirección de operaciones" || $estacion == "Departamento Gestión" || $estacion == "Departamento Jurídico" || $estacion == "Departamento Mantenimiento" || $estacion == "Departamento Sistemas"){
+  $icon = "fa-solid fa-briefcase"; 
 
+  }else{
+  $icon = "fa-solid fa-gas-pump";    
+  }
 
-}else{
- $icon = "fa-solid fa-gas-pump";    
-}
-
-  if($id <> 8){
   echo '  
   <li>
-    <a class="pointer" onclick="SelEstacion('.$id.')">
-    <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
-    '.$estacion.'
-    </a>
+  <a class="pointer" onclick="SelEstacion('.$id.')">
+  <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+  '.$estacion.'
+  </a>
   </li>';
-}
-  
   }
   ?> 
-</ul>
-</nav>
+
+  </ul>
+  </nav>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
- <nav class="navbar navbar-expand navbar-light navbar-bg" >
+  <nav class="navbar navbar-expand navbar-light navbar-bg" >
   
-  <i class="fa-solid fa-bars menu-btn rounded pointer" 
-  id="sidebarCollapse"></i>
+  <i class="fa-solid fa-bars menu-btn rounded pointer" id="sidebarCollapse"></i>
 
-  <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Recursos humanos</a>
-  </div>
+  <div class="pointer"> <a class="text-dark" onclick="history.back()">Recursos humanos</a> </div>
  
-   
   <div class="navbar-collapse collapse">
-
   <div class="dropdown-divider"></div>
 
   <ul class="navbar-nav navbar-align">
-
   <li class="nav-item dropdown">
   <a class=" dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
   <i class="align-middle" data-feather="settings"></i>
   </a>
 
- 
   <a class="nav-link dropdown-toggle d-none d-sm-inline-block pointer" data-bs-toggle="dropdown">
-  
   <img src="<?=RUTA_IMG_ICONOS."usuarioBar.png";?>" class="avatar img-fluid rounded-circle"/>
-
-  <span class="text-dark" style="padding-left: 10px;">
-  <?=$session_nompuesto;?>  
-  </span>
+  <span class="text-dark" style="padding-left: 10px;"> <?=$session_nompuesto;?> </span>
   </a>
   
   <div class="dropdown-menu dropdown-menu-end">
   
   <div class="user-box">
-
   <div class="u-text">
   <p class="text-muted">Nombre de usuario:</p>
   <h4><?=$session_nomusuario;?></h4>
   </div>
-
   </div>
 
- 
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">
   <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
@@ -455,9 +423,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   </div> 
 
   </div>
-
-</div>
-
+  </div>
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalIncidencias" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

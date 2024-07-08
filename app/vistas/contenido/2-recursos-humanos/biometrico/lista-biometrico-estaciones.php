@@ -24,13 +24,12 @@ INNER JOIN op_rh_personal
 ON op_rh_personal_asistencia.id_personal = op_rh_personal.id
 WHERE op_rh_personal.id_estacion = '".$idEstacion."' 
 AND YEAR(op_rh_personal_asistencia.fecha) = '".$fecha_year."' 
-AND MONTH(op_rh_personal_asistencia.fecha) = 2 
+AND MONTH(op_rh_personal_asistencia.fecha) = '".$fecha_mes."' 
 ORDER BY op_rh_personal_asistencia.fecha DESC  ";
 
 $result_asistencia = mysqli_query($con, $sql_asistencia);
 $numero_asistencia = mysqli_num_rows($result_asistencia);
  
-
 //---------- VISUALIZACIONES PUESTOS ----------
 if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
 $ocultarbtn = "d-none";
@@ -98,11 +97,13 @@ $valConfiguracion = 1;
 
 <hr>
 </div>
-
+ 
 <?=$divisionTable?>
 
+<div id="DivBusquedaReporte" class="pt-0 mt-0">
+
   <div class="table-responsive">
-  <table id="tabla_biometrico_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .85em;" width="100%">
+  <table id="tabla_biometrico_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .8em;" width="100%">
 
   <thead class="title-table-bg">
 
@@ -112,13 +113,13 @@ $valConfiguracion = 1;
 
   <tr>
   <td class="text-center align-middle fw-bold">#</td>
-  <th class="align-middle">Nombre</th>
-  <th class="align-middle">Fecha</th>
-  <th class="align-middle">Sistema (Entrada)</th>
-  <th class="align-middle">Sistema (Salida)</th>
-  <th class="align-middle">Sensor (Entrada)</th>
-  <th class="align-middle">Sensor (Salida)</th>
-  <th class="align-middle">Detalle</th>
+  <th class="align-middle text-center">Nombre</th>
+  <th class="align-middle text-center">Fecha</th>
+  <th class="align-middle text-center">Sistema (Entrada)</th>
+  <th class="align-middle text-center">Sistema (Salida)</th>
+  <th class="align-middle text-center">Sensor (Entrada)</th>
+  <th class="align-middle text-center">Sensor (Salida)</th>
+  <th class="align-middle text-center">Detalle</th>
   <td class="text-center align-middle" width="24"><img src="<?=RUTA_IMG_ICONOS;?>incidencia-tb.png"></td>
   </tr>
   </thead>
@@ -237,10 +238,11 @@ $valConfiguracion = 1;
   $num++;
   }
 
-  }else{
-  echo "<tr><td colspan='11'><div class='text-secondary text-center p-2 fs-6 fw-light'>No se encontró información para mostrar </div></td></tr>"; 
   }
-  ?>
+  ?> 
+
   </tbody>
   </table>
+  </div>
+  
   </div>

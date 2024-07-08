@@ -415,49 +415,49 @@ $estacion = '
 </thead>
 <tbody class="bg-white">
 
-<tr>
-<th>Registro Patronal</th>
-<td>'.$registro.'</td>
+<tr >
+<th class="no-hover">Registro Patronal</th>
+<td class="no-hover">'.$registro.'</td>
 </tr>
 
 <tr>
-<th>Calle</th>
-<td>'.$calle.'</td>
+<th class="no-hover">Calle</th>
+<td class="no-hover">'.$calle.'</td>
 </tr>
 
 <tr>
-<th>Numero Ext.</th>
-<td>'.$exterior.'</td>
+<th class="no-hover">Numero Ext.</th>
+<td class="no-hover">'.$exterior.'</td>
 </tr>
 
 <tr>
-<th>Numero Int. </th>
-<td> S/N </td>
+<th class="no-hover">Numero Int. </th>
+<td class="no-hover"> S/N </td>
 </tr>
 
 <tr>
-<th>Colonia</th>
-<td>'.$colonia.'</td>
+<th class="no-hover">Colonia</th>
+<td class="no-hover">'.$colonia.'</td>
 </tr>
 
 <tr>
-<th>Codigo Postal</th>
-<td>'.$cp.'</td>
+<th class="no-hover">Codigo Postal</th>
+<td class="no-hover">'.$cp.'</td>
 </tr>
 
 <tr>
-<th>Estado</th>
-<td>'.$estado.'</td>
+<th class="no-hover">Estado</th>
+<td class="no-hover">'.$estado.'</td>
 </tr>
 
 <tr>
-<th>Municipio</th>
-<td>'.$municipio.'</td>
+<th class="no-hover">Municipio</th>
+<td class="no-hover">'.$municipio.'</td>
 </tr>
 
 <tr>
-<th>Numero de telefono</th>
-<td>'.$telefono.'</td>
+<th class="no-hover">Numero de telefono</th>
+<td class="no-hover">'.$telefono.'</td>
 </tr>
 
 

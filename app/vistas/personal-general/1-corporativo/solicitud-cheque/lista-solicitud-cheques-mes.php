@@ -39,7 +39,7 @@ $('[data-toggle="tooltip"]').tooltip();
 <table id="tabla_solicitud_cheque" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 
   <thead class="navbar-bg">
-
+ 
   <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>
   <?php

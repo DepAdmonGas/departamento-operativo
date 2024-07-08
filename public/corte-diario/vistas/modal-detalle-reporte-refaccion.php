@@ -2,7 +2,6 @@
 require('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
-$idRefaccion = $_GET['idRefaccion'];
 
 function Personal($idusuario,$con){
 $sql = "SELECT nombre FROM tb_usuarios WHERE id = '".$idusuario."' ";
@@ -11,7 +10,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $nombre = $row['nombre'];
 }
 return $nombre;
-}
+} 
 
 function Refaccion($idrefaccion,$con){
 
@@ -36,17 +35,14 @@ $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
-$idRefaccion = $row_lista['id_refaccion'];
+$idRefaccion = $row_lista['id'];
 $personal = Personal($row_lista['id_usuario'],$con);
 $fecha = FormatoFecha($row_lista['fecha']);
 $hora = date('g:i a', strtotime($row_lista['hora']));
-
 $Refaccion = Refaccion($idRefaccion,$con);
 
 $nomRefaccion = $Refaccion['nombre'];
 $imagen = $Refaccion['imagen'];
-
-$unidad = $row_lista['unidad'];
 $dispensario = $row_lista['dispensario'];
 $motivo = $row_lista['motivo'];
 }
@@ -54,63 +50,67 @@ $motivo = $row_lista['motivo'];
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Detalle del reporte</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
 <div class="modal-body">
 
 <div class="row">
-  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1">
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
     <h6 class="mb-1 text-secondary ">Personal:</h6>
-    <div class="mb-2"><?=$personal;?></div>
+    <div><?=$personal;?></div>
   </div>
 
 
-<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1">
+<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
     <h6 class="mb-1 text-secondary ">Fecha:</h6>
-    <div class="mb-2"><?=$fecha;?></div>
+    <div><?=$fecha;?></div>
   </div>
 
 
-<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1">
+<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mt-2">
     <h6 class="mb-1 text-secondary ">Hora:</h6>
-    <div ><?=$hora;?></div>
+    <div><?=$hora;?></div>
   </div>
 </div>
 
-<hr>
 
 <div class="row">
 
-  <div class="col-6">
+  <div class="col-6 mt-2">
       <h6 class="mb-1 text-secondary">Dispensario:</h6>
-    <div class="mb-1"><?=$dispensario;?></div>
+    <div><?=$dispensario;?></div>
   </div>
 
 
-  <div class="col-6">
+  <div class="col-6 mt-2">
     <h6 class="mb-1 text-secondary">Motivo:</h6>
-    <div class="mb-1"><?=$motivo;?></div>
+    <div><?=$motivo;?></div>
   </div>
 </div>
 
 <hr>
 
 
+  <div class="table-responsive">
+  <table class="custom-table mt-2" style="font-size: .8em;"width="100%">
 
-<h6 class="mb-1 text-secondary ">Refacciones:</h6>
+  <thead class="title-table-bg">
 
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .8em;">
-<thead class="tables-bg">
   <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">Imagen</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Refacción</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Unidad</th>
+  <th colspan="3" class="text-center align-middle tables-bg p-2">Refacciones</th>
+  </tr>
+  
+  <tr>
+  <td class="text-center align-middle fw-bold">Imagen</td>
+  <td class="text-center align-middle fw-bold">Refacción</td>
+  <td class="text-center align-middle fw-bold">Unidad</td>
   </tr>
 </thead> 
-<tbody>
+<tbody class="bg-light">
+
+<tbody class="bg-light">
 <?php
 $sql_detalle = "SELECT * FROM op_refacciones_reporte_detalle WHERE id_reporte = '".$idReporte."' ";
 $result_detalle = mysqli_query($con, $sql_detalle);
@@ -122,13 +122,13 @@ $idRefaccion = $row_detalle['id_refaccion'];
 $NomRefaccion = Refaccion($idRefaccion, $con);
 $unidad = $row_detalle['unidad'];
 echo '<tr>';
-echo '<td class="align-middle text-center"><img width="50px" src="archivos/'.$NomRefaccion['imagen'].'"></td>';
-echo '<td class="align-middle text-center">'.$NomRefaccion['nombre'].'</td>';
-echo '<td class="align-middle text-center">'.$unidad.'</td>';
+echo '<th class="align-middle text-center no-hover2"><img width="50px" src="archivos/'.$NomRefaccion['imagen'].'"></th>';
+echo '<td class="align-middle text-center no-hover2">'.$NomRefaccion['nombre'].'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$unidad.'</td>';
 echo '</tr>';
 }
 }else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='8' class='text-center text-secondary no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>

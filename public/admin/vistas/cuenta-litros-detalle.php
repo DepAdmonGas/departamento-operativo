@@ -1,10 +1,6 @@
   <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $sql_lista_cl = "SELECT 
 op_cuenta_litros.fecha,
 op_cuenta_litros.estatus,
@@ -12,10 +8,7 @@ tb_estaciones.nombre
 
 FROM op_cuenta_litros 
 INNER JOIN tb_estaciones ON op_cuenta_litros.id_estacion = tb_estaciones.id
-
 WHERE op_cuenta_litros.id_cuenta_litros = '".$GET_idCLitros."' ";
-
-
 $result_lista_cl = mysqli_query($con, $sql_lista_cl);
 $numero_lista_cl = mysqli_num_rows($result_lista_cl);
 while($row_lista_cl = mysqli_fetch_array($result_lista_cl, MYSQLI_ASSOC)){
@@ -83,51 +76,10 @@ $estatus = $row_lista_cl['estatus'];
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    
-    <div class="col-12">
-     <h5>Tabla de Descarga (Cuenta Litros) - <?=$nombreES?></h5>
-    </div>
-
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-
-  <div id="FormatoCuentaL"></div>
-
+  <div class="col-12" id="FormatoCuentaL"></div>
   </div>
   </div>
   </div>
-
-  </div>
-  </div>
-
-  </div>
-
-
-
-<div class="modal fade bd-example-modal-lg" id="ModalCL">
-<div class="modal-dialog">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModalCL"></div>
-</div>
-</div>
-</div>
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
