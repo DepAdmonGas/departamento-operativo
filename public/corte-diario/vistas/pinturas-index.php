@@ -42,8 +42,7 @@ require ('app/help.php');
     }
 
     function ListaPinturas() {
-      $('#ListaPinturas').load('public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + <?=$Session_IDEstacion?>);
-      //$('#ListaPinturas').load('public/corte-diario/vistas/lista-pedido-pinturas.php?idEstacion=' + idEstacion);
+      $('#ListaPinturas').load('public/corte-diario/vistas/lista-pedido-pinturas.php');
     }
 
     function NuevoPedido() {
@@ -159,13 +158,56 @@ require ('app/help.php');
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12" id="ListaPinturas"></div>
+        <div class="col-12">
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Comercializadora</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Pedido de Pinturas
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Pedido de pinturas
+              </h3>
+            </div>
+            <div class="col-2">
+              <div class="text-end">
+                <div class="dropdown d-inline ms-2">
+                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li onclick="NuevoPedido()">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Nuevo Pedido de Pinturas</a>
+                    </li>
+                    <li onclick="Reporte()">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-pencil"></i> Reporte de Pinturas</a>
+                    </li>
+                    <li onclick="Almacen()">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-brush"></i> Inventario de pinturas</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div id="ListaPinturas"></div>
     </div>
 
 
     <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content" id="ContenidoModal"></div>
+        <div class="modal-content" id="ContenidoModal">
+        </div>
       </div>
     </div>
 

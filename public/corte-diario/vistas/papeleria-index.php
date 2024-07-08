@@ -39,7 +39,7 @@ require ('app/help.php');
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
 
-      ListaPedido(<?=$Session_IDEstacion?>);
+      ListaPedido();
 
     });
 
@@ -47,9 +47,8 @@ require ('app/help.php');
       window.history.back();
     }
 
-    function ListaPedido(idEstacion) {
-      $('#ListaPedido').load('public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion);
-      //$('#ListaPedido').load('public/corte-diario/vistas/lista-pedido-papeleria.php');
+    function ListaPedido() {
+      $('#ListaPedido').load('public/corte-diario/vistas/lista-pedido-papeleria.php');
     }
 
     function NuevoPedido() {
@@ -314,7 +313,57 @@ require ('app/help.php');
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div id="ListaPedido" class="col-12"></div>
+      <div class="row">
+
+        <div class="col-12">
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Comercializadora</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Pedido de Papelería
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Pedido de Papelería
+              </h3>
+            </div>
+            <div class="col-2">
+              <div class="text-end">
+                <div class="dropdown d-inline ms-2">
+                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li onclick="NuevoPedido()">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Nuevo pedido de papelería</a>
+                    </li>
+                    <?php if ($session_idpuesto != 5) : ?>
+                      <li onclick="Reporte()">
+                        <a class="dropdown-item pointer"><i class="fa-solid fa-pencil"></i> Reporte de papelería</a>
+                      </li>
+                      <li onclick="Almacen()">
+                        <a class="dropdown-item pointer"><i class="fa-solid fa-warehouse"></i> Almacen de papelería</a>
+                      </li>
+                    <?php endif; ?>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <hr>
+
+      <div id="ListaPedido"></div>
+
     </div>
 
   </div>

@@ -32,14 +32,14 @@ function Personal($idusuario, $con)
 ?>
 
 <div class="modal-header">
-  <h5 class="modal-title">Detalle pedido pinturas</h5>
+  <h5 class="modal-title">Detalle pedido papelería</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
   <div class="table-responsive">
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
-      <thead class="tables-bg">
+      <thead class="navbar-bg">
         <tr>
           <th class="text-center align-middle tableStyle font-weight-bold">#</th>
           <th class=" text-center align-middle tableStyle font-weight-bold">Unidad</th>
@@ -122,7 +122,7 @@ function Personal($idusuario, $con)
               endif;
             endforeach;
             ?>
-          <thead class="tables-bg">
+          <thead class="navbar-bg">
             <tr>
               <th class="align-middle text-center"> NOMBRE Y FIRMA DEL ENCARGADO</th>
             </tr>
@@ -149,7 +149,7 @@ function Personal($idusuario, $con)
               endif;
             endforeach;
             ?>
-          <thead class="tables-bg">
+          <thead class="navbar-bg">
             <tr>
               <th class="align-middle text-center">NOMBRE Y FIRMA DE VOBO</th>
             </tr>
