@@ -124,7 +124,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'refacciones':
                 $ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
                 break;
-
+ 
             case 'refacciones-almacen':
                 $ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
                 break;
@@ -285,9 +285,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
 
-
-
-
             case 'recursos-humanos-vacaciones':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-index.php';
                 break;
@@ -299,7 +296,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'nivel-explosividad':
                 $ruta_elegida = 'public/corte-diario/vistas/nivel-explosividad-index.php';
                 break;
-
+ 
             //-----------------------------------------------------------------------------------------
 
             case 'orden-mantenimiento':
@@ -385,7 +382,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'almacen':
                 $ruta_elegida = 'public/corte-diario/vistas/almacen-index.php';
                 break;
-
+ 
             case 'pedidos':
                 $ruta_elegida = 'public/corte-diario/vistas/pedidos-index.php';
                 break;
