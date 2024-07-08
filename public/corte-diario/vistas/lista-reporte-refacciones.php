@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require('../../../app/help.php'); 
 
 $sql_lista = "SELECT * FROM op_refacciones_reporte WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY id ASC";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -10,7 +10,7 @@ $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
 $estacion = $row_listaestacion['nombre'];
 }
-
+ 
 function Personal($idusuario,$con){
 $sql = "SELECT nombre FROM tb_usuarios WHERE id = '".$idusuario."' ";
 $result = mysqli_query($con, $sql);
@@ -34,20 +34,22 @@ return $nombre;
 ?>
  
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead class="tables-bg">
-  <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Personal</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Motivo</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Dispensario</th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-    <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
-  </tr>
+<table id="tabla_refacciones" class="custom-table"  style="font-size: .9em;" width="100%">
+
+<thead class="title-table-bg">
+<tr>
+<th class="text-center align-middle">#</th>
+<th class="text-center align-middle">Personal</th>
+<th class="text-center align-middle">Fecha y hora</th>
+<th class="text-center align-middle">Motivo</th>
+<th class="text-center align-middle">Dispensario</th>
+<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
+<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
+<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+</tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-white">
 <?php 
 if ($numero_lista > 0) {
 
@@ -56,24 +58,23 @@ $id = $row_lista['id'];
 $status = $row_lista['status'];
 
 if($status == 0){
-$tableColor = "table-warning";
+$tableColor = 'style="background-color: #fcfcda"';
 }else{
-$tableColor = "";
+$tableColor = 'style="background-color: #b0f2c2"';
 }
-echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
+
+echo '<tr '.$tableColor.'>';
+echo '<th class="align-middle text-center"><b>'.$id.'</b></th>';
 echo '<td class="align-middle text-center">'.Personal($row_lista['id_usuario'],$con).'</td>';
-echo '<td class="align-middle text-center">'.FormatoFecha($row_lista['fecha']).', '.date('g:i a', strtotime($row_lista['hora'])).'</td>';
+echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date('g:i a', strtotime($row_lista['hora'])).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['motivo'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['dispensario'].'</td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleReporte('.$id.','.$idRefaccion.')"></td>';
+echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleReporte('.$id.')"></td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarReporte('.$id.')"></td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarReporte('.$id.')"></td>';
 echo '</tr>';
-
+  
 }
-}else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
 </tbody>

@@ -1,22 +1,27 @@
 <?php
 require('../../../app/help.php');
-
+ 
 $aleatorio = uniqid();
+if (isset($_FILES['Archivo_file'])) {
 $NoDoc  =   $_FILES['Archivo_file']['name'];
 $UpDoc = "../../../archivos/mantenimiento/".$aleatorio."-".$NoDoc;
 $NomDoc = $aleatorio."-".$NoDoc;
-
+}
+    
+if (isset($_FILES['Archivo_file'])){
 if(move_uploaded_file($_FILES['Archivo_file']['tmp_name'], $UpDoc)){
-
+    
 $sql_edit0 = "UPDATE op_mantenimiento_preventivo SET 
 orden_servicio = '".$NomDoc."'
- WHERE id = '".$_POST['idReporte']."' ";
+WHERE id = '".$_POST['idReporte']."' ";
+
 if(mysqli_query($con, $sql_edit0)){
-echo 1;
+
 }else{
 echo 0;
-}
+}   
 
+}
 }
 
 $sql_edit = "UPDATE op_mantenimiento_preventivo SET 
@@ -33,6 +38,7 @@ echo 1;
 }else{
 echo 0;
 }
+
 //------------------
 mysqli_close($con);
 //------------------   

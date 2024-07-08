@@ -6,8 +6,7 @@ $idEstacion = $_GET['idEstacion'];
 
       <div class="modal-header">
         <h5 class="modal-title">Agregar factura</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>      </div>
 
       <div class="modal-body">
 
@@ -16,7 +15,7 @@ $idEstacion = $_GET['idEstacion'];
 
         <div class="mb-1 mt-2 text-secondary">Periodo:</div>
         <select class="form-select" id="Periodo">
-          <option value="">Selecciona</option>
+          <option value="">Selecciona una opción...</option>
           <option value="Primer periodo">Primer periodo</option>
           <option value="Segundo periodo">Segundo periodo</option>
         </select>

@@ -22,22 +22,16 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 ?>
 <div class="modal-header">
-<h5 class="modal-title">REFACCIONES</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
+<h5 class="modal-title">Refacciones</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
-<script type="text/javascript">
-$('.selectize').selectize({
-sortField: 'text'
-});
-</script>
 
 <div class="modal-body">
  
   <label class="text-secondary">* Refacción</label>
-  <select class="selectize" placeholder="Refacciones" id="Concepto">
-    <option value=""></option>
+  <select class=" form-select" placeholder="Refacciones" id="Concepto">
+  <option value=""></option>
   <?php
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
   echo '<option value="'.$row_lista['id'].'">'.$row_lista['nombre'].' ('.$row_lista['estado_r'].')</option>';
@@ -53,6 +47,13 @@ sortField: 'text'
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-primary rounded-0" onclick="AgregarMaterial(<?=$idPedido;?>)">Agregar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+         <span class="btn-label2"><i class="fa-regular fa-circle-xmark"></i></span>Cancelar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarMaterial(<?=$idPedido;?>)">
+    <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
+
+
 </div> 

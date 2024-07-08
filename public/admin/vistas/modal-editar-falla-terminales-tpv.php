@@ -38,10 +38,10 @@ $factura = $row['factura'];
 
 <div class="modal-header">
 <h5 class="modal-title">Falla TPV: <?=$tpv;?>, No DE SERIE: <?=$noserie;?></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<div class="modal-body">
 
+<div class="modal-body">
 
 <div class="mb-1 text-secondary">Falla:</div>
 <textarea class="form-control rounded-0" id="Falla"><?=$falla;?></textarea>
@@ -77,7 +77,13 @@ $factura = $row['factura'];
           if($factura == ""){
           echo "S/I";
           }else{
-          echo '<a href="../archivos/'.$factura.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
+          echo '
+          
+          
+        <a href="'.RUTA_ARCHIVOS.''.$factura.'" download>
+        <button type="button" class="btn btn-labeled2 btn-success">
+        <span class="btn-label2"><i class="fa-solid fa-file-arrow-down"></i></span>Descargar</button>
+        </a>';
           }
           }else{
           echo '<input class="form-control" type="file" id="Factura">';
@@ -107,9 +113,14 @@ $factura = $row['factura'];
 
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">Cancelar</button>
+
+        
+	 <button type="button" class="btn btn-labeled2 btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">
+         <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
       	<?php if($status == 0){ ?>
-        <button type="button" class="btn btn-primary" onclick="FinalizarFalla(<?=$idFalla;?>,<?=$idTPV;?>,<?=$idEstacion;?>)">Finalizar</button>
+            <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarFalla(<?=$idFalla;?>,<?=$idTPV;?>,<?=$idEstacion;?>)">
+         <span class="btn-label2"><i class="fa-solid fa-check"></i></span>Finalizar</button>
     	<?php } ?>
       </div>
 

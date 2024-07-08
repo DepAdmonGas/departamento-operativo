@@ -2,11 +2,11 @@
 require('app/help.php');
 $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,0);
 
-if($Session_IDEstacion == 2){
+if($Session_IDEstacion == 2){ 
 $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
 }
 
-?>
+?> 
 
 <html lang="es">
   <head>
@@ -101,7 +101,11 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
 
   $('#ModalIncidencias').modal('hide');
   $('#DivBusquedaReporte').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
-  //$('#DivBusquedaReporte').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
+
+  if(idEstacion == 2){
+  $('#ListaAsistenciaAutolavado').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + 9 + '&Year=' + Year + '&Mes=' + Mes);
+  }
+
 
  
   }else{
@@ -116,19 +120,26 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
   function SelEstacionReturn(idEstacion){
   sessionStorage.setItem('idestacion', idEstacion);
   SelEstacion(idEstacion)
+
+  if(idEstacion == 2){
+  SelEstacion(9)
+
   }
- 
+
+  }
+
   function ModalDetalleI(idPersonal,id,idEstacion){
   $('#ModalIncidencias').modal('show');
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-incidencias.php?idAsistencia=' + id);  
-  }
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/biometrico/modal-detalle-incidencias-asistencia.php?idAsistencia=' + id);  
+  }  
+ 
 
   function ModalIncidencias(idPersonal,id,idEstacion){
   $('#ModalIncidencias').modal('show');
   $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
   }
-
-  function GuardarIncidencia(idAsistencia,idEstacion){
+ 
+  function GuardarIncidencia(idAsistencia,idPersonal,idEstacion){
   var Comentario = $('#Comentario').val();
 
   if(document.querySelector('input[name="CheckBox"]:checked')) {
@@ -175,7 +186,7 @@ alertify.error('Error al crear la incidencia');
 
 },
 function(){
-}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar incidenia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar la incidencia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 }else{
 $('#Comentario').css('border','2px solid #A52525');    
@@ -185,8 +196,8 @@ $('#bordercheck').css('border','2px solid #A52525');
 }
 
 }
-
-function EditarSaldoTMR(idAsistencia){
+ 
+function EditarSaldoTMR(idAsistencia,idPersonal,idEstacion){
 
 var SueldoDiaTMR = $('#SueldoDiaTMR').val();
 
@@ -215,7 +226,8 @@ success:  function (response) {
 if(response == 1){
 
 alertify.success('Se edito la incidencia');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+
 
 }else{
 $(".LoaderPage").hide();
@@ -235,7 +247,7 @@ $('#SueldoDiaTMR').css('border','2px solid #A52525');
 
 }
 
-function GuardarDoc(idPersonal,idAsistencia,idEstacion){
+function GuardarDoc(idAsistencia,idPersonal,idEstacion){
 var data = new FormData();
 var url = 'public/recursos-humanos/modelo/agregar-documento-incidencia.php';
 
@@ -255,7 +267,7 @@ $('#FechaFin').css('border','');
 data.append('Documento_file', Documento_file);
 data.append('idPersonal', idPersonal);
 data.append('idAsistencia', idAsistencia);
-data.append('idEstacion', idEstacion);
+data.append('idEstacion', idEstacion); 
 data.append('FechaInicio', FechaInicio);
 data.append('FechaFin', FechaFin);
 data.append('SueldoDiaI', SueldoDiaI);
@@ -269,9 +281,11 @@ processData: false,
 cache: false
 }).done(function(data){
  
+console.log(data)
+ 
 if(data == 1){
 alertify.success('Se agrego el documento');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
 SelEstacion(idEstacion)
  
 }else{
@@ -284,7 +298,7 @@ alertify.error('Error al agregar el documento');
 $('#FechaFin').css('border','2px solid #A52525'); 
 }
 }else{
-$('#Resultado').html('<div class="text-center text-danger"><small>El formato debe ser PDF</small></div>');
+alertify.error('El formato debe ser PDF');
 }
 
 
@@ -302,8 +316,8 @@ $('#Resultado').html('<div class="text-center text-danger"><small>El formato deb
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row"> 
-    <div class="col-12" id="ListaAsistencia"></div> 
-    <div class="col-12" id="ListaAsistenciaAutolavado"></div> 
+  <div class="col-12" id="ListaAsistencia"></div> 
+  <div class="col-12" id="ListaAsistenciaAutolavado"></div> 
   </div>
   </div>
   </div>
@@ -316,6 +330,14 @@ $('#Resultado').html('<div class="text-center text-danger"><small>El formato deb
   </div>
   </div>
 
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalIncidenciasR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModalR"></div>
+  </div>
+  </div>
+
+  
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>

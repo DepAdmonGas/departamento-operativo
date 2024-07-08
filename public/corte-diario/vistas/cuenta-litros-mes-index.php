@@ -1,11 +1,8 @@
    <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-     
+  
 ?>   
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -28,12 +25,6 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-  </style> 
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -41,111 +32,104 @@ header("Location:".PORTAL."");
   SelEstacionLts(<?=$Session_IDEstacion?>,<?=$GET_idYear?>,<?=$GET_idMes?>)
   }); 
 
- 
-  function Regresar(){
-  window.history.back();
-  }
- 
-  
   function SelEstacionLts(idEstacion,year,mes){
-    $('#ListaCuentaLts').html('<div class="text-center"> <img width="50" src="../../imgs/iconos/load-img.gif"></div>'); 
-    $('#ListaCuentaLts').load('../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);
+  $('#ListaCuentaLts').html('<div class="text-center"> <img width="50" src="../../imgs/iconos/load-img.gif"></div>'); 
+  $('#ListaCuentaLts').load('../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);
   }
-   
 
   //---------- FORMULARIO EDITAR CUENTA LITROS ----------
   function EditarCL(idCuentaLitros){
   window.location.href = "../../cuenta-litros-formato/" + idCuentaLitros; 
   }
 
-
-     //---------- MODAL NUEVO CUENTA LITROS ----------
+  //---------- MODAL NUEVO CUENTA LITROS ----------
   function DetalleCL(idCuentaLitros){
   window.location.href = "../../cuenta-litros-detalle/" + idCuentaLitros;  
   }
 
-
-
   //---------- FORMULARIO AGREGAR CUENTA LITROS ----------
   function NuevoCuentaLitros(idEstacion,year,mes){
 
-    var parametros = {
-    "idEstacion" : idEstacion,
-    "year" : year,
-    "mes" : mes
-    };
+  var parametros = {
+  "idEstacion" : idEstacion,
+  "year" : year,
+  "mes" : mes
+  };
 
-    $.ajax({   
-     data:  parametros,
-     url:   '../../public/admin/modelo/agregar-formato-cuenta-litros.php',
-     type:  'POST',
-     beforeSend: function() { 
+  $.ajax({   
+  data:  parametros,
+  url:   '../../public/admin/modelo/agregar-formato-cuenta-litros.php',
+  type:  'POST',
+  beforeSend: function() { 
      
-     },  
-     complete: function(){
+  },  
+  complete: function(){
     
-     },
-     success:  function (response) {
+  },
+  success:  function (response) {
  
-    if(response != 0){
-    window.location.href = "../../cuenta-litros-formato/" + response; 
-    }
+  if(response != 0){
+  window.location.href = "../../cuenta-litros-formato/" + response; 
+  }
  
-     } 
-     });
- 
+  } 
+  });
  
   }
 
 
-    //---------- ELIMINAR CUENTA LITROS REGISTRO (SERVER) ----------
+  //---------- ELIMINAR CUENTA LITROS REGISTRO (SERVER) ----------
   function EliminarCL(idCuentaLitros,idEstacion,year,mes){
 
-   var parametros = {
+  var parametros = {
   "idCuentaLitros" : idCuentaLitros
-   };
-
+  };
 
   alertify.confirm('',
   function(){
 
-    $.ajax({
-    data:  parametros,    
-    url:   '../../public/admin/modelo/eliminar-cuenta-litros-registro.php',
-    type:  'post',
-    beforeSend: function() {
-    }, 
-    complete: function(){
+  $.ajax({
+  data:  parametros,    
+  url:   '../../public/admin/modelo/eliminar-cuenta-litros-registro.php',
+  type:  'post',
+  beforeSend: function() {
+    
+  }, 
+  complete: function(){
  
-    },
-    success:  function (response) {
+  },
+  success:  function (response) {
 
-    if (response == 1) {
-    alertify.success('Registro eliminado exitosamente.')
-    SelEstacionLts(idEstacion,year,mes)
+  if (response == 1) {
+  alertify.success('Registro eliminado exitosamente.')
+  SelEstacionLts(idEstacion,year,mes)
 
-    }else{
-     alertify.error('Error al eliminar el registro');  
-    }
+  }else{
+  alertify.error('Error al eliminar el registro');  
+  }
 
-    }
-    });
+  }
+  });
 
   },
   function(){
 
   }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el registro seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
-
-
   }
+
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head> 
  
-<body> 
-
-<div class="LoaderPage"></div>
+  <body> 
+  <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -154,56 +138,12 @@ header("Location:".PORTAL."");
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-11">
-
-     <h5>Cuenta Litros, <?=nombremes($GET_idMes);?> <?=$GET_idYear;?></h5>
-     
-    </div>
-
-
-    <div class="col-1 mb-0">
-    <img src="<?=RUTA_IMG_ICONOS;?>agregar.png" class="float-end pointer" onclick="NuevoCuentaLitros(<?=$Session_IDEstacion?>,<?=$GET_idYear?>,<?=$GET_idMes?>)">
-    </div> 
-
-    </div>
-
-    </div>
-    </div>
-
-  <hr> 
-
-    <div id="ListaCuentaLts" class="cardAG"></div>
-
-  </div>
-  </div>
-  </div>
-
+  <div class="col-12" id="ListaCuentaLts"></div>
   </div>
   </div>
 
   </div>
 
-
-  
-
-<div class="modal fade bd-example-modal-xl" id="ModalCL">
-<div class="modal-dialog">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModalCL"></div>
-</div>
-</div>
-</div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

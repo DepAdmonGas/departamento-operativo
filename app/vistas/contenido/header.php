@@ -28,10 +28,5 @@ include 'app/help.php';
   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 </head>
 
-<script type="text/javascript">
 
-  $(document).ready(function ($) {
-    $(".LoaderPage").fadeOut("slow");
 
-  });
-</script>

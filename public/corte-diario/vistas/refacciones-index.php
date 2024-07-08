@@ -1,11 +1,8 @@
- <?php
+<?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,34 +17,49 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
+  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  
- ListaRefacciones();
+  ListaRefacciones();
  
   }); 
 
-  function Regresar(){
-   window.history.back();
-  } 
 
-  function ListaRefacciones(){
-  $('#ListaRefacciones').load('public/corte-diario/vistas/lista-reporte-refacciones.php');
-  } 
+  function ListaRefacciones() {
+  let referencia, targets;
+  targets = [5, 6, 7];
+
+  $('#ListaRefacciones').load('public/corte-diario/vistas/lista-reporte-refacciones.php', function() {
+  $('#tabla_refacciones').DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [25, 50, 75, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
+  }
+
+
 
   function Agregar(){
-
+ 
     $.ajax({
     url:   'public/corte-diario/modelo/crear-reporte-refacciones.php',
     type:  'post',
@@ -65,7 +77,7 @@ header("Location:".PORTAL."");
 
     $('#Modal').modal('show');  
     $('#ContenidoModal').load('public/corte-diario/vistas/modal-reporte-refacciones.php?idReporte=' + response);
-
+ 
     }
  
     }
@@ -89,11 +101,11 @@ window.location.href = "refacciones-almacen";
     $('#Hora').css('border','');
 
     var parametros = {
-  "idReporte" : idReporte,
-  "Fecha" : Fecha,
-  "Hora" : Hora,
-  "Dispensario" : Dispensario,
-  "Motivo" : Motivo
+   "idReporte" : idReporte,
+    "Fecha" : Fecha,
+    "Hora" : Hora,
+    "Dispensario" : Dispensario,
+    "Motivo" : Motivo
     };
 
     $.ajax({
@@ -109,7 +121,8 @@ window.location.href = "refacciones-almacen";
 
     if (response == 1) {
     $('#ContenidoModal').load('public/corte-diario/vistas/modal-reporte-refacciones.php?idReporte=' + idReporte);  
-    ListaRefacciones()     
+    ListaRefacciones()
+    alertify.success('Reporte actualizado exitosamente.');     
     }else if(response == 0){
       alertify.error('Error al crear el reporte');
     }else if(response == 2){
@@ -259,9 +272,9 @@ alertify.confirm('',
 
     }
 
-    function ModalDetalleReporte(id,idRefaccion){      
+    function ModalDetalleReporte(id){      
     $('#Modal').modal('show');  
-    $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-reporte-refaccion.php?idReporte=' + id + '&idRefaccion=' + idRefaccion);
+    $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-reporte-refaccion.php?idReporte=' + id);
     } 
  
    function Transaccion(){
@@ -281,65 +294,62 @@ alertify.confirm('',
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Almacén</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Refacciones</li>
+  </ol>
+  </div>
+ 
+  <div class="row"> 
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Refacciones</h3> </div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">  
 
-    <div class="row">
-    <div class="col-7">
+  <div class="text-end">
+  <div class="dropdown d-inline ms-2 <?=$ocultarbtn?>">
+  <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-screwdriver-wrench"></i></span>
+  </button>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-
-    <h5>Refacciones</h5>
-
-    </div>
-
-    </div>
-
-    </div>
-
-
-  <div class="col-5">
-
-  <img class="float-end pointer ms-2" src="<?=RUTA_IMG_ICONOS;?>agregar.png"  onclick="Agregar()">
-  <img class="float-end pointer ms-2" src="<?=RUTA_IMG_ICONOS;?>almacen-tb.png"  onclick="Almacen()">
-  <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>aleatorio.png"  onclick="Transaccion()">
-
+  <ul class="dropdown-menu">
+  <li onclick="Agregar()"><a class="dropdown-item pointer"> <i class="fa-solid fa-plus"></i> Agregar Refacción</a></li>
+  <li onclick="Almacen()"><a class="dropdown-item pointer"> <i class="fa-solid fa-toolbox"></i> Refacciones en Almacén</a></li>
+  <li onclick="Transaccion()"><a class="dropdown-item pointer"> <i class="fa-solid fa-shuffle"></i> Transacción de Refacciones</a></li>
+  </ul>
+  </div>
   </div>
 
   </div>
-
+  </div>
+  
   <hr>
+  </div>
 
-  
-  <div id="ListaRefacciones"></div>
-  
-
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="ListaRefacciones"></div>
 
   </div>
   </div>
-
+  </div>
   </div>
 
 
-<div class="modal" id="Modal">
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>    
-    </div>
+  <div class="modal-content" id="ContenidoModal">
   </div>
-</div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

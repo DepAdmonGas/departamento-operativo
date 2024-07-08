@@ -17,43 +17,44 @@ $diff = $date1->diff($date2);
 $Todias = $diff->days;
 
 function Incidencia($idAsistencia, $con){
-
-$sql_incidencia = "SELECT * FROM op_rh_personal_asistencia_incidencia WHERE id_asistencia = '".$idAsistencia."' LIMIT 1 ";
-$result_incidencia = mysqli_query($con, $sql_incidencia);
-$numero_incidencia = mysqli_num_rows($result_incidencia);
-if ($numero_incidencia > 0) {
-while($row_incidencia = mysqli_fetch_array($result_incidencia, MYSQLI_ASSOC)){
-$fecha = $row_incidencia['fecha'];  
-$incidencia = $row_incidencia['incidencia']; 
-$comentario = $row_incidencia['comentario']; 
-$documento = $row_incidencia['documento'];  
-$estado = $row_incidencia['estado'];
+    
+  $sql_incidencia = "SELECT * FROM op_rh_personal_asistencia_incidencia WHERE id_asistencia = '".$idAsistencia."' LIMIT 1 ";
+  $result_incidencia = mysqli_query($con, $sql_incidencia);
+  $numero_incidencia = mysqli_num_rows($result_incidencia);
+  
+  if ($numero_incidencia > 0) {
+  while($row_incidencia = mysqli_fetch_array($result_incidencia, MYSQLI_ASSOC)){
+  $fecha = $row_incidencia['fecha'];  
+  $incidencia = $row_incidencia['incidencia']; 
+  $comentario = $row_incidencia['comentario']; 
+  $documento = $row_incidencia['documento'];  
+  $estado = $row_incidencia['estado'];
+  
+  
+  $return = array (
+  "fecha" => $fecha,
+  "incidencia" => $incidencia,
+  "comentario" => $comentario,
+  "documento" => $documento,
+  "estado" => $estado,
+  "resultado" => 1
+  ); 
+  }
+  
+  }else{
+  $return = array (
+  "fecha" => "",
+  "incidencia" => "",
+  "comentario" => "",
+  "documento" => "",
+  "estado" => "",
+  "resultado" => 0
+  ); 
+  }
+  
+  return $return;
 }
 
-$return = array (
-"fecha" => $fecha,
-"incidencia" => $incidencia,
-"comentario" => $comentario,
-"documento" => $documento,
-"estado" => $estado,
-"resultado" => 1
-); 
-
-}else{
-
-$return = array (
-"fecha" => $fecha,
-"incidencia" => $incidencia,
-"comentario" => $comentario,
-"documento" => $documento,
-"estado" => $estado,   
-"resultado" => 0 
-); 
-
-}
-
-return $return;
-}
 
 $incidencia = Incidencia($idIncidencia, $con);
 
@@ -105,7 +106,7 @@ $incidencia = Incidencia($idIncidencia, $con);
     }
 
     function Retardo($idEmpresa,$con){
-    $sql_retardo = "SELECT retardo FROM op_rh_retardo_incidencia ";
+    $sql_retardo = "SELECT retardo FROM op_rh_localidades_retardo_incidencia ";
     $result_retardo = mysqli_query($con, $sql_retardo);
     $numero_retardo = mysqli_num_rows($result_retardo);  
     while($row_retardo = mysqli_fetch_array($result_retardo, MYSQLI_ASSOC)){
@@ -115,7 +116,7 @@ $incidencia = Incidencia($idIncidencia, $con);
     }
 
     function Incidencias($idEmpresa,$con){
-    $sql_incidencia = "SELECT incidencia FROM op_rh_retardo_incidencia ";
+    $sql_incidencia = "SELECT incidencia FROM op_rh_localidades_retardo_incidencia ";
     $result_incidencia = mysqli_query($con, $sql_incidencia);
     $numero_incidencia = mysqli_num_rows($result_incidencia);  
     while($row_incidencia = mysqli_fetch_array($result_incidencia, MYSQLI_ASSOC)){
@@ -144,8 +145,8 @@ if(ValidaAsistencia($idPersonal,$fecha,$con) == 0){
 $diaFecha = nombreDia($fecha);
 $idAsistencia = idAsistencia($con);
 $HentradaHsalida = HentradaHsalida($idPersonal,$diaFecha,$con); 
-$retardo = Retardo($idEmpresa,$con);
-$incidencias = Incidencias($idEmpresa,$con);
+$retardo = Retardo($idEstacion,$con);
+$incidencias = Incidencias($idEstacion,$con);
 $Salario = Salario($idPersonal,$con);
 
 if($HentradaHsalida['horaentrada'] == "00:00:00" && $HentradaHsalida['horasalida'] == "00:00:00"){
@@ -182,22 +183,6 @@ $SueldoDia = $_POST['SueldoDiaI'];
  '".$Salario."')";
  if(mysqli_query($con, $sql_insert)){
  
-
-$sql_insert1 = "INSERT INTO emp_personal_asistencia_incidencia (
-id_asistencia,
-incidencia,
-comentario,
-documento,
-estado
-) 
-VALUES ('".$idAsistencia."', '".$incidencia['incidencia']."', '".$incidencia['comentario']."', '".$NombreDoc."', 1)";
-
-if(mysqli_query($con, $sql_insert1)) 
-{
-
-}
-
-
 }else{
 $resultado = 0;
 }     

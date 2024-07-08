@@ -10,12 +10,11 @@ while($row_lista_f = mysqli_fetch_array($result_lista_f, MYSQLI_ASSOC)){
 $fecha = $row_lista_f['fecha']; 
 }
 
-
 if("2024-02-20" < $fecha){
-  $ocultarInfo = "d-none";
+$ocultarInfo = "d-none";
   
 }else{
-  $ocultarInfo = "";
+$ocultarInfo = "";
 }
    
 
@@ -69,6 +68,8 @@ $where = "AND producto = '".$producto."' ";
 $sql2 = "SELECT $select FROM op_formato_precios_detalle_c WHERE id_precio = '".$idPrecio."' $where ";
 $result2 = mysqli_query($con, $sql2);
 $numero2 = mysqli_num_rows($result2);
+$valorprecio = 0;
+
 while($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)){
 
 $valorprecio = $row2['valorprecio'];
@@ -100,6 +101,7 @@ $detalle = "Puebla";
 $sql2 = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$idPrecio."' AND detalle = '".$detalle."' ";
 $result2 = mysqli_query($con, $sql2);
 $numero2 = mysqli_num_rows($result2);
+$valorprecio = 0;
 
 while($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)){
 $valorprecio = $row2['precio'];
@@ -289,6 +291,14 @@ $DiferenciaD8 = "0.00";
 $DiferenciaD9 = $PrecioD9 - $PrecioD1;
 $DiferenciaD10 = $PrecioD10 - $PrecioD1;
 
+$tdS2 = "";
+$tdS5 = "";
+
+$tdP2 = "";
+$tdP5 = "";
+
+$tdD2  = "";
+$tdD5  = "";
 
 //---------- PRECIOS SUPER (COLOR) ----------
 if($CheckS1 == 1){
@@ -479,7 +489,38 @@ if("2024-02-20" < $fecha){
   $no10 = "10";
 }
 
+$disableS1 = "";
+$disableS2 = "";
+$disableS3 = "";
+$disableS4 = "";
+$disableS5 = "";
+$disableS6 = "";
+$disableS7 = "";
+$disableS8 = "";
+$disableS9 = "";
+$disableS10 = "";
 
+$disableP1 = "";
+$disableP2 = "";
+$disableP3 = "";
+$disableP4 = "";
+$disableP5 = "";
+$disableP6 = "";
+$disableP7 = "";
+$disableP8 = "";
+$disableP9 = "";
+$disableP10 = "";
+
+$disableD1 = "";
+$disableD2 = "";
+$disableD3 = "";
+$disableD4 = "";
+$disableD5 = "";
+$disableD6 = "";
+$disableD7 = "";
+$disableD8 = "";
+$disableD9 = "";
+$disableD10 = "";
 
 //---------- PRECIOS SUPER ----------
 if($Min1 == $PrecioS1){
@@ -623,29 +664,30 @@ $disableD10 = "d-none";
 ?>
 
 
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
 
+<thead class="title-table-bg">
 
-<div class="border p-3 mb-0">
+<tr class="tables-bg" >
+<th class="align-middle text-center" colspan="9">REPORTE DE PRECIOS</th> 
+</tr>
 
-<h6>Reporte precios </h6>
-<hr>
+<tr>
+<td class="align-middle text-center fw-bold" width="30px">#</td> 
+<th class="align-middle text-center">Modalidad</th> 
+<th class="align-middle text-center">Terminal</th>  
+<th class="align-middle text-center">Producto</th>  
+<th class="align-middle text-center" width="100px">Precio</th>  
+<th class="align-middle text-center"width="100px" >Diferencia vs Pemex</th> 
+<th class="align-middle text-center">Comercializa</th>  
+<th class="align-middle text-center">Distribuye</th>
+<td class="align-middle text-center <?=$ocultarTH?>" width="15px"><img src="<?=RUTA_IMG_ICONOS?>precio-bajo.png"></td>
+</tr>
 
-<div class="table-responsive align-middle">
-  <table class="table table-sm table-bordered mb-0" style="font-size: .85em; width: 100%;">
-  <thead class="tables-bg">
-    <tr>
-      <th class="align-middle text-center p-2" width="30px">#</th> 
-      <th class="align-middle text-center p-2">Modalidad</th> 
-      <th class="align-middle text-center p-2">Terminal</th>  
-      <th class="align-middle text-center p-2">Producto</th>  
-      <th class="align-middle text-center p-2" width="100px">Precio</th>  
-      <th class="align-middle text-center p-2"width="100px" >Diferencia vs Pemex</th> 
-      <th class="align-middle text-center p-2">Comercializa</th>  
-      <th class="align-middle text-center p-2">Distribuye</th>
-      <th class="align-middle text-center p-2 <?=$ocultarTH?>" width="15px"><img src="<?=RUTA_IMG_ICONOS?>precio-bajo.png"></th>
-    </tr>
-  </thead>
-  <tbody>
+</thead>
+
+<tbody class="bg-white">
 
 <!---------- PRECIOS SUPER ---------->
 <tr class="text-center align-middle" id="Super1" style="<?=$tdS1;?>">

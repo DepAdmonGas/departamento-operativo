@@ -1,83 +1,43 @@
-<?php
-require ('app/help.php');
-function Estacion($idEstacion, $con)
-{
-    $sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '" . $idEstacion . "' ";
-    $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-    while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
-        $estacion = $row_listaestacion['localidad'];
-    }
-    return $estacion;
-}
-function Responsable($idUsuario, $con)
-{
-    $sql_usuario = "SELECT 
-tb_usuarios.nombre AS nombreUSU,
-tb_estaciones.nombre AS nombrebreES
-FROM tb_usuarios
-INNER JOIN tb_estaciones
-on tb_usuarios.id_gas = tb_estaciones.id
-WHERE tb_usuarios.id = '" . $idUsuario . "'";
+  <?php
+  require ('app/help.php');
 
-    $result_usuario = mysqli_query($con, $sql_usuario);
-    while ($row_usuario = mysqli_fetch_array($result_usuario, MYSQLI_ASSOC)) {
-        $usuario = $row_usuario['nombreUSU'];
-        $estacion = $row_usuario['nombrebreES'];
-    }
-    $array = array('nombreUSU' => $usuario, 'nombrebreES' => $estacion);
-    return $array;
-}
+  $sql_lista = "SELECT * FROM op_rh_permisos WHERE id = '" . $GET_idReporte . "' ORDER BY id DESC";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+  $id = $row_lista['id'];
+  $idestacion = $row_lista['id_estacion'];
+  $idpersonal = $row_lista['id_personal'];
+  
+  $datosLocalidad = $ClassHerramientasDptoOperativo-> obtenerDatosLocalidades($idestacion);
+  $Estacion = $datosLocalidad['localidad'];
+ 
+  $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idpersonal);
+  $nameUSUR = $datosPersonal['nombre'];
+   
+  $diastomados = $row_lista['dias_tomados'];
+  $observaciones = $row_lista['observaciones'];
+  $FechaInicio = $row_lista['fecha_inicio'];
+  $FechaTermino = $row_lista['fecha_termino'];
+  $Motivo = $row_lista['motivo'];
+  
+  $idComodin = $row_lista['cubre_turno'];
+  $datosPersonalC = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idComodin);
+  $nameUSU = $datosPersonalC['nombre'];
+  $nameES = $datosPersonalC['nombreES'];
+ 
+  }
 
+  function FirmaSC($idReporte, $tipoFirma, $con){
+  $sql_lista = "SELECT * FROM op_rh_permisos_firma WHERE id_permiso = '" . $idReporte . "' AND tipo_firma = '" . $tipoFirma . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  return $numero_lista = mysqli_num_rows($result_lista);
+  }
 
-$sql_lista = "SELECT * FROM op_rh_permisos WHERE id = '" . $GET_idReporte . "' ORDER BY id DESC";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-    $id = $row_lista['id'];
-    $idestacion = $row_lista['id_estacion'];
-    $idpersonal = $row_lista['id_personal'];
+  $firmaB = FirmaSC($GET_idReporte, 'B', $con);
+  $firmaC = FirmaSC($GET_idReporte, 'C', $con);
 
-    $Estacion = Estacion($idestacion, $con);
-    $Responsable = Responsable($idpersonal, $con);
-    $nameUSUR = $Responsable['nombreUSU'];
-
-
-    $diastomados = $row_lista['dias_tomados'];
-    $observaciones = $row_lista['observaciones'];
-    $FechaInicio = $row_lista['fecha_inicio'];
-    $FechaTermino = $row_lista['fecha_termino'];
-    $Motivo = $row_lista['motivo'];
-
-    $idComodin = $row_lista['cubre_turno'];
-    $Comodin = Responsable($idComodin, $con);
-
-    $nameUSU = $Comodin['nombreUSU'];
-    $nameES = $Comodin['nombrebreES'];
-
-}
-
-function Personal($idusuario, $con)
-{
-    $sql = "SELECT nombre FROM tb_usuarios WHERE id = '" . $idusuario . "' ";
-    $result = mysqli_query($con, $sql);
-    $numero = mysqli_num_rows($result);
-    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $nombre = $row['nombre'];
-    }
-    return $nombre;
-}
-
-function FirmaSC($idReporte, $tipoFirma, $con)
-{
-    $sql_lista = "SELECT * FROM op_rh_permisos_firma WHERE id_permiso = '" . $idReporte . "' AND tipo_firma = '" . $tipoFirma . "' ";
-    $result_lista = mysqli_query($con, $sql_lista);
-    return $numero_lista = mysqli_num_rows($result_lista);
-}
-
-$firmaB = FirmaSC($GET_idReporte, 'B', $con);
-$firmaC = FirmaSC($GET_idReporte, 'C', $con);
-
-?>
+  ?>
 
 <html lang="es">
 
@@ -101,7 +61,7 @@ $firmaC = FirmaSC($GET_idReporte, 'C', $con);
     <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
+    <script type="text/javascript" src="<?=RUTA_JS ?>signature_pad.js"></script>
 
     <script type="text/javascript">
 
@@ -227,295 +187,261 @@ $firmaC = FirmaSC($GET_idReporte, 'C', $con);
         }
     </script>
 </head>
-<body>
-    <div class="LoaderPage"></div>
 
-    <!---------- DIV - CONTENIDO ---------->
-    <div id="content">
-        <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
-        <?php include_once "public/navbar/navbar-perfil.php"; ?>
-        <!---------- CONTENIDO PAGINA WEB---------->
-        <div class="contendAG">
-            <div class="row">
-
-                <div class="col-12 mb-3">
-                    <div class="cardAG">
-                        <div class="border-0 p-3">
-
-                            <div class="row">
-
-                                <div class="col-10">
-
-                                    <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png"
-                                        onclick="Regresar()">
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <h5>Firmar Permiso </h5>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <hr>
-
-                            <div class="row">
-
-                                <div class="col-12">
-                                    <div class="row">
-
-                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                                            <small class="text-secondary">Estación:</small>
-                                            <h5><?= $Estacion; ?></h5>
-                                        </div>
-
-                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                                            <small class="text-secondary">Colaborador:</small>
-                                            <h5><?= $nameUSUR; ?></h5>
-                                        </div>
-
-                                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                                            <small class="text-secondary">Días tomados:</small>
-                                            <h5><?= $diastomados; ?></h5>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
-                                    <div class="row">
-
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <small class="text-secondary">Del:</small>
-                                            <h5><?= FormatoFecha($FechaInicio); ?></h5>
-                                        </div>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <small class="text-secondary">Hasta:</small>
-                                            <h5><?= FormatoFecha($FechaTermino); ?></h5>
-                                        </div>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <small class="text-secondary">Motivo:</small>
-                                            <h5><?= $Motivo; ?></h5>
-                                        </div>
-
-                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                            <small class="text-secondary">Observaciones:</small>
-                                            <h5><?= $observaciones; ?></h5>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <small class="text-secondary">Estacion de quien cubre:</small>
-                                            <h5><?= $nameES; ?></h5>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <small class="text-secondary">Quien cubre:</small>
-                                            <h5><?= $nameUSU; ?></h5>
-                                        </div>
-
-
-
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-
-                            <hr>
-
-                            <div class="row">
-
-                                <?php
-
-                                $sql_firma = "SELECT * FROM op_rh_permisos_firma WHERE id_permiso = '" . $GET_idReporte . "' ";
-                                $result_firma = mysqli_query($con, $sql_firma);
-                                $numero_firma = mysqli_num_rows($result_firma);
-                                while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
-
-                                    $explode = explode(' ', $row_firma['fecha']);
-
-                                    if ($row_firma['tipo_firma'] == "A") {
-                                        $TipoFirma = "NOMBRE Y FIRMA DEL QUE SOLICITA";
-                                        $Detalle = '<div class="border p-1 text-center"><img src="../imgs/firma/' . $row_firma['firma'] . '" width="70%"></div>';
-
-
-                                    } else if ($row_firma['tipo_firma'] == "B") {
-                                        $TipoFirma = "NOMBRE Y FIRMA DEL QUE CUBRE";
-                                        $Detalle = '<div class="border p-1 text-center"><img src="../imgs/firma/' . $row_firma['firma'] . '" width="70%"></div>';
-
-                                    } else if ($row_firma['tipo_firma'] == "C") {
-                                        $TipoFirma = "NOMBRE Y FIRMA DE VoBo";
-                                        $Detalle = '<div class="border-bottom text-center p-3"><small>La solicitud de permiso se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-
-
-                                    }
-
-                                    echo '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">';
-                                    echo '<div class="border p-3">';
-                                    echo '<div class="text-center">' . Personal($row_firma['id_usuario'], $con) . ' <hr> </div>';
-                                    echo $Detalle;
-                                    echo '<h6 class="mt-2 text-secondary text-center">' . $TipoFirma . '</h6>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-
-                                ?>
-
-
-                                <?php
-                                if ($firmaB == 0) {
-                                    if ($Session_IDUsuarioBD == $idComodin) {
-                                        ?>
-                                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                            <div class="border p-3">
-                                                <div class="mb-2 text-secondary text-center">FIRMA DEL PERSONAL QUE CUBRE</div>
-                                                <hr>
-                                                <div id="signature-pad" class="signature-pad mt-2">
-                                                    <div class="signature-pad--body">
-                                                        <canvas style="width: 100%; height: 150px; border: 1px black solid;"
-                                                            id="canvas"></canvas>
-                                                    </div>
-                                                    <input type="hidden" name="base64" value="" id="base64">
-                                                </div>
-                                                <div class="text-end mt-2">
-                                                    <button class="btn btn-info btn-sm text-white"
-                                                        onclick="resizeCanvas()"><small>Limpiar</small></button>
-                                                </div>
-                                                <hr>
-
-                                                <div class="text-end">
-                                                    <button class="btn btn-primary text-white"
-                                                        onclick="Firmar(<?= $GET_idReporte; ?>,'B',<?=$Session_IDUsuarioBD?>)"><small>Agregar
-                                                            Firma</small></button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <?php
-                                    } else if ($Session_IDUsuarioBD == 318) {
-
-                                        echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
-   ¡Aun no es posible firmar! <br> El personal que cubre no ha firmado el formato para poder finalizar la solicitud.
-</div></div>';
-
-
-                                    } else {
-                                        echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
-¡No cuentas con los permisos para firmar!
-</div></div>';
-                                    }
-
-
-                                } else if ($firmaC == 0) {
-                                    if ($Session_IDUsuarioBD == 318) {
-                                        ?>
-
-                                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
-                                                <div class="border p-3 ">
-                                                    <div class="mb-2 text-secondary text-center">FIRMA DE Vo.Bo.</div>
-                                                    <hr>
-                                                    <h4 class="text-primary text-center">Token Móvil</h4>
-                                                    <small class="text-secondary">Agregue el token enviado a su número de teléfono o
-                                                        de clic en el siguiente botón para crear uno</small>
-                                                    <button class="btn btn-sm btn-light mb-2"
-                                                        onclick="CrearToken(<?= $GET_idReporte; ?>,1)"><small>Crear token
-                                                            SMS</small></button>
-                                                    <button class="btn btn-sm btn-success mb-2"
-                                                        onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear token
-                                                            Whatsapp</small></button>
-                                                    <hr>
-                                                    <div class="input-group mt-3">
-                                                        <input type="text" class="form-control" placeholder="Token de seguridad"
-                                                            aria-label="Token de seguridad" aria-describedby="basic-addon2"
-                                                            id="TokenValidacion">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="FirmarPermiso(<?= $GET_idReporte; ?>,'C')">Firmar
-                                                                permiso</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        <?php
-                                    } else {
-
-                                        echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
-¡No cuentas con los permisos para firmar!
-</div></div>';
-
-                                    }
-
-                                }
-                                ?>
-
-
-
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
+  <body>
+  <div class="LoaderPage"></div>
+
+  <!---------- DIV - CONTENIDO ---------->
+  <div id="content">
+  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
+  <?php include_once "public/navbar/navbar-perfil.php"; ?>
+  <!---------- CONTENIDO PAGINA WEB---------->
+  <div class="contendAG">
+  <div class="container bg-white p-3">
+            
+  <div class="row">
+
+  <div class="col-12">
+  <div class="cardAG">
+
+  <div class="row">
+
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Permisos</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Firmar Permiso</li>
+  </ol>
+  </div>
+
+  <div class="row">
+  <div class="col-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Firmar Permiso</h3>
+  <hr> 
+  </div>
+  </div>
+  </div>
+
+  
+  <div class="col-12">
+  <div class="row">
+
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+    <small class="text-secondary">Estación:</small>
+    <h5><?= $Estacion; ?></h5>
+  </div>
+  
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+    <small class="text-secondary">Colaborador:</small>
+    <h5><?= $nameUSUR; ?></h5>
+  </div>
+  
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+  <small class="text-secondary">Días tomados:</small>
+  <h5><?= $diastomados; ?></h5>
+  </div>
+  </div>
+  </div>
+
+  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
+  <div class="row"> 
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+  <small class="text-secondary">Del:</small>
+  <h5><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio); ?></h5>
+  </div>
+  
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+  <small class="text-secondary">Hasta:</small>
+  <h5><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino); ?></h5>
+  </div>
+  
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+  <small class="text-secondary">Motivo:</small>
+  <h5><?= $Motivo; ?></h5>
+  </div>
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+  <small class="text-secondary">Observaciones:</small>
+  <h5><?= $observaciones; ?></h5>
+  </div>
+
+  </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+  <div class="row">
+
+  <div class="col-12">
+  <small class="text-secondary">Estacion de quien cubre:</small>
+  <h5><?= $nameES; ?></h5>
+  </div>
+
+  <div class="col-12">
+  <small class="text-secondary">Quien cubre:</small>
+  <h5><?= $nameUSU; ?></h5>
+  </div>
+
+  </div>
+  </div>
+
+  </div>
+
+  <hr>
+
+  <div class="row">
+    
+    <?php
+    $sql_firma = "SELECT * FROM op_rh_permisos_firma WHERE id_permiso = '" . $GET_idReporte . "' ";
+    $result_firma = mysqli_query($con, $sql_firma);
+    $numero_firma = mysqli_num_rows($result_firma);
+    
+    while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
+    $explode = explode(' ', $row_firma['fecha']);
+   
+    if ($row_firma['tipo_firma'] == "A") {
+    $TipoFirma = "NOMBRE Y FIRMA DEL QUE SOLICITA";
+    $Detalle = '<div class="border-0 p-4 text-center"><img src="../imgs/firma/' . $row_firma['firma'] . '" width="70%"></div>';
+
+    } else if ($row_firma['tipo_firma'] == "B") {
+    $TipoFirma = "NOMBRE Y FIRMA DEL QUE CUBRE";
+    $Detalle = '<div class="border-0 p-4 text-center"><img src="../imgs/firma/' . $row_firma['firma'] . '" width="70%"></div>';
+
+    } else if ($row_firma['tipo_firma'] == "C") {
+    $TipoFirma = "NOMBRE Y FIRMA DE VoBo";
+    $Detalle = '<div class="border-0 text-center p-2"><small>La solicitud de permiso se firmó por un medio electrónico.</br> <b>Fecha: ' . $ClassHerramientasDptoOperativo->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
+
+    }
+
+    $datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($row_firma['id_usuario']);
+    $NomUsuario = $datosUsuario['nombre'];
+
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
+    echo '<div class="border p-3">';
+    echo $Detalle;
+    echo '<hr>';
+    echo '<div class="text-center fst-italic">'.$NomUsuario. '</div>';
+    echo '<h6 class="text-secondary text-center">' . $TipoFirma . '</h6>';
+    echo '</div>';
+    echo '</div>';
+    }
+
+    if ($firmaB == 0) {
+    if ($Session_IDUsuarioBD == $idComodin) {
+    ?>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+    <div class="border p-3">
+    <div class="mb-2 text-secondary text-center">FIRMA DEL PERSONAL QUE CUBRE</div>
+    <hr>
+    <div id="signature-pad" class="signature-pad mt-2">
+    <div class="signature-pad--body">
+    <canvas style="width: 100%; height: 150px; border: 1px black solid;" id="canvas"></canvas>
+    </div>
+    
+    <input type="hidden" name="base64" value="" id="base64">
+    </div>
+    
+    <div class="text-end mt-2">
+    <button type="button" class="btn  btn-labeled2 btn-primary"><span class="btn-label2"><i class="fa fa-trash-can" onclick="resizeCanvas()"></i></span>Limpiar</button>    </div>
+    <hr>
+
+    <div class="text-end "><button type="button" class="btn btn-labeled2 btn-success pb-0 mb-0" onclick="Firmar(<?= $GET_idReporte; ?>,'B',<?=$Session_IDUsuarioBD?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar Firma</button>
+    </div>
+
+    </div>
+    </div>
+
+    <?php
+    } else if ($Session_IDUsuarioBD == 318) {
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
+   ¡Aun no es posible firmar! <br> El personal que cubre no ha firmado el formato para poder finalizar la solicitud.</div>';
+
+    } else {
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+    </div>';
+    }
+
+    } else if ($firmaC == 0) {
+    if ($Session_IDUsuarioBD == 318) {
+    ?>
+
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+    <div class="border p-3 ">
+    <div class="mb-2 text-secondary text-center">FIRMA DE Vo.Bo.</div>
+    <hr>
+    <h4 class="text-primary text-center">Token Móvil</h4>
+    <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
+    <button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,1)"><small>Crear token SMS</small></button>
+    <button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear token Whatsapp</small></button>
+    <hr>
+    <div class="input-group mt-3">
+    <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+    <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button" onclick="FirmarPermiso(<?= $GET_idReporte; ?>,'C')">Firmar permiso</button>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <?php
+    } else {
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+    </div>';
+    }
+
+    }
+    ?>
+
+    </div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
     </div>
 
 
-    <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="margin-top: 83px;">
-                <div class="modal-body">
 
-                    <h5 class="text-info">El token fue validado correctamente.</h5>
-                    <div class="text-secondary">El permiso fue firmada.</div>
+    <!---------- MODAL ----------> 
+    <div class="modal fade" id="ModalFinalizado" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-body">
 
+    <h5 class="text-info">El token fue validado correctamente.</h5>
+    <div class="text-secondary">El permiso fue firmada.</div>
 
-                    <div class="text-end">
-                        <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    <div class="text-end">
+    <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
     </div>
 
-    <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content" style="margin-top: 83px;">
-                <div class="modal-body">
-
-                    <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde
-                    </h5>
-                    <div class="text-secondary">El permiso no fue firmada.</div>
-
-
-                    <div class="text-end">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
+    </div>
+    </div>
+    </div>
+
+
+    <!---------- MODAL2 ----------> 
+    <div class="modal fade" id="ModalError" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-body">
+
+    <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde</h5>
+    <div class="text-secondary">El permiso no fue firmada.</div>
+
+    <div class="text-end">
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+    </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+
 
     <script type="text/javascript">
 

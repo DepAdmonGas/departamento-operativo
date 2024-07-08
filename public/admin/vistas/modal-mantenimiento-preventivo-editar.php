@@ -15,14 +15,13 @@ $observaciones = $row_lista['observaciones'];
 
 }
 
-
 $sql_personal = "SELECT id, nombre FROM tb_usuarios
 WHERE id_gas = '".$idEstacion."' AND id_puesto = 6 ORDER BY nombre ASC ";
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
 
 function NombrePersonal($id,$con){
-
+$return = "";
 $sql_personal = "SELECT nombre FROM tb_usuarios WHERE id = '".$id."' ";
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
@@ -33,10 +32,10 @@ return $return;
 }
 
 ?>
-      <div class="modal-header">
-        <h5 class="modal-title">Mantenimiento preventivo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+  <div class="modal-header">
+  <h5 class="modal-title">Mantenimiento preventivo</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
 
       <div class="modal-body">
 

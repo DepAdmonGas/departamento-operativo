@@ -9,6 +9,7 @@ $razonsocial = $row_lista['razonsocial'];
 }
 
 function ValidaEstacion($Estacion){
+$result = "";
 if($Estacion == "ADMINISTRADORA DE GASOLINERAS S.A. DE C.V."){
 $result = 19;
 }else if($Estacion == "ADMINISTRADORA DE GASOLINERAS INTERLOMAS"){

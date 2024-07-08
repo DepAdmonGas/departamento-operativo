@@ -4,57 +4,47 @@ $idAsistencia = $_GET['idAsistencia'];
 $idPersonal = $_GET['idPersonal'];
 $idEstacion = $_GET['idEstacion'];
 
-$sql_personal = "SELECT 
-op_rh_personal.id,
-op_rh_personal.nombre_completo,
-op_rh_puestos.puesto
-FROM op_rh_personal
-INNER JOIN op_rh_puestos
-ON op_rh_personal.id_puesto = op_rh_puestos.id 
-WHERE op_rh_personal.id = '".$idPersonal."' ";
-$result_personal = mysqli_query($con, $sql_personal);
-$numero_personal = mysqli_num_rows($result_personal);
-while($row_personal = mysqli_fetch_array($result_personal, MYSQLI_ASSOC)){
-$puesto = $row_personal['puesto'];
-}
+$datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($idPersonal);
+$nombrecompleto = $datosPersonal['nombre_personal'];
+$puesto = $datosPersonal['puesto'];
 
 function Incidencia($idAsistencia, $con){
-
-$sql_incidencia = "SELECT * FROM op_rh_personal_asistencia_incidencia WHERE id_asistencia = '".$idAsistencia."' LIMIT 1 ";
-$result_incidencia = mysqli_query($con, $sql_incidencia);
-$numero_incidencia = mysqli_num_rows($result_incidencia);
-if ($numero_incidencia > 0) {
-while($row_incidencia = mysqli_fetch_array($result_incidencia, MYSQLI_ASSOC)){
-$fecha = $row_incidencia['fecha'];  
-$incidencia = $row_incidencia['incidencia']; 
-$comentario = $row_incidencia['comentario']; 
-$documento = $row_incidencia['documento'];  
-$estado = $row_incidencia['estado'];
-}
-
-$return = array (
-"fecha" => $fecha,
-"incidencia" => $incidencia,
-"comentario" => $comentario,
-"documento" => $documento,
-"estado" => $estado,
-"resultado" => 1
-); 
-
-}else{
-
-$return = array (
-"fecha" => $fecha,
-"incidencia" => $incidencia,
-"comentario" => $comentario,
-"documento" => $documento,
-"estado" => $estado,   
-"resultado" => 0 
-); 
-
-}
-
-return $return;
+    
+      $sql_incidencia = "SELECT * FROM op_rh_personal_asistencia_incidencia WHERE id_asistencia = '".$idAsistencia."' LIMIT 1 ";
+      $result_incidencia = mysqli_query($con, $sql_incidencia);
+      $numero_incidencia = mysqli_num_rows($result_incidencia);
+      
+      if ($numero_incidencia > 0) {
+      while($row_incidencia = mysqli_fetch_array($result_incidencia, MYSQLI_ASSOC)){
+      $fecha = $row_incidencia['fecha'];  
+      $incidencia = $row_incidencia['incidencia']; 
+      $comentario = $row_incidencia['comentario']; 
+      $documento = $row_incidencia['documento'];  
+      $estado = $row_incidencia['estado'];
+      
+      
+      $return = array (
+      "fecha" => $fecha,
+      "incidencia" => $incidencia,
+      "comentario" => $comentario,
+      "documento" => $documento,
+      "estado" => $estado,
+      "resultado" => 1
+      ); 
+      }
+      
+      }else{
+      $return = array (
+      "fecha" => "",
+      "incidencia" => "",
+      "comentario" => "",
+      "documento" => "",
+      "estado" => "",
+      "resultado" => 0
+      ); 
+      }
+      
+      return $return;
 }
 
 function PuntosIncidencias($idAsistencia, $con){
@@ -80,8 +70,8 @@ $PuntosIncidencias = PuntosIncidencias($idAsistencia, $con);
 
 ?>
 <div class="modal-header">
-<h5 class="modal-title">Incidencia</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Incidencia - <?=$nombrecompleto?></h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
@@ -89,7 +79,7 @@ $PuntosIncidencias = PuntosIncidencias($idAsistencia, $con);
 if($incidencia['resultado'] == 0){
 ?>
 
-<p class="fs-6 fw-light">Seleccione alguna de las siguientes incidencias:</p>
+<p class="fs-6 fw-light mb-0 pb-0">Seleccione alguna de las siguientes incidencias:</p>
 
 <div id="bordercheck" class="p-2 mt-0 mb-0">
 <?php
@@ -105,8 +95,8 @@ if($puesto == "Gerente" AND $id == 5){
 }else{
 ?>
 <div class="form-check">
-  <input class="form-check-input fs-5 fw-light" type="radio" name="CheckBox" id="Incidencia<?=$id;?>" value="<?=$id;?>">
-  <label class="form-check-label fs-5 fw-light" for="Incidencia<?=$id;?>">
+  <input class="form-check-input fs-6 fw-light" type="radio" name="CheckBox" id="Incidencia<?=$id;?>" value="<?=$id;?>">
+  <label class="form-check-label fs-6 fw-light" for="Incidencia<?=$id;?>">
     <b><?=$detalle;?></b>
   </label>
 </div>
@@ -124,7 +114,7 @@ if($puesto == "Gerente" AND $id == 5){
 
 
 <div class="mt-3 pt-3 text-end border-top">
-<button type="button" class="btn btn-primary rounded-0 fw-lighter fs-6" onclick="GuardarIncidencia(<?=$idAsistencia;?>,<?=$idEstacion;?>)">Guardar incidencia</button>
+<button type="button" class="btn btn-primary rounded-0 fw-lighter fs-6" onclick="GuardarIncidencia(<?=$idAsistencia;?>,<?=$idPersonal;?>,<?=$idEstacion;?>)">Guardar incidencia</button>
 </div>
 
 
@@ -134,7 +124,7 @@ $explode = explode(" ", $incidencia['fecha']);
 ?>
 
 <small class="text-secondary fs-6 fw-bold">Fecha:</small>
-<div class="fs-5 fw-light border-0 p-0 mb-3"><?=FormatoFecha($explode[0])?></div>
+<div class="fs-5 fw-light border-0 p-0 mb-3"><?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0])?></div>
 
 <small class="text-secondary fs-6 fw-bold">Incidencia:</small>
 <div class="fs-5 fw-light border-0 p-0 mb-3"><?=$incidencia['incidencia']?></div>
@@ -150,7 +140,7 @@ echo '<hr><small>Sueldo día:</small>
       <input type="number" class="form-control mt-1" id="SueldoDiaTMR" step="0.01" value="'.$PuntosIncidencias['puntosAcceso'].'" />
 
       <div class="text-end mt-2">
-      <button type="button" class="btn btn-success mt-2" onclick="EditarSaldoTMR('.$idAsistencia.')">Guardar</button>
+      <button type="button" class="btn btn-success mt-2" onclick="EditarSaldoTMR('.$idAsistencia.', '.$idPersonal.', '.$idEstacion.')">Guardar</button>
       </div>';
 }
 
@@ -172,7 +162,7 @@ echo '<hr><small class="text-secondary fs-6 fw-bold">Documento:</small>
       <input type="number" class="form-control mt-1" id="SueldoDiaI" step="0.01" value="'.$PuntosIncidencias['puntosAcceso'].'" />
 
       <div class="text-end mt-2">
-      <button type="button" class="btn btn-success btn-sm" onclick="GuardarDoc('.$idPersonal.','.$idAsistencia.','.$idEstacion.')">Guardar</button>
+      <button type="button" class="btn btn-success btn-sm" onclick="GuardarDoc('.$idAsistencia.', '.$idPersonal.', '.$idEstacion.')">Guardar</button>
       </div>';
 }else{
 echo '<hr><small class="text-secondary fs-6 fw-bold">Documento:</small>
@@ -185,7 +175,7 @@ echo '<hr><small class="text-secondary fs-6 fw-bold">Documento:</small>
 }
 ?>
 
-<div id="Resultado"></div>
+
 </div>
 
 

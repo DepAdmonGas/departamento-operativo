@@ -109,5 +109,5 @@ function AcuseRecepcionAuditor() {
 }
 
 function DescargaTuxpanAuditor() {
-    window.location.href = "descarga-tuxpan";
+    window.location.href = "administracion/descarga-tuxpan";
 }

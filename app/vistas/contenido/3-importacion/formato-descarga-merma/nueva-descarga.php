@@ -1,52 +1,35 @@
 <?php
 require 'app/vistas/contenido/header.php';
-
 $Disabled = 'disabled';
-$idEstacion = $Session_IDEstacion;
-$NomEst = $session_nomestacion;
-$idUsuario = $Session_IDUsuarioBD;
-$NomUsua = $session_nomusuario;
+$idEstacion = $GET_idEstacion;
 
-if ($Session_IDEstacion == 8):
-    $Disabled = '';
-    $idEstacion = '';
-    $NomEst = '';
-    $idUsuario = '';
-    $NomUsua = '';
+?> 
 
-endif;
-
-?>
 <script type="text/javascript">
 
-    $(document).ready(function ($) {
-        $(".LoaderPage").fadeOut("slow");
-    });
+$(document).ready(function ($) {
+$(".LoaderPage").fadeOut("slow");
+});
 
-    function Regresar() {
-        window.history.back();
-    }
+function GuardarFirmar() {
+var Estacion = $('#Estacion').val();
+var Responsable = $('#Responsable').val();
+var Fechallegada = $('#Fechallegada').val();
+var Horallegada = $('#Horallegada').val();
+var Productos = $('#Productos').val();
 
-    function GuardarFirmar() {
-        var Estacion = $('#Estacion').val();
-        var Responsable = $('#Responsable').val();
-        var Fechallegada = $('#Fechallegada').val();
-        var Horallegada = $('#Horallegada').val();
-        var Productos = $('#Productos').val();
+var Merma = $('#Merma').val();
+var Operador = $('#Operador').val();
+var Transportista = $('#Transportista').val();
+var NoFactura = $('#NoFactura').val();
+var Litros = $('#Litros').val();
+var PrecioLitro = $('#PrecioLitro').val();
+var Unidad = $('#Unidad').val();
+var CuentaLitros = $('#CuentaLitros').val();
 
-        var Merma = $('#Merma').val();
-        var Operador = $('#Operador').val();
-        var Transportista = $('#Transportista').val();
-
-        var NoFactura = $('#NoFactura').val();
-        var Litros = $('#Litros').val();
-        var PrecioLitro = $('#PrecioLitro').val();
-        var Unidad = $('#Unidad').val();
-        var CuentaLitros = $('#CuentaLitros').val();
-
-        FacturaRemision = document.getElementById("FacturaRemision");
-        FacturaRemision_file = FacturaRemision.files[0];
-        FacturaRemision_filePath = FacturaRemision.value;
+FacturaRemision = document.getElementById("FacturaRemision");
+FacturaRemision_file = FacturaRemision.files[0];
+FacturaRemision_filePath = FacturaRemision.value;
 
         InventarioInicial = document.getElementById("InventarioInicial");
         InventarioInicial_file = InventarioInicial.files[0];
@@ -77,7 +60,7 @@ endif;
         if ($('#sdvdld1').is(':checked')) {
             Sdvdld = 'SI';
         }
-        
+
         var baseImage1 = "";
         var baseImage2 = "";
         let signatureBlank1 = signaturePad1.isEmpty();
@@ -106,7 +89,7 @@ endif;
 
         var data = new FormData();
         //var url = 'public/admin/modelo/guardar-descarga-tuxpan.php';
-        var url = 'app/controlador/3-importacion/controladorMerma.php';
+        var url = '../app/controlador/3-importacion/controladorMerma.php';
 
         if (Estacion != "") {
             $('#Estacion').css('border', '');
@@ -180,8 +163,9 @@ endif;
                                                                             processData: false,
                                                                             cache: false
                                                                         }).done(function (data) {
+                                                                            console.log(data)
                                                                             $(".LoaderPage").hide();
-                                                                            Regresar();
+                                                                            history.back();
                                                                         });
 
                                                                     } else {
@@ -253,25 +237,23 @@ endif;
     }
 
     function mermaLts(e, num) {
+    var valor = e.value;
+    var LitrosInput = $('#Litros').val();
+    var CuentaLitrosInput = $('#CuentaLitros').val();
 
-        var valor = e.value;
-        var LitrosInput = $('#Litros').val();
-        var CuentaLitrosInput = $('#CuentaLitros').val();
+    if (num == 1) {
+    var merma = valor - CuentaLitrosInput;
+    $('#Merma').val(merma);
 
-        if (num == 1) {
-            var merma = valor - CuentaLitrosInput;
-            $('#Merma').val(merma);
-
-        } else if (num == 2) {
-
-            var merma2 = LitrosInput - valor;
-            $('#Merma').val(merma2);
-
-        }
-
+    } else if (num == 2) {
+    var merma2 = LitrosInput - valor;
+    $('#Merma').val(merma2);
+    }
 
     }
 
+
+    
 
 </script>
 </head>
@@ -284,41 +266,39 @@ endif;
         <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
         <?php include_once "public/navbar/navbar-perfil.php"; ?>
 
-        <!---------- CONTENIDO PAGINA WEB---------->
-        <div class="contendAG">
+<!---------- CONTENIDO PAGINA WEB---------->
+<div class="contendAG">
+<section class="row">
 
-            <section class="row">
-                <div class="col-12 mb-3">
-                    <div class="cardAG">
-                        <div class="border-0 p-3 ">
+<div class="col-12 mb-3">
+<div class="cardAG ">
+<div class="border-0 p-3 ">
 
-                            <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-                                <ol class="breadcrumb breadcrumb-caret">
-                                    <li class="breadcrumb-item"><a onclick="history.back()"
-                                            class="text-uppercase text-primary pointer"><i
-                                                class="fa-solid fa-chevron-left"></i>
-                                            Formato descarga merma</a></li>
-                                    <li aria-current="page" class="breadcrumb-item active text-uppercase">Nuevo formato
-                                    </li>
-                                </ol>
-                            </div>
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Formato descarga merma</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Nuevo formato
+</li>
+</ol>
+</div>
 
-                            <div class="row">
-                                <div class="col-9">
-                                    <h3 class="text-secondary"
-                                        style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                                        Nuevo Formato</h3>
-            
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
+<div class="row">
+<div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Nuevo Formato</h3></div>
+<div class="col-3">
+<button type="button" class="btn btn-labeled2 btn-success float-end" onclick="GuardarFirmar()">
+<span class="btn-label2"><i class="fa-solid fa-check"></i></span>Guardar y Finalizar</button>
+</div>      
+</div>
+<hr>
 
-                                <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Estación de descarga:</div>
-                                    <select class="form-control" id="Estacion" 
+
+<div class="row">
+<div class="col-12 col-sm-3 mb-2">
+<div class="text-secondary mb-1">Estación de descarga:</div>
+                                    <select class="form-select" id="Estacion"
+
                                         <?= $Disabled; ?>>
-                                        <option value="<?= $idEstacion; ?>"><?= $NomEst; ?></option>
+                                        <option value="<?= $idEstacion; ?>"><?= $session_nomestacion; ?></option>
                                         <?php
                                         $sql_listaestacion = "SELECT id, nombre FROM tb_estaciones WHERE numlista <= 8";
                                         $result_listaestacion = mysqli_query($con, $sql_listaestacion);
@@ -331,19 +311,21 @@ endif;
                                     </select>
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Responsable de la estación:</div>
                                     <div id="Personal">
-                                        <select class="form-control" id="Responsable" <?= $Disabled; ?>>
-                                            <option value="<?= $idUsuario; ?>"><?= $NomUsua; ?></option>
+
+                                        <select class="form-select" id="Responsable" <?= $Disabled; ?>>
+                                            <option value="<?= $Session_IDUsuarioBD; ?>"><?= $session_nomusuario; ?></option>
+
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-12 mb-2">
+                                <div class="col-12 col-sm-6 mb-2">
                                     <div class="text-secondary mb-1">Fecha y hora de llegada de full:</div>
                                     <div class="row">
-                                        <div class="col-12 col-sm-6 mb-2">
+                                    <div class="col-12 col-sm-6 mb-2">
                                             <input type="date" class="form-control" id="Fechallegada">
                                         </div>
 
@@ -368,28 +350,28 @@ endif;
                                     <input type="text" class="form-control" id="NoFactura">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Litros:</div>
-                                    <input type="number" class="form-control" id="Litros" onkeyup="mermaLts(this,1)">
+                                    <input type="number" class="form-control" id="Litros" onchange="mermaLts(this,1)">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Precio por litro:</div>
                                     <input type="number" class="form-control" id="PrecioLitro">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Cuenta litro:</div>
                                     <input type="number" class="form-control" id="CuentaLitros"
-                                        onkeyup="mermaLts(this,2)">
+                                    onchange="mermaLts(this,2)">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Anexar merma en Litros:</div>
                                     <input type="number" class="form-control" id="Merma" disabled>
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Unidad:</div>
                                     <input type="text" class="form-control" id="Unidad">
                                 </div>
@@ -399,17 +381,17 @@ endif;
                                     <input type="text" class="form-control" id="Operador">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Compañía de Transportista:</div>
                                     <input type="text" class="form-control" id="Transportista">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Factura o Remisión:</div>
                                     <input type="file" class="form-control" id="FacturaRemision">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Sellos alterados:</div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Radios1"
@@ -430,7 +412,7 @@ endif;
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Se detuvo venta durante la descarga:</div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Radios2" id="sdvdld1"
@@ -449,29 +431,29 @@ endif;
                                 </div>
 
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Reporte de inventario Inicial con fecha y hora:
                                     </div>
                                     <input type="file" class="form-control" id="InventarioInicial">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Medida Nice:</div>
                                     <input type="file" class="form-control" id="Nice">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Reporte de inventario final con fecha y hora:</div>
                                     <input type="file" class="form-control" id="InventarioFinal">
                                 </div>
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Metro contador temperatura normal:</div>
                                     <input type="file" class="form-control" id="MetroContador">
                                 </div>
 
 
-                                <div class="col-12 col-sm-6 mb-2">
+                                <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Metro contador a 20 grados:</div>
                                     <input type="file" class="form-control" id="MC20Grados">
                                 </div>
@@ -498,7 +480,7 @@ endif;
 
                                 <div class="col-12 col-sm-6 mb-2">
                                     <div class="text-secondary mb-1">Encargado de estación:</div>
-                                    <div id="signature-pad-1" class="signature-pad mt-2" onmouseup="PintarCanva(this)">
+                                    <div id="signature-pad-1" class="signature-pad mt-2">
                                         <div class="signature-pad--body">
                                             <canvas style="width: 100%; height: 150px; border: 1px black solid;"
                                                 id="canvas1"></canvas>
@@ -507,8 +489,9 @@ endif;
 
                                     <div class="mt-3">
                                         <input type="hidden" name="base64" value="" id="baseImage1">
-                                        <button type="button" class="btn btn-sm btn-primary float-end"
-                                            onclick="clear1()">Limpiar</button>
+                                            <button type="button" class="btn float-end btn-labeled2 btn-primary" onclick="clear1()">
+         <span class="btn-label2"><i class="fa fa-trash-can"></i></span>Limpiar</button>
+
                                     </div>
                                 </div>
 
@@ -524,19 +507,14 @@ endif;
 
                                     <div class="mt-3">
                                         <input type="hidden" name="base64" value="" id="baseImage2">
-                                        <button type="button" class="btn btn-sm btn-primary float-end"
-                                            onclick="clear2()">Limpiar</button>
+                                        <button type="button" class="btn float-end btn-labeled2 btn-primary" onclick="clear2()">
+         <span class="btn-label2"><i class="fa fa-trash-can"></i></span>Limpiar</button>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <button class="btn btn-success btn-block p-2 mb-2 mt-2 float-end"
-                                        onclick="GuardarFirmar()">Guardar y Finalizar</button>
-                                </div>
-                            </div>
+
+
 
                         </div>
                     </div>

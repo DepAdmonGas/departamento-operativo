@@ -60,6 +60,7 @@ echo 0;
 }
 
 function ActualizarInventario($idReporte,$con){
+$Restante = 0;
 
 $sql_detalle = "SELECT * FROM op_pedido_materiales_detalle WHERE id_pedido = '".$idReporte."' ";
 $result_detalle = mysqli_query($con, $sql_detalle);
@@ -71,20 +72,21 @@ if($row_detalle['refaccion'] != 0){
 $sql_lista = "SELECT * FROM op_refacciones WHERE id = '".$row_detalle['refaccion']."'";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
+
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $nombre = $row_lista['nombre'];
 $unidad = $row_lista['unidad'];    
 }
 
-if($unidad < $_POST['Cantidad']){
+if($unidad < $row_detalle['cantidad']){
 $Restante = 0;
 }else{
 $Restante = $unidad - $row_detalle['cantidad'];	
 }
 
 $sql_edit1 = "UPDATE op_refacciones SET 
-    unidad = '".$Restante."'
-    WHERE id='".$row_detalle['refaccion']."' ";
+unidad = '".$Restante."'
+WHERE id='".$row_detalle['refaccion']."' ";
 mysqli_query($con, $sql_edit1);
 
 }

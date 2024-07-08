@@ -5,8 +5,6 @@ $idEstacion = $_GET['idEstacion'];
 $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
 $Estacion = $datosEstacion['localidad'];
 
-// '".$fecha_mes."' ;
-
 $sql_asistencia = "SELECT 
 op_rh_personal_asistencia.id,
 op_rh_personal_asistencia.id_personal,
@@ -24,9 +22,9 @@ op_rh_personal.id_estacion
 FROM op_rh_personal_asistencia 
 INNER JOIN op_rh_personal 
 ON op_rh_personal_asistencia.id_personal = op_rh_personal.id
-WHERE op_rh_personal.id_estacion = '" . $idEstacion . "' 
-AND YEAR(op_rh_personal_asistencia.fecha) = '" . $fecha_year . "' 
-AND MONTH(op_rh_personal_asistencia.fecha) = 2 
+WHERE op_rh_personal.id_estacion = '".$idEstacion."' 
+AND YEAR(op_rh_personal_asistencia.fecha) = '".$fecha_year."' 
+AND MONTH(op_rh_personal_asistencia.fecha) = '".$fecha_mes."' 
 ORDER BY op_rh_personal_asistencia.fecha DESC  ";
 
 $result_asistencia = mysqli_query($con, $sql_asistencia);
@@ -111,7 +109,9 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 <div id="DivBusquedaReporte" class="pt-0 mt-0">
 
   <div class="table-responsive">
-    <table id="tabla_biometrico_<?= $idEstacion ?>" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+
+  <table id="tabla_biometrico_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+
 
       <thead class="title-table-bg">
 
@@ -119,18 +119,19 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
           <th class="text-center align-middle fw-bold" colspan="9"><?= $tituloTablaPersonal ?></th>
         </tr>
 
-        <tr>
-          <td class="text-center align-middle fw-bold">#</td>
-          <th class="align-middle text-center">Nombre</th>
-          <th class="align-middle text-center">Fecha</th>
-          <th class="align-middle text-center">Sistema (Entrada)</th>
-          <th class="align-middle text-center">Sistema (Salida)</th>
-          <th class="align-middle text-center">Sensor (Entrada)</th>
-          <th class="align-middle text-center">Sensor (Salida)</th>
-          <th class="align-middle text-center">Detalle</th>
-          <td class="text-center align-middle" width="24"><img src="<?= RUTA_IMG_ICONOS; ?>incidencia-tb.png"></td>
-        </tr>
-      </thead>
+  <tr>
+  <td class="text-center align-middle fw-bold">#</td>
+  <th class="align-middle text-center">Nombre</th>
+  <th class="align-middle text-center">Fecha</th>
+  <th class="align-middle text-center">Sistema (Entrada)</th>
+  <th class="align-middle text-center">Sistema (Salida)</th>
+  <th class="align-middle text-center">Sensor (Entrada)</th>
+  <th class="align-middle text-center">Sensor (Salida)</th>
+  <th class="align-middle text-center">Detalle</th>
+  <td class="text-center align-middle" width="24"><img src="<?=RUTA_IMG_ICONOS;?>incidencia-tb.png"></td>
+  </tr>
+  </thead>
+
 
       <tbody>
         <?php
@@ -246,12 +247,13 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
             $num++;
           }
 
-        } else {
-          echo "<tr><td colspan='11'><div class='text-secondary text-center p-2 fs-6 fw-light'>No se encontró información para mostrar </div></td></tr>";
-        }
-        ?>
-      </tbody>
-    </table>
+
+  }
+  ?> 
+
+  </tbody>
+  </table>
+  </div>
+  
   </div>
 
-</div>

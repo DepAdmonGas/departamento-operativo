@@ -3,7 +3,6 @@ require('app/help.php');
 $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
 
 ?> 
-
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -87,25 +86,51 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
   }
 
 
-function ModalDetalleI(idPersonal,id,idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-incidencias.php?idAsistencia=' + id);  
-}  
-
-function ModalIncidencias(idPersonal,id,idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
-}
-
-function GuardarIncidencia(idAsistencia,idEstacion){
-
-var Comentario = $('#Comentario').val();
+  function ModalDetalleI(idPersonal,id,idEstacion){
+  $('#ModalIncidencias').modal('show');
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/biometrico/modal-detalle-incidencias-asistencia.php?idAsistencia=' + id);  
+  }  
  
-if(document.querySelector('input[name="CheckBox"]:checked')) {
-var incidencia = document.querySelector('input[name="CheckBox"]:checked').value;
-$('#bordercheck').css('border','');
-if(Comentario != ""){
-$('#Comentario').css('border','');
+
+  function ModalIncidencias(idPersonal,id,idEstacion){
+  $('#ModalIncidencias').modal('show');
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + id + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+  }
+
+
+ 
+  function btnBuscar(idEstacion){
+  
+  var Year = $('#Year').val();
+  var Mes = $('#Mes').val();
+
+  if(Year != ""){
+  $('#Year').css('border','');
+  if(Mes != ""){
+  $('#Mes').css('border','');
+
+  $('#ModalIncidencias').modal('hide');
+  $('#DivBusquedaReporte').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
+
+  }else{
+  $('#Mes').css('border','2px solid #A52525'); 
+  }
+  }else{
+  $('#Year').css('border','2px solid #A52525'); 
+  }
+
+  }
+
+
+
+  function GuardarIncidencia(idAsistencia,idPersonal,idEstacion){
+  var Comentario = $('#Comentario').val();
+
+  if(document.querySelector('input[name="CheckBox"]:checked')) {
+  var incidencia = document.querySelector('input[name="CheckBox"]:checked').value;
+  $('#bordercheck').css('border','');
+  if(Comentario != ""){
+  $('#Comentario').css('border','');
 
 alertify.confirm('',
 function(){
@@ -146,7 +171,7 @@ alertify.error('Error al crear la incidencia');
 
 },
 function(){
-}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar incidenia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+}).setHeader('Agregar Incidencia').set({transition:'zoom',message: '¿Desea agregar la incidencia?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 }else{
 $('#Comentario').css('border','2px solid #A52525');    
@@ -157,7 +182,10 @@ $('#bordercheck').css('border','2px solid #A52525');
 
 }
 
-function EditarSaldoTMR(idAsistencia){
+
+
+ 
+function EditarSaldoTMR(idAsistencia,idPersonal,idEstacion){
 
 var SueldoDiaTMR = $('#SueldoDiaTMR').val();
 
@@ -186,7 +214,8 @@ success:  function (response) {
 if(response == 1){
 
 alertify.success('Se edito la incidencia');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
+
 
 }else{
 $(".LoaderPage").hide();
@@ -204,9 +233,9 @@ function(){
 $('#SueldoDiaTMR').css('border','2px solid #A52525'); 
 }
 
-} 
+}
 
-function GuardarDoc(idPersonal,idAsistencia,idEstacion){
+function GuardarDoc(idAsistencia,idPersonal,idEstacion){
 var data = new FormData();
 var url = 'public/recursos-humanos/modelo/agregar-documento-incidencia.php';
 
@@ -226,7 +255,7 @@ $('#FechaFin').css('border','');
 data.append('Documento_file', Documento_file);
 data.append('idPersonal', idPersonal);
 data.append('idAsistencia', idAsistencia);
-data.append('idEstacion', idEstacion);
+data.append('idEstacion', idEstacion); 
 data.append('FechaInicio', FechaInicio);
 data.append('FechaFin', FechaFin);
 data.append('SueldoDiaI', SueldoDiaI);
@@ -239,56 +268,29 @@ data: data,
 processData: false,
 cache: false
 }).done(function(data){
+ 
+console.log(data)
 
 if(data == 1){
 alertify.success('Se agrego el documento');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia); 
+$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 
 SelEstacion(idEstacion)
-  
+ 
 }else{
 alertify.error('Error al agregar el documento');
 }
  
-}); 
+});
 
 }else{
 $('#FechaFin').css('border','2px solid #A52525'); 
 }
 }else{
-$('#Resultado').html('<div class="text-center text-danger"><small>El formato debe ser PDF</small></div>');
-}
-}
-//---------------------------------------------------------------------
-//---------------------------------------------------------------------
-function ModalReporte(idEstacion){
-$('#ModalIncidencias').modal('show');
-$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-reporte-asistencia.php?idEstacion=' + idEstacion); 
-} 
- 
-function btnBuscar(idEstacion){ 
- 
-var Year = $('#Year').val();
-var Mes = $('#Mes').val();
-
-if(Year != ""){ 
-$('#Year').css('border','');
-if(Mes != ""){
-$('#Mes').css('border',''); 
-
-$('#ModalIncidencias').modal('hide');
-//$('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes);
-$('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-humanos-reporte-asistencia-v2.php?idEstacion=' + idEstacion + '&Year=' + Year + '&Mes=' + Mes + '&Val=1');        
-
-
-
-}else{
-$('#Mes').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Year').css('border','2px solid #A52525'); 
+alertify.error('El formato debe ser PDF');
 }
 
-} 
+
+}
 
   </script>
   </head>

@@ -1,11 +1,8 @@
- <?php
+<?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-  
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -19,8 +16,8 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -28,7 +25,6 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -36,22 +32,15 @@ header("Location:".PORTAL."");
 
   });
 
-
-  function Regresar(){
-  window.history.back();
-  }
-
   function CuentaLitrosM(year,mes){
   window.location.href = year + "/" + mes;
   }
   
   </script>
-
   </head>
  
-<body class="bodyAG"> 
-<div class="LoaderPage"></div>
-
+  <body class="bodyAG"> 
+  <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -61,81 +50,57 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Tabla de Descarga (Cuenta Litros) <?=$GET_idyear;?></h5>
-     
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr> 
-
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.go(-2)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Importación</a></li>
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"> Tabla de Descarga (Cuenta Litros)</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$GET_idyear?></li>
+  </ol>
+  </div>
  
-<?php
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Tabla de Descarga (Cuenta Litros) <?=$GET_idyear?></h3> </div>
+  </div>
+
+  <hr>
+  </div>
+
+  <?php
 
   $year_c = date("Y");
   $mes_c = date("m");
-
-   echo '<div class="row">';
-   
-   for ($i=1; $i <= 12; $i++) { 
+  
+  for ($i=1; $i <= 12; $i++) { 
 
   if ($GET_idyear >= $year_c) {
   if ($mes_c >= $i) {
-  $color = "card-menuB";
-  $icon = "bg-icon";
+  $cardDisabled = "";
   }else{
-  $color = "card-menuB-disabled";
-  $icon = "bg-icon-disabled";
+  $cardDisabled = "d-none";
   }
   }else{
-  $color = "card-menuB";
-  $icon = "bg-icon";
+  $cardDisabled = "";
   }
- 
 
-  echo '  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-1 mt-2 ">
-  <div class="card '.$color.' rounded shadow-sm pointer" onclick="CuentaLitrosM('.$GET_idyear.','.$i.')">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon '.$icon.'"> 
-  <i class="fa-solid fa-calendar-days color-CB"></i>
+
+  echo '<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-1 mt-2 '.$cardDisabled.'">
+  <article class="plan card2 border-0 shadow position-relative" onclick="CuentaLitrosM('.$GET_idyear.','.$i.')">
+         
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar-days"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">'.$ClassHerramientasDptoOperativo->nombremes($i).' '.$GET_idyear.'</h5></div>
   </div>
  
-  <div class="m-details ms-2"> 
-  <span>Mes:</span> 
-  <br>
-  <h6>'.nombremes($i).' '.$GET_idyear.'</h6> 
   </div>
-  </div>
-
-  </div>
+  </article>
   </div>';
 
+  }
 
+  ?>
 
-   }
-   echo '</div>';
-
-
-?>
-
-  </div>
-  </div>
-  </div>
 
   </div>
   </div>

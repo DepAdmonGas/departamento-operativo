@@ -2,9 +2,14 @@
 require('../../../app/help.php');
 
 $aleatorio = uniqid();
+$NomDoc = "";
+
+if (isset($_FILES['FacturaPDF_file'])) {
 $NoDoc  =   $_FILES['FacturaPDF_file']['name'];
 $UpDoc = "../../../archivos/".$aleatorio."-".$NoDoc;
 $NomDoc = $aleatorio."-".$NoDoc;
+}
+
 
 $sql_edit = "UPDATE op_terminales_tpv_reporte SET 
 falla = '".$_POST['Falla']."',
@@ -23,8 +28,11 @@ WHERE id = '".$_POST['idFalla']."' ";
 
 if(mysqli_query($con, $sql_edit)){
 
-if(move_uploaded_file($_FILES['FacturaPDF_file']['tmp_name'], $UpDoc)){}
-
+if (isset($_FILES['FacturaPDF_file'])){
+if(move_uploaded_file($_FILES['FacturaPDF_file']['tmp_name'], $UpDoc)){
+    
+}
+}
 
 if($_POST['NuevaSerie'] != "" AND $_POST['ModeloTPV'] != "" AND $_POST['Conexion'] != "" ){
 

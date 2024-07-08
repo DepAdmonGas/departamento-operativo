@@ -20,86 +20,68 @@ WHERE op_rh_personal.id_estacion = '" . $idEstacion . "' AND op_rh_personal.esta
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
 
-function Horarios($idEstacion, $con)
-{
-    if ($idEstacion == 9) {
-        $idEstacion = 2;
-    }
-    $sql_horario = "SELECT *
-FROM op_rh_localidades_horario WHERE id_estacion = '" . $idEstacion . "' ";
-    $result_horario = mysqli_query($con, $sql_horario);
-    $numero_horario = mysqli_num_rows($result_horario);
-    while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
-        $array1[] = $row_horario['titulo'];
-    }
-    return $array1;
+function Horarios($idEstacion, $con){
+$array1 = [];
+$sql_horario = "SELECT *FROM op_rh_localidades_horario WHERE id_estacion = '" . $idEstacion . "' ";
+$result_horario = mysqli_query($con, $sql_horario);
+$numero_horario = mysqli_num_rows($result_horario);
+while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
+$array1[] = $row_horario['titulo'];
+}
+return $array1;
 }
 
+
+function BuscarHorario($dia, $idPersonal, $idReporte, $con){
+$resultado = "";
+$ClassHerramientasDptoOperativo = new HerramientasDptoOperativo($con);
+$NomDia = $ClassHerramientasDptoOperativo->get_nombre_dia2($dia); 
+
+$sql_horario = "SELECT *FROM op_rh_personal_horario_programar_detalle WHERE id_reporte = '" . $idReporte . "' AND id_personal = '" . $idPersonal . "' AND dia = '" . $NomDia . "' ";
+$result_horario = mysqli_query($con, $sql_horario);
+$numero_horario = mysqli_num_rows($result_horario);
+while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
+$resultado = $row_horario['horario'];
+}
+return $resultado;
+}
+
+function BuscarHorarioFormato($dia, $idPersonal, $idReporte, $con){
+$resultado="";
+$ClassHerramientasDptoOperativo = new HerramientasDptoOperativo($con);
+$NomDia = $ClassHerramientasDptoOperativo->get_nombre_dia2($dia); 
+
+$sql_horario = "SELECT *
+FROM op_rh_personal_horario_programar_detalle
+WHERE id_reporte = '" . $idReporte . "' AND id_personal = '" . $idPersonal . "' AND dia = '" . $NomDia . "' ";
+$result_horario = mysqli_query($con, $sql_horario);
+$numero_horario = mysqli_num_rows($result_horario);
+while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
+if ($row_horario['hora_entrada'] == "00:00:00" && $row_horario['hora_salida'] == "00:00:00") {
+$resultado = "Descanso";
+} else {
+$resultado = date("g:i a", strtotime($row_horario['hora_entrada'])) . ' a ' . date("g:i a", strtotime($row_horario['hora_salida']));
+}
+}
+return $resultado;
+}
+
+
+
+$referencia = $session_nomestacion;
 $Horarios = Horarios($idEstacion, $con);
 
-function BuscarHorario($dia, $idPersonal, $idReporte, $con)
-{
-    $resultado = "";
-    $NomDia = NomDia($dia);
-    $sql_horario = "SELECT *
-FROM op_rh_personal_horario_programar_detalle
-WHERE id_reporte = '" . $idReporte . "' AND id_personal = '" . $idPersonal . "' AND dia = '" . $NomDia . "' ";
-    $result_horario = mysqli_query($con, $sql_horario);
-    $numero_horario = mysqli_num_rows($result_horario);
-    while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
-        $resultado = $row_horario['horario'];
-    }
-    return $resultado;
-}
-
-function BuscarHorarioFormato($dia, $idPersonal, $idReporte, $con)
-{
-    $resultado="";
-    $NomDia = NomDia($dia);
-    $sql_horario = "SELECT *
-FROM op_rh_personal_horario_programar_detalle
-WHERE id_reporte = '" . $idReporte . "' AND id_personal = '" . $idPersonal . "' AND dia = '" . $NomDia . "' ";
-    $result_horario = mysqli_query($con, $sql_horario);
-    $numero_horario = mysqli_num_rows($result_horario);
-    while ($row_horario = mysqli_fetch_array($result_horario, MYSQLI_ASSOC)) {
-        if ($row_horario['hora_entrada'] == "00:00:00" && $row_horario['hora_salida'] == "00:00:00") {
-            $resultado = "Descanso";
-        } else {
-            $resultado = date("g:i a", strtotime($row_horario['hora_entrada'])) . ' a ' . date("g:i a", strtotime($row_horario['hora_salida']));
-        }
-    }
-    return $resultado;
-}
-
-function NomDia($dia)
-{
-    if ($dia == "1")
-        $dia = "Lunes";
-    if ($dia == "2")
-        $dia = "Martes";
-    if ($dia == "3")
-        $dia = "Miércoles";
-    if ($dia == "4")
-        $dia = "Jueves";
-    if ($dia == "5")
-        $dia = "Viernes";
-    if ($dia == "6")
-        $dia = "Sábado";
-    if ($dia == "7")
-        $dia = "Domingo";
-    return $dia;
-}
-$referencia = $session_nomestacion;
-$separador = '';
 if($idEstacion == 9):
-    $separador = 'mt-3';
-    $referencia = 'Autolavado';
+echo '<hr>';
+$referencia = 'Autolavado';
+$Horarios = Horarios(2, $con);
+
 endif;
 
 ?>
 
 <div class="table-responsive">
-    <table class="custom-table <?=$separador?>" style="font-size: .8em;" width="100%">
+    <table class="custom-table " style="font-size: .8em;" width="100%">
         <thead class="navbar-bg">
             <tr class="tables-bg">
 				<th colspan="10" class="align-middle text-center"><?= $referencia; ?></th>
@@ -148,49 +130,49 @@ endif;
                         echo '<th class="text-center align-middle">' . $row_personal['id'] . '</th>';
                         echo '<td class="align-middle text-start fw-normal">' . $row_personal['nombre_completo'] . '</td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,1,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia1 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,1,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia1 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,2,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia2 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,2,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia2 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,3,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia3 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,3,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia3 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,4,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia4 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,4,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia4 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,5,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia5 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,5,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia5 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,6,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia6 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,6,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia6 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
                         echo '<option>Descanso</option>';
                         echo '</select></td>';
 
-                        echo '<td class="p-0 m-0 align-middle"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,7,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia7 . '</option>';
+                        echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,7,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia7 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
                             echo '<option>' . $Horarios[$i] . '</option>';
                         }
@@ -203,7 +185,7 @@ endif;
                 }
 
             } else {
-                echo "<tr><td colspan='10' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+                echo "<tr><td colspan='10' class='text-center text-secondary no-hover'><small>No se encontró información para mostrar </small></td></tr>";
             }
             ?>
         </tbody>

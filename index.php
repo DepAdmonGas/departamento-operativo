@@ -125,7 +125,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 //$ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
                 $ruta_elegida = 'app/vistas/personal-general/4-almacen/refacciones/refacciones-index.php';
                 break;
-
+ 
             case 'refacciones-almacen':
                 //$ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
                 $ruta_elegida = 'app/vistas/contenido/4-almacen/refacciones/refacciones-almacen.php';
@@ -250,8 +250,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
             //---------- RECIBOS DE NOMINA V2 ----------
             case 'recibos-nomina':
-                $ruta_elegida = 'public/recibo-nomina/vistas/recibo-nomina-estaciones-index.php';
-                break;
+            $ruta_elegida = 'public/recibo-nomina/vistas/recibo-nomina-estaciones-index.php';
+            break;
 
             case 'recursos-humanos-recibos-nomina':
                 $ruta_elegida = 'public/recibo-nomina/vistas/recursos-humanos-recibo-nomina-index.php';
@@ -287,9 +287,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
 
-
-
-
             case 'recursos-humanos-vacaciones':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-index.php';
                 break;
@@ -301,7 +298,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'nivel-explosividad':
                 $ruta_elegida = 'public/corte-diario/vistas/nivel-explosividad-index.php';
                 break;
-
+ 
             //-----------------------------------------------------------------------------------------
 
             case 'orden-mantenimiento':
@@ -326,10 +323,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'descarga-tuxpan':
                 //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-index.php';
                 $ruta_elegida = 'app/vistas/personal-general/3-importacion/formato-descarga-merma/descarga-index.php';
-                break;
-            case 'descarga-tuxpan-nuevo':
-                //$ruta_elegida = 'public/admin/vistas/descarga-tuxpan-nuevo.php';
-                $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/nueva-descarga.php';
                 break;
 
             case 'perfil':
@@ -364,8 +357,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
             //-------------- CONTRATOS -------------------------
             case 'precios-combustible':
-                $ruta_elegida = 'public/corte-diario/vistas/precios-combustible-index.php';
-                break;
+            $ruta_elegida = 'public/corte-diario/vistas/precios-combustible-index.php';
+            break;
 
             case 'pedido-papeleria':
                 $ruta_elegida = 'public/admin/vistas/pedido-papeleria-op-index.php';
@@ -391,7 +384,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'almacen':
                 $ruta_elegida = 'public/corte-diario/vistas/almacen-index.php';
                 break;
-
+ 
             case 'pedidos':
                 $ruta_elegida = 'public/corte-diario/vistas/pedidos-index.php';
                 break;
@@ -461,7 +454,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-year-admin.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corporativo-mes.php';
     }
-
+  
     //-------------------- 2. RECURSOS HUMANOS  -------------------- 
     
     // -- Asistencia Personal -----
@@ -480,11 +473,11 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $GET_idBaja = $partes_ruta[2];
     $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/baja-personal/detalle-baja-personal.php';
 
-    //-- Baja Personal -----
 
-
-
-
+    //-------------------- 3. IMPORTACION  -------------------- 
+    }else if ($partes_ruta[1] == 'descarga-tuxpan-nuevo') {
+    $GET_idEstacion = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/contenido/3-importacion/formato-descarga-merma/nueva-descarga.php';
 
     //-------------- CONTRATOS -------------------------
     } else if ($partes_ruta[1] == 'contratos') {
@@ -751,7 +744,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         } else if ($partes_ruta[1] == 'pivoteo-editar') {
             $GET_idReporte = $partes_ruta[2];
             //$ruta_elegida = 'public/corte-diario/vistas/pivoteo-editar.php';
-            $ruta_elegida = 'app/vistas/contenido/3-importacion/pivoteo/editar-pivoteo.php';
+            $ruta_elegida = 'app/vistas/personal-general/3-importacion/pivoteo/editar-pivoteo.php';
         } else if ($partes_ruta[1] == 'pivoteo-pdf') {
             $GET_idReporte = $partes_ruta[2];
             //$ruta_elegida = 'public/admin/vistas/pivoteo-pdf.php';
@@ -854,6 +847,11 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_idEstacion = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-evaluacion-personal-index.php';
         }
+
+        else if ($partes_ruta[1] == 'precios-combustible-detalle') {
+            $GET_idPrecio = $partes_ruta[2];
+            $ruta_elegida = 'public/admin/vistas/precios-combustible-detalle.php';
+        } 
 
     } else if (count($partes_ruta) == 4) {
 
@@ -1003,9 +1001,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         } else if ($partes_ruta[2] == 'formato-precios-detalle') {
             $GET_idPrecio = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/formato-precios-detalle.php';
-        } else if ($partes_ruta[2] == 'precios-combustible-detalle') {
-            $GET_idPrecio = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/precios-combustible-detalle.php';
         } else if ($partes_ruta[2] == 'solicitud-aditivo-firmar') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/solicitud-aditivo-firmar.php';
@@ -1099,7 +1094,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_idYear = $partes_ruta[2];
             $GET_idMes = $partes_ruta[3];
             $ruta_elegida = 'public/corte-diario/vistas/precios-combustible-mes.php';
-        } else if ($partes_ruta[2] == 'precios-combustible-nuevo') {
+        } else if ($partes_ruta[2] == 'precios-combustible-formulario') {
             $GET_IdPrecio = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/precios-combustible-nuevo.php';
         } else if ($partes_ruta[2] == 'cuenta-litros-formato') {

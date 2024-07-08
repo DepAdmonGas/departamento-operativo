@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
 
 <html lang="es">
@@ -30,13 +26,6 @@ header("Location:".PORTAL."");
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
-  <style media="screen">
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
-
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
   <script type="text/javascript">
@@ -47,46 +36,44 @@ header("Location:".PORTAL."");
 
 
   if(sessionStorage){ 
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-    idEstacion = sessionStorage.getItem('idestacion');
-    year = sessionStorage.getItem('year');
-    mes = sessionStorage.getItem('mes');
+  idEstacion = sessionStorage.getItem('idestacion');
+  year = sessionStorage.getItem('year');
+  mes = sessionStorage.getItem('mes');
 
-    $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
-    
-    }   
+  $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
      
-   } 
+  }   
+     
+  } 
  
-
   });  
  
   function Regresar(){
-   sessionStorage.removeItem('idestacion');
-   sessionStorage.removeItem('year');
-   sessionStorage.removeItem('mes');
-   sessionStorage.removeItem('scrollTop');
-   window.history.back();
+  sessionStorage.removeItem('idestacion');
+  sessionStorage.removeItem('year');
+  sessionStorage.removeItem('mes');
+  sessionStorage.removeItem('scrollTop');
+  window.history.back();
   }
 
-//---------- SELECCION DE ESTACIONES ---------- 
+  //---------- SELECCION DE ESTACIONES ---------- 
   function SelRevisionES(idEstacion,year,mes){
-    sizeWindow();
-    sessionStorage.setItem('idestacion', idEstacion);
-    sessionStorage.setItem('year', year);
-    sessionStorage.setItem('mes', mes);
+  sizeWindow();
+  sessionStorage.setItem('idestacion', idEstacion);
+  sessionStorage.setItem('year', year);
+  sessionStorage.setItem('mes', mes);
 
   $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
 
   }
 
   function SelMesEstaciones(idEstacion,year){
-    sizeWindow();
-    var mes = $('#mesEstacion').val();
-    sessionStorage.setItem('mes', mes);
-
-    $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
+  sizeWindow();
+  var mes = $('#mesEstacion').val();
+  sessionStorage.setItem('mes', mes);
+  $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
 
   }
 
@@ -99,66 +86,67 @@ header("Location:".PORTAL."");
 
   function GuardarComentario(idReporte,idEstacion,year,mes,SemQui,descripcion){
 
-var Comentario = $('#Comentario').val();
+  var Comentario = $('#Comentario').val();
 
-var parametros = {
-"idReporte" : idReporte,
-"Comentario" : Comentario
-}; 
- 
-if(Comentario != ""){
-$('#Comentario').css('border',''); 
+  var parametros = {
+  "idReporte" : idReporte,
+  "Comentario" : Comentario
+  }; 
   
-$.ajax({
-data:  parametros,
-url:   '../public/recibo-nomina/modelo/agregar-comentario-nomina-v2.php',
-type:  'post',
-beforeSend: function() {
-},
-complete: function(){
+  if(Comentario != ""){
+  $('#Comentario').css('border',''); 
+    
+  $.ajax({
+  data:  parametros,
+  url:   '../public/recibo-nomina/modelo/agregar-comentario-nomina-v2.php',
+  type:  'post',
+  beforeSend: function() {
+  },
+  complete: function(){
 
-},
-success:  function (response) {
+  },
+  success:  function (response) {
 
-if (response == 1) {
+  if (response == 1) {
 
-$('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
+  $('#ListaNominaRevision').load('../public/recibo-nomina/vistas/lista-nomina-estaciones-revision.php?idEstacion=' + idEstacion +  '&year=' + year + '&mes=' + mes);
 
-sizeWindow();
-$('#Comentario').val('');
-$('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  sizeWindow();
+  $('#Comentario').val('');
+  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  alertify.success('Comentario agregado exitosamente');  
 
-}else{
- alertify.error('Error al guardar el comentario');  
-}
+  }else{
+  alertify.error('Error al guardar el comentario');  
+  }
 
-} 
-});
+  } 
+  });
 
-}else{
-$('#Comentario').css('border','2px solid #A52525'); 
-}
+  }else{
+  $('#Comentario').css('border','2px solid #A52525'); 
+  }
 
-}
+  }
 
 
-//---------- PUNTAJE RECIBO DE NOMINA (KPI) ----------
-function FinalizarNomina(idResponsable,idEstacion,year,mes,SemQui,descripcion){
+  //---------- PUNTAJE RECIBO DE NOMINA (KPI) ----------
+  function FinalizarNomina(idResponsable,idEstacion,year,mes,SemQui,descripcion){
 
-var data = new FormData(); 
-var url = '../public/recibo-nomina/modelo/finalizar-recibos-nomina.php';
+  var data = new FormData(); 
+  var url = '../public/recibo-nomina/modelo/finalizar-recibos-nomina.php';
 
-alertify.confirm('',
-function(){
- 
-data.append('idResponsable', idResponsable);
-data.append('idEstacion', idEstacion);
-data.append('year', year);
-data.append('mes', mes);
-data.append('SemQui', SemQui);
-data.append('descripcion', descripcion);
- 
-$(".LoaderPage").show();
+  alertify.confirm('',
+  function(){
+  
+  data.append('idResponsable', idResponsable);
+  data.append('idEstacion', idEstacion);
+  data.append('year', year);
+  data.append('mes', mes);
+  data.append('SemQui', SemQui);
+  data.append('descripcion', descripcion);
+  
+  $(".LoaderPage").show();
 
   $.ajax({
   url: url,
@@ -193,12 +181,12 @@ $(".LoaderPage").show();
   
   }); 
 
-},
-function(){
+  },
+  function(){
 
-}).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea finalizar la actividad?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-  
-}
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea finalizar la actividad?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+    
+  }
 
   </script>
   </head>
@@ -208,7 +196,7 @@ function(){
 
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
            
@@ -216,23 +204,21 @@ function(){
   <img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;">
   </div>
 
-    <ul class="list-unstyled components">
+  <ul class="list-unstyled components">
    
-    <li>
-    <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
-    <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
-    </a>
-    </li>
+  <li>
+  <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
+  <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
+  </a>
+  </li>
 
-
-    <li>
-    <a class="pointer" onclick="Regresar()">
-    <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
-    </a>
-    </li>
+  <li>
+  <a class="pointer" onclick="Regresar()">
+  <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
+  </a>
+  </li>
 
   <?php
-  
   $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE numlista <= 8 OR numlista = 10 OR numlista = 12 OR numlista = 14 OR numlista = 15 OR numlista = 16 OR numlista = 17 ORDER BY numlista ASC";
 
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
@@ -243,67 +229,60 @@ function(){
 
   $SelEstacion = "onclick='SelRevisionES(".$id.",".$GET_year.",".$GET_mes_actual.")'";
 
-
   if ($id == 6 || $id == 7) {
   $ocultarDiv = "d-none";
    
   }else{
-    $ocultarDiv = "";
+  $ocultarDiv = "";
   }
 
+  if($estacion == "Comodines"){
+  $icon = "fa-solid fa-users";
 
-if($estacion == "Comodines"){
- $icon = "fa-solid fa-users";
+  }else if($estacion == "Autolavado"){
+  $icon = "fa-solid fa-car";
 
-}else if($estacion == "Autolavado"){
- $icon = "fa-solid fa-car";
+  }else if($estacion == "Almacen"){
+  $icon = "fa-sharp fa-solid fa-shop";
 
-}else if($estacion == "Almacen"){
-$icon = "fa-sharp fa-solid fa-shop";
+  }else if($estacion == "Directivos"){
+  $icon = " fa-solid fa-user-tie"; 
 
-}else if($estacion == "Directivos"){
-$icon = " fa-solid fa-user-tie"; 
+  }else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
+  $icon = "fa-solid fa-screwdriver-wrench";
 
-}else if($estacion == "Servicio Profesionales Operación Servicio y Mantenimiento de Personal"){
-$icon = "fa-solid fa-screwdriver-wrench";
+  }else if($estacion == "Dirección de operaciones" ||
+  $estacion == "Departamento Gestión" ||
+  $estacion == "Departamento Jurídico" ||
+  $estacion == "Departamento Mantenimiento" ||
+  $estacion == "Departamento Sistemas"){
+  $icon = "fa-solid fa-briefcase"; 
 
-}else if($estacion == "Dirección de operaciones" ||
- $estacion == "Departamento Gestión" ||
- $estacion == "Departamento Jurídico" ||
- $estacion == "Departamento Mantenimiento" ||
- $estacion == "Departamento Sistemas"){
-   $icon = "fa-solid fa-briefcase"; 
-
-
-}else{
- $icon = "fa-solid fa-gas-pump";    
-}
+  }else{
+  $icon = "fa-solid fa-gas-pump";    
+  }
 
 
   echo '  
   <li class="'.$ocultarDiv.'">
-    <a class="pointer" '.$SelEstacion.'>
-    <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
-     '.$estacion.'
-    </a>
+  <a class="pointer" '.$SelEstacion.'><i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$estacion.'</a>
   </li>';
-
-}
+  }
   ?> 
 
-</ul>
-</nav>
+  </ul>
+  </nav>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
- <nav class="navbar navbar-expand navbar-light navbar-bg" >
+  <nav class="navbar navbar-expand navbar-light navbar-bg" >
   
   <i class="fa-solid fa-bars menu-btn rounded pointer" 
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Revisión recibos de nomina <?=$GET_year;?> </a>
+  <a class="text-dark" onclick="history.back()">Recibos de nomina <?=$GET_year;?> </a>
   </div>
  
    
@@ -362,35 +341,29 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaNominaRevision" class="cardAG"></div>
-  <?php
-
-  ?>
+  <div class="col-12">
+  <div id="ListaNominaRevision"></div>
   </div> 
-
+ 
   </div>
   </div>
 
 
   </div>
-</div>
-
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
   </div>
 
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="DivContenido">
+  </div>
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
 

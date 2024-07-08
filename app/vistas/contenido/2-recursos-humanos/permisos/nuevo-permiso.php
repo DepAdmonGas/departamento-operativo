@@ -123,7 +123,8 @@ require 'app/vistas/contenido/header.php';
         <div class="container bg-white p-3">
         
             <div class="row">
-                <div class="col-12 mb-3">
+                
+                <div class="col-12">
                 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
                         <ol class="breadcrumb breadcrumb-caret">
                             <li class="breadcrumb-item"><a onclick="history.back()"
@@ -140,14 +141,16 @@ require 'app/vistas/contenido/header.php';
                         </div>
                     </div>
 
-                    <div class="cardAG">
-                        <div class="border-0">
+                </div>
+
+                    <div >
 
                             <div class="alert alert-warning text-center" role="alert">
                                 <b>IMPORTANTE:</b> PARA SOLICITAR UN PERMISO DEBE DE SER CON MÍNIMO 15 DÍAS DE
                                 ANTICIPACIÓN
                             </div>
-                            <div class="row">
+                            
+                            <div class="row"> 
 
                                 <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
                                     <div class="row">
@@ -275,8 +278,8 @@ require 'app/vistas/contenido/header.php';
                                         <input type="hidden" name="base64" value="" id="base64">
                                     </div>
                                     <div class="text-end mt-2">
-                                            <button type="button" class="btn  btn-labeled2 btn-primary">
-         <span class="btn-label2"><i class="fa fa-trash-can" onclick="resizeCanvas()"></i></span>Limpiar</button>
+                                            <button type="button" class="btn btn-labeled2 btn-primary" onclick="resizeCanvas()">
+         <span class="btn-label2"><i class="fa fa-trash-can" ></i></span>Limpiar</button>
                                         </div>
 
                                 </div>
@@ -284,12 +287,11 @@ require 'app/vistas/contenido/header.php';
 
                             <hr>
 
-                            <div class="text-end">
-                            <button type="button" class="btn btn-labeled2 btn-success" onclick="Crear(<?= $GET_idEstacion; ?>)">
+                            <div class="text-end pb-0 mb-0">
+                            <button type="button" class="btn btn-labeled2 btn-success mt-2 pb-0 mb-0" onclick="Crear(<?= $GET_idEstacion; ?>)">
          <span class="btn-label2"><i class="fa fa-check"></i></span>Crear Permiso</button>
                             </div>
 
-                        </div>
                     </div>
                 </div>
 

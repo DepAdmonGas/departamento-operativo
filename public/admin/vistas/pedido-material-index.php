@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-} 
- 
 function ToSolicitud($idEstacion,$con){
 $sql_lista = "SELECT id FROM op_pedido_materiales WHERE id_estacion = '".$idEstacion."' AND estatus < 2";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -32,22 +28,16 @@ return $numero_lista;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-   
-  <style media="screen">
-  .grayscale {
-  filter: opacity(50%); 
-  }
-  </style>
  
   <script type="text/javascript">
 
@@ -59,9 +49,9 @@ return $numero_lista;
     if(sessionStorage){
     if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-    idestacion = sessionStorage.getItem('idestacion');
-    $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-materiales.php?idEstacion=' + idestacion);
-           
+    idestacion = sessionStorage.getItem('idestacion');           
+    PedidoMaterial(idestacion)
+
     }   
      
     }  
@@ -73,10 +63,30 @@ return $numero_lista;
   }
 
   function PedidoMaterial(idEstacion){
+  let targets;
+  targets = [5, 6, 7];
+
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-materiales.php?idEstacion=' + idEstacion);
+  
+  $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-materiales.php?idEstacion=' + idEstacion, function() {
+  $('#tabla_orden_' + idEstacion).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
+
+
+
 
   function Nuevo(idEstacion){
 
@@ -131,7 +141,6 @@ alertify.confirm('',
     PedidoMaterial(idEstacion);
     sizeWindow();
     alertify.success('Pedido eliminado exitosamente.');
-    window.location.reload()
 
     }
     });
@@ -191,8 +200,8 @@ alertify.confirm('',
 
   
   function ModalDetalle(id){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-material.php?idPedido=' + id);
+  $('#ModalR').modal('show');  
+  $('#DivModalRight').load('../public/admin/vistas/modal-detalle-pedido-material.php?idPedido=' + id);
      
  }  
  
@@ -205,8 +214,8 @@ window.location.href = "../pedido-material-pdf/" + id;
  }
 
  function ModalEvidencia(idEstacion,id){
-  $('#ModalComentario').modal('show');  
-    $('#DivContenidoComentario').load('../public/admin/vistas/modal-evidencia-pedido-material.php?idReporte=' + id + '&idEstacion=' + idEstacion);
+  $('#ModalR').modal('show');  
+  $('#DivModalRight').load('../public/admin/vistas/modal-evidencia-pedido-material.php?idReporte=' + id + '&idEstacion=' + idEstacion);
  }
  
  function AgregarEvidencia(idEstacion,idReporte){
@@ -270,9 +279,8 @@ window.location.href = "../pedido-material-pdf/" + id;
  }
  
  function ModalCausa(idEstacion,idReporte){
-
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
+  $('#ModalR').modal('show');  
+  $('#DivModalRight').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
 
  }
 
@@ -317,7 +325,7 @@ window.location.href = "../pedido-material-pdf/" + id;
     }).done(function(data){
 
     PedidoMaterial(idEstacion)
-    $('#ContenidoModal').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
+    $('#DivModalRight').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
     alertify.success('Registro agregado exitosamente.');
 
     }); 
@@ -353,8 +361,8 @@ function eliminarCausa(idEstacion,idReporte,id){
   },
   success:  function (response) {
 
-    PedidoMaterial(idEstacion)
-    $('#ContenidoModal').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
+    PedidoMaterial(idEstacion)  
+  $('#DivModalRight').load('../public/admin/vistas/modal-causa-pedido-material.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion);
     alertify.success('Registro eliminado exitosamente.');
 
   }
@@ -448,8 +456,6 @@ if($estacion == "Comodines"){
   <li>
   <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
   </li>';
-
-
 }
 
 ?> 
@@ -467,7 +473,7 @@ if($estacion == "Comodines"){
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Orden de Mantenimiento</a>
+  <a class="text-dark" onclick="history.back()">Almacén</a>
   </div>
  
    
@@ -525,41 +531,39 @@ if($estacion == "Comodines"){
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ContenidoPrin" class="cardAG"></div>
+  <div class="col-12" id="ContenidoPrin" ></div>
+  </div>
   </div> 
 
   </div>
-  </div> 
+
   </div>
 
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="DivContenidoComentario">
+  </div>
+  </div>
+  </div>
 
-</div>
-
- 
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
-
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivModalRight"></div>
+  </div>
   </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 
 </body>

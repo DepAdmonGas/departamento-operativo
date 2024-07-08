@@ -60,51 +60,41 @@ return $numero_lista = mysqli_num_rows($result_lista);
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Detalle de la Transacción</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
-<div class="border p-3 mb-2">
-<h6>Fecha y hora:</h6>
-<hr>
- <?=$Fecha.', '.$Hora;?>
-</div>
-
 <div class="row">
 
+<div class="col-12 mb-2"><h6>Fecha y hora:</h6><?=$Fecha.', '.$Hora;?></div>
+
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<h6>Estación proveedora:</h6>
+<?=$Estacion;?>
+</div>
 
- <div class="border p-3 mb-2">
- <h6>Estación proveedora:</h6>
- <?=$Estacion;?>
- </div>
-
- <div class="border p-3 mb-2">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
  <h6>Refacción que sale:</h6>
  <?=$NomRefaccion;?>
  </div>
 
-  </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-
- <div class="border p-3 mb-2">
  <h6>Estación receptora:</h6>
  <?=$EstacionReceptora;?>
  </div>
 
- <div class="border p-3 mb-2">
+ <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
  <h6>Refacción que entra:</h6>
  <?=$NomRefaccionEntra;?>
  </div>
 
 
-  </div>
-</div>
-
- <div class="border p-3 mb-2">
- <h6>Observación y/o motivo:</h6>
+ <div class="col-12 mb-2"> 
+<h6>Observación y/o motivo:</h6>
  <?=$observaciones;?>
+ </div>
+
  </div>
 
  <hr>
@@ -119,26 +109,38 @@ while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
 if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = "Realizo Responsable de almacen";
-$Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG_Firma.$row_firma['firma'].'" width="70%"></div>';
+$Detalle = '<div class="border-0 p-2 text-center"><img src="'.RUTA_IMG_Firma.$row_firma['firma'].'" width="100%"></div>';
 
 
 }else if($row_firma['tipo_firma'] == "B"){
 $TipoFirma = "Vo.Bo Dep. de Mantenimiento";
-$Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</small></div>';
 
 
 }else if($row_firma['tipo_firma'] == "C"){
 $TipoFirma = "Vo.Bo Gerente Operativo";
-$Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</small></div>';
 }
 
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">';
-echo '<div class="border p-3">';
-echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6>';
-echo $Detalle;
-echo '<div class="text-center mt-2">'.Personal($row_firma['id_usuario'],$con).' </div>';
-echo '</div>';
-echo '</div>';
+echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="title-table-bg">
+<tr> <th class="align-middle text-center">'.$TipoFirma.'</th> </tr>
+</thead>
+<tbody>
+
+<tr class="no-hover2">
+<th class="align-middle text-center bg-light">'.$Detalle.'</th>
+</tr>
+
+<tr class="no-hover2">
+<th class="align-middle text-center bg-light">'.Personal($row_firma['id_usuario'],$con).'</th>
+</tr>
+
+</tbody>
+</table>
+</div>';
 }
 
 ?> 

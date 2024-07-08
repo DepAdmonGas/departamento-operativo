@@ -158,10 +158,10 @@ $numero_asistencia = mysqli_num_rows($result_asistencia);
   $num++;
   }
 
-  }else{
-  echo "<tr><td colspan='11'><div class='text-secondary text-center p-2 fs-6 fw-light'>No se encontró información para mostrar </div></td></tr>"; 
   }
+
   ?>
+  
   </tbody>
   </table>
   </div>

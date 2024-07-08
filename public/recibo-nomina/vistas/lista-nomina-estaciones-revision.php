@@ -1,131 +1,127 @@
 <?php
 require('../../../app/help.php');
 
-$GET_idEstacion = $_GET['idEstacion'];
-$GET_year = $_GET['year'];
-$GET_idMes = $_GET['mes'];
+  $GET_idEstacion = $_GET['idEstacion'];
+  $GET_year = $_GET['year'];
+  $GET_idMes = $_GET['mes'];
 
+  if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
+  $descripcion = "Semana";
+  //---------- ARRAY DEL NUMERO DE SEMANAS DEL MES ----------
+  $listadoSemanas = SemanasDelMes($GET_idMes, $GET_year);
 
-if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
-$descripcion = "Semana";
-//---------- ARRAY DEL NUMERO DE SEMANAS DEL MES ----------
-$listadoSemanas = SemanasDelMes($GET_idMes, $GET_year);
-
-if($GET_idEstacion == 9){
+  if($GET_idEstacion == 9){
   $excelEncargados = '';
+  $divBuscador = 'col-12';
 
-}else{
-  $excelEncargados = '<a class="mt-2 float-end" href="../public/recibo-nomina/vistas/excel-recibo-nomina-despachadores.php?idEstacion=' . $GET_idEstacion . '&year=' . $GET_year . '&mes=' . $GET_idMes . '" download>
+  }else{
+  $divBuscador = 'col-10';
+  $excelEncargados = '  <div class="col-2">
+  <a class="mt-2 float-end" href="../public/recibo-nomina/vistas/excel-recibo-nomina-despachadores.php?idEstacion=' . $GET_idEstacion . '&year=' . $GET_year . '&mes=' . $GET_idMes . '" download>
   <img src="' . RUTA_IMG_ICONOS . 'excel.png">
-  </a>';
+  </a></div>';
 
-}
- 
-}else{
-$descripcion = "Quincena";
-//---------- ARRAY DEL NUMERO DE QUINCENAS DEL MES ----------
-$listadoQuincenas = QuincenasDelMes($GET_idMes, $GET_year);
-$excelEncargados = '';
-
-}
-
-//---------- OBTENER EL NOMBRE DE LA ESTACION ----------
-$sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$GET_idEstacion."' ";
-$result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$Titulo = $row['localidad'];
-}
- 
-//---------- OBTENER LOS DATOS DEL PERSONAL DE LA ESTACION ----------
-function PersonalNomina($idPersonal, $con){
-$sql = "SELECT
-op_rh_personal.fecha_ingreso, 
-op_rh_personal.no_colaborador, 
-op_rh_personal.nombre_completo, 
-op_rh_puestos.puesto 
-FROM op_rh_personal 
-INNER JOIN op_rh_puestos ON op_rh_personal.puesto = op_rh_puestos.id
-WHERE op_rh_personal.id = '".$idPersonal."' ";
-    
-$result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$fecha_ingreso = $row['fecha_ingreso'];
-$no_colaborador = $row['no_colaborador'];
-$nombreNomina = $row['nombre_completo'];
-$puesto = $row['puesto'];
-}
-     
-$array = array(
-'fecha_ingreso' => $fecha_ingreso,  
-'no_colaborador' => $no_colaborador, 
-'nombreNomina' => $nombreNomina,
-'puesto' => $puesto
-);
-    
-return $array; 
-    
-}
-
-//---------- OBTENER NUMERO DE COMENTARIOS ----------
-function ToComentarios($IdReporte,$con){
-$sql_lista = "SELECT id FROM op_recibo_nomina_v2_comentarios WHERE id_nomina = '".$IdReporte."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-    
-return $numero_lista = mysqli_num_rows($result_lista);      
-}
-
-//---------- BLOQUEO DE ACTIVIDADES (FINALIZACION) ----------
-function finalizacionEstaciones($idEstacion,$year,$mes,$semana,$descripcion,$con){
-
-$sql_listaPuntaje = "SELECT id FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND actividad = 'Recibos Estacion'";
-$result_listaPuntaje = mysqli_query($con, $sql_listaPuntaje);
-return $numero_listaPuntaje = mysqli_num_rows($result_listaPuntaje);
-
-}
- 
-
-//---------- CONFIGURACION FINALIZAR RECIBOS DE NOMINA ESTACIONES ----------//
-function botonFinalizarOP($idEstacion,$year,$mes,$semana,$descripcion,$con){
-
-$finalizacionEstaciones = finalizacionEstaciones($idEstacion,$year,$mes,$semana,$descripcion,$con);
-
-if($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 9 || $idEstacion == 14){
-$msg = "La estación no ha finalizado su actividad.";
-}else{
-$msg = "El departamento no ha finalizado su actividad.";
-}
-
-if($finalizacionEstaciones != 0){
-    
-    $sql_lista3 = "SELECT id FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND actividad = 'Recibos Operativo'";
-    $result_lista3 = mysqli_query($con, $sql_lista3);
-    $numero_lista3 = mysqli_num_rows($result_lista3);
-
-    if($numero_lista3 == 0){
-    $btnFinalizarES = '<button type="button" class="btn btn-success float-end" onclick="FinalizarNomina(3,'.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">Finalizar</button>';
-        
-    }else{
-    $btnFinalizarES  = '<span class="badge rounded-pill bg-success float-end" style="font-size: .78em;">
-    La actividad fue finalizada.</i>
-    </span>';
-    } 
-
-
-}else{
-$btnFinalizarES = '<span class="badge rounded-pill bg-danger float-end" style="font-size: .78em;">
-'.$msg.'
-</span>';
-}
-
-
-$array = array(
-'num_listaES' => $numero_lista3, 
-'btnFinalizarES' => $btnFinalizarES
-);
+  }
   
-return $array; 
-        
-}
+  }else{
+  $descripcion = "Quincena";
+  //---------- ARRAY DEL NUMERO DE QUINCENAS DEL MES ----------
+  $listadoQuincenas = QuincenasDelMes($GET_idMes, $GET_year);
+  $excelEncargados = '';
+  $divBuscador = 'col-12';
+
+  }
+
+  //---------- OBTENER EL NOMBRE DE LA ESTACION ----------
+  $sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$GET_idEstacion."' ";
+  $result = mysqli_query($con, $sql);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  $Titulo = $row['localidad'];
+  }
+ 
+  //---------- OBTENER LOS DATOS DEL PERSONAL DE LA ESTACION ----------
+  function PersonalNomina($idPersonal, $con){
+  $sql = "SELECT
+  op_rh_personal.fecha_ingreso, 
+  op_rh_personal.no_colaborador, 
+  op_rh_personal.nombre_completo, 
+  op_rh_puestos.puesto 
+  FROM op_rh_personal 
+  INNER JOIN op_rh_puestos ON op_rh_personal.puesto = op_rh_puestos.id
+  WHERE op_rh_personal.id = '".$idPersonal."' ";
+      
+  $result = mysqli_query($con, $sql);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  $fecha_ingreso = $row['fecha_ingreso'];
+  $no_colaborador = $row['no_colaborador'];
+  $nombreNomina = $row['nombre_completo'];
+  $puesto = $row['puesto'];
+  }
+      
+  $array = array(
+  'fecha_ingreso' => $fecha_ingreso,  
+  'no_colaborador' => $no_colaborador, 
+  'nombreNomina' => $nombreNomina,
+  'puesto' => $puesto
+  );
+      
+  return $array; 
+      
+  }
+
+  //---------- OBTENER NUMERO DE COMENTARIOS ----------
+  function ToComentarios($IdReporte,$con){
+  $sql_lista = "SELECT id FROM op_recibo_nomina_v2_comentarios WHERE id_nomina = '".$IdReporte."' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  return $numero_lista = mysqli_num_rows($result_lista);      
+  }
+
+  //---------- BLOQUEO DE ACTIVIDADES (FINALIZACION) ----------
+  function finalizacionEstaciones($idEstacion,$year,$mes,$semana,$descripcion,$con){
+  $sql_listaPuntaje = "SELECT id FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND actividad = 'Recibos Estacion'";
+  $result_listaPuntaje = mysqli_query($con, $sql_listaPuntaje);
+  return $numero_listaPuntaje = mysqli_num_rows($result_listaPuntaje);
+  }
+  
+
+  //---------- CONFIGURACION FINALIZAR RECIBOS DE NOMINA ESTACIONES ----------//
+  function botonFinalizarOP($idEstacion,$year,$mes,$semana,$descripcion,$con){
+  $finalizacionEstaciones = finalizacionEstaciones($idEstacion,$year,$mes,$semana,$descripcion,$con);
+  $numero_lista3 = "";
+
+  if($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 9 || $idEstacion == 14){
+  $msg = "La estación no ha finalizado su actividad.";
+  }else{
+  $msg = "El departamento no ha finalizado su actividad.";
+  }
+
+  if($finalizacionEstaciones != 0){
+  $sql_lista3 = "SELECT id FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND actividad = 'Recibos Operativo'";
+  $result_lista3 = mysqli_query($con, $sql_lista3);
+  $numero_lista3 = mysqli_num_rows($result_lista3);
+
+  if($numero_lista3 == 0){
+  $btnFinalizarES = '<button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(3,'.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">
+  <span class="btn-label2"><i class="fa-regular fa-circle-check"></i></span>Finalizar actividad</button>';
+  
+  }else{
+  $btnFinalizarES  = '<span class="badge rounded-pill bg-success float-end" style="font-size: .78em;">
+  La actividad fue finalizada.</i>
+  </span>';
+  } 
+
+  }else{
+  $btnFinalizarES = '<span class="badge rounded-pill bg-danger float-end" style="font-size: .78em;">'.$msg.'</span>';
+  }
+
+  $array = array(
+  'num_listaES' => $numero_lista3, 
+  'btnFinalizarES' => $btnFinalizarES
+  );
+  
+  return $array; 
+          
+  }
 
 //---------- PRIMA VACACIONAL ALERTA----------
 function ToAlertaBd($id_usuario,$con){
@@ -193,53 +189,46 @@ function fechasNominaQuincenas($year, $mes, $quincena){
     return $array; 
   } 
 
-//---------- OBTIENE EL NUMERO DE SEMANAS QUE TIENE EL MES ----------
-function SemanasDelMes($GET_idMes, $GET_year) {
+  //---------- OBTIENE EL NUMERO DE SEMANAS QUE TIENE EL MES ----------
+  function SemanasDelMes($GET_idMes, $GET_year) {
   // Obtener el primer día del mes
   $primerDia = strtotime("$GET_year-$GET_idMes-01");
-
   // Ajustar el primer día al primer día de la semana
   $primerDia = strtotime("this Wednesday", $primerDia);
-
   // Inicializar el array para almacenar las semanas
   $semanas = array();
 
   // Iterar desde el primer día hasta el último día del mes
   for ($currentDate = $primerDia; date('m', $currentDate) == $GET_idMes; $currentDate = strtotime('+1 week', $currentDate)) {
-      // Calcular el número de semana
-      $semana = date('W', $currentDate);
+  // Calcular el número de semana
+  $semana = date('W', $currentDate);
 
-      // Agregar la semana al array solo si no está ya presente
-      if (!in_array($semana, $semanas)) {
-          $semanas[] = $semana;
-      }
+  // Agregar la semana al array solo si no está ya presente
+  if (!in_array($semana, $semanas)) {
+  $semanas[] = $semana;
+  }
   }
 
   return $semanas;
-}
+  }
 
-
-
-//---------- OBTIENE EL NUMERO DE QUINCENAS QUE TIENE EL MES ----------
-function QuincenasDelMes($GET_idMes, $GET_year) {
-$quincenas = array();
+  //---------- OBTIENE EL NUMERO DE QUINCENAS QUE TIENE EL MES ----------
+  function QuincenasDelMes($GET_idMes, $GET_year) {
+  $quincenas = array();
+  // Obtener el primer día del mes
+  $primerDia = strtotime("first day of $GET_year-$GET_idMes");    
+  // Iterar solo dos veces para representar las dos quincenas
+  for ($i = 1; $i <= 2; $i++) {
+  // Calcular el número de quincena consecutivo
+  $quincena = (($GET_idMes - 1) * 2) + $i;   
+  // Agregar la quincena al array
+  $quincenas[] = $quincena;
+  }
     
-// Obtener el primer día del mes
-$primerDia = strtotime("first day of $GET_year-$GET_idMes");
-        
-// Iterar solo dos veces para representar las dos quincenas
-for ($i = 1; $i <= 2; $i++) {
-// Calcular el número de quincena consecutivo
-$quincena = (($GET_idMes - 1) * 2) + $i;
-        
-// Agregar la quincena al array
-$quincenas[] = $quincena;
-}
-    
-return $quincenas;
-}
- 
-function obtenerMesPorSemana($year, $semana) {
+  return $quincenas;
+  }
+  
+  function obtenerMesPorSemana($year, $semana) {
   // Crear un objeto DateTime para el primer día de la semana
   $primerDiaSemana = new DateTime();
   $primerDiaSemana->setISODate($year, $semana);
@@ -248,68 +237,65 @@ function obtenerMesPorSemana($year, $semana) {
   $numeroMes = $primerDiaSemana->format('n');
   
   return $numeroMes;
-}
+  }
 
-function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$con){
+  function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$menorNumero,$con){
+  $resultado = "";
+  $valSalto = "";
 
-if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
-//---------- FECHA DE INICIO Y FIN DE LA SEMANA ----------
-$fechaNomiaSemana = fechasNominaSemana($GET_year, $GET_idSemana);
-$inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
-$finFechas = $fechaNomiaSemana['finSemanaDay'];
+  if($menorNumero != $GET_idSemana){
+  $valSalto = "<hr>";
+  }
 
-$GET_idMes = obtenerMesPorSemana($GET_year, $GET_idSemana);
+  if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
+  //---------- FECHA DE INICIO Y FIN DE LA SEMANA ----------
+  $fechaNomiaSemana = fechasNominaSemana($GET_year, $GET_idSemana);
+  $inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
+  $finFechas = $fechaNomiaSemana['finSemanaDay'];
 
-}else{
+  $GET_idMes = obtenerMesPorSemana($GET_year, $GET_idSemana);
 
-//---------- FECHA DE INICIO Y FIN DE LA QUINCENA ----------
-$fechaNomiaQuincena = fechasNominaQuincenas($GET_year,$GET_idMes,$GET_idSemana);
-$inicioFechas = $fechaNomiaQuincena['inicioQuincenaDay'];
-$finFechas = $fechaNomiaQuincena['finQuincenaDay'];
-}
+  }else{
+
+  //---------- FECHA DE INICIO Y FIN DE LA QUINCENA ----------
+  $fechaNomiaQuincena = fechasNominaQuincenas($GET_year,$GET_idMes,$GET_idSemana);
+  $inicioFechas = $fechaNomiaQuincena['inicioQuincenaDay'];
+  $finFechas = $fechaNomiaQuincena['finQuincenaDay'];
+  }
 
 
-$sql_lista = "SELECT * FROM op_recibo_nomina_v2 WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' AND mes= '".$GET_idMes."' AND no_semana_quincena = '".$GET_idSemana."' AND descripcion = '".$descripcion."' ORDER BY id_usuario ASC ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-   
+  $sql_lista = "SELECT * FROM op_recibo_nomina_v2 WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' AND mes= '".$GET_idMes."' AND no_semana_quincena = '".$GET_idSemana."' AND descripcion = '".$descripcion."' ORDER BY id_usuario ASC ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+    
 
-//---------- BOTON FINALIZAR DIRECCION DE OPERACIONES ----------
-$configFinalizar = botonFinalizarOP($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$con);
-$numero_fin_ES = $configFinalizar['num_listaES'];
-$btnFinalizarES = $configFinalizar['btnFinalizarES'];
+  //---------- BOTON FINALIZAR DIRECCION DE OPERACIONES ----------
+  $configFinalizar = botonFinalizarOP($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$con);
+  $numero_fin_ES = $configFinalizar['num_listaES'];
+  $btnFinalizarES = $configFinalizar['btnFinalizarES'];
 
-if($numero_lista > 0){
-$ocultarFinalizar = "";
-}else{
-$ocultarFinalizar = "d-none";    
-}
+  if($numero_lista > 0){
+  $ocultarFinalizar = "";
+  }else{
+  $ocultarFinalizar = "d-none";    
+  }
 
-$resultado .= '<div class="p-3 border mb-3">
 
-<div class="row">
-<div class="col-6">
-<h6> '.$descripcion.' '.$GET_idSemana.' </h6>
-</div>
+  $resultado .= ' '.$valSalto.'
+  <div class="mb-3">
 
-<div class="col-6 '.$ocultarFinalizar.'">
-'.$btnFinalizarES.'
-</div>
+  <div class="table-responsive">
+  <table id="tabla_nomina_revision" class="custom-table" style="font-size: .9em;" width="100%">
 
-</div>
-
-<hr>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-
-<thead class="tables-bg">
-  <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold" colspan="15">'.formatoFecha($inicioFechas).' al '.formatoFecha($finFechas).'</th>
+  <thead class="title-table-bg">
+  
+  <tr class="tables-bg">
+  <th class="text-center align-middle tableStyle font-weight-bold" colspan="5">'.$descripcion.' '.$GET_idSemana.' <br> '.formatoFecha($inicioFechas).' al '.formatoFecha($finFechas).'</th>
+  <th class="text-center align-middle tableStyle font-weight-bold" colspan="4"> <div class="'.$ocultarFinalizar.'">'.$btnFinalizarES.'</div> </th>
   </tr>
 
   <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
+  <td class="text-center align-middle tableStyle fw-bold">#</td>
   <th class="text-center align-middle tableStyle font-weight-bold" width="100">No. Colaborador</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Nombre del personal</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Puesto</th>
@@ -317,16 +303,17 @@ $resultado .= '<div class="p-3 border mb-3">
   <th class="text-center align-middle tableStyle font-weight-bold" width="100">Prima Vacacional</th>
   <th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'pdf.png"></th>
   <th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'pdf-firma.png"></th>
-
-  <th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></th>
+  <td class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>
 
   </tr>
-</thead> 
+  </thead> 
 
-<tbody>';
+  <tbody>';
 
-if ($numero_lista > 0) {
+  if ($numero_lista > 0) {
     $num = 1;
+    $totalGeneral = 0;
+
     while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
     $id = $row_lista['id'];
     $id_usuario = $row_lista['id_usuario'];
@@ -397,14 +384,14 @@ if ($numero_lista > 0) {
     $ToComentarios = ToComentarios($id,$con);
     
     if($ToComentarios > 0){
-    $Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><small>'.$ToComentarios.'</small></span></div>';
+    $Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 3px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
     }else{
     $Nuevo = ''; 
     } 
 
     $ToAlertaBD = ToAlertaBd($id_usuario,$con);
 
-if($prima_vacacional == 0 && $ToAlertaBD == 0 && $numero_fin_ES == 0){
+    if($prima_vacacional == 0 && $ToAlertaBD == 0 && $numero_fin_ES == 0){
     $badgePV = '<span class="badge rounded-pill bg-warning text-dark">Realizar pago <br>en las proximas semanas</span>';
       
     }else if($prima_vacacional == 1 && $ToAlertaBD == 1){
@@ -418,100 +405,99 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0 && $numero_fin_ES == 0){
 
     }
 
-    $resultado .= '<tr '.$bgTable.'>
-    <td class="align-middle text-center"><b>'.$num.'</b></td>
-    <td class="align-middle text-center">'.$no_colaborador2 .'</td>
-    <td class="align-middle text-center">'.$nombreNomina.'</td>
-    <td class="align-middle text-center">'.$puestoNomina.'</td>
-    <td class="align-middle text-center">$'.number_format($importe_total,2).'</td>
-    <td class="align-middle text-center">'.$badgePV.'</td>
-    <td class="align-middle text-center">'.$archivoNominaAcuse.'</td>
-    <td class="align-middle text-center">'.$archivoNominaFirma.'</td>
-
-    <td class="align-middle text-center">
-	'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" onclick="ModalComentario('.$id.','.$GET_idEstacion.','.$GET_year.','.$GET_idMes.','.$GET_idSemana.',\''.$descripcion.'\')" data-toggle="tooltip" data-placement="top" title="Comentarios">
+  $resultado .= '<tr '.$bgTable.'>
+  <th class="align-middle text-center"><b>'.$num.'</b></th>
+  <td class="align-middle text-center">'.$no_colaborador2 .'</td>
+  <td class="align-middle text-center">'.$nombreNomina.'</td>
+  <td class="align-middle text-center">'.$puestoNomina.'</td>
+  <td class="align-middle text-center">$'.number_format($importe_total,2).'</td>
+  <td class="align-middle text-center">'.$badgePV.'</td>
+  <td class="align-middle text-center">'.$archivoNominaAcuse.'</td>
+  <td class="align-middle text-center">'.$archivoNominaFirma.'</td>
+  <td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$GET_idEstacion.','.$GET_year.','.$GET_idMes.','.$GET_idSemana.',\''.$descripcion.'\')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>
 	</td>
-    </tr>';
+  </tr>';
 
-    $num++;
-    }
+  $num++;
+  }
 
-    $EtiquetaTotal = '<h6 class="text-end"> Importe Total: $'.number_format($totalGeneral,2).' </h6>';
+  $EtiquetaTotal = '$'.number_format($totalGeneral,2).'';
+
+  $resultado .= '<tr class="bg-white">
+  <th class="align-middle text-end" colspan="4"><b>Importe Total:</b></th>
+  <th class="align-middle text-center"><b>'.$EtiquetaTotal.'</b></th>
+  <th class="align-middle text-end" colspan="4"></th>
+  </tr>';
 
 
-}else{
 
-    $resultado .=  "<tr><td colspan='16' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-    $EtiquetaTotal = '<h6 class="text-end"> Importe Total: 0 </h6>';
+  }else{
+  $resultado .=  "<tr class='bg-white'><td colspan='16' class='text-center text-secondary no-hover'><small>No se encontró información para mostrar </small></td></tr>";
 
-}
+  }
 
-$resultado .= '</tbody>
-</table>
-</div>
+  $resultado .= '</tbody>
+  </table>
+  </div>
 
-<hr>
- 
+  </div>';
+
+
+  return $resultado;
+
+  }
+
+  
+  ?>
+
+
+
+
 <div class="row">
 
 <div class="col-12">
-'.$EtiquetaTotal.'
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Recibo de nomina</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$Titulo;?> (Revisión <?=$ClassHerramientasDptoOperativo->nombremes($GET_idMes)?> <?=$GET_year?>)</li>
+
+</ol>
 </div>
-
-</div>
-</div>';
-
-
-return $resultado;
-
-}
-
- 
-?>
-
-
-
-<div class="border-0 p-3">
-
-<div class="row">
-
-<div class="col-9">
-  <h5><?=$Titulo;?> - <?=nombremes($GET_idMes)?> <?=$GET_year;?></h5>
-</div>
-
-
-<div class="col-3">
+    
+<div class="row"> 
+<div class="col-10"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$Titulo;?> (Revisión <?=$ClassHerramientasDptoOperativo->nombremes($GET_idMes)?> <?=$GET_year?>)</h3> </div>
+<div class="col-2"> 
 <div class="row">
   
-
-
-<div class="col-11">
-<div class="d-flex align-items-center ">
-<select class="form-select rounded-0 " id="mesEstacion" onchange="SelMesEstaciones(<?=$GET_idEstacion?>,<?=$GET_year?>)"> 
-<option value="">Seleccion un mes...</option>    
-<?php  
-// Array con los nombres de los meses
-$meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-
-// Bucle para generar las opciones del menú desplegable
-for ($i = 0; $i < count($meses); $i++) {
-echo "<option value='".($i+1)."'>$meses[$i]</option>";
-}
-?>
-</select>
-</div>
-</div> 
-
-<div class="col-1">
-<?=$excelEncargados?>
-</div>
-
-</div>
+  <div class="<?=$divBuscador?>">
+  <div class="d-flex align-items-center ">
+  <select class="form-select rounded-0 float-end" id="mesEstacion" onchange="SelMesEstaciones(<?=$GET_idEstacion?>,<?=$GET_year?>)"> 
+  <option value="">Selecciona un mes...</option>    
+  <?php  
+  // Array con los nombres de los meses
+  $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+  
+  // Bucle para generar las opciones del menú desplegable
+  for ($i = 0; $i < count($meses); $i++) {
+  echo "<option value='".($i+1)."'>$meses[$i]</option>";
+  }
+  ?>
+  </select>
+  </div>
+  </div> 
+  
+  <?=$excelEncargados?>
+  
+  </div>
 </div>
 
 </div>
 
 <hr>
+</div>
+</div>
+
+
 
 <?php
 
@@ -521,8 +507,14 @@ if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_
     // Imprimir el resultado como una lista
     foreach ($listadoSemanas as $semana) {
     $GET_idSemana = (int)$semana;
+
+    // Convertir cada elemento del array a entero
+    $listadoSemanasEnteros = array_map('intval', $listadoSemanas);
+    // Obtener el menor valor usando la función min
+    $menorNumeroS = min($listadoSemanasEnteros);
+
     //$GET_idSemana . '<br>';
-    echo tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$con);
+    echo tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$descripcion,$menorNumeroS,$con);
     //echo mostrarGraficoGoogleCharts($GET_idEstacion, $GET_year, $GET_idMes, $GET_idSemana, $descripcion, $con);
     
     }
@@ -532,8 +524,13 @@ if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_
     foreach ($listadoQuincenas as $quincena) {
     $GET_idQuincena = (int)$quincena;
     //$GET_idQuincena . '<br>';
+
+    // Convertir cada elemento del array a entero
+    $listadoQuincenaEnteros = array_map('intval', $listadoQuincenas);
+    // Obtener el menor valor usando la función min
+    $menorNumeroQ = min($listadoQuincenaEnteros);
         
-    echo tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idQuincena,$descripcion,$con);
+    echo tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idQuincena,$descripcion,$menorNumeroQ,$con);
     //echo mostrarGraficoGoogleCharts($GET_idEstacion, $GET_year, $GET_idMes, $GET_idQuincena, $descripcion, $con);
 
     }
@@ -544,4 +541,3 @@ if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_
 ?>
 
 
-</div>

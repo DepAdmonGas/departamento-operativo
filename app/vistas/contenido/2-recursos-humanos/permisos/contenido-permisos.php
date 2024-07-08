@@ -1,60 +1,13 @@
 <?php
 require ('../../../../help.php');
-
 $idEstacion = $_GET['idEstacion'];
-
-$sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '" . $idEstacion . "' ";
-$result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
-    $estacion = $row_listaestacion['localidad'];
-}
 
 $sql_lista = "SELECT * FROM op_rh_permisos WHERE id_estacion = '" . $idEstacion . "' OR estacion_cubre = '" . $idEstacion . "' ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-function Estacion($idEstacion, $con)
-{
-    $sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '" . $idEstacion . "' ";
-    $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-    while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
-        $estacion = $row_listaestacion['localidad'];
-    }
-    return $estacion;
-}
-
-
-function Responsable($idUsuario, $con)
-{
-    $sql_usuario = "SELECT nombre FROM tb_usuarios WHERE id = '" . $idUsuario . "' ";
-    $result_usuario = mysqli_query($con, $sql_usuario);
-    while ($row_usuario = mysqli_fetch_array($result_usuario, MYSQLI_ASSOC)) {
-        $usuario = $row_usuario['nombre'];
-    }
-    return $usuario;
-}
-
-
-function Comodin($idUsuario, $con)
-{
-    $sql_usuario = "SELECT nombre FROM tb_usuarios WHERE id = '" . $idUsuario . "' ";
-    $result_usuario = mysqli_query($con, $sql_usuario);
-    while ($row_usuario = mysqli_fetch_array($result_usuario, MYSQLI_ASSOC)) {
-        $usuario = $row_usuario['nombre'];
-    }
-    return $usuario;
-}
 ?>
-<!--Se ocupa cuando se registra un nuevo permiso y se actualice los datos de la vista-->
-<script>
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                // Si la página está en la caché del navegador, recargarla
-                window.location.reload();
-            }
-        });
-</script>
-
+ 
     <div class="row">
     <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
@@ -80,25 +33,26 @@ function Comodin($idUsuario, $con)
             </thead>
             <tbody>
 
-                <?php
-                if ($numero_lista > 0) {
+    <?php
+    if ($numero_lista > 0) {
 
-                    while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-                        $id = $row_lista['id'];
-                        $idestacion = $row_lista['id_estacion'];
-                        $idpersonal = $row_lista['id_personal'];
-                        $Estacion = Estacion($idestacion, $con);
-                        $Responsable = Responsable($idpersonal, $con);
+    while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+    $id = $row_lista['id'];
+    $idpersonal = $row_lista['id_personal'];
+    
+    $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idpersonal);
+    $Responsable = $datosPersonal['nombre'];         
+                        
+    $FechaInicio = $row_lista['fecha_inicio'];
+    $FechaTermino = $row_lista['fecha_termino'];
+    $Cubre = $row_lista['cubre_turno'];
 
-                        $FechaInicio = $row_lista['fecha_inicio'];
-                        $FechaTermino = $row_lista['fecha_termino'];
-                        $Cubre = $row_lista['cubre_turno'];
+    $datosPersonal2 = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($Cubre);
+    $Comodin = $datosPersonal2['nombre'];    
 
-                        $Comodin = Comodin($Cubre, $con);
-
-                        if ($row_lista['estado'] == 0) {
-                            $trColor = 'style="background-color: #ffb6af"';
-                            $btnEliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $id . ',' . $idEstacion . ')">';
+    if ($row_lista['estado'] == 0) {
+    $trColor = 'style="background-color: #ffb6af"';
+    $btnEliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $id . ',' . $idEstacion . ')">';
 
                         } else if ($row_lista['estado'] == 1) {
                             $trColor = 'style="background-color: #fcfcda"';
@@ -114,8 +68,8 @@ function Comodin($idUsuario, $con)
                             <th class="text-center align-middle">' . $id . '</th>
                             <td class="text-center align-middle">' . $Responsable . '</td>
 
-                            <td class="text-center align-middle">' . FormatoFecha($FechaInicio) . '</td>
-                            <td class="text-center align-middle">' . FormatoFecha($FechaTermino) . '</td>
+                            <td class="text-center align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio) . '</td>
+                            <td class="text-center align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino) . '</td>
                             <td class="text-center align-middle">' . $row_lista['dias_tomados'] . '</td>
                             <td class="text-center align-middle"><b>' . $Comodin . '</b></td>
 

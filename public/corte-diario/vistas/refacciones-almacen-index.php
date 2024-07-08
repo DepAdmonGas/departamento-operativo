@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
 <html lang="es">
   <head>
@@ -24,17 +20,18 @@ header("Location:".PORTAL."");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
+
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  
- ListaRefacciones();
+  ListaRefacciones();
 
   });  
 
@@ -42,10 +39,28 @@ header("Location:".PORTAL."");
    window.history.back();
   } 
 
-  function ListaRefacciones(){
-  $('#ListaRefacciones').load('public/corte-diario/vistas/lista-refacciones.php');
+  function ListaRefacciones() {
+  let referencia, targets;
+  targets = [6, 7];
+
+  $('#ListaRefacciones').load('public/corte-diario/vistas/lista-refacciones.php', function() {
+  $('#tabla_refacciones_a').DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [25, 50, 75, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
- 
+
+
+
    function ModalDetalle(id){      
     $('#Modal').modal('show');  
     $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-refaccion.php?idRefaccion=' + id);
@@ -141,56 +156,47 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-
-    <h5>Almacen Refacciones</h5>
-
-    </div>
-
-    </div>
-
-    </div>
-
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Refacciones</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Refacciones en Almacén</li>
+  </ol>
   </div>
-
-  <hr>
-
-  <div id="ListaRefacciones"></div>
+ 
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Refacciones en Almacén</h3> </div>
+  </div>
   
+  <hr>
+  </div>
+
+  <div class="col-12" id="ListaRefacciones"></div>
+
+  </div>
   </div>
   </div>
   </div>
 
-  </div>
-  </div>
-
-  </div>
-
-
-<div class="modal" id="Modal">
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>    
-    </div>
+  <div class="modal-content" id="ContenidoModal">
   </div>
-</div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script> 
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
- </body>
+
+  </body>
   </html>
 
 

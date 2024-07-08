@@ -52,7 +52,10 @@ $pedestales = $row_lista['pedestales'];
  
 </div>
 
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-danger" onclick="ModalFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="GuardarFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">Guardar</button>
-      </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-danger" onclick="ModalFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">
+  <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+        
+	<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+  </div>

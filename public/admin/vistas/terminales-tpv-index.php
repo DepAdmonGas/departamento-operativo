@@ -5,7 +5,7 @@ if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
 
-?>  
+?>   
  
 <html lang="es">
   <head>
@@ -24,11 +24,15 @@ header("Location:".PORTAL."");
 
   <script src="<?=RUTA_JS?>size-window.js"></script>
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
 
@@ -40,8 +44,7 @@ header("Location:".PORTAL."");
     if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
     id = sessionStorage.getItem('idestacion');
-    $('#ListaTerminales').load('../public/admin/vistas/lista-terminales-tpv.php?idEstacion=' + id);
-           
+    SelEstacion(id)     
     }   
      
     }  
@@ -50,13 +53,44 @@ header("Location:".PORTAL."");
 
   function Regresar(){
    window.history.back();
-  }
-  
-  function SelEstacion(id){
-  sizeWindow();   
-  sessionStorage.setItem('idestacion', id); 
-  $('#ListaTerminales').load('../public/admin/vistas/lista-terminales-tpv.php?idEstacion=' + id);
   } 
+  
+  function SelEstacion(idEstacion) {
+
+  function initializeDataTable(tableId) {
+  let targets;
+  targets = [15];
+
+  $('#ListaTerminales').load('../public/admin/vistas/lista-terminales-tpv.php?idEstacion=' + idEstacion, function() {
+    // Clonar y remover las filas antes de inicializar DataTables
+    var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
+    $('#' + tableId + ' .ultima-fila').remove();
+
+    $('#' + tableId).DataTable({
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "asc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targets },
+        { "searchable": false, "targets": targets }
+      ],
+      "drawCallback": function(settings) {
+        // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+        $('#' + tableId + ' .ultima-fila').remove();
+        // Añadir las filas clonadas al final del tbody
+        $('#' + tableId + ' tbody').append($lastRows.clone());
+      }
+    });
+  });
+  }
+
+initializeDataTable('tabla_tpv_' + idEstacion);
+}
+
+
+
  
   function Agregar(idEstacion){
   $('#Modal').modal('show');  
@@ -470,11 +504,7 @@ var TipoTPV = $('#TipoTPV').val();
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaTerminales" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ListaTerminales"></div>
   </div>
   </div> 
   </div>
@@ -482,22 +512,25 @@ var TipoTPV = $('#TipoTPV').val();
 
 </div>
 
-
-
-<div class="modal" id="Modal">
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>    
-    </div>
+  <div class="modal-content" id="ContenidoModal">
   </div>
-</div>
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
+  <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

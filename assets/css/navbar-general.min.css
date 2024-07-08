@@ -456,50 +456,69 @@ filter: opacity(50%);
     .custom-table tbody tr.active {
       opacity: .4; 
     }
+
+    /* Mantener el estilo hover para las filas */
+    .custom-table tbody tr:hover {
+        background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
+        cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
+    }
+
+    /* Quitar el estilo hover para celdas específicas */
+    .custom-table tbody tr:hover th.no-hover, 
+    .custom-table tbody tr:hover td.no-hover {
+        background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+    }
+
+    /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+    .custom-table tbody tr:hover th.no-hover,
+    .custom-table tbody tr:hover td.no-hover {
+        background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+    }
+
+
+    /* Quitar el estilo hover para celdas específicas */
+    .custom-table tbody tr:hover th.no-hover2, 
+    .custom-table tbody tr:hover td.no-hover2 {
+    background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+    }
     
-   /* Mantener el estilo hover para las filas */
-   .custom-table tbody tr:hover {
-    background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
-    cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
-}
+    /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+    .custom-table tbody tr:hover th.no-hover2,
+    .custom-table tbody tr:hover td.no-hover2 {
+    background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+    }
 
-/* Quitar el estilo hover para celdas específicas */
-.custom-table tbody tr:hover th.no-hover, 
-.custom-table tbody tr:hover td.no-hover {
-    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
-}
+    /* Quitar el estilo hover para celdas específicas */
+    .custom-table tbody tr:hover th.no-hoverRed, 
+    .custom-table tbody tr:hover td.no-hoverRed {
+    background-color: #ffb6af !important; /* Quita el color de fondo cuando se hace hover */
+    }
+        
+    /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+    .custom-table tbody tr:hover th.no-hoverRed,
+    .custom-table tbody tr:hover td.no-hoverRed {
+    background-color: #ffb6af !important; /* Quita el color de fondo cuando se hace hover */
+    }
 
-/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
-.custom-table tbody tr:hover th.no-hover,
-.custom-table tbody tr:hover td.no-hover {
-    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
-}
-/* Quitar el estilo hover para celdas específicas */
-.custom-table tbody tr:hover th.no-hover2, 
-.custom-table tbody tr:hover td.no-hover2 {
-background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
-}
 
-/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
-.custom-table tbody tr:hover th.no-hover2,
-.custom-table tbody tr:hover td.no-hover2 {
-background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
-} 
     .dt-empty {
         background-color: #fff; /* Cambiar el color de fondo */
         /* Otros estilos */
     }
+
     .disabledOP {
         background-color: #e9ecef;
         color: #a0a0a0;
     }
-    /* mantener la ultima fila del datatable estatica*/
+
     .ultima-fila {
         font-weight: bold;
         position: sticky;
         bottom: 0;
-        z-index: 10;/* Asegúrate de que esté por encima de otras filas */
+        z-index: 10; /* Asegúrate de que esté por encima de otras filas */
+        background-color: white; /* Asegúrate de que el fondo sea visible */
     }
+
     
     /* ---------------------------------------------------
         BOTONES DESING

@@ -6,7 +6,6 @@ $Year = $_GET['Year'];
 $Mes = $_GET['Mes'];
 
 $listadoSemanas = SemanasDelMes($Mes, $Year);
-
 //---------- OBTIENE EL NUMERO DE SEMANAS QUE TIENE EL MES ----------
 function SemanasDelMes($GET_idMes, $GET_year) {
 // Obtener el primer día del mes
@@ -56,9 +55,19 @@ return $array;
       
 }  
 
-function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$con){
+function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$session_nompuesto,$con){
+$ClassHerramientasDptoOperativo = new HerramientasDptoOperativo($con);
 
 $resultado = "";
+
+//---------- VISUALIZACIONES PUESTOS ----------
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+$ocultarBtn = "d-none";
+
+}else{
+$ocultarBtn = "";
+}
+
 
     $fechaNomiaSemana = fechasNominaSemana($GET_year, $GET_idSemana);
     $inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
@@ -94,22 +103,22 @@ $resultado = "";
     <div class="col-1">';
 
     if($finFechas <= $fechaActual){
-        $reporte = '
 
+    $reporte = '
  
-        <div class="dropdown d-inline ms-2 >">
-        <button type="button" class="btn btn-labeled2 dropdown-toggle btn-success text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="btn-label2"><i class="fa-solid fa-download"></i></span>Descargar</button>
-        </button>
+    <div class="dropdown d-inline ms-2 >">
+    <button type="button" class="btn btn-labeled2 dropdown-toggle btn-success text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="btn-label2"><i class="fa-solid fa-download"></i></span>Descargar</button>
+    </button>
         
-        <ul class="dropdown-menu">
-        <li><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/reporte-asistencia-faltas-pdf-v2.php?idEstacion=' . $GET_idEstacion . '&year=' . $GET_year . '&mes=' . $GET_idMes . '&semana= '. $GET_idSemana . '"> <i class="fa-regular fa-file-pdf"></i> Reporte Semana '. $GET_idSemana . '</a></li>
-        <li><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/asistencias-excel-v3.php?idEstacion='. $GET_idEstacion . '&year=' . $GET_year . '&mes=' . $GET_idMes . '"> <i class="fa-regular fa-file-excel"></i> Reporte '.$GET_idMes.'</a></li>
-        <li><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/reporte-incidencias-estaciones.php?year=' . $GET_year . '&mes=' . $GET_idMes . '&semana= '. $GET_idSemana . '"> <i class="fa-regular fa-file-pdf"></i> Reporte Semana '. $GET_idSemana . ' (Estaciones)</a></li>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/reporte-asistencia-faltas-pdf-v2.php?idEstacion='.$GET_idEstacion.'&year='.$GET_year.'&mes='.$GET_idMes.'&semana='.$GET_idSemana.'"> <i class="fa-regular fa-file-pdf"></i> Reporte - Semana No. '. $GET_idSemana . '</a></li>
+    <li ><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/asistencias-excel-v3.php?idEstacion='.$GET_idEstacion.'&year='.$GET_year.'&mes='.$GET_idMes.'"> <i class="fa-regular fa-file-excel"></i> Reporte - '.$ClassHerramientasDptoOperativo->nombremes($GET_idMes).' '.$GET_year.'</a></li>
+    <li class="'.$ocultarBtn.'"><a class="dropdown-item pointer" href="public/recursos-humanos/vistas/reporte-incidencias-estaciones.php?year='.$GET_year.'&mes='.$GET_idMes.'&semana='.$GET_idSemana.'"> <i class="fa-regular fa-file-pdf"></i> Reporte Estaciones - Semana No.'.$GET_idSemana.' </a></li>
         
-        
-        </ul>
-        </div>';
+    </ul>
+    </div>';
+
 
     }else{
     $reporte = '<span class="badge rounded-pill bg-danger float-end text-center" style="font-size: .78em;">
@@ -126,24 +135,26 @@ $resultado = "";
 
     </div>'; 
      
-     
-
     $resultado .= '<div class="table-responsive">';
     $resultado .= '<table class="custom-table mb-3" style="font-size: .8em;" width="100%">';
     $resultado .= '<thead class="title-table-bg">';
     $resultado .= '<tr class="tables-bg">';
-    $resultado .= '<th class="align-middle text-center" colspan="8" >Semana '.$GET_idSemana.' <br> '.formatoFecha($inicioFechas).' al '.formatoFecha($finFechas).'</th>';
+
+    $resultado .= '<th class="align-middle text-center" colspan="8" >Semana '.$GET_idSemana.' <br> '.$ClassHerramientasDptoOperativo->formatoFecha($inicioFechas).' al '.$ClassHerramientasDptoOperativo->formatoFecha($finFechas).'</th>';
+
     $resultado .= '<th class="align-middle text-center" colspan="2"> '.$reporte.' </th>';
     $resultado .= '</tr>';
 
     $resultado .= '<tr>';
-    $resultado .= '<th class="align-middle">Nombre</th>';
+
+    $resultado .= '<td class="align-middle fw-bold">Nombre</td>';
     foreach ($diasEntre as $dia) {
-    $resultado .= '<th class="align-middle text-center">'.formatoFecha($dia).'</th>';
+    $resultado .= '<th class="align-middle text-center">'.$ClassHerramientasDptoOperativo->formatoFecha($dia).'</th>';
     }   
 
     $resultado .= '<th class="align-middle text-center">Retardos</th>';
-    $resultado .= '<th class="align-middle text-center">Faltas</th>';
+    $resultado .= '<td class="align-middle text-center fw-bold">Faltas</td>';
+
     $resultado .= '</tr>';
     $resultado .= '</thead>'; 
 
@@ -285,16 +296,44 @@ function Incidencias($id,$con){
 
 <?php 
 
+//---------- VISUALIZACIONES PUESTOS ----------
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+    
+if($idEstacion == 9){
+$divisionHR = "<hr>";
+$nombreES = '<h3 class="text-secondary">Autolavado</h3>';
+$btnRegreso = '';
+}else{
+$divisionHR = "";
+$nombreES = "";
+$btnRegreso = '
+
+<div class="row">
+<div class="col-12">
+<button type="button" class="btn btn-labeled2 btn-danger float-end" onclick="SelEstacionReturn('.$idEstacion.')">
+<span class="btn-label2"><i class="fa-solid fa-rotate-left"></i></span>Regresar al listado mensual</button>
+</div>
+</div>';
+
+}
+    
+}else{
+$divisionHR = "";
+$nombreES = "";
+$btnRegreso = '';
+}
+
+echo $btnRegreso;
+echo $divisionHR;
+echo $nombreES;
+
+
 foreach ($listadoSemanas as $semana) {
 $GET_idSemana = (int)$semana;
 
-echo tablasNomina($idEstacion, $Year, $Mes, $GET_idSemana, $con);
+echo tablasNomina($idEstacion, $Year, $Mes, $GET_idSemana, $session_nompuesto, $con);
+
 
 }
     
 ?>
-
-
-
-
-

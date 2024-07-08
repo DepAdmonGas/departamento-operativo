@@ -39,7 +39,7 @@ class Merma extends Exception{
         $sql = "SELECT id FROM op_descarga_tuxpa ORDER BY id DESC LIMIT 1";
         $stmt = $this->con->prepare($sql);
         if (!$stmt) :
-            throw new Exception('Error al preparar la consulta' . $this->con->error);
+        throw new Exception('Error al preparar la consulta' . $this->con->error);
         endif;
         $stmt->execute();
         $stmt->bind_result($id);
@@ -97,6 +97,7 @@ class Merma extends Exception{
             (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql);
         if(!$stmt):
+            $result = false;
             throw new Exception("Error al preparar la consulta".$this->con->error);
         endif;
         $stmt->bind_param("iiiisssssssssssdsssddsd",$IdPrincipal,$Folio,$form[0],$form[1],$form[2],$form[3],$form[4],

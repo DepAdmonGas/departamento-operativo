@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-} 
- 
 ?> 
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -22,21 +19,13 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
   <script src="<?=RUTA_JS?>size-window.js"></script>
-   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-  </style>
  
   <script type="text/javascript">
 
@@ -337,7 +326,7 @@ alertify.confirm('',
     cache: false
     }).done(function(response){
 
-
+ 
     if (response == 1) {
     $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-refacciones.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);  
     Mantenimiento(idEstacion)     

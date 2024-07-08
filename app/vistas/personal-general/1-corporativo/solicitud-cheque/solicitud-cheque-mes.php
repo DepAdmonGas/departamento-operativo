@@ -59,7 +59,7 @@
   }else{
   targets = [10, 11, 12, 13, 14, 15, 16]; // Asigna los targets para el caso por defecto
   
-  }
+  } 
 
   $('#ListaSolicitudes').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/lista-solicitud-cheques-mes.php?year=' + year + '&mes=' + mes, function() {
   // Una vez que se carguen los datos en la tabla, inicializa DataTables

@@ -1,7 +1,8 @@
 <?php
 error_reporting(0);
 require 'app/help.php';
-require_once 'dompdf/vendor/autoload.php';
+require_once 'app/lib/dompdf/vendor/autoload.php';
+
 $contenido ="";
 $type = "";
 

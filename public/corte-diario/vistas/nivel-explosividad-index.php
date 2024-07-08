@@ -4,7 +4,7 @@ require('app/help.php');
 if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
-?>
+?>  
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -23,19 +23,12 @@ header("Location:".PORTAL."");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-  
-  <style media="screen">
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
 
@@ -45,16 +38,33 @@ header("Location:".PORTAL."");
   });
 
   function ListaExplosividad(idestacion){
-  $('#ListaSenalamientos').load('public/corte-diario/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion); 
-  } 
- 
+  let referencia, targets;
+  targets = [2];
+
+  $('#ListaSenalamientos').load('public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion, function() {
+  $('#tabla_nivel_explosividad_' + idestacion).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
+  }
+
   function Regresar(){
   sessionStorage.removeItem('idestacion');
   window.history.back();
   }
-    function Detalle(idReporte){
-    window.location.href =  "nivel-explosividad-detalle/" + idReporte; 
-    }
+  
+  function Detalle(idReporte){
+  window.location.href =  "nivel-explosividad-detalle/" + idReporte; 
+  }
   
   </script>
   </head>
@@ -70,51 +80,21 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Medición nivel de explosividad</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-  <div id="ListaSenalamientos"></div>
-
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="ListaSenalamientos"></div>
 
   </div>
   </div>
 
   </div>
-
-
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

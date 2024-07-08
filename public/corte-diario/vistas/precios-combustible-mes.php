@@ -1,11 +1,7 @@
  <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-?> 
+?>  
  
 <html lang="es">
   <head>
@@ -41,21 +37,21 @@ header("Location:".PORTAL."");
    window.history.back();
   }
 
- 
+  
   function ListaPrecios(year,mes){
-  $('#ListaFecha').load('../../public/corte-diario/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes);
+  $('#ListaFecha').load('../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes);
   }  
  
 
-//---------- DETALLE FORMULARIO DE PRECIOS ----------
+  //---------- DETALLE FORMULARIO DE PRECIOS ----------
   function Detalle(id){
-window.location.href = "../precios-combustible-detalle/" + id;
+  window.location.href = "../../precios-combustible-detalle/" + id;
   }
 
   </script>
   </head>
   <body>
-
+ 
 
   <div class="LoaderPage"></div>
 
@@ -67,52 +63,12 @@ window.location.href = "../precios-combustible-detalle/" + id;
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-
-    <div class="row">
-
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-      <h5>Formato de precios</h5>
-    </div>
-
-    </div>
-
-    </div>
-
-    </div>
- 
-  <hr>
-
-  <div id="ListaFecha"></div>
- 
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="ListaFecha"></div>
  
   </div>
   </div>
 
   </div>
-
-
-<div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-
-      <div id="DivPrecios"></div>
-  
-    </div>
-  </div>
-</div>
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
