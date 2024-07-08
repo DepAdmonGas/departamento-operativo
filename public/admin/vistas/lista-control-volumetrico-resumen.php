@@ -8,7 +8,7 @@ $sql_lista = "SELECT * FROM op_control_volumetrico_resumen WHERE id_mes = '" . $
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)):
   $id = $row_lista['id'];
   $producto = $row_lista['producto'];
   $dato1 = $row_lista['dato1'];
@@ -131,145 +131,132 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
   }
 
   ?>
+  <div class="table-responsive mt-3">
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+      <thead class="navbar-bg">
+        <tr>
+          <th colspan="4" class="align-middle text-center tables-bg"><?= $producto; ?></th>
+        </tr>
+        <tr>
+          <td></td>
+          <th>Rep. Volumetrico</th>
+          <th>Reg. Contables</th>
+          <td class="fw-bold">Diferencias</td>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <th class="text-start">Inventario final</th>
+          <td class="text-end p-0 pb-0 mb-0">
+            <input type="number" id="1<?= $id; ?>" step="any" style="width: 100%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato1; ?>"
+              onkeyup="Edit(1,1,<?= $id; ?>,<?= $dato2; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
+          </td>
 
+          <td class="text-end p-0 pb-0 mb-0">
+            <input type="number" id="2<?= $id; ?>" step="any" style="width: 100%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato2; ?>"
+              onkeyup="Edit(2,1,<?= $id; ?>,<?= $dato1; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
+          </td>
 
-  <div class="border mb-3">
-    <div class="p-3">
+          <td class="text-end <?= $color1; ?>" id="D1<?= $id; ?>"><?= number_format($Diferencia1, 2); ?></td>
+        </tr>
 
-      <div>
-        <b style="color: <?= $CProduct0; ?>"><?= $producto; ?></b>
-      </div>
+        <!---------- COMPRAS L ---------->
+        <tr>
+          <th class="text-start">Compras L</th>
 
+          <td class="text-end p-0 pb-0 mb-0">
+            <input type="number" id="3<?= $id; ?>" step="any" style="width: 100%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato3; ?>"
+              onkeyup="Edit(3,2,<?= $id; ?>,<?= $dato4; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
+          </td>
 
-      <hr>
+          <td id="RC<?= $id; ?>" class="text-end"><?= number_format($dato4, 2); ?></td>
+          <td class="text-end <?= $color2; ?>" id="D2<?= $id; ?>"><?= number_format($Diferencia2, 2); ?></td>
+        </tr>
 
+        <tr>
+          <th class="text-start">$</th>
 
-      <div class="table-responsive">
-        <table class="table table-sm table-bordered pb-0 mb-0 pb-0 font-weight-light">
+          <td class="text-end p-0 pb-0 mb-0">
+            $ <input type="number" id="5<?= $id; ?>" step="any" style="width: 90%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato5; ?>"
+              onkeyup="Edit(5,3,<?= $id; ?>,<?= $dato6; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
 
-          <tr class="">
-            <td class="bg-success text-white"><b><?= nombremes($GET_mes); ?> </b></td>
-            <td>Rep. Volumetrico</td>
-            <td>Reg. Contables</td>
-            <td>Diferencias</td>
-          </tr>
-          <tr>
-            <td>Inventario final</td>
-            <td class="text-end p-0 pb-0 mb-0">
-              <input type="number" id="1<?= $id; ?>" step="any" style="width: 100%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato1; ?>"
-                onkeyup="Edit(1,1,<?= $id; ?>,<?= $dato2; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
-            </td>
+          <td class="text-end">$ <?= number_format($dato6, 2); ?></td>
+          <td class="text-end <?= $color3; ?>" id="D3<?= $id; ?>">$ <?= number_format($Diferencia3, 2); ?></td>
+        </tr>
 
-            <td class="text-end p-0 pb-0 mb-0">
-              <input type="number" id="2<?= $id; ?>" step="any" style="width: 100%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato2; ?>"
-                onkeyup="Edit(2,1,<?= $id; ?>,<?= $dato1; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
-            </td>
+        <!---------- VENTAS L ---------->
+        <tr>
+          <th class="text-start">Ventas L</th>
 
-            <td class="text-end <?= $color1; ?>" id="D1<?= $id; ?>"><?= number_format($Diferencia1, 2); ?></td>
-          </tr>
+          <td class="text-end p-0 pb-0 mb-0">
+            <input type="number" id="7<?= $id; ?>" step="any" style="width: 100%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato7; ?>"
+              onkeyup="Edit(7,4,<?= $id; ?>,<?= $dato8; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
+          </td>
 
-          <!---------- COMPRAS L ---------->
-          <tr>
-            <td>Compras L</td>
+          <td class="text-end"><?= number_format($dato8, 2); ?></td>
+          <td class="text-end <?= $color4; ?>" id="D4<?= $id; ?>"><?= number_format($Diferencia4, 2); ?></td>
+        </tr>
 
-            <td class="text-end p-0 pb-0 mb-0">
-              <input type="number" id="3<?= $id; ?>" step="any" style="width: 100%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato3; ?>"
-                onkeyup="Edit(3,2,<?= $id; ?>,<?= $dato4; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
-            </td>
+        <tr>
+          <th class="text-start">$</th>
 
-            <td id="RC<?= $id; ?>" class="text-end"><?= number_format($dato4, 2); ?></td>
-            <td class="text-end <?= $color2; ?>" id="D2<?= $id; ?>"><?= number_format($Diferencia2, 2); ?></td>
-          </tr>
+          <td class="text-end p-0 pb-0 mb-0">
+            $ <input type="number" id="9<?= $id; ?>" step="any" style="width: 90%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato9; ?>"
+              onkeyup="Edit(9,5,<?= $id; ?>,<?= $dato10; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
 
-          <tr>
-            <td>$</td>
+          <td class="text-end">$ <?= number_format($dato10, 2); ?></td>
+          <td class="text-end <?= $color5; ?>" id="D5<?= $id; ?>">$ <?= number_format($Diferencia5, 2); ?></td>
+        </tr>
 
-            <td class="text-end p-0 pb-0 mb-0">
-              $ <input type="number" id="5<?= $id; ?>" step="any" style="width: 90%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato5; ?>"
-                onkeyup="Edit(5,3,<?= $id; ?>,<?= $dato6; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
+        <!---------- DESPACHOS L ---------->
+        <tr>
+          <th class="text-start">Despachos L</th>
+          <td class="text-end p-0 pb-0 mb-0">
+            <input type="number" id="11<?= $id; ?>" step="any" style="width: 100%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato11; ?>"
+              onkeyup="Edit(11,6,<?= $id; ?>,<?= $dato12; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
+          </td>
+          <td class="text-end"><?= number_format($dato12, 2); ?></td>
+          <td class="text-end <?= $color6; ?>" id="D6<?= $id; ?>"><?= number_format($Diferencia6, 2); ?></td>
+        </tr>
 
-            <td class="text-end">$ <?= number_format($dato6, 2); ?></td>
-            <td class="text-end <?= $color3; ?>" id="D3<?= $id; ?>">$ <?= number_format($Diferencia3, 2); ?></td>
-          </tr>
+        <tr>
+          <th class="text-start">$</th>
+          <td class="text-end p-0 pb-0 mb-0">
+            $ <input type="number" id="13<?= $id; ?>" step="any" style="width: 90%;"
+              class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato13; ?>"
+              onkeyup="Edit(13,7,<?= $id; ?>,<?= $dato14; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
+          <td class="text-end">$ <?= number_format($dato14, 2); ?></td>
+          <td class="text-end <?= $color7; ?>" id="D7<?= $id; ?>">$ <?= number_format($Diferencia7, 2); ?></td>
 
-          <!---------- VENTAS L ---------->
-          <tr>
-            <td>Ventas L</td>
+        </tr>
 
-            <td class="text-end p-0 pb-0 mb-0">
-              <input type="number" id="7<?= $id; ?>" step="any" style="width: 100%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato7; ?>"
-                onkeyup="Edit(7,4,<?= $id; ?>,<?= $dato8; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
-            </td>
+        <!---------- PARAMETROS ---------->
+        <tr>
+          <th colspan="2" class="text-center">Parametro 1.5%</t>
+          <td colspan="2" class="text-center <?= $color8; ?>" id="D8<?= $id; ?>"><?= $Parametrotb ?></td>
+        </tr>
 
-            <td class="text-end"><?= number_format($dato8, 2); ?></td>
-            <td class="text-end <?= $color4; ?>" id="D4<?= $id; ?>"><?= number_format($Diferencia4, 2); ?></td>
-          </tr>
+        <tr>
+          <th colspan="4" class="text-center no-hover">Comentarios</th>
+        </tr>
+        <tr>
+          <td colspan="4" class="no-hover"><textarea class="form-control rounded-0 mt-1 font-weight-light"
+              id="Comentario<?= $id; ?>" onkeyup="Comentario(<?= $id; ?>)"><?= $comentario; ?></textarea></td>
+        </tr>
 
-          <tr>
-            <td>$</td>
-
-            <td class="text-end p-0 pb-0 mb-0">
-              $ <input type="number" id="9<?= $id; ?>" step="any" style="width: 90%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato9; ?>"
-                onkeyup="Edit(9,5,<?= $id; ?>,<?= $dato10; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
-
-            <td class="text-end">$ <?= number_format($dato10, 2); ?></td>
-            <td class="text-end <?= $color5; ?>" id="D5<?= $id; ?>">$ <?= number_format($Diferencia5, 2); ?></td>
-          </tr>
-
-          <!---------- DESPACHOS L ---------->
-          <tr>
-            <td>Despachos L</td>
-            <td class="text-end p-0 pb-0 mb-0">
-              <input type="number" id="11<?= $id; ?>" step="any" style="width: 100%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato11; ?>"
-                onkeyup="Edit(11,6,<?= $id; ?>,<?= $dato12; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)">
-            </td>
-            <td class="text-end"><?= number_format($dato12, 2); ?></td>
-            <td class="text-end <?= $color6; ?>" id="D6<?= $id; ?>"><?= number_format($Diferencia6, 2); ?></td>
-          </tr>
-
-          <tr>
-            <td>$</td>
-            <td class="text-end p-0 pb-0 mb-0">
-              $ <input type="number" id="13<?= $id; ?>" step="any" style="width: 90%;"
-                class="text-end border-0 font-weight-light pt-1 pb-1" value="<?= $dato13; ?>"
-                onkeyup="Edit(13,7,<?= $id; ?>,<?= $dato14; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
-            <td class="text-end">$ <?= number_format($dato14, 2); ?></td>
-            <td class="text-end <?= $color7; ?>" id="D7<?= $id; ?>">$ <?= number_format($Diferencia7, 2); ?></td>
-
-          </tr>
-
-          <!---------- PARAMETROS ---------->
-          <tr>
-            <td colspan="2" class="text-center">Parametro 1.5%</td>
-            <td colspan="2" class="text-center <?= $color8; ?>" id="D8<?= $id; ?>"><?= $Parametrotb ?></td>
-          </tr>
-
-
-
-
-        </table>
-      </div>
-
-      <hr>
-
-
-      <div><small>Comentario:</small></div>
-      <textarea class="form-control rounded-0 mt-1 font-weight-light" id="Comentario<?= $id; ?>"
-        onkeyup="Comentario(<?= $id; ?>)"><?= $comentario; ?></textarea>
-
-    </div>
+      </tbody>
+    </table>
   </div>
-
   <?php
 
-}
+endwhile;
 
 $ResumenAceite = ResumenAceite($IdReporte, $con);
 function ResumenAceite($IdReporte, $con)
@@ -331,27 +318,23 @@ $Aceites = Aceites($IdReporte, $con);
 $diferenciaA = $ResumenAceite - $Aceites['Grantotal'];
 ?>
 
-
-<div class="border mb-3">
-  <div class="p-3">
-
-
-    <div><b>ACEITES</b></div>
-    <hr>
-
-
-    <div class="table-responsive">
-      <table class="table table-sm table-bordered pb-0 mb-0 pb-0 font-weight-light">
-
+<div class="table-responsive mt-3">
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+      <thead class="navbar-bg">
         <tr>
-          <td class="bg-success text-white"><b><?= nombremes($GET_mes); ?></b></td>
-          <td>Piezas</td>
-          <td>Rep. Volumetrico</td>
-          <td>Reg. Contables</td>
-          <td>Diferencias</td>
+          <th colspan="5" class="align-middle text-center tables-bg">ACEITES</th>
         </tr>
         <tr>
-          <td>Ventas</td>
+          <td></td>
+          <th>Piezas</th>
+          <th>Rep. Volumetrico</th>
+          <th>Reg. Contables</th>
+          <td class="fw-bold">Diferencias</td>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr>
+          <th>Ventas</th>
           <td><?= $Aceites['TotAceites']; ?></td>
           <td class="text-end p-0 pb-0 mb-0">
             <input type="number" id="Aceites" step="any" style="width: 100%;"
@@ -361,8 +344,6 @@ $diferenciaA = $ResumenAceite - $Aceites['Grantotal'];
           <td class="text-end">$ <?= number_format($Aceites['Grantotal'], 2); ?></td>
           <td class="text-end">$ <?= number_format($diferenciaA, 2); ?></td>
         </tr>
-      </table>
-    </div>
-
-  </div>
+      </tbody>
+  </table>
 </div>

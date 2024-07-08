@@ -536,6 +536,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- INFORMACION FORMULARIO ---------->
   <div class="col-12 mb-3">
   <div class="table-responsive">
+
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="title-table-bg">
   <tr> 
@@ -553,11 +554,9 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   </tr>
   </tbody>
   </table>
-
-
-  </table>
   </div>
   </div>
+
 
 
   <!---------- APARTADO ¿EN QUE AFECTA A LA ESTACION? ---------->
@@ -704,6 +703,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   </thead>
 
   <tbody class="bg-light">
+
 
   <?php  
   $sql_lista = "SELECT * FROM op_pedido_materiales_area WHERE id_pedido = '".$GET_idPedido."' ";

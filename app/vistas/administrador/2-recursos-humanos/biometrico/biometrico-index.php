@@ -3,7 +3,6 @@ require('app/help.php');
 $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
 
 ?> 
- 
 <html lang="es">
   <head>
   <meta charset="utf-8">

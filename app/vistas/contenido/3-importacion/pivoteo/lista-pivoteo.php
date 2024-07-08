@@ -43,7 +43,7 @@ $Estacion = '('.$datosEstacion['nombre'].')';
 
 <div class="table-responsive">
 <table id="tabla_pivoteo_<?=$idEstacion?>" class="custom-table" style="font-size: .8em;" width="100%">
-
+    
 <thead class="title-table-bg">
 <tr>
 <th class="text-center align-middle tableStyle font-weight-bold">No. de control</th>

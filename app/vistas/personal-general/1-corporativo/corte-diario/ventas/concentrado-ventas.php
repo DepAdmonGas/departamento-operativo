@@ -3,8 +3,19 @@ require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
+$deshabilitado="";
+$hover="no-hover";
+$agregarProducto='<th colspan="5" class="align-middle text-center tables-bg">CONCENTRADO DE VENTAS</th>
+			<th class="align-middle text-center tables-bg">
+			<button type="button" class="btn btn-success" onclick="NewVentas(' . $idReporte . ')"><i class="fa fa-plus">
+			</i></span></button>
+			</th>
+			';
 if ($ventas == 1):
+	$hover="";
+	$deshabilitado="disabledOP";
 	$estado = "disabled";
+	$agregarProducto='<th colspan="6" class="align-middle text-center tables-bg">CONCENTRADO DE VENTAS</th>';
 endif;
 
 ?>
@@ -25,21 +36,22 @@ endif;
 	}
 
 </script>
-
-
-<div style="overflow-y: hidden;">
-
-	<table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
-		<thead class="tables-bg">
-			<th class="text-center align-middle">PRODUCTO</th>
-			<th class="text-center align-middle">LITROS</th>
-			<th class="text-center align-middle">JARRAS</th>
-			<th class="text-center align-middle">TOTAL LITROS</th>
-			<th class="text-center align-middle">PRECIO POR LITRO</th>
-			<th class="text-center align-middle">IMPORTE TOTAL</th>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
+<div class="table-responsive">
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+		<?=$agregarProducto?>
+			<tr>
+				<td class="text-center align-middle fw-bold">PRODUCTO</td>
+				<th class="text-center align-middle">LITROS</th>
+				<th class="text-center align-middle">JARRAS</th>
+				<th class="text-center align-middle">TOTAL LITROS</th>
+				<th class="text-center align-middle">PRECIO POR LITRO</th>
+				<td class="text-center align-middle fw-bold">IMPORTE TOTAL</td>
+			</tr>
 		</thead>
 
-		<tbody>
+		<tbody class="bg-white">
 			<?php
 
 			$sql_listayear = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -77,9 +89,9 @@ endif;
 				?>
 				<tr>
 
-					<td class="p-0">
-						<select class="form-select" id="producto-<?= $idventas; ?>"
-							style="border: 0px;width: 100%;padding: 3px;font-size: 1.2em;"
+					<th class="p-0 <?=$deshabilitado ,$hover?>">
+						<select class="form-select border-0" id="producto-<?= $idventas; ?>"
+							style="font-size: 1.2em;"
 							onchange="EditProducto(this,<?= $idReporte; ?>,<?= $idventas; ?>)" <?= $estado; ?>>
 							<?php if ($producto == "") { ?>
 								<option value="">PRODUCTO</option>
@@ -87,56 +99,50 @@ endif;
 								<option value="G PREMIUM">G PREMIUM</option>
 								<option value="G DIESEL">G DIESEL</option>
 							<?php } else if ($producto == "G SUPER") { ?>
-									<option value="<?= $producto; ?>"><?= $producto; ?></option>
+									<option value="<?=$producto?>"><?= $producto; ?></option>
 									<option value="G PREMIUM">G PREMIUM</option>
 									<option value="G DIESEL">G DIESEL</option>
 							<?php } else if ($producto == "G PREMIUM") { ?>
-										<option value="<?= $producto; ?>"><?= $producto; ?></option>
+										<option value="<?=$producto?>><?= $producto; ?></option>
 										<option value="G SUPER">G SUPER</option>
 										<option value="G DIESEL">G DIESEL</option>
 							<?php } else if ($producto == "G DIESEL") { ?>
-											<option value="<?= $producto; ?>"><?= $producto; ?></option>
+											<option value="<?=$producto?>"><?= $producto; ?></option>
 											<option value="G SUPER">G SUPER</option>
 											<option value="G PREMIUM">G PREMIUM</option>
 							<?php } ?>
 
 						</select>
-					</td>
+					</th>
 
-					<td class="p-0 align-middle">
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="litros-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditLitros(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $litros; ?>" <?= $estado; ?>>
-					</td>
+					</th>
 
-					<td class="p-0 align-middle">
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="jarras-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%;text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditJarras(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $jarras; ?>" <?= $estado; ?>>
-					</td>
+					</th>
 
-					<td class="bg-light align-middle text-end" id="totallitros-<?= $idventas; ?>">
-						<strong><?= number_format($totalLitros, 2); ?></strong></td>
-					<td class="p-0 align-middle">
+					<th class="bg-white align-middle text-end" id="totallitros-<?= $idventas; ?>">
+						<?= number_format($totalLitros, 2); ?></th>
+					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="preciolitro-<?= $idventas; ?>" type="number" min="0" step="any"
-							style="border: 0px;width: 100%;padding: 3px;height: 100%;text-align: right;"
+							class="border-0 text-end"
 							onkeyup="EditPrecioLitro(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $preciolitro; ?>"
 							<?= $estado; ?>>
-					</td>
-					<td class="bg-light align-middle text-end" id="importetotal-<?= $idventas; ?>">
-						<strong><?= number_format($importeTotal, 2); ?></strong></td>
-
-
+					</th>
+					<th class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
+						<?= number_format($importeTotal, 2); ?></th>
 				</tr>
 				<?php
 			}
 			?>
-
-
-			<tr>
-				<td colspan="6"></td>
-			</tr>
 			<tr id="TrSubTotales"></tr>
+			
 			<?php
 			$sql_listaotros = "SELECT * FROM op_ventas_dia_otros WHERE idreporte_dia = '" . $idReporte . "' ";
 			$result_listaotros = mysqli_query($con, $sql_listaotros);
@@ -152,28 +158,28 @@ endif;
 
 				if ($concepto == "4 ACEITES Y LUBRICANTES") {
 					$disabled = "disabled";
-					$cssaceite = "bg-light text-end";
+					$cssaceite = "bg-white text-end";
 
 				} else {
 					$disabled = "";
 					$cssaceite = "p-0";
 				}
 				?>
-				<tr>
-					<td><?= $concepto; ?></td>
-					<td class="bg-light align-middle text-end"><?= $piezas; ?></td>
-					<td class="bg-light align-middle text-end"></td>
-					<td class="bg-light align-middle text-end"></td>
-					<td class="bg-light align-middle text-end"></td>
-					<td class="align-middle <?= $cssaceite; ?>">
+				<tr class="bg-white">
+					<th class="no-hover"><?= $concepto; ?></th>
+					<td class="no-hover align-middle text-end"><?= $piezas; ?></td>
+					<td class="no-hover align-middle text-end"></td>
+					<td class="no-hover align-middle text-end"></td>
+					<td class="no-hover align-middle text-end"></td>
+					<td class="no-hover align-middle <?= $cssaceite; ?>">
 						<?php
 						if ($disabled == "disabled") {
 							echo "<b>" . number_format($importe, 2) . "</b>";
 						} else { ?>
-							<input id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
-								style="border: 0px;width: 100%;padding: 3px;height: 100% !important;text-align: right;"
+							<input class="p-0 <?=$deshabilitado?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
+								style="border: 0px;width:100%;text-align: right;"
 								onkeyup="EditPrecioOtros(this,<?= $idReporte; ?>,<?= $idOtros; ?>)" value="<?= $importe; ?>"
-								<?= $estado; ?>>
+								<?=$estado?>>
 						<?php } ?>
 					</td>
 				</tr>

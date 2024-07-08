@@ -51,12 +51,6 @@ function Prosegur(idReporte) {
   $('#DivProsegur').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/prosegur.php?idReporte=' + idReporte);
   //$('#DivProsegur').load('../../../public/corte-diario/vistas/prosegur.php?idReporte=' + idReporte);
 }
-function TarjetasTotal(idReporte) {
-  $('#TrTCBTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
-  //$('#TrTCBTotales').load('../../../public/corte-diario/vistas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
-}
-
-
 
 /*---------------------------------------------------------------------------*/
 
@@ -913,11 +907,14 @@ function FirmarCorte(idReporte, sessionIdUsuario, sessionNomEstacion) {
 
 
     } else {
-      $('#canvas').css('border', '2px solid #A52525');
       baseImage = "";
+      alertify.error('Falta firma');
+      // funcion que se encarga de llevarte a la firma en caso de no tenerla
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   } else {
-    $('.form-check').css('color', ' red')
+    alertify.error('Debes aceptar los resultados del corte diario');
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
 }

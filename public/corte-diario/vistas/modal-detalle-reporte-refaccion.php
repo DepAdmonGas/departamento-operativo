@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
 
@@ -12,28 +12,36 @@ $nombre = $row['nombre'];
 return $nombre;
 } 
 
-function Refaccion($idrefaccion,$con){
 
-$sql_lista = "SELECT * FROM op_refacciones WHERE id = '".$idrefaccion."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$nombre = $row_lista['nombre'];
-$imagen = $row_lista['imagen'];
+function Refaccion($idrefaccion, $con)
+{
+  $nombre = '';
+  $imagen = '';
+
+  $sql_lista = "SELECT * FROM op_refacciones WHERE id = '" . $idrefaccion . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+    $nombre = $row_lista['nombre'];
+    $imagen = $row_lista['imagen'];
+  }
+
+  $array = array(
+    'nombre' => $nombre,
+    'imagen' => $imagen,
+  );
+
+  return $array;
 }
 
-$array = array(
-'nombre' => $nombre,
-'imagen' => $imagen,
-);
- 
-return $array;
-}
-
-$sql_lista = "SELECT * FROM op_refacciones_reporte WHERE id = '".$idReporte."' ";
+$sql_lista = "SELECT * FROM op_refacciones_reporte WHERE id = '" . $idReporte . "' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+
+
+$dispensario = '';
+$motivo = '';
+while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
 $idRefaccion = $row_lista['id'];
 $personal = Personal($row_lista['id_usuario'],$con);
@@ -45,23 +53,29 @@ $nomRefaccion = $Refaccion['nombre'];
 $imagen = $Refaccion['imagen'];
 $dispensario = $row_lista['dispensario'];
 $motivo = $row_lista['motivo'];
+
 }
 
 ?>
 <div class="modal-header">
+
 <h5 class="modal-title">Detalle del reporte</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
 </div>
 
 
 <div class="modal-body">
 
+
 <div class="row">
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
     <h6 class="mb-1 text-secondary ">Personal:</h6>
     <div><?=$personal;?></div>
+
   </div>
 
+  <hr>
 
 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
     <h6 class="mb-1 text-secondary ">Fecha:</h6>
@@ -81,15 +95,15 @@ $motivo = $row_lista['motivo'];
   <div class="col-6 mt-2">
       <h6 class="mb-1 text-secondary">Dispensario:</h6>
     <div><?=$dispensario;?></div>
+
   </div>
 
-
+  <hr>
   <div class="col-6 mt-2">
     <h6 class="mb-1 text-secondary">Motivo:</h6>
     <div><?=$motivo;?></div>
-  </div>
-</div>
 
+  </div>
 <hr>
 
 
@@ -136,3 +150,4 @@ echo "<tr><th colspan='8' class='text-center text-secondary no-hover2'><small>No
 </div>
 
 </div>
+

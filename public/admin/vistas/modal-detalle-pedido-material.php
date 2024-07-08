@@ -94,6 +94,7 @@ return $Result;
     <th class="align-middle text-center">Razón social</th>
     <th class="align-middle text-center">Folio</th>
     <th class="align-middle text-center">Fecha</th>
+
   </tr>
   </thead>
 

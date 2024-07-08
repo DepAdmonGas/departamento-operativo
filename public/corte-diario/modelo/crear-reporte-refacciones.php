@@ -16,10 +16,6 @@ $sql_insert = "INSERT INTO op_refacciones_reporte (
 id,
 id_estacion,
 id_usuario,
-fecha,
-hora,
-dispensario,
-motivo,
 archivo,
 status
     )
@@ -32,6 +28,7 @@ status
     '".$hora_del_dia."',
     '',
     '',
+
     '',
     0
     )";

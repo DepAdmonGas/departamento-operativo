@@ -6,7 +6,6 @@ $Year = $_GET['Year'];
 $Mes = $_GET['Mes'];
 
 $listadoSemanas = SemanasDelMes($Mes, $Year);
- 
 //---------- OBTIENE EL NUMERO DE SEMANAS QUE TIENE EL MES ----------
 function SemanasDelMes($GET_idMes, $GET_year) {
 // Obtener el primer día del mes
@@ -69,6 +68,7 @@ $ocultarBtn = "d-none";
 $ocultarBtn = "";
 }
 
+
     $fechaNomiaSemana = fechasNominaSemana($GET_year, $GET_idSemana);
     $inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
     $finFechas = $fechaNomiaSemana['finSemanaDay'];
@@ -103,7 +103,7 @@ $ocultarBtn = "";
     <div class="col-1">';
 
     if($finFechas <= $fechaActual){
-    
+
     $reporte = '
  
     <div class="dropdown d-inline ms-2 >">
@@ -119,7 +119,7 @@ $ocultarBtn = "";
     </ul>
     </div>';
 
- 
+
     }else{
     $reporte = '<span class="badge rounded-pill bg-danger float-end text-center" style="font-size: .78em;">
     Reporte No disponible <i class="fa-solid fa-ban"></i>
@@ -135,16 +135,18 @@ $ocultarBtn = "";
 
     </div>'; 
      
-    
     $resultado .= '<div class="table-responsive">';
     $resultado .= '<table class="custom-table mb-3" style="font-size: .8em;" width="100%">';
     $resultado .= '<thead class="title-table-bg">';
     $resultado .= '<tr class="tables-bg">';
+
     $resultado .= '<th class="align-middle text-center" colspan="8" >Semana '.$GET_idSemana.' <br> '.$ClassHerramientasDptoOperativo->formatoFecha($inicioFechas).' al '.$ClassHerramientasDptoOperativo->formatoFecha($finFechas).'</th>';
+
     $resultado .= '<th class="align-middle text-center" colspan="2"> '.$reporte.' </th>';
     $resultado .= '</tr>';
 
     $resultado .= '<tr>';
+
     $resultado .= '<td class="align-middle fw-bold">Nombre</td>';
     foreach ($diasEntre as $dia) {
     $resultado .= '<th class="align-middle text-center">'.$ClassHerramientasDptoOperativo->formatoFecha($dia).'</th>';
@@ -152,6 +154,7 @@ $ocultarBtn = "";
 
     $resultado .= '<th class="align-middle text-center">Retardos</th>';
     $resultado .= '<td class="align-middle text-center fw-bold">Faltas</td>';
+
     $resultado .= '</tr>';
     $resultado .= '</thead>'; 
 
@@ -330,11 +333,7 @@ $GET_idSemana = (int)$semana;
 
 echo tablasNomina($idEstacion, $Year, $Mes, $GET_idSemana, $session_nompuesto, $con);
 
+
 }
     
 ?>
-
-
- 
-
-

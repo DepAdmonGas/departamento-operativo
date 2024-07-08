@@ -1,19 +1,20 @@
 <?php
 require 'app/vistas/contenido/header.php';
+$botonFinalizar ='';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
-if ($GET_mes == 1) :
+if ($GET_mes == 1):
   $Year = $GET_year - 1;
   $Mes = 12;
-  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes) == 0) :
+  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes) == 0):
     $IdReporteA = 0;
-  else :
+  else:
     $IdReporteA = $corteDiarioGeneral->idReporte($Session_IDEstacion, $Year, $Mes);
   endif;
-else :
+else:
   $Mes = $GET_mes - 1;
-  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes) == 0) :
+  if ($corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes) == 0):
     $IdReporteA = 0;
-  else :
+  else:
     $IdReporteA = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $Mes);
   endif;
 endif;
@@ -23,30 +24,38 @@ if ($numero_fin == 0):
   $corteDiarioGeneral->actSaldoInicial($IdReporte, $IdReporteA);
   $corteDiarioGeneral->actPagosConsumos($IdReporte);
   $corteDiarioGeneral->actSaldoFinal($IdReporte);
+  $botonFinalizar = '<button type="button" class="btn btn-labeled2 btn-primary float-end"
+                        onclick="Finalizar(' . $IdReporte . ','.RUTA_JS2.')">
+                        <span class="btn-label2"><i class="fa fa-check"></i></span>
+            Finalizar</button>
+                     ';
 endif;
+
 ?>
-  <style media="screen">
-    .inputD:disabled {
-      background: white;
-    }
+<style media="screen">
+  .inputD:disabled {
+    background: white;
+  }
 
-    .tableFixHead {
-      overflow-y: scroll;
-    }
+  .tableFixHead {
+    overflow-y: scroll;
+  }
 
-    .tableFixHead thead th {
-      position: sticky;
-      top: 0px;
-      box-shadow: 2px 2px 7px #ECECEC;
-    }
-  </style>
-  <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-mes-functions.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-      ReporteClientes(<?= $IdReporte; ?>);
-    });
-  </script>
+  .tableFixHead thead th {
+    position: sticky;
+    top: 0px;
+    box-shadow: 2px 2px 7px #ECECEC;
+  }
+</style>
+<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-mes-functions.js"></script>
+<script type="text/javascript">
+  $(document).ready(function ($) {
+    $(".LoaderPage").fadeOut("slow");
+    ReporteClientes(<?= $IdReporte?>,"<?=RUTA_JS2?>");
+  });
+</script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -56,29 +65,41 @@ endif;
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-              <div class="row">
-                <div class="col-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
-                  <div class="row">
-                    <div class="col-12">
-                      <h5>
-                        Clientes, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div id="DivReporteClientes"></div>
+        <div class="col-12">
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Corte Diario</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Resumen clientes (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-9">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Resumen clientes (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
+              </h3>
+            </div>
+            <div class="col-3">
+            <?=$botonFinalizar?>
             </div>
           </div>
         </div>
       </div>
+      <hr>
+      <div id="DivReporteClientes"></div>
     </div>
   </div>
 </body>
+<!---------- FUNCIONES - NAVBAR ---------->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
+<script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </html>

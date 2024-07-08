@@ -2,9 +2,13 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
+$hover ='no-hover';
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
+    $deshabilitado="disabledOP";
+    $hover ='';
 endif;
 ?>
 <script type="text/javascript">
@@ -22,13 +26,19 @@ endif;
 </script>
 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center">CONCEPTO</th>
-            <th class="text-center">PAGOS</th>
-            <th class="text-center">CONSUMOS</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="3" class="align-middle text-center">CLIENTES (ATIO)</th>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">CONCEPTO</td>
+                <td class="text-center fw-bold">PAGOS</td>
+                <td class="text-center fw-bold">CONSUMOS</td>
+            </tr>
+
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -53,13 +63,13 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle"><?= $concepto; ?></td>
-                    <td class="p-0 align-middle">
+                    <th class="align-middle no-hover"><?= $concepto; ?></th>
+                    <td class="align-middle <?=$deshabilitado,$hover?>">
                         <input id="pago-<?= $idControl; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditCGPago(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $pago; ?>" <?= $estado; ?>>
                     </td>
-                    <td class="p-0 align-middle">
+                    <td class="align-middle <?=$deshabilitado,$hover?>">
                         <input id="consumo-<?= $idControl; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditCGConsumo(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $consumo; ?>"
@@ -72,10 +82,6 @@ endif;
 
             ?>
             <tr id="TrControlGTotales"></tr>
-
-            <tr>
-                <td class="p-2" colspan="3"></td>
-            </tr>
         </tbody>
     </table>
 </div>

@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 
 $elemento = $_GET["elemento"];
 
@@ -13,15 +13,12 @@ FROM tb_submenu_puestos
 INNER JOIN tb_submenu_do ON tb_submenu_puestos.id_submenu_do = tb_submenu_do.id_submenu_do 
 INNER JOIN tb_puestos on tb_submenu_puestos.id_puesto = tb_puestos.id 
 INNER JOIN tb_menu_do on tb_submenu_do.id_menu_do = tb_menu_do.id_menu_do 
-WHERE tb_submenu_puestos.id_puesto = '".$session_idpuesto."' AND tb_menu_do.elemento_menu_do = '".$elemento."' ORDER BY tb_submenu_puestos.id_submenu_do ASC;";
+WHERE tb_submenu_puestos.id_puesto = '" . $session_idpuesto . "' AND tb_menu_do.elemento_menu_do = '" . $elemento . "' ORDER BY tb_submenu_puestos.id_submenu_do ASC;";
 
-$result_menu = mysqli_query($con, $sql_menu );
-$numero_menu  = mysqli_num_rows($result_menu);
+$result_menu = mysqli_query($con, $sql_menu);
 
-?>  
-
+?>
 <div class="row">
-
 <?php
  
 $num = 1;
@@ -68,9 +65,11 @@ if($elemento == "Importación"){
 
 
 
-<?php
-}else{
-?>
+
+      <?php
+    } else {
+      ?>
+
 
 
 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
@@ -89,10 +88,8 @@ if($elemento == "Importación"){
 <?php
 }
 
-$num++;
+
+    $num++;
 }
-?>
-
-
- 
+  ?>
 </div>

@@ -9,9 +9,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
  
 
-<div class="mb-2" style="overflow-y: hidden;">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-2 font-weight-light">
-<thead class="tables-bg">
+<div class="table-responsive">
+    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+        <thead class="navbar-bg">
 	<th class="align-middle text-center">FECHA</th>
 	<th class="align-middle text-center">MONEDERO</th>
 	<th class="align-middle text-end">DIFERENCIA</th>	
@@ -21,7 +21,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 	<th class="align-middle text-end">EDI</th>
 	<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
@@ -43,7 +43,7 @@ $excel = '<a href="../../archivos/'.$row_lista['excel'].'" download><img class="
 }
 
 echo '<tr>';
-echo '<td class="align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</td>';
+echo '<th class="text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['monedero'].'</td>';
 echo '<td class="align-middle text-end">$ '.number_format($row_lista['diferencia'],2).'</td>';
 echo '<td><a href="../../archivos/'.$row_lista['pdf'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
@@ -55,7 +55,7 @@ echo '</tr>';
 
 }
 }else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";	
+echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";	
 }
 ?>
 </tbody>

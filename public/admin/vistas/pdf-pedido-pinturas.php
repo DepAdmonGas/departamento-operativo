@@ -1,6 +1,7 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
-require('app/help.php');
+error_reporting(0);
+require_once 'app/lib/dompdf/vendor/autoload.php';
+require_once 'app/help.php';
 
 function Personal($idpersonal, $con){
 
@@ -48,7 +49,7 @@ if($FirmaTipo == "A"){
 
 $RutaFirma = "imgs/firma/".$Firma;
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 
 $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
 $Detalle = '<div class=" text-center" style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></div>';
@@ -61,7 +62,7 @@ $Detalle = '<div class="border-bottom text-center p-2" style="margin-top: 10px;"
 }
 
 $Personal = Personal($idUsuario,$con);
-
+$detalle = '';
 $detalle .= '<div class="">';
 $detalle .= '<div class="">';
 $detalle .= '<div class="text-center mt-2">'.$Personal['nombre'].' </div>';
@@ -76,7 +77,7 @@ return $detalle;
 
 use Dompdf\Dompdf;
 $dompdf = new Dompdf();
-
+$contenido = '';
 $contenido .= '<html lang="es">';
 $contenido .= '<head>';
 $contenido .= '<style type="text/css">';
@@ -258,7 +259,7 @@ $contenido .= '<body>';
 
 $RutaLogo = RUTA_IMG_ICONOS.'Logo.png';
 $DataLogo = file_get_contents($RutaLogo);
-$baseLogo = 'data:image/' . $type . ';base64,' . base64_encode($DataLogo);
+$baseLogo = 'data:image/;base64,' . base64_encode($DataLogo);
 
 $contenido .= '<img src="'.$baseLogo.'" style="width: 180px;">';
 
@@ -304,7 +305,7 @@ $contenido .= '</tr>';
 $contenido .= '</thead>';
 
 $contenido .= '<tbody>';
-
+$ToPiezas =0;
 $sql_lista = "SELECT * FROM op_pedido_pinturas_detalle WHERE id_pedido = '".$GET_idReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);

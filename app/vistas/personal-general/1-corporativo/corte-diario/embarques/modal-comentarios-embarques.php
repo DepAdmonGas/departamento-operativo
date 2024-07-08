@@ -29,11 +29,11 @@ $numero_comen = mysqli_num_rows($result_comen);
 echo '
 <div class="modal-header">
 <h5 class="modal-title">Comentarios</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
-<div class="border-bottom" style="height: 300px;overflow: auto;">';
+<div class="border-bottom" style="overflow: auto;">';
 
 if ($numero_comen > 0) {
     while ($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)) {
@@ -76,8 +76,9 @@ if ($numero_comen > 0) {
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary"
-        onclick="GuardarComentario(<?= $idReporte; ?>,<?= $id; ?>,<?= $idestacion; ?>)">Guardar</button>
+    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarComentario(<?= $idReporte; ?>,<?= $id; ?>,<?= $idestacion; ?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar
+    </button>
 </div>
 
 </div>

@@ -122,11 +122,13 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'refacciones':
-                $ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/refacciones-index.php';
+                $ruta_elegida = 'app/vistas/personal-general/4-almacen/refacciones/refacciones-index.php';
                 break;
  
             case 'refacciones-almacen':
-                $ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
+                //$ruta_elegida = 'public/corte-diario/vistas/refacciones-almacen-index.php';
+                $ruta_elegida = 'app/vistas/contenido/4-almacen/refacciones/refacciones-almacen.php';
                 break;
 
             case 'refacciones-transaccion':
@@ -875,6 +877,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
         $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-vales/solicitud-vales-mes.php';
         }else if ($partes_ruta[1] == 'corte-diario') {
+            $Pagina = $partes_ruta[1];
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-index.php';

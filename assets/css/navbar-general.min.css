@@ -456,8 +456,7 @@ filter: opacity(50%);
     .custom-table tbody tr.active {
       opacity: .4; 
     }
-    
-    
+
     /* Mantener el estilo hover para las filas */
     .custom-table tbody tr:hover {
         background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
@@ -501,6 +500,7 @@ filter: opacity(50%);
     background-color: #ffb6af !important; /* Quita el color de fondo cuando se hace hover */
     }
 
+
     .dt-empty {
         background-color: #fff; /* Cambiar el color de fondo */
         /* Otros estilos */
@@ -518,7 +518,7 @@ filter: opacity(50%);
         z-index: 10; /* Asegúrate de que esté por encima de otras filas */
         background-color: white; /* Asegúrate de que el fondo sea visible */
     }
-    
+
     
     /* ---------------------------------------------------
         BOTONES DESING

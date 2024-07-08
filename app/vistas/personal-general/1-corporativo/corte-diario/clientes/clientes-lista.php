@@ -6,8 +6,7 @@ require 'app/vistas/contenido/header.php';
 
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-
-    ListaClientes(<?= $Session_IDEstacion; ?>);
+    ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
   });
   function EditarCliente(idCliente) {
 
@@ -58,7 +57,7 @@ require 'app/vistas/contenido/header.php';
     }).done(function (response) {
       if (response == 1) {
         $('#ModalEditar').modal('hide');
-        ListaClientes(<?= $Session_IDEstacion; ?>);
+        ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
 
         $('#EditCuenta').val('');
         $('#EditCliente').val('');
@@ -99,7 +98,7 @@ require 'app/vistas/contenido/header.php';
     }).done(function (response) {
       if (response == 1) {
         $('#ModalEditar').modal('hide');
-        ListaClientes(<?= $Session_IDEstacion; ?>);
+        ListaClientes(<?=$Session_IDEstacion?>,"<?=RUTA_JS2?>");
 
         $('#EditCuenta').val('');
         $('#EditCliente').val('');
@@ -116,7 +115,8 @@ require 'app/vistas/contenido/header.php';
   }
 
 </script>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -126,49 +126,41 @@ require 'app/vistas/contenido/header.php';
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-              <div class="row">
-                <div class="col-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
+        <div class="col-12">
 
-                  <div class="row">
-                    <div class="col-11">
-                      <h5>Lista Clientes </h5>
-                    </div>
-
-                    <div class="col-1">
-                      <img class="pointer float-end" src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="Agregar()">
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-              <hr>
-
-
-              <div id="ListaClientes"></div>
-
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>Clientes día</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Lista Clientes</li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Lista Clientes
+              </h3>
+            </div>
+            <div class="col-2">
+              <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Agregar()">
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
         </div>
-
-      </div>
     </div>
-
+    <hr>
+    <div id="ListaClientes"></div>
+  </div>
   </div>
 
 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Crear Cliente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
 
@@ -206,7 +198,9 @@ require 'app/vistas/contenido/header.php';
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="Guardar(<?= $Session_IDEstacion; ?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$Session_IDEstacion?>,'<?=RUTA_JS2?>')">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+          
         </div>
       </div>
     </div>
@@ -221,5 +215,9 @@ require 'app/vistas/contenido/header.php';
     </div>
   </div>
 </body>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+        src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </html>

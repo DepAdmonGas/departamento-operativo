@@ -17,6 +17,7 @@ function ListaProgramacion(idEstacion) {
 let targets;
 targets = [2,3];
 
+
 $('#Contenido').load('app/vistas/contenido/2-recursos-humanos/programar-horario/contenido-programar-horario.php?idEstacion=' + idEstacion, function () {
 $('#tabla_horario').DataTable({
 "language": {
@@ -38,6 +39,7 @@ var parametros = {
 "idEstacion": idEstacion,
  "accion": "agregar-horario"
 }
+
 
 $.ajax({
 data: parametros,
@@ -146,7 +148,6 @@ window.location.reload();
 
 </div>
 </div>
-
 
 <!---------- FUNCIONES - NAVBAR ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

@@ -106,6 +106,7 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
   $('#ListaAsistenciaAutolavado').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-reporte-busqueda-biometrico.php?idEstacion=' + 9 + '&Year=' + Year + '&Mes=' + Mes);
   }
 
+
  
   }else{
   $('#Mes').css('border','2px solid #A52525'); 
@@ -122,6 +123,7 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
 
   if(idEstacion == 2){
   SelEstacion(9)
+
   }
 
   }

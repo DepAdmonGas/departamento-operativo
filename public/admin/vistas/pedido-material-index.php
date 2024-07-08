@@ -456,7 +456,6 @@ if($estacion == "Comodines"){
   <li>
   <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
   </li>';
-
 }
 
 ?> 
@@ -547,7 +546,6 @@ if($estacion == "Comodines"){
   </div>
   </div>
   </div>
-
 
   <!---------- MODAL COVID (RIGHT)---------->  
   <div class="modal right fade" id="ModalR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

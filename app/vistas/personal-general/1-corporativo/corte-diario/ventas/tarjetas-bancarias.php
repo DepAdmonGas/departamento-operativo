@@ -2,18 +2,35 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
     $estado = "disabled";
+    $deshabilitado="disabledOP";
 endif;
 ?>
+<script type="text/javascript">
+    $(document).ready(function ($) {
+        TarjetasTotal(<?=$idReporte?>);
+    });
+
+    function TarjetasTotal(idReporte) {
+        $('#TrTCBTotales').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/ventas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
+        //$('#TrTCBTotales').load('../../../public/corte-diario/vistas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
+    }
+</script>
 <div class="table-responsive">
-    <table class="table table-sm table-bordered mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center" colspan="2">CONCEPTO / BANCO</th>
-            <th class="text-center">IMPORTE</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="5" class="align-middle text-center">MONEDEROS Y BANCOS</th>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold" colspan="2">CONCEPTO / BANCO</td>
+                <td class="text-center fw-bold">IMPORTE</td>
+            </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -31,8 +48,8 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle text-center"><b><?= $num; ?></b></td>
-                    <td class="align-middle"><?= $conceptoTarjeta; ?></td>
+                    <th class="align-middle text-center no-hover"><b><?= $num; ?></b></th>
+                    <td class="align-middle no-hover"><?= $conceptoTarjeta; ?></td>
 
                     <?php
 
@@ -49,11 +66,11 @@ endif;
                         $conceptoTarjeta == "INBURSA" ||
                         $conceptoTarjeta == "SHELL FLEET NAVIGATOR"
                     ) {
-                        echo "<td class='p-0 align-middle text-end bg-light'>" . number_format($baucher, 2) . "</td>";
+                        echo "<td class='align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
                     } else {
                         ?>
-                        <td class="p-0 align-middle text-end">
-                            <input id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
+                        <td class="p-0 align-middle text-end no-hover">
+                            <input class="<?=$deshabilitado?>" id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
                                 style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                                 onkeyup="EditTBaucher(this,<?= $idReporte; ?>,<?= $idTarjeta; ?>)" value="<?= $baucher; ?>"
                                 <?= $estado; ?>>

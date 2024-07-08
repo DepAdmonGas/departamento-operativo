@@ -137,10 +137,12 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 </div>
 <div class="modal-footer">
     <?php if ($tipo == "Crédito") { ?>
-        <button type="button" class="btn btn-primary" onclick="EditarCliente(<?= $idCliente; ?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarCliente(<?=$idCliente?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
     <?php } ?>
 
     <?php if ($tipo == "Débito") { ?>
-        <button type="button" class="btn btn-primary" onclick="EditarClienteDebito(<?= $idCliente; ?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarClienteDebito(<?=$idCliente?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
     <?php } ?>
 </div>

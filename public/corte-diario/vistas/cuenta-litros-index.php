@@ -1,10 +1,11 @@
 <?php
 require('app/help.php');
 
-    
 ?>  
+
 <html lang="es">
-  <head>
+
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Dirección de operaciones</title>
@@ -19,18 +20,28 @@ require('app/help.php');
   <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
+  <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
+
   <script type="text/javascript">
 
-  $(document).ready(function($){
-  $(".LoaderPage").fadeOut("slow");
+    $(document).ready(function ($) {
+      $(".LoaderPage").fadeOut("slow");
 
-  });
+    });
+
+
+    function Regresar() {
+      window.history.back();
+    }
+
+    function CuentaLitrosY(year) {
+      window.location.href = "cuenta-litros/" + year;
+    }
 
   function CuentaLitrosY(year){
   window.location.href = "cuenta-litros/" + year; 
@@ -42,13 +53,14 @@ require('app/help.php');
   <body> 
   <div class="LoaderPage"></div>
 
-  <!---------- DIV - CONTENIDO ----------> 
+
+  <!---------- DIV - CONTENIDO ---------->
   <div id="content">
-  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
-  <?php include_once "public/navbar/navbar-perfil.php";?>
-  <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
-  <div class="row">
+    <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
+    <?php include_once "public/navbar/navbar-perfil.php"; ?>
+    <!---------- CONTENIDO PAGINA WEB---------->
+    <div class="contendAG">
+      <div class="row">
 
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
@@ -78,6 +90,7 @@ require('app/help.php');
   <div class="col-10"><h5 class="text-white text-center">'.$i.'</h5></div>
   </div>
  
+
   </div>
   </article>
   </div>';
@@ -87,19 +100,15 @@ require('app/help.php');
   ?>
 
 
-  </div>
-  </div>
+      </div>
+    </div>
 
   </div>
 
-
-  
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  
-  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-  
-  </body>
-  </html>
-           
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -51,18 +51,16 @@ FacturaRemision_filePath = FacturaRemision.value;
         MC20Grados_file = MC20Grados.files[0];
         MC20Grados_filePath = MC20Grados.value;
 
+        Sdvdld = 'NO';
+        Sellos = 'NO';
         if ($('#SellosAlterados1').is(':checked')) {
             Sellos = 'SI';
-        } else {
-            Sellos = 'NO';
         }
 
         if ($('#sdvdld1').is(':checked')) {
             Sdvdld = 'SI';
-        } else {
-            Sdvdld = 'NO';
         }
- 
+
         var baseImage1 = "";
         var baseImage2 = "";
         let signatureBlank1 = signaturePad1.isEmpty();
@@ -238,8 +236,6 @@ FacturaRemision_filePath = FacturaRemision.value;
 
     }
 
-
-
     function mermaLts(e, num) {
     var valor = e.value;
     var LitrosInput = $('#Litros').val();
@@ -295,10 +291,12 @@ FacturaRemision_filePath = FacturaRemision.value;
 </div>
 <hr>
 
+
 <div class="row">
 <div class="col-12 col-sm-3 mb-2">
 <div class="text-secondary mb-1">Estación de descarga:</div>
                                     <select class="form-select" id="Estacion"
+
                                         <?= $Disabled; ?>>
                                         <option value="<?= $idEstacion; ?>"><?= $session_nomestacion; ?></option>
                                         <?php
@@ -316,8 +314,10 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 <div class="col-12 col-sm-3 mb-2">
                                     <div class="text-secondary mb-1">Responsable de la estación:</div>
                                     <div id="Personal">
+
                                         <select class="form-select" id="Responsable" <?= $Disabled; ?>>
                                             <option value="<?= $Session_IDUsuarioBD; ?>"><?= $session_nomusuario; ?></option>
+
                                         </select>
                                     </div>
                                 </div>

@@ -53,7 +53,6 @@ $DescripcionES = "¿En que afecta a la estación?";
     
 }
 
-
 //---------- Configuracion personal ----------//
 if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
 $ocultarOp = "d-none";
@@ -91,8 +90,6 @@ $Estacion = '('.$datosEstacion['nombre'].')';
 
 
 ?> 
-
-
 
 <div class="col-12 <?=$ocultarTitle?>">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">

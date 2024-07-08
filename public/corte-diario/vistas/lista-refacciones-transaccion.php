@@ -37,6 +37,7 @@ return $estacion;
 <table id="tabla_transacciones" class="custom-table" style="font-size: .9em;" width="100%">
 
 <thead class="title-table-bg">
+
   <tr>
   <th class="text-center align-middle">#</th>
   <th class="text-center align-middle">Fecha y hora</th>

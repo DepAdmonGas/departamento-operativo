@@ -3,20 +3,15 @@ require 'app/vistas/contenido/header.php';
 $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-      $('.select').selectize({
-        sortField: 'text'
-      });
-      var margint = -530;
-      var ventana_alto = $(document).height();
-      ResultAlto = ventana_alto - margint;
-      box = document.getElementsByClassName('tableFixHead')[0];
-      box.style.height = ResultAlto + 'px';
-      ListaConsumoPago(<?= $GET_idReporte; ?>);
-    });
-  </script>
+<script type="text/javascript">
+  $(document).ready(function ($) {
+    $(".LoaderPage").fadeOut("slow");
+    
+    ListaConsumoPago(<?= $GET_idReporte?>,"<?=RUTA_JS2?>");
+  });
+</script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -26,32 +21,46 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-              <div class="row">
-                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-1">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="history.back()">
-                  <div class="row">
-                    <div class="col-12">
-                      <h5>
-                        Clientes, <?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>
-                      </h5>
-                    </div>
-                  </div>
+        <div class="col-12">
+
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Corte Diario</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-10">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+              </h3>
+            </div>
+            <div class="col-2">
+              <div class="text-end">
+                <div class="dropdown d-inline ms-2">
+                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li onclick="Agregar()">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar clientes</a>
+                    </li>
+                    <li onclick="ClientesLista(<?=$GET_year?>,<?=$GET_mes?>,<?=$GET_idReporte?>)">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista clientes</a>
+                    </li>
+                  </ul>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                  <img class="float-end pointer ms-2" src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="Agregar()">
-                  <img class="float-end pointer ms-2" src="<?= RUTA_IMG_ICONOS; ?>clientes.png"
-                    onclick="ClientesLista(<?= $GET_year; ?>,<?= $GET_mes; ?>,<?= $GET_idReporte; ?>)">
-                </div>
-              </div>
-              <hr>
-              <div class="tableFixHead">
-                <div id="ConsumosPagos"></div>
               </div>
             </div>
           </div>
+          <hr>
+            <div id="ConsumosPagos"></div>
+          
         </div>
       </div>
     </div>
@@ -60,25 +69,25 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Consumos y Pagos</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="mb-1">
             <small>* Selecciona el cliente</small>
           </div>
           <div id="BorderCliente">
-            <select placeholder="Cliente" id="Cliente" class="select">
+            <select placeholder="Cliente" id="Cliente" class="form-select">
               <option value="">Cliente</option>
-              <?php
-              try {
-                $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
-              } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-              }        
-              ?>
+                <?php
+                try {
+                  $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
+                } catch (Exception $e) {
+                  echo "Error: " . $e->getMessage();
+                }
+                ?>
             </select>
           </div>
           <div class="mt-2 mb-1"><small>* Agregue total</small></div>
@@ -109,10 +118,21 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="Guardar(<?= $GET_idReporte; ?>)">Guardar</button>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$GET_idReporte?>,'<?=RUTA_JS2?>')">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
         </div>
       </div>
     </div>
   </div>
 </body>
+<!---------- FUNCIONES - NAVBAR ---------->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 </html>

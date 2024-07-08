@@ -1,18 +1,17 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 
-$sql_lista = "SELECT * FROM op_refacciones WHERE id_estacion = '".$Session_IDEstacion."' AND status = 1 ORDER BY id ASC";
+$sql_lista = "SELECT * FROM op_refacciones WHERE id_estacion = '" . $Session_IDEstacion . "' AND status = 1 ORDER BY id ASC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$Session_IDEstacion."' ";
+$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '" . $Session_IDEstacion . "' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $estacion = $row_listaestacion['nombre'];
 }
 
 ?>
- 
 <div class="table-responsive">
 <table id="tabla_refacciones_a" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 
@@ -36,15 +35,15 @@ $num = 1;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 
-$total = $row_lista['unidad'] * $row_lista['costo'];
+
+          $total = $row_lista['unidad'] * $row_lista['costo'];
 
 
-if($row_lista['estado_r'] == ""){
-$estatusR = "S/I";
-}else{
-$estatusR = $row_lista['estado_r'];
-}
-
+          if ($row_lista['estado_r'] == "") {
+            $estatusR = "S/I";
+          } else {
+            $estatusR = $row_lista['estado_r'];
+          }
 echo '<tr>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
@@ -63,3 +62,4 @@ $num++;
 </tbody>
 </table>
 </div>
+

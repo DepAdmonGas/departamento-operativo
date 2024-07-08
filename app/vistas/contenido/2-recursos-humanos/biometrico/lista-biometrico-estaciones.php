@@ -1,10 +1,10 @@
-<?php 
-require('../../../../../app/help.php');
+<?php
+require ('../../../../../app/help.php');
 $idEstacion = $_GET['idEstacion'];
 
 $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
 $Estacion = $datosEstacion['localidad'];
-  
+
 $sql_asistencia = "SELECT 
 op_rh_personal_asistencia.id,
 op_rh_personal_asistencia.id_personal,
@@ -29,87 +29,95 @@ ORDER BY op_rh_personal_asistencia.fecha DESC  ";
 
 $result_asistencia = mysqli_query($con, $sql_asistencia);
 $numero_asistencia = mysqli_num_rows($result_asistencia);
- 
-//---------- VISUALIZACIONES PUESTOS ----------
-if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
-$ocultarbtn = "d-none";
-$ocultatTitle = "";
-$valConfiguracion = 0;
 
-if($idEstacion == 9){
-$titleMenu = "";  
-$tituloTablaPersonal = 'Autolavado';
-$ocultarTitle = "d-none";
-$divisionTable = "<hr>";
-     
-}else{
-$titleMenu = "Biometrico";  
-$tituloTablaPersonal = $Estacion;
-$ocultarTitle = "";
-$divisionTable = "";
-  
-}
-      
-}else{
-$ocultarbtn = "";  
-$tituloTablaPersonal = $Estacion;
-$titleMenu = "Biometrico ($Estacion)";  
-$ocultarTitle = "";
-$divisionTable = "";
-$ocultatTitle = "d-none";
-$valConfiguracion = 1;
+//---------- VISUALIZACIONES PUESTOS ----------
+if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo") {
+  $ocultarbtn = "d-none";
+  $ocultatTitle = "";
+  $valConfiguracion = 0;
+
+  if ($idEstacion == 9) {
+    $titleMenu = "";
+    $tituloTablaPersonal = 'Autolavado';
+    $ocultarTitle = "d-none";
+    $divisionTable = "<hr>";
+
+  } else {
+    $titleMenu = "Biometrico";
+    $tituloTablaPersonal = $Estacion;
+    $ocultarTitle = "";
+    $divisionTable = "";
+
+  }
+
+} else {
+  $ocultarbtn = "";
+  $tituloTablaPersonal = $Estacion;
+  $titleMenu = "Biometrico ($Estacion)";
+  $ocultarTitle = "";
+  $divisionTable = "";
+  $ocultatTitle = "d-none";
+  $valConfiguracion = 1;
 }
 
 
 ?>
 
 
-<div class="col-12 <?=$ocultarTitle?>">
-<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-<ol class="breadcrumb breadcrumb-caret">
-<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Recursos Humanos</a></li>
-<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$titleMenu?></li>
-</ol>
-</div>
-   
-<div class="row"> 
-<div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$titleMenu?></h3> </div>
-  
-<div class="col-3">
-<div class="text-end">
-<div class="dropdown d-inline ms-2">
-<button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-<i class="fa-solid fa-screwdriver-wrench"></i></span>
-</button>
+<div class="col-12 <?= $ocultarTitle ?>">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+    <ol class="breadcrumb breadcrumb-caret">
+      <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+            class="fa-solid fa-chevron-left"></i> Recursos Humanos</a></li>
+      <li aria-current="page" class="breadcrumb-item active text-uppercase"><?= $titleMenu ?></li>
+    </ol>
+  </div>
 
-<ul class="dropdown-menu">
+  <div class="row">
+    <div class="col-9">
+      <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?= $titleMenu ?></h3>
+    </div>
 
-<li onclick="ModalReporte(<?=$idEstacion?>)"><a class="dropdown-item pointer"> <i class="fa-solid fa-search"></i> Buscar Reporte</a></li>
-<li onclick="ConfiguracionBiometrico(<?=$valConfiguracion?>)"><a class="dropdown-item pointer"> <i class="fa-solid fa-gear"></i> Configuracion Biometrico</a></li>
+    <div class="col-3">
+      <div class="text-end">
+        <div class="dropdown d-inline ms-2">
+          <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-screwdriver-wrench"></i></span>
+          </button>
 
-</ul>
+          <ul class="dropdown-menu">
+
+            <li onclick="ModalReporte(<?= $idEstacion ?>)"><a class="dropdown-item pointer"> <i
+                  class="fa-solid fa-search"></i> Buscar Reporte</a></li>
+            <li onclick="ConfiguracionBiometrico(<?= $valConfiguracion ?>)"><a class="dropdown-item pointer"> <i
+                  class="fa-solid fa-gear"></i> Configuracion Biometrico</a></li>
+
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
 </div>
 
-</div>
-
-</div>
-</div>
-
-<hr>
-</div>
- 
-<?=$divisionTable?>
+<?= $divisionTable ?>
 
 <div id="DivBusquedaReporte" class="pt-0 mt-0">
 
   <div class="table-responsive">
+
   <table id="tabla_biometrico_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .8em;" width="100%">
 
-  <thead class="title-table-bg">
 
-  <tr class="tables-bg <?=$ocultatTitle?>">
-  <th class="text-center align-middle fw-bold" colspan="9"><?=$tituloTablaPersonal?></th>
-  </tr>
+      <thead class="title-table-bg">
+
+        <tr class="tables-bg <?= $ocultatTitle ?>">
+          <th class="text-center align-middle fw-bold" colspan="9"><?= $tituloTablaPersonal ?></th>
+        </tr>
 
   <tr>
   <td class="text-center align-middle fw-bold">#</td>
@@ -124,119 +132,121 @@ $valConfiguracion = 1;
   </tr>
   </thead>
 
-  <tbody>
-  <?php
 
-  if ($numero_asistencia > 0) {
-  $num = 1;
-  while($row_asistencia = mysqli_fetch_array($result_asistencia, MYSQLI_ASSOC)){
-  $id = $row_asistencia['id'];
-  $idpersonal = $row_asistencia['id_personal'];
-  $nombre_completo = $row_asistencia['nombre_completo'];
-  $idEstacion = $row_asistencia['id_estacion'];
-  $fecha = $row_asistencia['fecha'];
-  $hora_entrada = $row_asistencia['hora_entrada'];
-  $hora_salida = $row_asistencia['hora_salida'];
-  $hora_entrada_sensor = $row_asistencia['hora_entrada_sensor'];
-  $hora_salida_sensor = $row_asistencia['hora_salida_sensor'];
-  $retardominutos = $row_asistencia['retardo_minutos'];
-  $incidenciadias = $row_asistencia['incidencia_dias'];
-  $incidencia = $row_asistencia['incidencia'];
-  $ToIncidencia = $row_asistencia['incidencia_dias'];
-    
-  if($hora_entrada == "00:00:00"){
-  $horaentrada = "S/I"; 
-  }else{
-  $horaentrada = date("g:i a",strtotime($hora_entrada));
-  }
+      <tbody>
+        <?php
 
-  if($hora_salida == "00:00:00"){
-  $horasalida = "S/I";  
-  }else{
-  $horasalida = date("g:i a",strtotime($hora_salida));
-  }
+        if ($numero_asistencia > 0) {
+          $num = 1;
+          while ($row_asistencia = mysqli_fetch_array($result_asistencia, MYSQLI_ASSOC)) {
+            $id = $row_asistencia['id'];
+            $idpersonal = $row_asistencia['id_personal'];
+            $nombre_completo = $row_asistencia['nombre_completo'];
+            $idEstacion = $row_asistencia['id_estacion'];
+            $fecha = $row_asistencia['fecha'];
+            $hora_entrada = $row_asistencia['hora_entrada'];
+            $hora_salida = $row_asistencia['hora_salida'];
+            $hora_entrada_sensor = $row_asistencia['hora_entrada_sensor'];
+            $hora_salida_sensor = $row_asistencia['hora_salida_sensor'];
+            $retardominutos = $row_asistencia['retardo_minutos'];
+            $incidenciadias = $row_asistencia['incidencia_dias'];
+            $incidencia = $row_asistencia['incidencia'];
+            $ToIncidencia = $row_asistencia['incidencia_dias'];
 
-  if($hora_entrada_sensor == "00:00:00"){
-  $horaentradasensor = "S/I";
-  }else{
-  $horaentradasensor = date("g:i a",strtotime($hora_entrada_sensor)); 
-  }
-  if($hora_salida_sensor == "00:00:00"){
-  $horasalidasensor = "S/I";
-  }else{
-  $horasalidasensor = date("g:i a",strtotime($hora_salida_sensor)); 
-  }
+            if ($hora_entrada == "00:00:00") {
+              $horaentrada = "S/I";
+            } else {
+              $horaentrada = date("g:i a", strtotime($hora_entrada));
+            }
 
-  if($hora_entrada == "00:00:00" && $hora_salida == "00:00:00"){
-  if($hora_entrada_sensor != "00:00:00" && $hora_salida_sensor == "00:00:00"){
-  $colorTable = 'style="background-color: #b0f2c2"';
-  $colorDetalle = "text-success";
-  }else if($hora_entrada_sensor != "00:00:00" && $hora_salida_sensor != "00:00:00"){
-  $colorTable = 'style="background-color: #b0f2c2"';
-  $colorDetalle = "text-success";
-  }else if($hora_entrada == "00:00:00" && $hora_salida == "00:00:00" && $hora_entrada_sensor == "00:00:00" && $hora_salida_sensor == "00:00:00"){
-  $colorTable = 'style="background-color: #cfe2ff"';
-  $colorDetalle = "text-secondary";
-  }
+            if ($hora_salida == "00:00:00") {
+              $horasalida = "S/I";
+            } else {
+              $horasalida = date("g:i a", strtotime($hora_salida));
+            }
 
-  }else{
+            if ($hora_entrada_sensor == "00:00:00") {
+              $horaentradasensor = "S/I";
+            } else {
+              $horaentradasensor = date("g:i a", strtotime($hora_entrada_sensor));
+            }
+            if ($hora_salida_sensor == "00:00:00") {
+              $horasalidasensor = "S/I";
+            } else {
+              $horasalidasensor = date("g:i a", strtotime($hora_salida_sensor));
+            }
 
-  if($hora_entrada_sensor != "00:00:00" || $hora_salida_sensor != "00:00:00"){
-  $ts_fin = strtotime($hora_entrada_sensor);
-  $ts_ini = strtotime($hora_entrada);
+            if ($hora_entrada == "00:00:00" && $hora_salida == "00:00:00") {
+              if ($hora_entrada_sensor != "00:00:00" && $hora_salida_sensor == "00:00:00") {
+                $colorTable = 'style="background-color: #b0f2c2"';
+                $colorDetalle = "text-success";
+              } else if ($hora_entrada_sensor != "00:00:00" && $hora_salida_sensor != "00:00:00") {
+                $colorTable = 'style="background-color: #b0f2c2"';
+                $colorDetalle = "text-success";
+              } else if ($hora_entrada == "00:00:00" && $hora_salida == "00:00:00" && $hora_entrada_sensor == "00:00:00" && $hora_salida_sensor == "00:00:00") {
+                $colorTable = 'style="background-color: #cfe2ff"';
+                $colorDetalle = "text-secondary";
+              }
 
-  $retardo = $retardominutos * 60;
-  $horainicio = $ts_ini + $retardo;
+            } else {
 
-  if($horainicio < $ts_fin){
-  $colorTable = 'style="background-color: #fcfcda"';
-  $colorDetalle = "text-warning";
+              if ($hora_entrada_sensor != "00:00:00" || $hora_salida_sensor != "00:00:00") {
+                $ts_fin = strtotime($hora_entrada_sensor);
+                $ts_ini = strtotime($hora_entrada);
 
-  }else{
-  $colorTable = 'style="background-color: #ffffff"'; 
-  $colorDetalle = "";
-  }
+                $retardo = $retardominutos * 60;
+                $horainicio = $ts_ini + $retardo;
 
-  }else{
-  $colorTable = 'style="background-color: #ffb6af"';  
-  $colorDetalle = "text-danger";
-  }
+                if ($horainicio < $ts_fin) {
+                  $colorTable = 'style="background-color: #fcfcda"';
+                  $colorDetalle = "text-warning";
 
-  }
+                } else {
+                  $colorTable = 'style="background-color: #ffffff"';
+                  $colorDetalle = "";
+                }
 
-  $fechaIncidencia = date("d-m-Y",strtotime($fecha."+ ".$ToIncidencia." days")); 
-  if(strtotime($fechaIncidencia) < strtotime($fecha_del_dia)){
-  $iconIncidencia = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'incidencia-tb.png" onclick="ModalDetalleI('.$idpersonal.','.$id .','.$idEstacion.')" />';
-    
-  }else{
-  $iconIncidencia = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'incidencia-tb.png" onclick="ModalIncidencias('.$idpersonal.','.$id .','.$idEstacion.')" />';
-  } 
+              } else {
+                $colorTable = 'style="background-color: #ffb6af"';
+                $colorDetalle = "text-danger";
+              }
+
+            }
+
+            $fechaIncidencia = date("d-m-Y", strtotime($fecha . "+ " . $ToIncidencia . " days"));
+            if (strtotime($fechaIncidencia) < strtotime($fecha_del_dia)) {
+              $iconIncidencia = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'incidencia-tb.png" onclick="ModalDetalleI(' . $idpersonal . ',' . $id . ',' . $idEstacion . ')" />';
+
+            } else {
+              $iconIncidencia = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'incidencia-tb.png" onclick="ModalIncidencias(' . $idpersonal . ',' . $id . ',' . $idEstacion . ')" />';
+            }
 
 
-  $incidenciasUser = $ClassRecursosHumanosGeneral->Incidencias($id);
+            $incidenciasUser = $ClassRecursosHumanosGeneral->Incidencias($id);
 
-  if($incidenciasUser > 0){
-  $incidencia = '<small><span class="badge rounded-pill bg-info fw-light p-1"> </span></small>';
-  }else{
-  $incidencia = '';
-  }
-    
+            if ($incidenciasUser > 0) {
+              $incidencia = '<small><span class="badge rounded-pill bg-info fw-light p-1"> </span></small>';
+            } else {
+              $incidencia = '';
+            }
 
-  $detalleAsistencia = $ClassRecursosHumanosGeneral->Detalle($id,$fecha,$hora_entrada,$hora_salida,$hora_entrada_sensor,$hora_salida_sensor,$retardominutos);
 
-  echo '<tr '.$colorTable.'>
-  <th class="align-middle fs-6 text-center fw-light"><b>'.$num.'</b></th>
-  <td class="align-middle fs-6 font-weight-light">'.$nombre_completo.'</td>
-  <td class="align-middle fs-6 font-weight-light"><b>'.$ClassHerramientasDptoOperativo->FormatoFecha($fecha).'</b></td>
-  <td class="align-middle fs-6 font-weight-light">'.$horaentrada.'</td>
-  <td class="align-middle fs-6 font-weight-light">'.$horasalida.'</td>
-  <td class="align-middle fs-6 font-weight-light"><b>'.$horaentradasensor.'</b></td>
-  <td class="align-middle fs-6 font-weight-light"><b>'.$horasalidasensor.'</b></td>
-  <td class="align-middle fs-6 font-weight-bold '.$colorDetalle.'">'.$detalleAsistencia.'</td>
-  <td class="align-middle fs-6 text-center">'.$iconIncidencia.$incidencia.'</td>
+            $detalleAsistencia = $ClassRecursosHumanosGeneral->Detalle($id, $fecha, $hora_entrada, $hora_salida, $hora_entrada_sensor, $hora_salida_sensor, $retardominutos);
+
+            echo '<tr ' . $colorTable . '>
+  <th class="align-middle fs-6 text-center fw-light"><b>' . $num . '</b></th>
+  <td class="align-middle fs-6 font-weight-light">' . $nombre_completo . '</td>
+  <td class="align-middle fs-6 font-weight-light"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
+  <td class="align-middle fs-6 font-weight-light">' . $horaentrada . '</td>
+  <td class="align-middle fs-6 font-weight-light">' . $horasalida . '</td>
+  <td class="align-middle fs-6 font-weight-light"><b>' . $horaentradasensor . '</b></td>
+  <td class="align-middle fs-6 font-weight-light"><b>' . $horasalidasensor . '</b></td>
+  <td class="align-middle fs-6 font-weight-bold ' . $colorDetalle . '">' . $detalleAsistencia . '</td>
+  <td class="align-middle fs-6 text-center">' . $iconIncidencia . $incidencia . '</td>
   </tr>';
-  $num++;
-  }
+            $num++;
+          }
+
 
   }
   ?> 
@@ -246,3 +256,4 @@ $valConfiguracion = 1;
   </div>
   
   </div>
+

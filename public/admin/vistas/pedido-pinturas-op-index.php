@@ -245,7 +245,7 @@ $ToSolicitud = ToSolicitud($id,$con);
 
 <div class="modal" id="Modal">
 <div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
+<div class="modal-content">
 <div id="ContenidoModal"></div>    
 </div>
 </div>

@@ -2,9 +2,13 @@
 require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 $estado = "";
+$deshabilitado="";
+$hover="no-hover";
 $ventas = $corteDiarioGeneral->ventas($idReporte);
 if ($ventas == 1):
+    $hover="";
     $estado = "disabled";
+    $deshabilitado="disabledOP";
 endif;
 ?>
 <script type="text/javascript">
@@ -22,13 +26,19 @@ endif;
 </script>
 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .9em;">
-        <thead class="tables-bg">
-            <th class="text-center">CONCEPTO</th>
-            <th class="text-center">IMPORTE</th>
-            <th class="text-center">NOTA</th>
+    <table class="custom-table " style="font-size: .8em;" width="100%">
+        <thead class="navbar-bg">
+            <tr class="tables-bg">
+                <th colspan="3" class="align-middle text-center">PAGO CLIENTES</th>
+            </tr>
+            <tr>
+                <td class="text-center">CONCEPTO</td>
+                <td class="text-center">IMPORTE</td>
+                <td class="text-center">NOTA</td>
+            </tr>
+            
         </thead>
-        <tbody>
+        <tbody class="bg-white">
             <?php
 
             $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '" . $idReporte . "' ";
@@ -48,16 +58,16 @@ endif;
                 ?>
 
                 <tr>
-                    <td class="align-middle"><?= $concepto; ?></td>
-                    <td class="p-0 align-middle">
+                    <th class="align-middle no-hover"><?= $concepto; ?></th>
+                    <td class="align-middle <?=$deshabilitado, $hover?>">
                         <input id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPCimporte(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $importe; ?>"
                             <?= $estado; ?>>
                     </td>
-                    <td class="p-0 align-middle">
+                    <td class="align-middle <?=$deshabilitado, $hover?>">
                         <input id="nota-<?= $idPagoCliente; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: left;"
+                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
                             onkeyup="EditPCnota(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $nota; ?>"
                             <?= $estado; ?>>
                     </td>
