@@ -8,13 +8,18 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="p-3">
   <div class="row">
-
-    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
-      <h5>Catálogo de pinturas y complementos</h5>
-    </div>
-
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-      <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="ModalNevoProducto()">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="row">
+        <div class="col-9">
+          <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+            Catálogo de pinturas y complementos
+          </h3>
+        </div>
+        <div class="col-3">
+          <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalNevoProducto()">
+            <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -22,8 +27,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   <hr>
 
   <div class="table-responsive">
-      <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
-        <thead class="tables-bg">
+    <table id='tabla-catalogo' class="custom-table" style="font-size: .8em;" width="100%">
+      <thead class="title-table-bg">
         <th class="text-center align-middle">#</th>
         <th class="text-center align-middle">Producto</th>
         <th class="text-center align-middle">Unidad</th>

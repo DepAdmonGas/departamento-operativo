@@ -99,7 +99,19 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-sms').disabled = true;
+            document.getElementById('btn-whatsapp').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-sms').disabled = false;
+              document.getElementById('btn-whatsapp').disabled = false;
+            }, 30000); // 60000 milisegundos = 60 segundos  
    }else{
      alertify.error('Error al crear el token');   
    }
@@ -154,7 +166,28 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   }
 
     }
+// Verificar el tiempo guardado en localStorage al cargar la página
+window.onload = function () {
+      var disableTime = localStorage.getItem('disableTime');
+      if (disableTime) {
+        var currentTime = new Date().getTime();
+        var timeDifference = currentTime - disableTime;
 
+        // Si han pasado menos de 60 segundos, deshabilitar los botones
+        if (timeDifference < 30000) {
+          document.getElementById('btn-sms').disabled = true;
+          document.getElementById('btn-whatsapp').disabled = true;
+
+          // Calcular el tiempo restante y volver a habilitar los botones después del tiempo restante
+          var remainingTime = 30000 - timeDifference;
+          setTimeout(function () {
+            document.getElementById('btn-sms').disabled = false;
+            document.getElementById('btn-whatsapp').disabled = false;
+            localStorage.removeItem('disableTime');
+          }, remainingTime);
+        }
+      }
+    }
   </script>
   </head> 
  
@@ -334,8 +367,8 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22 ){ ?>
 <hr>
 <h4 class="text-primary">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
+<button id="btn-sms" class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
+<button id="btn-whatsapp" class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
 <hr>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">

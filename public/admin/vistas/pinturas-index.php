@@ -51,15 +51,12 @@ function ToSolicitud($idEstacion, $con)
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
       sizeWindow();
 
       if (sessionStorage) {
         if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
           idEstacion = sessionStorage.getItem('idestacion');
-
           $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion);
-
         }
       }
 
@@ -71,10 +68,22 @@ function ToSolicitud($idEstacion, $con)
 
     //--------------------------------------------------------------------------------------------------------------------
     //---------- Contenido para gregar, actualizar y elimininar los productos de pinturas --------------------------------
-
     function ListaPinturas() {
-      sizeWindow();
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pinturas.php');
+      let targets;
+      targets = [3, 4];
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pinturas.php', function () {
+        $('#tabla-catalogo').DataTable({
+          "language": {
+            "url":"<?= RUTA_JS2 ?>/es-ES.json"
+          },
+          "order": [[0, "asc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
     function ModalNevoProducto() {
@@ -285,16 +294,19 @@ function ToSolicitud($idEstacion, $con)
     function PedidoPinturas(id) {
       sessionStorage.setItem('idestacion', id);
       sizeWindow();
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id);
+      rol = 'admin';
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id + '&rol='+ rol);
     }
 
     function PedidoPinturasReturn(id) {
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id);
+      rol = 'admin';
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id + '&rol='+ rol);
     }
 
     function VerPedido(idEstacion, id) {
       $('#Modal').modal('show');
-      $('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-pintura-complemento.php?idEstacion=' + idEstacion + '&idReporte=' + id);
+      //$('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-pintura-complemento.php?idEstacion=' + idEstacion + '&idReporte=' + id);
+      $('#ContenidoModal').load('../public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idReporte=' + id);
     }
 
     function PedidoPDF(id) {
@@ -462,10 +474,6 @@ function ToSolicitud($idEstacion, $con)
 
 
     }
-
-    //------------------------------------------------------------------------------------------------------------------
-    //------------------------------------------------------------------------------------------------------------------
-
     //------------------------------------------------------------------------------------------------------------------
     //------------------------------------ Reporte de material utilizado -----------------------------------------------
 
@@ -769,8 +777,10 @@ function ToSolicitud($idEstacion, $con)
       window.location.href = "pedido-pinturas-firmar/" + id;
     }
   </script>
-</head>
 
+</head>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
 <body class="bodyAG">
   <div class="LoaderPage"></div>
@@ -810,27 +820,23 @@ function ToSolicitud($idEstacion, $con)
         <?php
         $sql_listaestacion = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
         $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-        while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+        while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)):
           $id = $row_listaestacion['id'];
           $estacion = $row_listaestacion['nombre'];
 
           $ToSolicitud = ToSolicitud($id, $con);
-
-          if ($ToSolicitud > 0) {
+          $Nuevo = '';
+          if ($ToSolicitud > 0):
             $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded-circle"><small>' . $ToSolicitud . '</small></span></div>';
-          } else {
-            $Nuevo = '';
-          }
-
+          endif;
           echo '  
-  <li>
-    <a class="pointer" onclick="PedidoPinturas(' . $id . ')">
-    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-    ' . $Nuevo . ' ' . $estacion . '
-    </a>
-  </li>';
-
-        }
+              <li>
+                <a class="pointer" onclick="PedidoPinturas(' . $id . ')">
+                <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+                ' . $Nuevo . ' ' . $estacion . '
+                </a>
+              </li>';
+        endwhile;
         ?>
 
       </ul>
@@ -846,7 +852,7 @@ function ToSolicitud($idEstacion, $con)
         <i class="fa-solid fa-bars menu-btn rounded pointer" id="sidebarCollapse"></i>
 
         <div class="pointer">
-          <a class="text-dark" onclick="history.back()">Inventario de Pinturas</a>
+          <a class="text-dark" onclick="history.back()">Comercializadora</a>
         </div>
 
 
@@ -903,11 +909,7 @@ function ToSolicitud($idEstacion, $con)
 
       <div class="contendAG">
         <div class="row">
-
-          <div class="col-12 mb-3">
-            <div id="ContenidoPrin" class="cardAG"></div>
-          </div>
-
+          <div class="col-12" id="ContenidoPrin"></div>
         </div>
       </div>
 
@@ -915,14 +917,12 @@ function ToSolicitud($idEstacion, $con)
 
   </div>
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div id="ContenidoModal"></div>
-      </div>
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content" id="ContenidoModal"></div>
     </div>
   </div>
+
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
@@ -932,6 +932,11 @@ function ToSolicitud($idEstacion, $con)
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

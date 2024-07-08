@@ -1,6 +1,5 @@
 <?php
 require ('../../../app/help.php');
-
 function Personal($idpersonal, $con)
 {
 
@@ -20,14 +19,6 @@ function Personal($idpersonal, $con)
   $result = array('nombre' => $nombre, 'puesto' => $puesto);
 
   return $result;
-}
-
-function TotalPedido($IDEstacion, $estatus, $con)
-{
-  $sql = "SELECT status FROM op_pedido_pinturas_complementos WHERE id_estacion = '" . $IDEstacion . "' AND status = '" . $estatus . "' ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  return $numero;
 }
 
 $sql_lista = "SELECT * FROM op_pedido_pinturas_complementos WHERE id_estacion = '" . $Session_IDEstacion . "' ORDER BY id DESC";
