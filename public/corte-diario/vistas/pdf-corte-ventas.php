@@ -244,7 +244,7 @@ return $resultado;
 //---------------------------------------------------
 
 function MonederosBancos($idReporte,$con){
-
+  $resultado = '';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
@@ -286,7 +286,7 @@ return $resultado;
 //-------------------------------------------
 
 function ClientesAtio($idReporte,$con){
-
+  $resultado = '';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
@@ -432,31 +432,20 @@ function DiferenciaTotal($idReporte,$con){
         $SubTotalLitros = $SubTotalLitros + $totalLitros;
         $SubImporteTotal = $SubImporteTotal + $importeTotal;
     }
-
     $sql_listaotros = "SELECT importe FROM op_ventas_dia_otros WHERE idreporte_dia = '".$idReporte."' ";
     $result_listaotros = mysqli_query($con, $sql_listaotros);
     while($row_listaotros = mysqli_fetch_array($result_listaotros, MYSQLI_ASSOC)){
-
    $importe = $row_listaotros['importe'];
-
     $sumImporte = $sumImporte + $importe;
-
     }
-
- 
-
     $totalNeto = $SubImporteTotal + $sumImporte;
-
     $CTotal = $totalImporte + $baucherTotal + $consumo;
-
     $resultado = "<strong>".number_format($CTotal - $totalNeto,2)."</strong>";
-
     return $resultado;
 }
 //-------------------------------------------------------
- 
 function PagoClientes($idReporte,$con){
-
+  $resultado = "";
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
