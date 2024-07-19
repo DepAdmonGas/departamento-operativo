@@ -2,6 +2,12 @@
 require 'app/vistas/contenido/header.php';
 $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
+<script>
+$(document).ready(function($){
+$(".LoaderPage").fadeOut("slow");
+    
+});
+</script>
 
 <body>
   <div class="LoaderPage"></div>
@@ -18,14 +24,15 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Impuestos día (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
+                    </a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Impuestos (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-10">
+            <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Impuestos día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Impuestos (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
           </div>

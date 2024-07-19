@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
 
 <html lang="es">
@@ -20,10 +16,9 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -37,19 +32,16 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-  	if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
-
-      idestacion = sessionStorage.getItem('idestacion');
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  idestacion = sessionStorage.getItem('idestacion');
   $('#ListaContratos').load('../public/contratos/vistas/lista-contratos.php?idEstacion=' + idestacion + '&Cate=<?=$GET_Categoria;?>');
         
-    } 
-      
-    }
-
+  }    
+  }
  
-    });  
-
+  });  
+  
   function Regresar(){
   sessionStorage.removeItem('idestacion');
   window.history.back();
@@ -65,7 +57,7 @@ header("Location:".PORTAL."");
   //---------- MODAL - DETALLE CONTRATO ----------
   function ModalDetalleContrato (idContrato){
 	$('#ModalContratos').modal('show'); 
-  	$('#ContenidoModal').load('../public/contratos/vistas/modal-detalle-contratos.php?idContrato=' + idContrato); 
+  $('#ContenidoModal').load('../public/contratos/vistas/modal-detalle-contratos.php?idContrato=' + idContrato); 
   }
 
 
@@ -453,9 +445,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaContratos" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaContratos"></div> 
  
   </div>
   </div> 
@@ -464,14 +454,13 @@ $icon = "fa-solid fa-screwdriver-wrench";
 
 </div>
 
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalContratos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal"></div>
+  </div>
+  </div>
 
-<div class="modal" id="ModalContratos" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog" style="margin-top: 83px;">
-<div class="modal-content border-0 rounded-0" >
-<div id="ContenidoModal"></div>
-</div>
-</div>
-</div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

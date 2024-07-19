@@ -37,9 +37,18 @@ $estacion = $row_listaestacion['razonsocial'];
 
   </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" onclick="CancelarTelcel(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="EditarTelcelInfo(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>,<?=$id;?>)">Editar</button>
-      </div>
+  <div class="modal-footer">
+
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="CancelarTelcel(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">
+  <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success"onclick="EditarTelcelInfo(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>,<?=$id;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+
+  </div>
+
+
+
+
 
 

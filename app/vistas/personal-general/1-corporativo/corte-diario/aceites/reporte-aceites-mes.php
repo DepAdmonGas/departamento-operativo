@@ -17,8 +17,8 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
 ?>
 
 <div class="table-responsive">
-  <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
-    <thead class="navbar-bg">
+  <table class="custom-table" style="font-size: .75em;" width="100%">
+    <thead class="tables-bg">
         <tr>
             <th class="align-middle text-center">#</th>
             <th colspan="2" class="align-middle text-center">Concepto</th>
@@ -51,6 +51,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
             ?>
             <th class="align-middle text-center">Total</th>
         </tr>
+        
     </thead>
     <tbody class="bg-white">
         <?php
@@ -140,49 +141,49 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
 
                 <td class="align-middle text-end"><?= $exibidores; ?></td>
 
-                <td id="inventarioi-<?= $idaceite; ?>" class="align-middle bg-white text-end">
+                <td id="inventarioi-<?= $idaceite; ?>" class="align-middle text-end">
                     <?= number_format($inventarioI, 2); ?></td>
 
-                <td class="align-middle p-0"><input id="pedido-<?= $idaceite; ?>" class="<?= $disabledStyle; ?>" type="number"
-                        name="" style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                <td class="align-middle p-0 "><input id="pedido-<?= $idaceite; ?>" class="<?= $disabledStyle; ?> p-3 fw-bold" type="number"
+                        name="" style="border: 0px;width: 100%;height: 100%; text-align: right;"
                         value="<?= $pedido; ?>" onkeyup="EditPedido(this,<?= $idaceite; ?>)" <?= $disabled; ?>></td>
 
-                <td id="ventas-<?= $idaceite; ?>" class="align-middle bg-white text-end"><?= $totalaceites; ?></td>
+                <td id="ventas-<?= $idaceite; ?>" class="align-middle text-end"><?= $totalaceites; ?></td>
 
-                <td id="inventariof-<?= $idaceite; ?>" class="align-middle bg-white text-end">
+                <td id="inventariof-<?= $idaceite; ?>" class="align-middle text-end">
                     <?= number_format($inventarioF, 2); ?></td>
 
-                <td class="align-middle p-0"><input id="fisicoB-<?= $idaceite; ?>" class="<?= $disabledStyle; ?>" type="number"
-                        name="" style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                <td class="align-middle p-0"><input id="fisicoB-<?= $idaceite; ?>" class="<?= $disabledStyle; ?> p-3 fw-bold" type="number"
+                        name="" style="border: 0px;width: 100%;height: 100%; text-align: right;"
                         value="<?= $inventario_bodega; ?>" onkeyup="EditFisicoBodega(this,<?= $idaceite; ?>)" <?= $disabled; ?>>
                 </td>
 
-                <td class="align-middle p-0"><input id="fisicoE-<?= $idaceite; ?>" class="<?= $disabledStyle; ?>" type="number"
-                        name="" style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                <td class="align-middle p-0"><input id="fisicoE-<?= $idaceite; ?>" class="<?= $disabledStyle; ?> p-3 fw-bold" type="number"
+                        name="" style="border: 0px;width: 100%;height: 100%; text-align: right;"
                         value="<?= $inventario_exibidores; ?>" onkeyup="EditFisicoExhibidor(this,<?= $idaceite; ?>)"
                         <?= $disabled; ?>></td>
 
                 <td class="align-middle text-end" id="fisicoFin-<?= $idaceite; ?>"><?= $corteDiarioGeneral->valRow($inventario_final); ?></td>
 
-                <td id="diferencia-<?= $idaceite; ?>" class="align-middle bg-white text-end">
+                <td id="diferencia-<?= $idaceite; ?>" class="align-middle text-end">
                     <?= number_format($diferencia, 2); ?>     <?= $iconDiferencia; ?></td>
 
                 <td class="align-middle p-1 text-end">$ <?= number_format($difPrecio, 2); ?></td>
 
-                <td class="align-middle p-0"><input id="facturado-<?= $idaceite; ?>" class="<?= $disabledStyle; ?>"
-                        type="number" name="" style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                <td class="align-middle p-0"><input id="facturado-<?= $idaceite; ?>" class="<?= $disabledStyle; ?> p-3 fw-bold"
+                        type="number" name="" style="border: 0px;width: 100%;height: 100%; text-align: right;"
                         value="<?= $producto_facturado; ?>" onkeyup="EditFacturados(this,<?= $idaceite; ?>)" <?= $disabled; ?>>
                 </td>
 
-                <td class="align-middle p-0"><input id="mostrador-<?= $idaceite; ?>" class="<?= $disabledStyle; ?>"
-                        type="number" name="" style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                <td class="align-middle p-0"><input id="mostrador-<?= $idaceite; ?>" class="<?= $disabledStyle; ?> p-3 fw-bold"
+                        type="number" name="" style="border: 0px;width: 100%;height: 100%; text-align: right;"
                         value="<?= $factura_venta_mostrador; ?>" onkeyup="EditMostrador(this,<?= $idaceite; ?>)"
                         <?= $disabled; ?>></td>
 
-                <td id="factotal-<?= $idaceite; ?>" class="align-middle bg-white text-end"><?= number_format($factotal, 2); ?>
+                <td id="factotal-<?= $idaceite; ?>" class="align-middle text-end"><?= number_format($factotal, 2); ?>
                 </td>
 
-                <td id="diffactura-<?= $idaceite; ?>" class="align-middle bg-white text-end">
+                <td id="diffactura-<?= $idaceite; ?>" class="align-middle text-end">
                     <?= number_format($diffactura, 2); ?></td>
 
                 <?php
@@ -199,7 +200,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
 
                 $sumt = $sumt + $totalaceites;
                 ?>
-                <td class="align-middle text-center bg-light"><?= $totalaceites; ?></td>
+                <td class="align-middle text-center bg-light fw-bold"><?= $totalaceites; ?></td>
                 <?php
                 $TotalSumaAceites = 0;
                 for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
@@ -212,36 +213,37 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                 $totalprecio = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
                 $importeneto = $importeneto + $totalprecio;
                 ?>
-                <td class="align-middle text-center bg-white"><?= number_format($TotalSumaAceites, 2); ?></td>
+                <td class="align-middle text-center fw-bold bg-light"><?= number_format($TotalSumaAceites, 2); ?></td>
             </tr>
 
             <?php
         }
         ?>
-        <tr>
-            <th class="text-end" colspan="4">TOTAL</th>
 
-            <td class="align-middle p-1 text-end"><?= number_format($totalBodegas, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalExibidores, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalInventarioI, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalPedido, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalVentasM, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalInventarioF, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalInventarioBodega, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalInventarioExibidores, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalInventarioFinal, 2); ?></td>
-            <td class="align-middle p-1 text-end"><?= number_format($totalDiferencia, 2); ?></td>
-            <td class="align-middle p-1 text-end">$<?= number_format($totalDigPrecio, 2); ?></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr class="fw-bold">
+
+            <th class="text-end bg-light" colspan="4">TOTAL</th>
+            <td class="align-middle text-end bg-light"><?= number_format($totalBodegas, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalExibidores, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalInventarioI, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalPedido, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalVentasM, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalInventarioF, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalInventarioBodega, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalInventarioExibidores, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalInventarioFinal, 2); ?></td>
+            <td class="align-middle text-end bg-light"><?= number_format($totalDiferencia, 2); ?></td>
+            <td class="align-middle text-end bg-light">$<?= number_format($totalDigPrecio, 2); ?></td>
+            <td class="align-middle text-end bg-light"></td>
+            <td class="align-middle text-end bg-light"></td>
+            <td class="align-middle text-end bg-light"></td>
+            <td class="align-middle text-end bg-light"></td>
             <?php
             for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
                 $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
                 $totalcantidad = $corteDiarioGeneral->cantidadAceites($IdReporte, $fecha, $noaceite);
-                echo "<td class='align-middle text-center'>" . $totalcantidad . "</td>";
+                echo "<td class='align-middle text-center bg-light'>" . $totalcantidad . "</td>";
             }
             ?>
             <td class="align-middle text-center bg-light"><?php echo $sumt; ?></td>
@@ -251,7 +253,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                 $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
                 $totalimporte = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
 
-                echo "<td class='align-middle text-center'>" . number_format($totalimporte, 2) . "</td>";
+                echo "<td class='align-middle text-center bg-light'>" . number_format($totalimporte, 2) . "</td>";
             }
             ?>
             <td class="align-middle text-center bg-light"><?= number_format($importeneto, 2); ?></td>

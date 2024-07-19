@@ -14,8 +14,8 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="table-responsive mt-3">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-            <tr class="tables-bg">
+    <thead class="title-table-bg">
+    <tr class="tables-bg">
                 <th colspan="3" class="align-middle text-center">PREFIJOS Y SERIES DE FACTURACIÓN</th>
             </tr>
             <tr>
@@ -36,10 +36,10 @@ $numero_lista = mysqli_num_rows($result_lista);
                         $total = $row_lista['total'];
                     }
                     echo '<tr>';
-                    echo '<th>' . $row_lista['serie'] . '</th>';
-                    echo '<td class="text-start">' . $row_lista['descripcion'] . '</td>';
-                    echo '<td class="text-end p-0 pb-0 mb-0">
-                            $ <input type="number" id="Total' . $id . '" step="any" style="width: 90%;" class="text-end border-0 font-weight-light pt-1 pb-1" value="' . $total . '" onkeyup="EditPrefijo(' . $id . ',' . $IdReporte . ',' . $IdReporteYear . ',' . $GET_mes . ',' . $idEstacion . ')"></td>';
+                    echo '<th class="p-0 no-hover">' . $row_lista['serie'] . '</th>';
+                    echo '<td class="text-start no-hover">' . $row_lista['descripcion'] . '</td>';
+                    echo '<td class="text-end no-hover p-0">
+                            $ <input type="number" id="Total' . $id . '" step="any" style="width: 90%;" class="text-end border-0 p-3" value="' . $total . '" onkeyup="EditPrefijo(' . $id . ',' . $IdReporte . ',' . $IdReporteYear . ',' . $GET_mes . ',' . $idEstacion . ')"></td>';
                     echo '</tr>';
                 }
             } else {

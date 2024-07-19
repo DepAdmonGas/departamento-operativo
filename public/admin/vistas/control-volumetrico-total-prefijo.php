@@ -56,19 +56,41 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     $SumAutolavado = $SumAutolavado + $autolavado;
 }
 
-echo '
-<div class="border mt-3 bg-white">
-<div class="text-end">
-Subtotal Gasolina: $ ' . number_format($SumGasolina, 2) . '</br>
-Subtotal Rentas: $ ' . number_format($SumRentas, 2) . '</br>';
+
+echo '<div class="col-12">
+<div class="table-responsive">
+<table class="custom-table mt-3" style="font-size: 12.5px;" width="100%">
+<tbody class="bg-white">
+<tr>
+<th class="align-middle text-center no-hover">Subtotal Gasolina:</th>
+<th class="align-middle text-center no-hover fw-normal">$ ' . number_format($SumGasolina, 2) . '</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center no-hover">Subtotal Rentas:</th>
+<th class="align-middle text-center no-hover fw-normal">$ ' . number_format($SumGasolina, 2) . '</th>
+</tr>';
+
 
 if ($idEstacion == 2) {
-    echo 'Subtotal Autolavado: $ ' . number_format($SumAutolavado, 2) . '</br>';
+    echo '<tr>
+<th class="align-middle text-center no-hover">Subtotal Autolavado:</th>
+<th class="align-middle text-center no-hover fw-normal">$ ' . number_format($SumAutolavado, 2) . '</th>
+</tr>';
 }
 
+echo '<tr>
+<th class="align-middle text-center no-hover">Subtotal Sodexo:</th>
+<th class="align-middle text-center no-hover fw-normal">$ ' . number_format($SumSodexo, 2) . '</th>
+</tr>';
 
-echo 'Subtotal Sodexo: $ ' . number_format($SumSodexo, 2) . '</br>
-<hr>
-<b>Gran Total: $ ' . number_format($SumGTotal, 2) . '</b>
+
+echo '<tr class="tables-bg">
+<th class="align-middle text-center tables-bg">Gran Total:</th>
+<th class="align-middle text-center tables-bg">$ ' . number_format($SumGTotal, 2) . '</th>
+</tr>';
+
+echo '</tbody>
+</table>
 </div>
-</div> ';
+</div>';

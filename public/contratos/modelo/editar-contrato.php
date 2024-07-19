@@ -2,13 +2,15 @@
 require('../../../app/help.php'); 
 
 $aleatorio = uniqid();
+
+if (isset($_FILES['Contrato_file'])) {
 $NoDoc  =   $_FILES['Contrato_file']['name'];
 $UpDoc = "../../../archivos/contratos-es/".$aleatorio."-".$NoDoc;
 $NomDoc = $aleatorio."-".$NoDoc;
+}
 
 
-if($NoDoc != ""){
-
+if (isset($_FILES['Contrato_file'])) {
 if(move_uploaded_file($_FILES['Contrato_file']['tmp_name'], $UpDoc)){
 
 $sql_edit1 = "UPDATE op_contratos SET 
@@ -32,7 +34,7 @@ echo 0;
 echo 0;
 }
 
-
+ 
 }else{
 
 $sql_edit2 = "UPDATE op_contratos SET 

@@ -14,13 +14,26 @@ $GET_mes = $_GET['mes'];
 
     return $baucher;
    }
+
+
+
+if($Session_IDEstacion == 2){
+    $colspan0 = 'colspan="18"';
+    $colspan1 = 'colspan="7"'; 
+    $ocultar = ""; 
+} else {
+    $ocultar = "d-none"; 
+    $colspan0 = 'colspan="17"';
+    $colspan1 = 'colspan="6"'; 
+}
+
 ?>
 
 
 <table class="table table-sm table-bordered table-hover" style="font-size: .8em;">
 <thead>
   <tr>
-  <td class="text-center align-middle tableStyle font-weight-bold" colspan="17"></td>
+  <td class="text-center align-middle tableStyle font-weight-bold" <?= $colspan0 ?>></td>
 
   <td class="text-center align-middle tableStyle font-weight-bold" colspan="2">CRÉDITO</td>
   <td class="text-center align-middle tableStyle font-weight-bold" colspan="2">DÉBITO</td>
@@ -31,7 +44,7 @@ $GET_mes = $_GET['mes'];
     <tr>
     	<td></td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="5">TARJETAS BANCARIAS</td>
-    <td  class="text-center align-middle tableStyle font-weight-bold" colspan="6">TARJETAS</td>
+    <td  class="text-center align-middle tableStyle font-weight-bold" <?=$colspan1?>>TARJETAS</td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="5">VALES</td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="6">Cartera de Clientes ATIO </td>
   </tr>
@@ -50,6 +63,7 @@ $GET_mes = $_GET['mes'];
     <th class="text-center align-middle bg-white" >SODEXO</th>
     <th class="text-center align-middle bg-white" >ULTRAGAS</th>
     <th class="text-center align-middle bg-white" >ENERGEX</th>
+    <th class="text-center align-middle bg-white <?=$ocultar?>">SHELL</th>
     <th class="text-center align-middle bg-white" >TOTAL</th>
 
     <th class="text-center align-middle bg-white">VALE ACCORD</th>
@@ -81,6 +95,8 @@ $Toinburgas = 0;
 $Toinbursa = 0;
 $Toultragas = 0;
 $Toenergex = 0;
+$Toshell = 0;
+
 $TototalTB = 0;
 
 $Toticketcard = 0;
@@ -130,8 +146,16 @@ $GTVales = 0;
     $sodexo = TarjetasCB($idDias,"SODEXO",$con);
     $ultragas = TarjetasCB($idDias,"ULTRAGAS",$con);
     $energex = TarjetasCB($idDias,"ENERGEX",$con);
+    $shell = TarjetasCB($idDias,"SHELL FLEET NAVIGATOR",$con);
 
+
+    if($Session_IDEstacion == 2){
+    $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $sodexo + $ultragas + $energex + $shell;
+
+    }else{
     $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $sodexo + $ultragas + $energex;
+
+    }
 
     $valaccord = TarjetasCB($idDias,"VALE ACCORD",$con);
     $valefectivale = TarjetasCB($idDias,"VALE EFECTIVALE",$con);
@@ -187,6 +211,7 @@ $Toefecticard = $Toefecticard + $efecticard;
 $Tosodexo = $Tosodexo + $sodexo;
 $Toultragas = $Toultragas + $ultragas;
 $Toenergex = $Toenergex + $energex;
+$Toshell = $Toshell + $shell;
 $TototalTarjetas = $TototalTarjetas + $totalTarjetas;
 
 $TopagoC = $TopagoC + $pagoC;
@@ -240,6 +265,10 @@ $GTVales = $GTVales + $totalVales;
   </td>
   <td class="align-middle text-end">
    $<?=number_format($energex,2);?>
+  </td>  
+
+  <td class="align-middle text-end <?=$ocultar?>">
+   $<?=number_format($shell,2);?>
   </td>  
 
   
@@ -324,6 +353,9 @@ $GTVales = $GTVales + $totalVales;
   </td>
   <td class="align-middle text-end">
     <strong>$<?=number_format($Toenergex,2);?></strong>
+  </td>
+  <td class="align-middle text-end <?=$ocultar?>">
+    <strong>$<?=number_format($Toshell,2);?></strong>
   </td>
   <td class="align-middle text-end">
     <strong>$<?=number_format($TototalTarjetas,2);?></strong>

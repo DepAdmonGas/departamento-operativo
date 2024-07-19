@@ -17,7 +17,6 @@ $numero_documento = mysqli_num_rows($result_documento);
 </div>
 
 <div class="modal-body">
-
 <div class="mb-1 text-secondary">Documento:</div>
 <select class="form-select" id="Documento">
 <option></option>
@@ -48,18 +47,10 @@ $numero_documento = mysqli_num_rows($result_documento);
 </div>
  
 <hr> 
-
-<div class="row">
-<div class="col-12">
-<button class="btn btn-outline-secondary btn-sm float-end mb-3" type="button" onclick="AgregarArchivo(<?=$year?>,<?=$mes?>,<?=$idReporte?>)">Agregar archivo</button>
-</div>
-</div>
-
-
 <div class="table-responsive">
-<table class="custom-table mt-2" style="font-size: 14px;" width="100%">
+<table class="custom-table" style="font-size: 14px;" width="100%">
 <thead>
-<tr class="navbar-bg align-middle text-center">
+<tr class="tables-bg align-middle text-center">
 <th class="align-middle text-center">Nombre archivo</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
@@ -88,4 +79,9 @@ echo "<tr><th colspan='3' class='text-center text-secondary'><small>No se encont
 </table>
 </div>
 
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarArchivo(<?=$year?>,<?=$mes?>,<?=$idReporte?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
 </div>

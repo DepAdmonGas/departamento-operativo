@@ -1,11 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
- 
-
 function ToSolicitud($idEstacion,$depu,$year,$mes,$con){
 
 if($idEstacion == 8){
@@ -35,21 +30,16 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   </style>
    
@@ -68,9 +58,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
       year = sessionStorage.getItem('year');
       mes = sessionStorage.getItem('mes');
 
-      $('#ListaEmbarques').load('../../../public/admin/vistas/lista-solicitud-cheques-mes.php?idEstacion=' + idestacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);
-         
-    }
+      SelEstacion(idestacion,depu,year,mes);
+    } 
       
     }  
 
@@ -84,27 +73,44 @@ return $numero_lista = mysqli_num_rows($result_lista);
   sessionStorage.removeItem('mes');
   }
  
-
   function SelEstacion(idestacion,depu,year,mes){
     sizeWindow();
     sessionStorage.setItem('idestacion', idestacion);
     sessionStorage.setItem('depu', depu);
     sessionStorage.setItem('year', year);
     sessionStorage.setItem('mes', mes);
+  
+    let targets = []; // Variable para almacenar los targets dinámicos
+    targets = [8, 9, 10]; // Asigna los targets para el caso de "Gestoria"
 
-    $('#ListaEmbarques').load('../../../public/admin/vistas/lista-solicitud-cheques-mes.php?idEstacion=' + idestacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);
-  }
+  
+    $('#ListaEmbarques').load('../../../public/admin/vistas/lista-solicitud-cheques-mes.php?idEstacion=' + idestacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes, function() {
+    // Una vez que se carguen los datos en la tabla, inicializa DataTables
+    $('#tabla_solicitud_cheque_' + idestacion).DataTable({
+      "language": { // Corrección de "lenguage" a "language"
+      "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
+      },
+      "order": [[0, "desc"]],  // Ordenar por la tercera columna de forma descendente
+      "lengthMenu": [15,30,50,100], // Número de registros que se mostrarán
+      "columnDefs": [
+      { "orderable": false, "targets": targets }, // Deshabilitar ordenación en las columnas 1, 2 y 3 (comenzando desde 0)
+      { "searchable": false, "targets": targets } // Deshabilitar filtrado en las columnas 1, 2 y 3 (comenzando desde 0)
+      ]
+    });
+    });
+    }
+
+
 
   function Mas(idEstacion,depu,year,mes){
   window.location.href = "../../solicitud-cheque-nuevo/" + year + "/" + mes + "/" + idEstacion + "/" + depu; 
   }
 
-  
+ 
  function ModalDetalle(id){
-    $('#Modal').modal('show');  
-    $('#DivContenido').load('../../../public/admin/vistas/modal-detalle-solicitud-cheque.php?idReporte=' + id);
-    
- } 
+  $('#Modal').modal('show');  
+  $('#DivContenido').load('../../../app/vistas/personal-general/1-corporativo/solicitud-cheque/modal-detalle-solicitud-cheque.php?idReporte=' + id);
+  }  
 
  function Editar(year,mes,idEstacion,idReporte){
  window.location.href = "../../solicitud-cheque-editar/" + year + "/" + mes + "/" + idEstacion + "/" + idReporte;  
@@ -185,7 +191,7 @@ alertify.confirm('',
     $('#Comentario').val('');
     SelEstacion(idestacion,depu,year,mes);     
     sizeWindow();
-    $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-comentarios-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idestacion);
+    $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-comentarios-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&depu=' + depu + '&idEstacion=' + idestacion);
     }else{
      alertify.error('Error al eliminar la solicitud');  
     }
@@ -206,7 +212,7 @@ alertify.confirm('',
     }
 
     function Pago(year,mes,idEstacion,depu,id){
-      $('#ModalComentario').modal('show');  
+    $('#ModalComentario').modal('show');  
     $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-pagos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
     } 
 
@@ -293,13 +299,14 @@ alertify.confirm('',
 
  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
-    }
+  }
 
-      function ModalArchivos(year,mes,idEstacion,depu,id){
-      $('#ModalComentario').modal('show');  
-    $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
-    }   
- 
+
+  function ModalArchivos(year,mes,idEstacion,depu,id){
+  $('#ModalComentario').modal('show');  
+  $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
+  }   
+  
     function AgregarArchivo(year,mes,idEstacion,depu,id){
 
     var Documento = $('#Documento').val();
@@ -352,19 +359,19 @@ alertify.confirm('',
 
     }
 
-    function EliminarArchivo(year,mes,idEstacion,depu,idReporte,id){
+  function EliminarArchivo(year,mes,idEstacion,depu,idReporte){
+  
+  var parametros = {
+  "idDocumento" : idReporte,
+  "Accion" : "eliminar-documentos-solicitud-cheque"
+  };
 
-    var parametros = {
-    "id" : id
-    };
-
-
-alertify.confirm('',
- function(){
+  alertify.confirm('',
+  function(){
 
     $.ajax({
     data:  parametros,
-    url:   '../../../public/admin/modelo/eliminar-documento-solicitud-cheque.php',
+    url : '../../../app/controlador/1-corporativo/controladorSolicitudCheque.php',
     type:  'post',
     beforeSend: function() {
     },
@@ -374,9 +381,9 @@ alertify.confirm('',
     success:  function (response) {
 
     if (response == 1) {
-    ModalArchivos(year,mes,idEstacion,depu,idReporte);
-    SelEstacion(idEstacion,depu,year,mes); 
     sizeWindow();
+    $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
+    SelEstacion(idEstacion,depu,year,mes); 
     alertify.success('Archivo eliminado exitosamente.');  
    
     }else{
@@ -395,8 +402,8 @@ alertify.confirm('',
 
 //------------------------------------------------------------------------
   function FacTelcel(idEstacion,depu,year,mes){
-  $('#Modal').modal('show');  
-  $('#DivContenido').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);   
+  $('#ModalComentario').modal('show');  
+  $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);   
   }
 
   function AgregarFactura(idEstacion,depu,year,mes){
@@ -431,7 +438,7 @@ alertify.confirm('',
      if(data == 1){
       $(".LoaderPage").hide();
       alertify.success('Factura agregada exitosamente.');
-      $('#DivContenido').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);  
+      $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);   
      }else{
       $(".LoaderPage").hide();
       alertify.error('Error al guardar'); 
@@ -468,7 +475,7 @@ alertify.confirm('',
 
     if (response == 1) {
        alertify.success('Archivo eliminado exitosamente.')
-    $('#DivContenido').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);  
+    $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);  
     }else{
      alertify.error('Error al eliminar el archivo');  
     }
@@ -484,11 +491,11 @@ alertify.confirm('',
   }
 
   function EditarTelcel(idEstacion,depu,year,mes,id){
-   $('#DivContenido').load('../../../public/admin/vistas/modal-editar-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes + '&id=' + id);   
+   $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-editar-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes + '&id=' + id);   
   }
 
   function CancelarTelcel(idEstacion,depu,year,mes){
-   $('#DivContenido').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes); 
+   $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes); 
   }
 
   function EditarTelcelInfo(idEstacion,depu,year,mes,id){
@@ -509,7 +516,7 @@ alertify.confirm('',
     data.append('Pago_file', Pago_file);
 
     $(".LoaderPage").show();
-
+ 
     $.ajax({
     url: url,
     type: 'POST',
@@ -521,7 +528,8 @@ alertify.confirm('',
 
      if(data == 1){
       $(".LoaderPage").hide();
-      $('#DivContenido').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);  
+      alertify.success('Documentación actualizada correctamente');
+      $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-telcel-solicitud-cheque.php?idEstacion=' + idEstacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes);  
      }else{
       $(".LoaderPage").hide();
       alertify.error('Error al editar'); 
@@ -819,7 +827,6 @@ if($session_nompuesto != "Comercializadora"){
 
   </div>
 
- 
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">
   <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
@@ -835,46 +842,44 @@ if($session_nompuesto != "Comercializadora"){
   
   </ul>
   </div>
-
   </nav>
  
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaEmbarques" class="cardAG"></div>
+  <div class="col-12" id="ListaEmbarques" ></div>
   </div> 
-
   </div>
+
   </div> 
   </div>
 
   </div>
 
-
-  
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
+  <!---------- MODAL (RIGHT)---------->  
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivContenido"></div>
   </div>
-
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
+  </div>
+  
+  <!---------- MODAL (CENTER)---------->  
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenidoComentario">
+  </div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

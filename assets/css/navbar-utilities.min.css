@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: #F3F6FA;
+    background: #eceef2;
     overflow-x: hidden;
 }
  
@@ -121,7 +121,7 @@ padding: 6px;
 }
 
 .tables-bg {
-    background: #5d84c3;
+    background: #215D98;
     color: white;
 }
 
@@ -416,7 +416,7 @@ background-color: #d2d2d2;
 }
 
 .title-table-bg {
-    background: #215d98;
+    background: #749ABF;
     color: white;
 }
 
@@ -655,7 +655,6 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-
 @media (max-width: 768px) {
    
     #sidebar {
@@ -678,7 +677,6 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
     }
 
 
-
     #content nav {
     width: calc(100% - 0px);
     left: 250px;
@@ -693,6 +691,14 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
   .LoaderPage {
   background-size: 90%;
   }
+
+  .breadcrumb{font-size: 12.5px}
+
+  .modal.right .modal-dialog {
+    width: 100%;
+    height: 100%;
+
+    }
 
 }
 

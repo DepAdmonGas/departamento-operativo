@@ -27,7 +27,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
 <li class="breadcrumb-item"><a onclick="history.go(-3)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Importación</a></li>
-<li class="breadcrumb-item"><a onclick="history.go(-2)"  class="text-uppercase text-primary pointer"> Tabla de Descarga <?=$Estacion?></a></li>
+<li class="breadcrumb-item"><a onclick="history.go(-2)"  class="text-uppercase text-primary pointer"> Tabla de Descarga</a></li>
 <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"> <?=$GET_year?></a></li>
 <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> </li>
 </ol>

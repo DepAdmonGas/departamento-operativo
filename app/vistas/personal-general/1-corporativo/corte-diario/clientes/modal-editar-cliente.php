@@ -41,7 +41,7 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 ?>
 <div class="modal-header">
     <h5 class="modal-title">Editar Cliente</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">

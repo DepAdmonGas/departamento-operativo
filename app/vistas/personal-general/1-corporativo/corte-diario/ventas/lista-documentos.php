@@ -25,8 +25,8 @@ $numero_lista = mysqli_num_rows($result_lista);
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-      <tr>
+    <thead class="tables-bg">
+    <tr>
         <?=$documentoVista?>
         <th class="text-center align-middle" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png"></th>
         <th class="text-center align-middle" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>

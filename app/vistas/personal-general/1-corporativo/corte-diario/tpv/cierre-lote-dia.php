@@ -39,14 +39,14 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               <ol class="breadcrumb breadcrumb-caret">
                 <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                       class="fa-solid fa-chevron-left"></i>
-                    Corte Diario</a></li>
-                <li aria-current="page" class="breadcrumb-item active text-uppercase">Cierre lote día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
+                      Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
+                      <li aria-current="page" class="breadcrumb-item active text-uppercase">Cierre lote (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
               </ol>
             </div>
             <div class="row">
-              <div class="col-10">
+              <div class="col-12">
                 <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                  Cierre Lote día (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>)
+                  Cierre Lote (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia); ?>)
                 </h3>
               </div>
             </div>
@@ -54,57 +54,46 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
         </div>
         <hr>
         <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <!---------- Ticketcard ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivTicketcard"></div>
                 </div>
-              </div>
+
             </div>
             <!---------- G500 Flet ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivG500Fleet"></div>
                 </div>
-              </div>
             </div>
             <!---------- Efecticard ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivEfecticard"></div>
                 </div>
-              </div>
             </div>
             <!---------- Sodexo ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivSodexo"></div>
                 </div>
-              </div>
             </div>
             <!---------- Inburgas ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivInburgas"></div>
                 </div>
-              </div>
             </div>
             <?php
             if ($Session_IDEstacion == 3) {
               ?>
               <!---------- Ultragas ---------->
               <div class="mb-3">
-                <div class="p-2">
                   <div class="table-responsive">
                     <div id="DivUltragas"></div>
                   </div>
-                </div>
               </div>
             <?php } ?>
             <?php
@@ -112,37 +101,29 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               ?>
               <!---------- Energex ---------->
               <div class="mb-3">
-                <div class="p-2">
                   <div class="table-responsive">
                     <div id="DivEnergex"></div>
                   </div>
-                </div>
               </div>
             <?php } ?>
           </div>
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <!---------- American Expres ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivAmex"></div>
-                </div>
               </div>
             </div>
             <!---------- BBVA ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivBANCOMER"></div>
                 </div>
-              </div>
             </div>
             <!---------- Inbursa ---------->
             <div class="mb-3">
-              <div class="p-2">
                 <div class="table-responsive">
                   <div id="DivINBURSA"></div>
-                </div>
               </div>
             </div>
             <?php
@@ -150,10 +131,8 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               ?>
               <!---------- shell ---------->
               <div class="mb-3">
-                <div class="p-2">
                   <div class="table-responsive">
                     <div id="DivShell"></div>
-                  </div>
                 </div>
               </div>
             <?php } ?>
@@ -163,11 +142,10 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
     </div>
 
   </div>
-</body>
-<!---------- FUNCIONES - NAVBAR ---------->
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
+<!---------- FUNCIONES - NAVBAR ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
+</body>
 </html>
