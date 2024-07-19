@@ -46,38 +46,38 @@ function TotalVentas($idDias, $Producto, $con)
     <table class="custom-table" style="font-size: .75em;" width="100%">
         <thead class="navbar-bg">
       <tr>
-        <th class="text-center align-middle fw-bold" rowspan="2">FECHA</th>
+        <th class="text-center align-middle" rowspan="2">FECHA</th>
         <?php
         if ($ProductoUno != "") {
-          echo '<th class="text-center align-middle bg-super" colspan="2">' . $ProductoUno . '</th>';
+          echo '<th class="text-center align-middle" style="background-color: #76bd1d" colspan="2">' . $ProductoUno . '</th>';
         }
         if ($ProductoDos != "") {
-          echo '<th class="text-center align-middle bg-premium fw-bold" colspan="2">' . $ProductoDos . '</th>';
+          echo '<th class="text-center align-middle" style="background-color: #e21683" colspan="2">' . $ProductoDos . '</th>';
         }
         if ($ProductoTres != "") {
-          echo '<th class="text-center align-middle bg-diesel fw-bold" colspan="2">' . $ProductoTres . '</th>';
+          echo '<th class="text-center align-middle" style="background-color: #000000" colspan="2">' . $ProductoTres . '</th>';
         }
         ?>
       </tr>
-      <tr>
+      <tr> 
         <?php
 
         if ($ProductoUno != "") {
-          echo '<td class="text-start fw-bold">Litros</td>
-                  <td class="text-end fw-bold">Pesos</td>';
+          echo '<td class="text-start fw-bold" style="background-color: #76bd1d">Litros</td>
+                  <td class="text-end fw-bold" style="background-color: #76bd1d">Pesos</td>';
         }
 
         if ($ProductoDos != "") {
-          echo '<td class="text-start fw-bold">Litros</td>
-            	  <td class="text-end fw-bold">Pesos</td>';
+          echo '<td class="text-start fw-bold" style="background-color: #e21683">Litros</td>
+            	  <td class="text-end fw-bold" style="background-color: #e21683">Pesos</td>';
         }
 
         if ($ProductoTres != "") {
-          echo '<td class="text-startfw-bold">Litros</td>
-            	  <td class="text-end fw-bold">Pesos</td>';
+          echo '<td class="text-startfw-bold" style="background-color: #000000">Litros</td>
+            	  <td class="text-end fw-bold" style="background-color: #000000">Pesos</td>';
         }
 
-        ?>
+        ?> 
 
       </tr>
     </thead>
@@ -144,22 +144,22 @@ function TotalVentas($idDias, $Producto, $con)
       $P3TP = $P3TP + $Producto3['TotalPrecio'];
     }
 
-    echo '<tr>
+    echo '<tr class="title-table-bg">
           <th>Total</th>';
 
     if ($ProductoUno != "") {
-      echo '<td class="text-start"><b>' . number_format($P1TL, 2) . '</b></td>
-          <td class="text-end"><b>$' . number_format($P1TP, 2) . '</b></td>';
+      echo '<td class="text-start title-table-bg"><b>' . number_format($P1TL, 2) . '</b></td>
+          <td class="text-end title-table-bg"><b>$' . number_format($P1TP, 2) . '</b></td>';
     }
 
     if ($ProductoDos != "") {
-      echo '<td class="text-start"><b>' . number_format($P2TL, 2) . '</b></td>
-          <td class="text-end"><b>$' . number_format($P2TP, 2) . '</b></td>';
+      echo '<td class="text-start title-table-bg"><b>' . number_format($P2TL, 2) . '</b></td>
+          <td class="text-end title-table-bg"><b>$' . number_format($P2TP, 2) . '</b></td>';
     }
 
     if ($ProductoTres != "") {
-      echo '<td class="text-start"><b>' . number_format($P3TL, 2) . '</b></td>
-          <td class="text-end"><b>$' . number_format($P3TP, 2) . '</b></td>';
+      echo '<td class="text-start title-table-bg"><b>' . number_format($P3TL, 2) . '</b></td>
+          <td class="text-end title-table-bg"><b>$' . number_format($P3TP, 2) . '</b></td>';
     }
 
     echo '</tr>';

@@ -17,25 +17,22 @@ $ocultarDelete = "d-none";
 ?>
 
 
-<div class="border p-3">
-
-<?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social" || $Session_IDUsuarioBD == 334) { ?>
-<div class="text-end mt-2">
-<img class="pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="btnModal(<?=$IdReporte;?>)">
-</div>
-<hr>
-<?php } ?>
-
-
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .8em;">
+<table class="custom-table" style="font-size: .8em;" width="100%">
 <thead class="tables-bg">
-	<th class="align-middle text-center">DETALLE</th>
-	<th class="align-middle text-center">FECHA Y HORA</th>
-	<th class="align-middle text-center" width="24"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-	<th class="align-middle text-center <?=$ocultarDelete?>" width="24"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+
+<tr>
+<th colspan="5" class="text-center">FACTURA</th>
+</tr>
+
+<tr class="title-table-bg">
+<td class="text-center align-middle fw-bold">DETALLE</td>
+<th class="align-middle text-center">FECHA Y HORA</th>
+<th class="align-middle text-center" width="24"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
+<td class="text-center align-middle <?=$ocultarDelete?>" width="24"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
 </thead>
-<tbody>
+
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
@@ -43,19 +40,19 @@ $id = $row_lista['id'];
 $fechahora = explode(' ', $row_lista['fecha_hora']);
 
 echo '<tr>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['detalle'].'</b></td>';
+echo '<th class="align-middle text-center">'.$row_lista['detalle'].'</th>';
 echo '<td class="align-middle text-center">'.FormatoFecha($fechahora[0]).', '.date("g:i a",strtotime($fechahora[1])).'</td>';
-echo '<td class="text-center align-middle"><a class="pointer" href="../../../../archivos/'.$row_lista['factura'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
+echo '<td class="text-center align-middle"><a class="pointer" href="'.RUTA_ARCHIVOS.''.$row_lista['factura'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '<td class="text-center align-middle '.$ocultarDelete.'"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarFactura('.$IdReporte.','.$id.')"></td>';
 echo '</tr>';
 
 }
 }else{
-echo "<tr><td colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='5' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
 }
+
 ?>
 </tbody>
 </table>
 </div>
 
-</div>

@@ -21,8 +21,8 @@ endif;
 </script>
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-            <tr class="tables-bg">
+    <thead class="title-table-bg">
+    <tr class="tables-bg">
                 <th colspan="5" class="align-middle text-center">MONEDEROS Y BANCOS</th>
             </tr>
             <tr>
@@ -69,9 +69,9 @@ endif;
                         echo "<td class='align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
                     } else {
                         ?>
-                        <td class="p-0 align-middle text-end no-hover">
-                            <input class="<?=$deshabilitado?>" id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
-                                style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                        <td class="p-0 <?=$deshabilitado?> <?=$hover?> align-middle text-end" style="width: 50%">
+                            <input class="<?=$deshabilitado?> p-2" id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
+                                style="border: 0px;width: 100%;height: 100%; text-align: right;"
                                 onkeyup="EditTBaucher(this,<?= $idReporte; ?>,<?= $idTarjeta; ?>)" value="<?= $baucher; ?>"
                                 <?= $estado; ?>>
                         </td>

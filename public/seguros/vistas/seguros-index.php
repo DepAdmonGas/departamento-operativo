@@ -5,11 +5,7 @@ if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
 
-
-
 ?>
-
- 
 
 <html lang="es">
   <head>
@@ -25,15 +21,17 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
+
 
   <script type="text/javascript">
 
@@ -41,17 +39,16 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-  	if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-      $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idestacion);
-        
-    } 
+  idestacion = sessionStorage.getItem('idestacion');
+  SelSeguro(idestacion) 
+  } 
       
-    }
+  }
  
-    });  
+  });  
 
   function Regresar(){
   sessionStorage.removeItem('idestacion');
@@ -59,11 +56,28 @@ header("Location:".PORTAL."");
   }
 
   function SelSeguro(idEstacion){
+  let targets;
+  targets = [6, 7, 8, 9];
+  
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idEstacion);
+
+  $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idEstacion, function() {
+  $('#tabla_seguros_' + idEstacion).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "asc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
- 
+
 
   //---------- MODAL - DETALLE POLIZA ----------
   function DetallePolizaInc(idPolizaInc){
@@ -695,9 +709,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaSeguros" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaSeguros"></div> 
  
   </div>
   </div> 
@@ -715,12 +727,19 @@ $icon = "fa-solid fa-screwdriver-wrench";
 </div>
 </div>
 
+
+
+
+
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

@@ -32,6 +32,12 @@ $consumoD = $corteDiarioGeneral->clientesControlgas($consumo, $GET_idReporte, $c
 $totalPago = $pagoC + $pagoD;
 $totalConsumo = $consumoC + $consumoD;
 ?>
+<script>
+$(document).ready(function($){
+$(".LoaderPage").fadeOut("slow");
+     
+});
+</script>
 
 <body>
   <div class="LoaderPage"></div>
@@ -48,14 +54,14 @@ $totalConsumo = $consumoC + $consumoD;
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Monedero día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Monedero (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)</li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-10">
+            <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Monedero día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Monedero (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
           </div>
@@ -64,9 +70,9 @@ $totalConsumo = $consumoC + $consumoD;
         </div>
 
         <div class="table-responsive">
-          <table class="custom-table " style="font-size: 1em;" width="100%">
-            <thead class="navbar-bg">
-              <tr class="tables-bg">
+          <table class="custom-table " style="font-size: .80em;" width="100%">
+          <thead class="title-table-bg">
+          <tr class="tables-bg">
                 <th class="text-center align-middle fw-bold" colspan="14">Metodos de Pago </th>
                 <th class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </th>
                 

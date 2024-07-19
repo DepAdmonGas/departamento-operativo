@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
@@ -50,14 +49,14 @@
   if (nombrePuesto == "Gestoria") {
   
   if(idUsuario == 30){
-  targets = [9, 10, 11, 12, 13, 14, 15, 16]; // Asigna los targets para el caso de "Gestoria"
+  targets = [9, 10, 11]; // Asigna los targets para el caso de "Gestoria"
 
   }else{
-  targets = [9, 10, 11, 12, 13, 14, 15]; // Asigna los targets para el caso de "Gestoria"
+  targets = [10, 11]; // Asigna los targets para el caso de "Gestoria"
   }
 
   }else{
-  targets = [10, 11, 12, 13, 14, 15, 16]; // Asigna los targets para el caso por defecto
+  targets = [10, 11]; // Asigna los targets para el caso por defecto
   
   } 
 
@@ -68,7 +67,7 @@
     "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
     },
     "order": [[0, "desc"]],  // Ordenar por la tercera columna de forma descendente
-    "lengthMenu": [25,50,75,100], // Número de registros que se mostrarán
+    "lengthMenu": [15,30,50,100], // Número de registros que se mostrarán
     "columnDefs": [
     { "orderable": false, "targets": targets }, // Deshabilitar ordenación en las columnas 1, 2 y 3 (comenzando desde 0)
     { "searchable": false, "targets": targets } // Deshabilitar filtrado en las columnas 1, 2 y 3 (comenzando desde 0)
@@ -120,8 +119,8 @@
   }
 
   }
-  });
-
+  }); 
+ 
   },
   function(){
 
@@ -409,8 +408,13 @@
   window.location.href = "../../" + referencia;
   }
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
-
   </head>
   
   <body>

@@ -3,27 +3,39 @@ require ('../../../../../help.php');
 
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
+
+if($Session_IDEstacion == 2){
+  $colspan0 = 'colspan="18"';
+  $colspan1 = 'colspan="7"'; 
+  $ocultar = ""; 
+} else {
+  $ocultar = "d-none"; 
+  $colspan0 = 'colspan="17"';
+  $colspan1 = 'colspan="6"'; 
+}
+
 ?>
 
 <div class="table-responsive">
-  <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
-    <thead class="navbar-bg">
+  <table class="custom-table" style="font-size: .75em;" width="100%">
+    <thead class="title-table-bg">
       <tr class="tables-bg">
-        <th class="text-center align-middle fw-bold" colspan="17">Metodos de pago</th>
-        <th class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </th>
+
+      <th class="text-center align-middle fw-bold" <?= $colspan0 ?>>Metodos de pago</th>
+      <th class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </th>
       </tr>
 
       <tr>
         <td></td>
         <td class="text-center align-middle fw-bold" colspan="5">TARJETAS BANCARIAS</td>
-        <td class="text-center align-middle fw-bold" colspan="6">TARJETAS</td>
+        <td class="text-center align-middle fw-bold" <?=$colspan1?>>TARJETAS</td>
         <td class="text-center align-middle fw-bold" colspan="5">VALES</td>
 
         <td class="text-center align-middle fw-bold" colspan="2">CRÉDITO</td>
         <td class="text-center align-middle fw-bold" colspan="2">DÉBITO</td>
         <td class="text-center align-middle fw-bold">PAGOS</td>
         <td class="text-center align-middle fw-bold">CONSUMOS</td>
-
+ 
       </tr>
 
       <tr>
@@ -40,6 +52,7 @@ $GET_mes = $_GET['mes'];
         <th class="text-center align-middle">SODEXO</th>
         <th class="text-center align-middle">ULTRAGAS</th>
         <th class="text-center align-middle">ENERGEX</th>
+        <th class="text-center align-middle <?=$ocultar?>">SHELL</th>
         <th class="text-center align-middle">TOTAL</th>
 
         <th class="text-center align-middle">VALE ACCORD</th>
@@ -58,34 +71,36 @@ $GET_mes = $_GET['mes'];
     </thead>
     <tbody class="bg-white">
       <?php
-      $pagoC = 0;
-      $consumoC = 0;
-      $pagoD = 0;
-      $consumoD = 0;
+$pagoC = 0;
+$consumoC = 0;
+$pagoD = 0;
+$consumoD = 0;
 
-      $totalPago = 0;
-      $totalConsumo = 0;
-      $Tobancomer = 0;
-      $Toamex = 0;
-      $Toinburgas = 0;
-      $Toinbursa = 0;
-      $Toultragas = 0;
-      $Toenergex = 0;
-      $TototalTB = 0;
+$totalPago = 0;
+$totalConsumo = 0;
+$Tobancomer = 0;
+$Toamex = 0;
+$Toinburgas = 0;
+$Toinbursa = 0;
+$Toultragas = 0;
+$Toenergex = 0;
+$Toshell = 0;
 
-      $Toticketcard = 0;
-      $Tog500fleet = 0;
-      $Toefecticard = 0;
-      $Tosodexo = 0;
-      $TototalTarjetas = 0;
+$TototalTB = 0;
 
-      $TopagoC = 0;
-      $ToconsumoC = 0;
-      $TopagoD = 0;
-      $ToconsumoD = 0;
-      $TototalPago = 0;
-      $TototalConsumo = 0;
-      $GTVales = 0;
+$Toticketcard = 0;
+$Tog500fleet = 0;
+$Toefecticard = 0;
+$Tosodexo = 0;
+$TototalTarjetas = 0;
+
+$TopagoC = 0;
+$ToconsumoC = 0;
+$TopagoD = 0;
+$ToconsumoD = 0;
+$TototalPago = 0;
+$TototalConsumo  = 0;
+$GTVales = 0;
 
       $sql_listadia = "
           SELECT 
@@ -120,8 +135,16 @@ $GET_mes = $_GET['mes'];
         $sodexo = $corteDiarioGeneral->tarjetasCB($idDias, "SODEXO");
         $ultragas = $corteDiarioGeneral->tarjetasCB($idDias, "ULTRAGAS");
         $energex = $corteDiarioGeneral->tarjetasCB($idDias, "ENERGEX");
+        $shell = $corteDiarioGeneral->tarjetasCB($idDias,"SHELL FLEET NAVIGATOR");
 
+
+        if($Session_IDEstacion == 2){
+        $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $sodexo + $ultragas + $energex + $shell;
+    
+        }else{
         $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $sodexo + $ultragas + $energex;
+    
+        }
 
         $valaccord = $corteDiarioGeneral->tarjetasCB($idDias, "VALE ACCORD");
         $valefectivale = $corteDiarioGeneral->tarjetasCB($idDias, "VALE EFECTIVALE");
@@ -164,33 +187,34 @@ $GET_mes = $_GET['mes'];
 
         $totalPago = $pagoC + $pagoD;
         $totalConsumo = $consumoC + $consumoD;
-
+        
         $Tobancomer = $Tobancomer + $bancomer;
         $Toamex = $Toamex + $amex;
         $Toinburgas = $Toinburgas + $inburgas;
         $Toinbursa = $Toinbursa + $inbursa;
         $TototalTB = $TototalTB + $totalTB;
-
+        
         $Toticketcard = $Toticketcard + $ticketcard;
         $Tog500fleet = $Tog500fleet + $g500fleet;
         $Toefecticard = $Toefecticard + $efecticard;
         $Tosodexo = $Tosodexo + $sodexo;
         $Toultragas = $Toultragas + $ultragas;
         $Toenergex = $Toenergex + $energex;
+        $Toshell = $Toshell + $shell;
         $TototalTarjetas = $TototalTarjetas + $totalTarjetas;
-
+        
         $TopagoC = $TopagoC + $pagoC;
         $ToconsumoC = $ToconsumoC + $consumoC;
         $TopagoD = $TopagoD + $pagoD;
         $ToconsumoD = $ToconsumoD + $consumoD;
         $TototalPago = $TototalPago + $totalPago;
         $TototalConsumo = $TototalConsumo + $totalConsumo;
-
+        
         $Tovalaccord = $Tovalaccord + $valaccord;
         $Tovalefectivale = $Tovalefectivale + $valefectivale;
         $Tovalsodexo = $Tovalsodexo + $valsodexo;
         $Tovalvale = $Tovalvale + $valvale;
-
+        
         $GTVales = $GTVales + $totalVales;
 
         ?>
@@ -231,8 +255,9 @@ $GET_mes = $_GET['mes'];
           <td class="align-middle text-end">
             $<?= number_format($energex, 2); ?>
           </td>
-
-
+          <td class="align-middle text-end <?=$ocultar?>">
+          $<?=number_format($shell,2);?>
+          </td>  
           <td class="align-middle text-end bg-light">
             <strong>$<?= number_format($totalTarjetas, 2); ?></strong>
           </td>
@@ -290,97 +315,100 @@ $GET_mes = $_GET['mes'];
         </td>
       </tr>
       <?php } ?>
-      <tr class="bg-light">
-        <th>Total</th>
-        <td class="align-middle text-end">
+      <tr class="tables-bg">
+        <th class="tables-bg">Total</th>
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($Tobancomer, 2); ?>
           </strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($Toamex, 2); ?>
           </strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($Toinburgas, 2); ?>
           </strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($Toinbursa, 2); ?>
           </strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($TototalTB, 2); ?>
           </strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$
             <?= number_format($Toticketcard, 2); ?>
           </strong>
         </td>
 
         <!--
-  <td class="align-middle text-end">
+  <td class="align-middle text-end tables-bg">
    <strong>$<?= number_format($Tog500fleet, 2); ?></strong>
   </td>
   -->
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Toefecticard, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Tosodexo, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Toultragas, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Toenergex, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg <?=$ocultar?>">
+        <strong>$<?=number_format($Toshell,2);?></strong>
+      </td>
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($TototalTarjetas, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Tovalaccord, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Tovalefectivale, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Tovalsodexo, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($Tovalvale, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($GTVales, 2); ?></strong>
         </td>
 
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($TopagoC, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($ToconsumoC, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($TopagoD, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($ToconsumoD, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($TototalPago, 2); ?></strong>
         </td>
-        <td class="align-middle text-end">
+        <td class="align-middle text-end tables-bg">
           <strong>$<?= number_format($TototalConsumo, 2); ?></strong>
         </td>
       </tr>

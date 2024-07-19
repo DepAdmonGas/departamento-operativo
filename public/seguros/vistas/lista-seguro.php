@@ -8,87 +8,91 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $estacion = $row_listaestacion['localidad'];
 }
 
-
 $sql_poliza_inc = "SELECT * FROM op_poliza_incidencia WHERE id_estacion = '".$idEstacion ."' ORDER BY id_poliza_incidencia DESC ";  
 $result_poliza_inc = mysqli_query($con, $sql_poliza_inc);
 $numero_poliza_inc = mysqli_num_rows($result_poliza_inc);
-
 ?>
  
-  
-<div class="border-0 p-3"> 
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.go(-3)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"> Seguros (<?=$estacion;?>) </li>
+</ol>
+</div>
+ 
+<div class="row"> 
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Seguros (<?=$estacion;?>)</h3> </div>
 
-<div class="row">
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-1"> 
+<div class="text-end">
+ <div class="dropdown d-inline ms-2 <?=$ocultarbtnEn?>">
+ <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+ <i class="fa-solid fa-screwdriver-wrench"></i></span>
+ </button>
 
-<div class="col-9 mb-0">
-<h5><?=$estacion;?></h5>
-</div> 
-
-<div class="col-3 mb-0">
-  <img src="<?=RUTA_IMG_ICONOS;?>agregar.png" class="float-end pointer ms-2" onclick="ModalAgregarIncidente(<?=$idEstacion;?>)">
-  <img src="<?=RUTA_IMG_ICONOS;?>poliza-s.png" width="24px" class="float-end pointer ms-2" onclick="ModalPoliza(<?=$idEstacion;?>)">
-
-</div> 
-
-</div> 
-
-<hr> 
+<ul class="dropdown-menu">
+<li onclick="ModalAgregarIncidente(<?=$idEstacion;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-plus text-dark"></i> Agregar</a></li>
+<li onclick="ModalPoliza(<?=$idEstacion;?>)"><a class="dropdown-item pointer"><i class="fa-regular fa-file-lines"></i> Poliza de Seguro</a></li>
+</ul>
+</div>
+</div>
+ 
+</div>
+</div>
+<hr>
+</div>
+ 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<table id="tabla_seguros_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
+
 <thead class="tables-bg">
   <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold" width="40">#</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Fecha</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Hora</th>
+  <th class="text-center align-middle" width="40">#</th>
+  <th class="text-center align-middle">Fecha</th>
+  <th class="text-center align-middle">Hora</th>
 
-  <th class="text-center align-middle tableStyle font-weight-bold">Asunto</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Solucion</th>
+  <th class="text-center align-middle">Asunto</th>
+  <th class="text-start align-middle">Observaciones</th>
+  <th class="text-start align-middle">Solucion</th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>multimedia.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-white">
 <?php 
 $i = 1;
 if ($numero_poliza_inc > 0) {
 while($row = mysqli_fetch_array($result_poliza_inc, MYSQLI_ASSOC)){
 $id_poliza_inc = $row['id_poliza_incidencia'];
 $id_poliza_inc = $row['id_poliza_incidencia'];
-$explode = explode(' ',$row['fecha_hora']);
-
-
 if($row['archivo'] != ""){
 
-$PDF = '<a href="archivos/incidencias-poliza-es/'.$row['archivo'].'" download>
-<img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png">
-</a>';
-
+$PDF = '<a href="'.RUTA_ARCHIVOS.'incidencias-poliza-es/'.$row['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png"></a>';
 }else{
 $PDF = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
+
 }  
 
-echo '<tr class="text-center align-middle">
-<td>'.$i.'</td>
-<td class="align-middle">'.FormatoFecha($row['fecha']).'</td>
+echo '<tr >
+<th class="text-center align-middle">'.$i.'</th>
+<td class="text-center align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row['fecha']).'</td>
 <td class="align-middle">'.date("g:i a",strtotime($row['hora'])).'</td>
-
-<td>'.$row['asunto'].'</td>
-<td>'.$row['observaciones'].'</td>
-<td>'.$row['solucion'].'</td>
-<td>'.$PDF.'</td>
-<td><img class="pointer" onclick="DetallePolizaInc('.$id_poliza_inc.')" src="'.RUTA_IMG_ICONOS.'ver-tb.png"></td>
-<td><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarIncP('.$id_poliza_inc.')"></td>
-<td><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarInc('.$id_poliza_inc.','.$idEstacion.')"></td>
+<td class="text-center align-middle">'.$row['asunto'].'</td>
+<td class="text-start align-middle">'.$row['observaciones'].'</td>
+<td class="text-start align-middle">'.$row['solucion'].'</td>
+<td class="text-center align-middle">'.$PDF.'</td>
+<td class="text-center align-middle"><img class="pointer" onclick="DetallePolizaInc('.$id_poliza_inc.')" src="'.RUTA_IMG_ICONOS.'ver-tb.png"></td>
+<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarIncP('.$id_poliza_inc.')"></td>
+<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarInc('.$id_poliza_inc.','.$idEstacion.')"></td>
 
 </tr>';
 $i++;
 } 
-}else{
-echo "<tr><td colspan='10' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
 </tbody>
@@ -96,4 +100,3 @@ echo "<tr><td colspan='10' class='text-center text-secondary'><small>No se encon
 </div>
 
 
-</div>

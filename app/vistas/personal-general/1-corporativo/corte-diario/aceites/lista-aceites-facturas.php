@@ -13,7 +13,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-header">
     <h5 class="modal-title">Archivos aceites</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -43,18 +43,10 @@ $numero_lista = mysqli_num_rows($result_lista);
         <input class="form-control" type="file" id="facturaAceite">
     </div>
 
-
-    <div class="text-end">
-        <button type="button" class="btn btn-primary"
-            onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">Agregar</button>
-    </div>
-
-
-
     <hr>
 
     <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+    <table class="custom-table" style="font-size: .75em;" width="100%">
     <thead class="navbar-bg">
                 <th class="text-center align-middle font-weight-bold">Fecha</th>
                 <th class="text-center align-middle font-weight-bold">Concepto</th>
@@ -64,7 +56,7 @@ $numero_lista = mysqli_num_rows($result_lista);
                         src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
             </thead>
 
-            <tbody class="bg-white">
+            <tbody class="bg-light">
 
             
             <?php
@@ -84,7 +76,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
                 }
             } else {
-                echo "<tr><th colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+                echo "<tr><th colspan='4' class='text-center text-secondary bg-light'><small>No se encontró información para mostrar </small></th></tr>";
             }
 
             ?>
@@ -93,4 +85,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 
     </div>
 
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 </div>

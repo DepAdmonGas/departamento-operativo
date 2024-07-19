@@ -13,13 +13,11 @@ $numero_lista = mysqli_num_rows($result_lista);
     <h5 class="modal-title">Documentos</h5>
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
-    <div class="text-end mb-2">
-        <button type="button" class="btn btn-primary btn-sm"
-            onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">Nuevo</button>
-    </div>
+
     <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .75em;" width="100%">
+    <table class="custom-table" style="font-size: .75em;" width="100%">
     <thead class="navbar-bg">
                 <th class="align-middle text-center">FECHA</th>
                 <th class="align-middle text-center">FICHA DEPOSITO FALTANTE</th>
@@ -72,11 +70,19 @@ $numero_lista = mysqli_num_rows($result_lista);
 
                     }
                 } else {
-                    echo "<tr><th colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+                    echo "<tr><th colspan='7' class='text-center text-secondary bg-light'><small>No se encontró información para mostrar </small></th></tr>";
                 }
                 ?>
             </tbody>
         </table>
     </div>
+
+</div>
+
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-labeled2 btn-primary" onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Nuevo</button>
 
 </div>
