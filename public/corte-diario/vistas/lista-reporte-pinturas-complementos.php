@@ -66,7 +66,7 @@ echo '</tr>';
 
 }
 }else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>

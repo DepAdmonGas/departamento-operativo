@@ -319,7 +319,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
             </div>
             <div class="col-2">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Agregar(<?= $idReporte ?>)">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar pedido</button>
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
 
@@ -383,7 +383,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
       <div class="mt-2">
         <button type="button" class="btn btn-labeled2 btn-success float-end"
           onclick="FinalizarPedido(<?= $idReporte; ?>)">
-          <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar pedido</button>
+          <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
         <input type="hidden" name="base64" value="" id="base64">
       </div>
     </div>

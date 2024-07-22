@@ -21,7 +21,7 @@ $producto = $row_producto['producto'];
 
 <div class="modal-header">
 <h5 class="modal-title">Agregar pintura y complemento</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
       <div class="modal-body">
@@ -32,5 +32,7 @@ $producto = $row_producto['producto'];
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="CreateUpdateProducto(<?=$idProducto;?>)">Guardar</button>
-      </div>
+        
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="CreateUpdateProducto(<?=$idProducto?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+    </div>

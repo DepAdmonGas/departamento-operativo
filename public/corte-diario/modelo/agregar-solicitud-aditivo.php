@@ -31,11 +31,9 @@ return $numid;
 
 $id = idSolicitud($con);
 $ordencompra = OrdenCompra($Session_IDEstacion,$con);
-
-if($Session_IDEstacion == 1 || $Session_IDEstacion == 2 || $Session_IDEstacion == 3 || $Session_IDEstacion == 4 || $Session_IDEstacion == 5){
 $para = "Comercializadora de artículos gasolineros SA de CV";
-}else if($Session_IDEstacion == 6 || $Session_IDEstacion == 7){
-$para = "Quitarga";    
+if($Session_IDEstacion == 6 || $Session_IDEstacion == 7){
+    $para = "Quitarga";
 }
 
 	$sql_insert = "INSERT INTO op_solicitud_aditivo (

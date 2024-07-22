@@ -1,6 +1,5 @@
 <?php
 require ('app/help.php');
-
 ?>
 <html lang="es">
 
@@ -39,28 +38,38 @@ require ('app/help.php');
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
 
-      ListaPedido();
+      ListaPedido(<?=$Session_IDEstacion?>);
 
     });
 
     function Regresar() {
       window.history.back();
     }
-
-    function ListaPedido() {
-      $('#ListaPedido').load('public/corte-diario/vistas/lista-pedido-papeleria.php');
+    function ListaPedido(idEstacion) {
+      let targets;
+      targets = [4];
+      $('#ListaPedido').load('public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
-    function NuevoPedido() {
+    function NuevoPedido(idEstacion) {
 
       $.ajax({
         url: 'public/corte-diario/modelo/agregar-reporte-pedido-papeleria.php',
         type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
+        beforeSend: function () {},
+        complete: function () {},
         success: function (response) {
 
           if (response == 0) {
@@ -69,7 +78,7 @@ require ('app/help.php');
             $('#Modal').modal('show');
             $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + response);
 
-            ListaPedido();
+            ListaPedido(idEstacion);
           }
 
         }
@@ -122,7 +131,7 @@ require ('app/help.php');
 
     }
 
-    function EliminarItem(id, idReporte) {
+    function EliminarItem(id, idReporte,idEstacion) {
 
       var parametros = {
         "idItem": id
@@ -144,7 +153,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPedido();
+                ListaPedido(idEstacion);
                 $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + idReporte);
                 alertify.success('Producto eliminado exitosamente');
 
@@ -162,7 +171,7 @@ require ('app/help.php');
 
     }
 
-    function FinalizarPedido(idReporte) {
+    function FinalizarPedido(idReporte,idEstacion) {
 
       var parametros = {
         "idReporte": idReporte
@@ -185,7 +194,7 @@ require ('app/help.php');
 
               if (response == 1) {
                 $('#Modal').modal('hide');
-                ListaPedido()
+                ListaPedido(idEstacion)
                 alertify.success('Pedido finalizado exitosamente.');
               } else {
                 alertify.error('Error al finalizar el pedido.');
@@ -218,7 +227,7 @@ require ('app/help.php');
       $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + idReporte);
     }
 
-    function EliminarPedido(idReporte) {
+    function EliminarPedido(idReporte,idEstacion) {
 
       var parametros = {
         "idReporte": idReporte
@@ -240,7 +249,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPedido()
+                ListaPedido(idEstacion)
                 alertify.success('Pedido eliminado exitosamente');
 
               } else {
@@ -301,6 +310,8 @@ require ('app/help.php');
 
 
   </script>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -313,57 +324,7 @@ require ('app/help.php');
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div class="row">
-
-        <div class="col-12">
-          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-            <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-chevron-left"></i>
-                  Comercializadora</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Pedido de Papelería
-              </li>
-            </ol>
-          </div>
-          <div class="row">
-            <div class="col-10">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Pedido de Papelería
-              </h3>
-            </div>
-            <div class="col-2">
-              <div class="text-end">
-                <div class="dropdown d-inline ms-2">
-                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li onclick="NuevoPedido()">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Nuevo pedido de papelería</a>
-                    </li>
-                    <?php if ($session_idpuesto != 5) : ?>
-                      <li onclick="Reporte()">
-                        <a class="dropdown-item pointer"><i class="fa-solid fa-pencil"></i> Reporte de papelería</a>
-                      </li>
-                      <li onclick="Almacen()">
-                        <a class="dropdown-item pointer"><i class="fa-solid fa-warehouse"></i> Almacen de papelería</a>
-                      </li>
-                    <?php endif; ?>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <hr>
-
-      <div id="ListaPedido"></div>
-
+      <div class="col-12" id="ListaPedido"></div>
     </div>
 
   </div>
@@ -381,6 +342,10 @@ require ('app/help.php');
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

@@ -36,10 +36,7 @@ $numero_lista = mysqli_num_rows($result_lista);
         <th class="text-center align-middle ">#</th>
         <th class="align-middle text-center">Personal</th>
         <th class="align-middle text-center">Fecha y hora</th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>ver-tb.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
+        <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
       </tr>
     </thead>
     <tbody>
@@ -54,41 +51,40 @@ $numero_lista = mysqli_num_rows($result_lista);
           $explode = explode(' ', $row_lista['fecha']);
 
           $personal = Personal($idpersonal, $con);
-
+          $tableColor = "";
+          $Detalle = '<a class="dropdown-item" onclick="VerPedido(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+          $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+          $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+          $Eliminar = '<a class="dropdown-item grayscale" ><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
           if ($status == 0) {
-            $tableColor = "background-color: #fcfcda";
-            $Detalle = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'ver-tb.png">';
-            $PDF = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pdf.png">';
-            $Editar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="EditarPedido(' . $id . ')">';
-            $Eliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarPedido(' . $id . ')">';
-          } else if ($status == 1) {
             $tableColor = "background-color: #ffb6af";
-            $Detalle = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="VerPedido(' . $id . ')">';
-            $PDF = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pdf.png">';
-            $Editar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'editar-tb.png">';
-            $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
+            $Detalle = '<a class="dropdown-item grayscale"><i class="fa-regular fa-eye"></i> Detalle</a>';
+            $Editar = '<a class="dropdown-item" onclick="EditarPedido(' . $id . ')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+            $Eliminar = '<a class="dropdown-item" onclick="EliminarPedido(' . $id . ')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+          } else if ($status == 1) {
+            $tableColor = "background-color: #fcfcda";
           } else if ($status == 2) {
             $tableColor = "background-color: #b0f2c2";
-            $Detalle = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="VerPedido(' . $id . ')">';
-            $PDF = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png" onclick="PedidoPDF(' . $id . ')">';
-            $Editar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'editar-tb.png">';
-            $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
-          } else if ($status == 3) {
-            $tableColor = "";
-            $Detalle = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="VerPedido(' . $id . ')">';
-            $PDF = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png" onclick="PedidoPDF(' . $id . ')">';
-            $Editar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'editar-tb.png">';
-            $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
+            $PDF = '<a class="dropdown-item" onclick="PedidoPDF(' . $id . ')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
           }
 
           echo '<tr style="' . $tableColor . '">';
           echo '<th class="align-middle text-center">' . $id . '</th>';
           echo '<td class="align-middle">' . $personal['nombre'] . '</td>';
           echo '<td class="align-middle">' . FormatoFecha($explode[0]) . ', ' . date('g:i a', strtotime($explode[1])) . '</td>';
-          echo '<td class="align-middle text-center">' . $Detalle . '</td>';
-          echo '<td class="align-middle text-center">' . $PDF . '</td>';
-          echo '<td class="align-middle text-center">' . $Editar . '</td>';
-          echo '<td class="align-middle text-center">' . $Eliminar . '</td>';
+          echo '<td class="align-middle text-center"> 
+              <div class="dropdown">
+                <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                  ' . $Detalle . '
+                  ' . $PDF . '
+                  ' . $Editar . '
+                  ' . $Eliminar . '
+                </div>
+              </div>
+            </td>';
           echo '</tr>';
 
         }

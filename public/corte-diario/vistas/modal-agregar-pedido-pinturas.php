@@ -70,7 +70,7 @@ function Producto($idProducto, $con)
 
 <div class="modal-footer">
   <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarItem(<?= $idReporte ?>)">
-    <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar producto</button>
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
 </div>
 
 

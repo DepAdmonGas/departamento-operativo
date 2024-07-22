@@ -136,7 +136,7 @@ require ('app/help.php');
             </div>
             <div class="col-2">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalNevoInventario(<?=$Session_IDEstacion?>)">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar inventario</button>
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
         </div>

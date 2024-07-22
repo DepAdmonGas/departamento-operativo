@@ -24,25 +24,36 @@ require ('app/help.php');
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
   <script type="text/javascript">
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
 
-      ListaPinturas();
+      ListaPinturas(<?= $Session_IDEstacion ?>);
 
     });
-
+    function ListaPinturas(idEstacion) {
+      let targets;
+      targets = [4];
+      $('#ListaPinturas').load('public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+    }
     function Regresar() {
       window.history.back();
-    }
-
-    function ListaPinturas() {
-      $('#ListaPinturas').load('public/corte-diario/vistas/lista-pedido-pinturas.php');
     }
 
     function NuevoPedido() {
@@ -76,16 +87,16 @@ require ('app/help.php');
       window.location.href = "pedido-pinturas/" + id;
     }
 
-    function VerPedido(id) {
+    function VerPedido(idEstacion, id) {
       $('#Modal').modal('show');
-      $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idReporte=' + id);
+      $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + id);
     }
 
     function EditarPedido(idReporte) {
       window.location.href = "pinturas-pedido/" + idReporte;
     }
 
-    function EliminarPedido(idReporte) {
+    function EliminarPedido(idEstacion, idReporte) {
 
       var parametros = {
         "idReporte": idReporte
@@ -107,7 +118,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPinturas()
+                ListaPinturas(idEstacion)
                 alertify.success('Pedido eliminado exitosamente');
 
               } else {
@@ -158,49 +169,8 @@ require ('app/help.php');
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12">
-          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-            <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-chevron-left"></i>
-                  Comercializadora</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Pedido de Pinturas
-              </li>
-            </ol>
-          </div>
-          <div class="row">
-            <div class="col-10">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Pedido de pinturas
-              </h3>
-            </div>
-            <div class="col-2">
-              <div class="text-end">
-                <div class="dropdown d-inline ms-2">
-                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li onclick="NuevoPedido()">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Nuevo Pedido de Pinturas</a>
-                    </li>
-                    <li onclick="Reporte()">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-pencil"></i> Reporte de Pinturas</a>
-                    </li>
-                    <li onclick="Almacen()">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-brush"></i> Inventario de pinturas</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="col-12" id="ListaPinturas"></div>
       </div>
-      <hr>
-      <div id="ListaPinturas"></div>
     </div>
 
 
@@ -216,7 +186,11 @@ require ('app/help.php');
       src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-
+    <!---------- LIBRERIAS DEL DATATABLE ---------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+      src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

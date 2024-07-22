@@ -28,7 +28,10 @@ if ($Session_IDUsuarioBD == "") {
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link
+    href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
+    rel="stylesheet">
   <style media="screen">
     .grayscale {
       filter: opacity(50%);
@@ -39,15 +42,30 @@ if ($Session_IDUsuarioBD == "") {
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
 
-      ListaSolicitud(<?= $Session_IDEstacion; ?>);
+      ListaSolicitud(<?= $Session_IDEstacion ?>);
     });
 
     function Regresar() {
       window.history.back();
     }
 
-    function ListaSolicitud(IDEstacion) {
-      $('#ListaSolicitud').load('public/corte-diario/vistas/lista-solicitud-aditivo.php?idEstacion=' + IDEstacion);
+   
+    function ListaSolicitud(idEstacion) {
+      let targets;
+      targets = [5,6];
+      $('#ListaSolicitud').load('public/admin/vistas/lista-solicitud-aditivo.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
     function Modal() {
@@ -326,36 +344,9 @@ if ($Session_IDUsuarioBD == "") {
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12">
-          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-            <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-chevron-left"></i>
-                  Comercializadora</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Pedido de aditivo
-              </li>
-            </ol>
-          </div>
-          <div class="row">
-            <div class="col-10">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Pedido de Aditivo
-              </h3>
-            </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Modal()">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar pedido</button>
-            </div>
-          </div>
-        </div>
+        <div class="col-12" id="ListaSolicitud"></div>
       </div>
-
       <hr>
-
-      <div id="ListaSolicitud"></div>
-
-
     </div>
 
   </div>
@@ -381,7 +372,10 @@ if ($Session_IDUsuarioBD == "") {
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

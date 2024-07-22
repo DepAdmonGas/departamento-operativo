@@ -1,6 +1,7 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
-require('app/help.php');
+error_reporting(0);
+require 'app/help.php';
+require_once 'app/lib/dompdf/vendor/autoload.php';
 
 $sql_lista = "SELECT * FROM op_solicitud_aditivo WHERE id = '".$GET_idReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);

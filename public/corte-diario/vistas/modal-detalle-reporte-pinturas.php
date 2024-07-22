@@ -49,17 +49,17 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
   <div class="row">
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="text-primary">Personal:</h6>
+      <h6 class="text-secondary">Personal:</h6>
       <?=$personal?>
     </div>
 
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="text-primary">Fecha:</h6>
+      <h6 class="text-secondary">Fecha:</h6>
       <?=$fecha?>
     </div>
 
     <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-      <h6 class="text-primary ">Hora:</h6>
+      <h6 class="text-secondary ">Hora:</h6>
       <?=$hora?>
     </div>
 
@@ -68,7 +68,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
   <div class="row">
     <div class="col-12">
-      <h6 class="mb-1 text-primary">Detalle:</h6>
+      <h6 class="mb-1 text-secondary">Detalle:</h6>
       <?=$detalle?>
     </div>
   </div>

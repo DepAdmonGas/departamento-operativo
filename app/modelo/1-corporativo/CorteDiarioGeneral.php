@@ -7,7 +7,6 @@ class CorteDiarioGeneral extends Exception
     {
         $this->con = $con;
         $this->formato = new herramientasDptoOperativo($this->con);
-        ;
     }
 
     /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
