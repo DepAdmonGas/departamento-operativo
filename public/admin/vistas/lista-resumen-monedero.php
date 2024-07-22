@@ -15,8 +15,8 @@ $GET_mes = $_GET['mes'];
 
     return $baucher;
    }
-
  
+  
   function ProsegurImporte($idReporte,$denominacion,$con){
 
     $sql_listaprosegur2 = "SELECT importe FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' AND denominacion = '".$denominacion."' LIMIT 1 ";
@@ -45,7 +45,7 @@ $GET_mes = $_GET['mes'];
 <table class="table table-sm table-bordered table-hover" style="font-size: .8em;">
 <thead>
   <tr>
-  <td class="text-center align-middle tableStyle font-weight-bold" colspan="17">MONEDEROS</td>
+  <td class="text-center align-middle tableStyle font-weight-bold" colspan="18">MONEDEROS</td>
   <td class="text-center align-middle tableStyle font-weight-bold" colspan="2">CRÉDITO</td>
   <td class="text-center align-middle tableStyle font-weight-bold" colspan="2">DÉBITO</td>
   <td class="text-center align-middle tableStyle font-weight-bold" >PAGOS</td>
@@ -55,7 +55,7 @@ $GET_mes = $_GET['mes'];
     <tr>
       <td></td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="4">TARJETAS BANCARIAS</td>
-    <td  class="text-center align-middle tableStyle font-weight-bold" colspan="7">TARJETAS</td>
+    <td  class="text-center align-middle tableStyle font-weight-bold" colspan="8">TARJETAS</td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="5">VALES</td>
     <td  class="text-center align-middle tableStyle font-weight-bold" colspan="6">Cartera de Clientes ATIO </td>
 
@@ -85,6 +85,8 @@ $GET_mes = $_GET['mes'];
     <th class="text-center align-middle bg-white" >SODEXO</th>
     <th class="text-center align-middle bg-white" >ULTRAGAS</th>
     <th class="text-center align-middle bg-white" >ENERGEX</th>
+    <th class="text-center align-middle bg-white" >SHELL</th>
+
     <th class="text-center align-middle bg-white" >TOTAL</th>
 
     <th class="text-center align-middle bg-white">VALE ACCORD</th>
@@ -144,6 +146,24 @@ $TototalPago = 0;
 $TototalConsumo  = 0;
 $GTVales = 0;
 
+$Toultragas = 0;
+$Toenergex = 0;
+$Toshell = 0;
+$Tovalefectivale = 0;
+$Tovalsodexo = 0;
+$Tovalvale = 0;
+$Tovalaccord = 0;
+$ToBilleteM = 0;
+$ToBilleteV = 0;
+$ToBilleteN = 0;
+$ToMorralla = 0;
+$ToDesposito = 0;
+$ToCheque1 = 0;
+$ToTransferencia1 = 0;
+$ToCheque2 = 0;
+$ToTransferencia2 = 0;
+$Toprosegur = 0;
+
    $sql_listadia = "
           SELECT 
           op_corte_year.id_estacion,
@@ -177,8 +197,10 @@ $GTVales = 0;
     $sodexo = TarjetasCB($idDias,"SODEXO",$con);
     $ultragas = TarjetasCB($idDias,"ULTRAGAS",$con);
     $energex = TarjetasCB($idDias,"ENERGEX",$con);
+    $shell = TarjetasCB($idDias,"SHELL FLEET NAVIGATOR",$con);
 
-    $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $inburgas + $sodexo + $ultragas + $energex;
+
+    $totalTarjetas = $ticketcard + $g500fleet + $efecticard + $inburgas + $sodexo + $ultragas + $energex + $shell;
 
     $valaccord = TarjetasCB($idDias,"VALE ACCORD",$con);
     $valefectivale = TarjetasCB($idDias,"VALE EFECTIVALE",$con);
@@ -213,22 +235,6 @@ $GTVales = 0;
     $consumoD = 0;
     }
     
-    $Toultragas = 0;
-    $Toenergex = 0;
-    $Tovalefectivale = 0;
-    $Tovalsodexo = 0;
-    $Tovalvale = 0;
-    $Tovalaccord = 0;
-    $ToBilleteM = 0;
-    $ToBilleteV = 0;
-    $ToBilleteN = 0;
-    $ToMorralla = 0;
-    $ToDesposito = 0;
-    $ToCheque1 = 0;
-    $ToTransferencia1 = 0;
-    $ToCheque2 = 0;
-    $ToTransferencia2 = 0;
-    $Toprosegur = 0;
 
 $totalPago = $pagoC + $pagoD;
 $totalConsumo = $consumoC + $consumoD;
@@ -245,6 +251,8 @@ $Toefecticard = $Toefecticard + $efecticard;
 $Tosodexo = $Tosodexo + $sodexo;
 $Toultragas = $Toultragas + $ultragas;
 $Toenergex = $Toenergex + $energex;
+$Toshell = $Toshell + $shell;
+
 $TototalTarjetas = $TototalTarjetas + $totalTarjetas;
 
 $TopagoC = $TopagoC + $pagoC;
@@ -339,6 +347,11 @@ $Toprosegur = $Toprosegur + $totalImporte;
   <td class="align-middle text-end">
    $<?=number_format($energex,2);?>
   </td>  
+
+  <td class="align-middle text-end">
+   $<?=number_format($shell,2);?>
+  </td>  
+
   <td class="align-middle text-end bg-light">
     <strong>$<?=number_format($totalTarjetas,2);?></strong>
   </td>
@@ -470,6 +483,9 @@ $Toprosegur = $Toprosegur + $totalImporte;
   </td>
    <td class="align-middle text-end">
     <strong>$<?=number_format($Toenergex,2);?></strong>
+  </td>
+  <td class="align-middle text-end">
+    <strong>$<?=number_format($Toshell,2);?></strong>
   </td>
   <td class="align-middle text-end">
     <strong>$<?=number_format($TototalTarjetas,2);?></strong>

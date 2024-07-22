@@ -60,16 +60,16 @@ endif;
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Venta día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
+                Ventas (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Venta Día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Ventas (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
@@ -77,16 +77,17 @@ endif;
                 <span class="btn-label2"><i class="fa-solid fa-file-pdf"></i></span>PDF</button>
                 <?php if($ventas ==0) :?>
                   <button type="button" class="btn btn-labeled2 btn-success float-end"
-                    onclick="FirmarCorte(<?= $GET_idReporte; ?>,<?= $Session_IDUsuarioBD; ?>,'<?= $session_nomestacion; ?>')">
+                    onclick="FirmarCorte(<?=$GET_idReporte;?>,<?= $Session_IDUsuarioBD; ?>,'<?= $session_nomestacion; ?>')">
                     <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
                     <input type="hidden" name="base64" value="" id="base64">
                 <?php endif; ?>
               </div>
 
           </div>
+          <hr>
         </div>
       </div>
-      <hr>
+ 
       <div class="row">
         <!---------- TABLA - CONCENTRADO DE VENTAS ---------->
         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
@@ -117,29 +118,24 @@ endif;
           </div>
           <!---------- TABLA - Clientes Atio ---------->
           <div class="mt-3">
-
-            <div id="DivControlgas"></div>
-
+          <div id="DivControlgas"></div>
           </div>
+          
           <!---------- C Total 1+2+3 ---------->
           <div class="mt-3">
-            <div class="table-responsive">
-              <table class="table table-sm table-bordered">
+          <div class="table-responsive">
+          <table class="custom-table" style="font-size: 12.5px;" width="100%">
+
                 <tr class="bg-white">
-                  <td><strong>C TOTAL (1+2+3)</strong></td>
-                  <td class="align-middle text-end pointer" id="Total1234"></td>
+                  <th class="no-hover">C TOTAL (1+2+3)</th>
+                  <td class="align-middle pointer no-hover" id="Total1234"></td>
                 </tr>
-              </table>
-            </div>
-          </div>
-          <!---------- Diferencia (B-C) ---------->
-          <div class="mt-3">
-            <div class="table-responsive">
-              <table class="table table-sm table-bordered">
+
                 <tr class="bg-white">
-                  <td><strong>DIFERENCIA (B-C)</strong></td>
-                  <td class="align-middle text-end pointer" id="DiferenciaTotal"></td>
+                  <th class="no-hover">DIFERENCIA (B-C)</th>
+                  <td class="align-middle pointer no-hover" id="DiferenciaTotal"></td>
                 </tr>
+
               </table>
             </div>
           </div>
@@ -151,12 +147,12 @@ endif;
 
           <!---------- Dif Pago de Clientes ---------->
           <div class="mt-3">
-            <div class="table-responsive">
-              <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
+          <div class="table-responsive">
+          <table class="custom-table" style="font-size: 12.5px;" width="100%">
                 <tr class="bg-white">
-                  <td>DIF PAGO DE CLIENTES</td>
-                  <td class="align-middle text-end pointer" id="DifPagoCliente"></td>
-                  <td>(4-5)</td>
+                  <th class="align-middle no-hover">DIF PAGO DE CLIENTES</th>
+                  <td class="align-middle no-hover" id="DifPagoCliente"></td>
+                  <td class="align-middle no-hover">(4-5)</td>
                 </tr>
               </table>
             </div>
@@ -165,7 +161,7 @@ endif;
           <div class="mt-3">
             <div class="table-responsive">
               <table class="custom-table " style="font-size: .8em;" width="100%">
-                <thead class="title-table-bg">
+                <thead class="tables-bg">
                   <tr>
                     <th class="text-center align-middle">Observaciones</th>
                   </tr>
@@ -176,7 +172,7 @@ endif;
                       <?php
                       $observaciones = $corteDiarioGeneral->getObsevaciones($GET_idReporte);
                       ?>
-                      <textarea class="bg-white form-control border-0" style="height:100px;"
+                      <textarea class="bg-white form-control border-0" placeholder="Escribe tus observaciones aquí..." style="height:200px;"
                         onkeyup="EditObservaciones(this,<?= $GET_idReporte; ?>)"
                         <?= $estado ?>><?= $observaciones ?></textarea>
                     </th>
@@ -185,13 +181,14 @@ endif;
               </table>
             </div>
           </div>
+          
           <?php if ($ventas == 0) : ?>
             <div class="mt-3">
               <div class="table-responsive">
                 <table class="custom-table" style="font-size: .8em;" width="100%">
-                  <thead class="title-table-bg">
+                  <thead class="tables-bg">
                     <tr>
-                      <th class="text-center align-middle">Firmar y Aceptar</th>
+                      <th class="text-center align-middle">Firma</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white">
@@ -199,7 +196,7 @@ endif;
                       <td class="no-hover p-0">
                         <div id="signature-pad" class="signature-pad border-0" style="cursor:crosshair">
                           <div class="signature-pad--body"> 
-                            <canvas style="width: 100%; height: 200px;" id="canvas"></canvas>
+                            <canvas style="width: 100%; height: 200px;" id="canvas" ></canvas>
                           </div>
                         </div>
                       </td>
@@ -225,6 +222,8 @@ endif;
       </div>
       <?php if ($ventas == 1) : ?>
         <div class="mt-3">
+
+        <hr> 
           <?php
           $Elaboro = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Elaboró');
           $Superviso = $corteDiarioGeneral->validaFirma($GET_idReporte, 'Superviso');
@@ -234,7 +233,7 @@ endif;
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
-                  <thead class="title-table-bg">
+                  <thead class="tables-bg">
                     <tr>
                       <th class="align-middle text-center">ELABORÓ</th>
                     </tr>
@@ -255,7 +254,7 @@ endif;
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
-                  <thead class="title-table-bg">
+                  <thead class="tables-bg">
                     <tr>
                       <th class="align-middle text-center">ELABORÓ</th>
                     </tr>
@@ -275,7 +274,7 @@ endif;
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
-                  <thead class="title-table-bg">
+                  <thead class="tables-bg">
                     <tr>
                       <th class="align-middle text-center">VO.BO.</th>
                     </tr>
@@ -303,8 +302,8 @@ endif;
 
   </div>
   <div class="modal fade bd-example-modal-lg" id="ModalPrincipal" data-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content border-0 rounded-0">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Agegar Documento</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>

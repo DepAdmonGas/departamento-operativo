@@ -1,18 +1,52 @@
 <?php
 require ('../../../../help.php');
 
-$idEstacion = $Session_IDEstacion;
+$idEstacion = $_GET['idEstacion'];
 $Year = $_GET['Year'];
 $Mes = $_GET['Mes'];
+
 $ProductoUno = $corteDiarioGeneral->getProducto($idEstacion,'producto_uno');
 $ProductoDos = $corteDiarioGeneral->getProducto($idEstacion,'producto_dos');
 $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
+
+
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
+
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo" ){
+$ocultarTB = "";
+$Estacion = '';
+
+}else{
+$ocultarTB = "d-none";
+$Estacion = ' ('.$datosEstacion['nombre'].')';
+
+}
 ?>
 
 
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.go(-3)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
+<li class="breadcrumb-item"><a onclick="history.go(-2)"  class="text-uppercase text-primary pointer"> Despacho VS Factura</a></li>
+<li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"> <?=$Year?></a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$ClassHerramientasDptoOperativo->nombremes($Mes)?> </li>
+</ol>
+ 
+<div class="row"> 
+<div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> 
+Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes($Mes)?> <?=$Year?></h3> 
+</div>
+</div>
+
+<hr>
+</div>
+
+
+ 
 <div class="table-responsive">
 <table class="custom-table " style="font-size: .8em;" width="100%">
-
+ 
         <thead>
             <tr >
                 <th rowspan="2" class="text-center align-middle" style="background: #ffffff;"></th>
@@ -34,7 +68,7 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
                 <th class="text-white text-center" style="background: #5c108c;">G DIESEL</th>
                 <th class="text-white text-end text-center" style="background: #5c108c;">G DIESEL</th>
                 <th class =" text-start text-dark" style="background: #ffffff;">TOTAL</th>
-                <th class=" text-end text-dark" style="background: #ffffff;">TOTAL</th>
+                <td class=" text-end text-dark fw-bold" style="background: #ffffff;">TOTAL</td>
             </tr>
         </thead>
         <tbody>
@@ -112,9 +146,10 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
                 $DiToPesos = $TotalPrecio - $TotalAPP;
 
 
-                echo '<tr class = "bg-white">
+                echo '<tr class="bg-white">
+                
                         <th class="bg-primary fw-normal text-white">VENTAS</th>
-                        <td class="align-middle" rowspan="3" class="text-center align-middle"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
+                        <td class="text-center align-middle no-hover" rowspan="3"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
                         <td class ="text-start" id="' . $idDias . 'L1">' . number_format($Producto1['TotalLitros'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L4">' . number_format($Producto1['TotalPrecio'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L2">' . number_format($Producto2['TotalLitros'], 2) . '</td>
@@ -126,14 +161,14 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
                         </tr>
                         <tr tr class = "bg-white">
                         <th class="bg-info fw-normal text-white">DESPACHO</th>
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['LProductouno'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',1)"></td>
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['PProductouno'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',4)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['LProductouno'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',1)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['PProductouno'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',4)"></td>
 
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['LProductodos'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',2)"></td>
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['PProductodos'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',5)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['LProductodos'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',2)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['PProductodos'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',5)"></td>
 
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['LProductotres'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',3)"></td>
-                        <td class="p-0 m-0"><input type="number" class="border-0" value="' . $TotalAtio['PProductotres'] . '" style="width: 100%;padding: 4px;" onkeyup="Editar(this,' . $idDias . ',6)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['LProductotres'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',3)"></td>
+                        <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['PProductotres'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',6)"></td>
 
                         <td class="fw-bold text-start">' . number_format($TotalALP, 2) . '</td>
                         <td class="fw-bold text-end">' . number_format($TotalAPP, 2) . '</td>
@@ -151,7 +186,8 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
                         <td class="fw-bold  text-end" ' . $corteDiarioGeneral->esNegativo($DiToPesos) . '>' . number_format($DiToPesos, 2) . '</td>
 
                         </tr>
-                        <tr><th colspan="10"></th></tr>';
+
+                        <tr><th colspan="10" class="bg-light no-hover2 p-2"></th></tr>';
 
                 $GTProducto1 = $GTProducto1 + $Producto1['TotalLitros'];
                 $GTProducto2 = $GTProducto2 + $Producto2['TotalLitros'];
@@ -182,33 +218,35 @@ $ProductoTres = $corteDiarioGeneral->getProducto($idEstacion,'producto_tres');
                 $GTDiToPesos = $GTDiToPesos + $DiToPesos;
             }
 
-            ?>
-            <tr>
-                <th class="bg-primary font-weight-bold text-white">VENTAS</th>
-                <td class="align-middle" rowspan="3" class="text-center align-middle"><b>TOTAL</b></td>
-                <td><?= number_format($GTProducto1, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProducto1, 2); ?></td>
-                <td><?= number_format($GTProducto2, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProducto2, 2); ?></td>
-                <td><?= number_format($GTProducto3, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProducto3, 2); ?></td>
-                <td class="bg-light"><?= number_format($GTotalLitros, 2); ?></td>
-                <td class="bg-light text-end">$<?= number_format($GTotalPrecio, 2); ?></td>
-            </tr>
-            <tr>
-                <td class="bg-info font-weight-bold text-white">DESPACHO</td>
-                <td><?= number_format($GTLProductouno, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProductouno, 2); ?></td>
-                <td><?= number_format($GTLProductodos, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProductodos, 2); ?></td>
-                <td><?= number_format($GTLProductotres, 2); ?></td>
-                <td class="text-end">$<?= number_format($GTPProductotres, 2); ?></td>
-                <td class="bg-light"><?= number_format($GTotalALP, 2); ?></td>
-                <td class="bg-light text-end">$<?= number_format($GTotalAPP, 2); ?></td>
+            ?> 
 
-            </tr>
-            <tr>
-                <td class="bg-light font-weight-bold">DIFERENCIA</td>
+    <tr class="bg-white">
+    <th class="bg-primary fw-normal text-white">VENTAS</th>
+    <td class="align-middle bg-white" rowspan="3" class="text-center align-middle"><b>TOTAL</b></td>
+    <td><?= number_format($GTProducto1, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProducto1, 2); ?></td>
+    <td><?= number_format($GTProducto2, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProducto2, 2); ?></td>
+    <td><?= number_format($GTProducto3, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProducto3, 2); ?></td>
+    <td class="bg-light"><?= number_format($GTotalLitros, 2); ?></td>
+    <td class="bg-light text-end">$<?= number_format($GTotalPrecio, 2); ?></td>
+    </tr>
+
+    <tr class="bg-white">            
+    <th class="bg-primary fw-normal text-white">DESPACHO</th>
+    <td><?= number_format($GTLProductouno, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProductouno, 2); ?></td>
+    <td><?= number_format($GTLProductodos, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProductodos, 2); ?></td>
+    <td><?= number_format($GTLProductotres, 2); ?></td>
+    <td class="text-end">$<?= number_format($GTPProductotres, 2); ?></td>
+    <td class="bg-light"><?= number_format($GTotalALP, 2); ?></td>
+    <td class="bg-light text-end">$<?= number_format($GTotalAPP, 2); ?></td>
+    </tr>
+
+            <tr class="bg-white">               
+                 <td class="bg-light font-weight-bold">DIFERENCIA</td>
                 <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiLPoUno); ?>"><?= number_format($GTDiLPoUno, 2); ?></td>
                 <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiPPoUno); ?> text-end">
                     $<?= number_format($GTDiPPoUno, 2); ?></td>

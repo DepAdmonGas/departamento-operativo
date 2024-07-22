@@ -13,6 +13,12 @@ $monedero = $row_lista['monedero'];
 $diferencia = $row_lista['diferencia']; 
 }
 ?>
+
+<div class="modal-header">
+<h5 class="modal-title">Facturas</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+
 <div class="modal-body">
 <div class="mb-1 text-secondary">Agregar fecha</div>
 <input type="date" class="form-control" id="Fecha" value="<?=$fecha;?>">
@@ -41,10 +47,13 @@ $diferencia = $row_lista['diferencia'];
         <input class="form-control" type="file" id="EXCEL">
         <hr>
 
-      <div class="text-end">
-        <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>)">
+      </div>
+
+      <div class="modal-footer">
+
+      <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>)">
           <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
         <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="EditarInfo(<?=$IdReporte;?>,<?=$id;?>)">
           <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div>
-      </div>
+

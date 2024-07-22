@@ -79,16 +79,16 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Concentrado de ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
+                Concentrado de Ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Concentrado de ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
+                Concentrado de Ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
               </h3>
             </div>
           </div>

@@ -27,14 +27,14 @@ endif;
 
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-            <tr class="tables-bg">
+    <thead class="title-table-bg">
+    <tr class="tables-bg">
                 <th colspan="3" class="align-middle text-center">PAGO CLIENTES</th>
             </tr>
             <tr>
-                <td class="text-center">CONCEPTO</td>
-                <td class="text-center">IMPORTE</td>
-                <td class="text-center">NOTA</td>
+                <td class="text-center align-middle fw-bold">CONCEPTO</td>
+                <td class="text-center align-middle fw-bold">IMPORTE</td>
+                <td class="text-center align-middle fw-bold">NOTA</td>
             </tr>
             
         </thead>
@@ -59,15 +59,15 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $concepto; ?></th>
-                    <td class="align-middle <?=$deshabilitado, $hover?>">
-                        <input id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                    <td class="align-middle p-0 <?=$deshabilitado, $hover?>">
+                        <input class="p-3" id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
+                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditPCimporte(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $importe; ?>"
                             <?= $estado; ?>>
                     </td>
-                    <td class="align-middle <?=$deshabilitado, $hover?>">
-                        <input id="nota-<?= $idPagoCliente; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                    <td class="align-middle p-0 <?=$deshabilitado, $hover?>">
+                        <input class="p-3" id="nota-<?= $idPagoCliente; ?>" type="text"
+                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditPCnota(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $nota; ?>"
                             <?= $estado; ?>>
                     </td>

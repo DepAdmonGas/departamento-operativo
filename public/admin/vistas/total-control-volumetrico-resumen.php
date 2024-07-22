@@ -168,7 +168,7 @@ $GRANTOTAL = $GTdato10 + $ResumenAceite;
 
 <div class="table-responsive mt-3">
   <table class="custom-table " style="font-size: .8em;" width="100%">
-    <thead class="navbar-bg">
+	<thead class="title-table-bg">
       <tr>
         <th colspan="5" class="align-middle text-center tables-bg">GRAN TOTAL</th>
       </tr>
@@ -182,26 +182,26 @@ $GRANTOTAL = $GTdato10 + $ResumenAceite;
     <tbody class="bg-white">
       <!----- COMPRAS ----->
       <tr>
-        <th class="text-start">Compras L</th>
-        <td class="text-end font-weight-bold">
+        <th class="text-start no-hover">Compras L</th>
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato3); ?>
         </td>
-        <td class="text-end font-weight-bold">
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato4); ?>
         </td>
-        <td class="text-end <?= $color2; ?>" id="D2<?= $id; ?>">
+        <td class="text-end no-hover <?= $color2; ?>" id="D2<?= $id; ?>">
           <?= number_format($Diferencia2, 2); ?>
         </td>
       </tr>
       <tr>
-        <th class="text-start">$</th>
-        <td class="text-end font-weight-bold">$
+        <th class="text-start no-hover">$</th>
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato5, 2); ?>
         </td>
-        <td class="text-end font-weight-bold">$
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato6, 2); ?>
         </td>
-        <td class="text-end <?= $color3; ?>" id="D2<?= $id; ?>">$
+        <td class="text-end no-hover <?= $color3; ?>" id="D2<?= $id; ?>">$
           <?= number_format($Diferencia3, 2); ?>
         </td>
 
@@ -209,27 +209,27 @@ $GRANTOTAL = $GTdato10 + $ResumenAceite;
 
       <!----- VENTAS ----->
       <tr>
-        <th class="text-start">Ventas L</th>
-        <td class="text-end font-weight-bold">
+        <th class="text-start no-hover">Ventas L</th>
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato7); ?>
         </td>
-        <td class="text-end font-weight-bold">
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato8); ?>
         </td>
-        <td class="text-end <?= $color4; ?>" id="D2<?= $id; ?>">
+        <td class="text-end no-hover <?= $color4; ?>" id="D2<?= $id; ?>">
           <?= number_format($Diferencia4, 2); ?>
         </td>
 
       </tr>
       <tr>
-        <th class="text-start">$</th>
-        <td class="text-end font-weight-bold">$
+        <th class="text-start no-hover">$</th>
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato9, 2); ?>
         </td>
-        <td class="text-end font-weight-bold">$
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato10, 2); ?>
         </td>
-        <td class="text-end <?= $color5; ?>" id="D2<?= $id; ?>">$
+        <td class="text-end no-hover <?= $color5; ?>" id="D2<?= $id; ?>">$
           <?= number_format($Diferencia5, 2); ?>
         </td>
 
@@ -237,27 +237,27 @@ $GRANTOTAL = $GTdato10 + $ResumenAceite;
 
       <!----- DESPACHOS ----->
       <tr>
-        <th class="text-start">Despachos L</th>
-        <td class="text-end font-weight-bold">
+        <th class="text-start no-hover">Despachos L</th>
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato11); ?>
         </td>
-        <td class="text-end font-weight-bold">
+        <td class="text-end no-hover font-weight-bold">
           <?= number_format($GTdato12); ?>
         </td>
-        <td class="text-end <?= $color6; ?>" id="D2<?= $id; ?>">
+        <td class="text-end no-hover <?= $color6; ?>" id="D2<?= $id; ?>">
           <?= number_format($Diferencia6, 2); ?>
         </td>
 
       </tr>
       <tr>
-        <th class="text-start">$</th>
-        <td class="text-end font-weight-bold">$
+        <th class="text-start no-hover">$</th>
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato13, 2); ?>
         </td>
-        <td class="text-end font-weight-bold">$
+        <td class="text-end no-hover font-weight-bold">$
           <?= number_format($GTdato14, 2); ?>
         </td>
-        <td class="text-end <?= $color7; ?>" id="D2<?= $id; ?>">$
+        <td class="text-end no-hover <?= $color7; ?>" id="D2<?= $id; ?>">$
           <?= number_format($Diferencia7, 2); ?>
         </td>
 

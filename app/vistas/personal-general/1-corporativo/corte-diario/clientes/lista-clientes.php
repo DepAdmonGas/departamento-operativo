@@ -14,8 +14,8 @@ $numero_debito = $corteDiarioGeneral->getNumeroClientesPorTipo($idEstacion, 'Dé
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
         <div class="table-responsive">
             <table id="tabla_credito" class="custom-table mt-2" style="font-size: .8em;" width="100%">
-                <thead class="navbar-bg">
-                    <tr class="tables-bg">
+            <thead class="title-table-bg">
+            <tr class="tables-bg">
                         <th class="text-center align-middle fw-bold" colspan="4">Crédito</th>
                     </tr>
                     <tr class="fw-bold">
@@ -48,11 +48,16 @@ $numero_debito = $corteDiarioGeneral->getNumeroClientesPorTipo($idEstacion, 'Dé
 
     </div>
 
+
+
+
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <hr class="responsive-hr">
+
     <div class="table-responsive">
             <table id="tabla_debito" class="custom-table mt-2" style="font-size: .8em;" width="100%">
-                <thead class="navbar-bg">
-                    <tr class="tables-bg">
+            <thead class="title-table-bg">
+            <tr class="tables-bg">
                         <th class="text-center align-middle fw-bold" colspan="3">Débito</th>
                     </tr>
                     <tr class="fw-bold">

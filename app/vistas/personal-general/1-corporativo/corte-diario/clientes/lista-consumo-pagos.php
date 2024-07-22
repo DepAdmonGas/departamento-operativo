@@ -26,7 +26,7 @@ function Resumen($idReporte, $tipo, $consumo, $con)
 {
 
 
-	$sql_credito = "SELECT
+$sql_credito = "SELECT
 op_consumos_pagos.id,
 op_consumos_pagos.id_reportedia,
 op_consumos_pagos.id_cliente,
@@ -67,8 +67,8 @@ mysqli_query($con, $sql2);
 ?>
 <div class="table-responsive">
 	<table id="tabla-principal" class="custom-table " style="font-size: 1em;" width="100%">
-		<thead class="navbar-bg">
-			<tr>
+	<thead class="tables-bg">
+	<tr>
 				<th class="align-middle text-center">#</th>
 				<th class="align-middle text-start">Cliente</th>
 				<th class="align-middle text-start">Nombre</th>
@@ -140,9 +140,14 @@ mysqli_query($con, $sql2);
 	</table>
 </div>
 
-<div class="justify-content-center mt-3">
-	<table class="custom-table" style="font-size: 1em; width: 100%;">
-		<thead class="navbar-bg">
+
+<hr>
+<div class="row justify-content-end">
+<div class="col-lg-3 col-md-12 col-sm-12">
+	
+<div class="table-responsive">
+	<table class="custom-table " style="font-size: 1em; width: 100%;">
+		<thead class="title-table-bg">
 			<tr>
 				<th class="tables-bg" colspan="3">Totales</th>
 			</tr>
@@ -179,4 +184,6 @@ mysqli_query($con, $sql2);
 		</tbody>
 	</table>
 
+</div>
+</div>
 </div>

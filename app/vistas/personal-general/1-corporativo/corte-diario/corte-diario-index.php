@@ -6,114 +6,113 @@ $Pdia = $corteDiarioGeneral->primerDia($GET_year, $GET_mes);
 $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-diario-mes-function.js"></script>
+
 <script>
-  $(document).ready(function ($) {
-    $(".LoaderPage").fadeOut("slow");
+$(document).ready(function($){
+$(".LoaderPage").fadeOut("slow");
+    
+});
 
-  });
-  function menuCorporativoYearMes(referencia) {
-    window.location.href = "../../" + referencia;
-  }
+function menuCorporativoYearMes(referencia){
+window.location.href = "../../" + referencia;
+}
 
-  function returnCorporativoItem(referencia) {
-    window.location.href = "../../" + referencia;
-  }
+function returnCorporativoItem(referencia){
+window.location.href = "../../" + referencia;
+}
 </script>
 
 <body>
-  <div class="LoaderPage"></div>
-  <!---------- DIV - CONTENIDO ---------->
-  <div id="content">
-    <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
-    <?php include_once "public/navbar/navbar-perfil.php"; ?>
-    <!---------- CONTENIDO PAGINA WEB---------->
-    <div class="contendAG">
-      <div class="row">
-        <div class="col-12 mb-3">
-          <div class="row">
-            <div class="col-12">
-              <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-                <!--    
-                               Barra que imprime las opciones de regresar 
-                            -->
-                <?= $breadcrumbYearMes ?>
-              </div>
-              <div class="row">
-                <div class="col-10">
-                  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                    Corte Diario, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?>
-                    <?= $GET_year; ?>
-                  </h3>
-                </div>
-                <div class="col-2">
-                  <div class="text-end">
-                    <div class="dropdown d-inline ms-2">
-                      <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-screwdriver-wrench"></i>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li
-                          onclick="ControlVolumetrico(<?= $Session_IDEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-bottle-droplet"></i> Control
-                            volumetrico</a>
-                        </li>
-                        <li onclick="ConcentradoVentas(<?= $Session_IDEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-cash-register"></i>
-                            Concentrado de ventas</a>
-                        </li>
-                        <li onclick="ResumenImpuestos(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-hand-holding-dollar"></i>
-                            Resumen impuestos</a>
-                        </li>
-                        <li onclick="ResumenMonedero(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen
-                            monedero</a>
-                        </li>
-                        <li onclick="Aceites(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-oil-can"></i>
-                            Resumen aceites</a>
-                        </li>
-                        <li onclick="Clientes(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid fa-users"></i>
-                            Resumen clientes</a>
-                        </li>
-                        <li onclick="Embarques(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                          <a class="dropdown-item pointer"><i class="fa-solid  fa-truck-droplet"></i>
-                            Resumen embarques</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="LoaderPage"></div>
 
-          </div>
-
-          <hr>
-          <?php
-          for ($Pdia = 1; $Pdia <= $Udia; $Pdia++):
-            $corteDiarioGeneral->validaFechaReporte($IdReporte, $GET_year, $GET_mes, $Pdia);
-          endfor;
-          ?>
-          <div class="table-responsive">
-            <table class="custom-table " style="font-size: 1em;" width="100%">
-              <thead class="navbar-bg">
-                <tr>
-                  <th class="text-center">FECHA</th>
-                  <th class="text-center" width="60px">VENTAS</th>
-                  <th class="text-center" width="60px">TPV</th>
-                  <th class="text-center" width="60px">IMPUESTOS</th>
-                  <th class="text-center" width="60px">MONEDERO</th>
-                  <th class="text-center" width="50px">CLIENTES</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white">
+<!---------- DIV - CONTENIDO ---------->
+<div id="content">
+<!---------- NAV BAR - PRINCIPAL (TOP) ---------->
+<?php include_once "public/navbar/navbar-perfil.php"; ?>
+<!---------- CONTENIDO PAGINA WEB---------->
+<div class="contendAG">
+<div class="row">
+<div class="col-12">
+<div class="row">
+<div class="col-12">
 
 
-                <?php
-                $sql_listadia = "
+<?=$breadcrumbYearMes?>
+
+<div class="row">
+<div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
+<h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+Corte Diario, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes); ?> <?= $GET_year; ?>
+</h3>
+</div>
+
+<div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
+<div class="text-end">
+<div class="dropdown d-inline ms-2">
+<button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fa-solid fa-screwdriver-wrench"></i> </button>
+
+<ul class="dropdown-menu">
+<li onclick="ControlVolumetrico(<?= $Session_IDEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-bottle-droplet"></i> Control volumetrico</a>
+</li>
+
+<li  onclick="ConcentradoVentas(<?= $Session_IDEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-cash-register"></i> Concentrado de ventas</a>
+</li>
+
+<li onclick="ResumenImpuestos(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-hand-holding-dollar"></i> Resumen impuestos</a>
+</li>
+
+<li onclick="ResumenMonedero(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen monedero</a> 
+</li>
+
+<li onclick="Aceites(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-oil-can"></i> Resumen aceites</a>
+</li>
+
+<li onclick="Clientes(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid fa-users"></i> Resumen clientes</a>
+</li>
+
+<li onclick="Embarques(<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+<a class="dropdown-item pointer"><i class="fa-solid  fa-truck-droplet"></i> Resumen embarques</a>
+</li>
+
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr>
+<?php
+for ($Pdia = 1; $Pdia <= $Udia; $Pdia++):
+$corteDiarioGeneral->validaFechaReporte($IdReporte, $GET_year, $GET_mes, $Pdia);
+                    endfor;
+                    ?>
+                    <div class="table-responsive">
+                        <table class="custom-table " style="font-size: 1em;" width="100%">
+                            <thead class="tables-bg">
+                                <tr>
+                                    <th class="text-center">FECHA</th>
+                                    <th class="text-center" width="60px">VENTAS</th>
+                                    <th class="text-center" width="60px">TPV</th>
+                                    <th class="text-center" width="60px">IMPUESTOS</th>
+                                    <th class="text-center" width="60px">MONEDERO</th>
+                                    <th class="text-center" width="50px">CLIENTES</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+
+
+                                <?php
+                                $sql_listadia = "
                   SELECT 
                   op_corte_year.id_estacion,
                   op_corte_year.year,
@@ -161,12 +160,10 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
         </div>
       </div>
     </div>
-  </div>
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- FUNCIONES - NAVBAR ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 </body>
-
 </html>
