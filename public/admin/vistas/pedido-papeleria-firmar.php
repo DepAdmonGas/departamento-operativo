@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 $idReporte = $GET_idReporte;
 
 $sql_pedido = "SELECT * FROM op_pedido_papeleria WHERE id = '" . $idReporte . "' ";
@@ -105,6 +101,7 @@ function Usuario($idfirma, $con)
           $(".LoaderPage").hide();
 
           if (response == 1) {
+            //Dentro de la condición cuando se manda la alerta
             alertify.success('El token fue enviado por mensaje');
             alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
             // Deshabilitar los botones y guardar el tiempo en localStorage
@@ -172,6 +169,7 @@ function Usuario($idfirma, $con)
       }
 
     }
+
     // Verificar el tiempo guardado en localStorage al cargar la página
     window.onload = function () {
       var disableTime = localStorage.getItem('disableTime');
@@ -194,7 +192,6 @@ function Usuario($idfirma, $con)
         }
       }
     }
-
   </script>
 </head>
 
@@ -208,160 +205,138 @@ function Usuario($idfirma, $con)
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div class="row">
-
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-
-              <div class="row">
-                <div class="col-12">
-
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
-
-                  <div class="row">
-                    <div class="col-12">
-
-                      <h5>Firmar pedido de papeleria</h5>
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <hr>
 
 
-              <div class="container">
+      <div class="container bg-white p-3">
+        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+          <ol class="breadcrumb breadcrumb-caret">
+            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                  class="fa-solid fa-chevron-left"></i>
+                Pedido de papelería</a></li>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">
+              Firmar pedido de papelería
+            </li>
+          </ol>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+              Firmar pedido de papelería
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+            <thead class="tables-bg">
+              <tr>
+                <th class="text-center align-middle ">#</th>
+                <th class="align-middle ">Producto</th>
+                <th class="align-middle  text-center">Piezas</th>
+              </tr>
+            </thead>
+            <tbody class="bg-light">
+              <?php
+              $sql_lista = "SELECT * FROM op_pedido_papeleria_detalle WHERE id_pedido = '" . $idReporte . "' ";
+              $result_lista = mysqli_query($con, $sql_lista);
+              $numero_lista = mysqli_num_rows($result_lista);
+              $ToPiezas = 0;
+              if ($numero_lista > 0) {
+                $num = 1;
+                while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+                  $id = $row_lista['id'];
 
-                <div class="table-responsive">
-                  <table class="table table-sm table-striped table-bordered table-hover mb-3" style="font-size: .9em;">
-                    <thead class="tables-bg">
-                      <tr>
-                        <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
-                        <td class="align-middle tableStyle font-weight-bold"><b>Producto</b></td>
-                        <td class="align-middle tableStyle font-weight-bold text-center"><b>Piezas</b></td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      $sql_lista = "SELECT * FROM op_pedido_papeleria_detalle WHERE id_pedido = '" . $idReporte . "' ";
-                      $result_lista = mysqli_query($con, $sql_lista);
-                      $numero_lista = mysqli_num_rows($result_lista);
+                  $Producto = $row_lista['producto'];
+                  $ToPiezas = $ToPiezas + $row_lista['piezas'];
 
-                      if ($numero_lista > 0) {
-                        $num = 1;
-                        while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-                          $id = $row_lista['id'];
+                  echo '<tr>';
+                  echo '<th class="no-hover2 align-middle text-center">' . $num . '</th>';
+                  echo '<td class="no-hover2 align-middle"><b>' . $Producto . '</b></td>';
+                  echo '<td class="no-hover2 align-middle text-center">' . $row_lista['piezas'] . '</td>';
+                  echo '</tr>';
 
-                          $Producto = $row_lista['producto'];
-                          $ToPiezas = $ToPiezas + $row_lista['piezas'];
+                  $num++;
+                }
+                echo '<tr>
+                        <th colspan="2" class="no-hover2 text-end">Total piezas:</th>
+                        <td class="no-hover2 text-center"><b>' . $ToPiezas . '</b></td>
+                      </tr>';
 
-                          echo '<tr>';
-                          echo '<td class="align-middle text-center">' . $num . '</td>';
-                          echo '<td class="align-middle"><b>' . $Producto . '</b></td>';
-                          echo '<td class="align-middle text-center">' . $row_lista['piezas'] . '</td>';
-                          echo '</tr>';
+              } else {
+                echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
 
-                          $num++;
-                        }
-                        echo '<tr>
-    <td colspan="2" class="text-end">Total piezas:</td>
-    <td class="text-center"><b>' . $ToPiezas . '</b></td>
-    </tr>';
+        <br>
+        <div class="mb-1"><b>Firmas:</b></div>
+        <hr>
+        <br>
+        <div class="row">
+          <?php if ($Session_IDUsuarioBD == 19) { ?>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <div class="table-responsive">
+                <table class="custom-table" width="100%">
+                  <thead class="tables-bg">
+                    <tr>
+                      <th class="align-middle text-center">FIRMA</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-light">
 
-                      } else {
-                        echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-                      }
-                      ?>
-                    </tbody>
-                  </table>
-                </div>
-
-
-                <div class="mb-1"><b>Firmas:</b></div>
-
-                <div class="row">
-                  <?php if ($Session_IDUsuarioBD == 19 and $depto != 5) { ?>
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-                      <div class="border p-3 ">
-                        <div class="mb-2 text-secondary text-center">FIRMA DE VOBO</div>
-                        <hr>
+                    <tr>
+                      <th class="align-middle text-center no-hover2">
                         <h4 class="text-primary text-center">Token Móvil</h4>
-                        <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el
-                          siguiente botón para crear uno</small>
-                        <button id="btn-sms" class="btn btn-sm btn-light mb-2"
-                          onclick="CrearToken(<?= $GET_idReporte; ?>,1)"><small>Crear token SMS</small></button>
-                        <button id="btn-whatsapp" class="btn btn-sm btn-success mb-2"
-                          onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear token Whatsapp</small></button>
-                        <hr>
-                        <div class="input-group mt-3">
-                          <input type="text" class="form-control" placeholder="Token de seguridad"
+                        <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
+                          número de teléfono o de clic en el siguiente botón para crear uno:</small>
+                        <br>
+                        <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                          onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
+                          <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
+                          SMS</button>
+
+                        <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                          onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
+                          <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
+                          Whatsapp</button>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th class="align-middle text-center no-hover2">
+                        <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
+                          WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+                          a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+                        </small>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th class="align-middle text-center p-0 no-hover2">
+                        <div class="input-group">
+                          <input type="text" class="form-control border-0" placeholder="Token de seguridad"
                             aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
                           <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button"
-                              onclick="FirmarSolicitud(<?= $GET_idReporte; ?>,'B')">Firmar solicitud</button>
+                            <button class="btn btn-outline-success border-0" type="button"
+                              onclick="FirmarSolicitud(<?= $GET_idReporte ?>,'B')">Firmar solicitud</button>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  <?php } ?>
-
-
-                  <?php
-
-                  $sql_firma = "SELECT * FROM op_pedido_papeleria_firma WHERE id_pedido = '" . $idReporte . "' ";
-                  $result_firma = mysqli_query($con, $sql_firma);
-                  $numero_firma = mysqli_num_rows($result_firma);
-                  while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
-
-                    $explode = explode(' ', $row_firma['fecha']);
-
-                    if ($row_firma['tipo_firma'] == "A") {
-
-                      $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-                      $Detalle = '<div class="p-1 text-center border-bottom ">
-<img src="../../imgs/firma/' . $row_firma['firma'] . '" width="70%">
-</div>';
-
-
-                    } else if ($row_firma['tipo_firma'] == "B") {
-                      $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-                      $Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-
-
-                    }
-
-                    echo '<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">';
-                    echo '<div class="border p-3">';
-                    echo '<div class="mt-2 mb-2 text-center">' . Personal($row_firma['id_usuario'], $con) . '</div>';
-                    echo $Detalle;
-                    echo '<h6 class="mt-2 text-secondary text-center">' . $TipoFirma . '</h6>';
-                    echo '</div>';
-                    echo '</div>';
-
-                  }
-
-                  ?>
-                </div>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
 
               </div>
 
-
             </div>
-          </div>
+          <?php } ?>
         </div>
 
       </div>
+
     </div>
 
   </div>
-
-
-
-
-
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
     <div class="modal-dialog" role="document">

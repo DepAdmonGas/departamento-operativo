@@ -133,7 +133,7 @@ function Personal($idpersonal, $con)
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-light">
                     <tr>
                         <?php if (is_array($Personal) && isset($Personal['nombre'])): ?>
                             <th class="text-center align-middle">

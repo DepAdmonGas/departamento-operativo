@@ -131,7 +131,7 @@ function Personal($idpersonal, $con)
     <?php
     $Personal = 'No se encontró el nombre del personal.';
     $TipoFirma = "FIRMA"; // Valor predeterminado
-    $Detalle = '<th class="text-center"><small>Falta firma VOBO.</small></th>';
+    $Detalle = '<th class="text-center no-hover"><small>Falta firma VOBO.</small></th>';
     $sql_firma = "SELECT * FROM op_pedido_limpieza_firma WHERE id_pedido = '" . $idReporte . "' ";
     $result_firma = mysqli_query($con, $sql_firma);
     $numero_firma = mysqli_num_rows($result_firma);
@@ -140,7 +140,7 @@ function Personal($idpersonal, $con)
 
         if ($row_firma['tipo_firma'] == "B") {
             $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-            $Detalle = '<th class="text-center p-2" style="font-size: 0.9em;"><small>El pedido de limpieza se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></th>';
+            $Detalle = '<th class="text-center p-2 no-hover" style="font-size: 0.9em;"><small>El pedido de limpieza se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></th>';
         }
 
         $idUsuario = $row_firma['id_usuario'];
@@ -160,11 +160,11 @@ function Personal($idpersonal, $con)
                 <tbody>
                     <tr>
                         <?php if (is_array($Personal) && isset($Personal['nombre'])): ?>
-                            <th class="text-center align-middle">
+                            <th class="text-center align-middle no-hover">
                                 <?=$Personal['nombre']?>
                             </th>
                         <?php else:?>
-                            <th class="text-center align-middle">
+                            <th class="text-center align-middle no-hover">
                                 <?=$Personal?>
                             </th>
                         <?php endif; ?>

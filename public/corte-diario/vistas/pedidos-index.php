@@ -74,7 +74,7 @@ header("Location:".PORTAL."");
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-home"></i> Almacén</a></li>
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-home"></i> Inicio</a></li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase">Comercializadora</li>
   </ol>
   </div>

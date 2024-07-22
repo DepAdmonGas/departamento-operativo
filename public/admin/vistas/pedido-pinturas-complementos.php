@@ -243,61 +243,57 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div class="row">
-       
-          <div class="col-12">
 
-            <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-              <ol class="breadcrumb breadcrumb-caret">
-                <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                      class="fa-solid fa-chevron-left"></i>
-                    Pedido de Pinturas</a>
-                </li>
-                <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                  Formulario Pedido de Pinturas
-                </li>
-              </ol>
-            </div>
-            <div class="row">
-              <div class="col-10">
-                <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                  Formulario Pedido de Pinturas
-                </h3>
-              </div>
-              <div class="col-2">
-                <button type="button" class="btn btn-labeled2 btn-primary float-end"
-                  onclick="Agregar(<?= $idReporte ?>)">
-                  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-              </div>
-            </div>
+      <div class="col-12">
 
+        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+          <ol class="breadcrumb breadcrumb-caret">
+            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                  class="fa-solid fa-chevron-left"></i>
+                Pedido de Pinturas</a></li>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">
+              Editar Pedido de Pinturas
+            </li>
+          </ol>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+              Editar Pedido de Pinturas
+            </h3>
           </div>
-        
+          <div class="col-2">
+            <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Agregar(<?= $idReporte ?>)">
+              <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+          </div>
+        </div>
+
+
+        <hr>
+
+        <div id="ListaPedido"></div>
+
+
+
       </div>
-
-      <hr>
-
-      <div id="ListaPedido"></div>
 
     </div>
 
-  </div>
 
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-        <div id="ContenidoModal"></div>
+    <div class="modal" id="Modal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top: 83px;">
+          <div id="ContenidoModal"></div>
+        </div>
       </div>
     </div>
-  </div>
 
 
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+    <!---------- FUNCIONES - NAVBAR ---------->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
 

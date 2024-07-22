@@ -1,6 +1,5 @@
 <?php
 require ('app/help.php');
-
 ?>
 <html lang="es">
 
@@ -46,22 +45,31 @@ require ('app/help.php');
     function Regresar() {
       window.history.back();
     }
-
     function ListaPedido(idEstacion) {
-      $('#ListaPedido').load('public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion);
-      //$('#ListaPedido').load('public/corte-diario/vistas/lista-pedido-papeleria.php');
+      let targets;
+      targets = [4];
+      $('#ListaPedido').load('public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
-    function NuevoPedido() {
+    function NuevoPedido(idEstacion) {
 
       $.ajax({
         url: 'public/corte-diario/modelo/agregar-reporte-pedido-papeleria.php',
         type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
+        beforeSend: function () {},
+        complete: function () {},
         success: function (response) {
 
           if (response == 0) {
@@ -70,7 +78,7 @@ require ('app/help.php');
             $('#Modal').modal('show');
             $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + response);
 
-            ListaPedido();
+            ListaPedido(idEstacion);
           }
 
         }
@@ -123,7 +131,7 @@ require ('app/help.php');
 
     }
 
-    function EliminarItem(id, idReporte) {
+    function EliminarItem(id, idReporte,idEstacion) {
 
       var parametros = {
         "idItem": id
@@ -145,7 +153,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPedido();
+                ListaPedido(idEstacion);
                 $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + idReporte);
                 alertify.success('Producto eliminado exitosamente');
 
@@ -163,7 +171,7 @@ require ('app/help.php');
 
     }
 
-    function FinalizarPedido(idReporte) {
+    function FinalizarPedido(idReporte,idEstacion) {
 
       var parametros = {
         "idReporte": idReporte
@@ -186,7 +194,7 @@ require ('app/help.php');
 
               if (response == 1) {
                 $('#Modal').modal('hide');
-                ListaPedido()
+                ListaPedido(idEstacion)
                 alertify.success('Pedido finalizado exitosamente.');
               } else {
                 alertify.error('Error al finalizar el pedido.');
@@ -219,7 +227,7 @@ require ('app/help.php');
       $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-papeleria.php?idReporte=' + idReporte);
     }
 
-    function EliminarPedido(idReporte) {
+    function EliminarPedido(idReporte,idEstacion) {
 
       var parametros = {
         "idReporte": idReporte
@@ -241,7 +249,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPedido()
+                ListaPedido(idEstacion)
                 alertify.success('Pedido eliminado exitosamente');
 
               } else {
@@ -302,6 +310,8 @@ require ('app/help.php');
 
 
   </script>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -314,7 +324,7 @@ require ('app/help.php');
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div id="ListaPedido" class="col-12"></div>
+      <div class="col-12" id="ListaPedido"></div>
     </div>
 
   </div>
@@ -332,6 +342,10 @@ require ('app/help.php');
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
-$breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina,$Session_IDUsuarioBD,$session_idpuesto,$GET_year,$GET_mes);
+$breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina, $Session_IDUsuarioBD, $session_idpuesto, $GET_year, $GET_mes);
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 $Pdia = $corteDiarioGeneral->primerDia($GET_year, $GET_mes);
 $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
@@ -125,42 +125,42 @@ $corteDiarioGeneral->validaFechaReporte($IdReporte, $GET_year, $GET_mes, $Pdia);
                   WHERE op_corte_year.id_estacion = '" . $Session_IDEstacion . "' AND 
                   op_corte_year.year = '" . $GET_year . "' AND 
                   op_corte_mes.mes = '" . $GET_mes . "' ORDER BY op_corte_dia.fecha ASC";
-                                $result_listadia = mysqli_query($con, $sql_listadia);
-                                $numero_listadia = mysqli_num_rows($result_listadia);
+                $result_listadia = mysqli_query($con, $sql_listadia);
+                $numero_listadia = mysqli_num_rows($result_listadia);
 
-                                while ($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)) {
-                                    $idDias = $row_listadia['idDia'];
-                                    $fecha = $row_listadia['fecha'];
+                while ($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)) {
+                  $idDias = $row_listadia['idDia'];
+                  $fecha = $row_listadia['fecha'];
 
-                                    if (strtotime($fecha_del_dia) >= strtotime($fecha)) {
-                                        $text = "text-black font-weight-bold";
-                                        $img = "";
-                                    } else {
-                                        $text = "text-secondary";
-                                        $img = "grayscale";
-                                    }
+                  if (strtotime($fecha_del_dia) >= strtotime($fecha)) {
+                    $text = "text-black font-weight-bold";
+                    $img = "";
+                  } else {
+                    $text = "text-secondary";
+                    $img = "grayscale";
+                  }
 
-                                    echo "<tr>";
-                                    echo "<th class='text-start " . $text . "'>" . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . "</th>";
+                  echo "<tr>";
+                  echo "<th class='text-start " . $text . "'>" . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . "</th>";
 
-                                    echo "<td class='align-middle text-center' onclick='ventas(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "ventas.png' ></td>";
-                                    echo "<td class='align-middle text-center' onclick='cierrelote(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "tpv.png' ></td>";
+                  echo "<td class='align-middle text-center' onclick='ventas(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "ventas.png' ></td>";
+                  echo "<td class='align-middle text-center' onclick='cierrelote(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "tpv.png' ></td>";
 
-                                    echo "<td class='align-middle text-center' onclick='impuestos(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "impuestos.png' ></td>";
+                  echo "<td class='align-middle text-center' onclick='impuestos(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "impuestos.png' ></td>";
 
-                                    echo "<td class='align-middle text-center' onclick='monedero(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "monedero.png' ></td>";
+                  echo "<td class='align-middle text-center' onclick='monedero(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "monedero.png' ></td>";
 
-                                    echo "<td class='align-middle text-center' onclick='clientes(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "clientes.png' ></td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                  echo "<td class='align-middle text-center' onclick='clientes(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "clientes.png' ></td>";
+                  echo "</tr>";
+                }
+                ?>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
+
 <!---------- FUNCIONES - NAVBAR ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>

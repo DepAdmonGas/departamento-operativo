@@ -54,12 +54,6 @@ function Producto($idProducto, $con)
 
   <hr>
 
-  <div class="text-end mb-3">
-    <button type="button" class="btn btn-labeled2 btn-primary" onclick="AgregarItem(<?= $idReporte ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar producto</button>
-
-  </div>
-
   <div class="table-responsive">
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
@@ -91,8 +85,7 @@ function Producto($idProducto, $con)
             echo '<th class="align-middle text-center no-hover">' . $num . '</th>';
             echo '<td class="align-middle text-center no-hover">' . $Producto . '</td>';
             echo '<td class="align-middle p-0 text-center no-hover"><input id="Piezas-' . $id . '" class="form-control border-0 text-center" type="number" value="' . $row_lista['piezas'] . '" onchange="EditPiezas(' . $id . ',' . $idReporte . ')" /></td>';
-
-            echo '<td class="align-middle text-center no-hover"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarItem(' . $id . ',' . $idReporte . ')"></td>';
+            echo '<td class="align-middle text-center no-hover"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarItem(' . $id . ',' . $idReporte . ',' . $Session_IDEstacion . ')"></td>';
             echo '</tr>';
 
             $num++;
@@ -110,11 +103,15 @@ function Producto($idProducto, $con)
 
     </table>
   </div>
-  <?php if ($numero_lista > 0) { ?>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarPedido(<?= $idReporte ?>)">
-      <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar pedido</button>
+ 
+  <div class="text-end">
+    <button type="button" class="btn btn-labeled2 btn-primary" onclick="AgregarItem(<?= $idReporte ?>)">
+      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+    <?php if ($numero_lista > 0) { ?>
+      <button type="button" class="btn btn-labeled2 btn-success"
+        onclick="FinalizarPedido(<?= $idReporte ?>,<?= $Session_IDEstacion ?>)">
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
 
+    <?php } ?>
   </div>
-<?php } ?>
 </div>

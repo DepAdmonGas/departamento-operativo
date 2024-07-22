@@ -37,6 +37,6 @@ sortField: 'text'
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-labeled2 btn-success" onclick="CreateInventario(<?=$idEstacion?>)">
-        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar producto</button>
+        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       
       </div>

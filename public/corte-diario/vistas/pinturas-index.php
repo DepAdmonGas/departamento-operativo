@@ -24,26 +24,36 @@ require ('app/help.php');
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
   <script type="text/javascript">
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
 
-      ListaPinturas();
+      ListaPinturas(<?= $Session_IDEstacion ?>);
 
     });
-
+    function ListaPinturas(idEstacion) {
+      let targets;
+      targets = [4];
+      $('#ListaPinturas').load('public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+    }
     function Regresar() {
       window.history.back();
-    }
-
-    function ListaPinturas() {
-      $('#ListaPinturas').load('public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + <?=$Session_IDEstacion?>);
-      //$('#ListaPinturas').load('public/corte-diario/vistas/lista-pedido-pinturas.php?idEstacion=' + idEstacion);
     }
 
     function NuevoPedido() {
@@ -77,16 +87,16 @@ require ('app/help.php');
       window.location.href = "pedido-pinturas/" + id;
     }
 
-    function VerPedido(id) {
+    function VerPedido(idEstacion, id) {
       $('#Modal').modal('show');
-      $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idReporte=' + id);
+      $('#ContenidoModal').load('public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + id);
     }
 
     function EditarPedido(idReporte) {
       window.location.href = "pinturas-pedido/" + idReporte;
     }
 
-    function EliminarPedido(idReporte) {
+    function EliminarPedido(idEstacion, idReporte) {
 
       var parametros = {
         "idReporte": idReporte
@@ -108,7 +118,7 @@ require ('app/help.php');
 
 
               if (response == 1) {
-                ListaPinturas()
+                ListaPinturas(idEstacion)
                 alertify.success('Pedido eliminado exitosamente');
 
               } else {
@@ -160,12 +170,14 @@ require ('app/help.php');
     <div class="contendAG">
       <div class="row">
         <div class="col-12" id="ListaPinturas"></div>
+      </div>
     </div>
 
 
     <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl">
-        <div class="modal-content" id="ContenidoModal"></div>
+        <div class="modal-content" id="ContenidoModal">
+        </div>
       </div>
     </div>
 
@@ -174,7 +186,11 @@ require ('app/help.php');
       src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-
+    <!---------- LIBRERIAS DEL DATATABLE ---------->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+      src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 </body>
 
 </html>

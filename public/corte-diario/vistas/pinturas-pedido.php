@@ -305,17 +305,16 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Pedido de Pinturas</a>
-              </li>
+                  Pedido de Pinturas</a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Formulario Pedido de Pinturas
+                Nuevo Pedido de Pinturas
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Formulario Pedido de Pinturas
+                Nuevo Pedido de Pinturas
               </h3>
             </div>
             <div class="col-2">
@@ -373,10 +372,8 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
                   </td>
                 </tr>
                 <tr>
-                  <th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()">
-                    <i class="fa-solid fa-arrow-rotate-left"></i> 
-                    Limpiar firma
-                  </th>
+                  <th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()"><i
+                      class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma</th>
                 </tr>
               </tbody>
             </table>
@@ -386,7 +383,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
       <div class="mt-2">
         <button type="button" class="btn btn-labeled2 btn-success float-end"
           onclick="FinalizarPedido(<?= $idReporte; ?>)">
-          <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar pedido</button>
+          <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
         <input type="hidden" name="base64" value="" id="base64">
       </div>
     </div>

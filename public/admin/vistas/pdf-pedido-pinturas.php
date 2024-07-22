@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
-require_once 'app/lib/dompdf/vendor/autoload.php';
-require_once 'app/help.php';
+require_once 'dompdf/vendor/autoload.php';
+require('app/help.php');
 
 function Personal($idpersonal, $con){
 
@@ -77,7 +77,7 @@ return $detalle;
 
 use Dompdf\Dompdf;
 $dompdf = new Dompdf();
-$contenido = '';
+
 $contenido .= '<html lang="es">';
 $contenido .= '<head>';
 $contenido .= '<style type="text/css">';
@@ -259,7 +259,7 @@ $contenido .= '<body>';
 
 $RutaLogo = RUTA_IMG_ICONOS.'Logo.png';
 $DataLogo = file_get_contents($RutaLogo);
-$baseLogo = 'data:image/;base64,' . base64_encode($DataLogo);
+$baseLogo = 'data:image/' . $type . ';base64,' . base64_encode($DataLogo);
 
 $contenido .= '<img src="'.$baseLogo.'" style="width: 180px;">';
 
@@ -305,7 +305,7 @@ $contenido .= '</tr>';
 $contenido .= '</thead>';
 
 $contenido .= '<tbody>';
-$ToPiezas =0;
+
 $sql_lista = "SELECT * FROM op_pedido_pinturas_detalle WHERE id_pedido = '".$GET_idReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);

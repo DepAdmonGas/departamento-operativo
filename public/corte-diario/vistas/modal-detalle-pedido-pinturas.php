@@ -2,6 +2,9 @@
 require ('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
+$idEstacion = $_GET['idEstacion'];
+
+$observaciones ='';
 
 $sql_pedido = "SELECT * FROM op_pedido_pinturas_complementos WHERE id = '" . $idReporte . "' ";
 $result_pedido = mysqli_query($con, $sql_pedido);
@@ -10,6 +13,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
   $estatus = $row_pedido['status'];
   $observaciones = $row_pedido['observaciones'];
 }
+
 if ($observaciones == ''):
   $observaciones = 'Sin observaciones';
 endif;
@@ -41,11 +45,11 @@ function Personal($idusuario, $con)
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
         <tr>
-          <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-          <th class=" text-center align-middle tableStyle font-weight-bold">Unidad</th>
-          <th class=" text-center align-middle tableStyle font-weight-bold">Nombre producto</th>
-          <th class="align-middle tableStyle font-weight-bold text-center">Piezas</th>
-          <th class="align-middle tableStyle font-weight-bold text-center">¿Para que?</th>
+          <th class="text-center align-middle">#</th>
+          <th class=" text-center align-middle">Unidad</th>
+          <th class=" text-center align-middle">Nombre producto</th>
+          <th class="align-middle text-center">Piezas</th>
+          <th class="align-middle text-center">¿Para que?</th>
         </tr>
 
       </thead>
@@ -74,8 +78,8 @@ function Personal($idusuario, $con)
             $num++;
           }
           echo '<tr>
-                <th colspan="3" class="text-right">Total piezas:</th>
-                <td colspan="2" class="text-start"><b>' . $ToPiezas . '</b></td>
+                <th colspan="3" class="no-hover2 text-right">Total piezas:</th>
+                <td colspan="2" class="no-hover2 text-start"><b>' . $ToPiezas . '</b></td>
               </tr>';
 
         } else {
@@ -116,7 +120,7 @@ function Personal($idusuario, $con)
             foreach ($firmas as $firma) :
               if ($firma['tipo_firma'] == "A"):
                 $Detalle = '<th class="text-center no-hover2">
-                              <img src="imgs/firma/' . $firma['firma'] . '" width="70%">
+                              <img src="'.RUTA_IMG_Firma.'' . $firma['firma'] . '" width="70%">
                             </th>';
                 $firmamensaje = '<tr> <th class="text-center no-hover2">' . Personal($firma['usuario'], $con) . '</th> </tr>';
               endif;
@@ -145,7 +149,7 @@ function Personal($idusuario, $con)
               if ($tipo_firma == "B"):
                 $explode = explode(' ', $fecha);
                 $Detalle = '<td class="text-center no-hover2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></td>
-                <tr> <th class="text-center">' . Personal($usuario, $con) . '</th> </tr>';
+                <tr> <th class="text-center no-hover2">' . Personal($usuario, $con) . '</th> </tr>';
               endif;
             endforeach;
             ?>

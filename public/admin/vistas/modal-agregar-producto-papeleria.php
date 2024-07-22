@@ -32,5 +32,7 @@ $producto = $row_producto['producto'];
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="CreateUpdateProducto(<?=$idProducto;?>)">Guardar</button>
-      </div>
+        
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="CreateUpdateProducto(<?=$idProducto?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+    </div>

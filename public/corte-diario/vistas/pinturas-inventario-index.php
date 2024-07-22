@@ -129,12 +129,12 @@ require ('app/help.php');
             </ol>
           </div>
           <div class="row">
-            <div class="col-9">
+            <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
                 Inventario de Pinturas
               </h3>
             </div>
-            <div class="col-3">
+            <div class="col-2">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalNevoInventario(<?=$Session_IDEstacion?>)">
                 <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>

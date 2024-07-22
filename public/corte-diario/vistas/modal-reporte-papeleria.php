@@ -36,15 +36,14 @@ function Producto($idProducto, $con)
       <select class="selectize pointer" placeholder="Producto" id="Producto">
         <option value="">Selecciona</option>
         <?php
-        $sql_lista = "SELECT * FROM op_inventario_papeleria WHERE id_estacion = '" . $Session_IDEstacion . "' AND piezas > 0 AND status = 1 ORDER BY id ASC";
-        $result_lista = mysqli_query($con, $sql_lista);
-        $numero_lista = mysqli_num_rows($result_lista);
-        while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-
-          $Producto = Producto($row_lista['id_producto'], $con);
-          echo '<option value="' . $row_lista['id_producto'] . '">' . $Producto['producto'] . '</option>';
-        }
+          $sql_lista = "SELECT * FROM op_inventario_papeleria WHERE id_estacion = '" . $Session_IDEstacion . "' AND piezas > 0 AND status = 1 ORDER BY id ASC";
+          $result_lista = mysqli_query($con, $sql_lista);
+          $numero_lista = mysqli_num_rows($result_lista);
+          while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) :
+            $Producto = Producto($row_lista['id_producto'], $con);
         ?>
+        <option value="<?=$row_lista['id_producto']?>"><?=$Producto['producto']?></option>
+        <?php endwhile;?>
       </select>
     </div>
 

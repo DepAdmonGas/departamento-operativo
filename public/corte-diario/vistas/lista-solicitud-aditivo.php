@@ -40,7 +40,7 @@ function Personal($idusuario, $con)
   });
 </script>
 
-
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 <div class="table-responsive">
   <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="navbar-bg">
@@ -50,12 +50,8 @@ function Personal($idusuario, $con)
         <th class="text-center align-middle ">Solicitado por</th>
         <th class="text-center align-middle ">Para</th>
         <th class="text-center align-middle ">Fecha entrega</th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>ver-tb.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pago-tb.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
         <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>icon-comentario-tb.png"></th>
-        <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
+        <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
       </tr>
     </thead>
 
@@ -67,42 +63,23 @@ function Personal($idusuario, $con)
           $id = $row_lista['id'];
           $ordencompra = $row_lista['orden_compra'];
 
-          $pago = Pago($id, $con);
-
+          $Detalle = '<a class="dropdown-item" onclick="ModalDetalle(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+          $Pago = '<a class="dropdown-item grayscale"><i class="fa-solid fa-dollar-sign"></i>Pago</a>';
+          $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+          $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+          $Eliminar = '<a class="dropdown-item grayscale" ><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
           if ($row_lista['status'] == 0) {
             $trColor = "background-color: #fcfcda";
-            $PDF = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pdf.png" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-            $Editar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $id . ')" data-toggle="tooltip" data-placement="top" title="Editar">';
-            $Eliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $idEstacion . ',' . $id . ')" data-toggle="tooltip" data-placement="top" title="Eliminar">';
-            $Pago = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pago-tb.png" data-toggle="tooltip" data-placement="top" title="Pago">';
-            
+            $Editar = '<a class="dropdown-item" onclick="Editar(' . $id . ')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+            $Eliminar = '<a class="dropdown-item" onclick="Eliminar(' . $idEstacion . ',' . $id . ')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
           } else if ($row_lista['status'] == 1) {
-            $trColor = "background-color: #fcfcda";
-            $PDF = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pdf.png" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-            $Editar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" data-toggle="tooltip" data-placement="top" title="Editar">';
-            $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png" data-toggle="tooltip" data-placement="top" title="Eliminar">';
-            $Pago = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'pago-tb.png" data-toggle="tooltip" data-placement="top" title="Pago">';
-          } else if ($row_lista['status'] == 2) {
-
-            if ($pago > 0) {
-              $trColor = "background-color: #b0f2c2";
-            } else {
-              $trColor = "";
-            }
-
-            $PDF = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png" onclick="DescargarPDF(' . $id . ')" data-toggle="tooltip" data-placement="top" title="Descargar PDF">';
-            $Editar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" data-toggle="tooltip" data-placement="top" title="Editar">';
-            $Eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png" data-toggle="tooltip" data-placement="top" title="Eliminar">';
-            $Pago = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'pago-tb.png" onclick="Pago(' . $idEstacion . ',' . $id . ')" data-toggle="tooltip" data-placement="top" title="Pago">';
+            $trColor = "background-color: #b0f2c2";
+            $PDF = '<a class="dropdown-item" onclick="DescargarPDF(' . $id . ')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
           }
-
           $ToComentarios = ToComentarios($id, $con);
-
+          $Nuevo = '';
           if ($ToComentarios > 0) {
             $Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
-            //$Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><small>' . $ToComentarios . '</small></span></div>';
-          } else {
-            $Nuevo = '';
           }
 
           echo '<tr style="' . $trColor . '">';
@@ -111,13 +88,22 @@ function Personal($idusuario, $con)
           echo '<td class="align-middle text-center">' . Personal($row_lista['id_personal'], $con) . '</td>';
           echo '<td class="align-middle text-center">' . $row_lista['para'] . '</td>';
           echo '<td class="align-middle text-center"><b>' . FormatoFecha($row_lista['fecha_entrega']) . '</b></td>';
-          echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="ModalDetalle(' . $id . ')" data-toggle="tooltip" data-placement="top" title="Detalle"></td>';
-          echo '<td class="align-middle text-center">' . $PDF . '</td>';
-          echo '<td class="align-middle text-center">' . $Pago . '</td>';
-          echo '<td class="align-middle text-center">' . $Editar . '</td>';
           echo '<td class="align-middle text-center position-relative">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" onclick="ModalComentario(' . $idEstacion . ',' . $id . ')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
-          //echo '<td class="align-middle text-center">' . $Nuevo . '<img width="20" class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-comentario-tb.png" onclick="ModalComentario(' . $idEstacion . ',' . $id . ')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
-          echo '<td class="align-middle text-center">' . $Eliminar . '</td>';
+          echo '<td class="align-middle text-center"> 
+              <div class="dropdown">
+                <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                  ' . $Detalle . '
+                  ' . $PDF . '
+                  ' . $Pago . '
+                  ' . $Editar . '
+                  ' . $Eliminar . '
+                </div>
+              </div>
+            </td>';
           echo '</tr>';
 
           $num++;
@@ -128,4 +114,5 @@ function Personal($idusuario, $con)
       ?>
     </tbody>
   </table>
+</div>
 </div>

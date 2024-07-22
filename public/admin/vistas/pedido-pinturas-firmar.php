@@ -1,6 +1,10 @@
 <?php
 require ('app/help.php');
-$estado = "disable";
+
+if ($Session_IDUsuarioBD == "") {
+  header("Location:" . PORTAL . "");
+}
+
 $idReporte = $GET_idReporte;
 
 $sql_pedido = "SELECT * FROM op_pedido_pinturas_complementos WHERE id = '" . $idReporte . "' ";
@@ -47,7 +51,9 @@ function Personal($idusuario, $con)
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
+
   <script type="text/javascript">
+
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
     });
@@ -55,8 +61,8 @@ function Personal($idusuario, $con)
     function Regresar() {
       window.history.back();
     }
-    function CrearToken(idReporte, idVal) {
 
+    function CrearToken(idReporte, idVal) {
       $(".LoaderPage").show();
 
       var parametros = {
@@ -71,12 +77,14 @@ function Personal($idusuario, $con)
         beforeSend: function () {
         },
         complete: function () {
+
         },
         success: function (response) {
 
           $(".LoaderPage").hide();
 
           if (response == 1) {
+            //Dentro de la condición cuando se manda la alerta
             alertify.success('El token fue enviado por mensaje');
             alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
             // Deshabilitar los botones y guardar el tiempo en localStorage
@@ -90,13 +98,15 @@ function Personal($idusuario, $con)
               document.getElementById('btn-sms').disabled = false;
               document.getElementById('btn-whatsapp').disabled = false;
             }, 30000); // 60000 milisegundos = 60 segundos
+
           } else {
             alertify.error('Error al crear el token');
           }
+
         }
       });
-    }
 
+    }
 
     function FirmarSolicitud(idReporte, tipoFirma) {
 
@@ -165,47 +175,42 @@ function Personal($idusuario, $con)
         }
       }
     }
+
   </script>
 </head>
 
 <body>
   <div class="LoaderPage"></div>
-
-
   <!---------- DIV - CONTENIDO ---------->
   <div id="content">
     <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div class="container cardAG p-3">
+
+      <div class="container bg-white p-3">
+        
+        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+          <ol class="breadcrumb breadcrumb-caret">
+            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                  class="fa-solid fa-chevron-left"></i>
+                Pedido de Pinturas</a></li>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">
+              Firmar pedido de pinturas
+            </li>
+          </ol>
+        </div>
         <div class="row">
-          <div class="col-12">
-            <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-              <ol class="breadcrumb breadcrumb-caret">
-                <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                      class="fa-solid fa-chevron-left"></i>
-                    Comercializadora</a>
-                </li>
-                <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                  Pedido de Pinturas
-                </li>
-              </ol>
-            </div>
-            <div class="row">
-              <div class="col-10">
-                <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                  Firma Pedido de Pinturas
-                </h3>
-              </div>
-            </div>
+          <div class="col-10">
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+              Firmar pedido de pinturas
+            </h3>
           </div>
         </div>
         <hr>
-
         <div class="table-responsive">
-          <table id='tabla-catalogo' class="custom-table mb-3" style="font-size: .8em;" width="100%">
-            <thead class="navbar-bg">
+          <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+            <thead class="tables-bg">
               <tr>
                 <th class="text-center align-middle">#</th>
                 <th class="align-middle text-center">Unidad</th>
@@ -216,11 +221,10 @@ function Personal($idusuario, $con)
             </thead>
             <tbody class="bg-light">
               <?php
-              $ToPiezas = 0;
               $sql_lista = "SELECT * FROM op_pedido_pinturas_detalle WHERE id_pedido = '" . $idReporte . "' ";
               $result_lista = mysqli_query($con, $sql_lista);
               $numero_lista = mysqli_num_rows($result_lista);
-
+              $ToPiezas = 0;
               if ($numero_lista > 0) {
                 $num = 1;
                 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
@@ -229,65 +233,66 @@ function Personal($idusuario, $con)
                   $ToPiezas = $ToPiezas + $row_lista['piezas'];
 
                   echo '<tr>';
-                  echo '<th class="align-middle text-center">' . $num . '</th>';
-                  echo '<td class="align-middle">' . $row_lista['unidad'] . '</td>';
-                  echo '<td class="align-middle">' . $row_lista['producto'] . '</td>';
-                  echo '<td class="align-middle text-center">' . $row_lista['piezas'] . '</td>';
-                  echo '<td class="align-middle">' . $row_lista['detalle'] . '</td>';
+                  echo '<th class="no-hover2 align-middle text-center">' . $num . '</th>';
+                  echo '<td class="no-hover2 align-middle">' . $row_lista['unidad'] . '</td>';
+                  echo '<td class="no-hover2 align-middle">' . $row_lista['producto'] . '</td>';
+                  echo '<td class="no-hover2 align-middle text-center">' . $row_lista['piezas'] . '</td>';
+                  echo '<td class="no-hover2 align-middle">' . $row_lista['detalle'] . '</td>';
                   echo '</tr>';
 
                   $num++;
                 }
                 echo '<tr>
-                                <th colspan="3" class="text-end"><b>Total piezas:</b></th>
-                                <td colspan="2" class="text-start"><b>' . $ToPiezas . '</b></td>
-                              </tr>';
+                        <th colspan="3" class="text-end no-hover2"><b>Total piezas:</b></th>
+                        <td colspan="2" class="text-start no-hover2"><b>' . $ToPiezas . '</b></td>
+                      </tr>';
+
               } else {
-                echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+                echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
               }
               ?>
             </tbody>
           </table>
         </div>
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+        <div class="mt-3">
           <div class="table-responsive">
             <table class="custom-table " style="font-size: .8em;" width="100%">
-              <thead class="title-table-bg">
+              <thead class="tables-bg">
                 <tr>
                   <th class="text-center align-middle">Observaciones</th>
                 </tr>
               </thead>
               <tbody class="bg-light">
                 <tr>
-                  <th class="no-hover p-0">
-                    <textarea class="bg-light form-control border-0 disable" style="height:100px;" disabled>
-                        <?= $observaciones ?>
-                      </textarea>
+                  <th class="no-hover2 p-0">
+                    <textarea class="bg-light form-control border-0" style="height:100px;"
+                      onkeyup="EditObservaciones(this,<?= $GET_idReporte; ?>)" disabled><?= $observaciones ?></textarea>
                   </th>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <!-- ************************ FIRMAS **************************-->
-        <div class="mt-3 row justify-content-center text-center">
+        <br>
+        <div class="mb-2"><b>Firmas:</b></div>
+        <hr>
+        <div class="row">
           <?php if ($Session_IDUsuarioBD == 19) { ?>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
-                  <thead class="title-table-bg">
+                  <thead class="tables-bg">
                     <tr>
-                      <th class="align-middle text-center">FIRMA de VOBO</th>
+                      <th class="align-middle text-center">FIRMA</th>
                     </tr>
                   </thead>
                   <tbody class="bg-light">
+
                     <tr>
-                      <th class="align-middle text-center no-hover">
+                      <th class="align-middle text-center no-hover2">
                         <h4 class="text-primary text-center">Token Móvil</h4>
-                        <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de
-                          teléfono o de clic en el siguiente botón para crear uno:</small>
+                        <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
+                          número de teléfono o de clic en el siguiente botón para crear uno:</small>
                         <br>
                         <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
                           onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
@@ -298,64 +303,72 @@ function Personal($idusuario, $con)
                           onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                           Whatsapp</button>
-
                       </th>
                     </tr>
-
-                    <tr class="no-hover">
-                      <th class="align-middle text-center bg-white p-0">
+                    <tr>
+                      <th class="align-middle text-center no-hover2">
+                        <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
+                          WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+                          a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+                        </small>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th class="align-middle text-center p-0 no-hover2">
                         <div class="input-group">
                           <input type="text" class="form-control border-0" placeholder="Token de seguridad"
                             aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
                           <div class="input-group-append">
                             <button class="btn btn-outline-success border-0" type="button"
-                              onclick="FirmarSolicitud(<?= $GET_idReporte; ?>,'B')">Firmar solicitud</button>
+                              onclick="FirmarSolicitud(<?= $GET_idReporte ?>,'B')">Firmar solicitud</button>
                           </div>
                         </div>
                       </th>
                     </tr>
                   </tbody>
                 </table>
+
               </div>
+
             </div>
           <?php } ?>
+
+
           <?php
-          $firmamensaje = '';
+
           $sql_firma = "SELECT * FROM op_pedido_pinturas_complementos_firma WHERE id_pedido = '" . $idReporte . "' ";
           $result_firma = mysqli_query($con, $sql_firma);
           $numero_firma = mysqli_num_rows($result_firma);
           while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)):
-
-            $explode = explode(' ', $row_firma['fecha']);
-
             if ($row_firma['tipo_firma'] == "A"):
+              $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
               $Detalle = '<img src="../../imgs/firma/' . $row_firma['firma'] . '" width="70%">';
-              $firmamensaje = Personal($row_firma['id_usuario'], $con);
-            endif;
-            ?>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            endif; ?>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="table-responsive">
-                <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="10%">
-                  <thead class="title-table-bg">
+                <table class="custom-table " style="font-size: .8em;" width="100%">
+                  <thead class="tables-bg">
                     <tr>
-                      <th class="align-middle text-center"> NOMBRE Y FIRMA DEL ENCARGADO</th>
+                      <th class="no-hover2 text-center align-middle">Nombre y firma del Encargado</th>
                     </tr>
                   </thead>
                   <tbody class="bg-light">
                     <tr>
-                      <th class="no-hover2">
-                        <?= $firmamensaje ?>
+                      <th class="no-hover2 text-center">
+                        <?= $Detalle ?>
                       </th>
                     </tr>
                     <tr>
-                      <th class="no-hover2">
-                        <?= $Detalle ?>
+                      <th class="no-hover2 text-center">
+                        <?= Personal($row_firma['id_usuario'], $con) ?>
                       </th>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
+
           <?php endwhile; ?>
         </div>
       </div>
@@ -366,11 +379,8 @@ function Personal($idusuario, $con)
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="margin-top: 83px;">
         <div class="modal-body">
-
           <h5 class="text-info">El token fue validado correctamente.</h5>
           <div class="text-secondary">El pedido de pinturas fue firmado.</div>
-
-
           <div class="text-end">
             <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
           </div>
@@ -397,10 +407,12 @@ function Personal($idusuario, $con)
       </div>
     </div>
   </div>
+
   <!---------- FUNCIONES - NAVBAR ---------->
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 </body>
 
 </html>

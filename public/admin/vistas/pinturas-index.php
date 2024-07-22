@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 function ToSolicitud($idEstacion, $con)
 {
   $sql_lista = "SELECT id FROM op_pedido_pinturas_complementos WHERE id_estacion = '" . $idEstacion . "' AND (status > 0 AND status <= 1) ";
@@ -37,26 +33,22 @@ function ToSolicitud($idEstacion, $con)
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
 
   <script type="text/javascript">
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
+
       sizeWindow();
 
       if (sessionStorage) {
         if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
           idEstacion = sessionStorage.getItem('idestacion');
-          $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion);
+
+          PedidoPinturas(idEstacion)
         }
       }
 
@@ -68,13 +60,14 @@ function ToSolicitud($idEstacion, $con)
 
     //--------------------------------------------------------------------------------------------------------------------
     //---------- Contenido para gregar, actualizar y elimininar los productos de pinturas --------------------------------
+
     function ListaPinturas() {
       let targets;
-      targets = [3, 4];
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pinturas.php', function () {
-        $('#tabla-catalogo').DataTable({
+      targets = [3,4];
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pinturas.php',function () {
+        $('#tabla-principal').DataTable({
           "language": {
-            "url":"<?= RUTA_JS2 ?>/es-ES.json"
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
           "order": [[0, "asc"]],
           "lengthMenu": [15, 30, 50, 100],
@@ -195,57 +188,9 @@ function ToSolicitud($idEstacion, $con)
       $('#ContenidoPrin').load('../public/admin/vistas/lista-inventario-pinturas-complementos.php?idEstacion=' + id);
     }
 
-    function ModalNevoInventario(idEstacion) {
-      $('#Modal').modal('show');
-      $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-inventario-pintura-complemento.php?idEstacion=' + idEstacion);
-    }
 
-    function CreateInventario(idEstacion) {
 
-      var Producto = $('#Producto').val();
-      var Piezas = $('#Piezas').val();
 
-      var parametros = {
-        "idEstacion": idEstacion,
-        "Producto": Producto,
-        "Piezas": Piezas
-      };
-
-      if (Producto != "") {
-        $('.selectize-input').css('border', '');
-        if (Piezas != "") {
-          $('#Piezas').css('border', '');
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/agregar-inventario-pintura-complementos.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-              if (response == 1) {
-                $('#Modal').modal('hide');
-                AlmacenPinturas(idEstacion)
-
-                alertify.success('Producto agregado');
-              } else {
-                alertify.error('Error al agregar el producto');
-              }
-
-            }
-          });
-
-        } else {
-          $('#Piezas').css('border', '2px solid #A52525');
-        }
-      } else {
-        $('.selectize-input').css('border', '2px solid #A52525');
-      }
-    }
 
     function EliminarInventario(id, idEstacion) {
 
@@ -285,35 +230,41 @@ function ToSolicitud($idEstacion, $con)
         }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar la información seleccionada?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
 
     }
-    //-------------------------------------------------------------------------------------------------------------------------------
-    //-------------------------------------------------------------------------------------------------------------------------------
-
 
     //-------------------------------------------------------------------------------------------------------------------------------
     //----------------Pedido de pinturas y complementos -----------------------------------------------------------------------------
-    function PedidoPinturas(id) {
-      sessionStorage.setItem('idestacion', id);
+
+    function PedidoPinturas(idEstacion) {
+      let targets;
+      targets = [4,5];
+      sessionStorage.setItem('idestacion', idEstacion);
       sizeWindow();
-      rol = 'admin';
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id + '&rol='+ rol);
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
-    function PedidoPinturasReturn(id) {
-      rol = 'admin';
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + id + '&rol='+ rol);
-    }
 
     function VerPedido(idEstacion, id) {
       $('#Modal').modal('show');
-      //$('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-pintura-complemento.php?idEstacion=' + idEstacion + '&idReporte=' + id);
-      $('#ContenidoModal').load('../public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idReporte=' + id);
+      $('#ContenidoModal').load('../public/corte-diario/vistas/modal-detalle-pedido-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + id);
     }
 
     function PedidoPDF(id) {
       window.location.href = "../pedido-pinturas/" + id;
     }
 
-    function EditarPedido(idEstacion, idReporte) {
+    function EditarPedido(idReporte) {
       window.location.href = "pinturas-pedido/" + idReporte;
     }
 
@@ -474,265 +425,7 @@ function ToSolicitud($idEstacion, $con)
 
 
     }
-    //------------------------------------------------------------------------------------------------------------------
-    //------------------------------------ Reporte de material utilizado -----------------------------------------------
 
-    function ReportePinturas(id) {
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-reporte-pinturas-complementos.php?idEstacion=' + id);
-    }
-
-    function AgregarReporte(idEstacion) {
-
-      var parametros = {
-        "idEstacion": idEstacion
-      };
-
-      $.ajax({
-        data: parametros,
-        url: '../public/admin/modelo/crear-reporte-pinturas.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
-        success: function (response) {
-
-          if (response == 0) {
-            alertify.error('Error al crear el reporte');
-          } else {
-            ReportePinturas(idEstacion)
-            sizeWindow()
-            $('#Modal').modal('show');
-            $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-          }
-
-        }
-      });
-
-    }
-
-    function GuardarReporte(idEstacion, idReporte) {
-
-      var Fecha = $('#Fecha').val();
-      var Hora = $('#Hora').val();
-      var Detalle = $('#Detalle').val();
-
-      if (Fecha != "") {
-        $('#Fecha').css('border', '');
-        if (Hora != "") {
-          $('#Hora').css('border', '');
-
-          var parametros = {
-            "idReporte": idReporte,
-            "Fecha": Fecha,
-            "Hora": Hora,
-            "Detalle": Detalle,
-          };
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/finalizar-pinturas-reporte.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-              if (response == 1) {
-                $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-                ReportePinturas(idEstacion)
-              } else if (response == 0) {
-                alertify.error('Error al crear el reporte');
-              } else if (response == 2) {
-                alertify.warning('No cuenta con suficientes unidades');
-              }
-
-            }
-          });
-
-        } else {
-          $('#Hora').css('border', '2px solid #A52525');
-        }
-      } else {
-        $('#Fecha').css('border', '2px solid #A52525');
-      }
-
-    }
-
-    function EditarReporte(idEstacion, idReporte) {
-
-      $('#Modal').modal('show');
-      $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-
-    }
-
-    function AgregarItemReporte(idEstacion, idReporte) {
-
-      var Producto = $('#Producto').val();
-      var Unidad = $('#Unidad').val();
-
-      if (Producto != "") {
-        $('.selectize-input').css('border', '');
-        if (Unidad != "") {
-          $('#Unidad').css('border', '');
-
-          var parametros = {
-            "idReporte": idReporte,
-            "Producto": Producto,
-            "Unidad": Unidad,
-            "idEstacion": idEstacion
-          };
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/agregar-pinturas-reporte.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-              if (response == 1) {
-                $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-                sizeWindow()
-              } else if (response == 0) {
-                alertify.error('Error al agregar el producto');
-              } else if (response == 2) {
-                alertify.warning('No cuenta con suficientes unidades');
-              }
-
-            }
-          });
-
-        } else {
-          $('#Unidad').css('border', '2px solid #A52525');
-        }
-      } else {
-        $('.selectize-input').css('border', '2px solid #A52525');
-      }
-
-    }
-
-
-    function EliminarItemReporte(idEstacion, idReporte, id, idProducto) {
-
-      var parametros = {
-        "id": id,
-        "idProducto": idProducto,
-        "idEstacion": idEstacion
-      };
-
-      alertify.confirm('',
-        function () {
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/eliminar-pinturas-reporte.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-
-              if (response == 1) {
-                $('#ContenidoModal').load('../public/admin/vistas/modal-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-              }
-
-            }
-          });
-
-        },
-        function () {
-
-        }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar la información seleccionada?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-
-    }
-
-    function ModalDetalleReporte(idEstacion, id, idRefaccion) {
-      $('#Modal').modal('show');
-      $('#ContenidoModal').load('../public/admin/vistas/modal-detalle-reporte-pinturas.php?idEstacion=' + idEstacion + '&idReporte=' + id + '&idRefaccion=' + idRefaccion);
-    }
-
-    function EliminarReporte(idEstacion, id) {
-
-      var parametros = {
-        "id": id,
-        "idEstacion": idEstacion
-      };
-
-
-      alertify.confirm('',
-        function () {
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/eliminar-reporte-pinturas.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-              if (response == 1) {
-                ReportePinturas(idEstacion);
-                sizeWindow()
-              }
-
-            }
-          });
-
-        },
-        function () {
-
-        }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar la información seleccionada?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-
-    }
-
-    function FinalizarReporte(idEstacion, idReporte) {
-
-      var parametros = {
-        "idReporte": idReporte
-      };
-
-
-      alertify.confirm('',
-        function () {
-
-          $.ajax({
-            data: parametros,
-            url: '../public/admin/modelo/finalizar-reporte-pinturas.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
-
-            },
-            success: function (response) {
-
-              if (response == 1) {
-                $('#Modal').modal('hide');
-                ReportePinturas(idEstacion);
-              }
-
-            }
-          });
-
-        },
-        function () {
-
-        }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar el reporte?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-
-    }
 
     //--------------------------------------------------------------------------------
     function EliminarPedido(idEstacion, idReporte) {
@@ -777,10 +470,8 @@ function ToSolicitud($idEstacion, $con)
       window.location.href = "pedido-pinturas-firmar/" + id;
     }
   </script>
-
 </head>
-<!---------- LIBRERIAS DEL DATATABLE ---------->
-<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+
 
 <body class="bodyAG">
   <div class="LoaderPage"></div>
@@ -820,23 +511,27 @@ function ToSolicitud($idEstacion, $con)
         <?php
         $sql_listaestacion = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
         $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-        while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)):
+        while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
           $id = $row_listaestacion['id'];
           $estacion = $row_listaestacion['nombre'];
 
           $ToSolicitud = ToSolicitud($id, $con);
-          $Nuevo = '';
-          if ($ToSolicitud > 0):
+
+          if ($ToSolicitud > 0) {
             $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded-circle"><small>' . $ToSolicitud . '</small></span></div>';
-          endif;
+          } else {
+            $Nuevo = '';
+          }
+
           echo '  
-              <li>
-                <a class="pointer" onclick="PedidoPinturas(' . $id . ')">
-                <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-                ' . $Nuevo . ' ' . $estacion . '
-                </a>
-              </li>';
-        endwhile;
+  <li>
+    <a class="pointer" onclick="PedidoPinturas(' . $id . ')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    ' . $Nuevo . ' ' . $estacion . '
+    </a>
+  </li>';
+
+        }
         ?>
 
       </ul>
@@ -852,7 +547,7 @@ function ToSolicitud($idEstacion, $con)
         <i class="fa-solid fa-bars menu-btn rounded pointer" id="sidebarCollapse"></i>
 
         <div class="pointer">
-          <a class="text-dark" onclick="history.back()">Comercializadora</a>
+          <a class="text-dark" onclick="history.back()">Inventario de Pinturas</a>
         </div>
 
 
@@ -909,7 +604,10 @@ function ToSolicitud($idEstacion, $con)
 
       <div class="contendAG">
         <div class="row">
-          <div class="col-12" id="ContenidoPrin"></div>
+
+          <div class="col-12"  id="ContenidoPrin"></div>
+
+
         </div>
       </div>
 
@@ -917,12 +615,14 @@ function ToSolicitud($idEstacion, $con)
 
   </div>
 
-  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl">
-      <div class="modal-content" id="ContenidoModal"></div>
+
+  <div class="modal" id="Modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div id="ContenidoModal"></div>
+      </div>
     </div>
   </div>
-
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
@@ -931,9 +631,7 @@ function ToSolicitud($idEstacion, $con)
   <script src="<?= RUTA_JS2 ?>navbar-functions.js"></script>
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-
-
-  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<!---------- LIBRERIAS DEL DATATABLE ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>

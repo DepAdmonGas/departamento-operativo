@@ -6,20 +6,31 @@ $IdReporte = $_GET['IdReporte'];
  
 function validaExtencion($extension)
 {
-$icon = '';
-if ($extension == "xml") {
-$icon = RUTA_IMG_ICONOS . 'xml.png';
-} else if ($extension == "pdf") {
-$icon = RUTA_IMG_ICONOS . 'pdf.png';
-} else if ($extension == "xlsx") {
-$icon = RUTA_IMG_ICONOS . 'excel.png';
+  $icon = '';
+  if ($extension == "xml") {
+    $icon = RUTA_IMG_ICONOS . 'xml.png';
+  } else if ($extension == "pdf") {
+    $icon = RUTA_IMG_ICONOS . 'pdf.png';
+  } else if ($extension == "xlsx") {
+    $icon = RUTA_IMG_ICONOS . 'excel.png';
+  }
+
+  return $icon;
+}
+function es_negativo($num)
+{
+  return (is_numeric($num) and $num < 1) ? true : false;
+
 }
 
-return $icon;
+function ToComentarios($IdReporte, $con)
+{
+  $sql_lista = "SELECT id FROM op_embarques_comentario WHERE id_embarques = '" . $IdReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  return $numero_lista = mysqli_num_rows($result_lista);
+
 }
-function es_negativo($num){
-return (is_numeric($num) and $num < 1) ? true : false;
-}
+
 
 function ToComentarios($IdReporte, $con){
 $sql_lista = "SELECT id FROM op_embarques_comentario WHERE id_embarques = '" . $IdReporte . "' ";
@@ -30,6 +41,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="table-responsive">
+
 <table id="tabla_embarques_<?=$IdReporte?>" class="custom-table" style="font-size: .75em;" width="100%">
         
 <thead class="tables-bg">

@@ -250,7 +250,7 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
             <div class="col-2">
               <button type="button" class="btn btn-labeled2 btn-primary float-end"
                 onclick="AgregarReporte(<?= $GET_idReporte ?>)">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar reporte</button>
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
         </div>

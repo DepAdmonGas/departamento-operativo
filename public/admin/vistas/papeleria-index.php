@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 function ToSolicitud($idEstacion, $con)
 {
   $sql_lista = "SELECT id FROM op_pedido_papeleria WHERE id_estacion = '" . $idEstacion . "' AND (status >= 1 AND status < 2) ";
@@ -40,6 +36,8 @@ function ToSolicitud($idEstacion, $con)
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
   <style media="screen">
     .grayscale {
@@ -52,41 +50,50 @@ function ToSolicitud($idEstacion, $con)
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
       sizeWindow();
-
       if (sessionStorage) {
         if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
-
           idestacion = sessionStorage.getItem('idestacion');
-          $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idestacion);
-
+          ListaPedido(idestacion)
         }
-
       }
-
-
     });
 
-    function Regresar() {
-      window.history.back();
+    function ListaPedido(idEstacion) {
+      let targets;
+      targets = [4,5];
+      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
     }
 
     function SelEstacion(id) {
       sessionStorage.setItem('idestacion', id);
       sizeWindow();
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + id);
+      ListaPedido(id)
     }
 
     function SelEstacionReturn(id) {
-      $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + id);
+      ListaPedido(id)
     }
+
 
     function ListaPapeleria() {
       let targets;
-      targets = [2,3];
+      targets = [2, 3];
       $('#ContenidoPrin').load('../public/admin/vistas/lista-producto-papeleria.php', function () {
-        $('#tabla-catalogo').DataTable({
+        $('#tabla-principal').DataTable({
           "language": {
-            "url":"<?= RUTA_JS2 ?>/es-ES.json"
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
           "order": [[0, "asc"]],
           "lengthMenu": [15, 30, 50, 100],
@@ -97,7 +104,6 @@ function ToSolicitud($idEstacion, $con)
         });
       });
     }
-
     function ModalNevo() {
       $('#Modal').modal('show');
       $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-producto-papeleria.php?idProducto=0');
@@ -270,7 +276,8 @@ function ToSolicitud($idEstacion, $con)
 
     function VerPedido(idEstacion, id) {
       $('#Modal').modal('show');
-      $('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-papeleria.php?idEstacion=' + idEstacion + '&idReporte=' + id);
+      $('#ContenidoModal').load('../public/corte-diario/vistas/modal-detalle-pedido-papeleria.php?idReporte=' + id);
+      //$('#ContenidoModal').load('../public/admin/vistas/modal-detalle-pedido-papeleria.php?idEstacion=' + idEstacion + '&idReporte=' + id);
     }
 
     function PedidoPDF(id) {
@@ -589,8 +596,6 @@ function ToSolicitud($idEstacion, $con)
     }
   </script>
 </head>
-<!---------- LIBRERIAS DEL DATATABLE ---------->
-<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
 <body>
 
@@ -617,7 +622,7 @@ function ToSolicitud($idEstacion, $con)
 
 
         <li>
-          <a class="pointer" onclick="Regresar()">
+          <a class="pointer" onclick="history.back()">
             <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
           </a>
         </li>
@@ -745,7 +750,7 @@ function ToSolicitud($idEstacion, $con)
       <!---------- CONTENIDO PAGINA WEB---------->
       <div class="contendAG">
         <div class="row">
-            <div class="col-12" id="ContenidoPrin"></div>
+          <div class="col-12" id="ContenidoPrin"></div>
         </div>
       </div>
     </div>
@@ -771,7 +776,8 @@ function ToSolicitud($idEstacion, $con)
   <script src="<?= RUTA_JS2 ?>navbar-functions.js"></script>
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-<!---------- LIBRERIAS DEL DATATABLE ---------->
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>

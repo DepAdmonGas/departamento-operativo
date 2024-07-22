@@ -60,9 +60,7 @@ require ('app/help.php');
 
         },
         success: function (response) {
-
-          //alert(response)
-
+console.log(response);
           if (response == 0) {
             alertify.error('Error al crear el reporte');
           } else {
@@ -191,7 +189,7 @@ require ('app/help.php');
             </div>
             <div class="col-2">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="AgregarReporte()">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar reporte</button>
+                <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
             </div>
           </div>
         </div>
