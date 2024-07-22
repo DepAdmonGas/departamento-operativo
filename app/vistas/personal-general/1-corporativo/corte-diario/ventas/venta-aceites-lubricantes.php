@@ -31,8 +31,8 @@ $numero_listaaceites = mysqli_num_rows($result_listaaceites);
 
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-            <tr class="tables-bg">
+    <thead class="title-table-bg">
+    <tr class="tables-bg">
                 <th colspan="5" class="align-middle text-center">RELACION DE VENTA DE ACEITES Y LUBRICANTES</th>
             </tr>
             <tr>
@@ -70,23 +70,23 @@ $numero_listaaceites = mysqli_num_rows($result_listaaceites);
                     ?>
 
                     <tr>
-                        <th class="align-middle no-hover"><?= $numAceite; ?></th>
-                        <td class="align-middle no-hover"><?= $concepto; ?></td>
+                        <th class="p-0 align-middle no-hover"><?= $numAceite; ?></th>
+                        <td class="p-0 align-middle no-hover"><?= $concepto; ?></td>
                         <td class="p-0 align-middle <?= $deshabilitado,$nohover?> ">
-                            <input id="cantidadAL-<?= $idAceite; ?>" type="number" min="0"
-                                style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: center;"
+                            <input class="p-3 "id="cantidadAL-<?= $idAceite; ?>" type="number" min="0"
+                                style="border: 0px;width: 100%;height: 100%; text-align: center;"
                                 onkeyup="EditALCantidad(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $cantidad; ?>"
                                 <?=$estado?>>
                         </td>
                         <!-- <td class="align-middle text-end" id="precioAL-<?= $idAceite; ?>"> -->
-                        <td class="align-middle text-end <?= $deshabilitado,$nohover?>">
+                        <td class="p-0 align-middle text-end <?= $deshabilitado,$nohover?>">
 
-                            <input id="precioAL-<?= $idAceite; ?>" type="number" min="0"
-                                style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: center;"
+                            <input class="p-3 "id="precioAL-<?= $idAceite; ?>" type="number" min="0"
+                                style="border: 0px;width: 100%;height: 100%; text-align: center;"
                                 onkeyup="EditALPrecio(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $preciounitario; ?>" <?=$estado?>>
                             <!--<?= $precio; ?> -->
                         </td>
-                        <td class="align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
+                        <td class=" align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
                     </tr>
 
                     <?php
@@ -94,7 +94,7 @@ $numero_listaaceites = mysqli_num_rows($result_listaaceites);
 
                 echo '<tr id="TrAceitesTotal"></tr>';
             } else {
-                echo '<tr><td colspan="5" class="text-center p-2">No se encontró información, verifica que el inventario del mes pasado este finalizado.</td></tr>';
+                echo '<tr><th colspan="5" class="text-center p-3 no-hover"><small>No se encontró información, verifica que el inventario del mes pasado este finalizado.</small></th></tr>';
 
             }
             ?>

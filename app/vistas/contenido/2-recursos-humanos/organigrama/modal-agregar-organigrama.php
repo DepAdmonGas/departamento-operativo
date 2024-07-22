@@ -9,6 +9,7 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $estacion = $row_listaestacion['localidad'];
 }
 ?>
+
 <div class="modal-header">
 
 <h5 class="modal-title">Agregar Organigrama <?=$estacion;?></h5>

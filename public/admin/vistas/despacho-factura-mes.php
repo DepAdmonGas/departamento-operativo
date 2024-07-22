@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -35,18 +32,37 @@ header("Location:".PORTAL."");
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
+
+  if(sessionStorage){
+
+  if (sessionStorage.getItem('idEstacion') !== undefined && sessionStorage.getItem('idEstacion')) {
+    idEstacion = sessionStorage.getItem('idEstacion');
+  year = sessionStorage.getItem('year');
+  mes = sessionStorage.getItem('mes');
+
+  SelEstacion(idEstacion,year,mes);
+
+  }     
+  }   
+
   });
 
 
   function Regresar(){
+  sessionStorage.removeItem('idEstacion');
+  sessionStorage.removeItem('year');
+  sessionStorage.removeItem('mes');
    window.history.back();
   }
 
-  function SelEstacion(idestacion,year,mes){
-    sizeWindow(); 
-    $('#ListaEmbarques').load('../../../public/admin/vistas/lista-despacho-factura-mes.php?idEstacion=' + idestacion + '&Year=' + year + '&Mes=' + mes);
+  function SelEstacion(idEstacion,year,mes){
+  sizeWindow(); 
+  sessionStorage.setItem('idEstacion', idEstacion);
+  sessionStorage.setItem('year', year);
+  sessionStorage.setItem('mes', mes);
+
+  $('#ListaEmbarques').load('../../../app/vistas/personal-general/1-corporativo/despacho-factura/lista-despacho-factura-mes.php?idEstacion=' + idEstacion + '&Year=' + year + '&Mes=' + mes);
   }
- 
 
   </script>
   </head>
@@ -254,27 +270,13 @@ $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaEmbarques" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaEmbarques"></div> 
 
   </div>
   </div> 
 
-</div>
-
-
-
-
-<div class="modal" id="Modal">
-  <div class="modal-dialog">
-    <div class="modal-content" style="margin-top: 83px;"> 
-
-      <div id="DivEmbarques"></div>
-  
-    </div>
   </div>
-</div>
+
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

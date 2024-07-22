@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>   
  
 <html lang="es">
@@ -21,18 +17,17 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   
- 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+
 
   <script type="text/javascript">
 
@@ -40,81 +35,80 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
   if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-      year = sessionStorage.getItem('year');
-      mes = sessionStorage.getItem('mes');
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  idestacion = sessionStorage.getItem('idestacion');
+  year = sessionStorage.getItem('year');
+  mes = sessionStorage.getItem('mes');
+  SelEstacion(idestacion,year,mes);
 
-      $('#ListaEmbarques').load('../../../public/admin/vistas/lista-embarques-mes.php?idEstacion=' + idestacion + '&year=' + year + '&mes=' + mes);
-         
-    }     
-    }   
+  }     
+  }   
 
-    });
-
+  });
+  
   function Regresar(){
-   sessionStorage.removeItem('idestacion');
-   sessionStorage.removeItem('year');
-   sessionStorage.removeItem('mes');
-   window.history.back();
+  sessionStorage.removeItem('idestacion');
+  sessionStorage.removeItem('year');
+  sessionStorage.removeItem('mes');
+  window.history.back();
   }
 
-  function SelEstacion(idestacion,year,mes){
-    sizeWindow();
-    sessionStorage.setItem('idestacion', idestacion);
-    sessionStorage.setItem('year', year);
-    sessionStorage.setItem('mes', mes);
+  function SelEstacion(idEstacion,year,mes){
+  let targets;
+  targets = [4, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+
+  sizeWindow();
+  sessionStorage.setItem('idestacion', idEstacion);
+  sessionStorage.setItem('year', year);
+  sessionStorage.setItem('mes', mes);
+
+  $('#ListaEmbarques').load('../../../public/admin/vistas/lista-embarques-mes.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes, function() {
+  $('#tabla_embarques_' + idEstacion).DataTable({
+  "language": {
+  "url": "<?= RUTA_JS2 ?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets }, 
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
+  }
+
+
  
-    $('#ListaEmbarques').load('../../../public/admin/vistas/lista-embarques-mes.php?idEstacion=' + idestacion + '&year=' + year + '&mes=' + mes);
+  function Mas(idReporte,idEstacion,year,mes){
+  $('#Modal').modal('show');
+  $('#ModalEmbarques').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-embarques-mes.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);
   } 
- 
-function Mas(IdReporte,idestacion,year,mes){
-
-$('#Modal').modal('show');
-$('#DivEmbarques').load('../../../public/admin/vistas/modal-embarques-mes.php?IdReporte=' + IdReporte + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);
-} 
     
- function Embarque(val){ 
+  function Embarque(val) {
 
- var Embarque  = $('#Embarque').val();
+  var Embarque = $('#Embarque').val();
 
- if(Embarque == "Pemex"){
- document.getElementById("FacturasUP").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("NotaCreditoUp").style.display = "none";
- document.getElementById("ComplementoUp").style.display = "none";
- document.getElementById("DivMerma").style.display = "none";
+  if(Embarque == "Pemex") {
+  document.getElementById("TablaCocumentos").style.display = "none";
+  document.getElementById("DivMerma").style.display = "none";
 
+  }else if(Embarque == "Delivery") {
+  document.getElementById("TablaCocumentos").style.display = "none";
+  document.getElementById("DivMerma").style.display = "block";
 
- }else if (Embarque == "Delivery") {
- document.getElementById("FacturasUP").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("NotaCreditoUp").style.display = "none";
- document.getElementById("ComplementoUp").style.display = "none";
- document.getElementById("DivMerma").style.display = "block";
+  }else if(Embarque == "Pick Up") {
+  document.getElementById("TablaCocumentos").style.display = "block";
+  document.getElementById("DivMerma").style.display = "block";
 
+  } else {
+  document.getElementById("FacturasUP").style.display = "none";
+  document.getElementById("TablaCocumentos").style.display = "none";
+  document.getElementById("DivMerma").style.display = "none";
+  }
 
- }else if(Embarque == "Pick Up"){
- document.getElementById("FacturasUP").style.display = "block";
- document.getElementById("ComprobantePagoUp").style.display = "block";
- document.getElementById("ComprobantePagoUp").style.display = "block";
- document.getElementById("NotaCreditoUp").style.display = "block";
- document.getElementById("ComplementoUp").style.display = "block";
- document.getElementById("DivMerma").style.display = "block";
-
- }else{
- document.getElementById("FacturasUP").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("ComprobantePagoUp").style.display = "none";
- document.getElementById("NotaCreditoUp").style.display = "none";
- document.getElementById("ComplementoUp").style.display = "none";
- document.getElementById("DivMerma").style.display = "none";
- }
-
- } 
+  }
 
  function Guardar(IdReporte,idestacion,year,mes){
 
@@ -249,52 +243,53 @@ $('#Producto').css('border','2px solid #A52525');
 $('#Embarque').css('border','2px solid #A52525');
 }
 
- }
+}
 
- function Eliminar(idReporte,id,idestacion,year,mes){
+function Eliminar(idReporte,id,idEstacion,year,mes){
 
-    var parametros = {
-  "idReporte" : idReporte,
-    "id" : id
-    };
+var parametros = {
+"idReporte": idReporte,
+"id": id,
+"accion" : "elimina-embarque"
+};
 
-       $.ajax({
-     data:  parametros,
-     url:   '../../../public/admin/modelo/eliminar-embarque-mes.php',
-     type:  'post',
-     beforeSend: function() {
-    $(".LoaderPage").show();
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
+$.ajax({
+data: parametros,
+url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+//url: '../../../public/corte-diario/modelo/eliminar-embarque-mes.php',
+type: 'post',
+beforeSend: function () {
+$(".LoaderPage").show();
 
-    if (response == 1) {
+},
+complete: function () {
 
-    $(".LoaderPage").hide();
-   
-    SelEstacion(idestacion,year,mes);
-    sizeWindow();
-    alertify.success('Registro eliminado exitosamente.')
+},
+success: function (response) {
+if (response == 1) {
+$(".LoaderPage").hide();
+SelEstacion(idestacion,year,mes);
+sizeWindow();
+alertify.success('Registro eliminado exitosamente.')
 
-    }else{
-    alertify.error('Error al eliminar')
-    $(".LoaderPage").hide();
+}else{
+alertify.error('Error al eliminar')
+$(".LoaderPage").hide();
 
-    }
+}
 
-     }
-     });
+}
+});
 
-  } 
+}
 
-  function Editar(idReporte,id,idestacion,year,mes){
-  $('#Modal').modal('show'); 
-  $('#DivEmbarques').load('../../../public/admin/vistas/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id='+id+'&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);
-  } 
 
-  function EditarE(idReporte,id,idestacion,year,mes){
+function Editar(idReporte,id,idestacion,year,mes){
+$('#Modal').modal('show'); 
+$('#ModalEmbarques').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-editar-embarques-mes.php?idReporte=' + idReporte + '&id='+id+'&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);
+} 
+
+function EditarE(idReporte,id,idestacion,year,mes){
 
 //----- PRIMERA SECCION FORMULARIO -----//
 var Fecha = $('#Fecha').val();
@@ -408,51 +403,54 @@ $(".LoaderPage").show();
 
   }
 
-  function ModalComentario(idReporte,id,idestacion,year,mes){
-   $('#Modal').modal('show');  
-    $('#DivEmbarques').load('../../../public/admin/vistas/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);  
+  function ModalComentario(idReporte,id,idEstacion,year,mes){
+   $('#ModalComentario').modal('show');  
+   $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idEstacion + '&year=' + year + '&mes=' + mes);  
   }
  
-  function GuardarComentario(idReporte,id,idestacion,year,mes){
+
+  function GuardarComentario(idReporte,id,idEstacion,year,mes) {
 
   var Comentario = $('#Comentario').val();
 
-    var parametros = {
-    "id" : id,
-    "Comentario" : Comentario
-    };
+  var parametros = {
+    "id": id,
+    "idEstacion": idEstacion,
+    "Comentario": Comentario,
+    "accion": "agregar-comentario-embarques"
+  };
 
-    if(Comentario != ""){
-    $('#Comentario').css('border',''); 
+  if (Comentario != "") {
+    $('#Comentario').css('border', '');
 
     $.ajax({
-    data:  parametros,
-    url:   '../../../public/admin/modelo/agregar-comentario-embarques.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
+      data: parametros,
+      url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
+      type: 'post',
+      beforeSend: function () {
+      },
+      complete: function () {
 
-    },
-    success:  function (response) {
+      },
+      success: function (response) {
+        if (response == 1) {
+          $('#Comentario').val('');
+          SelEstacion(idestacion,year,mes); 
+          sizeWindow();   
+          $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idEstacion + '&year=' + year + '&mes=' + mes);  
+        } else {
+          alertify.error('Error al agregar comentario');
+        }
 
-    if (response == 1) {
-    $('#Comentario').val('');
-    SelEstacion(idestacion,year,mes); 
-    sizeWindow();    
-    $('#DivEmbarques').load('../../../public/admin/vistas/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);  
-    }else{
-     alertify.error('Error al agregar comentario');  
-    }
-
-    }
+      }
     });
 
-    }else{
-    $('#Comentario').css('border','2px solid #A52525'); 
-    }  
-
+  } else {
+    $('#Comentario').css('border', '2px solid #A52525');
   }
+  }
+
 
 function Precios(year,mes){
 window.location.href = "../../formato-precios/" + year + "/" + mes;
@@ -706,53 +704,38 @@ window.location.href = "../../analisis-compra/" + idEstacion + "/" + year + "/" 
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaEmbarques" class="cardAG">
-    
-    <div class="p-3">
-    <div class="" style="font-size: 1.1em"><b>ANEXO IV: EXPEDIENTE DE TRANPORTE PARA LA RECLAMACION DE PRODUCTO</b></div>
-    <hr>
-    <div class="mb-2"><b>Estación de servicio debe recabar:</b></div>
-    <div class="mb-2">De manera enunciativa mas no limitativa, el expediente de transporte de cada entrega deberá contar con al menos los siguientes documentos:</div>
-
-    <div class="mb-2">
-    1.  Hoja 1 “Acta de Balance (Estación)”<br>
-    2.  Factura final de producto.<br>
-    3.  Nota de Embarque de Axfaltec.<br>
-    4.  Check List. “LISTA DE VERIFICACIÓN DE LA DESCARGA”<br>
-    5.  Tirillas de inventarios (Veeder Root) inicial, final y de aumento.<br>
-    6.  Reporte de ventas (de ser el caso de acuerdo al punto 10 de checklist)<br>
-    7.  Firmas autógrafas de ambas partes.<br>
-    </div>
-  </div>
-
-
+  <div id="ListaEmbarques" class="col-12"> </div>
   </div>
   </div> 
 
   </div>
-  </div> 
-
-</div>
 
 
-
-<div class="modal" id="Modal">
-  <div class="modal-dialog" style="margin-top: 83px;">
-    <div class="modal-content">
-
-      <div id="DivEmbarques"></div>
-   
-    </div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ModalEmbarques"></div>
   </div>
-</div>
+  </div>
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="DivModalComentario">
+  </div>
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

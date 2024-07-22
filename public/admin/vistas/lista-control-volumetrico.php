@@ -21,10 +21,10 @@ if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializad
 endif;
 ?>
 
-<div class="table-responsive mt-3">
+<div class="table-responsive">
 	<table class="custom-table " style="font-size: .8em;" width="100%">
-		<thead class="navbar-bg">
-			<tr class="tables-bg">
+	<thead class="title-table-bg">
+	<tr class="tables-bg">
 				<?= $verificar ?>
 			</tr>
 			<tr>
@@ -61,19 +61,22 @@ endif;
 						$icon = RUTA_IMG_ICONOS . 'zip.png';
 					} else if ($extension == "xlsx" || $extension == "xls") {
 						$icon = RUTA_IMG_ICONOS . 'excel.png';
+					}else{
+					$icon = RUTA_IMG_ICONOS . 'multimedia.png';
+
 					}
 
 					$fechahora = explode(' ', $row_lista['fecha_hora']);
 					echo '<tr>';
-					echo '<th class="align-middle">' . FormatoFecha($fechahora[0]) . '</th>';
-					echo '<td class="align-middle">' . $row_lista['anexos'] . '</td>';
-					echo '<td><a href="../../../../archivos/' . $row_lista['documento'] . '" download><img src="' . $icon . '"></a></td>';
-					echo '<td width="20">' . $eliminar . '</td>';
+					echo '<th class="align-middle no-hover">' . $ClassHerramientasDptoOperativo->FormatoFecha($fechahora[0]) . '</th>';
+					echo '<td class="align-middle no-hover">' . $row_lista['anexos'] . '</td>';
+					echo '<td class="align-middle no-hover"><a href="'.RUTA_ARCHIVOS.'' . $row_lista['documento'] . '" download><img src="' . $icon . '"></a></td>';
+					echo '<td class="align-middle no-hover" width="20">' . $eliminar . '</td>';
 					echo '</tr>';
 
 				}
 			} else {
-				echo "<tr><th colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+				echo "<tr><th colspan='4' class='text-center text-secondary no-hover'><small>No se encontró información para mostrar </small></th></tr>";
 			}
 			?>
 		</tbody>

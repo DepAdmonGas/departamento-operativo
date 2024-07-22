@@ -481,12 +481,11 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
     //-------------- CONTRATOS -------------------------
     } else if ($partes_ruta[1] == 'contratos') {
-            $GET_Categoria = $partes_ruta[2];
-            $ruta_elegida = 'public/contratos/vistas/contratos-index.php';
-        } else if ($partes_ruta[2] == 'despacho-factura') {
-            $GET_year = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/despacho-factura-year.php';
-        } else if ($partes_ruta[2] == 'aceites') {
+    $GET_Categoria = $partes_ruta[2];
+    $ruta_elegida = 'public/contratos/vistas/contratos-index.php';
+    
+
+    } else if ($partes_ruta[2] == 'aceites') {
             $ruta_elegida = 'public/aceites/vistas/index.php';
 
             //---------- Comunicados (Dpto. Operativo) ----------//
@@ -1066,9 +1065,13 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/incidencias/vistas/incidencias-year-index.php';
         }
 
+        else if ($partes_ruta[2] == 'despacho-factura') {
+        $GET_year = $partes_ruta[3];
+        $ruta_elegida = 'public/admin/vistas/despacho-factura-year.php'; 
+
 
         //---------- LICITACION MUNICIPAL ----------
-        else if ($partes_ruta[2] == 'licitacion-municipal') {
+         }else if ($partes_ruta[2] == 'licitacion-municipal') {
             $GET_idyear = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/licitacion-municipal-year.php';
         }
@@ -1390,7 +1393,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/kpi-resumen-monedero.php';
         }
         //----------------------------------------------------
-
+ 
         //---------- KPI ACEITES ----------
         else if ($partes_ruta[2] == 'aceites-evaluacion') {
             $GET_year = $partes_ruta[3];

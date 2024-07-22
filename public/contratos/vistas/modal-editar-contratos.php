@@ -25,9 +25,8 @@ while($row_lista_contrato = mysqli_fetch_array($result_lista_contrato, MYSQLI_AS
 
  <div class="modal-header">
   <h5 class="modal-title">Detalle contrato</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
-
 
 <div class="modal-body">
 
@@ -55,12 +54,14 @@ while($row_lista_contrato = mysqli_fetch_array($result_lista_contrato, MYSQLI_AS
 <h6 class="mb-1 mt-3">Comentario:</h6>
 <textarea class="form-control" id="Comentario"><?=$comentario;?></textarea>
 
-
 </div>
 
 
 <div class="modal-footer">
- <button type="button" class="btn btn-danger" onclick="returnDetalleC(<?=$idContrato?>)">Cancelar</button>
- <button type="button" class="btn btn-primary" onclick="editarContrato(<?=$idContrato?>,<?=$GET_idEstacion?>,'<?=$cate;?>')">Editar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" onclick="returnDetalleC(<?=$idContrato?>)">
+<span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="editarContrato(<?=$idContrato?>,<?=$GET_idEstacion?>,'<?=$cate;?>')">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
      

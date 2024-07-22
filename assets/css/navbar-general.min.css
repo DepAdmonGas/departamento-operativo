@@ -3,7 +3,7 @@ html {
 } 
 
 body {
-    background: #F3F6FA;
+    background: #eceef2;
     overflow-x: hidden;
 }
  
@@ -120,7 +120,7 @@ color: #5d84c3;
 
 
 .tables-bg {
-    background: #5d84c3;
+    background: #215D98;
     color: white;
 }
 
@@ -329,7 +329,7 @@ background-color: #d2d2d2;
 }
 
 .title-table-bg {
-    background: #215d98;
+    background: #749ABF;
     color: white;
 }
 
@@ -559,6 +559,13 @@ filter: opacity(50%);
   background-size: 90%;
   }
 
+  .breadcrumb{font-size: 12.5px}
+
+  .modal.right .modal-dialog {
+    width: 100%;
+    height: 100%;
+
+    }
 
 }
 

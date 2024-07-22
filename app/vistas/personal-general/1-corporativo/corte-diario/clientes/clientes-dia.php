@@ -27,19 +27,19 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Clientes (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-10">
+            <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Clientes día (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Clientes (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
               </h3>
             </div>
-            <div class="col-2">
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
               <div class="text-end">
                 <div class="dropdown d-inline ms-2">
                   <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
@@ -48,10 +48,10 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                   </button>
                   <ul class="dropdown-menu">
                     <li onclick="Agregar()">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar clientes</a>
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar</a>
                     </li>
                     <li onclick="ClientesLista(<?=$GET_year?>,<?=$GET_mes?>,<?=$GET_idReporte?>)">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista clientes</a>
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista de clientes</a>
                     </li>
                   </ul>
                 </div>
@@ -59,9 +59,12 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             </div>
           </div>
           <hr>
-            <div id="ConsumosPagos"></div>
           
         </div>
+
+
+<div class="col-12" id="ConsumosPagos"></div>
+
       </div>
     </div>
   </div>
@@ -124,15 +127,15 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
       </div>
     </div>
   </div>
-</body>
-<!---------- FUNCIONES - NAVBAR ---------->
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
+<!---------- FUNCIONES - NAVBAR ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 <!---------- LIBRERIAS DEL DATATABLE ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
+</body>
 </html>

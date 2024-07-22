@@ -37,10 +37,11 @@ endif;
 
 </script>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>corte-venta-dia-function.js"></script>
+
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-		<?=$agregarProducto?>
+	<thead class="title-table-bg">
+	<?=$agregarProducto?>
 			<tr>
 				<td class="text-center align-middle fw-bold">PRODUCTO</td>
 				<th class="text-center align-middle">LITROS</th>
@@ -117,13 +118,13 @@ endif;
 
 					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="litros-<?= $idventas; ?>" type="number" min="0" step="any"
-							class="border-0 text-end"
+							class="border-0 p-3 text-end" style="border: 0px;width:100%;height:100%;"
 							onkeyup="EditLitros(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $litros; ?>" <?= $estado; ?>>
 					</th>
 
 					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="jarras-<?= $idventas; ?>" type="number" min="0" step="any"
-							class="border-0 text-end"
+							class="border-0 p-3 text-end" style="border: 0px;width:100%;height:100%;"
 							onkeyup="EditJarras(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $jarras; ?>" <?= $estado; ?>>
 					</th>
 
@@ -131,7 +132,7 @@ endif;
 						<?= number_format($totalLitros, 2); ?></th>
 					<th class="p-0 align-middle <?=$deshabilitado, $hover?>">
 						<input id="preciolitro-<?= $idventas; ?>" type="number" min="0" step="any"
-							class="border-0 text-end"
+							class="border-0 p-3 text-end" style="border: 0px;width:100%;height:100%;"
 							onkeyup="EditPrecioLitro(this,<?= $idReporte; ?>,<?= $idventas; ?>)" value="<?= $preciolitro; ?>"
 							<?= $estado; ?>>
 					</th>
@@ -158,7 +159,7 @@ endif;
 
 				if ($concepto == "4 ACEITES Y LUBRICANTES") {
 					$disabled = "disabled";
-					$cssaceite = "bg-white text-end";
+					$cssaceite = "bg-white text-end text-dark";
 
 				} else {
 					$disabled = "";
@@ -171,13 +172,13 @@ endif;
 					<td class="no-hover align-middle text-end"></td>
 					<td class="no-hover align-middle text-end"></td>
 					<td class="no-hover align-middle text-end"></td>
-					<td class="no-hover align-middle <?= $cssaceite; ?>">
+					<td class=" align-middle <?= $cssaceite; ?> <?=$deshabilitado?> <?=$hover?>">
 						<?php
 						if ($disabled == "disabled") {
 							echo "<b>" . number_format($importe, 2) . "</b>";
 						} else { ?>
-							<input class="p-0 <?=$deshabilitado?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
-								style="border: 0px;width:100%;text-align: right;"
+							<input class="p-3 <?=$deshabilitado?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0" step="any"
+								class="border-0 p-3 text-end" style="border: 0px;width:100%;height:100%;text-align: right;"
 								onkeyup="EditPrecioOtros(this,<?= $idReporte; ?>,<?= $idOtros; ?>)" value="<?= $importe; ?>"
 								<?=$estado?>>
 						<?php } ?>

@@ -77,6 +77,9 @@ function ListaMonedero(year, mes) {
 
     var Complemento = $('#Complemento').val();
 
+    if (Complemento != "") {
+    $('#Complemento').css('border', '');
+
     var data = new FormData();
     data.append("accion", "guardar-documento-edi");
     var url = '../../app/controlador/1-corporativo/controladorCorteDiario.php';
@@ -89,7 +92,6 @@ function ListaMonedero(year, mes) {
     XML = document.getElementById("XML");
     XML_file = XML.files[0];
     XML_filePath = XML.value;
-
 
     data.append('id', id);
     data.append('Complemento', Complemento);
@@ -109,6 +111,10 @@ function ListaMonedero(year, mes) {
       $(".LoaderPage").hide();
       Edi(IdReporte, id);
     });
+
+  } else {
+    $('#Complemento').css('border', '2px solid #A52525');
+  }
 
   }
 

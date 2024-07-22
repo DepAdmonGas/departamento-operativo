@@ -580,6 +580,22 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
+  <style>
+  td {
+    padding: 0;
+  }
+
+  input[type="number"].w-100 {
+    width: 100%;
+    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
+  }
+
+  input[type="number"].h-100 {
+    height: 100%;
+    display: block; /* Hace que el input sea un elemento de bloque */
+  }
+</style>
+
   <script type="text/javascript">
 
     $(document).ready(function ($) {
@@ -601,7 +617,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
     }
 
     function ListaControl(IdReporte) {
-
+ 
       $('#ListaControl').load('../../../../public/admin/vistas/lista-control-volumetrico.php?IdReporte=' + IdReporte);
     }
 
@@ -738,9 +754,9 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
         success: function (response) {
 
           if (response == 1) {
-            alertify.success('Registro agregado exitosamente.');
+            //alertify.success('Registro agregado exitosamente.');
           } else {
-            alertify.error('Error al eliminar')
+            alertify.error('Error al agregar el comentario')
 
           }
 
@@ -934,7 +950,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
         });
 
       } else {
-        $('#Comentario').css('border', '2px solid #A52525');
+        alertify.error('El comentario no contiene ningun texto');
       }
 
     }
@@ -962,16 +978,16 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Corte Diario</a></li>
+                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Control volumetrico (<?=nombremes($GET_mes)?> <?=$GET_year?>)
+                Control Volumetrico (<?=nombremes($GET_mes)?> <?=$GET_year?>)
               </li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-10">
+            <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Control volumetrico (<?=nombremes($GET_mes)?><?= $GET_year ?>)
+                Control Volumetrico (<?=nombremes($GET_mes)?> <?= $GET_year ?>)
               </h3>
             </div>
           </div>
@@ -982,6 +998,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 
+      
           <div id="ListaResumen"></div>
           <div id="ListaResumenTotal"></div>
 
@@ -1002,8 +1019,8 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
         </div>
 
 
-        <div class="col-12 mt-3">
-          <div id="GranTotal" class="tables-bg"></div>
+        <div class="col-12">
+          <div id="GranTotal" class="tables-bg mt-3"></div>
         </div>
 
       </div>

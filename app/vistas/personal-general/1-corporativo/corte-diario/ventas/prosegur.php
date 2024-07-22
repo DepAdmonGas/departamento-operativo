@@ -63,16 +63,16 @@ endif;
                 ?>
 
                 <tr>
-                    <th class="align-middle no-hover"><?= $denominacion; ?></th>
+                    <th class="align-middle no-hover p-3"><?= $denominacion; ?></th>
                     <td class="p-0 align-middle <?=$deshabilitado, $hover?>">
-                        <input id="recibo-<?= $idProsegur; ?>" type="text"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                        <input class="p-3" id="recibo-<?= $idProsegur; ?>" type="text"
+                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditPRecibo(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $recibo; ?>"
                             <?=$estado?>>
                     </td>
-                    <td class="p-0 align-middle <?=$deshabilitado,$hover?>">
-                        <input id="importe-<?= $idProsegur; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;padding: 3px;height: 100%; text-align: right;"
+                    <td class="p-0 align-middle <?=$deshabilitado, $hover?>">
+                        <input class="p-3" id="importe-<?= $idProsegur; ?>" type="number" min="0" step="any"
+                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditPImporte(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $valimporte; ?>"
                             <?=$estado?>>
                     </td>

@@ -4,34 +4,14 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
 $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>aceites-mes-function.js"></script>
-
-<style media="screen">
-  .inputD:disabled {
-    background: white;
-  }
-
-  .tableFixHead {
-    overflow-y: scroll;
-  }
-
-  .tableFixHead thead th {
-    position: sticky;
-    top: 0px;
-    box-shadow: 2px 2px 7px #ECECEC;
-  }
-</style>
-
 <script type="text/javascript">
 
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-    var margint = 140;
-    var ventana_alto = $(document).height();
-    ResultAlto = ventana_alto - margint;
-    box = document.getElementsByClassName('tableFixHead')[0];
-    box.style.height = ResultAlto + 'px';
     ReporteAceites(<?= $GET_year; ?>, <?= $GET_mes; ?>);
+
   });
+
   function EditPedido(val, idaceite) {
 
     var pedido = val.value;
@@ -276,34 +256,36 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        <div class="col-12">
+        
+      <div class="col-12">
         <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
           <ol class="breadcrumb breadcrumb-caret">
             <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                   class="fa-solid fa-chevron-left"></i>
-                Corte Diario</a></li>
+  Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
             <li aria-current="page" class="breadcrumb-item active text-uppercase">
               Resumen Aceites (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
             </li>
           </ol>
-        </div>
+        </div> 
         <div class="row">
-          <div class="col-9">
-            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+          <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+            <h3 class="text-secondary">
               Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
             </h3>
           </div>
-          <div class="col-3 d-flex justify-content-end align-items-center">
+          
+          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12  d-flex justify-content-end ">
             <?php
                 if ($InventarioFin == 0) :
                   echo '
-                    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">
+                    <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">
                       <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar y Finalizar
                     </button>
                     ';
                 endif;
               ?>
-            <div class="dropdown">
+            <div class="dropdown ms-3" >
               <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -321,13 +303,17 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
     
             </div>
           </div>
+          
         </div>
+        <hr>
       </div>
+
+
+      <div class="col-12" id="DivReporteAceites"></div>
+
       </div>
-      <hr>
-      <div class="tableFixHead">
-        <div id="DivReporteAceites"></div>
-      </div>
+
+
 
     </div>
   </div>

@@ -5,6 +5,8 @@ $empresa = $_GET['empresa'];
 $tpv = $corteDiarioGeneral->getTpv($idReporte);
 $empresatotal = str_replace(' ', '', $empresa);
 $disabled = "";
+$deshabilitado = "";
+$hover = "no-hover";
 // se implemento addslashes ya que al llamar la funcion del js no me lo mandaba como string
 $agregarTPV = '<button type="button" class="btn btn-primary text-white pointer"
                     onclick="AgregarCierre('.$idReporte.',\'' . addslashes($empresa) . '\')">
@@ -13,6 +15,8 @@ $agregarTPV = '<button type="button" class="btn btn-primary text-white pointer"
 
 if ($tpv == 1) :
     $disabled = "disabled";
+    $deshabilitado = "disabledOP";
+    $hover = "";
     $agregarTPV = '';
 endif;
 
@@ -50,8 +54,8 @@ endif;
 </script>
 <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-        <thead class="navbar-bg">
-            <tr class="tables-bg">
+    <thead class="title-table-bg">
+    <tr class="tables-bg">
                 <th colspan="4" class="align-middle text-center"><?=$empresa?></th>
             </tr>
             <tr>
@@ -92,25 +96,25 @@ endif;
 
                 ?>
                 <tr>
-                    <th class="p-2 align-middle">
-                        <input id="nocierre-<?= $idCierre; ?>" type="text"
+                    <th class="p-0 align-middle <?=$deshabilitado?> <?=$hover?>">
+                        <input class="p-2" id="nocierre-<?= $idCierre; ?>" type="text"
                             style="border: 0px;width: 100%;height: 100%; text-align: left;"
                             onkeyup="EditNoCierre(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $nocierre; ?>" <?= $disabled; ?>>
                     </th>
-                    <td class="p-2 align-middle">
-                        <input id="importe-<?= $idCierre; ?>" type="number" min="0" step="any"
+                    <td class="p-0 align-middle <?=$deshabilitado?> <?=$hover?>">
+                        <input class="p-2" id="importe-<?= $idCierre; ?>" type="number" min="0" step="any"
                             style="border: 0px;width: 100%;height: 100%; text-align: right;"
                             onkeyup="EditImporte(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $valimporte; ?>" <?= $disabled; ?>>
                     </td>
-                    <td class="p-2 align-middle">
-                        <input id="noticket-<?= $idCierre; ?>" type="number" min="0"
+                    <td class="p-0 align-middle <?=$deshabilitado?> <?=$hover?>">
+                        <input class="p-2" id="noticket-<?= $idCierre; ?>" type="number" min="0"
                             style="border: 0px;width: 100%;height: 100%; text-align: center;"
                             onkeyup="EditNoTicket(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $noticket; ?>" <?= $disabled; ?>>
                     </td>
-                    <td class="p-2 align-middle text-center">
+                    <td class="p-0 align-middle text-center <?=$deshabilitado?> <?=$hover?>">
                         <?php
                         if ($estado == 0) {
                             ?>
@@ -131,10 +135,10 @@ endif;
             }
             ?>
             <tr id="Total<?= $empresatotal; ?>">
-                <th class="align-middle text-center fw-bold">Total</th>
-                <td class="align-middle text-end"><b><?= number_format($TotalImporte, 2); ?></b></td>
-                <td class="align-middle text-center"><b><?= $TotalTicket; ?></b></td>
-                <td></td>
+                <th class="align-middle text-center fw-bold no-hover">Total</th>
+                <td class="align-middle text-end no-hover"><b><?= number_format($TotalImporte, 2); ?></b></td>
+                <td class="align-middle text-center no-hover"><b><?= $TotalTicket; ?></b></td>
+                <td class="no-hover"></td>
             </tr>
         </tbody>
     </table>
