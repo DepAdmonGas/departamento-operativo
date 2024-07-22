@@ -208,7 +208,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
         </div>
         <br>
-        <div class="column border p-3 mb-3">
+        <div>
           <h6>Para: </h6> <?= $para ?>
           <hr>
           <h6>Comentarios o instrucciones especiales: </h6><?= $comentarios ?>
@@ -280,7 +280,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
         </div>
 
         <br>
-        <div class="border p-3">
+        <div>
           <h6>Firmas:</h6>
           <hr>
 
@@ -388,36 +388,49 @@ function FirmaSC($idReporte, $tipoFirma, $con)
             $sql_firma = "SELECT * FROM op_solicitud_aditivo_firma WHERE id_reporte = '" . $GET_idReporte . "' ";
             $result_firma = mysqli_query($con, $sql_firma);
             $numero_firma = mysqli_num_rows($result_firma);
-            while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
-
+            while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) :
               $explode = explode(' ', $row_firma['fecha']);
+              switch($row_firma['tipo_firma']):
+                case 'A':
+                  $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
+                $Detalle = '<th class="no-hover2 text-center"><img src="../../imgs/firma/' . $row_firma['firma'] . '" width="70%"></th>';
+                  break;
+                case 'B':
+                  $TipoFirma = "NOMBRE Y FIRMA DE VoBo";
+                  $Detalle = '<th class="no-hover2 text-center"><small>La solicitud de aditivo se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></th>';
+                  break;
+                case 'C':
+                  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+                  $Detalle = '<th class="no-hover2 text-center"><small>La solicitud de aditivo se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></th>';
+                  break;
+              endswitch;
+              ?>
+               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+              <div class="table-responsive">
+                <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+                  <thead class="tables-bg">
+                    <tr>
+                      <th class="text-center align-middle">
+                        <?= $TipoFirma ?>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-light">
+                    <tr>
+                      <th class="no-hover2 text-center align-middle">
+                        <?= Personal($row_firma['id_usuario'], $con) ?>
+                      </th>
+                    </tr>
+                    <tr>
+                      <?= $Detalle ?>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <?php
 
-              if ($row_firma['tipo_firma'] == "A") {
-                $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-                $Detalle = '<div class="border p-1 text-center"><img src="../../imgs/firma/' . $row_firma['firma'] . '" width="70%"></div>';
-
-              } else if ($row_firma['tipo_firma'] == "B") {
-                $TipoFirma = "NOMBRE Y FIRMA DE VoBo";
-                $Detalle = '<div class="border-bottom text-center p-3"><small>La solicitud de aditivo se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-
-
-              } else if ($row_firma['tipo_firma'] == "C") {
-                $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-                $Detalle = '<div class="border-bottom text-center p-3"><small>La solicitud de aditivo se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-
-              }
-
-              echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">';
-              echo '<div class="border p-3">';
-
-              echo '<div class="mb-2 text-center">' . Personal($row_firma['id_usuario'], $con) . ' <hr> </div>';
-              echo $Detalle;
-              echo '<h6 class="mt-2 text-secondary text-center">' . $TipoFirma . '</h6>';
-
-              echo '</div';
-              echo '</div';
-
-            }
+            endwhile;
 
             ?>
 
