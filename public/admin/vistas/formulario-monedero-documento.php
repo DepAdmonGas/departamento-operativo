@@ -46,7 +46,9 @@ $mes = $_GET['mes'];
 
 <hr>
       <div class="text-end mt-3">
-      	<button type="button" class="btn btn-danger" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">Guardar</button>
+      <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+          <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
+        <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+          <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div> 
  

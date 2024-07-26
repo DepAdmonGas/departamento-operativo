@@ -6,6 +6,7 @@ endif;
 
 function Firma($idReporte, $detalle, $rutafirma, $con)
 {
+  $contenido = '';
 
   $sql_firma = "SELECT 
 op_corte_dia_firmas.id AS idFirma,
@@ -17,25 +18,31 @@ FROM op_corte_dia_firmas
 INNER JOIN tb_usuarios
 ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $idReporte . "' AND detalle = '" . $detalle . "' ORDER BY idFirma DESC LIMIT 1 ";
   $result_firma = mysqli_query($con, $sql_firma);
-  while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) :
+  while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)):
     $nombre = $row_firma['nombre'];
     $firma = $row_firma['firma'];
     $explode = explode(' ', $row_firma['fecha']);
   endwhile;
 
-  if ($detalle == "Elaboró") :
+  if ($detalle == "Elaboró"):
+    $contenido .= '<tr class="text-center">
+    <th class="no-hover"><img src="' . $rutafirma . $firma . '" width="150px" height="70px"></th>';
+    $contenido .= '</tr>
+    <tr>';
+    $contenido .= '<th class="text-center no-hover"><b>' . $nombre . '</b></th>';
+    $contenido .= '</tr>';
 
-    $contenido .= '<div class="text-center mt-1">';
-    $contenido .= '<img src="' . $rutafirma . $firma . '" width="150px" height="70px">';
-    $contenido .= '<div class="text-center mt-1 border-top pt-2"><b>' . $nombre . '</b></div>';
-    $contenido .= '</div>';
-
-  elseif ($detalle == "Superviso" || $detalle == "VoBo") :
-    $Detalle = '<div class="border-bottom text-center p-3" style="font-size: 0.95em;"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small></div>';
-    $contenido .= '<div class="">';
+  elseif ($detalle == "Superviso" || $detalle == "VoBo"):
+    $Detalle = '<tr class="text-center">
+                  <td class="no-hover">
+                    <small class="text-secondary">El formato se firmó por un medio electrónico.</br> <b>Fecha: ' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</b></small>
+                  </td>
+                </tr>';
     $contenido .= $Detalle;
-    $contenido .= '<div class="mb-1 text-center pt-2"><b>' . $nombre . '</b></div>';
-    $contenido .= '</div>';
+    $contenido .= '<tr class="">';
+    $contenido .= '<th class="text-center no-hover">' . $nombre . '</th>';
+    $contenido .= '</tr>';
+
   endif;
   return $contenido;
 
@@ -186,11 +193,12 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
     }
 
 
-    function CrearToken(idReporte) {
+    function CrearToken(idReporte, idVal) {
       $(".LoaderPage").show();
 
       var parametros = {
-        "idReporte": idReporte
+        "idReporte": idReporte,
+        "idVal": idVal
       };
 
       $.ajax({
@@ -207,7 +215,21 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
           $(".LoaderPage").hide();
 
           if (response == 1) {
-            alertify.message('El token fue enviado por mensaje');
+            //Dentro de la condición cuando se manda la alerta
+            alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-sms').disabled = true;
+            document.getElementById('btn-whatsapp').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-sms').disabled = false;
+              document.getElementById('btn-whatsapp').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
+
           } else {
             alertify.error('Error al crear el token');
           }
@@ -263,6 +285,29 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
 
     }
 
+    // Verificar el tiempo guardado en localStorage al cargar la página
+    window.onload = function () {
+      var disableTime = localStorage.getItem('disableTime');
+      if (disableTime) {
+        var currentTime = new Date().getTime();
+        var timeDifference = currentTime - disableTime;
+
+        // Si han pasado menos de 60 segundos, deshabilitar los botones
+        if (timeDifference < 30000) {
+          document.getElementById('btn-sms').disabled = true;
+          document.getElementById('btn-whatsapp').disabled = true;
+
+          // Calcular el tiempo restante y volver a habilitar los botones después del tiempo restante
+          var remainingTime = 30000 - timeDifference;
+          setTimeout(function () {
+            document.getElementById('btn-sms').disabled = false;
+            document.getElementById('btn-whatsapp').disabled = false;
+            localStorage.removeItem('disableTime');
+          }, remainingTime);
+        }
+      }
+    }
+
   </script>
 </head>
 
@@ -288,325 +333,318 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
+      <div class="col-12">
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Ventas (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Ventas (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
+              </h3>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
+              <button type="button" class="btn btn-labeled2 btn-danger float-end ms-2"
+                onclick="PDF(<?= $GET_idReporte ?>)">
+                <span class="btn-label2"><i class="fa-solid fa-file-pdf"></i></span>PDF</button>
+            </div>
 
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
+          </div>
+          <hr>
+        </div>
+        <div class="row">
 
-              <div class="row">
+          <!---------- TABLA - CONCENTRADO DE VENTAS ---------->
 
-                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
-
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
-                  <div class="row">
-
-                    <div class="col-12">
-
-                      <h5>
-                        <?= FormatoFecha($dia); ?>
-                      </h5>
-
-                    </div>
-
-                  </div>
-
-                </div>
+          <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
+            <div class="mb-3">
+              <div id="DivConecntradoVentas"></div>
+            </div>
+            <!---------- TABLA - Relacion de venta de aceites y lubricantes ---------->
 
 
-                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-                  <img class="float-end pointer" src="<?= RUTA_IMG_ICONOS; ?>pdf.png" onclick="PDF(<?= $GET_idReporte; ?>)">
-                </div>
+            <div class="mb-3">
+              <div id="DivAceitesLubricantes"></div>
+            </div>
+            <!---------- TABLA - Documentos ---------->
 
+            <div class="mb-3">
+              <div id="Documentos"></div>
+            </div>
+          </div>
+
+
+          <!---------- TABLA - Prosegur ---------->
+          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+            <div class="mb-3">
+              <div id="DivProsegur"></div>
+            </div>
+            <!---------- TABLA - Monederos y bancos ---------->
+
+            <div class="mb-3">
+              <div id="DivTarjetasBancarias"></div>
+            </div>
+            <!---------- TABLA - Cleintes (ATIO) ---------->
+
+            <div class="mb-3">
+              <div id="DivControlgas"></div>
+            </div>
+            <!---------- TABLA - Totales t diferecnias (1+2+3, B-C) ---------->
+
+            <div class="mt-3">
+              <div class="table-responsive">
+                <table class="custom-table" style="font-size: 12.5px;" width="100%">
+
+                  <tr class="bg-white">
+                    <th class="no-hover">C TOTAL (1+2+3)</th>
+                    <td class="align-middle pointer no-hover" id="Total1234"></td>
+                  </tr>
+
+                  <tr class="bg-white">
+                    <th class="no-hover">DIFERENCIA (B-C)</th>
+                    <td class="align-middle pointer no-hover" id="DiferenciaTotal"></td>
+                  </tr>
+
+                </table>
               </div>
+            </div>
+            <!---------- TABLA - Pago de clientes ---------->
 
-              <hr>
+            <div class="mb-3">
+              <div id="DivPagoClientes"></div>
+            </div>
 
-              <div class="row">
+            <div class="mb-3">
+              <div class="table-responsive">
+                <table class="custom-table" style="font-size: 12.5px;" width="100%">
 
-                <!---------- TABLA - CONCENTRADO DE VENTAS ---------->
-
-                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-                  <div class="border mt-2">
-                    <div class="bg-light p-2 text-center">
-                      <strong>CONCENTRADO DE VENTAS</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivConecntradoVentas"></div>
-                    </div>
-
-                  </div>
-
-
-                  <div class="border mt-3">
-                    <div class="bg-light p-2 text-center">
-                      <strong>RELACION DE VENTA DE ACEITES Y LUBRICANTES</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivAceitesLubricantes"></div>
-                    </div>
-
-                  </div>
-
-                  <div class="border mt-3">
-                    <div class="p-2">
-
-                      <div id="Documentos"></div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-
-                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mt-2">
-
-
-                  <div class="border">
-
-                    <div class="bg-light p-2 text-center">
-                      <strong>PROSEGUR</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivProsegur"></div>
-                    </div>
-
-                  </div>
-
-                  <div class="border mt-3">
-                    <div class="bg-light p-2 text-center">
-                      <strong>MONEDEROS Y BANCOS</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivTarjetasBancarias"></div>
-                    </div>
-
-                  </div>
-
-                  <hr>
-                  <div class="border mt-3">
-                    <div class="bg-light p-2 text-center">
-                      <strong>CLIENTES (ATIO)</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivControlgas"></div>
-                    </div>
-
-                  </div>
-
-                  <div class="table-responsive">
-                    <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-                      <tr>
-                        <td>C TOTAL (1+2+3)</td>
-                        <td class="bg-light align-middle text-end" id="Total1234"></td>
-                      </tr>
-                    </table>
-                  </div>
-
-
-                  <div class="table-responsive">
-                    <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-                      <tr>
-                        <td><strong>DIFERENCIA (B-C)</strong></td>
-                        <td class="bg-light align-middle text-end" id="DiferenciaTotal"></td>
-                      </tr>
-                    </table>
-                  </div>
-
-
-                  <div class="border mt-3">
-                    <div class="bg-light p-2 text-center">
-                      <strong>PAGO DE CLIENTES</strong>
-                    </div>
-
-                    <div class="p-2">
-                      <div id="DivPagoClientes"></div>
-                    </div>
-
-                  </div>
-
-                  <div class="table-responsive">
-                    <table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-                      <tr>
-                        <td>DIF PAGO DE CLIENTES</td>
-                        <td class="bg-light align-middle text-end" id="DifPagoCliente"></td>
-                        <td>(4-5)</td>
-                      </tr>
-                    </table>
-                  </div>
-
-                  <hr>
-
-                  <div class="border mt-3">
-                    <div class="bg-light p-2 text-center">
-                      <strong>OBSERVACIONES:</strong>
-                    </div>
-                    <?php
-
-                    $sql_observaciones = "SELECT * FROM op_observaciones WHERE idreporte_dia = '" . $GET_idReporte . "' ";
-                    $result_observaciones = mysqli_query($con, $sql_observaciones);
-                    while ($row_observaciones = mysqli_fetch_array($result_observaciones, MYSQLI_ASSOC)) {
-
-                      $observaciones = $row_observaciones['observaciones'];
-
-                    }
-
-                    ?>
-                    <div class="p-2"><?= $observaciones; ?></div>
-
-                  </div>
-
-                </div>
-
-
+                  <tr class="bg-white">
+                    <td class="no-hover">DIF PAGO DE CLIENTES</td>
+                    <td class="no-hover align-middle text-end" id="DifPagoCliente"></td>
+                    <td class="no-hover">(4-5)</td>
+                  </tr>
+                </table>
               </div>
-
-              <hr>
-
-
-              <?php
-
-              function ValidaFirma($idReporte, $detalle, $con)
-              {
-
-                $sql_firma = "SELECT 
-op_corte_dia_firmas.id_usuario, 
-op_corte_dia_firmas.firma,
-tb_usuarios.nombre
-FROM op_corte_dia_firmas
-INNER JOIN tb_usuarios
-ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $idReporte . "' AND detalle = '" . $detalle . "' ";
-                $result_firma = mysqli_query($con, $sql_firma);
-                $numero_lista = mysqli_num_rows($result_firma);
-
-                return $numero_lista;
-              }
-
-              $Elaboro = ValidaFirma($GET_idReporte, 'Elaboró', $con);
-              $Superviso = ValidaFirma($GET_idReporte, 'Superviso', $con);
-              $VoBo = ValidaFirma($GET_idReporte, 'VoBo', $con);
-              ?>
-
-              <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                  <div class="border p-3">
-                    <div class="text-center font-weight-bold">ELABORÓ</div>
-                    <hr>
-                    <?php
-                    if ($Elaboro > 0) {
-                      $RElaboro = Firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma, $con);
-                      echo $RElaboro;
-                    } else {
-                      echo '<div class=" col-12 text-center mb-3">';
-                      echo '<div class="p-2"><small>No se encontró firma del corte diario</small></div>';
-                      echo '<div class="text-center mt-1 border-top "></div>';
-                      echo '</div>';
-                    }
-                    ?>
-                  </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-                  <div class="border p-3">
-                    <?php
-                    if ($Superviso > 0) {
-                      echo '<div class="text-center font-weight-bold">SUPERVISO</div>';
-                      echo '<hr>';
-                      $RSuperviso = Firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma, $con);
-                      echo $RSuperviso;
-                    } else {
-                      if ($Session_IDUsuarioBD == 19) {
+            </div>
+            <!---------- Observaciones ---------->
+            <div class="mb-3">
+              <div class="table-responsive">
+                <table class="custom-table " style="font-size: .8em;" width="100%">
+                  <thead class="tables-bg">
+                    <tr>
+                      <th class="text-center align-middle">Observaciones</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
+                    <tr>
+                      <th class="no-hover p-0">
+                        <?php
+                        $observaciones = '';
+                        $sql_observaciones = "SELECT * FROM op_observaciones WHERE idreporte_dia = '" . $GET_idReporte . "' ";
+                        $result_observaciones = mysqli_query($con, $sql_observaciones);
+                        while ($row_observaciones = mysqli_fetch_array($result_observaciones, MYSQLI_ASSOC)) {
+                          $observaciones = $row_observaciones['observaciones'];
+                        }
                         ?>
-                        <div class="text-center font-weight-bold">SUPERVISO</div>
-                        <hr>
-                        <h4 class="text-primary text-center">Token Móvil</h4>
-                        <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el
-                          siguiente botón para crear uno</small>
-                        <button class="btn btn-sm mt-2" onclick="CrearToken(<?= $GET_idReporte; ?>)"><small>Crear nuevo
-                            token</small></button>
-                        <hr>
+                        <textarea class="bg-white form-control border-0" style="height:200px;"
+                          disabled><?= $observaciones ?></textarea>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-                        <div class="input-group mt-3">
-                          <input type="text" class="form-control" placeholder="Token de seguridad"
-                            aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button"
-                              onclick="FirmarFormato(<?= $GET_idReporte; ?>,'Superviso')">Firmar corte diario</button>
+          </div>
+
+
+        </div>
+
+        <hr>
+
+
+        <?php
+
+        function ValidaFirma($idReporte, $detalle, $con)
+        {
+
+          $sql_firma = "SELECT 
+                op_corte_dia_firmas.id_usuario, 
+                op_corte_dia_firmas.firma,
+                tb_usuarios.nombre
+                FROM op_corte_dia_firmas
+                INNER JOIN tb_usuarios
+                ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $idReporte . "' AND detalle = '" . $detalle . "' ";
+          $result_firma = mysqli_query($con, $sql_firma);
+          $numero_lista = mysqli_num_rows($result_firma);
+
+          return $numero_lista;
+        }
+
+        $Elaboro = ValidaFirma($GET_idReporte, 'Elaboró', $con);
+        $Superviso = ValidaFirma($GET_idReporte, 'Superviso', $con);
+        $VoBo = ValidaFirma($GET_idReporte, 'VoBo', $con);
+        ?>
+
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+            <div class="table-responsive">
+              <table class="custom-table" width="100%">
+                <thead class="tables-bg">
+                  <tr>
+                    <th class="align-middle text-center">ELABORÓ</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
+                  <?php
+                  if ($Elaboro > 0) {
+                    $RElaboro = Firma($GET_idReporte, 'Elaboró', RUTA_IMG_Firma, $con);
+                    echo $RElaboro;
+                  } else {
+                    echo '<th class="p-2"><small>No se encontró firma del corte diario</small></th>';
+                  }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+            <div class="table-responsive">
+              <table class="custom-table" width="100%">
+                <thead class="tables-bg">
+                  <tr>
+                    <th class="align-middle text-center">SUPERVISÓ</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
+                  <?php
+                  if ($Superviso > 0) {
+                    $RSuperviso = Firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma, $con);
+                    echo $RSuperviso;
+                  } else {
+                    if ($Session_IDUsuarioBD == 19) {
+                      ?>
+                      <tr>
+                        <th class="align-middle text-center no-hover2">
+                          <h4 class="text-primary text-center">Token Móvil</h4>
+                          <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
+                            número de teléfono o de clic en el siguiente botón para crear uno:</small>
+                          <br>
+                          <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                            onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
+                            <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
+                            SMS</button>
+
+                          <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                            onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
+                            <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
+                            Whatsapp</button>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="align-middle text-center no-hover2">
+                          <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token
+                            de
+                            WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+                            a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+                          </small>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="align-middle text-center p-0 no-hover2">
+                          <div class="input-group">
+                            <input type="text" class="form-control border-0" placeholder="Token de seguridad"
+                              aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-success border-0" type="button"
+                                onclick="FirmarFormato(<?= $GET_idReporte ?>,'Superviso')">Firmar corte diario</button>
+                            </div>
                           </div>
-                        </div>
-
+                        </th>
+                      </tr>
                       <?php
-
-                      } else {
-
-                        echo '<div class="col-12 mb-3"><div class="alert alert-warning text-center" role="alert">
-  ¡Falta la Firma de supervisión!
-</div></div>';
-                      }
+                    } else {
+                      echo '<th class="p-2"><small>¡Falta la Firma de supervisión!</small></th>';
                     }
-                    ?>
-                  </div>
-                </div>
-
-
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
-
+                  }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
+            <div class="table-responsive">
+              <table class="custom-table" width="100%">
+                <thead class="tables-bg">
+                  <tr>
+                    <th class="align-middle text-center">VO.BO.</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
                   <?php
                   if ($VoBo > 0) {
-                    echo '<div class="border p-3">';
-
-                    echo '<div class="text-center font-weight-bold">VO.BO.</div>';
-                    echo '<hr>';
-
                     $RVoBo = Firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma, $con);
                     echo $RVoBo;
                   } else {
                     if ($Session_IDUsuarioBD == 2) {
                       ?>
-                      <div class="border p-3 mt-3">
-                        <div class="mb-2 text-secondary text-center">VO.BO.</div>
-                        <hr>
-                        <h4 class="text-primary">Token Móvil</h4>
-                        <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el
-                          siguiente botón para crear uno</small>
-                        <button class="btn btn-sm" onclick="CrearToken(<?= $GET_idReporte; ?>)"><small>Crear nuevo
-                            token</small></button>
+                      <tr>
+                        <th class="align-middle text-center no-hover2">
+                          <h4 class="text-primary text-center">Token Móvil</h4>
+                          <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
+                            número de teléfono o de clic en el siguiente botón para crear uno:</small>
+                          <br>
+                          <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                            onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
+                            <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
+                            SMS</button>
 
-                        <div class="input-group mt-3">
-                          <input type="text" class="form-control" placeholder="Token de seguridad"
-                            aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button"
-                              onclick="FirmarFormato(<?= $GET_idReporte; ?>,'VoBo')">Firmar corte diario</button>
+                          <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                            onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
+                            <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
+                            Whatsapp</button>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="align-middle text-center no-hover2">
+                          <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
+                            WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+                            a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+                          </small>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th class="align-middle text-center p-0 no-hover2">
+                          <div class="input-group">
+                            <input type="text" class="form-control border-0" placeholder="Token de seguridad"
+                              aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-success border-0" type="button"
+                                onclick="FirmarFormato(<?= $GET_idReporte ?>,'VoBo')">Firmar corte diario</button>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        </th>
+                      </tr>
 
-
-                    <?php
+                      <?php
                     } else {
-                      echo '<div class="col-12 mb-3"><div class="alert alert-warning text-center" role="alert">
-  ¡Falta la Firma de VOBO!
-</div></div></div>';
+                      echo '<th class="p-2"><small>¡Falta la Firma de VOBO!</small></th>';
                     }
                   }
                   ?>
-
-                </div>
-              </div>
-
-
-
+                </tbody>
+              </table>
             </div>
+
           </div>
         </div>
-
       </div>
     </div>
 
