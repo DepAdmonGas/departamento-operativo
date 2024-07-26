@@ -2,31 +2,32 @@
 require 'app/vistas/contenido/header.php';
 ?>
 
-<script type="text/javascript">
-
+  <script type="text/javascript">
   $(document).ready(function ($) {
-    $(".LoaderPage").fadeOut("slow");
+  $(".LoaderPage").fadeOut("slow");
 
-    SelEstacion(<?= $Session_IDEstacion; ?>,0);
-    if (<?= $Session_IDEstacion ?> == 2){
-      SelEstacion(9, 0)
-    }
+  SelEstacion(<?= $Session_IDEstacion; ?>,0);
+  if (<?= $Session_IDEstacion ?> == 2){
+  SelEstacion(9, 0)
+  }
   });
+  
   function SelEstacion(idEstacion, idOrganigrama) {
-    if (idEstacion == 9) {
-      referencia = '#ContenidoOrganigrama2';
-    } else {
-      referencia = '#ContenidoOrganigrama';
-    }
-    //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
-    $(referencia).load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+  if (idEstacion == 9) {
+  referencia = '#ContenidoOrganigrama2';
+  }else{
+  referencia = '#ContenidoOrganigrama';
+  }
+
+  //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+  $(referencia).load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
 
   }
 
   function Mas(idEstacion) {
-    $('#Modal').modal('show');
-    //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);
-    $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/organigrama/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
+  $('#Modal').modal('show');
+  //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/organigrama/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
   }
 
   function Guardar(idEstacion) {
@@ -74,13 +75,13 @@ require 'app/vistas/contenido/header.php';
             $('#Modal').modal('hide');
 
           } else {
-            alertify.danger('Error al agregar organigrama.');
+            alertify.error('Error al agregar organigrama.');
           }
         });
 
 
       } else {
-        $("#Mensaje").html('<div class="text-center text-danger">La imagen debe ser .JPG o .PNG</div>');
+        alertify.error('La imagen debe ser .JPG o .PNG');
       }
     } else {
       $("#seleccionArchivos").css('border', '2px solid #A52525');
@@ -95,7 +96,7 @@ require 'app/vistas/contenido/header.php';
         var parametros = {
           "idOrganigrama": idOrganigrama,
           "accion": "eliminar-organigrama"
-        };
+        }; 
 
         $.ajax({
           data: parametros,
@@ -139,54 +140,6 @@ require 'app/vistas/contenido/header.php';
     <div class="contendAG">
 
       <div class="row">
-
-        <div class="col-12">
-          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-            <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-house"></i> Recursos Humanos</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Organigrama</li>
-            </ol>
-          </div>
-
-          <div class="row">
-            <div class="col-9">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Organigrama</h3>
-            </div>
-
-
-            <div class="col-3">
-              <div class="text-end">
-                <?php if ($Session_IDEstacion == 2) { ?>
-
-                  <div class="dropdown d-inline ms-2">
-                    <button type="button" class="btn btn-primary btn-labeled2" type="button" id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      <span class="btn-label2"> 
-                      <i class="fa-solid fa-plus"></i>
-                      </span>
-                       Agregar
-                    </button>
-
-                    <ul class="dropdown-menu">
-                      <li onclick="Mas(<?= $Session_IDEstacion ?>)"><a class="dropdown-item pointer"> <i
-                            class="fa-solid fa-gas-pump"></i> Palo Solo</a></li>
-                      <li onclick="Mas(9)"><a class="dropdown-item pointer"> <i class="fa-solid fa-car"></i>
-                          Autolavado</a></li>
-                    </ul>
-                  </div>
-                <?php } else { ?>
-                  <button type="button" class="btn btn-labeled2 btn-primary" onclick="Mas(<?= $Session_IDEstacion ?>)">
-                    <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-                <?php } ?>
-
-              </div>
-
-            </div>
-          </div>
-
-          <hr>
-        </div>
         <div class="col-12" id="ContenidoOrganigrama"></div>
         <div class="col-12" id="ContenidoOrganigrama2"></div>
       </div>

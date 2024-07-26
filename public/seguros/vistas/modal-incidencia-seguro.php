@@ -13,8 +13,8 @@ $estacion = $row_listaestacion['nombre'];
 
  <div class="modal-header">
   <h5 class="modal-title">Agregar (en caso de incidencias)</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
- </div>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
 
 
 <div class="modal-body">
@@ -41,6 +41,8 @@ $estacion = $row_listaestacion['nombre'];
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="GuardarIncidenciaP(<?=$idEstacion;?>)">Guardar</button>
+    
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarIncidenciaP(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
   

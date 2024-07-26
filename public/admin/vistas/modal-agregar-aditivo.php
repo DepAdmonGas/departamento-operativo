@@ -23,7 +23,7 @@ $Session_ProductoTres = $row_estacion['producto_tres'];
 
 <div class="modal-header">
   <h5 class="modal-title">Agregar aditivo al inventario</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -42,6 +42,12 @@ if ($Session_ProductoTres != "") {
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-primary rounded-0" onclick="Agregar(<?=$idEstacion;?>)">Agregar</button>
+
+
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cancelar</button>
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="Agregar(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+
 </div>

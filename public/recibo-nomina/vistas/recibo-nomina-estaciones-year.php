@@ -132,74 +132,60 @@ $noneDiv2 = "d-none";
   }
 
   //---------- SELECCIONAR SEMANAS DE LA ESTACION ----------
-
   function SelSemanasES(idEstacion,year,semana){
-  let referencia, targets;
+
+  function initializeDataTable(tableId) {
+    let referencia, targets;
     
-  if(idEstacion == 9){
-  referencia = '#ListaNominaPS';
-  }else{
-  referencia = '#ListaNomina';
+    if(idEstacion == 9){
+    referencia = '#ListaNominaPS';
+    }else{
+    referencia = '#ListaNomina';
+    }
+  
+    if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
+    targets = [6,7,8,9];
+    }else{
+    targets = [5,6,7,8];
+    }
+    
+    $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
+    // Clonar y remover las filas antes de inicializar DataTables
+    var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
+    $('#' + tableId + ' .ultima-fila').remove();
+
+    $('#' + tableId).DataTable({
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "asc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targets },
+        { "searchable": false, "targets": targets }
+      ],
+      "drawCallback": function(settings) {
+        // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+        $('#' + tableId + ' .ultima-fila').remove();
+        // Añadir las filas clonadas al final del tbody
+        $('#' + tableId + ' tbody').append($lastRows.clone());
+      }
+    });
+  });
   }
 
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
+  initializeDataTable('tabla_nomina_semana_' + idEstacion);
   }
-  
-  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
-  $('#tabla_nomina_semana_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
-  
-  }
-
 
   function SelNoSemana(idEstacion,year){
-  let referencia, targets;
   var semana = $('#SemanaEstacion_' + idEstacion).val();
-
-  if(idEstacion == 9){
-  referencia = '#ListaNominaPS';
-  }else{
-  referencia = '#ListaNomina';
+  SelSemanasES(idEstacion,year,semana)
   }
 
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
-  }
-
-  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
-  $('#tabla_nomina_semana_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
-  
-  }
 
   //---------- SELECCIONAR QUINCENAS DE LA ESTACION ----------
   function SelQuincenasES(idEstacion,year,quincena){
-  let referencia, targets;
+  function initializeDataTableQ(tableId) {
     
   if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
   referencia = '#ListaNomina2';
@@ -214,50 +200,37 @@ $noneDiv2 = "d-none";
   }
   
   $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
-  $('#tabla_nomina_quincena_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
+    // Clonar y remover las filas antes de inicializar DataTables
+    var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
+    $('#' + tableId + ' .ultima-fila').remove();
 
+    $('#' + tableId).DataTable({
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "asc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targets },
+        { "searchable": false, "targets": targets }
+      ],
+      "drawCallback": function(settings) {
+        // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+        $('#' + tableId + ' .ultima-fila').remove();
+        // Añadir las filas clonadas al final del tbody
+        $('#' + tableId + ' tbody').append($lastRows.clone());
+      }
+    });
+  });
   }
- 
+
+  initializeDataTableQ('tabla_nomina_quincena_' + idEstacion);
+  }
+
+
   function SelNoQuincena(idEstacion,year){
   var quincena = $('#QuincenaEstacion_' + idEstacion).val();
-  let referencia, targets;
-    
-  if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
-  referencia = '#ListaNomina2';
-  }else{
-  referencia = '#ListaNomina';
-  }
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
-  }
-  
-  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
-  $('#tabla_nomina_quincena_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
+  SelQuincenasES(idEstacion,year,quincena)
 
   }
 
@@ -499,7 +472,7 @@ $noneDiv2 = "d-none";
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenido">
   </div>
   </div>

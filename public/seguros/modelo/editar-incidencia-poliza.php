@@ -3,13 +3,14 @@
 require('../../../app/help.php');
 
 $aleatorio = uniqid();
+
+if (isset($_FILES['Evidencia_file'])) {
 $NoDoc  =   $_FILES['Evidencia_file']['name'];
 $UpDoc = "../../../archivos/incidencias-poliza-es/".$aleatorio."-".$NoDoc;
 $NomDoc = $aleatorio."-".$NoDoc;
+}
 
-
-if($NoDoc != ""){
-
+if (isset($_FILES['Evidencia_file'])) {
 if(move_uploaded_file($_FILES['Evidencia_file']['tmp_name'], $UpDoc)){
 
 $sql_edit1 = "UPDATE op_poliza_incidencia SET 

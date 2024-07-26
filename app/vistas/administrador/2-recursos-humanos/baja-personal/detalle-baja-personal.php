@@ -257,7 +257,7 @@ require('app/help.php');
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
-  <div class="container bg-white p-3">
+  <div class=" bg-white p-3">
   <div id="DivDetalleBajaPersonal"></div>
   </div>
   </div>

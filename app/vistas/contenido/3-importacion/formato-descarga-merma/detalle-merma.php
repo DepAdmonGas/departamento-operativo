@@ -200,8 +200,8 @@ window.location.reload();}
 </div>
 
 <div class="row">
-<div class="col-9"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Detalle de formato</h3></div>
-<div class="col-3 <?=$ocultarOp?>">
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Detalle de formato</h3></div>
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 <?=$ocultarOp?>">
 <div class="text-end">
 <div class="dropdown d-inline ms-2">
 <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fa-solid fa-screwdriver-wrench"></i> </button>
@@ -348,7 +348,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Factura o Remisión:</th> </tr>
 </thead>
 <tbody>
@@ -363,7 +363,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Reporte de inventario Inicial con fecha y hora:</th> </tr>
 </thead>
 <tbody>
@@ -378,7 +378,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Medida Nice:</th> </tr>
 </thead>
 <tbody>
@@ -393,7 +393,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Reporte de inventario final con fecha y hora:</th> </tr>
 </thead>
 <tbody>
@@ -408,7 +408,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Metro contador temperatura normal:</th> </tr>
 </thead>
 <tbody>
@@ -423,7 +423,7 @@ window.location.reload();}
 <div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Metro contador a 20 grados:</th> </tr>
 </thead>
 <tbody>
@@ -449,7 +449,7 @@ while ($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)) {
 echo '<div class="col-12 col-sm-4 mb-3">
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Firma del '.$row_firma['tipo_firma'].' </th> </tr>
 </thead>
 <tbody>

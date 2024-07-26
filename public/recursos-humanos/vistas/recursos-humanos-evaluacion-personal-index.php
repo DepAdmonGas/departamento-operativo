@@ -1,14 +1,9 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $year = date("Y");
 $mes = date("m");
 
-?>
+?> 
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -41,51 +36,44 @@ $mes = date("m");
   $('[data-toggle="tooltip"]').tooltip();
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('year') !== undefined && sessionStorage.getItem('year')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('year') !== undefined && sessionStorage.getItem('year')) {
 
-      idEstacion = sessionStorage.getItem('idestacion');
-      year = sessionStorage.getItem('year');
-      tipo = sessionStorage.getItem('tipo')
+  idEstacion = sessionStorage.getItem('idestacion');
+  year = sessionStorage.getItem('year');
+  tipo = sessionStorage.getItem('tipo')
       
-      $('#ContenidoOrganigrama').load('../public/recursos-humanos/vistas/lista-kpi-personal.php?idEstacion=' + idEstacion + '&year=' + year + '&tipo=' + tipo);
+  $('#ContenidoOrganigrama').load('../public/recursos-humanos/vistas/lista-kpi-personal.php?idEstacion=' + idEstacion + '&year=' + year + '&tipo=' + tipo);
 
-    }    
-    }  
-    }); 
+  }    
+  }  
+  }); 
  
-    function Regresar(){
-    sessionStorage.removeItem('year');
-    sessionStorage.removeItem('tipo');
-    window.history.back();
-    }
+  function Regresar(){
+  sessionStorage.removeItem('year');
+  sessionStorage.removeItem('tipo');
+  window.history.back();
+  }
 
 
-    function EvaluacionPersonal(tipo,idEstacion,year,mes){
-    sizeWindow();
-    sessionStorage.setItem('idestacion', idEstacion);
-    sessionStorage.setItem('year', year);
-    sessionStorage.setItem('tipo', tipo);
-    
-    $('#ContenidoOrganigrama').load('../public/recursos-humanos/vistas/lista-kpi-personal.php?idEstacion=' + idEstacion + '&year=' + year + '&tipo=' + tipo);
-    }
+  function EvaluacionPersonal(tipo,idEstacion,year,mes){
+  sizeWindow();
+  sessionStorage.setItem('idestacion', idEstacion);
+  sessionStorage.setItem('year', year);
+  sessionStorage.setItem('tipo', tipo);
+  $('#ContenidoOrganigrama').load('../public/recursos-humanos/vistas/lista-kpi-personal.php?idEstacion=' + idEstacion + '&year=' + year + '&tipo=' + tipo);
+  }
  
-
-    function BuscarYear(idEstacion,tipo){
-    $('#Modal').modal('show');  
-    $('#ContenidoModal').load('../public/recursos-humanos/vistas/modal-buscar-kpi-personal.php?idEstacion=' + idEstacion + '&tipo=' + tipo);
- 
-    } 
-
-
+  function BuscarYear(idEstacion,tipo){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('../public/recursos-humanos/vistas/modal-buscar-kpi-personal.php?idEstacion=' + idEstacion + '&tipo=' + tipo);
+  } 
 
   function btnBuscar(idEstacion,tipo){ 
-  
   var year = $('#years').val();
   
   if(year != ""){ 
   $('#years').css('border','');
-
   sessionStorage.setItem('year', year);
   $('#Modal').modal('hide');
   $('#ContenidoOrganigrama').load('../public/recursos-humanos/vistas/lista-kpi-personal.php?idEstacion=' + idEstacion + '&year=' + year + '&tipo=' + tipo);
@@ -95,17 +83,25 @@ $mes = date("m");
   }
   
   }  
+
+  document.addEventListener('DOMContentLoaded', function () {
+  var menuItem = document.getElementById('menu-item');
+    
+  menuItem.addEventListener('click', function () {
+  sessionStorage.removeItem('idestacion');
+  sessionStorage.removeItem('year');
+  sessionStorage.removeItem('tipo');
+  });
+  });
     
   </script>
-
   </head>
+
   <body> 
- 
   <div class="LoaderPage"></div>
    
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
   <div class="wrapper">
-
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
 
@@ -116,48 +112,31 @@ $mes = date("m");
   <ul class="list-unstyled components">
      
   <li id="menu-item">
-   <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
-    <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
-    </a>
+  <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
+  <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
+  </a>
   </li>
-
-
-  <!---------- SESIONES CLEAN ---------->
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-  var menuItem = document.getElementById('menu-item');
-    
-  menuItem.addEventListener('click', function () {
-  sessionStorage.removeItem('idestacion');
-  sessionStorage.removeItem('year');
-  sessionStorage.removeItem('tipo');
-    });
-  });
-  </script>
   
   <li>
-    <a class="pointer" onclick="Regresar()">
-    <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
-    </a>
-  </li>
-
-
-  <li>
-    <a class="pointer" onclick="EvaluacionPersonal(1,<?=$GET_idEstacion?>,<?=$year?>,<?=$mes?>)">
-    <i class="fa-solid fa-user-plus" aria-hidden="true" style="padding-right: 10px;"></i>Altas del personal
-    </a>
+  <a class="pointer" onclick="Regresar()">
+  <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
+  </a>
   </li>
 
   <li>
-    <a class="pointer" onclick="EvaluacionPersonal(2,<?=$GET_idEstacion?>,<?=$year?>,<?=$mes?>)">
-    <i class="fa-solid fa-user-xmark" aria-hidden="true" style="padding-right: 10px;"></i>Bajas del personal
-    </a>
+  <a class="pointer" onclick="EvaluacionPersonal(1,<?=$GET_idEstacion?>,<?=$year?>,<?=$mes?>)">
+  <i class="fa-solid fa-user-plus" aria-hidden="true" style="padding-right: 10px;"></i>Altas del personal
+  </a>
   </li>
 
+  <li>
+  <a class="pointer" onclick="EvaluacionPersonal(2,<?=$GET_idEstacion?>,<?=$year?>,<?=$mes?>)">
+  <i class="fa-solid fa-user-xmark" aria-hidden="true" style="padding-right: 10px;"></i>Bajas del personal
+  </a>
+  </li>
 
-
-</ul>
-</nav>
+  </ul>
+  </nav>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -227,36 +206,27 @@ $mes = date("m");
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ContenidoOrganigrama" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ContenidoOrganigrama"></div> 
 
   </div>
   </div> 
   </div>
-
-
-
-</div>
-
-
-
-
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
   </div>
 
+
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+  
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

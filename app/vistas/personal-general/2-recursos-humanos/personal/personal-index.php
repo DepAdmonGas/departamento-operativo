@@ -308,7 +308,7 @@ require('app/help.php');
   if (response == 1) {
   SelPersonalES(idEstacion,1,false);
   $('#Comentario').val('');
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-comentarios-personal.php?idEstacion=' + idEstacion + '&idPersonal=' + idPersonal);
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/personal/modal-comentarios-personal.php?idEstacion=' + idEstacion + '&idPersonal=' + idPersonal); 
 
   }else{
   alertify.error('Error al guardar el comentario');  

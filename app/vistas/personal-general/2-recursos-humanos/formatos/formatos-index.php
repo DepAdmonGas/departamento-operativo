@@ -1,18 +1,19 @@
 <?php
 require 'app/vistas/contenido/header.php';
+
 ?>
-<script type="text/javascript">
+
+  <script type="text/javascript">
 
   $(document).ready(function ($) {
-    $(".LoaderPage").fadeOut("slow");
-
-    SelEstacion(<?= $Session_IDEstacion; ?>) 
+  $(".LoaderPage").fadeOut("slow");
+  SelEstacion(<?= $Session_IDEstacion; ?>) 
 
   });
 
   function SelEstacion(idEstacion) {
-    //$('#ContenidoFormatos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-formatos.php?idEstacion=' + idEstacion);
-    $('#ContenidoFormatos').load('app/vistas/contenido/2-recursos-humanos/formatos/contenido-formatos.php?idEstacion=' + idEstacion);
+  //$('#ContenidoFormatos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-formatos.php?idEstacion=' + idEstacion);
+  $('#ContenidoFormatos').load('app/vistas/contenido/2-recursos-humanos/formatos/contenido-formatos.php?idEstacion=' + idEstacion);
   }
 
   function Formulario(Formato, idEstacion) {
@@ -292,26 +293,25 @@ require 'app/vistas/contenido/header.php';
   }
 
   function DetalleFormulario(idFormato, Formato) {
-
     $('#Modal').modal('show');
 
     if (Formato == 1) {
-      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario1.php?idFormato=' + idFormato);
-      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario1.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario1.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario1.php?idFormato=' + idFormato);
 
     } else if (Formato == 2) {
-      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario2.php?idFormato=' + idFormato);
-      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario2.php?idFormato=' + idFormato);
+     $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario2.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario2.php?idFormato=' + idFormato);
 
     } else if (Formato == 3) {
-      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario3.php?idFormato=' + idFormato);
-      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario3.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario3.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario3.php?idFormato=' + idFormato);
     } else if (Formato == 4) {
-      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario4.php?idFormato=' + idFormato);
-      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario4.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario4.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario4.php?idFormato=' + idFormato);
     } else if (Formato == 5) {
-      //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idFormato=' + idFormato);
-      $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario5.php?idFormato=' + idFormato);
+      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idFormato=' + idFormato);
+      //$('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-formulario5.php?idFormato=' + idFormato);
     }
 
   }
@@ -700,24 +700,17 @@ require 'app/vistas/contenido/header.php';
 
   <!---------- DIV - CONTENIDO ---------->
   <div id="content">
-    <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
-    <?php include_once "public/navbar/navbar-perfil.php"; ?>
-    <!---------- CONTENIDO PAGINA WEB---------->
-    <div class="contendAG">
-      <div class="row">
+  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
+  <?php include_once "public/navbar/navbar-perfil.php"; ?>
+  <!---------- CONTENIDO PAGINA WEB---------->
+  <div class="contendAG">
+  
+  <div class="row">
+  <div class="col-12" id="ContenidoFormatos">
+  </div>
+  </div>
 
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 ">
-
-              <div id="ContenidoFormatos"></div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+  </div>
 
   </div>
 
@@ -737,7 +730,11 @@ require 'app/vistas/contenido/header.php';
       </div>
     </div>
   </div>
+ 
+
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
-
 </html>

@@ -1,9 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
 ?>
  
 <html lang="es">
@@ -37,81 +34,81 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-      $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idestacion);
-     }    
+  idestacion = sessionStorage.getItem('idestacion');
+  $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idestacion);
+  }    
   } 
   
   });
 
   function Regresar(){
   window.history.back();
+  sessionStorage.removeItem('idestacion');
   }
 
-  //------------------------------------------------
   function SelEstacion(idEstacion){
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
   $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
   }
-  //------------------------------------------------
 
-function Actualizar(idEstacion){
-var Retardo = $('#Retardo').val();
-var Incidencia  = $('#Incidencia').val();
+  function Actualizar(idEstacion){
+  var Retardo = $('#Retardo').val();
+  var Incidencia  = $('#Incidencia').val();
 
-if(Retardo != ""){
-$('#Retardo').css('border','');
-alertify.confirm('',
-function(){
+  if(Retardo != ""){
+  $('#Retardo').css('border','');
+  alertify.confirm('',
+  function(){
 
-var parametros = {
-"idEstacion" : idEstacion,
-"Retardo" : Retardo,
-"Incidencia" : Incidencia
-};
+  var parametros = {
+  "idEstacion" : idEstacion,
+  "Retardo" : Retardo,
+  "Incidencia" : Incidencia
+  };
 
-$.ajax({
-data:  parametros,
-url:   'public/recursos-humanos/modelo/agregar-retardo-horario.php',
-type:  'POST',
-beforeSend: function() {
-$(".LoaderPage").show();
-},
+  $.ajax({
+  data:  parametros,
+  url:   'public/recursos-humanos/modelo/agregar-retardo-horario.php',
+  type:  'POST',
+  beforeSend: function() {
+  $(".LoaderPage").show();
+  },
 
-complete: function(){
+  complete: function(){
 
-},
+  },
 
-success:  function (response) {
+  success:  function (response) {
 
-if (response == 1) { 
-$(".LoaderPage").hide();
-alertify.success('Se actualizo el correctamente');
-}else if (response == 0){
-$(".LoaderPage").hide();
-alertify.success('Error al actualizar');
-}
- 
-}
-});
+  if (response == 1) { 
+  $(".LoaderPage").hide();
+  alertify.success('Se actualizo el correctamente');
+  }else if (response == 0){
+  $(".LoaderPage").hide();
+  alertify.success('Error al actualizar');
+  }
+  
+  }
+  });
 
-},
-function(){
-}).setHeader('Actualizar').set({transition:'zoom',message: '¿Desea actualizar la información?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+  },
+  function(){
+  }).setHeader('Actualizar').set({transition:'zoom',message: '¿Desea actualizar la información?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
-}else{
-$('#Retardo').css('border','2px solid #A52525');  
-}
+  }else{
+  $('#Retardo').css('border','2px solid #A52525');  
+  }
 
-}
+  }
   function ModalAgregar(idEstacion){
   $('#Modal').modal('show');
   $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-horarios.php?idEstacion=' + idEstacion + '&Tipo=0&idHorario=0');  
   }
+
 
   function Horario(idEstacion,idHorario,Tipo){
 
@@ -323,7 +320,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Recursos humanos retardo, horarios, incidencias</a>
+  <a class="text-dark" onclick="history.back()">Biometrico</a>
   </div>
  
   <div class="navbar-collapse collapse">
@@ -373,7 +370,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   </li>
   
   </ul>
-  </div>
+  </div> 
 
   </nav>
  
@@ -381,31 +378,24 @@ $icon = "fa-solid fa-screwdriver-wrench";
 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="Contenido" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="Contenido"></div> 
   </div>
   </div> 
 
-</div>
+  </div>
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg" style="margin-top: 83px;">
-      <div class="modal-content">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

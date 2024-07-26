@@ -198,7 +198,7 @@ require('app/help.php');
   <div class="contendAG">
 
   <div class="row">  
-  <div class="col-12"> <div id="ListaMedicion"></div> </div> 
+  <div class="col-12" id="ListaMedicion"></div> 
   </div>
 
   </div> 

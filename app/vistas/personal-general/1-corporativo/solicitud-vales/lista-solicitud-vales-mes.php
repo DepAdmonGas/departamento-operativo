@@ -17,13 +17,13 @@ $depu = $_GET['depu'];
 if($idEstacion == 8){
 $estacion = $ClassHerramientasDptoOperativo->obtenerPuesto($depu);
 $busqueda = 'depto = '.$depu;
-$colspan = "13";
+$colspan = "9";
 }else{
 
 $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
 $estacion = $datosEstacion['razonsocial'];
 $busqueda = 'id_estacion = '.$idEstacion; 
-$colspan = "12";
+$colspan = "8";
 
 } 
 
@@ -43,7 +43,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <?=$breadcrumbYearMes?>
         
   <div class="row"> 
-  <div class="col-lg-9 col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Solicitud de vales, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></h3> </div>
+  <div class="col-lg-9 col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Solicitud de Vales, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></h3> </div>
   
   <div class="col-lg-3 col-12 mt-1"> 	 
 
@@ -56,16 +56,15 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <hr>
   </div>
 
-  <div class="col-12">
     
   <div class="table-responsive">
-  <table id="tabla_solicitud_vales" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+  <table id="tabla_solicitud_vales" class="custom-table" style="font-size: 12.5px;" width="100%">
 
  
-  <thead class="navbar-bg">
+  <thead class="title-table-bg">
 
   <tr class="tables-bg">
-  <th class="text-center align-middlefw-bold" colspan="<?=$colspan?>"><?=$estacion;?></th>
+  <th class="text-center align-middle fw-bold" colspan="<?=$colspan?>"><?=$estacion;?></th>
   </tr>
   
   <tr>
@@ -78,12 +77,9 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <th class="text-center align-middle fw-bold">Concepto</th>
   <th class="text-center align-middle fw-bold">Nombre del solicitante</th>
   <th class="text-center align-middle fw-bold">Autorizado por</th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>archivo-tb.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <td class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
+  <td class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></td>
+ 
   </tr>
   </thead>
 	
@@ -97,28 +93,28 @@ return $numero_lista = mysqli_num_rows($result_lista);
   $ToComentarios = ToComentarios($id,$con);
 
   if($ToComentarios > 0){
-  $Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 11px;">'.$ToComentarios.'</span></span></div>';
+  $Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
   }else{
   $Nuevo = ''; 
   }
  
   if($row_lista['status'] == 0){
   $trColor = 'style="background-color: #fcfcda"';
-  $Detalle = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalle('.$id.')">';
-  $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')">';
-  $Archivos = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">';
-  $Editar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="Editar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$id.')">';
+  $Detalle = '<a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+  $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+  $Archivos = '<a class="dropdown-item" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"><i class="fa-regular fa-file"></i> Documentación</a>';
+  $Editar = '<a class="dropdown-item" onclick="Editar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+  $Eliminar = '<a class="dropdown-item" onclick="Eliminar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
   $Firma = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$id.')">';
-  $Eliminar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">';
 
   }else if($row_lista['status'] == 1){
   $trColor = 'style="background-color: #ffffff"';
-  $Detalle = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalle('.$id.')">';
-  $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')">';
-  $Archivos = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">';
-  $Editar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'editar-tb.png">';
+  $Detalle = '<a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+  $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+  $Archivos = '<a class="dropdown-item" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"><i class="fa-regular fa-file"></i> Documentación</a>';
+  $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+  $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
   $Firma = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
-  $Eliminar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png">';
 	
   } 
 
@@ -146,12 +142,23 @@ return $numero_lista = mysqli_num_rows($result_lista);
 	<td class="align-middle text-center">'.$row_lista['concepto'].'</td>
 	<td class="align-middle text-center">'.$row_lista['solicitante'].'</td>
 	<td class="align-middle text-center">'.$row_lista['autorizado_por'].'</td>
-	<td class="align-middle text-center">'.$Detalle.'</td>
-	<td class="align-middle text-center">'.$PDF.'</td>	
-	<td class="align-middle text-center">'.$Archivos.'</td>
-	<td class="align-middle text-center">'.$Nuevo.'<img src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" class="pointer" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"></td>
-	<td class="align-middle text-center">'.$Editar.'</td>
-	<td class="align-middle text-center">'.$Eliminar.'</td>
+  <td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>
+ 
+  <td class="align-middle text-center">
+  <div class="dropdown">
+  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fas fa-ellipsis-v"></i>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+  '.$Detalle.'
+  '.$PDF.'
+  '.$Archivos.'
+  '.$Editar.'
+  '.$Eliminar.'
+  </div>
+  </div>
+  </td>
 	</tr>';
 
 	$TotalMonto = $TotalMonto + $row_lista['monto'];
@@ -167,4 +174,3 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <hr>
 
 	<div class="text-end"><?='<h5>Monto total: $'.number_format($TotalMonto,2).'</h5>';?></div>
-  </div>

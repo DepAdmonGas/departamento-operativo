@@ -17,7 +17,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
    
 }
 
-
 function NombrePersonal($id,$con){
 
 $sql_personal = "SELECT nombre_completo FROM op_rh_personal WHERE id = '".$id."' ";
@@ -30,45 +29,22 @@ return $return;
 }
 ?>
  
-<script type="text/javascript">
-$(document).ready(function($){
-$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
- 
-<div class="border-0 p-3">
+
+ <div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Recursos Humanos</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Formatos (<?=$estacion?>)</li>
+</ol>
+</div>
 
 <div class="row">
- 
-<div class="col-9">
-<?php if($idEstacion != $Session_IDEstacion){ ?>
-<div><h5><?=$estacion;?></h5></div>
-<?php }else{ ?>
-   
-    <div class="row">
-    <div class="col-9">
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="history.back()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Recursos humanos (Formatos) - <?=$session_nomestacion;?></h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div> 
-
-<?php } ?>
-
+<div class="col-12">
+<h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Formatos (<?=$estacion?>)</h3>
 </div>
-  
-<?php if($session_idpuesto == 13 || $session_idpuesto == 14){ ?>
-<div class="col-3">
-<div class="float-end"> 
-
+<!--
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
 <div class="btn-group dropstart">
   <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
     Formatos
@@ -78,30 +54,31 @@ $('[data-toggle="tooltip"]').tooltip();
   <a class="dropdown-item pointer" onclick="Formulario(2,<?=$idEstacion;?>)">2. Restructuración personal</a>
   <a class="dropdown-item pointer" onclick="Formulario(3,<?=$idEstacion;?>)">3. Falta personal</a>
   <a class="dropdown-item pointer" onclick="Formulario(4,<?=$idEstacion;?>)">4. Baja personal</a>
-  <!--<a class="dropdown-item" onclick="Formulario(5,<?=$idEstacion;?>)">5. Vacaciones personal</a>-->
+  <a class="dropdown-item" onclick="Formulario(5,<?=$idEstacion;?>)">5. Vacaciones personal</a>
   <a class="dropdown-item pointer" onclick="Formulario(6,<?=$idEstacion;?>)">5. Ajuste salarial</a>
-  <!--    
+  
   <a class="dropdown-item" onclick="Formulario4(4,<?=$idEstacion;?>)">4. Permisos</a>
   <a class="dropdown-item" onclick="Formulario5(5,<?=$idEstacion;?>)">5. Incapacidad</a>
   <a class="dropdown-item" onclick="Formulario6(6,<?=$idEstacion;?>)">6. Cambio y restructuración de personal</a>
   <a class="dropdown-item" onclick="Formulario7(7,<?=$idEstacion;?>)">7. Pago día festivo</a>
   <a class="dropdown-item" onclick="Formulario8(8,<?=$idEstacion;?>)">8. Nuevo puesto</a>
   <a class="dropdown-item" onclick="Formulario9(9,<?=$idEstacion;?>)">9. Rol de comodines</a>
-  -->
+
   </ul>
 </div>
-
 </div>
-</div>
-<?php } ?>
-
+  -->
 </div>
 
+<hr>      
+</div>
 
-<hr>
+
+
 <div class="table-responsive">
-<table class="table table-sm table-bordered mb-0" style="font-size: .90em">
+<table class="custom-table" style="font-size: .90em" width="100%">
 <thead class="tables-bg">
+
 <tr>
 <th class="text-center">#</th>
 <th>Fecha y Hora</th>
@@ -115,7 +92,8 @@ $('[data-toggle="tooltip"]').tooltip();
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
 </tr>
 </thead>
-<tbody>
+
+<tbody class="bg-white">
   
 <?php
 $sql_lista = "SELECT * FROM op_rh_formatos WHERE id_localidad = '".$idEstacion."' AND (formato IN (1, 2, 3, 4, 6)) ORDER BY id DESC";
@@ -293,7 +271,7 @@ $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" data-toggle="toolt
   }
 
   echo '<tr '.$trColor.'>';
-  echo '<td class="align-middle text-center"><b>'.$row_lista['id'].'</b></td>';
+  echo '<th class="align-middle text-center">'.$row_lista['id'].'</th>';
   echo '<td class="align-middle"><b>'.FormatoFecha($explode[0]).', '.$HoraFormato.'</b></td>';
   echo ''.$tdName.'';
   echo '<td class="align-middle">'.$Formato.'</td>';
@@ -312,5 +290,5 @@ $PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" data-toggle="toolt
   </tbody>
   </table>
   </div>
-  </div>
+
 

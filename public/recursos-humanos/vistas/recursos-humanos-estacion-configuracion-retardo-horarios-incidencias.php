@@ -32,7 +32,7 @@ header("Location:".PORTAL."");
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
 
-SelEstacion(<?=$Session_IDEstacion;?>)
+  SelEstacion(<?=$Session_IDEstacion;?>)
 
   });
 
@@ -43,7 +43,9 @@ SelEstacion(<?=$Session_IDEstacion;?>)
   //------------------------------------------------
   function SelEstacion(idEstacion){
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
+  //$('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-estacion-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
+  $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
+
   }  
   //------------------------------------------------
 
@@ -232,49 +234,19 @@ alertify.confirm('',
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Recursos humanos retardo, horarios, incidencias</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-  <div id="Contenido"></div>
-  
-  </div>
-  </div>
-  </div>
-
+  <div class="col-12" id="Contenido"></div> 
   </div>
   </div>
 
   </div>
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
   </div>
-
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

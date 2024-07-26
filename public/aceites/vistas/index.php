@@ -137,29 +137,25 @@ header("Location:".PORTAL."");
 
   }
 
-  function NewAceite(){
-
-   $.ajax({
-     url:   '../public/aceites/modelo/nuevo-aceite.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
+function NewAceite() {
+  $.ajax({
+    url: '../public/aceites/modelo/nuevo-aceite.php',
+    type: 'post',
+    beforeSend: function() {
+      // Código opcional a ejecutar antes de enviar la solicitud
+    },
+    complete: function() {
       ListaAceites();
-     },
-     success:  function (response) {
-      Scroll(response);
-
-     }
-     });
-
-  }
-
-function Scroll(response){
-$('html, body').animate({
- scrollTop: $("#noAceite-" + response).offset().top
- }, 0);
+    },
+    success: function(response) {
+      // Desplazar la página al final del contenido
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  });
 }
+
+
+
 
 function EditPiezas(val,idAceite){
    var piezas = val.value;
@@ -204,37 +200,7 @@ function EditPiezas(val,idAceite){
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
- 
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-
-    <div class="col-11">
-    <h5>Aceites</h5>
-    </div>
-
-    <div class="col-1">
-    <img class="pointer float-end" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="NewAceite()">
-    </div>
-
-    </div>
-
-    </div>
-    </div>
-
-    <hr>
-
-    <div id="DivAceites"></div>
-
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="DivAceites"></div>
 
   </div>
   </div>

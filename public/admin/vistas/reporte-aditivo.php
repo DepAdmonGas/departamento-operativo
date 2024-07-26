@@ -17,56 +17,59 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 
-<div class="border-0 p-3">
+<div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Importación</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Reporte de aditivo (<?=$estacion;?>)</li>
+  </ol>
+  </div>
+
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Reporte de Aditivo (<?=$estacion;?>)</h3>
+  </div>
+
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <button type="button" class="btn btn-labeled2 btn-danger float-end" onclick="SelBitacoraReturn(<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa-solid fa-arrow-left"></i></span>Regresar</button>
+  </div>
+  </div>
+
+  <hr>
+  </div>
 
 
-    <div class="row">
-    <div class="col-12">
+  <div class="table-responsive">
+  <table id="tabla_reporte_aditivo_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="SelBitacoraReturn(<?=$idEstacion;?>)">
-    
-    <div class="row">
-    <div class="col-12">
-    <h5>Reporte aditivo, <?=$estacion;?></h5>
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-<hr> 
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0">
 <thead class="tables-bg">
 	<tr>
 	<th class="align-middle text-center">#</th>
-	<th class="align-middle">Fecha</th>
-	<th class="align-middle">Hora</th>
-	<th class="align-middle text-center" width="32px"></th>
-	<th class="align-middle text-center" width="32px"></th>
+	<th class="align-middle text-center">Fecha</th>
+	<th class="align-middle text-center">Hora</th>
+	<th class="align-middle text-center" width="32px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>descargar.png"></th>
+	<th class="align-middle text-center" width="32px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
     </tr>
 </thead>
-<tbody>
+
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 
 echo '<tr>
-<td class="align-middle text-center">'.$row_lista['id'].'</td>
+<th class="align-middle text-center">'.$row_lista['id'].'</th>
 <td class="align-middle ">'.FormatoFecha($row_lista['fecha']).'</td>
 <td class="align-middle ">'.date("g:i a",strtotime($row_lista['hora'])).'</td>
 <td class="align-middle text-center" width="32px"><a href="https://www.portal.admongas.com.mx/bitacora-aditivo/archivos/'.$row_lista['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png"></a></td>
 <td class="align-middle text-center" width="32px"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarReporte('.$idEstacion.','.$id.')"></td>
 </tr>';
 }
-}else{
-echo "<tr><td colspan='9' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
 </tbody>
 </table>
 </div>
 
-</div>

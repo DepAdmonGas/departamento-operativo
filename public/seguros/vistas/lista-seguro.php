@@ -1,7 +1,7 @@
 <?php
 require('../../../app/help.php');
 $idEstacion = $_GET['idEstacion'];
-
+ 
 $sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
@@ -16,7 +16,7 @@ $numero_poliza_inc = mysqli_num_rows($result_poliza_inc);
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
-<li class="breadcrumb-item"><a onclick="history.go(-3)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
+<li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
 <li aria-current="page" class="breadcrumb-item active text-uppercase"> Seguros (<?=$estacion;?>) </li>
 </ol>
 </div>
@@ -62,17 +62,16 @@ $numero_poliza_inc = mysqli_num_rows($result_poliza_inc);
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
   </tr>
 </thead> 
-
+ 
 <tbody class="bg-white">
 <?php 
 $i = 1;
 if ($numero_poliza_inc > 0) {
-while($row = mysqli_fetch_array($result_poliza_inc, MYSQLI_ASSOC)){
-$id_poliza_inc = $row['id_poliza_incidencia'];
-$id_poliza_inc = $row['id_poliza_incidencia'];
-if($row['archivo'] != ""){
+while($row_poliza_inc = mysqli_fetch_array($result_poliza_inc, MYSQLI_ASSOC)){
+$id_poliza_inc = $row_poliza_inc['id_poliza_incidencia'];
 
-$PDF = '<a href="'.RUTA_ARCHIVOS.'incidencias-poliza-es/'.$row['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png"></a>';
+if($row_poliza_inc['archivo'] != ""){ 
+$PDF = '<a href="'.RUTA_ARCHIVOS.'incidencias-poliza-es/'.$row_poliza_inc['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png"></a>';
 }else{
 $PDF = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
 
@@ -80,11 +79,11 @@ $PDF = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
 
 echo '<tr >
 <th class="text-center align-middle">'.$i.'</th>
-<td class="text-center align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row['fecha']).'</td>
-<td class="align-middle">'.date("g:i a",strtotime($row['hora'])).'</td>
-<td class="text-center align-middle">'.$row['asunto'].'</td>
-<td class="text-start align-middle">'.$row['observaciones'].'</td>
-<td class="text-start align-middle">'.$row['solucion'].'</td>
+<td class="text-center align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_poliza_inc['fecha']).'</td>
+<td class="align-middle">'.date("g:i a",strtotime($row_poliza_inc['hora'])).'</td>
+<td class="text-center align-middle">'.$row_poliza_inc['asunto'].'</td>
+<td class="text-start align-middle">'.$row_poliza_inc['observaciones'].'</td>
+<td class="text-start align-middle">'.$row_poliza_inc['solucion'].'</td>
 <td class="text-center align-middle">'.$PDF.'</td>
 <td class="text-center align-middle"><img class="pointer" onclick="DetallePolizaInc('.$id_poliza_inc.')" src="'.RUTA_IMG_ICONOS.'ver-tb.png"></td>
 <td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarIncP('.$id_poliza_inc.')"></td>

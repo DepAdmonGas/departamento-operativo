@@ -17,7 +17,7 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 
  <div class="modal-header">
   <h5 class="modal-title">Poliza de Seguro <?=$estacion?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
@@ -34,16 +34,9 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 <input class="form-control" type="file" id="PolizaDoc">
 
 
-<div class="row">
-<div class="col-12">
-<button type="button" class="btn btn-primary btn-sm mt-3 float-end" onclick="GuardarPolizaS(<?=$idEstacion;?>)">Guardar</button>
-</div>
-</div>
-
-<hr>
- 
 <div class="table-responsive">
-    <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<table class="custom-table mt-3" style="font-size: 12.5px;" width="100%">
+
     <thead class="tables-bg">
       <tr>
         <td class="text-center align-middle"><b>Poliza de seguro</b></td>
@@ -54,7 +47,8 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
         <td class="text-center align-middle" width="24px"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
       </tr>
     </thead> 
-    <tbody>
+
+    <tbody class="bg-light">
     <?php
     if ($numero_lista_poliza > 0) {
     while($row_lista_poliza = mysqli_fetch_array($result_lista_poliza, MYSQLI_ASSOC)){
@@ -71,7 +65,7 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
     }
 
     echo '<tr class="align-middle">';
-    echo '<td class="text-center">'.$Poliza.'</td>';
+    echo '<th class="text-center">'.$Poliza.'</th>';
     echo '<td class="text-center">'.FormatoFecha($emision).'</td>';
     echo '<td class="text-center">'.FormatoFecha($vencimiento).'</td>';
     echo '<td class="text-center" width="24px"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarPoliza('.$id_poliza.')"></td>';
@@ -80,11 +74,18 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 
     }
     }else{
-    echo "<tr><td colspan='5' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+    echo "<tr><th colspan='5' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
     }
     ?>
     </tbody>
     </table>
   </div>
 
+</div>
+
+
+<div class="modal-footer">
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarPolizaS(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
