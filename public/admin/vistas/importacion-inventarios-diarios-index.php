@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -21,7 +18,8 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -32,10 +30,11 @@ header("Location:".PORTAL."");
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   Contenido();
+
   });
 
   function Regresar(){
-   window.history.back();
+  window.history.back();
   }
  
  function Nuevo(){
@@ -59,7 +58,7 @@ header("Location:".PORTAL."");
     } 
     }); 
 
- }
+ } 
  
    function Contenido(){
     $('#Contenido').load('../public/admin/vistas/lista-importacion-inventario-diario.php');
@@ -147,41 +146,39 @@ alertify.confirm('',
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Importación</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Inventarios diarios</li>
+  </ol>
+  </div>
 
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Inventarios diarios</h3>
+  </div>
 
-    <div class="row">
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <div class="dropdown d-inline">
+  <button type="button" class="btn dropdown-toggle btn-primary float-end" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-screwdriver-wrench"></i></span>
+  </button>
 
-    <div class="col-9">
+  <ul class="dropdown-menu">  
+  <li onclick="Nuevo()"><a class="dropdown-item pointer">  <i class="fa-regular fa-plus"></i> Agregar</a></li>
+  <li onclick="ModalBuscar()"><a class="dropdown-item pointer">  <i class="fa-solid fa-search"></i> Buscar</a></li>
+  </ul>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
+  </div>
 
-    <div class="col-12">
-    <h5>Inventarios diarios</h5>
-    </div>
-
-    </div>
-
-    </div>
-
-
-    <div class="col-3">
-    <img class="ms-2 float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="Nuevo()">
-    <img class="ms-2 float-end pointer" src="<?=RUTA_IMG_ICONOS;?>buscar-tb.png" onclick="ModalBuscar()">
-    </div>
-
-    </div>
+  </div>
 
   <hr>
+  </div>
 
- <div id="Contenido"></div>
-
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="Contenido"></div>
 
   </div>
   </div>
@@ -189,22 +186,14 @@ alertify.confirm('',
   </div>
 
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalBuscar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="DivContenidoBuscar">
+  </div>
+  </div>
   </div>
 
-    <div class="modal" id="ModalBuscar">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoBuscar"></div>
-      </div>
-    </div>
-  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

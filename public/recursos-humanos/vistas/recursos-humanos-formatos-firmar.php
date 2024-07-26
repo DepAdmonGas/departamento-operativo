@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $sql = "SELECT * FROM op_rh_formatos WHERE id = '".$GET_idFormato."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
@@ -16,8 +12,6 @@ $formato = $row['formato'];
 
 $status = $row['status'];
 }
-
-
 
 
 $sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '".$Localidad."' ";
@@ -44,7 +38,7 @@ $Titulo = 'Firmar Formato Falta Personal '.$estacion;
 }else if($formato == 4){
 $Titulo = 'Firmar Formato Baja Personal '.$estacion;    
 }else if($formato == 5){
-$Titulo = 'Firmar Formato Solicitud de Vacaciones '.$estacion;    
+$Titulo = "Firma Solicitud de Vacaciones ($estacion)";    
 }else if($formato == 6){
 $Titulo = 'Firmar Formato Ajuste Salarial '.$estacion;    
 }
@@ -104,14 +98,7 @@ return $nombre;
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-  </style>
-
   <script type="text/javascript">
-
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   $('[data-toggle="tooltip"]').tooltip();
@@ -285,7 +272,6 @@ return $nombre;
   <body> 
   <div class="LoaderPage"></div>
 
-
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
@@ -295,36 +281,27 @@ return $nombre;
   <div class="row">
 
   <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-
-      <h5>
-    <?=$Titulo;?>
-      </h5>
-
-    </div>
-
-    </div>
-    </div>
-
-    </div>
+  <div class="cardAG p-3 container">
+    
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Vacaciones
+  </a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$Titulo;?></li>
+  </ol>
+  </div>
+  
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$Titulo;?></h3> </div>
+  </div>
 
   <hr>
+  </div>
 
-
-<div class="row justify-content-md-center">
-<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12"> 
-
-<?php if($formato == 1){ ?>
+  <!---------- FORMULARIOS DE FIRMAS ---------->
+  <div class="col-12">
+  <?php if($formato == 1){ ?>
 <div class="table-responsive">
 <table class="table table-sm table-bordered pb-0 mb-2 mt-2">
 <tbody>
@@ -710,51 +687,67 @@ Sin más por el momento quedo de usted.
 $sqlDetalle = "SELECT * FROM op_rh_formatos_vacaciones WHERE id_formulario = '".$GET_idFormato."' ";
 $resultDetalle = mysqli_query($con, $sqlDetalle);
 $numeroDetalle = mysqli_num_rows($resultDetalle);
+
 while($rowDetalle = mysqli_fetch_array($resultDetalle, MYSQLI_ASSOC)){
 $idusuario = $rowDetalle['id_usuario']; 
 $numdias = $rowDetalle['num_dias'];
 $fechainicio = $rowDetalle['fecha_inicio'];
 $fechatermino = $rowDetalle['fecha_termino'];
 $fecharegreso = $rowDetalle['fecha_regreso'];
-$observaciones = $rowDetalle['observaciones'];
+$observaciones2 = $rowDetalle['observaciones'];
+}
+
+if($observaciones2 == ""){
+$observaciones = "Sin observaciones";
+}else{
+$observaciones = $observaciones2;
 }
 
 $Personal = NombrePersonal($idusuario,$con);
 ?>
  
-
+ 
 <div class="table-responsive">
-  <table class="table table-bordered">
-    <tr>
-      <td class="font-weight-bold">Área o Departamento:</td>
-      <td><?=NombreEstacion($Localidad,$con);?></td>
-    </tr>
-    <tr>
-      <td class="font-weight-bold">Nombre completo:</td>
-      <td><?=$Personal['nombre'];?></td>
-    </tr>
-    <tr>
-      <td class="font-weight-bold">Número de días a disfrutar:</td>
-      <td><?=$numdias;?></td>
-    </tr>
-    <tr>
-      <td class="font-weight-bold">Del:</td>
-      <td><?=FormatoFecha($fechainicio);?></td>
-    </tr>
-    <tr>
-      <td class="font-weight-bold">Al:</td>
-      <td><?=FormatoFecha($fechatermino);?></td>
-    </tr>
-    <tr>
-      <td class="font-weight-bold">Regresando el:</td>
-      <td><?=FormatoFecha($fecharegreso);?></td>
-    </tr>
-  </table>
+<table class="custom-table mb-3" style="font-size: 12.5px;" width="100%">
+<tr>
+<td class="font-weight-bold tables-bg"><b>Área o Departamento:</b></td>
+<td class="font-weight-bold tables-bg"><b>Nombre completo:</b></td>
+<td class="font-weight-bold tables-bg"><b>Número de días a disfrutar:</b></td>
+</tr>
+<tr>
+<td class="bg-light"><?=NombreEstacion($Localidad,$con);?></td>
+<td class="bg-light"><?=$Personal['nombre'];?></td>
+<td class="bg-light"><?=$numdias;?></td>
+</tr>
+
+<tr>
+<th class="tables-bg">Del:</th>
+<td class="tables-bg"><b>Al:</b></td>
+<th class="tables-bg">Regresando el:</th>
+</tr>
+<tr>
+<td class="bg-light"><?=FormatoFecha($fechainicio);?></td>
+<td class="bg-light"><?=FormatoFecha($fechatermino);?></td>
+<td class="bg-light"><?=FormatoFecha($fecharegreso);?></td>
+</tr>
+
+</table>
 </div>
  
 
-<div class="font-weight-bold mb-1">Observaciones:</div>
-<div class="border p-2"><?=$observaciones;?></div>
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">Observaciones</th> </tr>
+</thead>
+<tbody>
+<tr class="no-hover">
+<th class="align-middle text-center fw-normal bg-light"><?=$observaciones?></th>
+</tr>
+</tbody>
+</table>
+</div>
+
 <hr>
 
 <?php }else if($formato == 6){?>
@@ -802,34 +795,69 @@ echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encont
 <p class="text-center mt-3">Sin más por el momento quedo de usted.</p>
 <hr>
 <?php } ?>
-
- 
-
-<div class="row">     
-
-<?php if($status == 1){ ?>
-<?php if($Session_IDUsuarioBD == 318){ ?>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<div class="border p-3 mt-3">
-<div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
-<hr>
-<h4 class="text-primary align-middle text-center">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)"><small>Crear token Whatsapp</small></button>
-
-<button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)"><small>Crear token vía email</small></button>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'B')">Firmar solicitud</button>
   </div>
-</div>
-</div>
-</div>
- 
+
+  <!---------- FIRMAS ---------->
+  <div class="col-12">
+  <div class="row">     
+
+  <?php 
+  if($formato != 5){
+  if($status == 1){
+  if($Session_IDUsuarioBD == 318){ ?>
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+    
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <!--
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
+  -->
+  </th>
+  
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <div class="input-group-append">
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'B')">Firmar solicitud</button>
+  </div>
+  </div>
+  </th>
+  </tr>
+
+
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 <?php 
 }else if($Session_IDUsuarioBD == 2){
@@ -842,35 +870,32 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
 </div></div>';
 }
 }
+}
 ?>
 
 
    
 
-<?php if($status == 2){ ?>
+<?php 
+if($formato != 5){
+if($status == 2){
 
+$sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idFormato."' ";
+$result_firma = mysqli_query($con, $sql_firma);
+$numero_firma = mysqli_num_rows($result_firma);
 
+  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
+  $explode = explode(' ', $row_firma['fecha']);
 
-<?php
+  if($row_firma['tipo_firma'] == "A"){
+  $TipoFirma = "Elaboró";
+  $Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG.'/firma/'.$row_firma['firma'].'" width="70%"></div>';
 
-  $sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idFormato."' ";
-  $result_firma = mysqli_query($con, $sql_firma);
-  $numero_firma = mysqli_num_rows($result_firma);
+  }else if($row_firma['tipo_firma'] == "B"){
+  $TipoFirma = "Vo.Bo";
+  $Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 
-    while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-
-    $explode = explode(' ', $row_firma['fecha']);
-
-    if($row_firma['tipo_firma'] == "A"){
-    $TipoFirma = "Elaboró";
-    $Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG.'/firma/'.$row_firma['firma'].'" width="70%"></div>';
-
-
-    }else if($row_firma['tipo_firma'] == "B"){
-    $TipoFirma = "Vo.Bo";
-    $Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-
-    }
+  }
 
     echo '<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">';
     echo '<div class="border p-3">';
@@ -881,29 +906,67 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
     echo '</div>';
     }
 
-    ?>
+  ?>
 
   
 
 <?php if($Session_IDUsuarioBD == 2){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<div class="border p-3 ">
-<div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
-<hr>
-<h4 class="text-primary align-middle text-center">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)"><small>Crear token Whatsapp</small></button>
-<button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)"><small>Crear token vía email</small></button>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+    
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <!--
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
+  -->
+  </th>
+  
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'C')">Firmar solicitud</button>
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'C')">Firmar solicitud</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </th>
+  </tr>
+
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+
+
  
 <?php }else{
 echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
@@ -914,57 +977,124 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
 
 <?php 
 } 
+}else{
 ?>
 
-</div>
+
+
+<?php if($Session_IDUsuarioBD == 2){ ?>
+
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+    
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <!--
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
+  -->
+  </th>
+  
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <div class="input-group-append">
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'C')">Firmar solicitud</button>
+  </div>
+  </div>
+  </th>
+  </tr>
+
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  <?php }else{
+  echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+  </div></div>';
+  } 
+
+  }
+  ?>
+
+  </div>
 
 
   </div>
-  </div>
-  </div>
 
-  </div>
-  </div>
 
+  
   </div>
-
+  </div>
+  </div>
+  </div>
+  </div>
 
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
   <div class="modal-dialog" role="document">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div class="modal-body">
+  <div class="modal-content">
+  <div class="modal-body">
+    
+  <h5 class="text-info">El token fue validado correctamente.</h5>
+  <div class="text-secondary">El formato fue firmado.</div>
 
-       <h5 class="text-info">El token fue validado correctamente.</h5>
-       <div class="text-secondary">El formato fue firmado.</div>
-
-
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
-      </div>
-
-      </div>
-    </div>
   </div>
-</div>
+
+  <div class="modal-footer">
+	<button type="button" class="btn btn-labeled2 btn-success" onclick="Regresar()">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
+  </div>
+
+  </div>
+  </div>
+  </div>
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
   <div class="modal-dialog" role="document">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div class="modal-body">
+  <div class="modal-content">
+  <div class="modal-body">
 
-       <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
-       <div class="text-secondary">El formato no fue firmado.</div>
-
-
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-      </div>
-
-      </div>
-    </div>
+  <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
+  <div class="text-secondary">El formato no fue firmado.</div>
   </div>
-</div>
+
+  <div class="modal-footer">
+	<button type="button" class="btn btn-labeled2 btn-success" data-bs-dismiss="modal">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
+  </div>
+
+  </div>
+  </div>
 
 
 

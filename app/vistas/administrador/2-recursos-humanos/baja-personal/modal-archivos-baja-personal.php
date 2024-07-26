@@ -33,19 +33,12 @@ $numero_archivos_baja = mysqli_num_rows($result_archivos_baja);
 <input type="file" class="form-control" id="Archivo">
 </div>
 
-<div class="col-12">  
-<button type="button" class="btn btn-labeled2 btn-success float-end mt-2" onclick="subirArchivoBaja(<?=$idBaja;?>,<?=$idEstacion?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
-
-</div>
-
-<hr> 
 
 <div class="table-responsive">
 <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr>
 <th class="align-middle text-center">Descripción:</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
@@ -85,4 +78,9 @@ echo "<tr class='bg-light'><th colspan='7' class='text-center text-secondary'><s
 
 </div>
     
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success float-end mt-2" onclick="subirArchivoBaja(<?=$idBaja;?>,<?=$idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>
 

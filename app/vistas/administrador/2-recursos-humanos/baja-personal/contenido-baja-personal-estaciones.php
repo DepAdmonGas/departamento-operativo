@@ -17,7 +17,6 @@ op_rh_personal.nss,
 op_rh_personal.contrato,
 op_rh_personal.documentos,
 op_rh_personal.estado,
-
 op_rh_personal_baja.id AS idBaja,
 op_rh_personal_baja.fecha_baja,
 op_rh_personal_baja.motivo,
@@ -38,7 +37,6 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="row">
-
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
@@ -54,12 +52,12 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <hr>
 </div>
-</div>
+</div> 
  
 <div class="table-responsive">
 <table class="custom-table" style="font-size: .8em;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr class="text-center align-middle">
 <th class=" tableStyle font-weight-bold">#</th>
 <th class="align-middle tableStyle font-weight-bold">Nombre</th>
@@ -81,7 +79,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
 </thead> 
 
-<tbody>
+<tbody class="bg-white">
 
 <?php
 $num = 1;
@@ -109,7 +107,7 @@ $proceso = $row_lista['proceso'];
 $ToComentarios = $ClassRecursosHumanosGeneral->ToComentarios($GET_idBaja);
 
 if($ToComentarios > 0){
-$Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 11px;">'.$ToComentarios.' </span></span></div>';
+$Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
 }else{
 $Nuevo = ''; 
 }
@@ -138,7 +136,7 @@ $detalleNss = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 
 $detalleCurp = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/curp/', $curp, 'Clave Única de Registro de Población (CURP)');
 $detalleRfc = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/rfc/', $rfc, 'Constancia de Situación Fiscal (CSF)');
 $detalleContrato = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/contrato/', $contrato, 'Contrato');
-
+ 
 echo '<tr '.$tableColor.' >';
 echo '<th class="text-center">'.$num .'</th>';
 echo '<td>'.$row_lista['nombre_completo'].'</td>';
@@ -149,7 +147,6 @@ echo '<td class="text-center">'.$row_lista['motivo'].'</td>';
 echo '<td class="text-center">'.$row_lista['detalle'].'</td>';
 echo '<td class="text-center">'.$proceso.'</td>';
 echo '<td class="text-center">'.$badgeAlert.'</td>';
-
 echo '<td class="text-center">'.$detalleDoc.'</td>';
 echo '<td class="text-center">'.$detalleIne.'</td>';
 echo '<td class="text-center">'.$detalleCurp.'</td>';
@@ -157,14 +154,14 @@ echo '<td class="text-center">'.$detalleRfc.'</td>';
 echo '<td class="text-center">'.$detalleNss.'</td>';
 echo '<td class="text-center">'.$detalleContrato.'</td>';
 echo '<td class="text-center"><a class="pointer" onclick="ArchivosBaja('.$GET_idBaja.','.$GET_idEstacion.')"><img src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></a></td>';
-echo '<td class="align-middle text-center">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" onclick="ComentarioBaja('.$GET_idBaja.','.$GET_idEstacion.')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+echo '<td class="align-middle text-center position-relative" onclick="ComentarioBaja('.$GET_idBaja.','.$GET_idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
 echo '<td class="text-center">'.$editartb.'</td>';
 echo '</tr>';
 
 $num++;
 }
 }else{
-echo "<tr><td colspan='20'><div class='text-secondary text-center p-1 fs- fw-light'>No se encontró información para mostrar </div></td></tr>";	
+echo "<tr><th class='no-hover' colspan='20'><div class='text-secondary text-center fw-light'>No se encontró información para mostrar </div></th></tr>";	
 }
 ?>
 </tbody>

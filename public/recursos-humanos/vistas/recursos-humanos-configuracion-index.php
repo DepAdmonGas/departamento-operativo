@@ -1,12 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
- 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,9 +16,10 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -67,84 +64,88 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
 
-    <div class="row">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+    <ol class="breadcrumb breadcrumb-caret">
+      <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+            class="fa-solid fa-chevron-left"></i> Biometrico</a></li>
+      <li aria-current="page" class="breadcrumb-item active text-uppercase">Configuración</li>
+    </ol>
+  </div>
+
+  <div class="row">
     <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Recursos humanos configuración</h5>
-    
-    </div>
+      <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Configuración</h3>
     </div>
 
-    </div>
-    </div>
+  </div>
 
   <hr>
-
-   <div class="row justify-content-md-center">
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="Perfil()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Perfil aplicación</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>perfil-estacion.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="Puesto()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Puestos</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>area-departamento-puesto.png">
-  </div>
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-1 mt-2">
-  <div class="card card-menu-RH rounded shadow-sm p-0 mb-2 pointer" onclick="ReHoIn()">          
-  <div class="col-12 text-center text-secondary mt-2 mb-3">
-  <h5 class="text-secondary">Retardo, Horarios, Incidencias</h5>
-  <img class="pt-2" src="<?=RUTA_IMG_ICONOS;?>calendario.png">
-  </div>
-  </div>
-  </div>
-
-  </div>
-
-     
-  </div>
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-  </div>
+</div>
 
 
+<div class="row justify-content-md-center">
 
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+<!----- 1. Perfil aplicación ----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="Perfil()">  
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>perfil-estacion.png" draggable="false"/></div>
+  
+<div class="product-info">
+<!--<p class="mb-0 pb-0">Perfil aplicación</p> -->
+ <h2>Perfil de aplicación</h2>
+</div>
+
+</div>
+</section>
+</div>
+
+<!----- 2. Puestos ----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="Puesto()"> 
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>area-departamento-puesto.png" draggable="false"/></div>
+  
+<div class="product-info">
+<!--<p class="mb-0 pb-0">Perfil aplicación</p> -->
+ <h2>Puestos</h2>
+</div>
+
+</div>
+</section>
+</div>
+
+<!----- 3. Calendario ----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="ReHoIn()">  
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>calendario.png" draggable="false"/></div>
+  
+<div class="product-info">
+<!--<p class="mb-0 pb-0">Perfil aplicación</p> -->
+<h2>Retardos, Horarios e Incidencias</h2>
+</div>
+
+</div>
+</section>
+</div>
+
+</div>
+
+  </div>
+  </div>
+
   </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

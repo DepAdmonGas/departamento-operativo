@@ -18,39 +18,53 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 ?>
 
-<div class="border-0 p-3">
- 
-<div class="row">
 
-  <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 ">
-	<h5>Bitácora aditivo, <?=$estacion;?></h5>
+<div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Importación</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Bitácora aditivo (<?=$estacion;?>)</li>
+  </ol>
   </div>
 
-  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ">
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Bitácora Aditivo (<?=$estacion;?>)</h3>
+  </div>
 
-	<button type="button" class="btn btn-outline-primary btn-sm rounded-0 float-end ms-1" onclick="SelInventario(<?=$idEstacion;?>)">Inventario</button>
-	<button type="button" class="btn btn-outline-info btn-sm rounded-0 float-end ms-2" onclick="SelReporte(<?=$idEstacion;?>)">Reporte</button>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <div class="dropdown d-inline">
+  <button type="button" class="btn dropdown-toggle btn-primary float-end" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-screwdriver-wrench"></i></span>
+  </button>
 
-</div>
+  <ul class="dropdown-menu">  
+  <li onclick="SelReporte(<?=$idEstacion;?>)"><a class="dropdown-item pointer">  <i class="fa-regular fa-file-lines"></i> Reporte de aditivo</a></li>
+  <li onclick="SelInventario(<?=$idEstacion;?>)"><a class="dropdown-item pointer">  <i class="fa-solid fa-bottle-droplet"></i> Inventario de aditivo</a></li>
+  </ul>
+  </div>
 
-</div>
+  </div>
 
-<hr>
+  </div>
+
+  <hr>
+  </div>
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-1" style="font-size: 1em;">
+<table id="tabla_aditivo_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
 
 <thead class="tables-bg">
 	<th class="align-middle text-center">#</th>
 	<th class="align-middle text-center">Folio</th>
-	<th class="align-middle">Fecha</th>
+	<th class="align-middle text-center">Fecha</th>
 	<th class="align-middle text-center">No. Factura</th>
 	<th class="align-middle text-center">Producto</th>
 	<th class="align-middle text-center">Galones</th>
 	<th class="align-middle text-center">Fisico</th>
 </thead>
 
-<tbody>
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
@@ -64,20 +78,18 @@ $iconCancelar = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.
 }
 
 echo '<tr class="'.$tableColor.'">
-<td class="align-middle text-center">'.$row_lista['id'].'</td>
+<th class="align-middle text-center">'.$row_lista['id'].'</th>
 <td class="align-middle text-center">00'.$row_lista['folio'].'</td>
-<td class="align-middle ">'.FormatoFecha($row_lista['fecha']).'</td>
+<td class="align-middle ">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</td>
 <td class="align-middle text-center">'.$row_lista['no_factura'].'</td>
 <td class="align-middle text-center">'.$row_lista['producto'].'</td>
 <td class="align-middle text-center"><b>'.$row_lista['galones'].'</b></td>
 <td class="align-middle text-center">'.$row_lista['inventario_fisico'].'</td>
 </tr>';
 }
-}else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
+
 ?>	
 </tbody>
 </table>
-</div>
 </div>

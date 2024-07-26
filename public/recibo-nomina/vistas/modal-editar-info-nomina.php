@@ -108,11 +108,8 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 
 
 <div class="col-12 <?=$ocultarOriginal?>">
-<div class="border p-3">
 
 <h6 class="text-secondary">¿Se recibio el recibo de nomina original (firmado)?:</h6>
-<hr>
-
 <div class="row">
 
 <div class="col-4 mb-2">
@@ -131,7 +128,6 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 </div>
 
 </div>
-</div>
 
 
 <div class="col-12 <?=$ocultarFormulario?>">
@@ -142,24 +138,18 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<div class="border p-3 mb-3">
 <h6 class="text-secondary">Recibo de Nomina:</h6>
-<hr>
 <input class="form-control" type="file" id="DocumentoAcuse">
-</div>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<div class="border p-3 mb-3">
 <h6 class="text-secondary">Recibo de Nomina <b>(Firmado)</b>:</h6>
-<hr>
 <input class="form-control" type="file" id="DocumentoFirma">
 </div>
-</div>
 
 
-<div class="col-12 <?=$ocultarPrima?> <?=$ocultarOpcion?>">
-<div class="border p-3 mb-3">
+<div class="col-12 mt-3 <?=$ocultarPrima?> <?=$ocultarOpcion?>">
+<div class="border p-3">
 
 <h6 class="text-secondary">¿Se realizo el pago de prima vacacional?:</h6>
 <hr>
@@ -195,8 +185,13 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-    <button type="button" class="btn btn-primary" onclick="EditarNominaInfo(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$GET_usuario?>,<?=$prima_vacacional?>,<?=$ToAlertaBD?>)">Editar</button>
-</div>
+
+    <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+    <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarNominaInfo(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$GET_usuario?>,<?=$prima_vacacional?>,<?=$ToAlertaBD?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+
+  </div>
 
  

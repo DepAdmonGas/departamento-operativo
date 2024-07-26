@@ -6,7 +6,7 @@ $idEstacion = $_GET['idEstacion'];
 
 <div class="modal-header">
 <h5 class="modal-title">Reporte asistencia</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -48,13 +48,13 @@ echo '<option value="'.$i.'">'.$i.'</option>';
 
 </div>
 
-
 <div class="mt-1" id="MensajeReporte"></div>
 
 </div>
 
 
-    <div class="modal-footer">
-<button type="button" class="btn btn-primary rounded-0 fw-lighter fs-6" onclick="btnBuscar(<?=$idEstacion;?>)">Buscar</button>
-      </div>
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="btnBuscar(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-search"></i></span>Buscar</button>
+</div>
 

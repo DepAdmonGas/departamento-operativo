@@ -48,8 +48,10 @@ $estado = "Finalizado";
 </div>
 
 <div class="modal-footer">
-    
-<button type="button" class="btn btn-primary" onclick="EditarProcesoPersonal(<?=$idBaja?>,<?=$idEstacion?>)">Editar</button>
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarProcesoPersonal(<?=$idBaja?>,<?=$idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button> 
+
 </div>
 
  

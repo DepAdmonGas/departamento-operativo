@@ -7,7 +7,7 @@ header("Location:".PORTAL."");
    
 ?>
 
-
+ 
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -21,6 +21,7 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
   <script src="<?=RUTA_JS?>size-window.js"></script>
@@ -78,6 +79,12 @@ $('#ListaAsistencia').load('public/recursos-humanos/vistas/contenido-recursos-hu
 function ModalReporte(idEstacion){
 $('#ModalIncidencias').modal('show');
 $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-reporte-asistencia.php?idEstacion=' + idEstacion); 
+} 
+
+
+function DetalleIncidencia(idEstacion,year,mes,semana){
+$('#ModalIncidencia').modal('show');
+$('#DivIncidencia').load('public/recursos-humanos/vistas/modal-detalle-reporte-asistencia.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&semana=' + semana); 
 } 
 
 function btnBuscar(idEstacion){ 
@@ -277,9 +284,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaAsistencia" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaAsistencia"></div> 
 
   </div>
   </div> 
@@ -289,21 +294,26 @@ $icon = "fa-solid fa-screwdriver-wrench";
 </div>
 
 
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalIncidencias" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
 
-<div class="modal" id="ModalIncidencias" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog" style="margin-top: 83px;">
-<div class="modal-content border-0 rounded-0" >
-<div id="ContenidoModal"></div>
-</div>
-</div>
-</div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalIncidencia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivIncidencia"></div>
+  </div>
+  </div>
+  
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

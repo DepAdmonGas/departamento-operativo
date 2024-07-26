@@ -35,12 +35,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-  <style media="screen">
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
-
   <script type="text/javascript">
 
   $(document).ready(function($){

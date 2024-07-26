@@ -19,7 +19,8 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -43,10 +44,10 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
     
   let targets = [];// Variable para almacenar los targets dinámicos
   if (idEstacion == 8) {
-  targets = [7, 8, 9, 10, 11, 12];
+  targets = [7, 8];
   
   }else{
-  targets = [6, 7, 8, 9, 10, 11];
+  targets = [6, 7];
   }
   
   $('#ListaVales').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/lista-solicitud-vales-mes.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&pagina=' + pagina, function() {
@@ -72,6 +73,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   function ModalDetalle(id){
   $('#Modal').modal('show');  
   $('#DivContenido').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-detalle-solicitud-vale.php?idReporte=' + id);
+  
   }
 
   function ModalArchivos(year,mes,idEstacion,depu,id){
@@ -114,7 +116,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   if(data == 1){
   $(".LoaderPage").hide();
   ModalArchivos(year,mes,idEstacion,depu,id);
-  ListaVales(idEstacion,depu,year,mes,'<?=$Pagina?>'); 
+  ListaVales(idEstacion,depu,year,mes); 
   alertify.success('Archivo agregado exitosamente.')
   
   }else{
@@ -286,6 +288,12 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   window.location.href = "../../" + referencia;
   }
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
@@ -300,7 +308,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row"> 
-  <div id="ListaVales"></div> 
+  <div class="col-12" id="ListaVales"></div> 
   </div>
   </div>
   
@@ -321,7 +329,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
 
   <!---------- MODAL (CENTER) ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>

@@ -182,9 +182,12 @@ require('../../../app/help.php');
 
   if($finQuincenaDay <= $fecha_resultante && 2024 <= $year && $year <= $fecha_year){
   //----- Configuracion Nomina de Alejandro Guzman ----------
-  if($Session_IDUsuarioBD == 354){
-  $acusesArchivo = '<img class="ms-3 float-end pointer" onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$quincena.',\''.$descripcion.'\')" src="'.RUTA_IMG_ICONOS.'archivo-tb.png">';
-  
+  if($Session_IDUsuarioBD == 354){  
+  $acusesArchivo = '
+	<button type="button" class="btn btn-labeled2 btn-success float-end " onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$quincena.',\''.$descripcion.'\')">
+  <span class="btn-label2"><i class="fa-solid fa-file-arrow-up"></i></span>Subir recibos de nomina</button>';
+
+
   }else{
   $acusesArchivo = documentoNomina($idEstacion,$year,$mes,$quincena,$descripcion,$con);
   }
@@ -418,18 +421,21 @@ require('../../../app/help.php');
   $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
   $tbOriginal1 = "";
   $valColspan = "6";
+  $valColspan2 = "4";
     
   }else{
     
   if($Session_IDUsuarioBD == 354){
   $tbPrima1 = "";
-  $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>original-tb.png"></th>  '; 
-  $valColspan = "6";
+  $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
+  $valColspan = "5";
+  $valColspan2 = "5";
    
   }else{
   $tbPrima1 = "";
   $tbOriginal1 = ""; 
   $valColspan = "5";
+  $valColspan2 = "4";
 
   }
      
@@ -475,7 +481,7 @@ require('../../../app/help.php');
     
   <tr class="tables-bg">
   <th class="text-center align-middle fw-bold" colspan="<?=$valColspan?>">Quincena <?=$quincena?> <?=$tituloTablaPersonal?> <br> <?=formatoFecha($inicioQuincenaDay)?> al <?=formatoFecha($finQuincenaDay)?></th>
-  <th class="text-center align-middle" colspan="4">
+  <th class="text-center align-middle" colspan="<?=$valColspan2?>">
   <div class="d-flex align-items-center">
   <!----- SELECT DE QUINCENAS DEL AÑO ----->
   <select class="form-select" id="QuincenaEstacion_<?=$idEstacion?>" onchange="SelNoQuincena(<?=$idEstacion?>,<?=$year?>)"> 
@@ -579,11 +585,12 @@ if($DocumentoNomina != ""){
   
   //---------- RECIBO DE NOMINA ORIGINAL ----------
   if($DocumentoOriginal != 0){
-  $archivoNominaOriginal = '<img src="'.RUTA_IMG_ICONOS.'original-tb.png" data-toggle="tooltip" data-placement="top" title="Recibido">';
-  
-    
+  $archivoNominaOriginal = '<td class="align-middle text-center><img src="'.RUTA_IMG_ICONOS.'original-tb.png" data-toggle="tooltip" data-placement="top" title="Recibido"></td>';
+
+
   }else{
-  $archivoNominaOriginal = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="No recibido">';
+  $archivoNominaOriginal = '<td class="align-middle text-center><img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="No recibido"></td>';
+
   }
   
   
@@ -688,10 +695,10 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0 ){
   echo '<td class="align-middle text-center">'.$nombreNomina.'</td>';
   echo '<td class="align-middle text-center">'.$puestoNomina.'</td>'; 
   echo '<td class="align-middle text-center">$'.number_format($importe_total,2).'</td>'; 
-  echo  ''.$tbPrima2.'';
+  echo  $tbPrima2;
   echo '<td class="align-middle text-center">'.$archivoNominaAcuse.'</td>'; 
   echo '<td class="align-middle text-center">'.$archivoNominaFirma.'</td>'; 
-  echo  ''.$tbOriginal2.'';
+  echo  $tbOriginal2;
   echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.','.$year.','.$mes.','.$quincena.',\''.$descripcion.'\')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
   echo '<td class="align-middle text-center">'.$editarNominaUser.'</td>'; 
   echo '</tr>';
@@ -699,11 +706,20 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0 ){
 $num++;
 }
 
-
-$EtiquetaTotal = '<h6 class="text-end"> Importe Total: '.number_format($totalGeneral,2).' </h6>';
+echo '<tr class="ultima-fila">
+<th class="align-middle text-end" colspan="4">Importe Total</th>
+<th class="align-middle text-center" colspan="1">$'.number_format($totalGeneral,2).'</th>
+<th class="align-middle text-end" colspan="5"></th>
+</tr>';
 
 }else{
-$EtiquetaTotal = '<h6 class="text-end"> Importe Total: $'.number_format(0,2).' </h6>';
+
+  echo '<tr class="ultima-fila">
+  <th class="align-middle text-end" colspan="4">Importe Total</th>
+  <th class="align-middle text-center" colspan="1">$'.number_format(0,2).'</th>
+  <th class="align-middle text-end" colspan="5"></th>
+  </tr>';
+
 
 }
 
@@ -713,18 +729,3 @@ $EtiquetaTotal = '<h6 class="text-end"> Importe Total: $'.number_format(0,2).' <
 </tbody>
 </table>
 </div>
-
-<div class="row mt-3 ">
-
-<div class="col-6">
-<?=$btnFinalizarES?>
-</div>
-
-<div class="col-6">
-<?=$EtiquetaTotal?>
-</div>
-
-</div>
-
-</div>   
-

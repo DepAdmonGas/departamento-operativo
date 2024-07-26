@@ -33,7 +33,7 @@ $numero_asistencia = mysqli_num_rows($result_asistencia);
   <div class="table-responsive">
   <table id="tabla_asistencia" class="custom-table mt-2" style="font-size: .9em;" width="100%">
 
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr>
   <th class="text-center align-middle">#</th>
   <th class="align-middle">Fecha</th>

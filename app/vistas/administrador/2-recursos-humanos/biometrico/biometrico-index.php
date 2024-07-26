@@ -98,6 +98,12 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
   }
 
 
+    //---------- MODAL BUSCAR REPORTE ----------
+    function ModalReporte(idEstacion){
+    $('#ModalIncidencias').modal('show');
+    $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/biometrico/modal-buscar-reporte-biometrico.php?idEstacion=' + idEstacion); 
+    } 
+  
  
   function btnBuscar(idEstacion){
   

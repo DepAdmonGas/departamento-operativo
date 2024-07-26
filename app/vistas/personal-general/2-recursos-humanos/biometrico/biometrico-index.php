@@ -51,7 +51,7 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
 
   function ConfiguracionBiometrico(valBiometrico){
   if(valBiometrico == 0){
-  window.location.href = "recursos-humanos-estacion-configuracion";
+  window.location.href = "recursos-humanos-estacion-configuracion-retardo-horarios-incidencias";
   }  
   }
 

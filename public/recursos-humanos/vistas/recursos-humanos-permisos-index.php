@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 function ToSolicitud($idEstacion,$con){
 
 $sql_lista = "SELECT id FROM op_rh_permisos WHERE id_estacion = '".$idEstacion."' AND (estado BETWEEN 0 AND 1) ";
@@ -37,29 +33,22 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   
-  <style media="screen">
-
-  .decorado:hover {
-  text-decoration: none;
-  }
-  </style>
-
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-    idEstacion = sessionStorage.getItem('idestacion');
-    $('#ListaPermisos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-permisos.php?idEstacion=' + idEstacion);
+  idEstacion = sessionStorage.getItem('idestacion');
+  $('#ListaPermisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion);
         
-    }
-    }  
+  }
+  }  
 
-    });
+  });
 
     function Regresar(){
     sessionStorage.removeItem('idestacion');
@@ -69,7 +58,16 @@ return $numero_lista = mysqli_num_rows($result_lista);
     function SelEstacion(idEstacion){
     sizeWindow();
     sessionStorage.setItem('idestacion', idEstacion);
-    $('#ListaPermisos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-permisos.php?idEstacion=' + idEstacion);
+    //$('#ListaPermisos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-permisos.php?idEstacion=' + idEstacion);
+    $('#ListaPermisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion);
+    }
+
+
+    function DetallePermiso(idPermiso) {
+    $('#Modal').modal('show');
+    //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-permisos.php?idPermiso=' + idPermiso);
+    $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/permisos/modal-detalle.php?idPermiso=' + idPermiso);
+
     }
 
     function Registro(idEstacion){
@@ -123,6 +121,14 @@ alertify.confirm('',
   function Firmar(id){
   window.location.href = "recursos-humanos-permisos-firmar/" + id; 
   }
+
+
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
@@ -278,24 +284,18 @@ $ToSolicitud = ToSolicitud($id,$con);
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaPermisos" class="cardAG"></div>
+  <div class="col-12" id="ListaPermisos">
   </div> 
-
   </div>
   </div> 
-
+  </div>
   </div>
 
-</div>
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <!---------- MODAL COVID ---------->    
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal"></div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

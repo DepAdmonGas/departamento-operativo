@@ -35,5 +35,6 @@ $idEstacion = $_GET['idEstacion'];
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion?>)">  
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>

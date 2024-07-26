@@ -46,7 +46,7 @@ class SolicitudVale extends Exception
     }
         
     $consulta->close();
-    return array('id' => $numid, 'folio' => $folio);
+    return array('id' => $numid, 'folio' => $numfolio);
     }
     
 

@@ -57,46 +57,48 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
             <div class=""><?= $Estacion; ?></div>
         </div>
 
-        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
             <small class="mb-1 text-secondary ">Colaborador:</small>
             <div class=""><?= $nameUSUR; ?></div>
         </div>
 
-        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-            <small class="mb-1 text-secondary ">Días tomados:</small>
-            <div class=""><?= $diastomados; ?></div>
-        </div>
 
 
         <div class="col-12">
             <div class="row">
 
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mb-2">
                     <small class="text-secondary">Del:</small>
                     <div><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio); ?></div>
                 </div>
 
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mb-2">
                     <small class="text-secondary">Hasta:</small>
                     <div><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino); ?></div>
                 </div>
 
-                <div class="col-6 mb-3">
-                    <small class="text-secondary">Estacion de quien cubre:</small>
+
+                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+                <small class="mb-1 text-secondary ">Días tomados:</small>
+                <div class=""><?= $diastomados; ?></div>
+                </div>
+
+                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
+                <small class="text-secondary">Estacion de quien cubre:</small>
                     <div><?= $nameES; ?></div>
                 </div>
 
-                <div class="col-6">
-                    <small class="text-secondary">Quien cubre:</small>
+                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
+                <small class="text-secondary">Quien cubre:</small>
                     <div><?= $nameUSU; ?></div>
                 </div>
 
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                    <small class="text-secondary">Motivo:</small>
+                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
+                <small class="text-secondary">Motivo:</small>
                     <div><?= $Motivo; ?></div>
                 </div>
 
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+                <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
                     <small class="text-secondary">Observaciones:</small>
                     <div><?= $observaciones; ?></div>
                 </div>
@@ -139,39 +141,47 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
             $NomUsuario = $datosUsuario['nombre'];
         
 
-            echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
-            echo '<div class="border p-3">';
-            echo $Detalle;
-            echo '<hr>';
-            echo '<div class="text-center fst-italic">'.$NomUsuario. '</div>';
-            echo '<h6 class="text-secondary text-center">' . $TipoFirma . '</h6>';
-            echo '</div>';
-            echo '</div>';
+            echo '  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-1 mt-1">
+            <table class="custom-table" style="font-size: 14px;" width="100%">
+            <thead class="tables-bg">
+            <tr> <th class="align-middle text-center">'.$NomUsuario.'</th> </tr>
+            </thead>
+            <tbody class="bg-light">
+            <tr>
+            <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+            </tr>
+          
+            <tr>
+            <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+            </tr>
+            
+            </tbody>
+            </table>
+            </div>';
             }
         
 
 
 
-        if ($firmaB == 0) {
-            echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
+if ($firmaB == 0) {
+echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
 ¡Falta firma del personal que cubre!
 </div></div>';
-        }
+}
 
-        if ($firmaC == 0) {
-            echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
+if ($firmaC == 0) {
+echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-3"><div class="text-center alert alert-warning" role="alert">
 ¡Falta firma del VoBo!
 </div></div>';
-        }
+}
 
-
-        ?>
-
-    </div>
+?>
+</div>
 
 </div>
 
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cerrar</button>
 </div>

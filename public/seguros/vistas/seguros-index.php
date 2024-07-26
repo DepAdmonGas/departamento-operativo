@@ -1,12 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-?>
-
+?>   
+ 
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -25,14 +21,14 @@ header("Location:".PORTAL."");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
+  
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
-  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
-
+  
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -80,19 +76,18 @@ header("Location:".PORTAL."");
 
 
   //---------- MODAL - DETALLE POLIZA ----------
-  function DetallePolizaInc(idPolizaInc){
-  $('#ModalIncidenciasPoliza').modal('show'); 
-  $('#ContenidoModal').load('public/seguros/vistas/modal-detalle-incidencia-poliza.php?idPolizaInc=' + idPolizaInc);   
+  function DetallePolizaInc(idPoliza){
+  $('#Modal2').modal('show'); 
+  $('#DivModal2').load('public/seguros/vistas/modal-detalle-incidencia-poliza.php?idPoliza=' + idPoliza);   
   }
-
+ 
 
   //---------- MODAL - AGREGAR INCIDENCIA POLIZA ----------
   function ModalAgregarIncidente(idEstacion){
   $('#ModalIncidenciasPoliza').modal('show'); 
   $('#ContenidoModal').load('public/seguros/vistas/modal-incidencia-seguro.php?idEstacion=' + idEstacion); 
   }
-
-
+ 
   //---------- AGREGAR INCIDENCIA (SERVER) ----------
   function GuardarIncidenciaP(idEstacion){
 
@@ -103,7 +98,6 @@ header("Location:".PORTAL."");
   var SolucionP = $('#SolucionP').val();
 
   var ArchivoInc = $('#EvidenciaP').val();
-
 
   var data = new FormData();
   var url = 'public/seguros/modelo/agregar-incidencia-poliza.php';
@@ -715,21 +709,22 @@ $icon = "fa-solid fa-screwdriver-wrench";
   </div> 
 
   </div>
+  </div>
 
-</div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalIncidenciasPoliza" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
 
-
-<div class="modal" id="ModalIncidenciasPoliza" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog" style="margin-top: 83px;">
-<div class="modal-content border-0 rounded-0" >
-<div id="ContenidoModal"></div>
-</div>
-</div>
-</div>
-
-
-
-
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivModal2"></div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

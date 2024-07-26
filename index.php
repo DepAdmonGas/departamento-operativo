@@ -459,7 +459,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     
     // -- Asistencia Personal -----
     else if ($partes_ruta[1] == 'recursos-humanos-personal-asistencia') {
-    $GET_idPersonal = $partes_ruta[2];
+    $GET_idPersonal = $partes_ruta[2]; 
     //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-personal-asistencia.php';
     $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/biometrico/biometrico-personal.php';
 
