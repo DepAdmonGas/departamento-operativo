@@ -256,7 +256,7 @@ endif;
                 <table class="custom-table" width="100%">
                   <thead class="tables-bg">
                     <tr>
-                      <th class="align-middle text-center">ELABORÓ</th>
+                      <th class="align-middle text-center">SUPERVISO</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white">
@@ -264,7 +264,7 @@ endif;
                     if ($Elaboro > 0) {
                       echo $corteDiarioGeneral->firma($GET_idReporte, 'Superviso', RUTA_IMG_Firma);
                     } else {
-                      echo '<th class="p-2"><small>No se encontró firma del corte supervisor</small></th>';
+                      echo '<th class="p-2"><small>No se encontró firma del supervisor</small></th>';
                     }
                     ?>
                   </tbody>
@@ -284,7 +284,7 @@ endif;
                     if ($Elaboro > 0) {
                       echo $corteDiarioGeneral->firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma);
                     } else {
-                      echo '<th class="p-2"><small>No se encontró firma del corte supervisor</small></th>';
+                      echo '<th class="p-2"><small>No se encontró firma de VoBo</small></th>';
                     }
                     ?>
                   </tbody>

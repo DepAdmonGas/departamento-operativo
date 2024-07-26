@@ -1,23 +1,36 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 
 $GET_idEstacion = $_GET['idEstacion'];
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 
-  function TarjetasCB($idReporte,$concepto,$con){
-    $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' AND concepto = '".$concepto."' LIMIT 1 ";
-    $result_cb = mysqli_query($con, $sql_cb);
-    while($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)){
+function TarjetasCB($idReporte, $concepto, $con)
+{
+  $baucher = 0;
+  $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '" . $idReporte . "' AND concepto = '" . $concepto . "' LIMIT 1 ";
+  $result_cb = mysqli_query($con, $sql_cb);
+  while ($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)) {
     $baucher = $row_cb['baucher'];
-    }
+  }
 
-    return $baucher;
-   }
+  return $baucher;
+}
 
-   function ResumenMonedero($idEstacion,$Year,$Mes,$FechaInicio,$FechaTermino,$con){
-
-    $sql_listadia = "
+function ResumenMonedero($idEstacion, $Year, $Mes, $FechaInicio, $FechaTermino, $con)
+{
+  $Toinburgas = 0;
+  $Toticketcard = 0;
+  $Tog500fleet = 0;
+  $Toefecticard = 0;
+  $Tosodexo = 0;
+  $Toultragas = 0;
+  $Toenergex = 0;
+  $Tovalaccord = 0;
+  $Tovalefectivale = 0;
+  $Tovalsodexo = 0;
+  $Tovalvale = 0;
+  $sql_listadia = "
           SELECT 
           op_corte_year.id_estacion,
           op_corte_year.year,
@@ -27,48 +40,48 @@ $GET_mes = $_GET['mes'];
           FROM op_corte_year
           INNER JOIN op_corte_mes ON op_corte_year.id = op_corte_mes.id_year
           INNER JOIN op_corte_dia ON op_corte_mes.id = op_corte_dia.id_mes 
-          WHERE op_corte_year.id_estacion = '".$idEstacion."' AND 
-          op_corte_year.year = '".$Year."' AND 
-          op_corte_mes.mes = '".$Mes."' AND op_corte_dia.fecha BETWEEN '".$FechaInicio."' AND '".$FechaTermino."' ";
-          $result_listadia = mysqli_query($con, $sql_listadia);
-          $numero_listadia = mysqli_num_rows($result_listadia);
+          WHERE op_corte_year.id_estacion = '" . $idEstacion . "' AND 
+          op_corte_year.year = '" . $Year . "' AND 
+          op_corte_mes.mes = '" . $Mes . "' AND op_corte_dia.fecha BETWEEN '" . $FechaInicio . "' AND '" . $FechaTermino . "' ";
+  $result_listadia = mysqli_query($con, $sql_listadia);
+  $numero_listadia = mysqli_num_rows($result_listadia);
 
-          while($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)){
-          $idDias = $row_listadia['idDia'];
-          $fecha = $row_listadia['fecha'];
+  while ($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)) {
+    $idDias = $row_listadia['idDia'];
+    $fecha = $row_listadia['fecha'];
 
-          $inburgas = TarjetasCB($idDias,"INBURGAS",$con);
-          $ticketcard = TarjetasCB($idDias,"TICKETCARD",$con);
-          $g500fleet = TarjetasCB($idDias,"G500 FLETT",$con);
-          $efecticard = TarjetasCB($idDias,"EFECTICARD",$con);
-          $sodexo = TarjetasCB($idDias,"SODEXO",$con);
-          $ultragas = TarjetasCB($idDias,"ULTRAGAS",$con);
-          $energex = TarjetasCB($idDias,"ENERGEX",$con);
+    $inburgas = TarjetasCB($idDias, "INBURGAS", $con);
+    $ticketcard = TarjetasCB($idDias, "TICKETCARD", $con);
+    $g500fleet = TarjetasCB($idDias, "G500 FLETT", $con);
+    $efecticard = TarjetasCB($idDias, "EFECTICARD", $con);
+    $sodexo = TarjetasCB($idDias, "SODEXO", $con);
+    $ultragas = TarjetasCB($idDias, "ULTRAGAS", $con);
+    $energex = TarjetasCB($idDias, "ENERGEX", $con);
 
-          $valaccord = TarjetasCB($idDias,"VALE ACCORD",$con);
-          $valefectivale = TarjetasCB($idDias,"VALE EFECTIVALE",$con);
-          $valsodexo = TarjetasCB($idDias,"VALE SODEXO",$con);
-          $valvale = TarjetasCB($idDias,"SI VALE",$con);
+    $valaccord = TarjetasCB($idDias, "VALE ACCORD", $con);
+    $valefectivale = TarjetasCB($idDias, "VALE EFECTIVALE", $con);
+    $valsodexo = TarjetasCB($idDias, "VALE SODEXO", $con);
+    $valvale = TarjetasCB($idDias, "SI VALE", $con);
 
-          $Toinburgas = $Toinburgas + $inburgas;
-          $Toticketcard = $Toticketcard + $ticketcard;
-          $Tog500fleet = $Tog500fleet + $g500fleet;
-          $Toefecticard = $Toefecticard + $efecticard;
-          $Tosodexo = $Tosodexo + $sodexo;
-          $Toultragas = $Toultragas + $ultragas;
-          $Toenergex = $Toenergex + $energex;
-          $Tovalaccord = $Tovalaccord + $valaccord;
-          $Tovalefectivale = $Tovalefectivale + $valefectivale;
-          $Tovalsodexo = $Tovalsodexo + $valsodexo;
-          $Tovalvale = $Tovalvale + $valvale;
+    $Toinburgas = $Toinburgas + $inburgas;
+    $Toticketcard = $Toticketcard + $ticketcard;
+    $Tog500fleet = $Tog500fleet + $g500fleet;
+    $Toefecticard = $Toefecticard + $efecticard;
+    $Tosodexo = $Tosodexo + $sodexo;
+    $Toultragas = $Toultragas + $ultragas;
+    $Toenergex = $Toenergex + $energex;
+    $Tovalaccord = $Tovalaccord + $valaccord;
+    $Tovalefectivale = $Tovalefectivale + $valefectivale;
+    $Tovalsodexo = $Tovalsodexo + $valsodexo;
+    $Tovalvale = $Tovalvale + $valvale;
 
-          $PrimerTotal = $Toinburgas + $Toticketcard + $Tog500fleet + $Toefecticard + $Tosodexo + $Toultragas + $Toenergex;
-          $SegundoTotal = $Tovalaccord + $Tovalefectivale + $Tovalsodexo + $Tovalvale;
+    $PrimerTotal = $Toinburgas + $Toticketcard + $Tog500fleet + $Toefecticard + $Tosodexo + $Toultragas + $Toenergex;
+    $SegundoTotal = $Tovalaccord + $Tovalefectivale + $Tovalsodexo + $Tovalvale;
 
 
-   }
+  }
 
-   return array(
+  return array(
     'Toinburgas' => $Toinburgas,
     'Toticketcard' => $Toticketcard,
     'Tog500fleet' => $Tog500fleet,
@@ -82,49 +95,54 @@ $GET_mes = $_GET['mes'];
     'Tovalsodexo' => $Tovalsodexo,
     'Tovalvale' => $Tovalvale,
     'SegundoTotal' => $SegundoTotal
- );
+  );
 
-   }
+}
 
-    $Periodo1 = ResumenMonedero(
-    $GET_idEstacion,
-    $GET_year,
-    $GET_mes,
-    $GET_year.'-'.$GET_mes.'-01',
-    $GET_year.'-'.$GET_mes.'-08',
-    $con);
+$Periodo1 = ResumenMonedero(
+  $GET_idEstacion,
+  $GET_year,
+  $GET_mes,
+  $GET_year . '-' . $GET_mes . '-01',
+  $GET_year . '-' . $GET_mes . '-08',
+  $con
+);
 
-    $Periodo2 = ResumenMonedero(
-    $GET_idEstacion,
-    $GET_year,
-    $GET_mes,
-    $GET_year.'-'.$GET_mes.'-09',
-    $GET_year.'-'.$GET_mes.'-15',
-    $con);
+$Periodo2 = ResumenMonedero(
+  $GET_idEstacion,
+  $GET_year,
+  $GET_mes,
+  $GET_year . '-' . $GET_mes . '-09',
+  $GET_year . '-' . $GET_mes . '-15',
+  $con
+);
 
-    $Periodo3 = ResumenMonedero(
-    $GET_idEstacion,
-    $GET_year,
-    $GET_mes,
-    $GET_year.'-'.$GET_mes.'-16',
-    $GET_year.'-'.$GET_mes.'-22',
-    $con);
+$Periodo3 = ResumenMonedero(
+  $GET_idEstacion,
+  $GET_year,
+  $GET_mes,
+  $GET_year . '-' . $GET_mes . '-16',
+  $GET_year . '-' . $GET_mes . '-22',
+  $con
+);
 
-    $Periodo4 = ResumenMonedero(
-    $GET_idEstacion,
-    $GET_year,
-    $GET_mes,
-    $GET_year.'-'.$GET_mes.'-23',
-    $GET_year.'-'.$GET_mes.'-29',
-    $con);
+$Periodo4 = ResumenMonedero(
+  $GET_idEstacion,
+  $GET_year,
+  $GET_mes,
+  $GET_year . '-' . $GET_mes . '-23',
+  $GET_year . '-' . $GET_mes . '-29',
+  $con
+);
 
-    $Periodo5 = ResumenMonedero(
-    $GET_idEstacion,
-    $GET_year,
-    $GET_mes,
-    $GET_year.'-'.$GET_mes.'-30',
-    $GET_year.'-'.$GET_mes.'-31',
-    $con);
+$Periodo5 = ResumenMonedero(
+  $GET_idEstacion,
+  $GET_year,
+  $GET_mes,
+  $GET_year . '-' . $GET_mes . '-30',
+  $GET_year . '-' . $GET_mes . '-31',
+  $con
+);
 
 $Toinburgas = $Periodo1['Toinburgas'] + $Periodo2['Toinburgas'] + $Periodo3['Toinburgas'] + $Periodo4['Toinburgas'] + $Periodo5['Toinburgas'];
 $Toticketcard = $Periodo1['Toticketcard'] + $Periodo2['Toticketcard'] + $Periodo3['Toticketcard'] + $Periodo4['Toticketcard'] + $Periodo5['Toticketcard'];
@@ -143,134 +161,144 @@ $SegundoTotal = $Periodo1['SegundoTotal'] + $Periodo2['SegundoTotal'] + $Periodo
 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover" style="font-size: .9em;">
-<thead class="tables-bg">
-<tr>
-<td class="text-center align-middle tableStyle font-weight-bold"></td>
-<td class="text-center align-middle tableStyle font-weight-bold"></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>INBURGAS</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>TICKETCARD</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>G500 FLETT</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>EFECTICARD</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>SODEXO</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>ULTRAGAS</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>ENERGEX</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>TOTAL</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>VALE ACCORD</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>VALE EFECTIVALE</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>VALE SODEXO</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>SI VALE</b></td>
-<td class="text-center align-middle tableStyle font-weight-bold"><b>TOTAL</b></td>
-</tr>
-</thead> 
-<tbody>
-<tr>
-  <td>1er periodo</td>
-  <td>8</td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Toinburgas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Toticketcard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tog500fleet'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Toefecticard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tosodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Toultragas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Toenergex'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo1['PrimerTotal'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tovalaccord'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tovalefectivale'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tovalsodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo1['Tovalvale'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo1['SegundoTotal'],2);?></td>  
-</tr>
+  <table class="custom-table " style="font-size: .8em;" width="100%">
+    <thead class="tables-bg">
+      <tr>
+        <th class="text-center align-middle"></th>
+        <th class="text-center align-middle"></th>
+        <th class="text-center align-middle"><b>INBURGAS</b></th>
+        <th class="text-center align-middle"><b>TICKETCARD</b></th>
+        <th class="text-center align-middle"><b>G500 FLETT</b></th>
+        <th class="text-center align-middle"><b>EFECTICARD</b></th>
+        <th class="text-center align-middle"><b>SODEXO</b></th>
+        <th class="text-center align-middle"><b>ULTRAGAS</b></th>
+        <th class="text-center align-middle"><b>ENERGEX</b></th>
+        <th class="text-center align-middle"><b>TOTAL</b></th>
+        <th class="text-center align-middle"><b>VALE ACCORD</b></th>
+        <th class="text-center align-middle"><b>VALE EFECTIVALE</b></th>
+        <th class="text-center align-middle"><b>VALE SODEXO</b></th>
+        <th class="text-center align-middle"><b>SI VALE</b></th>
+        <th class="text-center align-middle"><b>TOTAL</b></th>
+      </tr>
+    </thead>
+    <tbody class="bg-white">
+      <tr>
+        <th>1er periodo</th>
+        <td>8</td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Toinburgas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Toticketcard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tog500fleet'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Toefecticard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tosodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Toultragas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Toenergex'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo1['PrimerTotal'], 2); ?>
+        </td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tovalaccord'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tovalefectivale'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tovalsodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo1['Tovalvale'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo1['SegundoTotal'], 2); ?>
+        </td>
+      </tr>
 
-<tr>
-  <td>2do periodo</td>
-  <td>15</td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Toinburgas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Toticketcard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tog500fleet'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Toefecticard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tosodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Toultragas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Toenergex'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo2['PrimerTotal'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tovalaccord'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tovalefectivale'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tovalsodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo2['Tovalvale'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo2['SegundoTotal'],2);?></td>
-</tr>
+      <tr>
+        <th>2do periodo</th>
+        <td>15</td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Toinburgas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Toticketcard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tog500fleet'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Toefecticard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tosodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Toultragas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Toenergex'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo2['PrimerTotal'], 2); ?>
+        </td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tovalaccord'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tovalefectivale'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tovalsodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo2['Tovalvale'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo2['SegundoTotal'], 2); ?>
+        </td>
+      </tr>
 
-<tr>
-  <td>3er periodo</td>
-  <td>22</td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Toinburgas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Toticketcard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tog500fleet'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Toefecticard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tosodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Toultragas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Toenergex'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo3['PrimerTotal'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tovalaccord'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tovalefectivale'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tovalsodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo3['Tovalvale'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo3['SegundoTotal'],2);?></td>
-</tr>
+      <tr>
+        <th>3er periodo</th>
+        <td>22</td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Toinburgas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Toticketcard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tog500fleet'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Toefecticard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tosodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Toultragas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Toenergex'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo3['PrimerTotal'], 2); ?>
+        </td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tovalaccord'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tovalefectivale'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tovalsodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo3['Tovalvale'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo3['SegundoTotal'], 2); ?>
+        </td>
+      </tr>
 
-<tr>
-  <td>4to periodo</td>
-  <td>29</td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Toinburgas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Toticketcard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tog500fleet'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Toefecticard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tosodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Toultragas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Toenergex'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo4['PrimerTotal'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tovalaccord'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tovalefectivale'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tovalsodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo4['Tovalvale'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo4['SegundoTotal'],2);?></td>
-</tr>
+      <tr>
+        <th>4to periodo</th>
+        <td>29</td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Toinburgas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Toticketcard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tog500fleet'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Toefecticard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tosodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Toultragas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Toenergex'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo4['PrimerTotal'], 2); ?>
+        </td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tovalaccord'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tovalefectivale'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tovalsodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo4['Tovalvale'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo4['SegundoTotal'], 2); ?>
+        </td>
+      </tr>
 
-<tr>
-  <td>5to periodo</td>
-  <td>30/31</td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Toinburgas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Toticketcard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tog500fleet'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Toefecticard'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tosodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Toultragas'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Toenergex'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo5['PrimerTotal'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tovalaccord'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tovalefectivale'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tovalsodexo'],2);?></td>
-  <td class="align-middle text-end">$<?=number_format($Periodo5['Tovalvale'],2);?></td>
-  <td class="align-middle text-end font-weight-bold bg-light">$<?=number_format($Periodo5['SegundoTotal'],2);?></td>
-</tr>
+      <tr>
+        <th>5to periodo</th>
+        <td>30/31</td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Toinburgas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Toticketcard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tog500fleet'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Toefecticard'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tosodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Toultragas'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Toenergex'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo5['PrimerTotal'], 2); ?>
+        </td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tovalaccord'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tovalefectivale'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tovalsodexo'], 2); ?></td>
+        <td class="align-middle text-end">$<?= number_format($Periodo5['Tovalvale'], 2); ?></td>
+        <td class="align-middle text-end font-weight-bold bg-light">$<?= number_format($Periodo5['SegundoTotal'], 2); ?>
+        </td>
+      </tr>
 
-<tr class="bg-light">
-  <td colspan="2"></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Toinburgas,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Toticketcard,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tog500fleet,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Toefecticard,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tosodexo,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Toultragas,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Toenergex,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($PrimerTotal,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tovalaccord,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tovalefectivale,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tovalsodexo,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($Tovalvale,2);?></td>
-  <td class="align-middle text-end font-weight-bold">$<?=number_format($SegundoTotal,2);?></td>
-</tr>
+      <tr class="bg-light">
+        <th colspan="2"></th>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Toinburgas, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Toticketcard, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tog500fleet, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Toefecticard, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tosodexo, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Toultragas, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Toenergex, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($PrimerTotal, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tovalaccord, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tovalefectivale, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tovalsodexo, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($Tovalvale, 2); ?></td>
+        <td class="align-middle text-end font-weight-bold">$<?= number_format($SegundoTotal, 2); ?></td>
+      </tr>
 
-</tbody>
-</table>
+    </tbody>
+  </table>
 </div>

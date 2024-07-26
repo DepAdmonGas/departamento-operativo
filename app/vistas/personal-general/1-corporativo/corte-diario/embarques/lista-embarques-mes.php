@@ -32,12 +32,6 @@ function ToComentarios($IdReporte, $con)
 }
 
 
-function ToComentarios($IdReporte, $con){
-$sql_lista = "SELECT id FROM op_embarques_comentario WHERE id_embarques = '" . $IdReporte . "' ";
-$result_lista = mysqli_query($con, $sql_lista);
-return $numero_lista = mysqli_num_rows($result_lista);
-}
-
 ?>
 
 <div class="table-responsive">

@@ -51,7 +51,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -73,12 +73,6 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
-      var margint = -550;
-      var ventana_alto = $(document).height();
-      ResultAlto = ventana_alto - margint;
-      box = document.getElementsByClassName('tableFixHead')[0];
-      box.style.height = ResultAlto + 'px';
 
       ReporteAceites(<?= $GET_idEstacion; ?>, <?= $GET_year; ?>, <?= $GET_mes; ?>);
 
@@ -710,65 +704,68 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
 
-      <div class="row">
+      <div class="col-12">
+        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+          <ol class="breadcrumb breadcrumb-caret">
+            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                  class="fa-solid fa-chevron-left"></i>
+                Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
+            <li aria-current="page" class="breadcrumb-item active text-uppercase">
+              <?= $estacion ?> - Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?>
+              <?= $GET_year ?>)
+            </li>
+          </ol>
+        </div>
+        <div class="row">
+          <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12">
+            <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+              <?= $estacion ?> - Resumen Aceites, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+            </h3>
+          </div>
+          <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
+            <div class="text-end">
+              <div class="dropdown d-inline ms-2">
+                <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-screwdriver-wrench"></i> </button>
 
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-
-              <div class="row">
-
-                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12">
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
-
-                  <div class="row">
-
-                    <div class="col-12">
-                      <h5><?= $estacion ?> - Aceites, <?= nombremes($GET_mes); ?> <?= $GET_year; ?></h5>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
-
-                  <img class="float-end ms-2 pointer" width="26px" src="<?= RUTA_IMG_ICONOS; ?>icon-lista.png"
-                    onclick="ListaModal(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                  <img class="float-end ms-2 pointer" width="26px"
-                    onclick="Resumen(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)"
-                    src="<?= RUTA_IMG_ICONOS; ?>resumen.png">
-                  <img class="float-end ms-2 pointer" width="26px" src="<?= RUTA_IMG_ICONOS; ?>aceite.png"
-                    onclick="Aceites()">
-                  <img class="float-end ms-2 pointer" width="26px" src="<?= RUTA_IMG_ICONOS; ?>archivo-tb.png"
-                    onclick="DocumentacionAceites(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-
+                <ul class="dropdown-menu">
+                  <li onclick="DocumentacionAceites(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-file-lines"></i> Archivos Aceites</a>
+                  </li>
+                  
+                  <li onclick="Aceites()">
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Aceites</a>
+                  </li>
+                  
+                  <li onclick="Resumen(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen</a>
+                  </li>
+                  <li onclick="ListaModal(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Documentos</a>
+                  </li>
                   <?php
                   if ($session_nompuesto == "Dirección de operaciones") {
                     ?>
-                    <img class="px-1 float-end pointer" width="35px" src="<?= RUTA_IMG_ICONOS; ?>grafico.png"
-                      onclick="aceitesKPI(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                    <li onclick="aceitesKPI(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                      <a class="dropdown-item pointer"><i class="fa-solid  fa-chart-line"></i> Evaluacion Aceites (KPI's)</a>
+                    </li>
                     <?php
                   }
                   ?>
-
-                </div>
-
+                </ul>
               </div>
-
-              <hr>
-
-
-              <div class="tableFixHead">
-                <div id="DivReporteAceites"></div>
-              </div>
-
 
             </div>
           </div>
         </div>
-
+        <hr>
       </div>
+
+      <div class="col-12">
+        <div id="DivReporteAceites"></div>
+      </div>
+
     </div>
 
   </div>
@@ -776,13 +773,9 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
 
   <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg" style="margin-top: 83px;">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-
-
         <div id="ListaDocumento"></div>
-
-
       </div>
     </div>
   </div>
