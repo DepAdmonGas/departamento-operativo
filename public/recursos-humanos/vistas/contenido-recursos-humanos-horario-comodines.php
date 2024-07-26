@@ -27,35 +27,39 @@ $sql_lista = "SELECT * FROM op_rol_comodines WHERE id_estacion = '".$idEstacion.
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
+
 if($Session_IDUsuarioBD == 354){
-$inicioDiv = "";
-$finDiv = "";
 $ocultarDiv = "d-none";
+$botonComodines = "";
 
 }else{
-$inicioDiv = '<div class="border-0 p-3">';
-$finDiv = '</div>';
 $ocultarDiv = "";
-
+$botonComodines = '<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalRoles('.$idEstacion.')">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>';
 }
 
 ?>
  
 
-<?=$inicioDiv?>
-
-<div class="row <?=$ocultarDiv?>">
-
-<div class="col-11">
-<h5>Rol de Comodines</h5>
-</div>
- 
-<div class="col-1">
-<img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalRoles(<?=$idEstacion?>)">
-</div>
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Recursos Humanos</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Rol de Comodines</li>
+</ol>
 </div>
 
-<hr class="<?=$ocultarDiv?>">
+<div class="row">
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Rol de Comodines</h3></div>
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"><?=$botonComodines?></div>
+</div>
+
+<hr>
+          
+</div>
+
+
+
 
 <div class="row">
 
@@ -66,16 +70,17 @@ $ocultarDiv = "";
 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-0">
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover" style="font-size: .9em;">
+<table id="tabla_bitacora" class="custom-table" style="font-size: .9em;" width="100%">
+
 <thead class="tables-bg">
   <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">Versión</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
+  <th class="text-center align-middle tableStyle font-weight-bold">Comentario</th>
   <th class="align-middle text-center <?=$ocultarDiv?>" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
   </tr>
 </thead> 
-<tbody>
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 
@@ -92,7 +97,7 @@ echo '<tr class="pointer" onclick="SelComodines('.$idEstacion.','.$id.')">
 
 }
 }else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar</small></td></tr>";
+echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover'><small>No se encontró información para mostrar</small></th></tr>";
 }
 ?>
 </tbody>
@@ -102,4 +107,3 @@ echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encont
 
 </div>
 
-<?=$finDiv?>

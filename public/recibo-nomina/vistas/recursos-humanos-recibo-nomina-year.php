@@ -42,13 +42,12 @@ require('app/help.php');
   if(idEstacion == 1 || idEstacion == 2 || idEstacion == 3 || idEstacion == 4 || idEstacion == 5 || idEstacion == 9 || idEstacion == 14){
   semana = sessionStorage.getItem('semana');
   sessionStorage.removeItem('quincena');
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana);
+  SelSemanasES(idEstacion,year,semana);
 
   }else{
   quincena = sessionStorage.getItem('quincena');
   sessionStorage.removeItem('semana');
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena);
-     
+  SelQuincenasES(idEstacion,year,quincena);   
   }
   
   }   
@@ -87,6 +86,8 @@ require('app/help.php');
 
   //---------- SELECCIONAR SEMANAS DE LA ESTACION ----------
   function SelSemanasES(idEstacion,year,semana){
+
+  function initializeDataTable(tableId) {
   sizeWindow();
   sessionStorage.setItem('idestacion', idEstacion);
   sessionStorage.setItem('year', year);
@@ -94,62 +95,57 @@ require('app/help.php');
   sessionStorage.removeItem('quincena');
 
   let targets;
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
+  
+  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
   targets = [6,7,8,9];
+  }else if(<?=$Session_IDUsuarioBD?> == 354){
+  targets = [5,6,7,8,9];
   }else{
   targets = [5,6,7,8];
   }
-  
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
-  $('#tabla_nomina_semana_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
-  
 
-  } 
- 
+  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
+    // Clonar y remover las filas antes de inicializar DataTables
+    var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
+    $('#' + tableId + ' .ultima-fila').remove();
+
+    $('#' + tableId).DataTable({
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "asc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targets },
+        { "searchable": false, "targets": targets }
+      ],
+      "drawCallback": function(settings) {
+        // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+        $('#' + tableId + ' .ultima-fila').remove();
+        // Añadir las filas clonadas al final del tbody
+        $('#' + tableId + ' tbody').append($lastRows.clone());
+      }
+    });
+  });
+  }
+
+  initializeDataTable('tabla_nomina_semana_' + idEstacion);
+  }
+
+
   function SelNoSemana(idEstacion,year){
   sizeWindow();
   var semana = $('#SemanaEstacion_' + idEstacion).val();
   sessionStorage.setItem('semana', semana);
 
-  let targets;
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
-  }
-  
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
-  $('#tabla_nomina_semana_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
-  
+  SelSemanasES(idEstacion,year,semana)
   }
 
 
   //---------- SELECCIONAR QUINCENAS DE LA ESTACION ----------
   function SelQuincenasES(idEstacion,year,quincena){
+    
+  function initializeDataTableQ(tableId) {
   sizeWindow();
   sessionStorage.setItem('idestacion', idEstacion);
   sessionStorage.setItem('year', year);
@@ -158,27 +154,44 @@ require('app/help.php');
 
   let targets;
 
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
+  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
   targets = [6,7,8,9];
+  }else if(<?=$Session_IDUsuarioBD?> == 354){
+  targets = [5,6,7,8,9];
   }else{
   targets = [5,6,7,8];
   }
-  
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
-  $('#tabla_nomina_quincena_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
 
+
+  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
+    // Clonar y remover las filas antes de inicializar DataTables
+    var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
+    $('#' + tableId + ' .ultima-fila').remove();
+
+    $('#' + tableId).DataTable({
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "asc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targets },
+        { "searchable": false, "targets": targets }
+      ],
+      "drawCallback": function(settings) {
+        // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
+        $('#' + tableId + ' .ultima-fila').remove();
+        // Añadir las filas clonadas al final del tbody
+        $('#' + tableId + ' tbody').append($lastRows.clone());
+      }
+    });
+  });
   }
+
+  initializeDataTableQ('tabla_nomina_quincena_' + idEstacion);
+  }
+
+
  
 
   function SelNoQuincena(idEstacion,year){
@@ -186,27 +199,7 @@ require('app/help.php');
   var quincena = $('#QuincenaEstacion_' + idEstacion).val();
   sessionStorage.setItem('quincena', quincena);
 
-  let targets;
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
-  }
-  
-  $('#ListaNomina').load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
-  $('#tabla_nomina_quincena_' + idEstacion).DataTable({
-  "language": {
-  "url": "<?=RUTA_JS2?>/es-ES.json"
-  },
-  "order": [[0, "asc"]],
-  "lengthMenu": [25, 50, 75, 100],
-  "columnDefs": [
-  { "orderable": false, "targets": targets },
-  { "searchable": false, "targets": targets }
-  ]
-  });
-  });
+  SelQuincenasES(idEstacion,year,quincena)
   }
 
   //---------- ACUSES DE RECIBO DE NOMINA DEL PERSONAL ----------
@@ -654,9 +647,7 @@ require('app/help.php');
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaNomina"></div>
-  </div> 
+  <div class="col-12" id="ListaNomina"> </div> 
 
   </div>
   </div>
@@ -666,7 +657,7 @@ require('app/help.php');
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenido">
   </div>
   </div>

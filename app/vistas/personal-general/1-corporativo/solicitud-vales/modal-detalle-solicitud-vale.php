@@ -17,139 +17,133 @@ $idEstacion = $datosSolicitudVale['idEstacion'];
 $cuenta = $datosSolicitudVale['cuenta'];
 $autorizadopor = $datosSolicitudVale['autorizado_por'];
 $metodoautorizacion = $datosSolicitudVale['metodo_autorizacion'];
-
+ 
 $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
-$Estacion = $datosEstacion['razonsocial'];
+$Estacion = $datosEstacion['razonsocial'] ?? 'S/I';
+
+$sql_documento = "SELECT * FROM op_solicitud_vale_documento WHERE id_solicitud = '".$idReporte."' AND nombre <> 'PAGO' ";
+$result_documento = mysqli_query($con, $sql_documento);
+$numero_documento = mysqli_num_rows($result_documento);
 
 ?>
 
 <div class="modal-header">
-<h5 class="modal-title">Detalle de Solicitud de cheque</h5>
+<h5 class="modal-title">Detalle de Solicitud de Vale</h5>
 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
 <div class="row">
  
-<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">FOLIO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">FOLIO:</h6>
 00<?=$folio;?>
 </div>
-</div>
 
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">FECHA Y HORA:</h6>
+<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">FECHA Y HORA:</h6>
 <?=FormatoFecha($fecha);?>, <?=date("g:i a",strtotime($hora));?>
 </div>
+
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">MONTO Y MONEDA:</h6>
+$<?=number_format($monto,2);?> <?=$moneda;?>
 </div>
 
-<div class="col-xl-9 col-lg-9 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">MONTO:</h6>
-$<?=number_format($monto,2);?>
-</div>
-</div>
 
-<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">MONEDA:</h6>
-<?=$moneda;?>
-</div>
-</div>
-
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">IMPORTE CON LETRA:</h6>
+<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">IMPORTE CON LETRA:</h6>
 <?=$ClassHerramientasDptoOperativo->convertir($monto,$moneda,true);?>
 </div>
-</div>
  
-<div class="col-12 mb-3">
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">CONCEPTO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">CONCEPTO:</h6>
 <?=$concepto;?>
 </div>
-</div>
 
-<div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">NOMBRE DEL SOLICITANTE:</h6>
+<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12"> 
+<h6 class="text-secondary">NOMBRE DEL SOLICITANTE:</h6>
 <?=$solicitante;?>
 </div>
-</div>
 
-
+<div class="col-12 mb-2"> 
+<hr>
 <h6>Cargo a cuenta:</h6>
+</div>
 
 <?php if($idEstacion != 0){ ?>
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">ESTACION:</h6>
+<div class="col-12 mb-3"> 
+<h6 class="text-secondary">ESTACION:</h6>
 <?=$Estacion;?>
-</div>
 </div>
 <?php } ?>
 
 <?php if($cuenta != ""){ ?>
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">CUENTA:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">CUENTA:</h6>
 <?=$cuenta;?>
-</div>
 </div>
 <?php } ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">AUTORIZADO POR:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">AUTORIZADO POR:</h6>
 <?=$autorizadopor;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">METODO DE AUTORIZACION:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">METODO DE AUTORIZACION:</h6>
 <?=$metodoautorizacion;?>
-</div>
-</div>
-
-<div class="col-12 mb-3">
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">OBSERVACIONES:</h6>
-<?=$observaciones;?>
-</div>
 </div>
 
 <div class="col-12 mb-3"> 
-<div class="border p-3">
-<h6 class=" border-bottom pb-2 text-secondary">ARCHIVOS:</h6>
+<h6 class="text-secondary">OBSERVACIONES:</h6>
+<?=$observaciones;?>
+</div>
 
-<div class="row"> 
-<?php
+
+
+<div class="col-12"> 
+<hr>
+<div class="table-responsive">
+  <table class="custom-table" width="100%" style="font-size: .9em;">
+  <thead class="title-table-bg">
+
+  <tr class="tables-bg">
+  <th colspan="4">DOCUMENTACIÓN</th>
+  </tr>
+
+      <tr>
+        <td class="text-center align-middle"><b>Descripción</b></td>
+        <td class="text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS;?>descargar.png"></td>
+
+      </tr>
+    </thead> 
+
+    <tbody class="bg-light">
+    <?php
+    if ($numero_documento > 0) {
+    while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
+
+    echo '<tr>';
+    echo '<th class="text-center fw-normal">'.$row_documento['nombre'].'</th>';
+    echo '<td class="text-center fw-normal" width="24px"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download>
+    <img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png">
+    </a>
+    </td>';
+    echo '</tr>';
  
-$sql_documento = "SELECT * FROM op_solicitud_vale_documento WHERE id_solicitud = '".$idReporte."' AND nombre <> 'PAGO' ";
-$result_documento = mysqli_query($con, $sql_documento);
-$numero_documento = mysqli_num_rows($result_documento);
+    }
+    }else{
+    echo "<tr><th colspan='4' class='text-center text-secondary no-hover2 fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+    }
+    ?>
+    </tbody>
+    </table>
+  </div>
 
-while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
+    </div>
 
-echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-1">
-<a href="../../archivos/vales/'.$row_documento['documento'].'" download>
-<span class="badge rounded-pill tables-bg" style="font-size:14px">'.$row_documento['nombre'].' <i class="fa-solid fa-circle-down ms-1"></i></span>
-</a>
-</div>';
-
-}
-
-?> 
-
-</div>
-</div>
-</div>
-
-</div>
+    </div>
 
 
 <div class="row">

@@ -1,8 +1,10 @@
 <?php
 require('app/help.php');
+
 $sql = "SELECT * FROM op_rh_formatos WHERE id = '".$GET_idFormato."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
+
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $fecha = $row['fecha']; 
 $idEstacion = $row['id_localidad'];
@@ -12,6 +14,14 @@ $formato = $row['formato'];
 $sqlDetalle = "SELECT * FROM op_rh_formatos_vacaciones WHERE id_formulario = '".$GET_idFormato."' ";
 $resultDetalle = mysqli_query($con, $sqlDetalle);
 $numeroDetalle = mysqli_num_rows($resultDetalle);
+
+$idusuario = "";
+$numdias = "";
+$fechainicio = "";
+$fechatermino = "";
+$fecharegreso = "";
+$observaciones = "";
+
 while($rowDetalle = mysqli_fetch_array($resultDetalle, MYSQLI_ASSOC)){
 $idusuario = $rowDetalle['id_usuario']; 
 $numdias = $rowDetalle['num_dias'];
@@ -38,9 +48,8 @@ WHERE op_rh_personal.id_estacion = '".$idEstacion."' AND op_rh_personal.id <> '"
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
 
-
-
 function NombrePersonal($id,$con){
+$return = "";
 
 $sql_personal = "SELECT nombre_completo FROM op_rh_personal WHERE id = '".$id."' ";
 $result_personal = mysqli_query($con, $sql_personal);
@@ -50,6 +59,7 @@ $return = $row_personal['nombre_completo'];
 }
 return $return;
 }
+
 ?>
 <html lang="es">
   <head>
@@ -58,8 +68,8 @@ return $return;
   <title>Dirección de operaciones</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width initial-scale=1.0">
-  <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="apple-touch-icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
+  <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS?>/icono-web.png">
+  <link rel="apple-touch-icon" href="<?=RUTA_IMG_ICONOS?>/icono-web.png">
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>alertify.css">
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
@@ -71,14 +81,7 @@ return $return;
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
   <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
-  
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-  </style>
 
   <script type="text/javascript">
 
@@ -136,8 +139,11 @@ $('#FechaRegreso').css('border','');
     cache: false
     }).done(function(data){
 
+      console.log(data)
+
+
     if(data == 1){
-      Regresar();
+      history.back()
      }else{
       $(".LoaderPage").hide();
       alertify.error('Error al crear la solicitud'); 
@@ -179,114 +185,85 @@ $('#Personal').css('border','2px solid #A52525');
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+  <div class="cardAG p-3 container">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Vacaciones personal</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Vacaciones
+  </a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario de Vacaciones</li>
+  </ol>
+  </div>
+  
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Formulario de Vacaciones</h3> </div>
+  </div>
 
   <hr>
+  </div>
 
- 
-  <div class="container">
+  <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 mb-2 mt-2">
+  <div class="mb-1"><h6>* Nombre completo:</h6></div>
+  <select class="form-select" id="Personal">
+  <option value="<?=$idusuario;?>"><?=NombrePersonal($idusuario,$con);?></option>
+  <?php 
+  while($row_personal = mysqli_fetch_array($result_personal, MYSQLI_ASSOC)){
+  echo '<option value="'.$row_personal['id'].'">'.$row_personal['nombre_completo'].'</option>';
+  }
+  ?>
+  </select>
+  </div>
 
-
-    <div class="row">
-
-
-    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 mb-2 mt-2">
-        <div class="mb-1"><h6>* Nombre completo:</h6></div>
-        <select class="form-select" id="Personal">
-        <option value="<?=$idusuario;?>"><?=NombrePersonal($idusuario,$con);?></option>
-        <?php 
-        while($row_personal = mysqli_fetch_array($result_personal, MYSQLI_ASSOC)){
-        echo '<option value="'.$row_personal['id'].'">'.$row_personal['nombre_completo'].'</option>';
-        }
-        ?>
-        </select>
-      </div>
-
-
-    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2 mt-2">
-        <div class="mb-1"><h6>* Número de días a disfrutar:</h6></div>
-        <input type="number" class="form-control" id="NumDias" value="<?=$numdias;?>">
-      </div>
-    </div>
-
-    <hr>
-    
-    <div class="row">
-
-      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
-        <div class="mb-1"><h6>* Del:</h6></div>
-        <input type="date" class="form-control" id="FechaInicio" value="<?=$fechainicio?>">
-      </div>
-
-      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
-        <div class="mb-1"><h6>* Al:</h6></div>
-        <input type="date" class="form-control" id="FechaTermino" value="<?=$fechatermino?>">
-      </div>
+  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2 mt-2">
+  <div class="mb-1"><h6>* Número de días a disfrutar:</h6></div>
+  <input type="number" class="form-control" id="NumDias" value="<?=$numdias;?>">
+  </div>
 
 
-      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
-        <div class="mb-1"><h6>* Regresando el:</h6></div>
-        <input type="date" class="form-control" id="FechaRegreso" value="<?=$fecharegreso?>">
-      </div>
-    </div>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
+  <div class="mb-1"><h6>* Del:</h6></div>
+  <input type="date" class="form-control" id="FechaInicio" value="<?=$fechainicio?>">
+  </div>
 
-     <hr>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
+  <div class="mb-1"><h6>* Al:</h6></div>
+  <input type="date" class="form-control" id="FechaTermino" value="<?=$fechatermino?>">
+  </div>
 
-          <div class="row">
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 mt-2">
+  <div class="mb-1"><h6>* Regresando el:</h6></div>
+  <input type="date" class="form-control" id="FechaRegreso" value="<?=$fecharegreso?>">
+  </div>
 
+  <div class="col-12mt-2">
+  <div class="mb-1"><h6>Observaciones:</h6></div>
+  <textarea class="form-control rounded-0" id="Observaciones"><?=$observaciones;?></textarea>
+  </div>
 
-   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2 mt-2">
-          <div class="mb-1"><h6>Observaciones:</h6></div>
-          <textarea class="form-control rounded-0" id="Observaciones"><?=$observaciones;?></textarea>
-    </div>
+  <div class="col-12">
+  <hr>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$numeroDetalle;?>,<?=$GET_idFormato;?>,<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar vacaciones</button>
+  </div>
 
+  </div>
 
-
-          </div>
-
-          <hr>
-
-<div class="text-end mt-3">
-<button type="button" class="btn btn-success" onclick="Finalizar(<?=$numeroDetalle;?>,<?=$GET_idFormato;?>,<?=$idEstacion;?>)">Finalizar vacaciones</button>
-</div>
-</div>
-     
   </div>
   </div>
   </div>
+
 
   </div>
   </div>
 
   </div>
-
-
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

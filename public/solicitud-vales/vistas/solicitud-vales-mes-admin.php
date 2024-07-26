@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?> 
 <html lang="es">
   <head>
@@ -21,39 +17,61 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
 
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
+
+
   <script type="text/javascript">
  
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>,'DESC','','','','','')
+  ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>)
   });
 
   function Regresar(){
   window.history.back();
   }
 
-  function ListaVales(idEstacion, depu, year, mes, orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,buscarSolicitante){
-  $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante + '&buscarSolicitante=' + buscarSolicitante);
+
+  function ListaVales(idEstacion, depu, year, mes){
+  let targets;
+    
+  targets = [7, 8];
+
+  $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu, function() {
+  $('#tabla_vales_' + idEstacion).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "DESC"]],
+  "lengthMenu": [15, 30, 75, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
+
+
 
   function Mas(idEstacion,depu,year,mes){
   window.location.href = "../../solicitud-vales-nuevo/" + year + "/" + mes + "/" + idEstacion + "/" + depu; 
   }
-
+ 
    function ModalDetalle(id){
     $('#Modal').modal('show');  
-    $('#DivContenido').load('../../public/solicitud-vales/vistas/modal-detalle-solicitud-vale.php?idReporte=' + id);
+    $('#DivContenido').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-detalle-solicitud-vale.php?idReporte=' + id);
+
     }
 
     function DescargarPDF(idReporte){
@@ -61,68 +79,74 @@ header("Location:".PORTAL."");
     }
     //--------------------------------------------------------------
 
-     function ModalArchivos(year,mes,idEstacion,depu,id,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,buscarSolicitante){
-      $('#ModalComentario').modal('show');  
-    $('#DivContenidoComentario').load('../../public/solicitud-vales/vistas/modal-archivos-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante + '&buscarSolicitante=' + buscarSolicitante);
-    } 
+     function ModalArchivos(year,mes,idEstacion,depu,id){
+    $('#ModalComentario').modal('show');  
+    $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-archivos-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
+  } 
 
-    function AgregarArchivo(year,mes,idEstacion,depu,id,orderFolio,orderFecha,orderCuenta,orderMonto,orderSolicitante,BuscarSolicitante){
 
-    var Documento = $('#Documento').val();
-    var data = new FormData();
-    var url = '../../public/solicitud-vales/modelo/agregar-archivo-solicitud-vale.php';
 
-    Archivo = document.getElementById("Archivo");
-    Archivo_file = Archivo.files[0];
-    Archivo_filePath = Archivo.value;
+  function AgregarArchivo(year,mes,idEstacion,depu,id){
 
-    if(Documento != ""){
-    $('#Documento').css('border','');
-    if(Archivo_filePath != ""){
-    $('#Archivo').css('border','');
+  var Documento = $('#Documento').val();
+  var data = new FormData();
+  //var url = '../../public/solicitud-vales/modelo/agregar-archivo-solicitud-vale.php';
+  var url = '../../app/controlador/1-corporativo/controladorSolicitudVale.php',
 
-    data.append('idReporte', id);
-    data.append('Documento', Documento);
-    data.append('Archivo_file', Archivo_file);
+  Archivo = document.getElementById("Archivo");
+  Archivo_file = Archivo.files[0];
+  Archivo_filePath = Archivo.value;
 
-    $(".LoaderPage").show();
- 
-    $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false
-    }).done(function(data){
+  if(Documento != ""){ 
+  $('#Documento').css('border','');
+  if(Archivo_filePath != ""){
+  $('#Archivo').css('border','');
 
-     if(data == 1){
-      $(".LoaderPage").hide();
-      ModalArchivos(year,mes,idEstacion,depu,id,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante);
-     ListaVales(idEstacion, depu, year, mes, orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante);
-      
-      alertify.success('Archivo agregado exitosamente.')
-     }else{
-      $(".LoaderPage").hide();
-      alertify.error('Error al guardar archivo'); 
-     }
-     
-    });      
+  data.append('idReporte', id);
+  data.append('Documento', Documento);
+  data.append('Archivo_file', Archivo_file);
+  data.append('Accion','agregar-archivo-solicitud-vale');
 
-    }else{
-    $('#Archivo').css('border','2px solid #A52525'); 
-    }
-    }else{
-    $('#Documento').css('border','2px solid #A52525'); 
-    }
+  $(".LoaderPage").show();
 
-    }
+  $.ajax({
+  url: url,
+  type: 'POST',
+  contentType: false,
+  data: data,
+  processData: false,
+  cache: false
+  }).done(function(data){
 
-        function EliminarArchivo(year,mes,idEstacion,depu,idReporte,id,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante){
+  if(data == 1){
+  $(".LoaderPage").hide();
+  ModalArchivos(year,mes,idEstacion,depu,id);
+  ListaVales(idEstacion,depu,year,mes); 
+  alertify.success('Archivo agregado exitosamente.')
 
-    var parametros = {
-    "id" : id
-    };
+  }else{
+  $(".LoaderPage").hide();
+  alertify.error('Error al guardar archivo'); 
+  }
+    
+  });      
+
+  }else{
+  $('#Archivo').css('border','2px solid #A52525'); 
+  }
+  }else{
+  $('#Documento').css('border','2px solid #A52525'); 
+  }
+
+  }
+
+
+
+
+  function EliminarArchivo(year,mes,idEstacion,depu,idReporte,id){
+  var parametros = {
+  "id" : id
+  };
 
 
 alertify.confirm('',
@@ -140,9 +164,9 @@ alertify.confirm('',
     success:  function (response) {
 
     if (response == 1) {
-    ModalArchivos(year,mes,idEstacion,depu,idReporte,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante);
-    ListaVales(idEstacion,depu,year,mes,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante); 
-    
+      ModalArchivos(year,mes,idEstacion,depu,id);
+     ListaVales(idEstacion, depu, year, mes);
+      
     alertify.success('Archivo eliminado exitosamente.');  
    
     }else{
@@ -171,12 +195,12 @@ alertify.confirm('',
 
  //------------------------------------------------------
   //------------------------------------------------------
-   function ModalComentario(year,mes,idEstacion,depu,id,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante){
+   function ModalComentario(year,mes,idEstacion,depu,id){
    $('#ModalComentario').modal('show');  
-    $('#DivContenidoComentario').load('../../public/solicitud-vales/vistas/modal-comentarios-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&depu=' + depu + '&idEstacion=' + idEstacion + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante + '&buscarSolicitante=' + BuscarSolicitante);
-    }
+   $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-comentarios-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&depu=' + depu + '&idEstacion=' + idEstacion);
+  }
 
-     function GuardarComentario(year,mes,idestacion,depu,idReporte,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante){
+     function GuardarComentario(year,mes,idestacion,depu,idReporte){
 
     var Comentario = $('#Comentario').val();
 
@@ -201,10 +225,10 @@ alertify.confirm('',
 
     if (response == 1) {
     $('#Comentario').val('');
-    ListaVales(idestacion,depu,year,mes,orderFolio, orderFecha, orderCuenta, orderMonto, orderSolicitante,BuscarSolicitante);     
+    ListaVales(idestacion,depu,year,mes);     
     
-    $('#DivContenidoComentario').load('../../public/solicitud-vales/vistas/modal-comentarios-solicitud-vale.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idestacion + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante + '&buscarSolicitante=' + BuscarSolicitante);
-    }else{
+    $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-comentarios-solicitud-vale.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&depu=' + depu + '&idEstacion=' + idestacion);
+  }else{
      alertify.error('Error al eliminar la solicitud');  
     }
 
@@ -258,21 +282,27 @@ alertify.confirm('',
  }
  //---------------------------------------------
 
- function ModalBuscar(idEstacion,depu,year,mes,orderFolio,orderFecha,orderCuenta,orderMonto,orderSolicitante){
+ function ModalBuscar(idEstacion,depu,year,mes){
  $('#ModalComentario').modal('show');
- $('#DivContenidoComentario').load('../../public/solicitud-vales/vistas/modal-buscar-solicitud-vale.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante);
+ $('#DivContenidoComentario').load('../../public/solicitud-vales/vistas/modal-buscar-solicitud-vale.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
  }
 
- function Buscar(idEstacion,depu,year,mes,orderFolio,orderFecha,orderCuenta,orderMonto,orderSolicitante){
+ function Buscar(idEstacion,depu,year,mes){
 
-const BuscarSolicitante = $('#BuscarSolicitante').val();
-let procesado
-procesado = BuscarSolicitante.replace(/\s+/g, '_')
+  const BuscarSolicitante = $('#BuscarSolicitante').val();
+  let procesado
+  procesado = BuscarSolicitante.replace(/\s+/g, '_')
 
- $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&orderFolio=' + orderFolio + '&orderFecha=' + orderFecha + '&orderCuenta=' + orderCuenta + '&orderMonto=' + orderMonto + '&orderSolicitante=' + orderSolicitante + '&buscarSolicitante=' + procesado);
+  $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
+  $('#ModalComentario').modal('hide');
+  }
 
-$('#ModalComentario').modal('hide');
- }
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
@@ -287,10 +317,7 @@ $('#ModalComentario').modal('hide');
   <div class="contendAG">
   <div class="row">
  
-
-
-  <div id="ListaVales"></div>
-
+  <div class="col-12" id="ListaVales"></div>
 
   </div>
   </div>
@@ -301,27 +328,29 @@ $('#ModalComentario').modal('hide');
 
   </div>
 
-
-    <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
+  <!---------- MODAL (RIGHT)---------->  
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivContenido"></div>
+  </div>
   </div>
 
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
+  <!---------- MODAL (CENTER) ----------> 
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenidoComentario">
   </div>
-
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

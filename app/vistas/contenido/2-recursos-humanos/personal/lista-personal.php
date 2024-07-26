@@ -163,7 +163,7 @@ $divisionTable = "<hr>";
 
 <!---------- TABLA DEL PERSONAL ABREVIATURAS ---------->
 <div class="table-responsive">
-<table id="tabla_personal_<?=$idActivos?>_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .78em;" width="100%">
+<table id="tabla_personal_<?=$idActivos?>_<?=$idEstacion?>" class="custom-table" style="font-size: .75em;" width="100%">
 
 <thead class="title-table-bg">
 
@@ -194,7 +194,7 @@ $divisionTable = "<hr>";
 <th class="text-center align-middle">CANP</th>
 <th class="text-center align-middle">Contrato</th>
 <th class="text-center align-middle" width="24"><img src="<?=RUTA_IMG_ICONOS?>comentario-tb.png"></th>
-<td class="text-center align-middle" width="24"></td>
+<td class="text-center align-middle" width="24"><i class="fas fa-ellipsis-v"></i></td>
 </tr>
 
 </thead>
@@ -277,8 +277,7 @@ $detalleContrato = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIV
 $ToComentarios = ToComentarios($id,$con);
 
 if($ToComentarios > 0){
-$Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 11px;">'.$ToComentarios.' </span></span></div>';
-
+$Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
 }else{
 $Nuevo = ''; 
 } 
@@ -290,7 +289,7 @@ $btnEditarUser = '<a class="dropdown-item" onclick="EditarPersonal('.$idEstacion
 $btnEliminarUser = '<a class="dropdown-item '.$ocultarbtn.'" onclick="EliminarPersonalV2('.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar personal</a>';
 
 }else{
-$btnEditarUser = '';
+$btnEditarUser = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar información</a>';
 
 $datosBajaPersonal = $ClassRecursosHumanosGeneral->PersonalBaja($id);
 $num_listaBaja = $datosBajaPersonal['num_listaBaja'];
@@ -346,7 +345,7 @@ echo '<tr '.$bgTable.'>
 <td class="align-middle text-center">'.$detalleRfc.'</td>
 <td class="align-middle text-center">'.$detallec_antecedentes.'</td>
 <td class="align-middle text-center">'.$detalleContrato.'</td>
-<td class="align-middle">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'comentario-tb.png" data-toggle="tooltip"  data-placement="top" title="Comentarios" onclick="ComentariosPersonal('.$idEstacion.','.$id.')"></td>';
+<td class="align-middle text-center position-relative" onclick="ComentariosPersonal('.$idEstacion.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
 
 echo '<td class="align-middle">
 <div class="dropdown">

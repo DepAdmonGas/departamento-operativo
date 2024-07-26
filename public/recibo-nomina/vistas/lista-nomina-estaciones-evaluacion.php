@@ -191,7 +191,7 @@ function mostrarGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, 
     echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
     echo '<div class="table-responsive">';
     echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
-    echo '<thead class="title-table-bg">';
+    echo '<thead class="tables-bg">';
     echo '<tr>';
     echo '<th class="align-middle text-center">';
     echo 'Recibos de Nomina - ' . $descripcion . ' ' . $semana . '</b> <br> ' . formatoFecha($inicioFechas) . ' al ' . formatoFecha($finFechas);
@@ -298,7 +298,7 @@ function mostrarGraficoMensual($idEstacion, $year, $mes, $totalSemQui, $descripc
     echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
     echo '<div class="table-responsive">';
     echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
-    echo '<thead class="title-table-bg">';
+    echo '<thead class="tables-bg">';
     echo '<tr>';
     echo '<th class="align-middle text-center p-3">';
     echo 'Resumen Mensual';
@@ -403,7 +403,7 @@ function mostrarGraficoAnual($idEstacion, $year, $totalYear, $descripcion, $con)
     echo '<div class="col-12">';
     echo '<div class="table-responsive">';
     echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
-    echo '<thead class="title-table-bg">';
+    echo '<thead class="tables-bg">';
     echo '<tr>';
     echo '<th class="align-middle text-center p-4" style="font-size: 14px;">';
     echo 'Resumen Anual';

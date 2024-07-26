@@ -1,17 +1,53 @@
 <?php
 require ('../../../../help.php');
 $idEstacion = $_GET['idEstacion'];
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
 
 $sql_lista = "SELECT * FROM op_rh_permisos WHERE id_estacion = '" . $idEstacion . "' OR estacion_cubre = '" . $idEstacion . "' ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-?>
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+$Estacion = "";
+
+}else{
+$Estacion = '('.$datosEstacion['localidad'].')';
+
+}
+
+?> 
  
+
+
+
+
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Recursos Humanos</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Permisos <?=$Estacion?></li>
+</ol>
+</div>
+
+<div class="row">
+<div class="col-9">
+<h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Permisos <?=$Estacion?></h3>
+</div>
+
+<div class="col-3">
+<button type="button" class="btn btn-labeled2 btn-primary float-end"
+onclick="Registro(<?=$idEstacion?>)"><span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+</div>
+</div>
+
+<hr>
+</div>
+
+
     <div class="row">
     <div class="table-responsive">
     <table class="custom-table " style="font-size: .8em;" width="100%">
-            <thead class="navbar-bg">
+    <thead class="tables-bg">
                 <tr>
                     <th class="text-center align-middle tableStyle font-weight-bold">#</t>
                     <th class="text-center align-middle tableStyle font-weight-bold">Colaborador</th>
@@ -31,7 +67,8 @@ $numero_lista = mysqli_num_rows($result_lista);
                     <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
                 </tr>
             </thead>
-            <tbody>
+
+    <tbody>
 
     <?php
     if ($numero_lista > 0) {

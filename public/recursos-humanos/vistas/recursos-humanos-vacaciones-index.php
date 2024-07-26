@@ -1,20 +1,14 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 function ToSolicitudVacaciones($idEstacion, $year, $con){
-  $sql_lista = "SELECT id FROM op_rh_formatos WHERE formato = 5 AND status = 1  AND id_localidad = '".$idEstacion."' AND YEAR(fecha) = '".$year."'";
-  $result_lista = mysqli_query($con, $sql_lista);
-  return $numero_lista = mysqli_num_rows($result_lista);
+$sql_lista = "SELECT id FROM op_rh_formatos WHERE formato = 5 AND status = 1  AND id_localidad = '".$idEstacion."' AND YEAR(fecha) = '".$year."'";
+$result_lista = mysqli_query($con, $sql_lista);
+return $numero_lista = mysqli_num_rows($result_lista);
 }
    
-       
-
 ?> 
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -29,24 +23,16 @@ function ToSolicitudVacaciones($idEstacion, $year, $con){
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
-  <style media="screen">
-  .decorado:hover {
-  text-decoration: none;
-  }
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
 
@@ -54,32 +40,58 @@ function ToSolicitudVacaciones($idEstacion, $year, $con){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
-
-    idestacion = sessionStorage.getItem('idestacion');
-    $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-vacaciones.php?idEstacion=' + idestacion + '&Year=<?=$fecha_year;?>');
-         
-    }
-    }
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  idestacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idestacion,<?=$fecha_year;?>) 
+  }
+  }
  
-    });
+  });
 
-    function Regresar(){
-    sessionStorage.removeItem('idestacion');
-    window.history.back();
-    }
+  function Regresar(){
+  sessionStorage.removeItem('idestacion');
+  window.history.back();
+  }
 
-    function Tabulador(){
-    sizeWindow();
-    $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-tabulador.php');  
-    }
 
-    function SelEstacion(idEstacion,Year){
-    sizeWindow();
-    sessionStorage.setItem('idestacion', idEstacion);
-    $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-vacaciones.php?idEstacion=' + idEstacion + '&Year=' + Year);
-    }
+  function Tabulador(){
+  sizeWindow();
+
+  $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-tabulador.php', function() {
+  $('#tabla_tabulador').DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[1, "asc"]],
+  "lengthMenu": [15, 30, 50, 100]
+  });
+  });
+  
+  }
+
+  function SelEstacion(idEstacion,Year){
+  let targets;
+  sizeWindow();
+  sessionStorage.setItem('idestacion', idEstacion);
+  targets = [5, 10, 11, 12];
+
+  $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-vacaciones.php?idEstacion=' + idEstacion + '&Year=' + Year, function() {
+  $('#tabla_vacaciones_' + idEstacion + '_' + Year).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "asc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
+  }
+
 
   function Modal(idEstacion){
   $('#Modal').modal('show');
@@ -91,62 +103,63 @@ function ToSolicitudVacaciones($idEstacion, $year, $con){
   $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-pago-vacaciones.php?id=' + id);
   } 
 
-function Descargar(id){
-window.location.href = "recursos-humanos-vacaciones-pdf/" + id;  
-}
-function FirmarPV(id){
-window.location.href = "recursos-humanos-vacaciones-firmar/" + id;  
-}
+  function Descargar(id){
+  window.location.href = "recursos-humanos-vacaciones-pdf/" + id;  
+  }
+  function FirmarPV(id){
+  window.location.href = "recursos-humanos-vacaciones-firmar/" + id;  
+  }
 
-//---------------------------------------------------------------------
+  //---------------------------------------------------------------------
+  function Formulario(Formato,idEstacion){
+  var parametros = {
+  "idEstacion" : idEstacion,
+  "Formato" : Formato
+  };
 
-    function Formulario(Formato,idEstacion){
-    var parametros = {
-    "idEstacion" : idEstacion,
-    "Formato" : Formato
-    };
-
-    $.ajax({
-    data:  parametros,
-    url:   'public/recursos-humanos/modelo/agregar-formato.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
-
-    },
-    success:  function (response) {
-
-    if (response != 0) {
-
-   SelEstacion(idEstacion);
-   $('#Modal').modal('show');  
-
-    if(Formato == 1){
-       $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-    }else if(Formato == 2){
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario2.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-    }else if(Formato == 3){
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario3.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-    }else if(Formato == 4){
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario4.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-    }else if(Formato == 5){
-
-    sessionStorage.setItem('idestacion', idEstacion);
+  $.ajax({
+  data:  parametros,
+  url:   'public/recursos-humanos/modelo/agregar-formato.php',
+  type:  'post',
+  beforeSend: function() {
     
-    window.location.href = "recursos-humanos-formatos-vacaciones/" + response; 
+  },
+  complete: function(){
 
-    }
-    }else{
-    alertify.error('Error al crear');  
-    }
+  },
+  success:  function (response) {
 
-    }
-    });
+  if (response != 0) {
+  SelEstacion(idEstacion);
+
+  if(Formato == 1){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + response);
+  }else if(Formato == 2){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario2.php?idEstacion=' + idEstacion + '&idReporte=' + response);
+  }else if(Formato == 3){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario3.php?idEstacion=' + idEstacion + '&idReporte=' + response);
+  }else if(Formato == 4){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario4.php?idEstacion=' + idEstacion + '&idReporte=' + response);
+  }else if(Formato == 5){
+
+  sessionStorage.setItem('idestacion', idEstacion);
+  window.location.href = "recursos-humanos-formatos-vacaciones/" + response; 
+  }
+    
+  }else{
+  alertify.error('Error al crear');  
+  }
+
+  }
+  });
  
-    }
+  }
 
-function EditFormulario(idEstacion,idReporte,Formato){
+  function EditFormulario(idEstacion,idReporte,Formato){
 
     if(Formato == 1){
       $('#Modal').modal('show'); 
@@ -190,6 +203,8 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
         },
         success:  function (response) {
 
+console.log(response)
+
           if(response == 1){
           SelEstacion(idEstacion, Year)
           $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idPersonal=' + idPersonal + '&Year=' + Year);
@@ -208,8 +223,13 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
     }
 
   function ModalComentario(idEstacion,idPersonal,Year){
-  $('#ModalComentario').modal('show');  
-  $('#DivContenido').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
+  }
+
+  function regresarModal(idPersonal,Year){
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario5.php?idPersonal=' + idPersonal + '&Year=' + Year);
+
   }
 
   function GuardarComentario(idPersonal,Year,idEstacion){
@@ -240,7 +260,7 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
     $('#Comentario').val('');
     SelEstacion(idEstacion, Year)   
     sizeWindow(); 
-    $('#DivContenido').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
+    $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
     }else{
      alertify.error('Error al guardar el comentario');  
     }
@@ -263,7 +283,13 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
     window.location.href = "recursos-humanos-formatos-pdf/" + idFormato;  
     }
 
-        function DetalleFormulario(idFormato,Year,Formato){
+    function detalleVacaciones2(idReporte,idPersonal,year){
+    $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-vacaciones-personal.php?idReporte=' + idReporte + '&idPersonal=' + idPersonal + '&year=' + year);
+
+    }
+
+    
+    function DetalleFormulario(idFormato,Year,Formato){
 
     $('#Modal').modal('show');  
     if(Formato == 1){
@@ -282,36 +308,40 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
    
     }
 
-    function ModalBuscar(idEstacion){
-      $('#ModalComentario').modal('show');  
-      $('#DivContenido').load('public/recursos-humanos/vistas/modal-buscar-vacaciones.php?idEstacion=' + idEstacion);
-    }
+  function ModalBuscar(idEstacion){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-buscar-vacaciones.php?idEstacion=' + idEstacion);
+  }
 
-    function Buscar(idEstacion){
+  function Buscar(idEstacion){
+  let Year = $('#Year').val();
 
-      let Year = $('#Year').val();
+  if(Year != ""){
+  $('#Year').css('border',''); 
 
-    if(Year != ""){
-    $('#Year').css('border',''); 
+  $('#Modal').modal('hide');  
+  SelEstacion(idEstacion, Year);
 
-    SelEstacion(idEstacion, Year);
+  }else{
+  $('#Year').css('border','2px solid #A52525'); 
+  }
+  }
 
-    }else{
-    $('#Year').css('border','2px solid #A52525'); 
-    }
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
-    }
-    
   </script>
   </head>
 
-
   <body>
-
   <div class="LoaderPage"></div>
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
           
@@ -475,42 +505,30 @@ $ToSolicitud = ToSolicitudVacaciones($id,$GET_year_actual,$con);
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaNegra" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ListaNegra"></div> 
   </div>
   </div> 
 
-
-</div>
-
+  </div>
 
 
-<div class="modal" id="Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" style="margin-top: 83px;">
-<div class="modal-content border-0 rounded-0">
-<div id="ContenidoModal"></div>
-</div>
-</div>
-</div>
-
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog" style="margin-top: 83px;">
-      <div class="modal-content">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
-  </div> 
+  <!---------- MODAL 1 ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

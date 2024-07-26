@@ -2,12 +2,6 @@
 require('../../../app/help.php');
 
 $aleatorio = uniqid();
-
-$img = $_POST['base64'];
-$img = str_replace('data:image/png;base64,', '', $img);
-$fileData = base64_decode($img);
-$fileName = $aleatorio.'.png';
-
 $idReporte = $_POST['idReporte'];
 
 if($_POST['estado'] == 0){

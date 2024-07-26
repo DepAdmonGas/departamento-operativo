@@ -409,7 +409,7 @@ $result->close();
 $estacion = '
 <div class="table-responsive">
 <table class="custom-table mt-3" style="font-size: .8em;" width="100%">
-<thead class="navbar-bg">
+<thead class="tables-bg">
 <th>Nombre de la empresa</th>
 <th>'.$nombre.'</th>
 </thead>

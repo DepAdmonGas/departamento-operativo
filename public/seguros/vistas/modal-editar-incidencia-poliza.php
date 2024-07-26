@@ -31,8 +31,8 @@ $pdfInput = 'S/I';
 ?>
 
  <div class="modal-header">
-  <h5 class="modal-title">Detalle (en caso de incidencias)</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Editar (en caso de incidencias)</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
@@ -61,8 +61,10 @@ $pdfInput = 'S/I';
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-<button type="button" class="btn btn-primary" onclick="EditarIncidenciaP(<?=$idPolizaInc;?>,<?=$GET_idEstacion?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal"> <span class="btn-label2"><i class="fa fa-remove"></i></span>Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarIncidenciaP(<?=$idPolizaInc;?>,<?=$GET_idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
 
 </div>
      

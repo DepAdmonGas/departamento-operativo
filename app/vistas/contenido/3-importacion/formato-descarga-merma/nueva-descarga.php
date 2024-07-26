@@ -476,42 +476,66 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 </div>
                             </div>
 
-                            <div class="row">
+<div class="row">
 
-                                <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Encargado de estación:</div>
-                                    <div id="signature-pad-1" class="signature-pad mt-2">
-                                        <div class="signature-pad--body">
-                                            <canvas style="width: 100%; height: 150px; border: 1px black solid;"
-                                                id="canvas1"></canvas>
-                                        </div>
-                                    </div>
+  <!---------- FIRMA ---------->
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center p-0 no-hover2">          
+  <div id="signature-pad-1" class="signature-pad ">
+  <div class="signature-pad--body ">
+  <canvas style="width: 100%; height: 150px; border-right: .1px solid #215d98; border-left: .1px solid #215d98; cursor: crosshair;" id="canvas1"></canvas>
+  </div>
+  <input type="hidden" name="base64" value="" id="baseImage1">
+  </div> 
+  </th>
+  </tr>
 
-                                    <div class="mt-3">
-                                        <input type="hidden" name="base64" value="" id="baseImage1">
-                                            <button type="button" class="btn float-end btn-labeled2 btn-primary" onclick="clear1()">
-         <span class="btn-label2"><i class="fa fa-trash-can"></i></span>Limpiar</button>
+  <tr>
+  <th class="align-middle text-center p-2 bg-danger text-white" onclick="clear1()">  
+  <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma        
+  </th>
+  </tr>
 
-                                    </div>
-                                </div>
+  </tbody>
+  </table>
+  </div>
 
 
-                                <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Operador:</div>
-                                    <div id="signature-pad-2" class="signature-pad mt-2">
-                                        <div class="signature-pad--body">
-                                            <canvas style="width: 100%; height: 150px; border: 1px black solid; "
-                                                id="canvas2"></canvas>
-                                        </div>
-                                    </div>
 
-                                    <div class="mt-3">
-                                        <input type="hidden" name="base64" value="" id="baseImage2">
-                                        <button type="button" class="btn float-end btn-labeled2 btn-primary" onclick="clear2()">
-         <span class="btn-label2"><i class="fa fa-trash-can"></i></span>Limpiar</button>
-                                    </div>
-                                </div>
-                            </div>
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DEL OPERADOR</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center p-0 no-hover2">          
+  <div id="signature-pad-2" class="signature-pad ">
+  <div class="signature-pad--body ">
+  <canvas style="width: 100%; height: 150px; border-right: .1px solid #215d98; border-left: .1px solid #215d98; cursor: crosshair;" id="canvas2"></canvas>
+  </div>
+  <input type="hidden" name="base64" value="" id="baseImage2">
+  </div> 
+  </th>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center p-2 bg-danger text-white" onclick="clear2()">  
+  <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma        
+  </th>
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+  
+</div>
 
 
 

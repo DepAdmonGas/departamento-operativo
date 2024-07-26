@@ -146,9 +146,10 @@ $Nuevo = '';
 </div>
 
 <div class="col-12">
+    <hr>
 <div class="table-responsive">
-<table class="custom-table mt-3" style="font-size: .9em;" width="100%">
-<thead class="navbar-bg">
+<table class="custom-table" style="font-size: .9em;" width="100%">
+<thead class="tables-bg">
 <tr class="text-center align-middle tables-bg">
 <th class="align-middle" colspan="8">Documentación del Personal</th>
 </tr>

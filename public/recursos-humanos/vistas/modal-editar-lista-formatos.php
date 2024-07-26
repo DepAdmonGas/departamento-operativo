@@ -15,7 +15,7 @@ $nombre = $row['nombre'];
 <div class="modal-header">
 
 <h5 class="modal-title">Editar Formato</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
  
 <div class="modal-body">
@@ -30,5 +30,6 @@ $nombre = $row['nombre'];
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="Editar(<?=$idDocumento;?>)">Editar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="Editar(<?=$idDocumento;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
 </div>

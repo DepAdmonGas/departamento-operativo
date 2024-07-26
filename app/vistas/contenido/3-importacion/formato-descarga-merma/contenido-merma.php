@@ -5,7 +5,7 @@ $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEst
 
 if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
 $ocultarOp = "";
-$tituloMenu = "Importacion";
+$tituloMenu = "Importación";
 $Estacion = '';
 
 }else{
@@ -49,7 +49,7 @@ $tituloMenu = "Importacion";
 <div class="table-responsive">
 
 <table id="tabla_merma" class="custom-table" style="font-size: .9em;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr>
 <th class="align-middle text-center" width="40px">Folio</th>
 <th class="align-middle text-start">Fecha y hora</th>

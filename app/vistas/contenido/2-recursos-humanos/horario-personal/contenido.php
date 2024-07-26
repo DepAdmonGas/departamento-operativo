@@ -2,6 +2,9 @@
 require ('../../../../help.php');
 
 $idEstacion = $_GET['idEstacion'];
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
+$Estacion = $datosEstacion['localidad'];
+
 
 $sql_personal = "SELECT
 op_rh_personal.id,
@@ -70,21 +73,54 @@ return $resultado;
 }
 
 
+$etiquetaHr = "" ;
+$ocultarTitle = "";
+$EstacionName = "";
+
+if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo") {
 if ($idEstacion == 9) {
 $referencia = 'Autolavado';
 $etiquetaHr = "<hr>" ;
+$ocultarTitle = "d-none";
 
 }else {
-$referencia = $session_nomestacion;
-$etiquetaHr = "" ;
+$referencia = $Estacion;
 }
+
+}else{
+$referencia = $Estacion;
+$EstacionName = '('.$datosEstacion['localidad'].')';
+
+
+}
+
 ?>
 
 <?=$etiquetaHr?>
 
+
+<div class="col-12 <?=$ocultarTitle?>">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Recursos Humanos</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Horario Personal <?=$EstacionName?></li>
+</ol>
+</div>
+
+<div class="row">
+<div class="col-12">
+<h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Horario Personal <?=$EstacionName?></h3>
+</div>
+
+</div>
+
+<hr>
+          
+</div>
+
 <div class="table-responsive">
     <table class="custom-table" style="font-size: .75em;" width="100%">
-        <thead class="navbar-bg">
+        <thead class="title-table-bg">
             <tr class="tables-bg">
 				<th colspan="10" class="align-middle text-center"><?= $referencia; ?></th>
 			</tr>

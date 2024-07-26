@@ -38,7 +38,7 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <div class="mt-1" style="<?=$margin;?>">
 
 <div style="font-size: .7em;" class="mb-1"><?=$NomUsuario;?></div>
-<div class="bg-primary text-white" style="border-radius: 30px;">
+<div class="title-table-bg text-white" style="border-radius: 30px;">
 <p class="p-2 pb-0"><?=$comentario;?></p>
 </div>
 <div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
@@ -59,7 +59,8 @@ echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontrar
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="GuardarComentario(<?=$idBaja?>,<?=$idEstacion?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success float-end " onclick="GuardarComentario(<?=$idBaja?>,<?=$idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
 
 

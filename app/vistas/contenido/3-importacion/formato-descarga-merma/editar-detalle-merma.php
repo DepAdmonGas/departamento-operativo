@@ -248,7 +248,7 @@ $('#Merma').val(merma2);
 
                                 </div>
                                 <div class="col-2">
-                                    <span class="badge rounded-pill title-table-bg float-end" style="font-size:14px">Folio:
+                                    <span class="badge rounded-pill tables-bg float-end" style="font-size:14px">Folio:
                                         00<?= $folio; ?>
                                     </span>
                                 </div>
@@ -488,7 +488,7 @@ $('#Merma').val(merma2);
         echo '<div class="col-12 col-sm-4 mb-3">
         <div class="table-responsive">
         <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-        <thead class="title-table-bg">
+        <thead class="tables-bg">
         <tr> <th class="align-middle text-center">Firma del '.$row_firma['tipo_firma'].' </th> </tr>
         </thead>
         <tbody>

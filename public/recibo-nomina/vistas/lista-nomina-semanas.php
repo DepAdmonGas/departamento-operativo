@@ -277,9 +277,11 @@ require('../../../app/help.php');
 
   if($finSemanaDay <= $fecha_resultante && 2024 <= $year && $year <= $yearActual){
   //----- Configuracion Nomina de Alejandro Guzman ----------
-  if($Session_IDUsuarioBD == 354){
-  $acusesArchivo = '<img class="ms-3 float-end pointer" onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')" src="'.RUTA_IMG_ICONOS.'archivo-tb.png">';
-  
+  if($Session_IDUsuarioBD == 354){  
+  $acusesArchivo = '
+	<button type="button" class="btn btn-labeled2 btn-success float-end " onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">
+  <span class="btn-label2"><i class="fa-solid fa-file-arrow-up"></i></span>Subir recibos de nomina</button>';
+
   }else{
   $acusesArchivo = documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$con);
   }
@@ -447,6 +449,7 @@ require('../../../app/help.php');
   //---------- VISUALIZACIONES PUESTOS ----------
   if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
   $ocultatTitle = "";
+  $colspanTB = "4";
   
   if($idEstacion == 9){
   $titleMenu = "";  
@@ -467,34 +470,35 @@ require('../../../app/help.php');
   $titleMenu = "Recibo de Nomina ($Titulo)";  
   $divisionTable = "";
   $ocultarTitle = "";
+  $colspanTB = "5";
 
   }
-
 
 
   //---------- CONFIGURACION USUARIOS ----------
   if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
-  $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
-  $tbOriginal1 = "";
-  $valColspan = "6";
-
+    $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
+    $tbOriginal1 = "";
+    $valColspan = "6";
+    $valColspan2 = "4";
+      
+    }else{
+      
+    if($Session_IDUsuarioBD == 354){
+    $tbPrima1 = "";
+    $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
+    $valColspan = "5";
+    $valColspan2 = "5";
+     
+    }else{
+    $tbPrima1 = "";
+    $tbOriginal1 = ""; 
+    $valColspan = "5";
+    $valColspan2 = "4";
   
-  }else{
-  
-  if($Session_IDUsuarioBD == 354){
-  $tbPrima1 = "";
-  $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>original-tb.png"></th>';
-  $valColspan = "6";
- 
-    
-  }else{
-  $tbPrima1 = "";
-  $tbOriginal1 = "";
-  $valColspan = "5";
- 
-  }
-   
-  }
+    }
+       
+    }
   
   ?>
 
@@ -539,7 +543,7 @@ require('../../../app/help.php');
 
   <tr class="tables-bg">
   <th class="text-center align-middle fw-bold" colspan="<?=$valColspan?>">Semana <?=$semana?> <?=$tituloTablaPersonal?> <br><?=formatoFecha($inicioSemanaDay)?> al <?=formatoFecha($finSemanaDay)?></th>
-  <th class="text-center align-middle" colspan="4">
+  <th class="text-center align-middle" colspan="<?=$valColspan2?>">
       
   <div class="d-flex align-items-center">
   <!----- SELECT DE SEMANAS DEL AÑO ----->
@@ -649,10 +653,11 @@ require('../../../app/help.php');
 
   //---------- RECIBO DE NOMINA ORIGINAL ----------
   if($DocumentoOriginal != 0){
-  $archivoNominaOriginal = '<img src="'.RUTA_IMG_ICONOS.'original-tb.png" data-toggle="tooltip" data-placement="top" title="Recibido">';
-
+  $archivoNominaOriginal = '<td class="align-middle text-center><img src="'.RUTA_IMG_ICONOS.'original-tb.png" data-toggle="tooltip" data-placement="top" title="Recibido"></td>';
+  
   }else{
-  $archivoNominaOriginal = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="No recibido">';
+  $archivoNominaOriginal = '<td class="align-middle text-center><img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="No recibido"></td>';
+  
   }
 
 
@@ -730,23 +735,25 @@ require('../../../app/help.php');
   $totalGeneral = $totalGeneral + $importe_total2;
 
 
+
   //---------- CONFIGURACION USUARIOS ----------
   if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
-  $tbPrima2 = '<td class="align-middle text-center">'.$badgePV.'</td>';
-  $tbOriginal2 = "";
-      
-  }else{
-      
-  if($Session_IDUsuarioBD == 354){
-  $tbPrima2 = "";
-  $tbOriginal2 = '<td class="align-middle text-center>'.$archivoNominaOriginal.'</td>';
+    $tbPrima2 = '<td class="align-middle text-center">'.$badgePV.'</td>';
+    $tbOriginal2 = "";
         
-  }else{
-  $tbPrima2 = "";
-  $tbOriginal2 = ""; 
-  }
-      
-  }
+    }else{
+        
+    if($Session_IDUsuarioBD == 354){
+    $tbPrima2 = "";
+    $tbOriginal2 = '<td class="align-middle text-center>'.$archivoNominaOriginal.'</td>';
+          
+    }else{
+    $tbPrima2 = "";
+    $tbOriginal2 = ""; 
+    }
+         
+    }
+  
 
   echo '<tr '.$bgTable.'>';
   echo '<th class="align-middle text-center"><b>'.$num.'</b></th>';
@@ -765,10 +772,21 @@ require('../../../app/help.php');
   $num++;
   }
 
-  $EtiquetaTotal = '<h6 class="text-end"> Importe Total: $'.number_format($totalGeneral,2).' </h6>';
+
+  echo '<tr class="ultima-fila">
+  <th class="align-middle text-end" colspan="4">Importe Total</th>
+  <th class="align-middle text-center" colspan="1">$'.number_format($totalGeneral,2).'</th>
+  <th class="align-middle text-end" colspan="'.$colspanTB.'"></th>
+  </tr>';
 
   }else{
-  $EtiquetaTotal = '<h6 class="text-end"> Importe Total: 0 </h6>';
+
+    echo '<tr class="ultima-fila">
+    <th class="align-middle text-end" colspan="4">Importe Total</th>
+    <th class="align-middle text-center" colspan="1">$'.number_format(0,2).'</th>
+    <th class="align-middle text-end" colspan="'.$colspanTB.'"></th>
+    </tr>';
+  
 
   }
 
@@ -777,19 +795,9 @@ require('../../../app/help.php');
 
   </tbody>
   </table>
+
+  
   </div>
 
-
-  <div class="row mt-3 ">
-
-  <div class="col-6">
-  <?=$btnFinalizarES?>
-  </div>
-
-  <div class="col-6">
-  <?=$EtiquetaTotal?>
-  </div>
-
-  </div>
   
 

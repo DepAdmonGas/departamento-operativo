@@ -1,12 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -37,14 +33,26 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
+
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+ 
+  idEstacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idEstacion)
+  } 
+      
+  }
+ 
   });
 
   function Regresar(){
   window.history.back();
+  sessionStorage.removeItem('idestacion');
   }
 
   function SelEstacion(idEstacion){
-   sizeWindow(); 
+  sizeWindow(); 
+  sessionStorage.setItem('idestacion', idEstacion);
   $('#ContenidoPerfil').load('public/recursos-humanos/vistas/contenido-recursos-humanos-perfil.php?idEstacion=' + idEstacion);
   }   
 
@@ -52,7 +60,7 @@ header("Location:".PORTAL."");
   $('#Modal').modal('show');
   $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-sensorhuella.php?idEstacion=' + idEstacion);
   }
-
+ 
 function validatePassword(password) {
 
 var validar = "";
@@ -177,7 +185,8 @@ alertify.error('El usuario no fue agregado');
 }else if(response == 2){
 alertify.error('El usuario no fue agregado');
 $(".LoaderPage").hide();
-$('#resultadoModal').html('<div class="text-center text-danger"><small>Intente con otro usuario o contraseña</small></div>');
+
+alertify.error('Intente con otro usuario o contraseña');
 }
 
 }
@@ -190,7 +199,7 @@ function(){
 }else{  
 $('#txtValidaPassword').css('border','2px solid #A52525');
 $('#txtPassword').css('border','2px solid #A52525');
-$('#resultadoModal').html('<div class="text-center text-danger"><small>Las contraseñas no coinciden</small></div>');
+alertify.error('Las contraseñas no coinciden');
 }
 
 }else{
@@ -320,7 +329,7 @@ alertify.error('El usuario no fue editado');
 }else if(response == 2){
 alertify.error('El usuario no fue editado');
 $(".LoaderPage").hide();
-$('#resultadoModal').html('<div class="text-center text-danger"><small>Intente con otro usuario o contraseña</small></div>');
+alertify.error('Intente con otro usuario o contraseña');
 }
  
 }
@@ -333,7 +342,7 @@ function(){
 }else{  
 $('#txtValidaPassword').css('border','2px solid #A52525');
 $('#txtPassword').css('border','2px solid #A52525');
-$('#resultadoModal').html('<div class="text-center text-danger"><small>Las contraseñas no coinciden</small></div>');
+alertify.error('Las contraseñas no coinciden');
 }
 
 }else{
@@ -351,12 +360,9 @@ $('#txtPassword').css('border','2px solid #A52525');
 $('#txtUsuario').css('border','2px solid #A52525');
 }
 
-
 }
-
   </script>
   </head>
-
 
   <body>
 
@@ -434,7 +440,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   ?> 
 </ul>
 </nav>
-
+ 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
@@ -444,7 +450,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Recursos humanos perfil</a>
+  <a class="text-dark" onclick="history.back()">Biometrico</a>
   </div>
  
    
@@ -502,28 +508,24 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12">
-  <div id="ContenidoPerfil" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ContenidoPerfil"></div> 
   </div>
   </div> 
 
-</div>
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog" style="margin-top: 83px;">
-      <div class="modal-content">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
   </div>
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>

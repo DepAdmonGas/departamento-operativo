@@ -15,7 +15,8 @@ $ocultarDivs = "d-none";
 $columnaDiv1 = "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2";
 $columnaDiv2 = "col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2";
 $ocultarDivs2 = "";
-$btnAccion = '<button type="button" class="btn btn-primary" onclick="personalRecursosHumanos('.$idEstacion.','.$idPersonal.','.$Tipo.')">'.$Titulo.'</button>';
+$btnAccion = '<button type="button" class="btn btn-labeled2 btn-success" onclick="personalRecursosHumanos('.$idEstacion.','.$idPersonal.','.$Tipo.')"><span class="btn-label2"><i class="fa fa-check"></i></span>'.$Titulo.'</button>';
+
 
 $datosPersonal = "";
 $no_colaborador = "";
@@ -38,8 +39,8 @@ $columnaDiv2 = "col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2";
 }
 
 $ocultarDivs2 = "d-none";
-$btnAccion = '<button type="button" class="btn btn-primary" onclick="personalRecursosHumanos('.$idEstacion.','.$idPersonal.','.$Tipo.')">'.$Titulo.'</button>';
 
+$btnAccion = '<button type="button" class="btn btn-labeled2 btn-success" onclick="personalRecursosHumanos('.$idEstacion.','.$idPersonal.','.$Tipo.')"><span class="btn-label2"><i class="fa fa-check"></i></span>'.$Titulo.'</button>';
 $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($idPersonal);
 $no_colaborador = $datosPersonal['no_colaborador'];
 $nombrecompleto = $datosPersonal['nombre_personal'];

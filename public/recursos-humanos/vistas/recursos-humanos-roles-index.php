@@ -57,41 +57,7 @@ header("Location:".PORTAL."");
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Rol de Comodines</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-  <div class="row">  
-  
-  <div class="col-12">
-  <div id="ContenidoOrganigrama" class="cardAG"></div>
-  </div> 
-
-  </div>
-     
-  </div>
-  </div>
-  </div>
-
+  <div id="ContenidoOrganigrama" class="col-12"></div>
   </div>
   </div>
 

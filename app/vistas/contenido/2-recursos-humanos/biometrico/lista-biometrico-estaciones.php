@@ -35,6 +35,8 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
   $ocultarbtn = "d-none";
   $ocultatTitle = "";
   $valConfiguracion = 0;
+  $tituloBtn = "Retardos, Horarios e Incidencias";
+  $colorTitle = "title-table-bg";
 
   if ($idEstacion == 9) {
     $titleMenu = "";
@@ -48,7 +50,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
     $ocultarTitle = "";
     $divisionTable = "";
 
-  }
+  } 
 
 } else {
   $ocultarbtn = "";
@@ -58,6 +60,10 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
   $divisionTable = "";
   $ocultatTitle = "d-none";
   $valConfiguracion = 1;
+  $tituloBtn = "Configuracion Biometrico";
+  $colorTitle = "tables-bg";
+
+
 }
 
 
@@ -91,7 +97,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
             <li onclick="ModalReporte(<?= $idEstacion ?>)"><a class="dropdown-item pointer"> <i
                   class="fa-solid fa-search"></i> Buscar Reporte</a></li>
             <li onclick="ConfiguracionBiometrico(<?= $valConfiguracion ?>)"><a class="dropdown-item pointer"> <i
-                  class="fa-solid fa-gear"></i> Configuracion Biometrico</a></li>
+                  class="fa-solid fa-gear"></i> <?=$tituloBtn?></a></li>
 
           </ul>
         </div>
@@ -113,7 +119,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
   <table id="tabla_biometrico_<?=$idEstacion?>" class="custom-table mt-2" style="font-size: .8em;" width="100%">
 
 
-      <thead class="title-table-bg">
+      <thead class="<?=$colorTitle?>">
 
         <tr class="tables-bg <?= $ocultatTitle ?>">
           <th class="text-center align-middle fw-bold" colspan="9"><?= $tituloTablaPersonal ?></th>

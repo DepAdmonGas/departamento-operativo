@@ -8,18 +8,17 @@ $result_lista_poliza = mysqli_query($con, $sql_lista_poliza);
 $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 
 while($row_lista_poliza = mysqli_fetch_array($result_lista_poliza, MYSQLI_ASSOC)){
-    $idEstacion = $row_lista_poliza['id_estacion'];
-    $emision = $row_lista_poliza['emision'];
-    $vencimiento = $row_lista_poliza['vencimiento'];
+$idEstacion = $row_lista_poliza['id_estacion'];
+$emision = $row_lista_poliza['emision'];
+$vencimiento = $row_lista_poliza['vencimiento'];
 }
 
 
 ?>
 
-
  <div class="modal-header">
   <h5 class="modal-title">Editar poliza</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
  <div class="modal-body">
@@ -37,6 +36,6 @@ while($row_lista_poliza = mysqli_fetch_array($result_lista_poliza, MYSQLI_ASSOC)
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-danger mt-3 float-end" onclick="RegresarPoliza(<?=$idEstacion;?>)">Cancelar</button>
-<button type="button" class="btn btn-primary mt-3 float-end" onclick="EditarPolizaS(<?=$idPoliza;?>,<?=$idEstacion;?>)">Editar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" onclick="RegresarPoliza(<?=$idEstacion;?>)"> <span class="btn-label2"><i class="fa fa-remove"></i></span>Cancelar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarPolizaS(<?=$idPoliza;?>,<?=$idEstacion;?>)"><span class="btn-label2"><i class="fa fa-check"></i></span>Success</button>
 </div>

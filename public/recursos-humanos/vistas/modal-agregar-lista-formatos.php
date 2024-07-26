@@ -5,7 +5,7 @@ require('../../../app/help.php');
 <div class="modal-header">
 
 <h5 class="modal-title">Agregar Formato</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -23,7 +23,8 @@ require('../../../app/help.php');
 
 </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="Guardar(0)">Guardar</button>
-      </div>
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(0)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>
  

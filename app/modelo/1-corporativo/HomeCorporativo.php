@@ -54,12 +54,16 @@ class HomeCorporativo
     $referencia = "../../portal-app/home";
     $menuName = "Portal";
     
+    }else{
+    $referencia = "../departamento-operativo/administracion/corporativo";
+    $menuName = "Corporativo";
+
     }
         
     $result .= '<div class="col-12">
     <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
-    <li class="breadcrumb-item"><a onclick="menuCorporativoYear(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-1);" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
     <li aria-current="page" class="breadcrumb-item active text-uppercase">'.$titulo.'</li>
     </ol>
     </div>
@@ -121,8 +125,8 @@ class HomeCorporativo
     $result .= '  <div class="col-12">
     <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
-    <li class="breadcrumb-item"><a onclick="menuCorporativoMes(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
-    <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-2);" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-1);"class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
     <li aria-current="page" class="breadcrumb-item active text-uppercase">'.$year.'</li>
     </ol>
     </div>

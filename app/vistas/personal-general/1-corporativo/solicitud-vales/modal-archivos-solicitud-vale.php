@@ -14,7 +14,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 ?>  
  
 <div class="modal-header">
-<h5 class="modal-title">Archivos</h5>
+<h5 class="modal-title">Documentación</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -36,23 +36,20 @@ $numero_documento = mysqli_num_rows($result_documento);
 <input type="file" class="form-control" id="Archivo">
 </div>
  
-<hr> 
- 
-<div class="row">
-<div class="col-12">
-<button class="btn btn-outline-secondary btn-sm mb-3 float-end" type="button" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idEstacion;?>,<?=$depu;?>,<?=$idReporte;?>)">Agregar archivo</button></div>
-</div>
- 
+
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 " style="font-size: .8em;">
-<thead class="tables-bg">
+  <table class="custom-table mt-3" width="100%" style="font-size: .9em;">
+  <thead class="tables-bg">
+
 <tr>
-<th class="align-middle text-center">Nombre archivo</th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>descargar.png"></th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+<td class="text-center align-middle"><b>Descripción</b></td>
+<td class="text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS;?>descargar.png"></td>
+<td class="text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
 </tr>
-</thead>
-<tbody>
+
+</thead> 
+
+ <tbody class="bg-light">
 <?php
 if ($numero_documento > 0) {
 while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
@@ -61,7 +58,7 @@ $idDocumento = $row_documento['id'];
 
 echo '<tr>';
 echo '<td class="align-middle font-weight-light">'.$row_documento['nombre'].'</td>';
-echo '<td class="align-middle font-weight-light"><a href="../../archivos/vales/'.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png"></a></td>';
+echo '<td class="align-middle font-weight-light"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png"></a></td>';
 echo '<td class="align-middle font-weight-light"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarArchivo('.$year.','.$mes.','.$idEstacion.','.$depu.','.$idReporte.','.$idDocumento.')"></td>';
 echo '</tr>';
 
@@ -74,5 +71,12 @@ echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encont
 </tbody>
 </table>
 </div>
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idEstacion;?>,<?=$depu;?>,<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
 
 </div>
+
+
