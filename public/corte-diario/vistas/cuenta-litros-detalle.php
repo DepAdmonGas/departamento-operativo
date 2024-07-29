@@ -39,11 +39,13 @@ $estatus = $row_lista_cl['estatus'];
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  <script type="text/javascript">
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-      tablasFormatoCL(<?= $GET_idCLitros ?>)
-    });
+ 
+ <script type="text/javascript">
+  $(document).ready(function ($) {
+  $(".LoaderPage").fadeOut("slow");
+  tablasFormatoCL(<?= $GET_idCLitros ?>)
+  });
+
   function tablasFormatoCL(idCuentaLitros){
   $('#FormatoCuentaL').load('../public/admin/vistas/lista-cuenta-litros-detalle.php?idCuentaLitros=' + idCuentaLitros);
   }
@@ -62,49 +64,10 @@ $estatus = $row_lista_cl['estatus'];
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">
-
-        <div class="col-12 mb-3">
-          <div class="cardAG">
-            <div class="border-0 p-3">
-
-              <div class="row">
-                <div class="col-12">
-
-                  <img class="float-start pointer" src="<?= RUTA_IMG_ICONOS; ?>regresar.png" onclick="Regresar()">
-
-                  <div class="row">
-
-                    <div class="col-12">
-                      <h5>Tabla de Descarga (Cuenta Litros) - <?= $nombreES ?></h5>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-              <hr>
-
-
-              <div id="FormatoCuentaL"></div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
+  <div class="col-12" id="FormatoCuentaL"></div>
+  </div>
   </div>
 
-
-
-  <div class="modal fade bd-example-modal-lg" id="ModalCL">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-        <div id="ContenidoModalCL"></div>
-      </div>
-    </div>
   </div>
 
 

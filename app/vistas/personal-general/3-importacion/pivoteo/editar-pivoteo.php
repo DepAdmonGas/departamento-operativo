@@ -190,7 +190,7 @@ $('#Tanque').val('Tanque 1');
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
-<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Pivoteo</a></li>
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i></i> Pivoteo</a></li>
 <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Pivoteo</li>
 </ol>
 </div>

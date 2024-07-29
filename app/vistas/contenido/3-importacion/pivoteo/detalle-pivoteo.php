@@ -59,7 +59,7 @@ $causa2 = $causa;
 <div class="col-12">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">Causa:</th> </tr>
   </thead>
   <tbody class="bg-light">
@@ -105,7 +105,7 @@ $causa2 = $causa;
       
           echo '
           <thead>
-          <tr class="title-table-bg text-white text-center">
+          <tr class="tables-bg text-white text-center">
           <th  colspan="2">Documentación Facturada (CANCELAR)</th>
           <th  colspan="2">Documentación a refacturar</th>
           </tr>
@@ -216,7 +216,7 @@ $Detalle = '<div class="text-secondary fw-normal" style="font-size: 13px;" >El p
 echo '<div class="col-12">
 <div class="table-responsive">
 <table class="custom-table" style="font-size: 14px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr> <th class="align-middle text-center">Atentamente</th> </tr>
 </thead>
 <tbody class="bg-light">

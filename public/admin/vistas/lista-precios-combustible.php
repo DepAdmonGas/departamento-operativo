@@ -69,7 +69,7 @@
   <div class="table-responsive">
   <table id="tabla_precios" class="custom-table" style="font-size: 14px;" width="100%">
 
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <th class="text-center align-middle font-weight-bold" width="60">#</th>
   <th class="text-start align-middle font-weight-bold">Fecha</th>
   <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>

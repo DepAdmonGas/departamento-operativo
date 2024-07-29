@@ -23,6 +23,7 @@ function IdReporte($idEstacion,$GET_year,$GET_mes,$con){
    $IdReporte = IdReporte($idEstacion,$GET_year,$GET_mes,$con); 
 
 function Detalle($IdReporte,$producto,$embarque,$con){
+$Total = 0;
 $sql_lista = "SELECT * FROM op_embarques WHERE id_mes = '".$IdReporte."' AND embarque = '".$embarque."' AND producto = '".$producto."' ORDER BY fecha ASC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
@@ -67,25 +68,30 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 ?>
 
 
-<div class="cardAG p-3">
 
-<div class="row justify-content-md-center">
 
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"> 
+<div class="row">
+<div class="col-12"> 
 
-	<div class="table-responsive">
-		<table class="table table-bordered table-sm mb-0 text-center" style="font-size: 0.8em;">
-<tbody>
+<hr>
+<h3 class="text-secondary mb-3" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Total del Analisis de Compra</h3>
+
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 0.70em;" width="100%">
+<thead class="bg-white">
+<tr>
+<th></th>
+<th style="background: #CEEDFB;color: black;">PEMEX</th>
+<th style="background: #FAFBCE;color: black;">DELIVERY</th>
+<th style="background: #DEDEDE;">PICK UP</th>
+<th class="text-dark">TOTAL</th>
+<th>%</th>
+</tr>
+</thead>
+
+	<tbody class="bg-white">
 	<tr>
-		<td></td>
-		<td class="font-weight-bold" style="background: #CEEDFB;color: black;">PEMEX</td>
-		<td class="font-weight-bold" style="background: #FAFBCE;color: black;">DELIVERY</td>
-		<td class="font-weight-bold" style="background: #DEDEDE;">PICK UP</td>
-		<td class="font-weight-bold" style="background: #F3F3F3;">TOTAL</td>
-		<td class="font-weight-bold">%</td>
-	</tr>
-	<tr>
-		<td class="font-weight-bold" style="background: #76bd1d;color: white;">G SUPER</td>
+		<th class="font-weight-bold" style="background: #76bd1d;color: white;">G SUPER</th>
 		<td><?=number_format($GSuperPemex);?></td>
 		<td><?=number_format($GSuperDelivery);?></td>
 		<td><?=number_format($GSuperPickUp);?></td>
@@ -94,7 +100,7 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 	</tr>
 
 	<tr>
-		<td class="font-weight-bold" style="background: #e21683;color: white;">G PREMIUM</td>
+		<th class="font-weight-bold" style="background: #e21683;color: white;">G PREMIUM</th>
 		<td><?=number_format($GPremiumPemex);?></td>
 		<td><?=number_format($GPremiumDelivery);?></td>
 		<td><?=number_format($GPremiumPickUp);?></td>
@@ -103,7 +109,7 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 	</tr>
 
 	<tr>
-		<td class="font-weight-bold" style="background: #5e0f8e;color: white;">G DIESEL</td>
+		<th class="font-weight-bold" style="background: #5e0f8e;color: white;">G DIESEL</th>
 		<td><?=number_format($GDieselPemex);?></td>
 		<td><?=number_format($GDieselDelivery);?></td>
 		<td><?=number_format($GDieselPickUp);?></td>
@@ -112,7 +118,7 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 	</tr>
 
 		<tr>
-		<td class="font-weight-bold">TOTAL</td>
+		<th class="font-weight-bold">TOTAL</th>
 		<td class="font-weight-bold"><?=number_format($GTPemex);?></td>
 		<td class="font-weight-bold"><?=number_format($GTDelivery);?></td>
 		<td class="font-weight-bold"><?=number_format($GTPickUp);?></td>
@@ -120,11 +126,11 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 		<td></td>
 	</tr>
 		<tr>
-		<td class="font-weight-bold">%</td>
+		<th class="font-weight-bold">%</th>
 		<td style="background: #CEEDFB;color: black;"><?=number_format($Porcentaje4);?>%</td>
 		<td style="background: #FAFBCE;color: black;"><?=number_format($Porcentaje5);?>%</td>
 		<td style="background: #DEDEDE;"><?=number_format($Porcentaje6);?>%</td>
-		<td class="font-weight-bold" style="background: #F3F3F3;">100%</td>				
+		<td class="text-dark fw-bold">100%</td>				
 		<td></td>
 	</tr>
 </tbody>
@@ -136,5 +142,5 @@ $Porcentaje6 = ($GTPickUp/$GT)*100;
 </div>
 
 
-</div>
+
 					

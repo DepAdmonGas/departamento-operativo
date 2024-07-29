@@ -338,7 +338,7 @@ $estacion = $datosEstacion['nombre'];
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Pivoteo</a></li>
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Pivoteo</a></li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Pivoteo (<?=$estacion?>)</li>
   </ol>
   </div>
@@ -383,7 +383,7 @@ $estacion = $datosEstacion['nombre'];
   <div class="col-12">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">Causa:</th> </tr>
   </thead>
   <tbody>
@@ -409,7 +409,7 @@ $estacion = $datosEstacion['nombre'];
   <div class="col-12 col-sm-4">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">FIRMA</th> </tr>
   </thead>
   <tbody>

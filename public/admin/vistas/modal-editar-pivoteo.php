@@ -5,11 +5,11 @@ $idReporte = $_GET['idReporte'];
 $Categoria = $_GET['Categoria'];
 ?>
 <div class="modal-header">
-<h5 class="modal-title">Agregar Pivoteo</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Editar Pivoteo</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-
-
+  
+ 
 <div class="modal-body">
 
 <?php 
@@ -52,7 +52,8 @@ echo '<option>'.$row_lista['razonsocial'].'</option>';
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="Guardar(<?=$idReporte;?>,<?=$Categoria;?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idReporte;?>,<?=$Categoria;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
 
 
