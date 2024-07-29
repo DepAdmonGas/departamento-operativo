@@ -224,7 +224,7 @@ $ocultar = "d-none";
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Precios diarios de combustible</a></li>
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Precios diarios de combustible</a></li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?> </li>
   </ol>
   </div>

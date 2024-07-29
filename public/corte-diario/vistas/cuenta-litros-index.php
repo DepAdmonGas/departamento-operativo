@@ -30,13 +30,13 @@ require('app/help.php');
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
+
+  });
+
   function CuentaLitrosY(year){
   window.location.href = "cuenta-litros/" + year; 
   } 
  
-  });
-
->>>>>>> parent of 18aa2fa (Merge pull request #65 from DepAdmonGas/correccionAdrian)
   </script>
   </head>
 

@@ -150,5 +150,6 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
 
 
     <div class="modal-footer">
-    <button type="button" class="btn btn-primary rounded-0" onclick="agregarCL(<?=$idCuentaLitros?>)">Guardar</button>
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="agregarCL(<?=$idCuentaLitros?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
     </div>

@@ -208,6 +208,8 @@ $idDetalle = $_GET['idDetalle'];
 	</div>
 
 
-    <div class="modal-footer">
-    <button type="button" class="btn btn-primary rounded-0" onclick="editarCL(<?=$idDetalle?>,<?=$id_cuenta_litros?>)">Guardar</button>
-    </div>
+    <div class="modal-footer">   
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="editarCL(<?=$idDetalle?>,<?=$id_cuenta_litros?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+	
+</div>

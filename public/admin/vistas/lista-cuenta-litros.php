@@ -49,7 +49,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 <table class="custom-table" style="font-size: .9em;" width="100%">
 
  
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <th class="text-center align-middle font-weight-bold" width="60">#</th>
 <th class="align-middle font-weight-bold">Fecha</th>
 <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>

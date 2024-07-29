@@ -27,7 +27,6 @@ function IdReporte($idEstacion,$GET_year,$GET_mes,$con){
    }
 
    $IdReporte = IdReporte($idEstacion,$GET_year,$GET_mes,$con); 
-http://localhost:8080/departamento-operativo/administracion
    ValidarEmbarques($idEstacion,$IdReporte,$con);
 
    function ValidarEmbarques($idEstacion,$IdReporte,$con){
@@ -88,7 +87,7 @@ http://localhost:8080/departamento-operativo/administracion
     $TODif2 = 0;
     $TOMC = 0;
     $TODif3 = 0;
-
+ 
     $sql_lista = "SELECT * FROM op_embarques WHERE id_mes = '".$IdReporte."' AND producto = '".$producto."' ORDER BY fecha ASC";
     $result_lista = mysqli_query($con, $sql_lista);
     $numero_lista = mysqli_num_rows($result_lista);
@@ -199,7 +198,7 @@ $Detalle3 = Detalle($IdReporte,'G DIESEL',$con);
 ?>
 
 
-<div class="col-12">
+  <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
   <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Importación</a></li>

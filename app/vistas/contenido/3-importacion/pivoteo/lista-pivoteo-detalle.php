@@ -35,7 +35,7 @@ echo '<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-1">';
 
     echo '
 	<thead  class="bg-white">
-	<tr class="title-table-bg text-white text-center">
+	<tr class="tables-bg text-white text-center">
 	<th width="50%" colspan="2">Documentación Facturada (CANCELAR)</th>
 	<th width="50%" colspan="2">Documentación a refacturar</th>
 	</tr>
