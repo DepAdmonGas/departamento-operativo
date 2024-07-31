@@ -136,12 +136,12 @@ return $numero_lista = mysqli_num_rows($result_lista);
   
   function PivoteoPDF(id){
   window.location.href = "../pivoteo-pdf/" + id;
-  }
+  } 
 
   function GMail(idEstacion,id){
-  $('#Modal').modal('show');  
-  $('#DivContenido').load('../public/admin/vistas/modal-gmail-pivoteo.php?idReporte=' + id + '&idEstacion=' + idEstacion);
-  }
+  $('#Modal2').modal('show');  
+  $('#DivContenido2').load('../public/admin/vistas/modal-gmail-pivoteo.php?idReporte=' + id + '&idEstacion=' + idEstacion);
+  } 
 
   function EnviarCorreo(idReporte,idEstacion){
   let CorreoElectronico = $('#CorreoElectronico').val();
@@ -356,7 +356,14 @@ $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   <div class="modal-content" id="DivContenido"></div>
   </div>
   </div>
-  
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenido2">
+  </div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

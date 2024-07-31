@@ -1,9 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
 ?>
 
 <html lang="es">
@@ -20,18 +17,16 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
  
   <script type="text/javascript">
 
@@ -39,36 +34,64 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
+  if(sessionStorage){
+  if (sessionStorage.getItem('idSenalamiento') !== undefined && sessionStorage.getItem('idSenalamiento')) {
+  idSenalamiento = sessionStorage.getItem('idSenalamiento');
+  Senalamientos(idSenalamiento)  
+  } 
+      
+  }  
+ 
   });
 
   function Regresar(){
   window.history.back(); 
   }
- 
-  function Senalamientos(valor){ 
+
+
+  function Senalamientos(idSenalamiento){ 
+  let targets;
   sizeWindow();
-  $('#ListaSenalamientos').load('../public/admin/vistas/lista-senalamientos.php?Senalamiento=' + valor); 
-  }   
+  sessionStorage.setItem('idSenalamiento', idSenalamiento);
+  targets = [1, 8];
+
+  $('#ListaSenalamientos').load('../public/admin/vistas/lista-senalamientos.php?Senalamiento=' + idSenalamiento, function() {
+  $('#tabla_señalamientos_' + idSenalamiento).DataTable({
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
+  }
+
+
 
   function Agregar(Senalamiento){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-senalamientos.php?Senalamiento=' + Senalamiento);
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('../public/admin/vistas/modal-agregar-senalamientos.php?Senalamiento=' + Senalamiento);
   } 
 
- 
+  
   function agregarFila(){
   document.getElementById("tablaprueba").insertRow(-1).innerHTML = 
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="titulo[]" /></td><td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="color[]" /></td>';
+  '<td class="p-0 m-0 bg-light"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="titulo[]" placeholder="Escribe el titulo aquí..."/></td><td class="p-0 m-0 bg-light"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="color[]" placeholder="Escribe el detalle aquí..."/></td>';
 }
 
 function eliminarFila(){
   var table = document.getElementById("tablaprueba");
   var rowCount = table.rows.length;
   
-  if(rowCount <= 1)
-    alert('No se puede eliminar el encabezado');
-  else
-    table.deleteRow(rowCount -1);
+if(rowCount <= 1)
+alert('No se puede eliminar el encabezado');
+else
+table.deleteRow(rowCount -1);
 }
 
 function Guardar(Senalamiento){
@@ -120,9 +143,9 @@ var DColor = color[x];
 Detalle(data,DTitulo.value,DColor.value);
 }
 Senalamientos(Senalamiento)       
-$('#Modal').modal('hide');   
+$('#Modal2').modal('hide');   
 sizeWindow();
-alertify.success('Registro eliminado exitosamente.');
+alertify.success('Registro agregado exitosamente.');
 
 $(".LoaderPage").hide();
 }
@@ -196,8 +219,8 @@ alertify.confirm('',
     }
 
     function ModalEditar(Senalamiento,id){
-    $('#Modal').modal('show');  
-    $('#ContenidoModal').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + id);
+    $('#Modal2').modal('show');  
+    $('#ContenidoModal2').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + id);
     }
  
 
@@ -222,7 +245,12 @@ alertify.confirm('',
     if (response == 1) {
     Senalamientos(Senalamiento); 
     sizeWindow()
-    $('#ContenidoModal').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + idSenalamiento);      
+    $('#ContenidoModal2').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + idSenalamiento);   
+    alertify.success('Registro eliminado exitosamente.')
+  
+    }else{
+    alertify.error('Error al eliminar el registro.')
+
     }
 
     }
@@ -231,7 +259,6 @@ alertify.confirm('',
    }
 
    function AgregarColor(Senalamiento,idSenalamiento){
-
     var parametros = {
     "idSenalamiento" : idSenalamiento,
     "detalleTitulo" : "",
@@ -249,10 +276,15 @@ alertify.confirm('',
 
     },
     success:  function (response) {
+    console.log(response)
+
 
     if (response == 1) {
-      $('#ContenidoModal').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + idSenalamiento);     
-    
+    $('#ContenidoModal2').load('../public/admin/vistas/modal-editar-senalamientos.php?Senalamiento=' + Senalamiento + '&idSenalamiento=' + idSenalamiento);
+    alertify.success('Registro agregado exitosamente.')
+    }else{
+    alertify.danger('Error al agregar el registro.')
+
     }
 
     }
@@ -331,8 +363,7 @@ alertify.error('Error al agregar');
 Senalamientos(Senalamiento)   
 sizeWindow()
 alertify.success('Registro editado exitosamente.')    
-$('#Modal').modal('hide');   
-
+$('#Modal2').modal('hide');   
 $(".LoaderPage").hide();
 }
 
@@ -348,7 +379,7 @@ window.location.href = "senalamientos-dispensario";
   function AgregarManual(idSenalamiento){
   $('#Modal').modal('show');  
   $('#ContenidoModal').load('../public/admin/vistas/modal-archivos-senalamientos.php?idSenalamiento=' + idSenalamiento);
-  } 
+  }  
 
 
   function AgregarArchivo(idSenalamiento){
@@ -393,6 +424,7 @@ cache: false
 if(data == 0){
 alertify.error('Error al agregar');   
 }else{
+
 $('#ContenidoModal').load('../public/admin/vistas/modal-archivos-senalamientos.php?idSenalamiento=' + idSenalamiento);
 alertify.success('Archivo agregado exitosamente.')
 $(".LoaderPage").hide();  
@@ -400,19 +432,19 @@ $(".LoaderPage").hide();
 
 });
 
-    }else{
-    $('#Archivo').css('border','2px solid #A52525'); 
-    }
+}else{
+$('#Archivo').css('border','2px solid #A52525'); 
+}
 
-    }else{
-    $('#Descripcion').css('border','2px solid #A52525'); 
-    }
+}else{
+$('#Descripcion').css('border','2px solid #A52525'); 
+}
 
-    }else{
-    $('#Fecha').css('border','2px solid #A52525'); 
-    }
+}else{
+$('#Fecha').css('border','2px solid #A52525'); 
+}
 
-  } 
+} 
 
  
 
@@ -594,31 +626,41 @@ $(".LoaderPage").hide();
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaSenalamientos" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaSenalamientos"></div> 
 
-  </div>
+  </div> 
   </div> 
   </div>
 
-
-</div>
+  </div>
  
 
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+
+
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal2"></div>
+  </div>
+  </div>
+  
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

@@ -43,48 +43,47 @@ return $numero_lista = mysqli_num_rows($result_lista);
  
 
 ?> 
- 
-<div class="border-0 p-3">
 
-    <div class="row">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="SelEstacionReturn(<?=$idEstacion;?>)" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventario</a></li>
+  <li aria-current="page" class="breadcrumb-item active">TRANSACCIÓN DE REFACCIONES (<?= strtoupper($estacion)?>)</li>
+  </ol>
+  </div>
 
-    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Transacción de Refacciones (<?=$estacion;?>)</h3>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="SelEstacionReturn(<?=$idEstacion;?>)">
-    <div class="row">
-    <div class="col-12">
-    <h5>Transacción de refacciones <?=$estacion;?></h5>
-    </div>
-    </div>
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end mt-2" onclick="ModalTransaccion(<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+  </div>
+  </div>
 
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-    <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" class="ml-2" onclick="ModalTransaccion(<?=$idEstacion;?>)">
-    </div>
+  <hr> 
+  </div>
 
-    </div>
-
-    <hr> 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<table id="tabla_transaccion_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%"> 
 <thead class="tables-bg">
   <tr> 
-  <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
+  <th class="text-center align-middle tableStyle font-weight-bold"><b>#</b></th>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Fecha y hora</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Refacción</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Piezas</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Estación proveedora</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Estación receptora</b></td>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-    <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>devolver.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-firmar-w.png"></th>
-      <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>comentario-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>comentario-tb.png"></th>
+  <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
   </tr>
 </thead> 
-<tbody> 
+
+<tbody class="bg-white"> 
 <?php
 if ($numero_lista > 0) {
  
@@ -93,30 +92,28 @@ $id = $row_lista['id'];
 $status = $row_lista['estado'];
  
 if($status == 0){
-$tableColor = "table-warning";
-$PDFD = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png">';
-$detalletb = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleT('.$id.')">';
+$tableColor = 'style="background-color: #fcfcda"';
+$PDFD = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$detalletb = '<a class="dropdown-item" onclick="ModalDetalleT('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $firmatb = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="FirmarTransaccion('.$idEstacion.','.$id.')">';
-$devoluciontb = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'devolver.png"  onclick="EliminarTransaccion('.$idEstacion.','.$id.',1)">';
-$eliminartb = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarTransaccion('.$idEstacion.','.$id.',2)">';
- 
+$devoluciontb = '<a class="dropdown-item" onclick="EliminarTransaccion('.$idEstacion.','.$id.',1)"><i class="fa-solid fa-rotate-left"></i> Devolución de refacción</a>';
+$eliminartb = '<a class="dropdown-item" onclick="EliminarTransaccion('.$idEstacion.','.$id.',2)"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
 }else if($status == 1 || $status == 2){
-$tableColor = "table-primary";
-$PDFD = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarTransaccion('.$id.')">';
-$detalletb = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleT('.$id.')">';
+$tableColor = 'style="background-color: #cfe2ff"';
+$PDFD = '<a class="dropdown-item"><i class="fa-solid fa-file-pdf" onclick="DescargarTransaccion('.$id.')"></i> Descargar PDF</a>';
+$detalletb = '<a class="dropdown-item" onclick="ModalDetalleT('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $firmatb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
-$devoluciontb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'devolver.png">';
-$eliminartb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png">';
-
+$devoluciontb = '<a class="dropdown-item grayscale"><i class="fa-solid fa-rotate-left"></i> Devolución de refacción</a>';
+$eliminartb = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
 }else if($status == 404){
-$tableColor = "table-danger";
-$PDFD = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png">';
-$detalletb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'ver-tb.png">';
+$tableColor = 'style="background-color: #ffb6af"'; 
+$PDFD = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$detalletb = '<a class="dropdown-item grayscale"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $firmatb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
-$devoluciontb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'devolver.png">';
-$eliminartb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'eliminar.png">';
+$devoluciontb = '<a class="dropdown-item grayscale"><i class="fa-solid fa-rotate-left"></i> Devolución de refacción</a>';
+$eliminartb = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 } 
 
    
@@ -126,38 +123,51 @@ $NomRefaccion = Refaccion($row_lista['id_refaccion'],$con);
 $EstacionProveedora = Estacion($row_lista['id_estacion'],$con);
 $Estacion = Estacion($row_lista['id_estacion_receptora'],$con);
 
+$ToComentarios = ToComentarios($id,$con);
 
-  $ToComentarios = ToComentarios($id,$con);
+if($ToComentarios > 0){ 
+$Nuevo = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-danger text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$ToComentarios.' </span></span></div>';
 
-  if($ToComentarios > 0){
-    $Nuevo = '<div class="float-end" style="margin-bottom: -5px"><span class="badge bg-danger text-white rounded-circle"><small>'.$ToComentarios.'</small></span></div>';
- 
-  }else{
-   $Nuevo = ''; 
-  }
+}else{
+$Nuevo = ''; 
+}
 
 
-echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
-echo '<td class="align-middle text-center">'.FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
+echo '<tr '.$tableColor.'>';
+echo '<th class="align-middle text-center">'.$id.'</th>';
+echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
 echo '<td class="align-middle text-center">'.$NomRefaccion.'</td>';
 echo '<td class="align-middle text-center">1</td>';
 echo '<td class="align-middle text-center"><b>'.$EstacionProveedora.'</b></td>';
 echo '<td class="align-middle text-center"><b>'.$Estacion.'</b></td>';
-echo '<td class="align-middle text-center">'.$PDFD.'</td>';
-echo '<td class="align-middle text-center">'.$detalletb.'</td>';
-echo '<td class="align-middle text-center">'.$devoluciontb.'</td>';
 echo '<td class="align-middle text-center">'.$firmatb.'</td>';
-echo '<td class="align-middle text-center">'.$Nuevo.'<img class="pointer" width="20" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" onclick="ComentarioTransaccion('.$idEstacion.','.$id.')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';  
-echo '<td class="align-middle text-center">'.$eliminartb.'</td>';
+echo '<td class="align-middle text-center position-relative" onclick="ComentarioTransaccion('.$idEstacion.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+
+echo '<td class="align-middle text-center">
+<div class="dropdown">
+
+<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
+
+<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+'.$PDFD.'
+'.$detalletb.'
+'.$devoluciontb.'
+'.$eliminartb.'
+</div>
+</div>
+
+</td>';
+
+
 echo '</tr>';
  
 }  
-}else{
-echo "<tr><td colspan='16' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
+
 </tbody>
 </table>
 </div>
-</div>
+

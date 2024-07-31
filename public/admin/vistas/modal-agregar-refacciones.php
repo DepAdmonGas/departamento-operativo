@@ -24,13 +24,14 @@ $imagenPrevisualizacion.src = objectURL;
 
     });
 </script>
-<div class="modal-header">
-<h5 class="modal-title">Agregar Refaccion a inventario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
+
+  <div class="modal-header">
+  <h5 class="modal-title">Agregar Refaccion a inventario</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
       
 
-      <div class="modal-body">
+  <div class="modal-body">
 
     <div class="row">
    
@@ -116,6 +117,8 @@ $imagenPrevisualizacion.src = objectURL;
        </div>
 
       </div> 
-      <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion;?>)">Guardar</button>
-      </div>
+
+  <div class="modal-footer">
+	<button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+  </div>

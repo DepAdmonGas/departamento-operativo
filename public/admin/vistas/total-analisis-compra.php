@@ -33,7 +33,7 @@ $Total = $Total + $row_lista['importef'];
 
 return $Total;
 }
- 
+  
 $GSuperPemex = Detalle($IdReporte,'G SUPER','Pemex',$con);
 $GSuperDelivery = Detalle($IdReporte,'G SUPER','Delivery',$con);
 $GSuperPickUp = Detalle($IdReporte,'G SUPER','Pick Up',$con);
@@ -58,16 +58,20 @@ $GTPickUp = $GSuperPickUp + $GPremiumPickUp + $GDieselPickUp;
 
 $GT = $GTPemex + $GTDelivery + $GTPickUp;
 
-$Porcentaje1 = ($Total1/$GT)*100;
-$Porcentaje2 = ($Total2/$GT)*100;
-$Porcentaje3 = ($Total3/$GT)*100;
+if ($GT != 0) {
+    $Porcentaje1 = ($Total1 / $GT) * 100;
+    $Porcentaje2 = ($Total2 / $GT) * 100;
+    $Porcentaje3 = ($Total3 / $GT) * 100;
 
-$Porcentaje4 = ($GTPemex/$GT)*100;
-$Porcentaje5 = ($GTDelivery/$GT)*100;
-$Porcentaje6 = ($GTPickUp/$GT)*100;
+    $Porcentaje4 = ($GTPemex / $GT) * 100;
+    $Porcentaje5 = ($GTDelivery / $GT) * 100;
+    $Porcentaje6 = ($GTPickUp / $GT) * 100;
+	
+} else {
+    $Porcentaje1 = $Porcentaje2 = $Porcentaje3 = 0;
+    $Porcentaje4 = $Porcentaje5 = $Porcentaje6 = 0;
+}
 ?>
-
-
 
 
 <div class="row">

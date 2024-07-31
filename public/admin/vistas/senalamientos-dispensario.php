@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>  
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,39 +17,38 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
-
-  <style media="screen">
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
 
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   $('[data-toggle="tooltip"]').tooltip();
-   sizeWindow();
+  sizeWindow();
  
-
-    });
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  idestacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idestacion)
+  } 
+      
+  } 
+ 
+  });
 
   function Regresar(){
    window.history.back();
-  }
+  } 
  
   function SelEstacion(idestacion){
   sizeWindow();
+  sessionStorage.setItem('idestacion', idestacion);
   $('#ListaSenalamientos').load('../public/admin/vistas/lista-senalamientos-dispensarios.php?idEstacion=' + idestacion); 
   } 
 
@@ -60,14 +56,16 @@ header("Location:".PORTAL."");
   $('#Modal').modal('show');  
   $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-senalamientos-dispensarios.php?idEstacion=' + idestacion);
   } 
+
+
  
   function agregarFila(){
   document.getElementById("tablaprueba").insertRow(-1).innerHTML = 
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="dimension[]" /></td>' +
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="aprobacion[]" /></td>' +
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="modelo[]" /></td>' +
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="numeroserie[]" /></td>' +
-  '<td class="p-0 m-0"><input type="text" class="form-control p-0 m-0 border-0" name="material[]" /></td>';
+  '<td class="p-0 m-0"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="dimension[]" /></td>' +
+  '<td class="p-0 m-0"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="aprobacion[]" /></td>' +
+  '<td class="p-0 m-0"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="modelo[]" /></td>' +
+  '<td class="p-0 m-0"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="numeroserie[]" /></td>' +
+  '<td class="p-0 m-0"><input type="text" class="form-control p-2 m-0 border-0 bg-light" name="material[]" /></td>';
 }
 
 function eliminarFila(){
@@ -228,7 +226,7 @@ alertify.confirm('',
 
     if (response == 1) {
     $('#ContenidoModal').load('../public/admin/vistas/modal-editar-senalamientos-dispensario.php?idEstacion=' + idEstacion + '&idSenalamiento=' + idSenalamiento);  
-
+    alertify.success('Fila agregada exitosamente.');
     }
 
     }
@@ -257,6 +255,8 @@ alertify.confirm('',
     if (response == 1) {
    SelEstacion(idEstacion) 
    sizeWindow()
+   alertify.success('Fila eliminada exitosamente.');
+
      $('#ContenidoModal').load('../public/admin/vistas/modal-editar-senalamientos-dispensario.php?idEstacion=' + idEstacion + '&idSenalamiento=' + idSenalamiento);       
     }
 
@@ -378,13 +378,13 @@ $('#Modal').modal('hide');
 
 
   if($estacion == "Palo Solo"){
-    $dispensario = "- Bannett Pacif";
+    $dispensario = " (Bannett Pacif)";
 
   }else if($estacion == "Interlomas" || $estacion == "San Agustin" || $estacion == "Esmegas" || $estacion == "Xochimilco" || $estacion == "Bosque Real"){
-    $dispensario = "- Horizon II";
+    $dispensario = " (Horizon II)";
 
   }else if($estacion == "Gasomira" || $estacion == "Valle de Guadalupe"){
-    $dispensario = "- Hong Yang";
+    $dispensario = " (Hong Yang)";
 
   }else{
     $dispensario = "";
@@ -477,9 +477,7 @@ $('#Modal').modal('hide');
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaSenalamientos" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaSenalamientos"></div> 
 
   </div>
   </div> 
@@ -489,21 +487,12 @@ $('#Modal').modal('hide');
 </div>
 
 
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
   </div>
-
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
