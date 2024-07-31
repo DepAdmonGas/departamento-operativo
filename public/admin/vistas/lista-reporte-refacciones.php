@@ -24,39 +24,31 @@ return $nombre;
 
 ?>
 
-<div class="border-0 p-3">
 
-    <div class="row">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="SelEstacionReturn(<?=$idEstacion;?>)" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventario</a></li>
+  <li aria-current="page" class="breadcrumb-item active">REPORTE DE REDACCIONES (<?= strtoupper($estacion)?>)</li>
+  </ol>
+  </div>
 
-    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Reporte de Refacciones (<?=$estacion;?>)</h3>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="SelEstacionReturn(<?=$idEstacion;?>)">
-    <div class="row">
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end mt-2" onclick="AgregarReporte(<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+  </div>
+  </div>
 
-     <div class="col-12">
+  <hr> 
+  </div>
 
-      <h5>
-      Reporte refacciones <?=$estacion;?>
-      </h5>
-
-    </div>
-
-    </div>
-
-    </div>
-
-
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-    <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" class="ml-2" onclick="AgregarReporte(<?=$idEstacion;?>)">
-    </div>
-
-    </div>
-
-<hr> 
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead class="tables-bg">
+  <table id="tabla_reporte_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%"> 
+  <thead class="tables-bg">
   <tr>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Personal</b></td>
@@ -64,21 +56,22 @@ return $nombre;
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Motivo</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Dispensario</b></td>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-    <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+  <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
+
+
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
-
+$num = 1;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $status = $row_lista['status'];
 
 if($status == 0){
-$tableColor = "table-warning";
+$tableColor = 'style="background-color: #fcfcda"';
 }else{
 $tableColor = "";
 }
@@ -86,24 +79,38 @@ $tableColor = "";
 if($row_lista['archivo'] == ""){
 $PDF = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
 }else{
-$PDF = '<a href="../archivos/'.$row_lista['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" ></a>';  
+$PDF = '<a href="'.RUTA_ARCHIVOS.''.$row_lista['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" ></a>';  
 }
 
-echo '<tr class="'.$tableColor.'">';
-echo '<td class="align-middle text-center"><b>'.$id.'</b></td>';
-echo '<td class="align-middle text-center">'.Personal($row_lista['id_usuario'],$con).'</td>';
-echo '<td class="align-middle text-center">'.FormatoFecha($row_lista['fecha']).', '.date('g:i a', strtotime($row_lista['hora'])).'</td>';
+echo '<tr '.$tableColor.'>';
+echo '<th class="align-middle text-center">'.$num.'</td>';
+echo '<td class="align-middle text-center">'.Personal($row_lista['id_usuario'],$con).'</th>';
+echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date('g:i a', strtotime($row_lista['hora'])).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['motivo'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['dispensario'].'</td>';
 
 echo '<td class="align-middle text-center">'.$PDF.'</td>';
 
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalleReporte('.$idEstacion.','.$id.','.$idRefaccion.')"></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarReporte('.$idEstacion.','.$id.')"></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarReporte('.$idEstacion.','.$id.')"></td>';
+echo '<td class="align-middle text-center">
+<div class="dropdown">
+
+<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
+
+<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+<a class="dropdown-item" onclick="ModalDetalleReporte('.$idEstacion.','.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>
+<a class="dropdown-item" onclick="EditarReporte('.$idEstacion.','.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>
+<a class="dropdown-item" onclick="EliminarReporte('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>
+
+</div>
+</div>
+
+</td>';
+
 echo '</tr>';
 
-
+$num++;
 }
 }else{
 echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
@@ -113,4 +120,3 @@ echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encont
 </table>
 </div>
 
-</div>

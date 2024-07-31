@@ -30,10 +30,10 @@ status
     '".$Reporte."',
     '".$idEstacion."',
     '".$Session_IDUsuarioBD."',
-    '".$_POST['Fecha']."',
-    '".$_POST['Hora']."',
-    '".$_POST['Dispensario']."',
-    '".$_POST['Motivo']."',
+    '".$fecha_del_dia."',
+    '".$hora_del_dia."',
+    '',
+    '',
     '',
     0
     )";

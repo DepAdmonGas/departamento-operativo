@@ -22,83 +22,72 @@ $nombrearea = $row_nom_area['nombre_area'];
 }
 ?>
 
-
-<div class="border-0 p-3">
-
-<div class="row">
-
-<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">
-
-<div><h5>Inventario <?=$estacion;?></h5></div>
-<h6><?=$recuperacionvapores;?></h6>
-
-</div> 
-  
-<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-
  
-<div class="float-end">
 
-<div class="btn-group dropleft">
-  
-<div class="dropdown ms-2">
-  <button class="btn btn-info dropdown-toggle text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-   ÁREAS
-  </button>
+<div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Importación</a></li>
+  <li aria-current="page" class="breadcrumb-item active">Inventario <?= ucfirst(strtolower($nombrearea)) ?> (<?= $estacion; ?>)</li>
+  </ol>
+  </div>
 
-  <ul class="dropdown-menu mb-2" >
-    <li><a class="dropdown-item pointer" onclick="BuscarArea(0,<?=$idEstacion;?>)">TODAS</a></li>
-       <?php 
-            $sql_area = "SELECT id,nombre_area,abreviatura FROM op_rh_areas ";
-            $result_area = mysqli_query($con, $sql_area);
-            while($row_area = mysqli_fetch_array($result_area, MYSQLI_ASSOC)){
-            $id = $row_area['id'];
-            $area = $row_area['nombre_area'];
-            $abreviatura = $row_area['abreviatura'];
-            echo '<li><a class="dropdown-item pointer" onclick="BuscarArea('.$id.','.$idEstacion.')">'.$area.' - '.$abreviatura.'</a><li';
-            }
-             ?>
+  <div class="row">
+  <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Inventario <?= ucfirst(strtolower($nombrearea)) ?> (<?= $estacion; ?>) </h3>
+  <h6 class="text-secondary mt-1 mb-0 pb-0"><?=$recuperacionvapores;?></h6>
+  </div>
+
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+
+  <div class="text-end">
+
+ <div class="dropdown d-inline ms-2 ">
+ <button type="button" class="btn dropdown-toggle btn-info text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">ÁREAS</span>
+ </button>
+
+  <ul class="dropdown-menu">
+  <li onclick="BuscarArea(0,<?=$idEstacion;?>)"><a class="dropdown-item pointer">  <i class="fa-solid fa-list text-dark"></i> Todas</a></li>
+  <?php 
+  $sql_area = "SELECT id,nombre_area,abreviatura FROM op_rh_areas ";
+  $result_area = mysqli_query($con, $sql_area);
+  while($row_area = mysqli_fetch_array($result_area, MYSQLI_ASSOC)){
+  $id = $row_area['id'];
+  $area = $row_area['nombre_area'];
+  $abreviatura = $row_area['abreviatura'];
+  echo '<li onclick="BuscarArea('.$id.','.$idEstacion.')"><a class="dropdown-item pointer">('.$abreviatura.') '.$area.'</a></li>';
+  }
+  ?>
   </ul>
 
-</div>
+  </div>
 
-</div>
+  <!------- SEGUNDO OPCION ----->
+  <div class="dropdown d-inline ms-2 ">
+  <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-screwdriver-wrench"></i></span>
+  </button>
 
-</div>
+  <ul class="dropdown-menu">
+  <li onclick="Agregar(<?=$idEstacion;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-plus text-dark"></i> Agregar Refacción</a></li>
+  <li onclick="Mantenimiento(<?=$idEstacion;?>)"><a class="dropdown-item pointer"><i class="fa-regular fa-file-lines"></i> Reporte de Refacciónes</a></li>
+  <li onclick="Transaccion(<?=$idEstacion;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-shuffle"></i> Transacción de Refacciónes</a></li>
 
+  </ul>
+  </div>
 
-<div class="float-end">
-<input type="text" class="form-control" placeholder="Buscar" oninput="Buscar(this,0,<?=$idEstacion;?>)">
-</div>
+  </div>
 
-</div>
+  </div>
+  </div>
 
-
-</div>
-
- 
-
-<div class="border-0 ">
-
-<div class="row">
-
-<div class="col-12 mt-2 mb-0">
-
-  <img src="<?=RUTA_IMG_ICONOS;?>agregar.png" class="float-end ms-2 pointer" onclick="Agregar(<?=$idEstacion;?>)">
-
-  <img src="<?=RUTA_IMG_ICONOS;?>mantenimiento-tb.png" class="float-end ms-2 pointer" onclick="Mantenimiento(<?=$idEstacion;?>)">
-
-</div>
-
-</div>
-
-<hr> 
-
-<div id="BuscarRefacciones">
+  <hr>
+  </div>
 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hovermt-1" style="font-size: .9em;">
+<table id="tabla_refacciones_<?=$idEstacion?>_<?=$idArea?>" class="custom-table" style="font-size: 12.5px;" width="100%"> 
+
 <thead class="tables-bg">
   <tr>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
@@ -109,41 +98,37 @@ $nombrearea = $row_nom_area['nombre_area'];
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Proveedor</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Contacto</b></td>
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Área</b></td>
-
-
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Unidades</b></td>
-
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Estado</b></td>
-
   <td class="text-center align-middle tableStyle font-weight-bold"><b>Costo por unidad</b></td>
-  <td class="text-center align-middle tableStyle font-weight-bold"><b>Total</b></td>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>mas-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+  <td class="text-center align-middle" width="140px"><b>Total</b></td>
+  <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-white">
 <?php
 if ($numero_lista > 0) {
 $num = 1;
+$TotalNeto = 0;
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 
 $total = $row_lista['unidad'] * $row_lista['costo'];
 
 if($row_lista['unidad'] == 0 || $row_lista['unidad'] == 1){
-$trColor = "table-danger";  
-}else if($row_lista['unidad'] == 2){
-$trColor = "table-warning";
-}else if($row_lista['unidad'] == 3){
-$trColor = "table-success";
-}else{
-$trColor = "";
-}
- 
-echo '<tr class="'.$trColor.'">';
-echo '<td class="align-middle text-center">'.$num.'</td>';
+  $trColor = 'style="background-color: #ffb6af"'; 
+  }else if($row_lista['unidad'] == 2){
+  $trColor = 'style="background-color: #fcfcda"';
+  }else if($row_lista['unidad'] == 3){
+  $trColor = 'style="background-color: #b0f2c2"';
+  }else{
+  $trColor = "";
+  } 
+  
+   
+echo '<tr '.$trColor.'>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center"><b>'.$row_lista['descripcion_f'].'</b></td>';
 echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
 echo '<td class="align-middle text-center">'.$row_lista['modelo'].'</td>';
@@ -175,23 +160,32 @@ echo '<td class="align-middle text-center">'.$row_lista['estado_r'].'</td>';
 
 echo '<td class="align-middle text-end">$ '.number_format($row_lista['costo'],2).'</td>';
 echo '<td class="align-middle text-end"><b>$ '.number_format($total,2).'</b></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalle('.$idEstacion.','.$id.')"></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'mas-tb.png" onclick="ModalMas('.$idEstacion.','.$id.')"></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditar('.$idEstacion.','.$id.')"></td>';
-echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$idEstacion.','.$id.')"></td>';
+echo '<td class="align-middle text-center">
+<div class="dropdown">
+<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
+
+<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+<a class="dropdown-item" onclick="ModalDetalle('.$idEstacion.','.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>
+<a class="dropdown-item" onclick="ModalMas('.$idEstacion.','.$id.')"><i class="fa-solid fa-plus"></i> Agregar Unidades</a>
+<a class="dropdown-item" onclick="ModalEditar('.$idEstacion.','.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>
+<a class="dropdown-item" onclick="Eliminar('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>
+</div>
+</div>
+</td>';
 echo '</tr>';
 
 $TotalNeto = $TotalNeto + $total;
 
 $num++;
 }
-echo "<tr>
-<td colspan='10'></td>
+echo "<tr class='ultima-fila'>
+<th colspan='10'></th>
 <td class='text-end'><b>Total:</b></td>
 <td class='text-end'><b>$ ".number_format($TotalNeto,2)."</b></td>
-<td colspan='5'></td></tr>";
-}else{
-echo "<tr><td colspan='14' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+<td colspan='5'></td>
+</tr>";
 }
 
 ?>
@@ -199,8 +193,5 @@ echo "<tr><td colspan='14' class='text-center text-secondary'><small>No se encon
 </table>
 </div>
 
-</div>
 
-</div>
 
-</div>

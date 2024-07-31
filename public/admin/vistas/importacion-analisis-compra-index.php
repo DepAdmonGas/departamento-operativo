@@ -4,7 +4,7 @@ require('app/help.php');
 if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
-  
+   
 ?>
 <html lang="es">
   <head>

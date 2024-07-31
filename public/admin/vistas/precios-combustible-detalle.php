@@ -63,7 +63,8 @@ $divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
   }
 
   function SelPrecioBajo(idPrecio,valCheck,num,producto){
-
+  var msg;
+    
   var parametros = {
   "idPrecio" : idPrecio,
   "valCheck" : valCheck,
@@ -71,6 +72,12 @@ $divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
   "producto" : producto
   };
 
+  if(valCheck == 0){
+    msg = "Precio seleccionado exitosamente.";
+  }else{
+    msg = "Precio desmarcado exitosamente";
+
+  }
 
   $.ajax({
   data:  parametros,
@@ -85,7 +92,7 @@ $divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
   success:  function (response) {
   
   if (response == 1) {
-  //alertify.success('Precio seleccionado exitosamente.')
+  alertify.success(msg)
   reportePrecios(idPrecio);
     
   }else{

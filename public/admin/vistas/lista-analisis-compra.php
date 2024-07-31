@@ -87,7 +87,7 @@ function IdReporte($idEstacion,$GET_year,$GET_mes,$con){
     $TODif2 = 0;
     $TOMC = 0;
     $TODif3 = 0;
- 
+
     $sql_lista = "SELECT * FROM op_embarques WHERE id_mes = '".$IdReporte."' AND producto = '".$producto."' ORDER BY fecha ASC";
     $result_lista = mysqli_query($con, $sql_lista);
     $numero_lista = mysqli_num_rows($result_lista);
@@ -136,13 +136,13 @@ function IdReporte($idEstacion,$GET_year,$GET_mes,$con){
             $campos["Día"][] = get_nombre_dia($row_lista['fecha']);
             $campos["Lts. Factura"][] = number_format($row_lista['importef']);
             $campos["Tipo"][] = $row_lista['embarque'];
-            $campos["Bruto"][] = '<input type="number" class="form-control border-0 rounded-0 p-2" style="font-size: 0.9em; width: 100%; height: 100%;" onkeyup="BrutoNeto(this,1,'.$id.')" value="'.$Bruto.'">';
+            $campos["Bruto"][] = '<input type="number" class="form-control border-0 rounded-0 p-2 text-center" style="font-size: 0.9em; width: 100%; height: 100%;" onkeyup="BrutoNeto(this,1,'.$id.')" value="'.$Bruto.'">';
             $campos["Dif1"][] = number_format($Diferencia1);
-            $campos["Neto"][] = '<input type="number" class="form-control border-0 rounded-0 p-2" style="font-size: 0.9em; width: 100%; height: 100%;" onkeyup="BrutoNeto(this,2,'.$id.')" value="'.$Neto.'">';
+            $campos["Neto"][] = '<input type="number" class="form-control border-0 rounded-0 p-2 text-center" style="font-size: 0.9em; width: 100%; height: 100%;" onkeyup="BrutoNeto(this,2,'.$id.')" value="'.$Neto.'">';
             $campos["Dif2"][] = number_format($Diferencia2);
             $campos["Metro Contador"][] = number_format($MetroContador);
             $campos["Dif3"][] = number_format($Diferencia3);
-
+ 
             $TOImporteF += $row_lista['importef'];
             $TOBruto += $row_lista['bruto'];
             $TODif1 += $Diferencia1;
@@ -151,7 +151,7 @@ function IdReporte($idEstacion,$GET_year,$GET_mes,$con){
             $TOMC += $MetroContador;
             $TODif3 += $Diferencia3;
         }
-
+ 
         foreach ($campos as $campo => $valores) {
             $contenido .= '<tr><th class="fw-bold text-center align-middle">'.$campo.'</th>';
             foreach ($valores as $valor) {

@@ -12,28 +12,34 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $descripcion_f = $row_lista['descripcion_f'];
 $nombre = $row_lista['nombre'];
 $unidad = $row_lista['unidad'];
-
 $estado_r = $row_lista['estado_r'];
-
 $costo = $row_lista['costo'];
-
 $modelo = $row_lista['modelo'];
 $marca = $row_lista['marca'];
 $proveedor = $row_lista['proveedor'];
 $contacto = $row_lista['contacto'];
-$idarea = $row_lista['area'];
+$idarea = !empty($row_lista['area']) ? $row_lista['area'] : '';
+
 }
 
 $sql_nom_area = "SELECT id,nombre_area,abreviatura FROM op_rh_areas WHERE id = '".$idarea."' ";
 $result_nom_area = mysqli_query($con, $sql_nom_area);
+$numero_lista_area = mysqli_num_rows($result_nom_area);
+
+if($numero_lista_area > 0){
 while($row_nom_area = mysqli_fetch_array($result_nom_area, MYSQLI_ASSOC)){
 $area = $row_nom_area['nombre_area'];
 $abreviatura = $row_nom_area['abreviatura'];
+} 
+}else{
+$area = "";
+$abreviatura = "";
 }
+
 ?>
+
 <script type="text/javascript">
-  $(document).ready(function($){
-  
+$(document).ready(function($){
 const $seleccionArchivos = document.querySelector("#seleccionArchivos"),
 $imagenPrevisualizacion = document.querySelector("#imagenPrevisualizacion");
 
@@ -50,22 +56,23 @@ $imagenPrevisualizacion.src = objectURL;
 
 });
 
-    });
+});
 </script>
  
 
 <div class="modal-header">
 <h5 class="modal-title">Editar Refaccion</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-      <div class="modal-body">
+
+  <div class="modal-body">
 
     <div class="row">
     <div class="col-12 mb-2">
     <div class="mb-1 text-secondary">Refacción:</div>
     <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
     <div class="text-center">
-    <img id="imagenPrevisualizacion" width="150px">
+    <img class="mt-2" id="imagenPrevisualizacion" width="150px">
     </div>
     </div>
     </div>
@@ -142,8 +149,9 @@ $imagenPrevisualizacion.src = objectURL;
           
         </div>
 
+      </div>
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="EditarRefaccion(<?=$idEstacion;?>,<?=$idRefaccion;?>)">Editar</button>
-      </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarRefaccion(<?=$idEstacion;?>,<?=$idRefaccion;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+  </div>

@@ -1,11 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 
 $sql_lista = "SELECT * FROM op_refacciones_transaccion WHERE id = '".$GET_idReporte."' ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -77,10 +72,9 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -191,118 +185,146 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
+  <div class="contendAG container">
   <div class="row">
 
   <div class="col-12 mb-3">
   <div class="cardAG">
   <div class="border-0 p-3">
 
-    <div class="row">
-    <div class="col-12">
+  <div class="row">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventario</a></li>
+  <li aria-current="page" class="breadcrumb-item active">FIRMA DE TRANSACCIÓN (<?=$Fecha.', '.$Hora;?>)</li>
+  </ol>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Firmar transacción</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-  <h5>Fecha y hora: <?=$Fecha.', '.$Hora;?></h5>
-
-
-
-<div class="row mt-3">
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-    
- <div class="border p-3 mb-2">
- <h6>Estación proveedora:</h6>
- <?=$Estacion;?>
- </div>
-
- <div class="border p-3 mb-2">
- <h6>Refacción que sale:</h6>
- <?=$NomRefaccion;?>
- </div>
+  <div class="row">
+  <div class="col-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Firma de Transacción (<?=$Fecha.', '.$Hora;?>)</h3>
+  </div>
 
   </div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+  <hr> 
+  </div>
 
- <div class="border p-3 mb-2">
- <h6>Estación receptora:</h6>
- <?=$EstacionReceptora;?>
- </div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+  <h6>Estación proveedora:</h6>
+  <?=$Estacion;?>
+  </div>
+  
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+  <h6>Refacción que sale:</h6>
+  <?=$NomRefaccion;?>
+  </div>
 
- <div class="border p-3 mb-2">
- <h6>Refacción que entra:</h6>
- <?=$NomRefaccionEntra;?>
- </div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+  <h6>Estación receptora:</h6>
+  <?=$EstacionReceptora;?>
+  </div>
+
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+  <h6>Refacción que entra:</h6>
+  <?=$NomRefaccionEntra;?>
+  </div>
+
+  <div class="bcol-12">
+  <h6>Observación y/o motivo:</h6>
+  <?=$observaciones;?>
+  </div>
 
 
   </div>
-</div> 
 
- <div class="border p-3 mb-2">
- <h6>Observación y/o motivo:</h6>
- <?=$observaciones;?>
- </div>
+
+
+
+
+
 
  <hr>
 <div class="row">
 <?php if($Session_IDUsuarioBD == 21){ ?>
 <?php if($firmaB == 0){ ?>
 
-<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<div class="border p-3 ">
-<div class="mb-2 text-secondary text-center">Vo.Bo Dep. de Mantenimiento</div>
-<hr>
-<h4 class="text-primary text-center">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
-<hr>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO DEP. DE MANTENIMIENTO</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center bg-light ">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  </th>
+  </tr>
+
+  <tr class="">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'B')">Firmar transacción</button>
+  <button class="btn btn-outline-success" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'B')">Firmar transacción</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 <?php }?>
 <?php }?>
 
- <?php if($Session_IDUsuarioBD == 19 AND $depto != 5){ ?>
+ <?php if($Session_IDUsuarioBD == 19){ ?>
 <?php if($firmaC == 0){ ?>
 
-<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<div class="border p-3 ">
-<div class="mb-2 text-secondary text-center">Vo.Bo Gerente Operativo</div>
-<hr>
-<h4 class="text-primary text-center">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
-<hr>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO GERENTE OPERATIVO</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center bg-light ">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  </th>
+  </tr>
+
+  <tr class="">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'C')">Firmar transacción</button>
+  <button class="btn btn-outline-success" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'C')">Firmar transacción</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 <?php }?>
 <?php }?>
@@ -320,28 +342,39 @@ while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 $explode = explode(' ', $row_firma['fecha']);
 
 if($row_firma['tipo_firma'] == "A"){
-$TipoFirma = "Realizo Responsable de almacen";
-$Detalle = '<div class="border p-1 text-center"><img src="../../imgs/firma/'.$row_firma['firma'].'" width="70%"></div>';
+$TipoFirma = "Responsable de Almacen";
+$Detalle = '<div class="border-0 p-1 text-center"><img src="'.RUTA_IMG_Firma.$row_firma['firma'].'" width="70%"></div>';
 
 
 }else if($row_firma['tipo_firma'] == "B"){
 $TipoFirma = "Vo.Bo Dep. de Mantenimiento";
-$Detalle = '<div class="border-bottom text-center p-3"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La transacción se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 
 
 }else if($row_firma['tipo_firma'] == "C"){
 $TipoFirma = "Vo.Bo Gerente Operativo";
-$Detalle = '<div class="border-bottom text-center p-3"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La transacción se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 }
 
-echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
-echo '<div class="border p-3">';
-echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6>';
-echo $Detalle;
-echo '<div class="text-center mt-2">'.Personal($row_firma['id_usuario'],$con).' </div>';
-echo '</div>';
-echo '</div>';
+echo '  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+<table class="custom-table" style="font-size: 14px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">'.Personal($row_firma['id_usuario'],$con).'</th> </tr>
+</thead>
+<tbody class="bg-light">
+<tr>
+<th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+</tr>
+
+</tbody>
+</table>
+</div>';
 }
+
 
 ?> 
 </div>
@@ -360,37 +393,44 @@ echo '</div>';
 
 
 <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
-  <div class="modal-dialog" role="document" style="margin-top: 83px;">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
        <h5 class="text-info">El token fue validado correctamente.</h5>
        <div class="text-secondary">La transacción fue firmada.</div>
 
-
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
       </div>
 
-      </div>
+      
+    <div class="modal-footer">
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="Regresar()">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
+
+    </div>
+
+
     </div>
   </div>
 </div>
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
-  <div class="modal-dialog" role="document" style="margin-top: 83px;">
+  <div class="modal-dialog" role="document" >
     <div class="modal-content">
       <div class="modal-body">
 
        <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
        <div class="text-secondary">La transacción no fue firmada.</div>
 
-
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
       </div>
 
+      <div class="modal-footer">
+      <button type="button" class="btn btn-labeled2 btn-success" data-bs-dismiss="modal">
+      <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
+
       </div>
+
+
     </div>
   </div>
 </div>

@@ -84,7 +84,7 @@ $Estacion = '('.$datosEstacion['nombre'].')';
   $tableColor = 'style="background-color: #b0f2c2"';
   $Detalle = '<a class="dropdown-item" onclick="VerPivoteo(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a> ';
   $PDF = '<a class="dropdown-item" onclick="PivoteoPDF(' . $id . ')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a> ';
-  $GMAIL = '<a class="dropdown-item grayscale '.$ocultarOp.'" onclick="GMail('.$idEstacion.','.$id.')"><i class="fa-regular fa-envelope"></i> Envio por correo</a> ';
+  $GMAIL = '<a class="dropdown-item '.$ocultarOp.'" onclick="GMail('.$idEstacion.','.$id.')"><i class="fa-regular fa-envelope"></i> Envio por correo</a> ';
   $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a> ';
   $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a> ';  
 
