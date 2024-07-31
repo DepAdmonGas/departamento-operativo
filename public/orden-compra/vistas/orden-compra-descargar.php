@@ -1,6 +1,7 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
-require('app/help.php');
+error_reporting(0);
+require 'app/lib/dompdf/vendor/autoload.php';
+require 'app/help.php';
  
 $sql = "SELECT * 
 FROM op_orden_compra WHERE id = '".$GET_idReporte."' ";
