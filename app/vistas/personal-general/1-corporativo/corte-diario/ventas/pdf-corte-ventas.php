@@ -243,7 +243,7 @@ return $resultado;
 //---------------------------------------------------
 
 function MonederosBancos($idReporte,$con){
-
+  $resultado='';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
@@ -285,7 +285,7 @@ return $resultado;
 //-------------------------------------------
 
 function ClientesAtio($idReporte,$con){
-
+  $resultado='';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
@@ -455,7 +455,7 @@ function DiferenciaTotal($idReporte,$con){
 //-------------------------------------------------------
  
 function PagoClientes($idReporte,$con){
-
+  $resultado='';
 $resultado .= '<table class="table table-sm table-bordered pb-0 mb-0">
 <thead>
 <tr>
