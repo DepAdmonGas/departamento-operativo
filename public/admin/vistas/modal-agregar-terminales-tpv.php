@@ -5,7 +5,7 @@ $idEstacion = $_GET['idEstacion'];
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Agregar terminal punto de venta</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 
 </div>
 
@@ -95,11 +95,11 @@ $idEstacion = $_GET['idEstacion'];
           </select>
         </div>
 
- 
-
         </div>
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion;?>)">Guardar</button>
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion?>)">
+      <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
       </div>

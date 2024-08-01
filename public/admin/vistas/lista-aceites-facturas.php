@@ -46,7 +46,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
   <div class="table-responsive">
     <table class="custom-table" style="font-size: .75em;" width="100%">
-      <thead class="title-table-bg">
+      <thead class="tables-bg">
         <th class="text-center align-middle font-weight-bold">Fecha</th>
         <th class="text-center align-middle font-weight-bold">Concepto</th>
         <th class="text-center align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
@@ -81,11 +81,11 @@ $numero_lista = mysqli_num_rows($result_lista);
     </table>
 
   </div>
-  <div class="modal-footer">
+
+</div>
+<div class="modal-footer">
     <button type="button" class="btn btn-labeled2 btn-primary float-end m-2"
       onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
       <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar
     </button>
   </div>
-
-</div>

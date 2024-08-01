@@ -512,13 +512,15 @@ var TipoTPV = $('#TipoTPV').val();
 
 </div>
 
-  <!---------- MODAL ----------> 
-  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-  <div class="modal-content" id="ContenidoModal">
+  <!---------- MODAL ---------->
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal"></div>
   </div>
   </div>
-  </div>
+  
+
+
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

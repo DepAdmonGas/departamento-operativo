@@ -404,7 +404,7 @@ function Eliminar(idReporte,idNivel){
   <div class="col-12">
   <div class="table-responsive">
   <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">Observaciones</th> </tr>
   </thead>
   <tbody>
@@ -426,7 +426,7 @@ function Eliminar(idReporte,idNivel){
   <div class="col-12 col-sm-6 mt-2 mb-1">
   <div class="table-responsive">
   <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">FIRMA DE QUIEN TOMA MEDICIÓN</th> </tr>
   </thead>
   <tbody>
@@ -456,7 +456,7 @@ function Eliminar(idReporte,idNivel){
   <div class="col-12 col-sm-6 mt-2 mb-1">
   <div class="table-responsive">
   <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">NOMBRE Y FIRMA POR LA ESTACIÓN</th> </tr>
   </thead>
 

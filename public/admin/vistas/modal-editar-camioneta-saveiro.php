@@ -20,7 +20,7 @@ $descripcion = $row_lista['descripcion'];
 
 <div class="modal-header">
   <h5 class="modal-title">Editar <?=$tipo?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
  
 
@@ -39,6 +39,9 @@ $descripcion = $row_lista['descripcion'];
 
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-primary rounded-0" onclick="EditarDocumento('<?=$tipo?>',<?=$id?>)">Editar</button>
+<button type="button" class="btn btn-labeled2 btn-danger float-end m-2" data-bs-dismiss="modal">
+    <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
+  <button type="button" class="btn btn-labeled2 btn-success float-end m-2"
+    onclick="EditarDocumento('<?=$tipo?>',<?=$id?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
 </div>

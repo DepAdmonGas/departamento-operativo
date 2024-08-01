@@ -239,7 +239,7 @@ return $Result;
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
     <th class="align-middle text-center">Razón social</th>
     <th class="align-middle text-center">Folio</th>
@@ -266,7 +266,7 @@ return $Result;
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
     <th class="align-middle text-center"><?=$DescripcionES?></th>
   </tr>
@@ -286,7 +286,7 @@ return $Result;
   <!---------- APARTADO TIPO DE SERVICIO ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">TIPO DE SERVICIO</th>
   </tr>
@@ -323,7 +323,7 @@ return $Result;
   <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</th>
   </tr>
@@ -362,7 +362,7 @@ return $Result;
   <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="2">LA ORDEN DE TRABAJO ES DE ALTO RIESGO</th>
   </tr>
@@ -396,7 +396,7 @@ return $Result;
   <div class="col-12 mb-3 <?=$ocultarDivs?>">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="2">ÁREA</th>
 
@@ -444,12 +444,12 @@ return $Result;
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">REFACCIONES</th>
   </tr>
 
-  <tr class="tables-bg">
+  <tr class="title-table-bg">
   <td class="fw-bold align-middle">REFACCIÓN</td>
   <th class="text-center align-middle">CANTIDAD</th>
   <td class="fw-bold text-center align-middle">ESTATUS</td>
@@ -492,15 +492,15 @@ return $Result;
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">EVIDENCIA</th>
   </tr>
 
-  <tr class="tables-bg">
+  <tr class="title-table-bg">
   <td class="fw-bold align-middle" width="20px">ARCHIVO</td>
   <th class="text-center align-middle">ÁREA</th>
-  <th class="text-center align-middle">MOTIVO</th>
+  <td class="text-center align-middle fw-bold">MOTIVO</td>
   </tr>
 
   </thead>
@@ -543,7 +543,7 @@ return $Result;
   <!---------- COMENTARIO ---------->
   <div class="col-12">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">COMENTARIOS</th> </tr>
   </thead>
   <tbody>
@@ -566,7 +566,7 @@ return $Result;
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
@@ -609,7 +609,7 @@ return $Result;
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
   </thead>
   <tbody>
@@ -676,7 +676,7 @@ return $Result;
 
   echo '  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">'.Personal($row_firma['id_usuario'],$con).'</th> </tr>
   </thead>
   <tbody class="bg-light">

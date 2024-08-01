@@ -538,7 +538,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="table-responsive">
 
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
     <th class="align-middle text-center">Razón social</th>
     <th class="align-middle text-center">Folio</th>
@@ -563,7 +563,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
     <th class="align-middle text-center"><?=$DescripcionES?></th>
   </tr>
@@ -583,7 +583,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- APARTADO TIPO DE SERVICIO ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">TIPO DE SERVICIO</th>
   </tr>
@@ -622,7 +622,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="3">LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</th>
   </tr>
@@ -661,7 +661,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- LA ORDEN DE TRABAJO ES DE ALTO RIESGO ---------->
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center" colspan="2">LA ORDEN DE TRABAJO ES DE ALTO RIESGO</th>
   </tr>
@@ -694,7 +694,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="col-12 mb-3 <?=$ocultarDivs?>">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center p-2">ÁREA</th>
   <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalArea(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
@@ -751,13 +751,13 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center p-2" colspan="3">REFACCIONES</th>
   <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalMateriales(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
   </tr>
 
-  <tr class="tables-bg">
+  <tr class="title-table-bg">
   <td class="fw-bold align-middle">REFACCIÓN</td>
   <th class="text-center align-middle">CANTIDAD</th>
   <th class="text-center align-middle">ESTATUS</th>
@@ -797,13 +797,13 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <div class="col-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> 
   <th class="align-middle text-center p-2" colspan="3">EVIDENCIA</th>
   <th class="align-middle text-center p-2" width="20px"><button type="button" class="btn btn-success" onclick="ModalEvidencia(<?=$GET_idPedido;?>)"><i class="fa-solid fa-plus"></i></span></th>
   </tr>
 
-  <tr class="tables-bg">
+  <tr class="title-table-bg">
   <td class="fw-bold align-middle" width="20px">ARCHIVO</td>
   <th class="text-center align-middle">ÁREA</th>
   <th class="text-center align-middle">MOTIVO</th>
@@ -866,7 +866,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- COMENTARIO ---------->
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">COMENTARIOS</th> </tr>
   </thead>
   <tbody>
@@ -882,7 +882,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   <!---------- FIRMA ---------->
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
   </thead>
   <tbody>

@@ -151,7 +151,7 @@ echo '<button type="button" class="btn btn-labeled2 btn-primary float-end" oncli
 <div class="table-responsive">
 <table id="tabla_orden_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
 
 <?=$tituloTablaPersonal?>
 

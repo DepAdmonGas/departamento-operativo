@@ -12,17 +12,16 @@ $tipo = $_POST['tipo'];
 $fecha = $_POST['Fecha'];
 $descripcion = $_POST['Descripcion'];
 
-$NoDoc1  =   $_FILES['Archivo_file']['name'];
+
 $UpDoc1 = "../../../archivos/camioneta-saveiro/".$numeroAleatorio."-Archivo-".$tipo.$numeroAleatorio2;
 $NomDoc1 = $numeroAleatorio."-Archivo-".$tipo.$numeroAleatorio2;
-
-if(move_uploaded_file($_FILES['Archivo_file']['tmp_name'], $UpDoc1)){
-    
-$sql_edit1 = "UPDATE op_camioneta_saveiro_documentacion SET 
-archivo = '".$NomDoc1."'
-WHERE id = '".$id."'";
-mysqli_query($con, $sql_edit1);
-
+if( isset($_FILES['Archivo_file']['tmp_name'])){
+    if(move_uploaded_file($_FILES['Archivo_file']['tmp_name'], $UpDoc1)){
+        $sql_edit1 = "UPDATE op_camioneta_saveiro_documentacion SET 
+        archivo = '".$NomDoc1."'
+        WHERE id = '".$id."'";
+        mysqli_query($con, $sql_edit1);
+}
 }
 
 

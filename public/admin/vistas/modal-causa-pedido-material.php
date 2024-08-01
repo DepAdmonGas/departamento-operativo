@@ -51,7 +51,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 14px;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
  <tr>
  <th class="align-middle tableStyle font-weight-bold text-center">No.</th>
  <th class="align-middle tableStyle font-weight-bold text-center">Fecha</th>

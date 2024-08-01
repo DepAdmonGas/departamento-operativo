@@ -135,11 +135,9 @@ if($tipoTpv == "Tecla"){
         </div>   
 
         </div>
-
-
-
-        
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="Editar(<?=$idEstacion;?>, <?=$idEditar;?>)">Editar</button>
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="Editar(<?=$idEstacion;?>, <?=$idEditar;?>)">
+      <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+
       </div>
