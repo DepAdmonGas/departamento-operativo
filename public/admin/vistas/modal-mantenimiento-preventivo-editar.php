@@ -76,5 +76,7 @@ return $return;
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion;?>,<?=$idReporte;?>)">Guardar</button>
+
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion;?>,<?=$idReporte;?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div> 

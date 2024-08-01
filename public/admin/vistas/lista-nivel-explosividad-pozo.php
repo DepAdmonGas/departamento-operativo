@@ -15,7 +15,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="table-responsive">
   <table class="custom-table" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr>
   <th class="align-middle">Detalle</th>
   <th class="align-middle">PPM</th>

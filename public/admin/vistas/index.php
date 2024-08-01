@@ -182,7 +182,7 @@ require ('app/help.php');
         </div>
 
 
-        <div class="row mt-4">
+        <div class="row">
 
           <!----------- 1 Corporativo  -------->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
@@ -304,7 +304,7 @@ require ('app/help.php');
               </div>
             </article>
           </div>
-          
+
         </div>
 
         <?php if (
@@ -320,23 +320,24 @@ require ('app/help.php');
         ) { ?>
 
 
-        <div class="col-12 mt-3">
-          <div class="row">
+        <div class="col-12 mb-2">
           <hr>
-            <div class="col-10">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">SASISOPA </h3>
-            </div>
-          </div>
+
+          <h4 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">SASISOPA
+          </h4>
+
         </div>
 
         <div class="row">
           <!----- INTERLOMAS ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(1,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(1,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Interlomas</h5>
                   </div>
@@ -348,11 +349,13 @@ require ('app/help.php');
 
           <!----- PALO SOLO  ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(2,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(2,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Palo Solo</h5>
                   </div>
@@ -364,11 +367,13 @@ require ('app/help.php');
 
           <!----- SAN AGUSTIN  ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(3,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(3,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">San Agustin</h5>
                   </div>
@@ -381,11 +386,13 @@ require ('app/help.php');
 
           <!----- GASOMIRA ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(4,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(4,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">
                       Gasomira
@@ -399,11 +406,13 @@ require ('app/help.php');
 
           <!----- VALLE DE GUADALUPE ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(5,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(5,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Valle de Guadalupe</h5>
                   </div>
@@ -415,11 +424,13 @@ require ('app/help.php');
 
           <!----- ESMEGAS ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(6,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(6,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Esmegas</h5>
                   </div>
@@ -430,11 +441,13 @@ require ('app/help.php');
           </div>
           <!----- XOCHIMILCO ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(7,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(7,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Xochimilco</h5>
                   </div>
@@ -445,11 +458,13 @@ require ('app/help.php');
           </div>
           <!----- BOSQUE REAL ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="VerSasisopa(14,<?= $Session_IDEstacion ?>)">
+            <article class="plan card2 border-0 shadow position-relative"
+              onclick="VerSasisopa(14,<?= $Session_IDEstacion ?>)">
 
               <div class="inner">
                 <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
+                  <div class="col-2"> <span class="pricing"> <i
+                        class="fa-sharp-duotone fa-solid fa-gas-pump"></i></span> </div>
                   <div class="col-10">
                     <h5 class="text-white text-center">Bosque Real</h5>
                   </div>

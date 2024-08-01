@@ -31,16 +31,6 @@ function Responsable($id, $con)
 </div>
 
 <div class="modal-body">
-
-  <?php if ($session_nompuesto != "Contabilidad") { ?>
-    <div class="row">
-      <div class="col-12">
-      <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="NuevoReg(<?= $idEstacion; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $idDias; ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-      </div>
-    </div>
-  <?php } ?>
-  <br>
   <div class="table-responsive">
     <table class="custom-table " style="font-size: 1em;" width="100%">
       <thead class="tables-bg">
@@ -71,11 +61,20 @@ function Responsable($id, $con)
             $num++;
           }
         } else {
-          echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+          echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
         }
         ?>
       </tbody>
     </table>
   </div>
+
+</div>
+<div class="modal-footer">
+<?php if ($session_nompuesto != "Contabilidad") { ?>
+  
+      <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="NuevoReg(<?= $idEstacion; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $idDias; ?>)">
+      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
+  <?php } ?>
 
 </div>

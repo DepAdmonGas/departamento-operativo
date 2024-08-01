@@ -72,7 +72,11 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <hr>
 
 <div class="text-end mt-3">
-<button type="button" class="btn btn-primary" onclick="GuardarComentario(<?=$idEstacion;?>,<?=$idReporte;?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success float-end m-2"
+    onclick="GuardarComentario(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar
+  </button>
+
 </div>
 </div>
 

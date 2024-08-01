@@ -91,7 +91,7 @@ if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Adminis
   <div class="table-responsive">
   <table id="tabla_mantenimiento_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
 
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr>
   <th class="align-middle text-center" width="40">Folio</th>
   <th class="align-middle text-center">Encargado</th>
