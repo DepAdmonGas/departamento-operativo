@@ -293,7 +293,7 @@ require('app/help.php');
 
 <div class="table-responsive">
 <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
-<thead class="title-table-bg">
+<thead class="tables-bg">
 <tr>
 <th class="align-middle text-center">Estación</th>
 <th class="align-middle text-center">Nombre del encargado</th>

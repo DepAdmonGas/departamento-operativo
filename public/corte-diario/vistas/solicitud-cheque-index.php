@@ -68,7 +68,7 @@ require ('app/help.php');
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase text-primary pointer"> Solicitud de Cheques</a></li>
+              <li class="breadcrumb-item"><a class="text-uppercase pointer"> Solicitud de Cheques</a></li>
             </ol>
           </div>
           <div class="row">
@@ -92,7 +92,7 @@ require ('app/help.php');
         $year = $row_listayear['year'];
 
         echo '
-        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2 mt-2">
           <article class="plan card2 border-0 shadow position-relative" onclick="SolicitudCheque(' . $year . ')">
             <div class="inner">
               <div class="row">
