@@ -93,7 +93,7 @@ if ($Session_IDUsuarioBD == "") {
         $year = $row_listayear['year'];
 
         echo '
-        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2 mt-2">
           <article class="plan card2 border-0 shadow position-relative" onclick="CoreteDiarioY(' . $year . ')">
             <div class="inner">
               <div class="row">

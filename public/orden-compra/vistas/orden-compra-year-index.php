@@ -102,7 +102,7 @@ if ($Session_IDUsuarioBD == "") {
           }
 
           echo '
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2 ' . $icon . '">
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2 mt-2 ' . $icon . '">
             <article class="plan card2 border-0 shadow position-relative" onclick="OrdenCompraY(' . $GET_idyear . ',' . $i . ')">
               <div class="inner">
                 <div class="row">
