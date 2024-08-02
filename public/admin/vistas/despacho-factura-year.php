@@ -30,7 +30,10 @@ require ('app/help.php');
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
+      sessionStorage.removeItem('idestacion');
+      sessionStorage.removeItem('depu');
+      sessionStorage.removeItem('year');
+      sessionStorage.removeItem('mes');
     });
 
     function Regresar() {

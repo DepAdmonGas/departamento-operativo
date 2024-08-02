@@ -6,7 +6,7 @@ $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 $tipo = $_GET['tipo'];
 
-
+$titulo = "";
 if ($tipo == 1) {
   $titulo = "Notas de Remision";
 

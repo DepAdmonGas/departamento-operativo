@@ -23,6 +23,7 @@ function ToActivar($IdReporte, $con)
 
 function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con)
 {
+  $idmes = 0;
   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '" . $GET_idEstacion . "' AND year = '" . $GET_year . "' ";
   $result_year = mysqli_query($con, $sql_year);
   while ($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)) {
