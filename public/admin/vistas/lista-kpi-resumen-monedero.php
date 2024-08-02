@@ -30,7 +30,7 @@ function mostrarGraficoFacturasMonederosYear($GET_idEstacion, $GET_year, $con)
   echo '<thead class="tables-bg">';
   echo '<tr>';
   echo '<th class="align-middle text-center">';
-  echo 'Factura Monedero';
+  echo 'Cumplimiento de Facturas de Monederos - ' . nombreES($GET_idEstacion, $con) . '';
   echo '</th>';
   echo '</tr>';
   echo '</thead>';
@@ -63,7 +63,6 @@ function drawChart' . $GET_idEstacion . '' . $GET_year . '() {
          width: "100%", // Ancho al 100% para ser responsive
         height: "auto", // Altura automática
         legend: "none",
-        title: "Cumplimiento de Facturas de Monederos - ' . nombreES($GET_idEstacion, $con) . ' \n\n", // Agrega el salto de línea con \n
         hAxis: {
             title: "Meses",
         },
@@ -258,7 +257,7 @@ function mostrarGraficoFacturasMonederoES($GET_year, $con, $GET_idEstacion)
   echo '<thead class="tables-bg">';
   echo '<tr>';
   echo '<th class="align-middle text-center">';
-  echo 'Factura Monedero (Anual)';
+  echo 'Cumplimiento de Facturas de Monederos (Anual) - Estaciones';
   echo '</th>';
   echo '</tr>';
   echo '</thead>';
@@ -292,9 +291,9 @@ function mostrarGraficoFacturasMonederoES($GET_year, $con, $GET_idEstacion)
                  width: "100%", // Ancho al 100% para ser responsive
                 height: "auto", // Altura automática
                 legend: "none",
-                title: "Cumplimiento de Facturas de Monederos (Anual) - Estaciones\n\n",
+                                    title: "Estacion(es) con mejor cumplimiento: \n  ' . implode(", ", $mejorPuntaje['estaciones']) . ' - Puntaje: ' . $mejorPuntaje['puntaje'] . ' de 180",
+
                 hAxis: {
-                    title: "Estacion(es) con mejor cumplimiento: \n  ' . implode(", ", $mejorPuntaje['estaciones']) . ' - Puntaje: ' . $mejorPuntaje['puntaje'] . ' de 180",
                 },
                 vAxis: {
                     title: "Puntaje Obtenido"
