@@ -116,7 +116,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   if(data == 1){
   $(".LoaderPage").hide();
   ModalArchivos(year,mes,idEstacion,depu,id);
-  ListaVales(idEstacion,depu,year,mes); 
+  ListaVales(idEstacion,depu,year,mes,'<?=$Pagina?>'); 
   alertify.success('Archivo agregado exitosamente.')
   
   }else{
@@ -157,11 +157,10 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
 
   },
   success:  function (response) {
-  console.log(response)
 
   if (response == 1) {
-  ModalArchivos(year,mes,idEstacion,depu,id);
-  ListaVales(idEstacion,depu,year,mes,'<?=$Pagina?>'); 
+    ModalArchivos(year,mes,idEstacion,depu,id);
+    ListaVales(idEstacion,depu,year,mes,'<?=$Pagina?>'); 
   alertify.success('Archivo eliminado exitosamente.');  
    
   }else{
