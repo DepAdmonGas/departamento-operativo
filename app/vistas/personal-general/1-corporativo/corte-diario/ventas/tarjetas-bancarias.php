@@ -69,7 +69,7 @@ endif;
                         echo "<td class='align-middle text-end bg-white'>" . number_format($baucher, 2) . "</td>";
                     } else {
                         ?>
-                        <td class="p-0 <?=$deshabilitado?> <?=$hover?> align-middle text-end" style="width: 50%">
+                        <td class="p-0 <?=$deshabilitado?> no-hover align-middle text-end" style="width: 50%">
                             <input class="<?=$deshabilitado?> p-2" id="baucher-<?= $idTarjeta; ?>" type="number" min="0" step="any"
                                 style="border: 0px;width: 100%;height: 100%; text-align: right;"
                                 onkeyup="EditTBaucher(this,<?= $idReporte; ?>,<?= $idTarjeta; ?>)" value="<?= $baucher; ?>"

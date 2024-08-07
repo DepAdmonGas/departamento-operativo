@@ -791,7 +791,6 @@ class CorteDiario extends Exception
             $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
         endwhile;
         $result_listaAceite->close();
-        $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
     }
     public function validaAceites(int $idReporte, int $noAceite, string $concepto, float $precio): void
     {

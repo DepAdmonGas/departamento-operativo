@@ -9,6 +9,7 @@ $SubTLitros = 0;
 $SubJarras = 0;
 $SubTotalLitros = 0;
 $SubImporteTotal = 0;
+$idventas = 0;
 while ($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)) {
 
     $idventas = $row_listayear['id'];
