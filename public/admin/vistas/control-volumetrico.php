@@ -890,16 +890,10 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
         data: parametros,
         url: '../../../../public/admin/modelo/editar-control-volumetrico-aceite.php',
         type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-
-        },
+        beforeSend: function () {},
+        complete: function () {},
         success: function (response) {
-
           if (response == 1) {
-
-
 
           } else {
             alertify.error('Error al guardar')

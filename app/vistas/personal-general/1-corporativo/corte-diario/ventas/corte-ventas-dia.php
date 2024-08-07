@@ -327,7 +327,7 @@ endif;
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarDocumento(<?= $GET_idReporte; ?>)">
-            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar Documento</button>
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
         </div>
       </div>
     </div>

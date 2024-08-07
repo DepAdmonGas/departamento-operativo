@@ -72,7 +72,7 @@ if ($numero_detalle > 0) {
   echo '<hr>';
   echo '<div class="text-end">
   <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarReporte('.$idReporte.')">
-            <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar Reporte</button>
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
         
 </div>';
 }

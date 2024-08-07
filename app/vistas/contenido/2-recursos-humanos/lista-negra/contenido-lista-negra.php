@@ -68,13 +68,13 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <thead class="tables-bg">
 <tr> 
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-  <th class="align-middle tableStyle font-weight-bold">Fecha</th>
-  <th class="align-middle tableStyle font-weight-bold">Nombre</th>
-  <th class="align-middle tableStyle font-weight-bold <?=$ocultarTB?>">Estacion</th>
-  <th class="align-middle tableStyle font-weight-bold">Puesto</th>
-  <th class="align-middle tableStyle font-weight-bold">Motivo</th>
-  <th class="align-middle tableStyle font-weight-bold">Detalle</th>
+  <th class="text-center align-middle ">#</th>
+  <th class="align-middle text-center">Fecha</th>
+  <th class="align-middle text-center">Nombre</th>
+  <th class="align-middle text-center <?=$ocultarTB?>">Estacion</th>
+  <th class="align-middle text-center">Puesto</th>
+  <th class="align-middle text-center">Motivo</th>
+  <th class="align-middle text-center">Detalle</th>
   <th class="align-middle text-center <?=$ocultarbtn?>" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
 </tr>
 </thead> 
@@ -111,7 +111,7 @@ $num++;
 }
 
 }else{
-echo "<tr><td colspan='7'><div class='text-secondary text-center p-2 fs-6 fw-light'>No se encontró información para mostrar </div></td></tr>";	
+echo "<tr><th colspan='7' class='no-hover text-secondary text-center'>No se encontró información para mostrar</th></tr>";	
 }
 ?>
 </tbody>

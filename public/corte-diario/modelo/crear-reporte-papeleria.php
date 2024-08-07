@@ -2,7 +2,7 @@
 require('../../../app/help.php');
 
 
-$sql = "SELECT id FROM op_papeleria_reporte WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY id ASC ";
+$sql = "SELECT id FROM op_papeleria_reporte ORDER BY id ASC ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
 if($numero > 0){

@@ -164,9 +164,9 @@ $EstacionName = '('.$datosEstacion['localidad'].')';
                     } else {
 
                         echo '<tr>';
-                        echo '<td class="text-center align-middle fw-bold">' . $row_personal['id'] . '</td>';
-                        echo '<td class="align-middle">' . $row_personal['nombre_completo'] . '</td>';
-                        echo '<td class="align-middle text-center">' . $row_personal['puesto'] . '</td>';
+                        echo '<td class="no-hover text-center align-middle fw-bold">' . $row_personal['id'] . '</td>';
+                        echo '<td class="no-hover align-middle">' . $row_personal['nombre_completo'] . '</td>';
+                        echo '<td class="no-hover align-middle text-center">' . $row_personal['puesto'] . '</td>';
 
                         echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,1,' . $id . ',' . $idEstacion . ')"><option>' . $Dia1 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {
