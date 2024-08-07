@@ -1932,6 +1932,149 @@ class CorteDiario extends Exception
         endif;
         return $result;
     }
+    public function agregarPagoDiferencia(int $repAceite,int $year,int $mes,array $doc,int $idEstacion,string $comentario):void {
+        $sql_reporte = 
+        "SELECT inventario_bodega,inventario_exibidores,bodega,exibidores,pedido,id_aceite,id_mes
+         FROM op_aceites_lubricantes_reporte WHERE id = ?";
+        $result_reporte = $this->con->prepare($sql_reporte);
+        if(!$result_reporte):
+            throw new Exception("Error al preparar la consulta".$this->con->error);
+        endif;
+        $result_reporte->bind_param("i", $repAceite); // "i" indica que $repAceite es un entero (si es otro tipo, ajusta la letra correspondiente)
+        if(!$result_reporte->execute()):
+            throw new Exception("Error al ejectuar la consulta".$result_reporte->error);
+        endif;
+        $result_reporte->store_result();
+        $numero_reporte = $result_reporte->num_rows;
+        if ($numero_reporte > 0) :
+            $result_reporte->bind_result($inventario_bodega, $inventario_exibidores, $bodega, $exibidores, $pedido, $noaceite, $idmes);
+            while ($result_reporte->fetch()) :
+                $inventario_bodega = $this->valRow($inventario_bodega);
+                $inventario_exibidores = $this->valRow($inventario_exibidores);
+                $bodega = $this->valRow($bodega);
+                $exibidores = $this->valRow($exibidores);
+                $pedido = $this->valRow($pedido);
+                $totalaceites = $this->totalAceite($idmes, $noaceite);
+                $idAceite = $this->idAceite($noaceite);
+                $inventarioI = $bodega + $exibidores;
+                $inventarioF = $inventarioI + $pedido - $totalaceites;
+                $inventario_final = $inventario_bodega + $inventario_exibidores;
+                $diferencia = $inventario_final - $inventarioF;
+            endwhile;
+        endif;
+        if ($mes == 12) :
+          $nwyear = $year + 1;
+          $nwmes = 1;
+          $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
+        else :
+          $nwyear = $year;
+          $nwmes = $mes + 1;
+          $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
+        endif;
+
+        $aleatorio = uniqid();
+        if (!empty($doc) && isset($doc['name'])) :
+            $pdf = $doc['name'];
+            $upload_PDF = "../../../archivos/".$aleatorio."-".$pdf;
+            $documentoPDF = $aleatorio."-".$pdf;
+            if(move_uploaded_file($doc['tmp_name'], $upload_PDF)) :
+                $status = 0;
+                $dif = abs($diferencia);
+                $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte_pagodiferencia (
+                    id_aceite,
+                    id_reporte,
+                    nomaceite,
+                    diferencia,
+                    documento,
+                    comentario,
+                    estado
+                    )
+                    VALUES 
+                    (?,?,?,?,?,?,?)";
+                $stmt = $this->con->prepare($sql_insert);
+                if(!$stmt):
+                    throw new Exception("Error al preparar la consulta".$this->con->error);
+                endif;
+                $stmt->bind_param("iiiissi", $repAceite,$IdReporte,$noaceite,$dif,$documentoPDF,$comentario,$status);
+                $this->actualizarAlmacen($IdReporte, $idAceite, $dif);               
+            endif;
+        endif;
+    }
+    private function valRow(int $valor) : int {
+        $resultado = 0;
+        if ($valor != 0) :
+            $resultado = number_format($valor, 2, '.', '');
+        endif;
+        return $resultado;
+    } 
+    private function idReportePago($Session_IDEstacion,$GET_year,$GET_mes)
+    {
+        $idmes = 0;
+        $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = (SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?) AND mes = ?";
+        $stmt_mes = $this->con->prepare($sql_mes);
+        if (!$stmt_mes) :
+            throw new Exception("Error al preparar la consulta". $this->con->error);
+        endif;
+        $stmt_mes->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
+        $stmt_mes->execute();
+        $stmt_mes->bind_result($idmes);
+        $stmt_mes->fetch();
+        $stmt_mes->close();
+        return $idmes;
+    }
+    private function totalAceite(int $idmes, int $noaceite) : int {
+
+        $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
+        $result = $this->con->prepare($sql);
+        if(!$result):
+            throw new Exception ("Error al preparar la consulta".$this->con->error);
+        endif;
+        $result->bind_param("i", $idmes);
+        if(!$result->execute()):
+            throw new Exception ("Error al ejecutar la consulta".$result->error);
+        endif;
+        $result->bind_result($id);
+        $result->fetch();
+        $result->close();
+        $sql_lista = "SELECT cantidad FROM op_aceites_lubricantes WHERE idreporte_dia = ? AND id_aceite = ? LIMIT 1 ";
+        $result2 = $this->con->prepare($sql_lista);
+        if(!$result2):
+            throw new Exception ("Error al preparas la segunda consulta".$this->con->error);
+        endif;
+        $result2->bind_param("ii",$id, $noaceite);
+        if(!$result2->execute()):
+            throw new Exception("Error al ejecutar la segunda consulta ". $result2->error);
+        endif;
+        $result2->bind_result($can);
+        $cantidad = $result2->fetch();
+        $result2->close();
+        return $cantidad;
+    }
+    private function actualizarAlmacen($IdReporte, $idAceite, $diferencia)
+    {
+        $sql_reporte = "SELECT id, bodega FROM op_inventario_aceites WHERE id_mes = ? AND id_aceite = ? ";
+        $result_reporte = $this->con->prepare($sql_reporte);
+        if(!$result_reporte):
+            throw new Exception("Error al preparar la consulta".$this->con->error);
+        endif;
+        $result_reporte->bind_param("ii",$IdReporte,$idAceite);
+        if( !$result_reporte->execute() ):
+            throw new Exception("".$result_reporte->error);
+        endif;
+        $result_reporte->bind_result($id,$bod);
+        $result_reporte->close();
+        $bodega = $bod + $diferencia;
+        $sql = "UPDATE op_inventario_aceites SET bodega =? WHERE id =?";
+        $stmt = $this->con->prepare($sql);
+        if(!$stmt):
+            throw new Exception("Error al preparar la consulta".$this->con->error);
+        endif;
+        $stmt->bind_param("ii",$bodega,$id);
+        if( !$stmt->execute() ):
+            throw new Exception("Error al ejecutar la consulta".$stmt->error);
+        endif;
+        $stmt->close();
+    }
     /***
      * 
      * 
