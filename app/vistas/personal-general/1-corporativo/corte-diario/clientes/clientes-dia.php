@@ -81,8 +81,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           <div class="mb-1">
             <small>* Selecciona el cliente</small>
           </div>
-          <div id="BorderCliente">
-            <select placeholder="Cliente" id="Cliente" class="form-select">
+            <select placeholder="Cliente" id="Cliente BorderCliente" class="form-select">
               <option value="">Cliente</option>
                 <?php
                 try {
@@ -92,7 +91,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                 }
                 ?>
             </select>
-          </div>
+          
           <div class="mt-2 mb-1"><small>* Agregue total</small></div>
           <input type="number" class="form-control rounded-0" min="0" placeholder="Total" id="Total">
           <div class="mb-1 mt-2"><small>* Selecciona Consumo o Pago</small></div>

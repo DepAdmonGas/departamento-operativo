@@ -286,7 +286,7 @@ FacturaRemision_filePath = FacturaRemision.value;
 <div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Nuevo Formato</h3></div>
 <div class="col-3">
 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="GuardarFirmar()">
-<span class="btn-label2"><i class="fa-solid fa-check"></i></span>Guardar y Finalizar</button>
+<span class="btn-label2"><i class="fa-solid fa-check"></i></span>Finalizar</button>
 </div>      
 </div>
 <hr>

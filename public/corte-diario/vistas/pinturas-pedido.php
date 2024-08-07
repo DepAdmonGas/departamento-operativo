@@ -336,7 +336,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
         <div class="col-md-6">
           <div class="table-responsive">
             <table class="custom-table " style="font-size: .8em;" width="100%">
-              <thead class="title-table-bg">
+              <thead class="tables-bg">
                 <tr>
                   <th class="text-center align-middle">Observaciones</th>
                 </tr>
@@ -356,7 +356,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
         <div class="col-md-6">
           <div class="table-responsive">
             <table class="custom-table" style="font-size: .8em;" width="100%">
-              <thead class="title-table-bg">
+              <thead class="tables-bg">
                 <tr>
                   <th class="text-center align-middle">Firma DEL ENCARGADO</th>
                 </tr>

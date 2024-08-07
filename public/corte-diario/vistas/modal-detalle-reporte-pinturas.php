@@ -83,7 +83,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
             Pinturas y Complementos
           </th>
         </tr>
-        <tr>
+        <tr class="title-table-bg">
           <td class="text-center align-middle fw-bold">Unidad</td>
           <th class="text-center align-middle">Producto</th>
           <th class="text-center align-middle">Piezas</th>
@@ -116,3 +116,4 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
       </tbody>
     </table>
   </div>
+</div>

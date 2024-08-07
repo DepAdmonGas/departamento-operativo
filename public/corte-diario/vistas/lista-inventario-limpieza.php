@@ -54,8 +54,6 @@ function Producto($idProducto, $con)
 
           $num++;
         }
-      } else {
-        echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
       }
       ?>
     </tbody>

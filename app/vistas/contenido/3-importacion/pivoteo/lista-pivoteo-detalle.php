@@ -120,7 +120,7 @@ echo '<div class="col-12">';
 echo '<hr>
 
 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar('.$idReporte.')">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar Pivoteo</button>';
+<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>';
 echo '</div>';
 
 echo '</div>';

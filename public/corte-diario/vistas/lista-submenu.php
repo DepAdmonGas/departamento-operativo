@@ -63,9 +63,6 @@ if($elemento == "Importación"){
 </article>
 </div>
 
-
-
-
       <?php
     } else {
       ?>
