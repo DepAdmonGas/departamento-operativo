@@ -414,7 +414,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       $('#Modal').modal('show');
       $('#ListaDocumento').load('../../../../public/admin/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     }
-
+ 
     function Nuevo(IdReporte, year, mes) {
       $('#ListaDocumento').load('../../../../public/admin/vistas/formulario-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     }
@@ -711,15 +711,14 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
                   class="fa-solid fa-chevron-left"></i>
                 Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
             <li aria-current="page" class="breadcrumb-item active text-uppercase">
-              <?= $estacion ?> - Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?>
-              <?= $GET_year ?>)
+           Resumen Aceites  (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
             </li>
           </ol>
         </div>
         <div class="row">
           <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12">
             <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-              <?= $estacion ?> - Resumen Aceites, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+            Resumen Aceites  (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
             </h3>
           </div>
           <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
@@ -731,24 +730,24 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
                 <ul class="dropdown-menu">
                   <li onclick="DocumentacionAceites(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                    <a class="dropdown-item pointer"><i class="fa-solid fa-file-lines"></i> Archivos Aceites</a>
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-file-lines"></i> Archivos de Aceites</a>
                   </li>
                   
                   <li onclick="Aceites()">
-                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Aceites</a>
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista de Aceites</a>
                   </li>
                   
                   <li onclick="Resumen(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen</a>
+                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen Impuestos/Monederos</a>
                   </li>
                   <li onclick="ListaModal(<?= $IdReporte; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                    <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Documentos</a>
+                    <a class="dropdown-item pointer"><i class="fa-regular fa-file-lines"></i> Documentos de Aceites</a>
                   </li>
                   <?php
                   if ($session_nompuesto == "Dirección de operaciones") {
                     ?>
                     <li onclick="aceitesKPI(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                      <a class="dropdown-item pointer"><i class="fa-solid  fa-chart-line"></i> Evaluacion Aceites (KPI's)</a>
+                      <a class="dropdown-item pointer"><i class="fa-solid  fa-chart-line"></i> Evaluacion de Aceites (KPI's)</a>
                     </li>
                     <?php
                   }

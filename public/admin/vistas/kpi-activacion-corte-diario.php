@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 ?>
 
 <html lang="es">
@@ -74,21 +70,21 @@ if ($Session_IDUsuarioBD == "") {
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                    class="fa-solid fa-chevron-left"></i> Corte Diario</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase"> Apertura Corte Diario (KPI's)
-                <?= $GET_year ?>
+                    class="fa-solid fa-chevron-left"></i> Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase"> Evaluacion (Apertura Corte
+              Diario), <?= $GET_year ?>
               </li>
             </ol>
           </div>
 
           <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Apertura Corte
-                Diario (KPI's) <?= $GET_year ?></h3>
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Evaluacion (Apertura Corte
+                Diario), <?= $GET_year ?></h3>
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="InfoEvaluacion(100)">
-                <span class="btn-label2"><i class="fa fa-info"></i></span>Evaluacion</button>
+                <span class="btn-label2"><i class="fa fa-info"></i></span>Forma de evaluacion</button>
             </div>
 
           </div>
@@ -96,12 +92,7 @@ if ($Session_IDUsuarioBD == "") {
           <hr>
 
         </div>
-
-        <div class="row">
           <div class="col-12" id="DivCorteDiarioKPI"></div>
-        </div>
-
-
 
       </div>
     </div>

@@ -40,7 +40,7 @@ function Estacion($idEstacion, $con)
       <th>Total</th>
       <td width="16px" class="<?=$ocultarTb?>"><img src="<?= RUTA_IMG_ICONOS ?>eliminar.png" width="20px"></td>
     </tr>
-    <tbody>
+    <tbody class="bg-light">
       <?php
 
       $totalGeneral = 0;

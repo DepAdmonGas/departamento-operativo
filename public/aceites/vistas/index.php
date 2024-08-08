@@ -140,21 +140,25 @@ if ($Session_IDUsuarioBD == "") {
 
     function NewAceite() {
 
-      $.ajax({
-        url: '../public/aceites/modelo/nuevo-aceite.php',
-        type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-          ListaAceites();
-        },
-        success: function (response) {
-          Scroll(response);
+$.ajax({
+  url: '../public/aceites/modelo/nuevo-aceite.php',
+  type: 'post',
+  beforeSend: function () {
+    // Puedes añadir algún indicador de carga aquí
+  },
+  complete: function () {
+    ListaAceites();
+    // Desplazarse al final de la página
+    document.getElementById('finalDePagina').scrollIntoView({ behavior: 'smooth' });
+  },
+  success: function (response) {
 
-        }
-      });
+  alertify.success('Fila agregada al final de la tabla.');
 
-    }
+  }
+});
+
+}
 
     function Scroll(response) {
       $('html, body').animate({
@@ -185,6 +189,7 @@ if ($Session_IDUsuarioBD == "") {
           if (response == 0) {
             ListaAceites();
           } else {
+
           }
 
         }
@@ -208,16 +213,16 @@ if ($Session_IDUsuarioBD == "") {
           <ol class="breadcrumb breadcrumb-caret">
             <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                   class="fa-solid fa-chevron-left"></i>
-                Aceites</a></li>
+                Regresar</a></li>
             <li aria-current="page" class="breadcrumb-item active text-uppercase">
-              Lista Aceites
+              Lista de Aceites
             </li>
           </ol>
         </div>
         <div class="row">
           <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
             <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-              Lista Aceites
+              Lista de Aceites
             </h3>
           </div>
           <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mt-2">
@@ -234,6 +239,7 @@ if ($Session_IDUsuarioBD == "") {
       </div>
     </div>
 
+    <div id="finalDePagina"></div>
   </div>
 
 

@@ -4,7 +4,6 @@ require ('app/help.php');
 
 ?>
 <html lang="es">
-
 <head>
 <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -67,11 +66,10 @@ require ('app/help.php');
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.go(-3)" class="text-uppercase text-primary pointer"><i
+              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"> Solicitud de Cheques</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer">
-                  <?= $GET_year ?></a></li>
+              <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"> Solicitud de Cheques</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase"><?= $GET_year ?></li>
             </ol>
           </div>
           <div class="row">

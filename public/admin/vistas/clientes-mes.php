@@ -1,11 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
-
 function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con)
 {
   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '" . $GET_idEstacion . "' AND year = '" . $GET_year . "' ";
@@ -24,7 +19,15 @@ function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con)
 
 $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
 
-?>
+
+$sql_listaestacion = "SELECT id, nombre FROM tb_estaciones WHERE id = '" . $GET_idEstacion . "'";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $id = $row_listaestacion['id'];
+  $estacion = $row_listaestacion['nombre'];
+}
+
+?> 
 
 <html lang="es">
 
@@ -48,12 +51,6 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-  <style media="screen">
-    .inputD:disabled {
-      background: white;
-    }
-  </style>
 
   <script type="text/javascript">
 
@@ -136,9 +133,7 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
 
   </script>
   <!---------- LIBRERIAS DEL DATATABLE ---------->
-  <link
-    href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
-    rel="stylesheet">
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
 </head>
 
@@ -160,22 +155,23 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Resumen Clientes (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>)
+                Resumen Clientes (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </li>
             </ol>
-          </div>
+          </div> 
           <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Resumen Clientes (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>)
+              Resumen Clientes (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </h3>
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-              <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
-                <button type="button" class="btn btn-labeled2 btn-primary float-end m-2" onclick="Actualizar(<?= $IdReporte; ?>,<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                <span class="btn-label2"><i class="fa fa-rotate"></i></span>Actualizar</button>
 
+              <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
+                <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Actualizar(<?= $IdReporte; ?>,<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                <span class="btn-label2"><i class="fa fa-rotate"></i></span>Actualizar</button>
               <?php } ?>
+
             </div>
           </div>
           <hr>
@@ -197,8 +193,7 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-  <script
-    src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 

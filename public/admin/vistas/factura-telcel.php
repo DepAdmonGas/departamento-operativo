@@ -391,7 +391,7 @@ alertify.confirm('',
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Solicitud de cheques</a></li>
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Solicitud de cheques, <?=$ClassHerramientasDptoOperativo->nombremes($GET_mes);?> <?=$GET_year;?></a></li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase">Facturas Telcel, <?=$ClassHerramientasDptoOperativo->nombremes($GET_mes);?> <?=$GET_year;?> </li>
   <li aria-current="page" class="breadcrumb-item active text-uppercase"> <?=$alertDoc?></li>
   </ol>
@@ -408,8 +408,8 @@ alertify.confirm('',
   <div class="dropdown d-inline ms-2">
   <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-screwdriver-wrench"></i></button>
   <ul class="dropdown-menu">
-  <li onclick="btnModalDirectorio(<?=$IdReporte;?>,0)"> <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Directorio </a> </li>
-  <li onclick="btnModal(<?=$IdReporte;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Factura</a></li>
+  <li onclick="btnModalDirectorio(<?=$IdReporte;?>,0)"> <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar Directorio </a> </li>
+  <li onclick="btnModal(<?=$IdReporte;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar Factura</a></li>
   </ul>
   </div>
   </div>

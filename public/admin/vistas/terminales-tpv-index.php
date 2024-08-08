@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>   
  
 <html lang="es">
@@ -56,10 +52,12 @@ header("Location:".PORTAL."");
   } 
   
   function SelEstacion(idEstacion) {
+    sessionStorage.setItem('idestacion', idEstacion)
 
   function initializeDataTable(tableId) {
   let targets;
   targets = [15];
+
 
   $('#ListaTerminales').load('../public/admin/vistas/lista-terminales-tpv.php?idEstacion=' + idEstacion, function() {
     // Clonar y remover las filas antes de inicializar DataTables

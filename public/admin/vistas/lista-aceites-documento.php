@@ -12,7 +12,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 <div class="modal-header">
-  <h5 class="modal-title">Documentos</h5>
+  <h5 class="modal-title">Documentos de Aceites</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -43,19 +43,19 @@ $numero_lista = mysqli_num_rows($result_lista);
               }
 
               if ($row_lista['ficha_deposito']) {
-                $ficha = '<a href="../../../../archivos/' . $row_lista['ficha_deposito'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
+                $ficha = '<a href="'.RUTA_ARCHIVOS.'' . $row_lista['ficha_deposito'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
               } else {
                 $ficha = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               if ($row_lista['imagen_bodega']) {
-                $imagen = '<a href="../../../../archivos/' . $row_lista['imagen_bodega'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
+                $imagen = '<a href="'.RUTA_ARCHIVOS.'' . $row_lista['imagen_bodega'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
               } else {
                 $imagen = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               if ($row_lista['factura_venta']) {
-                $factura = '<a href="../../../../archivos/' . $row_lista['factura_venta'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
+                $factura = '<a href="'.RUTA_ARCHIVOS.'' . $row_lista['factura_venta'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png"></a>';
               } else {
                 $factura = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
@@ -86,8 +86,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
   </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-labeled2 btn-primary float-end"
-        onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
-        <span class="btn-label2"><i class="fa fa-plus"></i></span>Nuevo
-      </button>
+  
+  <button type="button" class="btn btn-labeled2 btn-primary " onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar documentos</button>
     </div>

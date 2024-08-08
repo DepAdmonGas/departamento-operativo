@@ -256,12 +256,12 @@ $('#SueldoDiaTMR').css('border','2px solid #A52525');
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
   <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Control de documentos del personal</a></li>
-  <li aria-current="page" class="breadcrumb-item active text-uppercase">Asistencia <?=$personal?></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Asistencia (<?=$personal?>)</li>
   </ol>
   </div>
    
   <div class="row"> 
-  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Asistencia <?=$personal?></h3> </div>
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Asistencia (<?=$personal?>)</h3> </div>
   </div>
   <hr>
   </div>

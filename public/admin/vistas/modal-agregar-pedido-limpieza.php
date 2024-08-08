@@ -36,6 +36,7 @@ $TotalPedido1 = TotalPedido($idEstacion, 1, $con);
   <h5 class="modal-title">Agregar pedido limpieza</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
 
   <div class="mb-1 text-secondary">Producto:</div>
@@ -85,7 +86,7 @@ $TotalPedido1 = TotalPedido($idEstacion, 1, $con);
             echo '<th class="align-middle text-center">' . $num . '</th>';
             echo '<td class="align-middle"><b>' . $Producto['unidad'] . '</b></td>';
             echo '<td class="align-middle"><b>' . $Producto['producto'] . '</b></td>';
-            echo '<td class="align-middle p-0 text-center"><input id="Piezas-' . $id . '" class="form-control border-0 text-center p-2" type="number" value="' . $row_lista['piezas'] . '" onchange="EditPiezas(' . $id . ',' . $idEstacion . ',' . $idReporte . ')" /></td>';
+            echo '<td class="align-middle p-0 text-center"><input id="Piezas-' . $id . '" class="form-control border-0 text-center p-2 bg-light" type="number" value="' . $row_lista['piezas'] . '" onchange="EditPiezas(' . $id . ',' . $idEstacion . ',' . $idReporte . ')" /></td>';
 
             echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarItem(' . $id . ',' . $idEstacion . ',' . $idReporte . ')"></td>';
             echo '</tr>';
@@ -106,9 +107,11 @@ $TotalPedido1 = TotalPedido($idEstacion, 1, $con);
 
 
   </div>
-  <br>
-  <div class="text-end">
+
+  </div>
+
+
+  <div class="modal-footer">
     <button type="button" class="btn btn-labeled2 btn-primary" onclick="AgregarItem(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
       <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-  </div>
   </div>

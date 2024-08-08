@@ -87,7 +87,7 @@ La evaluación de las Ficha de Deposito Faltante se lleva a cabo de acuerdo a lo
  
 
 <div class="modal-header">
-<h5 class="modal-title">Forma de Evaluacion - <?=$titulo?></h5>
+<h5 class="modal-title">Forma de Evaluacion (<?=$titulo?>)</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -96,8 +96,8 @@ La evaluación de las Ficha de Deposito Faltante se lleva a cabo de acuerdo a lo
 </div>
  
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-danger float-end m-2" data-bs-dismiss="modal">
-<span class="btn-label2"><i class="fa fa-x"></i></span>Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cerrar</button>
 </div>
 
 

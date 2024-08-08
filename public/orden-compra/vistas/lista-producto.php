@@ -51,7 +51,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         <td class="text-end <?= $ocultarTb ?>" width="16px"><img src="<?= RUTA_IMG_ICONOS ?>eliminar.png" width="20px"></td>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="bg-light">
       <?php
 
 

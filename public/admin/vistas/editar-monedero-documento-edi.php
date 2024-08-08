@@ -2,6 +2,8 @@
 require ('../../../app/help.php');
 
 $IdReporte = $_GET['IdReporte'];
+$year = $_GET['year'];
+$mes = $_GET['mes'];
 $id = $_GET['id'];
 
 $sql_lista = "SELECT * FROM op_monedero_documento WHERE id = '" . $id . "' ";
@@ -19,6 +21,8 @@ $result_lista1 = mysqli_query($con, $sql_lista1);
 $numero_lista1 = mysqli_num_rows($result_lista1);
 ?>
 
+
+<div class="modal-body">
 
 <div class="row">
 
@@ -48,13 +52,11 @@ $numero_lista1 = mysqli_num_rows($result_lista1);
 
 </div>
 
-
-
 <br>
 
-<div class="table-responsive">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
 
-  <table class="table table-sm table-bordered pb-0 mb-0  font-weight-light">
     <thead class="tables-bg">
       <th class="align-middle text-center">Complemento</th>
       <th class="align-middle text-center" width="24"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
@@ -62,22 +64,23 @@ $numero_lista1 = mysqli_num_rows($result_lista1);
 
       <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
     </thead>
-    <tbody>
+
+    <tbody class="bg-light">
       <?php
       if ($numero_lista1 > 0) {
         while ($row_lista1 = mysqli_fetch_array($result_lista1, MYSQLI_ASSOC)) {
 
           if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Dirección de operaciones servicio social") {
-            $eliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarEdi(' . $IdReporte . ',' . $id . ',' . $row_lista1['id'] . ')">';
+            $eliminar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarEdi(' . $IdReporte . ',' . $id . ',' . $row_lista1['id'] . ', '.$year.', '.$mes.')">';
           } else {
             $eliminar = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png" >';
           }
 
           echo '<tr>';
-          echo '<td class="align-middle text-center">' . $row_lista1['complemento'] . '</td>';
+          echo '<th class="align-middle text-center fw-normal">' . $row_lista1['complemento'] . '</th>';
 
-          echo '<td><a class="pointer" href="../../../../archivos/' . $row_lista1['pdf'] . '" download><img src="' . RUTA_IMG_ICONOS . 'pdf.png"></a></td>';
-          echo '<td><a class="pointer" href="../../../../archivos/' . $row_lista1['xml'] . '" download><img src="' . RUTA_IMG_ICONOS . 'xml.png"></a></td>';
+          echo '<td><a class="pointer" href="'.RUTA_ARCHIVOS.'' . $row_lista1['pdf'] . '" download><img src="' . RUTA_IMG_ICONOS . 'pdf.png"></a></td>';
+          echo '<td><a class="pointer" href="'.RUTA_ARCHIVOS.'' . $row_lista1['xml'] . '" download><img src="' . RUTA_IMG_ICONOS . 'xml.png"></a></td>';
 
           echo '<td width="20">' . $eliminar . '</td>';
           echo '</tr>';
@@ -91,13 +94,20 @@ $numero_lista1 = mysqli_num_rows($result_lista1);
   </table>
 
 </div>
-<br>
-<div class="text-end mt-2">
-  <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?= $IdReporte; ?>)">
-    <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
-  <button type="button" class="btn btn-labeled2 btn-success float-end m-2"
-    onclick="GuardarC(<?= $IdReporte; ?>,<?= $id; ?>)">
+
+
+</div>
+
+
+<div class="modal-footer"> 
+
+<button type="button" class="btn btn-labeled2 btn-danger float-end" onclick="Cancelar(<?= $IdReporte; ?>)">
+<span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
+
+<button type="button" class="btn btn-labeled2 btn-success float-end"
+    onclick="GuardarC(<?=$IdReporte?>,<?=$year?>,<?=$mes?>,<?= $id; ?>)">
     <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
 
 
 </div>

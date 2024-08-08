@@ -19,6 +19,13 @@ function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con)
 
 $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
 
+$sql_listaestacion = "SELECT id, nombre FROM tb_estaciones WHERE id = '" . $GET_idEstacion . "'";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $id = $row_listaestacion['id'];
+  $estacion = $row_listaestacion['nombre'];
+}
+
 ?>
 <html lang="es">
 
@@ -81,14 +88,14 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
                     class="fa-solid fa-chevron-left"></i>
                     Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Concentrado de Ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
+                Concentrado de Ventas (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-10">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Concentrado de Ventas (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?= $GET_year?>)
+                Concentrado de Ventas (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </h3>
             </div>
           </div>
@@ -96,8 +103,8 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
       </div>
 
       <hr>
-      <div id="DivCocentradoVentas"></div>
     </div>
+    <div id="DivCocentradoVentas"></div>
 
   </div>
 

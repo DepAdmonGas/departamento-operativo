@@ -78,8 +78,9 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
-      <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+     
+    <div class="row">
+        <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
@@ -104,9 +105,8 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
         </div>
 
-        <div class="row">
           <div class="col-12" id="DivMonederoKPI"></div>
-        </div>
+
 
 
       </div>

@@ -12,7 +12,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="modal-header">
-  <h5 class="modal-title">Archivos aceites</h5>
+  <h5 class="modal-title">Archivos de aceites</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -38,7 +38,7 @@ $numero_lista = mysqli_num_rows($result_lista);
     </select>
   </div>
 
-  <div class="col-xl-12 mb-2">
+  <div class="col-12 mb-3">
     <div class="mb-1 text-secondary">Agregar archivo</div>
     <input class="form-control" type="file" id="facturaAceite">
   </div>
@@ -71,7 +71,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
           }
         } else {
-          echo "<tr><th colspan='4' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+          echo "<tr><th colspan='4' class='text-center text-secondary no-hover2 fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
         }
 
         ?>
@@ -83,9 +83,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
 
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-labeled2 btn-primary float-end m-2"
-      onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar
-    </button>
-  </div>
+
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success"  onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)"> 
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+  </di>

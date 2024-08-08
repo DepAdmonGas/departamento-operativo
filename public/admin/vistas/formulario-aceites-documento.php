@@ -20,11 +20,14 @@ $mes = $_GET['mes'];
         <div class="mb-1 mt-3 text-secondary">Factura venta mostrador</div>
         <input class="form-control" type="file" id="Factura">
 </div>
+
+
 <div class="modal-footer ">
-    <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+    <button type="button" class="btn btn-labeled2 btn-danger" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
         <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar
     </button>
-    <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
         <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar
     </button>
 </div>
