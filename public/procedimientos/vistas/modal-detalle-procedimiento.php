@@ -42,9 +42,9 @@ while ($row_listProcedimiento = mysqli_fetch_array($result_listProcedimiento, MY
         </div>
 
 
-        <div class="col-12 mb-2">
-            <iframe class="border-0 mt-2 mb-3" src="<?php echo RUTA_ARCHIVOS ?>/procedimientos-modulos/<?= $archivo; ?>"
-                width="100%" height="600px">
+        <div class="col-12">
+            <iframe class="border-0 mt-2" src="<?=RUTA_ARCHIVOS ?>/procedimientos-modulos/<?= $archivo; ?>"
+                width="100%" height="650px">
             </iframe>
 
         </div>
@@ -54,9 +54,10 @@ while ($row_listProcedimiento = mysqli_fetch_array($result_listProcedimiento, MY
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-primary float-end m-2" data-bs-dismiss="modal">
+<button type="button" class="btn btn-labeled2 btn-danger float-end" data-bs-dismiss="modal">
     <span class="btn-label2"><i class="fa fa-x"></i></span>Cerrar</button>
-  <button type="button" class="btn btn-labeled2 btn-danger float-end m-2"
+
+  <button type="button" class="btn btn-labeled2 btn-success float-end"
     onclick="eliminarProcedimiento(<?= $idProcedimiento ?>,'<?= $GET_idModulo ?>')">
     <span class="btn-label2"><i class="fa fa-check"></i></span>Eliminar</button>
 </div>
