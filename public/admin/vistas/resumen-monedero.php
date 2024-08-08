@@ -399,7 +399,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
                       <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen Monedero por Periodo</a>
                     </li>
 
-                    <li onclick="Clientes(<?= $idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                    <li>
                       <a href="../../../../public/admin/vistas/descargar-resumen-monedero.php?idEstacion=<?= $GET_idEstacion; ?>&year=<?= $GET_year; ?>&mes=<?= $GET_mes; ?>" download
                       class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Excel</a>
                     </li>
