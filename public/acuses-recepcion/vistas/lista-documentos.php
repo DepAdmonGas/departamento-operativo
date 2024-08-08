@@ -9,8 +9,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 ?>
 
+
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .8em;">
+<table id="tabla_bitacora" class="custom-table mt-2" style="font-size: .8em;" width="100%">
 <thead class="tables-bg">
  <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>
@@ -21,7 +22,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 $num = 1;
@@ -52,7 +54,7 @@ echo '</tr>';
 $num++;
 }
 }else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='7' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>

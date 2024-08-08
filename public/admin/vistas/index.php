@@ -148,7 +148,7 @@ require ('app/help.php');
     </nav>
 
 
-
+ 
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
 
@@ -164,11 +164,11 @@ require ('app/help.php');
           </div>
 
           <div class="row">
-            <div class="col-10">
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Dirección de
                 operaciones</h3>
             </div>
-            <div class="col-2">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
               <?php if ($session_nompuesto == "Dirección de operaciones") { ?>
                 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="ProcedimientosAdmin()">
                   <span class="btn-label2"><i class="fa-solid fa-briefcase"></i></span>Procedimientos
@@ -182,7 +182,7 @@ require ('app/help.php');
         </div>
 
 
-        <div class="row mt-4">
+        <div class="row">
 
           <!----------- 1 Corporativo  -------->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
