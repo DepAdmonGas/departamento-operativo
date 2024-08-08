@@ -1161,7 +1161,7 @@ class CorteDiario extends Exception
         if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
         endif;
-        $stmt->bind_param("isssss", $idEstacion, $cuenta, $cliente, $tipo, $rfc, $estado);
+        $stmt->bind_param("issssi", $idEstacion, $cuenta, $cliente, $tipo, $rfc, $estado);
         if (!$stmt->execute()):
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
@@ -1198,7 +1198,7 @@ class CorteDiario extends Exception
             $folder = "../../../archivos/" . $aleatorio . "-" . $documentoNombre;
             $nombre = $aleatorio . "-" . $documentoNombre;
             move_uploaded_file($doc[$indice]['tmp_name'], $folder);
-            $sql = "INSERT op_cliente SET $campo WHERE id_estacion=?";
+            $sql = "UPDATE op_cliente SET $campo WHERE id_estacion=?";
             $stmt = $this->con->prepare($sql);
             $stmt->bind_param("si", $nombre, $idEstacion);
             $stmt->execute();
@@ -1277,9 +1277,9 @@ class CorteDiario extends Exception
         $stmt->close();
         return $result;
     }
-    public function editarSaldoInicial(int $id,float $total): string
+    public function editarSaldoInicial(int $id,float $total): int
     {
-        $result = "";
+        $result = 0;
         $sql = "UPDATE op_consumos_pagos_resumen SET saldo_inicial=? WHERE id=? ";
         $stmt = $this->con->prepare($sql);
         if( !$stmt ):
@@ -1287,14 +1287,17 @@ class CorteDiario extends Exception
         endif;
         $stmt->bind_param("di", $total,$id);
         if( !$stmt->execute() ):
-            $sql_credito = "SELECT 
+            throw new Exception("Erros al preparar la consulta". $this->con->error);
+        endif;
+        $stmt->close();
+        $sql_credito = "SELECT 
             op_consumos_pagos_resumen.saldo_inicial,
             op_consumos_pagos_resumen.consumos,
-            op_consumos_pagos_resumen.pagos,
+            op_consumos_pagos_resumen.pagos
             FROM op_consumos_pagos_resumen
             INNER JOIN op_cliente 
             ON op_consumos_pagos_resumen.id_cliente = op_cliente.id
-            WHERE op_consumos_pagos_resumen.id = '".$_POST['id']."' ";
+            WHERE op_consumos_pagos_resumen.id = ? ";
             $stmt2 = $this->con->prepare($sql_credito);
             if( !$stmt2 ):
                 throw new Exception("Erros al preparar la consulta". $this->con->error);
@@ -1306,18 +1309,16 @@ class CorteDiario extends Exception
                 $saldofinalC = $saldo_inicial + $consumos - $pagos;
             endwhile;
             $stmt2->close();
-            $sql1 = "UPDATE op_consumos_pagos_resumen SET saldo_final='".$saldofinalC."' WHERE id='".$_POST['id']."' ";
+            $sql1 = "UPDATE op_consumos_pagos_resumen SET saldo_final=? WHERE id=? ";
             $stmt3 = $this->con->prepare($sql1);
-            if(! !$stmt3 ):
+            if(!$stmt3 ):
                 throw new Exception("Error al preparar la consulta ". $this->con->error);
             endif;
             $stmt3->bind_param("di",$saldofinalC,$id);
             if ($stmt3->execute()) :
-                $result =  "$ ".number_format($saldofinalC,2);
+                $result =  $saldofinalC;
             endif;
             $stmt3->close();
-        endif;
-        $stmt->close();
         return $result;
     }
     public function finalizaResumenClientesMes(int $id):void {

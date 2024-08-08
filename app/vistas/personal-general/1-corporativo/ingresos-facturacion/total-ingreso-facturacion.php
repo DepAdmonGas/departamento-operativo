@@ -1,5 +1,5 @@
 <?php
-require ('../../../app/help.php');
+require '../../../../help.php';
 
 $idReporte = $_GET['idReporte'];
 
@@ -10,7 +10,20 @@ $numeroP1 = mysqli_num_rows($resultP1);
 $sqlP2 = "SELECT * FROM op_ingresos_facturacion_contabilidad WHERE id_year = '" . $idReporte . "' AND posicion = 2";
 $resultP2 = mysqli_query($con, $sqlP2);
 $numeroP2 = mysqli_num_rows($resultP2);
+$TCE1 = 0;
+    $TCF1 = 0;
+    $TCM1 = 0;
+    $TCA1 = 0;
+    $TCMY1 = 0;
+    $TCJN1 = 0;
+    $TCJL1 = 0;
+    $TCAS1 = 0;
+    $TCS1 = 0;
+    $TCO1 = 0;
+    $TCN1 = 0;
+    $TCD1 = 0;
 
+    $TCTEJ1 = 0;
 
 while ($rowP1 = mysqli_fetch_array($resultP1, MYSQLI_ASSOC)) {
     $id = $rowP1['id'];
@@ -106,7 +119,20 @@ while ($rowP1 = mysqli_fetch_array($resultP1, MYSQLI_ASSOC)) {
     $TCTEJ1 = $TCTEJ1 + $totalEj1;
 
 }
+$TCE2 = 0;
+    $TCF2 = 0;
+    $TCM2 = 0;
+    $TCA2 = 0;
+    $TCMY2 = 0;
+    $TCJN2 = 0;
+    $TCJL2 = 0;
+    $TCAS2 = 0;
+    $TCS2 = 0;
+    $TCO2 = 0;
+    $TCN2 = 0;
+    $TCD2 = 0;
 
+    $TCTEJ2 =0;
 while ($rowP2 = mysqli_fetch_array($resultP2, MYSQLI_ASSOC)) {
     $id = $rowP2['id'];
 
