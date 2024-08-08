@@ -23,7 +23,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
     <div class="table-responsive">
       <table class="custom-table" style="font-size: .75em;" width="100%">
-        <thead class="title-table-bg">
+        <thead class="tables-bg">
           <th class="align-middle text-center">FECHA</th>
           <th class="align-middle text-center">FICHA DEPOSITO FALTANTE</th>
           <th class="align-middle text-end">IMAGEN DE BODEGA</th>
@@ -69,9 +69,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
               echo '<td class="align-middle" width="20">
-<img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $row_lista['id'] . ')">
-</td>';
-              echo '<td class="align-middle" width="20">' . $eliminar . '</td>';
+    <img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $row_lista['id'] . ')">
+    </td>';
+                  echo '<td class="align-middle" width="20">' . $eliminar . '</td>';
               echo '</tr>';
 
             }
@@ -82,11 +82,12 @@ $numero_lista = mysqli_num_rows($result_lista);
         </tbody>
       </table>
     </div>
-    <div class="modal-footer">
+
+  </div>
+  </div>
+  <div class="modal-footer">
       <button type="button" class="btn btn-labeled2 btn-primary float-end"
         onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
         <span class="btn-label2"><i class="fa fa-plus"></i></span>Nuevo
       </button>
     </div>
-
-  </div>

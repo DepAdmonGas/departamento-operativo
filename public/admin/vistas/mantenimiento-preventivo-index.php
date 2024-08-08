@@ -143,7 +143,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
     processData: false,
     cache: false
     }).done(function(data){
-
     if(data == 1){
       sizeWindow()
       alertify.success('Registro agregado exitosamente')

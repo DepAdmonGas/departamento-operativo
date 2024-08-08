@@ -6,7 +6,6 @@ $idReporte = $_GET['idReporte'];
 $sql_lista = "SELECT * FROM op_ingresos_facturacion_archivo WHERE id_year = '" . $idReporte . "' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
-
 ?>
 
 <div class="modal-header">

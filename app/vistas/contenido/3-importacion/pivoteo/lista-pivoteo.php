@@ -64,7 +64,7 @@ $Estacion = '('.$datosEstacion['nombre'].')';
   $status = $row_lista['estatus'];
 
   if($status == 0){
-  $tableColor = 'style="background-color: #fcfcda"';
+  $tableColor = 'style="background-color: #ffb6af"';
   $Detalle = '  <a class="dropdown-item grayscale"><i class="fa-regular fa-eye"></i> Detalle</a> ';
   $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a> ';
   $GMAIL = '<a class="dropdown-item grayscale '.$ocultarOp.'"><i class="fa-regular fa-envelope"></i> Envio por correo</a> ';
@@ -72,7 +72,7 @@ $Estacion = '('.$datosEstacion['nombre'].')';
   $Eliminar = '<a class="dropdown-item" onclick="Eliminar(' . $idEstacion . ',' . $id . ')"><i class="fa-regular fa-trash-can"></i> Eliminar</a> ';  
 
   }else if ($status == 1){
-  $tableColor = 'style="background-color: #ffb6af"';
+  $tableColor = 'style="background-color: #fcfcda"';
   $Detalle = '<a class="dropdown-item" onclick="VerPivoteo(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a> ';
   $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a> ';
   $GMAIL = '<a class="dropdown-item grayscale '.$ocultarOp.'"><i class="fa-regular fa-envelope"></i> Envio por correo</a> ';

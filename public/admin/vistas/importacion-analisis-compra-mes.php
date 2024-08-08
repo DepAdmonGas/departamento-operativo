@@ -36,7 +36,10 @@ if ($Session_IDUsuarioBD == "") {
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
+      sessionStorage.removeItem('idestacion');
+      sessionStorage.removeItem('depu');
+      sessionStorage.removeItem('year');
+      sessionStorage.removeItem('mes');
     });
 
     function Regresar() {

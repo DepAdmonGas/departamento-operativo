@@ -15,7 +15,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 <div class="table-responsive">
 <table id="tabla_refacciones_a" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
   <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>
   <th class="text-center align-middle tableStyle font-weight-bold">Nombre Refacción</th>

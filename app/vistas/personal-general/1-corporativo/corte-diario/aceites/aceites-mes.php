@@ -256,37 +256,28 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
-        
-      <div class="col-12">
-        <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-          <ol class="breadcrumb breadcrumb-caret">
-            <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-                  class="fa-solid fa-chevron-left"></i>
-  Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
-            <li aria-current="page" class="breadcrumb-item active text-uppercase">
-              Resumen Aceites (<?=$ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
-            </li>
-          </ol>
-        </div> 
-        <div class="row">
-          <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
-            <h3 class="text-secondary">
-              Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes)?> <?=$GET_year?>)
-            </h3>
+
+        <div class="col-12">
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>)
+              </li>
+            </ol>
           </div>
-          
-          <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12  d-flex justify-content-end ">
-            <?php
-                if ($InventarioFin == 0) :
-                  echo '
-                    <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">
-                      <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar y Finalizar
-                    </button>
-                    ';
-                endif;
-              ?>
-            <div class="dropdown ms-3" >
-              <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+          <div class="row">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+              <h3 class="text-secondary">
+                Resumen Aceites (<?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>)
+              </h3>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+
+              <button type="button" class="btn dropdown-toggle btn-primary float-end" id="dropdownMenuButton1"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
               </button>
@@ -300,16 +291,23 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
                     Documentos</a>
                 </li>
               </ul>
-    
+              <?php
+              if ($InventarioFin == 0):
+                echo '
+                  <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarFinalizar(' . $IdReporte . ', ' . $Session_IDEstacion . ', \'' . $session_nomestacion . '\')">
+                    <span class="btn-label2"><i class="fa-solid fa-check"></i></span>Finalizar</button>
+                    ';
+              endif;
+              ?>
+
             </div>
+
           </div>
-          
+          <hr>
         </div>
-        <hr>
-      </div>
 
 
-      <div class="col-12" id="DivReporteAceites"></div>
+        <div class="col-12" id="DivReporteAceites"></div>
 
       </div>
 

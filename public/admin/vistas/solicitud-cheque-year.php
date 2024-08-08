@@ -31,7 +31,10 @@ require ('app/help.php');
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
+      sessionStorage.removeItem('idestacion');
+      sessionStorage.removeItem('depu');
+      sessionStorage.removeItem('year');
+      sessionStorage.removeItem('mes');
     });
 
     function Regresar() {
@@ -100,7 +103,7 @@ require ('app/help.php');
           }
         }
         echo '
-            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2 ' . $icon . '">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2 mt-2 ' . $icon . '">
               <article class="plan card2 border-0 shadow position-relative" onclick="SolicitudCheque(' . $GET_year . ',' . $i . ')">
                 <div class="inner">
                   <div class="row">

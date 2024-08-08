@@ -25,12 +25,7 @@ status
     '".$Session_IDEstacion."',
     '".$Session_IDUsuarioBD."',
     '".$fecha_del_dia."',
-    '".$hora_del_dia."',
-    '',
-    '',
-
-    '',
-    0
+    '".$hora_del_dia."'
     )";
 
 if(mysqli_query($con, $sql_insert)){

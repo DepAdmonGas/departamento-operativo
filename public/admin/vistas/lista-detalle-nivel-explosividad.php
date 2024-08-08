@@ -86,13 +86,13 @@ return $nombre;
   <div class="table-responsive">
   <table class="custom-table mb-3" style="font-size: 12.5px;" width="100%">
 
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
 
-  <tr class="tables-bg">
+  <tr>
   <th class="align-middle text-center" colspan="3" >Estacion de Servicio:<?=$Estacion;?>, <?=$Cre;?></th>
   </tr>
 
-  <tr>
+  <tr class="title-table-bg">
   <td class="align-middle text-center"><b>FOLIO:</b> 00<?=$folio;?></td>
   <td class="align-middle text-center"><b>REFERENCIA:</b> NOM 005 ASEA 2016</td>
   <td class="align-middle text-center"><b>FECHA:</b> <?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha);?></td>
@@ -147,7 +147,7 @@ return $nombre;
   <div class="col-xl-9 col-lg-9 col-md-6 col-sm-12 mb-3">
   <div class="table-responsive">
   <table class="custom-table mb-3" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr>
   <th class="align-middle text-center">Detalle</th>
   <th class="align-middle text-center">PPM</th>
@@ -199,7 +199,7 @@ return $nombre;
   <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
   <div class="table-responsive">
   <table class="custom-table" style="font-size: 12.5px;" width="100%">
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr> <th class="align-middle text-center">PARTICULAS POR MILLON PPM</th> </tr>
   </thead>
   <tbody>
@@ -228,7 +228,7 @@ return $nombre;
 
     echo '  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
     <table class="custom-table" style="font-size: 14px;" width="100%">
-    <thead class="title-table-bg">
+    <thead class="tables-bg">
     <tr> <th class="align-middle text-center">'.$row_firma['tipo_firma'].'</th> </tr>
     </thead>
     <tbody class="bg-light">

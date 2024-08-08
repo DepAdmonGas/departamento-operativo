@@ -22,11 +22,6 @@ $ocultarTB = "";
 <label class="text-secondary">Imagen:</label>
 <div><input type="file" class="form-control" id="Imagen"></div>
 
-<div class="text-end mt-3">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarEvidencia(<?=$idEstacion;?>,<?=$idReporte;?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-</div>
-
 <hr>
 
 <?php  
@@ -70,6 +65,10 @@ echo '<div class="border mt-2 p-2">
 
 ?>
 
-</div> 
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarEvidencia(<?=$idEstacion;?>,<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+</div>
 
   

@@ -364,7 +364,11 @@ $corteDiarioGeneral->actualizarIF($IdReporte);
   <div class="modal-content" id="DivContenidoModal">
   </div>
   </div>
-  
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 </body>
 
 </html>

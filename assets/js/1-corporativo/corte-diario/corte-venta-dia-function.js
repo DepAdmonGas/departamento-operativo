@@ -640,7 +640,7 @@ function EditPrecioOtros(val, idReporte, idOtros) {
     complete: function () {
     },
     success: function (response) {
-      console.log(response);
+  
       if (response == 0) {
         Ventas(idReporte);
       } else {
@@ -844,7 +844,6 @@ function ActualizarVentasAL(idReporte) {
 
     },
     success: function (response) {
-      console.log(response);
       if (response == 0) {
         AceitesLubricantes(idReporte);
       } else {
@@ -894,7 +893,6 @@ function FirmarCorte(idReporte, sessionIdUsuario, sessionNomEstacion) {
 
         },
         success: function (response) {
-          console.log(response);
 
           if (response == 1) {
             location.reload();

@@ -57,7 +57,7 @@ while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
 $idDocumento = $row_documento['id'];
 
 echo '<tr>';
-echo '<td class="align-middle font-weight-light">'.$row_documento['nombre'].'</td>';
+echo '<th class="align-middle font-weight-light">'.$row_documento['nombre'].'</th>';
 echo '<td class="align-middle font-weight-light"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png"></a></td>';
 echo '<td class="align-middle font-weight-light"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarArchivo('.$year.','.$mes.','.$idEstacion.','.$depu.','.$idReporte.','.$idDocumento.')"></td>';
 echo '</tr>';

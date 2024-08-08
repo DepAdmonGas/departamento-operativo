@@ -53,7 +53,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   <div class="table-responsive">
   <table id="tabla_nivel_explosividad_<?=$idEstacion?>" class="custom-table" style="font-size: 12.5px;" width="100%">
 
-  <thead class="title-table-bg">
+  <thead class="tables-bg">
   <tr>
   <th class="align-middle text-center" width="84px">Folio</th>
   <th class="align-middle text-start">Fecha</th>
