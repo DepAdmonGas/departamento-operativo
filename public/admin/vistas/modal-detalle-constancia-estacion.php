@@ -16,7 +16,7 @@ $nombreES = $row_estaciones['localidad'];
 
 <div class="modal-header">
 <h5 class="modal-title">Constancia Situacion Fiscal <?=$nombreES?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -31,14 +31,9 @@ $nombreES = $row_estaciones['localidad'];
 <input class="form-control" type="file" id="archivoCSF">
 </div>
 
-<div class="text-end mt-3">
-<button type="button" class="btn btn-primary " onclick="AgregarCSF(<?=$idEstacion;?>)">Agregar</button>
-</div>
-
-<hr>
  
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<table class="custom-table mt-3"  style="font-size: .9em;" width="100%">
 
 <thead class="tables-bg">
   <th class="text-center align-middle text-center" width="40"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
@@ -46,6 +41,7 @@ $nombreES = $row_estaciones['localidad'];
   <th class="text-center align-middle text-center" width="40"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
 </thead> 
 
+<tbody class="bg-light">
 <?php 
 $sql_lista = "SELECT * FROM tb_constancia_fiscal_es WHERE id_estacion = ".$idEstacion." ORDER BY fecha DESC";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -59,21 +55,26 @@ $fecha = FormatoFecha($row_lista['fecha']);
 
  
 echo '<tr>';
-echo '<td class="align-middle text-center">
+echo '<th class="align-middle text-center">
 <a class="pointer" href="'.RUTA_ARCHIVOS.'constancia-situacion-es/'.$row_lista['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png'.'"></a>
-</td>';
+</th>';
 echo '<td class="align-middle text-center">'.$fecha.'</td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarCSF('.$GET_idCSF.','.$idEstacion.')"></td>';
 echo '</tr>';
 $num++;
 }
 }else{
-echo "<tr><td colspan='5' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><td colspan='5' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></td></tr>";
 }
 ?>
-
+</tbody>
 </table>
 </div>
 
 </div>
 
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarCSF(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+</div>

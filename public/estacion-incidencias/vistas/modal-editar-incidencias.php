@@ -2,14 +2,6 @@
 require('../../../app/help.php');
 $idIncidencia = $_GET['idIncidencia'];
 
-
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
-$result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
-}
-
-
 $sql_lista = "SELECT * FROM op_incidencias_estaciones WHERE id_incidencias_estaciones = '".$idIncidencia."'";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
@@ -26,12 +18,19 @@ $comentarios = $row_lista['comentarios'];
 $archivo = $row_lista['archivo'];
 }
 
+$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$id_estacion."' ";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
+$estacion = $row_listaestacion['nombre'];
+}
+
+
 ?> 
  
  
  <div class="modal-header">
-  <h5 class="modal-title">Detalle Incidencia <?=$estacion?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Editar Incidencia (<?=$estacion?>)</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
@@ -63,5 +62,6 @@ $archivo = $row_lista['archivo'];
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="EditarIncidencia(<?=$idIncidencia;?>,<?=$id_estacion;?>)">Editar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarIncidencia(<?=$idIncidencia;?>,<?=$id_estacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
 </div>

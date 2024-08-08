@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
- 
 $sql = "SELECT nombre, usuario, password FROM tb_usuarios WHERE id = '".$Session_IDUsuarioBD."' ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -75,8 +71,6 @@ $('#mostrar_usuario').click(function () {
   $(".LoaderPage").fadeOut("slow");
   $('[data-toggle="tooltip"]').tooltip();
 
-  FirmaUsuario();
-
   });
 
     function Regresar(){
@@ -137,13 +131,14 @@ function Editar(IDUsuarioBD){
         $(".LoaderPage").show();
          },
          complete: function(){
-        $('#Result').html("");
+        $('#Result').html(""); 
          },
          success:  function (response) {
 
+
           if(response == 1){
           $(".LoaderPage").hide();
-          alertify.message('El usuario y contraseña fueron editados');
+          alertify.success('El usuario y contraseña fueron editados');
           window.setTimeout("Cargar()",1000);
            
           }else{
@@ -162,7 +157,7 @@ function Editar(IDUsuarioBD){
   }else{
   $('#PasswordOriginal').css('border','2px solid #A52525');
   $('#PasswordCopia').css('border','2px solid #A52525');
-  $('#ResultPassword').html('<div class="text-center text-danger" style="padding: 10px;">Verifique que las contraseñas coincidan</div>');
+  alertify.warning('Verifique que las contraseñas coincidan');
   }
   }else{
   $('#PasswordCopia').css('border','2px solid #A52525');
@@ -189,125 +184,122 @@ function Editar(IDUsuarioBD){
 
    <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+  <div class="cardAG p-3 container">
+  <div class="row">
+
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item" onclick="history.back()"><a class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Portal</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Perfil (<?=$nombre;?>)</li>
+  </ol>
+  </div>
 
   <div class="row">
+  <div class="col-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Perfil (<?=$nombre;?>)</h3>
+  </div>
+  </div>
+
+  <hr>
+  </div>
+
+
   <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3"> 
+  <div class="table-responsive">
 
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">Usuario</th> 
+  <th class="align-middle text-center" colspan="2">Contraseña</th> 
+  </tr>
+  </thead>
 
-  <div class="row">
-  <div class="col-12"> 
-  <h5>Perfil</h5> 
-  <hr>
-  </div>
-  </div>
-
-  <div class="row justify-content-md-center">
-
-  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-3">
-  <div class="border p-3">
-
-  <h5><?=$nombre;?></h5>
-  <hr>
-    
-    <div class="row">    
-    
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-    <div class="text-secondary font-weight-light">Usuario:</div>
-    <div>
-    <a id="mostrar_usuario" class="pointer">
-    <img src="<?php echo RUTA_IMG_ICONOS."icon-detalle.png"; ?>">
-    </a>
-    <input type="password" id="UsuarioPerfil" style="font-size: 1.2em;border: 0;" value="<?php echo $usuario; ?>" readonly />
-    </div> 
-  </div>
-
-    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-    <div class="text-secondary font-weight-light">Contraseña:</div>
-    <div>
-    <a id="mostrar_password" class="pointer">
-    <img src="<?php echo RUTA_IMG_ICONOS."icon-detalle.png"; ?>">
-    </a>
-    <input type="password" id="PasswordPerfil" style="font-size: 1.2em;border: 0;" value="<?php echo $password; ?>" readonly />
-    </div>
-  </div>
+  <tbody class="bg-light">
+  <tr>
+  <th class="align-middle text-center bg-light" width="40px">
+  <a id="mostrar_usuario" class="pointer">
+  <img src="<?=RUTA_IMG_ICONOS."ver-tb.png"; ?>">
+  </a>
+  </th>
+  <th class="align-middle text-center bg-light"><input class="bg-light" type="password" id="UsuarioPerfil" style="font-size: 1.2em;border: 0;" value="<?=$usuario?>" readonly disabled/></th>
+  <th class="align-middle text-center bg-light" width="40px">    
+  <a id="mostrar_password" class="pointer">
+  <img src="<?=RUTA_IMG_ICONOS."ver-tb.png"; ?>">
+  </a></th>
+  <th class="align-middle text-center bg-light"><input class="bg-light" type="password" id="PasswordPerfil" style="font-size: 1.2em;border: 0;" value="<?=$password?>" readonly disabled/>  </th>
+  </tr>
+  </tbody>
+  </table>
 
   </div>
-
-      </div> 
-      </div>
+  </div>
 
 
-      <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-3">
-        <div class="border p-3">
+  <div class="col-12">
           
-        <div class="form-group">
-        <div class="row no-gutters">
+  <div class="form-group mb-3">
+  <div class="row no-gutters">
        
-        <div class="col-10 mb-2">
-        <div class="text-secondary font-weight-light mb-1">Usuario:</div>
-        <input class="form-control input-style" type="text" id="NomUsuario" value="<?=$usuarioPerfil;?>" placeholder="Usuario" style="border-radius: 0px;">
-        </div>
-        <div class="col-2 mb-2">
-        <br>
-        <div class="text-center" style="margin-top: 10px;">
-        <a onclick="UsuarioAleatorio()" class="pointer">
-        <img src="<?php echo RUTA_IMG_ICONOS."aleatorio.png"; ?>">
-        </a>
-        </div>
-        </div>
-        </div>
-        </div>
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <div class="text-secondary font-weight-light mb-1">Usuario:</div>
+  <input class="form-control input-style" type="text" id="NomUsuario" value="<?=$usuario;?>" placeholder="Usuario" style="border-radius: 0px;" >
+  </div>
 
-        <div class="row ">
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+  <br>
+  <div class="text-center">
+  <a onclick="UsuarioAleatorio()" class="pointer">
+  <button type="button" class="btn btn-labeled2 btn-primary">
+  <span class="btn-label2"><i class="fa-solid fa-shuffle"></i></span>Crear usuario aleatorio</button>
+  </a>
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="row ">
         
-        <div class="col-10 col-md-5 mb-2">
-        <div class="text-secondary font-weight-light mb-1">Contraseña:</div>
-        <input class="form-control input-style" type="text" id="PasswordOriginal" value="<?=$passwordPerfil;?>" placeholder="Contraseña">
-        </div>
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+  <div class="text-secondary font-weight-light mb-1">Contraseña:</div>
+  <input class="form-control input-style" type="password" id="PasswordOriginal" value="<?=$password;?>" placeholder="Contraseña">
+  </div>
 
-        <div class="col-2 col-md-2 mb-2">
-        <br>
-        <div class="text-center" style="margin-top: 10px;">
-        <a onclick="PasswordAleatorio()">
-        <img src="<?php echo RUTA_IMG_ICONOS."aleatorio.png"; ?>">
-        </a>
-        </div>
-        </div>
-
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">        
-        <div class="text-secondary font-weight-light mb-1">Repite Contraseña:</div>
-        <input class="form-control input-style" type="password" id="PasswordCopia" value="<?=$passwordPerfil;?>"  placeholder="Repetir contraseña">
-        </div>
-
-        </div>
-
-        <div id="ResultPassword"></div>
-
-        <hr>
-
-        <div class="text-end mt-3">
-        <button type="button" class="btn btn-primary" onclick="Editar(<?=$Session_IDUsuarioBD;?>)">Editar acceso</button>
-        </div>
-
-      </div>
-      </div>
-
-
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <br>
+  <div class="text-center">
+  <a onclick="PasswordAleatorio()">
+  <button type="button" class="btn btn-labeled2 btn-primary">
+  <span class="btn-label2"><i class="fa-solid fa-shuffle"></i></span>Crear contraseña aleatoria</button>
+  </a>
   </div>
   </div>
-  </div>  
+
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+  <div class="text-secondary font-weight-light mb-1">Repite Contraseña:</div>
+  <input class="form-control input-style" type="password" id="PasswordCopia" value="<?=$password;?>"  placeholder="Repite tu contraseña">
   </div>
+
+  <div class="col-12">
+  <hr>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Editar(<?=$Session_IDUsuarioBD;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Editar acceso</button>
+  </div>
+
   </div>
 
   </div>
   </div>
+  </div> 
+  </div>
 
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
   </body>
-   </html>
+  </html>

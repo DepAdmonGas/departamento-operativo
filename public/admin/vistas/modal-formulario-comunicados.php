@@ -1,7 +1,6 @@
- <div class="modal-header">
+<div class="modal-header">
 <h5 class="modal-title">Agregar comunicado</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -30,6 +29,10 @@
     
   
   <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-success" onclick="DocumentoComunicado()">Agregar</button>
+  <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+  <span class="btn-label2"><i class="fa fa-xmark"></i></span>Cancelar</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="DocumentoComunicado()">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+
   </div> 

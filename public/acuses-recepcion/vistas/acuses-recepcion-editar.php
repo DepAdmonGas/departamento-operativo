@@ -1,11 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 $sql = "SELECT * FROM op_acuse_recepcion WHERE id = '".$GET_idReporte."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
@@ -16,6 +11,7 @@ $Empresa = $row['empresa'];
 }
 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -105,6 +101,7 @@ $Empresa = $row['empresa'];
             $('#Copia').prop("checked", false);
 
             ListaDocumentos(idReporte)
+            alertify.success('Documento agregado exitosamente.');
 
           }
         }
@@ -143,6 +140,8 @@ alertify.confirm('',
     if (response == 1) {
 
    ListaDocumentos(idReporte)  
+   alertify.success('Documento eliminado exitosamente.');
+
     }
 
     }
@@ -251,94 +250,97 @@ $('#DataEmpresa').css('border','2px solid #A52525');
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+  <div class="cardAG p-3 container">
   <div class="row">
 
+
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item" onclick="history.back()"><a class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Acuses de Recepción</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Acuses de Recepción</li>
+  </ol>
+  </div>
+
+  <div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-1">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Formulario Acuses de Recepción</h3>
+  </div>
+  
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-1">
+  <div class="text-end">
+  <button type="button" class="btn btn-labeled2 btn-danger ms-2" onclick="EliminarAcuse(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa-regular fa-trash-can"></i></span>Eliminar acuse</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success ms-2" onclick="Finalizar(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar Acuse</button>
+  </div>
+  </div>
+
+  </div>
+
+  <hr>
+  </div>
+
+
   <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="text-secondary">Fecha:</div>
+  <?=$ClassHerramientasDptoOperativo->FormatoFecha($Fecha)?>
+  </div>
 
-    <div class="row">
-    <div class="col-11">
+  <div class="col-12">
+  <div class="mb-1 text-secondary mb-1">Empresa:</div>
+  <input class="form-control rounded-0" type="text" multiple list="Empresa" id="DataEmpresa" value="<?=$Empresa;?>" />
+  <datalist id="Empresa">
+  <?php 
+  $sql = "SELECT razonsocial FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
+  $result = mysqli_query($con, $sql);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  echo '<option value="'.$row['razonsocial'].'">'.$row['razonsocial'].'</option>';
+  }
+  ?>
+  </datalist>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-    <h5>Acuses de Recepción editar</h5>
-    </div>
-    </div>
 
-    </div>
-    </div>
-    <hr>
+  <div class="col-12">
+  <hr>
 
-    <div class="text-end">
-    <button type="button" class="btn btn-sm btn-danger" onclick="EliminarAcuse(<?=$GET_idReporte;?>)">Eliminar acuse</button>
-    </div>
+  <div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <h5>Documentos a entregar</h5>
+  </div>
 
-    <div class="row">
-      <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Guardar(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar documento</button>
+  </div>
 
-      <h5><?=FormatoFecha($Fecha);?></h5>
+  <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12  mb-3">
+    <div class="mb-2 text-secondary mt-2">Nombre del documento:</div>
+    <textarea class="form-control rounded-0" rows="1" id="NomDocumento"></textarea>
+  </div>
+  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12  mb-3">
+    <div class="mb-2 text-secondary mt-2">Número paginas:</div>
+    <input type="number" class="form-control rounded-0" id="NumPaginas">
+  </div>
 
-      <div class="mb-1 text-secondary mt-2 mb-2">Empresa:</div>
-      <input class="form-control rounded-0" type="text" multiple list="Empresa" id="DataEmpresa" value="<?=$Empresa;?>" />
-      <datalist id="Empresa">
-      <?php 
-        $sql = "SELECT razonsocial FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
-        $result = mysqli_query($con, $sql);
-        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          echo '<option value="'.$row['razonsocial'].'">'.$row['razonsocial'].'</option>';
-        }
-        ?>
-      </datalist>
+  <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 mb-3">
+    <div class="mb-2 text-secondary mt-2 text-center">Original:</div>
+    <div class="text-center"><input type="checkbox" id="Original" /></div>
+  </div>
 
-      </div>
-      <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12">
+  <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6 mb-3">
+    <div class="mb-2 text-secondary mt-2 text-center">Copia:</div>
+    <div class="text-center"><input type="checkbox" id="Copia" /></div>
+  </div>
 
-         <h5>Documentos a entregar</h5>
+  <div class=" col-12" id="ListaDocumentos"></div>
+  </div>
+  </div>
 
-        <div class="border p-2">
-        <div class="row">
-          <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12">
-            <div class="mb-2 text-secondary mt-2">Nombre del documento:</div>
-            <textarea class="form-control rounded-0" rows="1" id="NomDocumento"></textarea>
-          </div>
-          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-            <div class="mb-2 text-secondary mt-2">Número paginas:</div>
-            <input type="number" class="form-control rounded-0" id="NumPaginas">
-          </div>
 
-          <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6">
-            <div class="mb-2 text-secondary mt-2 text-center">Original:</div>
-            <div class="text-center"><input type="checkbox" id="Original" /></div>
-          </div>
-
-          <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6">
-            <div class="mb-2 text-secondary mt-2 text-center">Copia:</div>
-            <div class="text-center"><input type="checkbox" id="Copia" /></div>
-          </div>
-        </div>
-
-        <div class="text-end mt-2">
-          <button type="button" class="btn btn-sm btn-primary" onclick="Guardar(<?=$GET_idReporte;?>)">Agregar documento</button>
-        </div>
-
-        <hr>
-
-        <div id="ListaDocumentos"></div>
-
-        </div>
-        
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="text-end">
-    <button type="button" class="btn btn-success" onclick="Finalizar(<?=$GET_idReporte;?>)">Finalizar acuse de recepción</button>
-    </div>
-
+  </div>
   </div>
   </div>
   </div>
@@ -346,23 +348,6 @@ $('#DataEmpresa').css('border','2px solid #A52525');
   </div>
   </div>
 
-  </div>
-
-
-    <div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
-  </div>
-
-      <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

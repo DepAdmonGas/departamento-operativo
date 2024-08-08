@@ -1,10 +1,6 @@
  <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
- 
 ?>
 
 <html lang="es">
@@ -20,9 +16,10 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -36,11 +33,11 @@ header("Location:".PORTAL."");
    ListaComunicados();
   });
 
-
+ 
   function Regresar(){
    window.history.back();
-  }
- 
+  } 
+  
   
   function ListaComunicados(){
   $('#DivComunicados').load('../public/admin/vistas/lista-comunicados.php');
@@ -57,7 +54,7 @@ header("Location:".PORTAL."");
   function NewComunicado(){
    $('#Modal').modal('show');  
    $('#DivContenidoComunicados').load('../public/admin/vistas/modal-formulario-comunicados.php');
-  }
+  } 
 
   function DocumentoComunicado(){
 
@@ -131,12 +128,9 @@ header("Location:".PORTAL."");
   </script>
 
   </head>
- 
-<body> 
-<div class="LoaderPage"></div>
-
-
-
+  
+  <body> 
+  <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
@@ -145,36 +139,32 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item" onclick="history.back()"><a class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Portal</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Comunicados</li>
+  </ol>
+  </div>
 
-    <div class="row">
-    <div class="col-12">
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Comunicados</h3>
+  </div>
+  
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <div class="text-end">
+  <button type="button" class="btn btn-labeled2 btn-primary" onclick="NewComunicado()">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+  </div>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-11">
-     <h5>Comunicados</h5>
-    </div>
-
-    <div class="col-1">
-     <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="NewComunicado()">
-    </div>
-
-    </div>
-
-    </div>
-    </div>
+  </div>
 
   <hr>
+  </div>
 
-<div id="DivComunicados"></div>
-
-  </div>
-  </div>
-  </div>
+  <div class="col-12" id="DivComunicados"></div>
 
   </div>
   </div>
@@ -182,35 +172,24 @@ header("Location:".PORTAL."");
   </div>
 
 
-
-<div class="modal" id="Modal">
-<div class="modal-dialog">
-<div class="modal-content" style="margin-top: 83px;">
-
-<div id="DivContenidoComunicados"></div>
-
-</div>
- </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenidoComunicados">
+  </div>
+  </div>
   </div>
 
- 
-
-<div class="modal fade bd-example-modal-lg" id="ModalPDF">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-
-<div id="DivComunicadoPDF"></div>
-
-</div>
- </div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalPDF" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivComunicadoPDF"></div>
   </div>
-
-
-
+  </div>
+  
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
   </body>
   </html>

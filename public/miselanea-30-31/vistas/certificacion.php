@@ -1,12 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -37,32 +33,32 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow()
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-      idYear = sessionStorage.getItem('idYear');
-      $('#ListaDocumentos').load('../../public/miselanea-30-31/vistas/lista-etapa-certificacion.php?idEstacion=' + idestacion + '&idYear=' + idYear);
+  idestacion = sessionStorage.getItem('idestacion');
+  idYear = sessionStorage.getItem('idYear');
+  $('#ListaDocumentos').load('../../public/miselanea-30-31/vistas/lista-etapa-certificacion.php?idEstacion=' + idestacion + '&idYear=' + idYear);
          
-    }
+  }
     
-    }
+  }
 
-    });
+  });
 
-function Regresar(){window.history.back();}
+  function Regresar(){window.history.back();}
 
-function SelEstacion(idEstacion,idYear){
-sizeWindow()
-sessionStorage.setItem('idestacion', idEstacion);
-sessionStorage.setItem('idYear', idYear);
-$('#ListaDocumentos').load('../../public/miselanea-30-31/vistas/lista-etapa-certificacion.php?idEstacion=' + idEstacion + '&idYear=' + idYear);
-}
+  function SelEstacion(idEstacion,idYear){
+  sizeWindow()
+  sessionStorage.setItem('idestacion', idEstacion);
+  sessionStorage.setItem('idYear', idYear);
+  $('#ListaDocumentos').load('../../public/miselanea-30-31/vistas/lista-etapa-certificacion.php?idEstacion=' + idEstacion + '&idYear=' + idYear);
+  }
 
-function Modal(idDocumento,idEstacion,idYear){
-$('#ModalDocumento').modal('show');  
-$('#DivContenido').load('../../public/miselanea-30-31/vistas/modal-documentos.php?idDocumento=' + idDocumento + '&idEstacion=' + idEstacion + '&idYear=' + idYear);
-}
+  function Modal(idDocumento,idEstacion,idYear){
+  $('#ModalDocumento').modal('show');  
+  $('#DivContenido').load('../../public/miselanea-30-31/vistas/modal-documentos.php?idDocumento=' + idDocumento + '&idEstacion=' + idEstacion + '&idYear=' + idYear);
+  }
 
 function Guardar(idDocumento,idEstacion,idYear){
 
@@ -70,6 +66,12 @@ var Detalle = $('#Detalle').val();
 Documento = document.getElementById("Documento");
 Documento_file = Documento.files[0];
 Documento_filePath = Documento.value;
+
+if(Detalle != ""){
+$('#Detalle').css('border','');
+
+if(Documento_filePath != ""){
+$('#Documento').css('border','');
 
 var data = new FormData();
 var url = '../../public/miselanea-30-31/modelo/agregar-documento.php';
@@ -92,42 +94,65 @@ data.append('Documento_file', Documento_file);
     if(data == 1){
       SelEstacion(idEstacion,idYear)
    $('#DivContenido').load('../../public/miselanea-30-31/vistas/modal-documentos.php?idDocumento=' + idDocumento + '&idEstacion=' + idEstacion + '&idYear=' + idYear);
+   alertify.success('Documento agregado exitosamente.')
+
      }else{
       alertify.error('Error al guardar'); 
      }
      
     }); 
 
+  }else{
+$('#Documento').css('border','2px solid #A52525'); 
 }
+
+}else{
+$('#Detalle').css('border','2px solid #A52525'); 
+}
+
+}
+
 
 function Eliminar(idDocumento,id,idEstacion,idYear){
 
-    var parametros = {
-        "id" : id
-        };
+var parametros = {
+    "id" : id
+    };
 
-        $.ajax({
-        data:  parametros,
-        url:   '../../public/miselanea-30-31/modelo/eliminar-documento.php',
-        type:  'post',
-        beforeSend: function() {
-        },
-        complete: function(){
+    alertify.confirm('',
+    function(){
 
-        },
-        success:  function (response) {
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/miselanea-30-31/modelo/eliminar-documento.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
 
-          if(response == 1){
-            SelEstacion(idEstacion,idYear)
-          $('#DivContenido').load('../../public/miselanea-30-31/vistas/modal-documentos.php?idDocumento=' + idDocumento + '&idEstacion=' + idEstacion + '&idYear=' + idYear);
-          }else{
-          alertify.error('Error al eliminar');    
-          }
+    },
+    success:  function (response) {
 
-        }
-        });
+      if(response == 1){
+        SelEstacion(idEstacion,idYear)
+      $('#DivContenido').load('../../public/miselanea-30-31/vistas/modal-documentos.php?idDocumento=' + idDocumento + '&idEstacion=' + idEstacion + '&idYear=' + idYear);
+      alertify.success('Documento eliminado exitosamente.')
+
+    
+    }else{
+      alertify.error('Error al eliminar');    
+      }
+
+    }
+    });
+
+  },
+function(){
+
+}).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el documento seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 }
+
   </script>
   </head>
   <body>
@@ -194,31 +219,26 @@ function Eliminar(idDocumento,id,idEstacion,idYear){
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaDocumentos"  class="cardAG"></div>
+  <div class="col-12" id="ListaDocumentos"></div>
   </div> 
-
   </div>
+
   </div>
   </div>
 
  </div>
 
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalDocumento" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+  <div class="modal-content" id="DivContenido">
+  </div>
+  </div>
+  </div>
 
-  <div class="modal" id="ModalDocumento">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>    
-    </div>
-  </div>
-</div>
-
- 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
+  <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
