@@ -2,8 +2,6 @@
 require ('../../../../../help.php');
 
 $idaceite = $_GET['idaceite'];
-$year = $_GET['year'];
-$mes = $_GET['mes'];
 $result = $corteDiarioGeneral->modalDetallePagoAceite($idaceite);
 
 $sql_reporte = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id = '" . $idaceite . "' ";
@@ -27,7 +25,7 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 ?>
 <div class="modal-header">
   <h5 class="modal-title">Detalle pago de diferencia</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -49,9 +47,4 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
     }
     ?>
   </div>
-</div>
-
-<div class="modal-footer">
-  <button type="button" class="btn btn-primary"
-    onclick="PagarDiferencia(<?= $idaceite; ?>,<?= $year ?>,<?= $mes; ?>)">Pagar</button>
 </div>

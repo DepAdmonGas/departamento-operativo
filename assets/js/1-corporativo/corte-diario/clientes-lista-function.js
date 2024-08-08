@@ -94,7 +94,7 @@ function ListaClientes(idestacion, ruta_js) {
           $('#Cliente').val('');
           $('#Tipo').val('');
         } else {
-          alertify.error('Error al agregar cliente')
+          alertify.error('Error al agregar el cliente')
         }
 
       });

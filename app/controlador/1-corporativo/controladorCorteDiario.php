@@ -264,7 +264,7 @@ switch($_POST['accion']):
         $file = $_FILES['Documento_file'] ?? [''];
         $comentario = $_POST['Comentario'] ?? '';
         $idEstacion = $_POST['idEstacion'];
-        $CorteDiario->agregarPagoDiferencia($repAceite,$year,$mes,$file,$idEstacion,$comentario);
+        echo $CorteDiario->agregarPagoDiferencia($repAceite,$year,$mes,$file,$idEstacion,$comentario);
         break;
     /**
      * 
