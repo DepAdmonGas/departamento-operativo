@@ -102,7 +102,6 @@ require('app/help.php');
   var DescripcionArchivo   = $('#DescripcionArchivo').val();
   var ArchivoInput   = $('#Archivo').val();
 
-  alert(DescripcionArchivo)
   Archivo = document.getElementById("Archivo");
   Archivo_file = Archivo.files[0];
   Archivo_filePath = Archivo.value;

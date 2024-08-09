@@ -183,14 +183,14 @@ require ('app/help.php');
 
     }
 
+    window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
   </script>
-
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
 </head>
 
 <body>
@@ -238,13 +238,13 @@ require ('app/help.php');
   </div>
 
 
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div id="DivContenido"></div>
-      </div>
-    </div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivContenido"></div>
   </div>
+  </div>
+  
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

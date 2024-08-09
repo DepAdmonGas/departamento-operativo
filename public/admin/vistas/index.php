@@ -27,11 +27,10 @@ require ('app/help.php');
   <script src="<?= RUTA_JS2 ?>home-general-functions.js"></script>
 
   <script type="text/javascript">
+  $(document).ready(function ($) {
+  $(".LoaderPage").fadeOut("slow");
 
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-
-    });
+  });
 
     function Regresar() { window.history.back(); }
     //function comunicadoAdmin(){window.location.href = "administracion/comunicados";}

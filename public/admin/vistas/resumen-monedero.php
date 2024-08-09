@@ -248,13 +248,9 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       $('#ListaDocumento').load('../../../../public/admin/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes + '&id=' + id);
     }
 
-    function GuardarC(IdReporte, id) {
+    function GuardarC(IdReporte, year, mes, id) {
 
       var Complemento = $('#Complemento').val();
-
-      var data = new FormData();
-      var url = '../../../../public/admin/modelo/agregar-documento-monedero-edi.php';
-
       PDF = document.getElementById("PDF");
       PDF_file = PDF.files[0];
       PDF_filePath = PDF.value;
@@ -263,6 +259,18 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       XML_file = XML.files[0];
       XML_filePath = XML.value;
 
+
+      if (Complemento != "") {
+      $('#Complemento').css('border', '');
+
+      if (PDF_filePath != "") {
+      $('#PDF').css('border', '');
+
+      if (XML_filePath != "") {
+      $('#XML').css('border', '');
+
+      var data = new FormData();
+      var url = '../../../../public/admin/modelo/agregar-documento-monedero-edi.php';
 
       data.append('id', id);
       data.append('Complemento', Complemento);
@@ -281,13 +289,36 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       }).done(function (data) {
 
         $(".LoaderPage").hide();
-        Edi(IdReporte, id);
+
+        if(data == 1){
+          Edi(IdReporte, year, mes, id)
+
+          alertify.success('Complemento agregado exitosamente.');
+          
+        }else{
+          alertify.error('Error al agregar el complemento.');
+
+        }
 
       });
 
+    } else {
+        $('#XML').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#PDF').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#Complemento').css('border', '2px solid #A52525');
+      }
+
     }
 
-    function EliminarEdi(IdReporte, iddoc, id) {
+    function EliminarEdi(IdReporte, iddoc, id, year, mes) {
+
+
 
       var parametros = {
         "IdReporte": IdReporte,
@@ -311,7 +342,8 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
             $(".LoaderPage").hide();
 
-            Edi(IdReporte, iddoc);
+            Edi(IdReporte, year, mes, iddoc)
+            alertify.success('Complemento eliminado exitosamente.');
 
           } else {
             alertify.error('Error al eliminar')
@@ -337,22 +369,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
 
   </script>
-  <style media="screen">
-    .tableFixHead {
-      overflow-x: scroll;
-      overflow-y: scroll;
-    }
 
-    .tableFixHead thead th {
-      position: sticky;
-      top: 0px;
-      box-shadow: 2px 2px 4px #ECECEC;
-    }
-
-    .tableStyle {
-      box-shadow: 0px 0px 0px #ECECEC;
-    }
-  </style>
 </head>
 
 <body>
@@ -372,15 +389,14 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
                   Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase"><?= $estacion ?> - Resumen Monedero,
-                <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen Monedero (<?= $estacion?>), <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                <?= $estacion ?> - Resumen Monedero, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+              Resumen Monedero (<?= $estacion?>), <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
               </h3>
             </div>
             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
@@ -396,19 +412,18 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
                     </li>
 
                     <li onclick="Resumen(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                      <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen Monedero por Periodo</a>
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen por Periodo</a>
                     </li>
 
                     <li>
                       <a href="../../../../public/admin/vistas/descargar-resumen-monedero.php?idEstacion=<?= $GET_idEstacion; ?>&year=<?= $GET_year; ?>&mes=<?= $GET_mes; ?>" download
-                      class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Excel</a>
+                      class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Descargar Resumen <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a>
                     </li>
                     <?php
                     if ($session_nompuesto == "Dirección de operaciones") {
                       ?>
                       <li onclick="monederoKPI(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                        <a class="dropdown-item pointer"><i class="fa-solid  fa-chart-line"></i> Evaluacion Facturas de
-                          Monederos (KPI's)</a>
+                        <a class="dropdown-item pointer"><i class="fa-solid  fa-chart-line"></i> Evaluacion Facturas de Monederos (KPI's)</a>
                       </li>
                       <?php
                     }
@@ -440,11 +455,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
           <h5 class="modal-title">Facturas</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-
           <div id="ListaDocumento"></div>
-
-        </div>
       </div>
     </div>
   </div>

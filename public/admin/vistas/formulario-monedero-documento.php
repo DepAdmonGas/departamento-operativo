@@ -6,7 +6,7 @@ $mes = $_GET['mes'];
 
 ?>
 
-
+<div class="modal-body"> 
   
 <div class="row">
  
@@ -44,11 +44,15 @@ $mes = $_GET['mes'];
 
 </div>
 
-<hr>
-      <div class="text-end mt-3">
-      <button type="button" class="btn btn-labeled2 btn-danger float-end m-2" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+</div>
+
+
+<div class="modal-footer"> 
+
+      <button type="button" class="btn btn-labeled2 btn-danger float-end" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
           <span class="btn-label2"><i class="fa fa-x"></i></span>Cancelar</button>
-        <button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+        <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
           <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
-      </div> 
+
  
+          </div>

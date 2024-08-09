@@ -874,6 +874,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 <div class="col-12 mb-3">
                   <div class="row">
                     <div class="col-12">
+                      <hr>
                       <button type="button" class="btn btn-labeled2 btn-primary float-end"
                         onclick="ModalProveedor(<?= $GET_idReporte; ?>)">
                         <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar proveedor</button>
@@ -895,8 +896,10 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
                 ?>
                 <div class="col-12 mb-3 <?= $ocultarM ?>">
+
                   <div class="row">
                     <div class="col-12">
+                      <hr>
                       <button type="button" class="btn btn-labeled2 btn-primary float-end"
                         onclick="Producto(<?= $GET_idReporte; ?>)">
                         <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar articulo</button>
@@ -911,6 +914,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 <div class="col-12 mb-3 <?= $ocultarM ?>">
                   <div class="row">
                     <div class="col-12">
+                      <hr>
                       <button type="button" class="btn btn-labeled2 btn-primary float-end"
                         onclick="Refacturacion(<?= $GET_idReporte; ?>)">
                         <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar refacturación</button>

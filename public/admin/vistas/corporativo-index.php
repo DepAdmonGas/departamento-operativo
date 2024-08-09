@@ -71,7 +71,7 @@ if ($Session_IDUsuarioBD == "") {
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Inicio</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer"> Corporativo</a></li>
+                    <li aria-current="page" class="breadcrumb-item active text-uppercase"> Corporativo</li>
             </ol>
           </div>
           <div class="row">

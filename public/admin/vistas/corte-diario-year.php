@@ -64,11 +64,11 @@ if ($Session_IDUsuarioBD == "") {
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.go(-3)" class="text-uppercase text-primary pointer"><i
+              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"> Corte
+              <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"> Corte
                   Diario</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer">
+                  <li aria-current="page" class="breadcrumb-item active"><a class="text-uppercase pointer">
                   <?= $GET_year ?></a></li>
             </ol>
           </div>

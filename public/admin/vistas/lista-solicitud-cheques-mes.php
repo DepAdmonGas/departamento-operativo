@@ -186,9 +186,11 @@ $('[data-toggle="tooltip"]').tooltip();
 
   <tbody>
   <?php
+   $TotalMonto = 0;
   if ($numero_lista > 0) {
-  $TotalMonto = 0;
+ 
   $num = 1;
+
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
   $id = $row_lista['id'];
   $pago = Pago($id,$con);

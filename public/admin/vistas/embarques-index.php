@@ -65,11 +65,11 @@ if ($Session_IDUsuarioBD == "") {
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer"> Embarques</a></li>
+                    <li aria-current="page" class="breadcrumb-item active text-uppercase"> Embarques</li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
+            <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
                 Embarques
               </h3>
@@ -77,7 +77,7 @@ if ($Session_IDUsuarioBD == "") {
           </div>
         </div>
       </div>
-
+ 
       <hr>
 
       <?php
@@ -89,7 +89,7 @@ if ($Session_IDUsuarioBD == "") {
       while ($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)) {
         $year = $row_listayear['year'];
         echo '
-        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+        <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-2 mt-2">
           <article class="plan card2 border-0 shadow position-relative" onclick="EmbarquesY(' . $year . ')">
             <div class="inner">
               <div class="row">

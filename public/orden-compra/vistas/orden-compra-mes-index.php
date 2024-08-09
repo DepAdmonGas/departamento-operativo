@@ -174,7 +174,7 @@ if ($Session_IDUsuarioBD == "") {
 
           <div class="row">
 
-            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
                 Orden de Compra <?= $ClassHerramientasDptoOperativo->nombremes($GET_idMes); ?>
                 <?= $GET_idYear; ?>

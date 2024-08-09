@@ -16,6 +16,8 @@ $diferencia = $row_lista['diferencia'];
 }
 ?>
 
+<div class="modal-body"> 
+
 <div class="row">
 
 <div class="col-12">
@@ -64,12 +66,17 @@ $diferencia = $row_lista['diferencia'];
 </div>
 
 </div>
-
-
-<hr>
+</div>
 
         
-<div class="text-end mt-3">
-<button type="button" class="btn btn-danger" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">Cancelar</button>
-<button type="button" class="btn btn-primary" onclick="EditarInfo(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>,<?=$id;?>)">Guardar</button>
+<div class="modal-footer"> 
+
+<button type="button" class="btn btn-labeled2 btn-danger" onclick="Cancelar(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>)">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cancelar</button>
+
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarInfo(<?=$IdReporte;?>,<?=$year;?>,<?=$mes;?>,<?=$id;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
+
 </div>

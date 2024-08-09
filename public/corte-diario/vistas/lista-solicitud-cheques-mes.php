@@ -41,7 +41,7 @@ $('[data-toggle="tooltip"]').tooltip();
 <div class="table-responsive">
 <table id="tabla_solicitud_cheque" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 
-  <thead class="navbar-bg">
+  <thead class="tables-bg">
 
   <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">#</th>

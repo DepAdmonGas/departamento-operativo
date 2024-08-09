@@ -68,7 +68,7 @@ require ('app/help.php');
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer"> Solicitud de Cheques</a></li>
+                    <li aria-current="page" class="breadcrumb-item active text-uppercase"> Solicitud de Cheques</li>
             </ol>
           </div>
           <div class="row">

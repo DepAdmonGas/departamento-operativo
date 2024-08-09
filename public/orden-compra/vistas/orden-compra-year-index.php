@@ -69,12 +69,12 @@ if ($Session_IDUsuarioBD == "") {
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.go(-3)" class="text-uppercase text-primary pointer"><i
+              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Almacen</a></li>
-              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"> Orden
+              <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"> Orden
                   de Compra</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer">
-                  <?= $GET_idyear ?></a></li>
+                  <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                  <?= $GET_idyear ?></li>
             </ol>
           </div>
           <div class="row">

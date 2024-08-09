@@ -91,7 +91,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ClientesLista(<?= $GET_year; ?>,<?= $GET_mes; ?>,<?= $GET_idReporte; ?>)">
-                <span class="btn-label2"><i class="fa fa-plus"></i></span>Lista Clientes</button>
+                <span class="btn-label2"><i class="fa-solid fa-users"></i></span>Lista de Clientes</button>
             </div>
           </div>
           <hr>

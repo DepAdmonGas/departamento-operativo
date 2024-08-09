@@ -39,7 +39,8 @@ function Responsable($id, $con)
         <th class="text-center align-middle">Usuario</th>
         <th class="text-center align-middle">Motivo</th>
       </thead>
-      <tbody>
+
+      <tbody class="bg-light">
         <?php
         if ($numero_lista > 0) {
           $num = 1;
@@ -61,7 +62,7 @@ function Responsable($id, $con)
             $num++;
           }
         } else {
-          echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+          echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
         }
         ?>
       </tbody>
@@ -73,7 +74,7 @@ function Responsable($id, $con)
 <?php if ($session_nompuesto != "Contabilidad") { ?>
   
       <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="NuevoReg(<?= $idEstacion; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $idDias; ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+      <span class="btn-label2"><i class="fa fa-plus"></i></span>Activar corte diario</button>
 
   <?php } ?>
 

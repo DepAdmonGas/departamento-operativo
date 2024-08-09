@@ -32,7 +32,7 @@ function Personal($idUsuario, $con)
         <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
       </tr>
     </thead>
-    <tbody class="bg-white">
+    <tbody class="bg-light">
       <?php
       if ($numero_lista > 0) {
         $num = 1;
