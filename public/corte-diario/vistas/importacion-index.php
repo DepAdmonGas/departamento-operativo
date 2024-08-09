@@ -29,7 +29,7 @@ require('app/help.php');
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  listaSubMenu('Importación')
+  listaSubMenu('Importacion')
   });
  
   //---------- LISTADO SUB MENU ----------//
