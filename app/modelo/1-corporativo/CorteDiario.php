@@ -3,15 +3,15 @@ require "../../bd/inc.conexion.php";
 require_once '../../modelo/HerramientasDptoOperativo.php';
 
 class CorteDiario extends Exception
-{ 
+{
     private $classConexionBD;
     private $con;
     private $formato;
 
-    
+
     public function __construct()
     {
- 
+
         $this->classConexionBD = Database::getInstance();
         $this->con = $this->classConexionBD->getConnection();
         $this->formato = new herramientasDptoOperativo($this->con);
@@ -246,9 +246,9 @@ class CorteDiario extends Exception
                     $vale,
                     $otros
                 ];
-                return $interlomas ;
+                return $interlomas;
             case 2:
-                $paloSolo = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva,$shell,$inbursa, $otros];
+                $paloSolo = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva, $shell, $inbursa, $otros];
                 return $paloSolo;
             case 3:
                 $sanAgustin = [
@@ -309,7 +309,7 @@ class CorteDiario extends Exception
             case 15:
                 $monederos = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva, $inbursa, $ultragas, $energex];
                 return $monederos;
-                default:
+            default:
                 // Devuelve un array vacío en caso de que no se cumpla ningún caso
                 return [];
         endswitch;
@@ -336,7 +336,7 @@ class CorteDiario extends Exception
                 $numInter = [$num1, $num1_1, $numA, $num2, $numB, $num3, $numC, $num4, $num5, $num6, $numE, $num7, $num10];
                 return $numInter;
             case 2:
-                $numPalo = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6,$num7 ,$numE, $num10];
+                $numPalo = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $num7, $numE, $num10];
                 return $numPalo;
             case 3:
                 $numAgus = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $numE, $num7, $num8, $num9, $num10];
@@ -658,7 +658,7 @@ class CorteDiario extends Exception
     {
         $result = true;
         $ieps = 0;
-        
+
         switch ($producto):
             case 'G Super':
                 $ieps = 0.4369;
@@ -787,10 +787,24 @@ class CorteDiario extends Exception
         $result_listaAceite->bind_param('ii', $sessionIdEstacion, $IdMes);
         $result_listaAceite->execute();
         $result_listaAceite->bind_result($noAceite, $concepto, $precio);
-        while ($result_listaAceite->fetch()):
-            $this->validaAceites($idReporte, $noAceite, $concepto, $precio);
-        endwhile;
-        $result_listaAceite->close();
+
+        $aceites = []; // Array para almacenar los resultados
+
+        while ($result_listaAceite->fetch()) {
+            $aceites[] = [
+                'id_aceite' => $noAceite,
+                'concepto' => $concepto,
+                'precio' => $precio
+            ];
+        }
+
+        $result_listaAceite->free_result(); // Libera resultados
+        $result_listaAceite->close(); // Cierra la conexión
+
+        // Procesa los resultados almacenados
+        foreach ($aceites as $aceite) {
+            $this->validaAceites($idReporte, $aceite['id_aceite'], $aceite['concepto'], $aceite['precio']);
+        }
     }
     public function validaAceites(int $idReporte, int $noAceite, string $concepto, float $precio): void
     {
@@ -903,7 +917,7 @@ class CorteDiario extends Exception
 
             $result = true;
             //$this->sendNotification($token, $detalle,$accion);
-            $this->formato->sendNotification($token,$detalle,$accion);
+            $this->formato->sendNotification($token, $detalle, $accion);
 
             $stmt->close();
         endif;
@@ -1024,7 +1038,7 @@ class CorteDiario extends Exception
         $stmt->bind_param("issdi", $idReporte, $empresa, $noCierre, $importe, $tickets);
         $stmt->execute();
         $stmt->close();
-        return $empresa; 
+        return $empresa;
     }
 
     public function editarCierreLote(string $tipo, string $cierre, int $idCierre, int $idReporte, string $empresa): bool
@@ -1077,7 +1091,7 @@ class CorteDiario extends Exception
     {
         $result = true;
         $pdfNombre = "";
-        
+
         if (!empty($file) && isset($file['name'])):
             $archivo = $file['name'];
             $aleatorio = uniqid();
@@ -1167,33 +1181,33 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
-        
+
         if ($doc[0] != ''):
             $indice = 0;
             $campo = "doc_cc = ?";
-            $this->agregarDocumentoCliente($doc,$indice,$campo,$idEstacion);
+            $this->agregarDocumentoCliente($doc, $indice, $campo, $idEstacion);
         endif;
         if ($doc[1] != ''):
             $indice = 1;
             $campo = "doc_ac = ?";
-            $this->agregarDocumentoCliente($doc,$indice,$campo,$idEstacion);
+            $this->agregarDocumentoCliente($doc, $indice, $campo, $idEstacion);
         endif;
         if ($doc[2] != ''):
             $indice = 2;
             $campo = "doc_cd = ?";
-            $this->agregarDocumentoCliente($doc,$indice,$campo,$idEstacion);
+            $this->agregarDocumentoCliente($doc, $indice, $campo, $idEstacion);
         endif;
         if ($doc[3] != ''):
             $indice = 3;
             $campo = "doc_io = ?";
-            $this->agregarDocumentoCliente($doc,$indice,$campo,$idEstacion);
+            $this->agregarDocumentoCliente($doc, $indice, $campo, $idEstacion);
         endif;
         return $result;
     }
-    public function agregarDocumentoCliente(array $doc,int $indice,string $campo,int $idEstacion):void
+    public function agregarDocumentoCliente(array $doc, int $indice, string $campo, int $idEstacion): void
     {
         $aleatorio = uniqid();
-        if (isset($doc[$indice]['name']) && isset($doc[$indice]['tmp_name'])) :
+        if (isset($doc[$indice]['name']) && isset($doc[$indice]['tmp_name'])):
             $documentoNombre = $doc[$indice]['name'];
             $folder = "../../../archivos/" . $aleatorio . "-" . $documentoNombre;
             $nombre = $aleatorio . "-" . $documentoNombre;
@@ -1228,28 +1242,29 @@ class CorteDiario extends Exception
         if ($doc[0] != ''):
             $indice = 0;
             $campo = "doc_cc = ?";
-            $this->actualizaDocumento($doc,$indice,$campo,$idCliente);
+            $this->actualizaDocumento($doc, $indice, $campo, $idCliente);
         endif;
         if ($doc[1] != ''):
             $indice = 1;
             $campo = "doc_ac = ?";
-            $this->actualizaDocumento($doc,$indice,$campo,$idCliente);
+            $this->actualizaDocumento($doc, $indice, $campo, $idCliente);
         endif;
         if ($doc[2] != ''):
             $indice = 2;
             $campo = "doc_cd = ?";
-            $this->actualizaDocumento($doc,$indice,$campo,$idCliente);
+            $this->actualizaDocumento($doc, $indice, $campo, $idCliente);
         endif;
         if ($doc[3] != ''):
             $indice = 3;
             $campo = "doc_io = ?";
-            $this->actualizaDocumento($doc,$indice,$campo,$idCliente);
+            $this->actualizaDocumento($doc, $indice, $campo, $idCliente);
         endif;
         return $result;
     }
-    public function actualizaDocumento(array $doc,int $indice,string $campo,int $idCliente):void{
+    public function actualizaDocumento(array $doc, int $indice, string $campo, int $idCliente): void
+    {
         $aleatorio = uniqid();
-        if (isset($doc[$indice]['name']) && isset($doc[$indice]['tmp_name'])) :
+        if (isset($doc[$indice]['name']) && isset($doc[$indice]['tmp_name'])):
             $documentoNombre = $doc[$indice]['name'];
             $folder = "../../../archivos/" . $aleatorio . "-" . $documentoNombre;
             $nombre = $aleatorio . "-" . $documentoNombre;
@@ -1261,7 +1276,7 @@ class CorteDiario extends Exception
             $stmt->close();
         endif;
     }
-    public function editarClienteDebito(string $cuenta, string $cliente, string $tipo,int $id): bool
+    public function editarClienteDebito(string $cuenta, string $cliente, string $tipo, int $id): bool
     {
         $result = true;
         $sql = "UPDATE op_cliente SET cuenta = ?,cliente = ?,tipo = ? WHERE id=? ";
@@ -1269,7 +1284,7 @@ class CorteDiario extends Exception
         if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
         endif;
-        $stmt->bind_param("sssi", $cuenta, $cliente, $tipo,$id);
+        $stmt->bind_param("sssi", $cuenta, $cliente, $tipo, $id);
         if (!$stmt->execute()):
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
@@ -1277,17 +1292,17 @@ class CorteDiario extends Exception
         $stmt->close();
         return $result;
     }
-    public function editarSaldoInicial(int $id,float $total): int
+    public function editarSaldoInicial(int $id, float $total): int
     {
         $result = 0;
         $sql = "UPDATE op_consumos_pagos_resumen SET saldo_inicial=? WHERE id=? ";
         $stmt = $this->con->prepare($sql);
-        if( !$stmt ):
-            throw new Exception("Erros al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Erros al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("di", $total,$id);
-        if( !$stmt->execute() ):
-            throw new Exception("Erros al preparar la consulta". $this->con->error);
+        $stmt->bind_param("di", $total, $id);
+        if (!$stmt->execute()):
+            throw new Exception("Erros al preparar la consulta" . $this->con->error);
         endif;
         $stmt->close();
         $sql_credito = "SELECT 
@@ -1298,30 +1313,31 @@ class CorteDiario extends Exception
             INNER JOIN op_cliente 
             ON op_consumos_pagos_resumen.id_cliente = op_cliente.id
             WHERE op_consumos_pagos_resumen.id = ? ";
-            $stmt2 = $this->con->prepare($sql_credito);
-            if( !$stmt2 ):
-                throw new Exception("Erros al preparar la consulta". $this->con->error);
-            endif;
-            $stmt2->bind_param("i",$id);
-            $stmt2->execute();
-            $stmt2->bind_result($saldo_inicial, $consumos, $pagos);
-            while ($stmt2->fetch()):
-                $saldofinalC = $saldo_inicial + $consumos - $pagos;
-            endwhile;
-            $stmt2->close();
-            $sql1 = "UPDATE op_consumos_pagos_resumen SET saldo_final=? WHERE id=? ";
-            $stmt3 = $this->con->prepare($sql1);
-            if(!$stmt3 ):
-                throw new Exception("Error al preparar la consulta ". $this->con->error);
-            endif;
-            $stmt3->bind_param("di",$saldofinalC,$id);
-            if ($stmt3->execute()) :
-                $result =  $saldofinalC;
-            endif;
-            $stmt3->close();
+        $stmt2 = $this->con->prepare($sql_credito);
+        if (!$stmt2):
+            throw new Exception("Erros al preparar la consulta" . $this->con->error);
+        endif;
+        $stmt2->bind_param("i", $id);
+        $stmt2->execute();
+        $stmt2->bind_result($saldo_inicial, $consumos, $pagos);
+        while ($stmt2->fetch()):
+            $saldofinalC = $saldo_inicial + $consumos - $pagos;
+        endwhile;
+        $stmt2->close();
+        $sql1 = "UPDATE op_consumos_pagos_resumen SET saldo_final=? WHERE id=? ";
+        $stmt3 = $this->con->prepare($sql1);
+        if (!$stmt3):
+            throw new Exception("Error al preparar la consulta " . $this->con->error);
+        endif;
+        $stmt3->bind_param("di", $saldofinalC, $id);
+        if ($stmt3->execute()):
+            $result = $saldofinalC;
+        endif;
+        $stmt3->close();
         return $result;
     }
-    public function finalizaResumenClientesMes(int $id):void {
+    public function finalizaResumenClientesMes(int $id): void
+    {
         $sql = "INSERT INTO op_consumos_pagos_resumen_finalizar (id_mes) VALUES(?)";
         $stmt = $this->con->prepare($sql);
         if (!$stmt):
@@ -1341,7 +1357,7 @@ class CorteDiario extends Exception
      * 
      */
     public function finalizarAceite(int $idEstacion, int $idReporte, string $nombreEstacion): bool
-    {   
+    {
         $result = true;
         $accion = "https://asuntoslegales.tmfsmexico.com/asuntos-legales/";
         $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte_finalizar (id_mes) VALUES (?)";
@@ -1350,23 +1366,24 @@ class CorteDiario extends Exception
         if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
         endif;
-        $stmt->bind_param("i",$idReporte);
+        $stmt->bind_param("i", $idReporte);
         if (!$stmt->execute()):
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
-        $this->newAlmacen($idEstacion,$idReporte);
+        $this->newAlmacen($idEstacion, $idReporte);
         //$token = $this->toquenUser(19);
         $token = $this->formato->toquenUser(19);
 
-        $detalle = 'Se finalizo el inventario de '.$this->formato->nombremes($nomMes).', de la estación '.$nombreEstacion;
+        $detalle = 'Se finalizo el inventario de ' . $this->formato->nombremes($nomMes) . ', de la estación ' . $nombreEstacion;
         //$this->sendNotification($token,$detalle,$accion);
-        $this->formato->sendNotification($token,$detalle,$accion);
+        $this->formato->sendNotification($token, $detalle, $accion);
 
         $stmt->close();
         return $result;
     }
-    private function mes(int $idReporte): int {
+    private function mes(int $idReporte): int
+    {
         $sql_mes = "SELECT mes FROM op_corte_mes WHERE id = '" . $idReporte . "' LIMIT 1 ";
         $result_mes = $this->con->prepare($sql_mes);
         if (!$result_mes):
@@ -1379,23 +1396,25 @@ class CorteDiario extends Exception
         $result_mes->close();
         return $mes;
     }
-    private function newAlmacen(int $idEstacion, int $idReporte):void{
+    private function newAlmacen(int $idEstacion, int $idReporte): void
+    {
         date_default_timezone_set('America/Mexico_City');
         $mes = $this->mes($idReporte);
-        if ($mes == 12) :
+        if ($mes == 12):
             $newyear = date("Y");
             $newmes = 1;
             $idYear = $this->validaYearReporte($idEstacion, $newyear);
             $idMes = $this->validaMesReporte($idYear, $newmes);
             $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
-        else :
-          $newmes = $mes + 1;
-          $idyear = $mes;
-          $idMes = $this->validaMesReporte($idyear, $newmes);
-          $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
+        else:
+            $newmes = $mes + 1;
+            $idyear = $mes;
+            $idMes = $this->validaMesReporte($idyear, $newmes);
+            $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
         endif;
     }
-    private function validaYearReporte(int $idEstacion, string $newyear): int {
+    private function validaYearReporte(int $idEstacion, string $newyear): int
+    {
         $sql_reporte = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?";
         $stmt = $this->con->prepare($sql_reporte);
         if (!$stmt) {
@@ -1408,7 +1427,7 @@ class CorteDiario extends Exception
         $stmt->store_result();
         $numero_reporte = $stmt->num_rows();
         $stmt->close();
-    
+
         if ($numero_reporte == 0) {
             $idYear = $this->idYear();
             $sql_insert = "INSERT INTO op_corte_year (id, id_estacion, year) VALUES (?, ?, ?)";
@@ -1421,28 +1440,30 @@ class CorteDiario extends Exception
             $stmt->close();
             return $idYear;
         }
-    
+
         return $idYear;
     }
-        
-    private function idYear() : int{
+
+    private function idYear(): int
+    {
         $sql_reporte = "SELECT id FROM op_corte_year ORDER BY id desc LIMIT 1 ";
         $stmt = $this->con->prepare($sql_reporte);
-        if(!$stmt):
-            throw new Exception("Error en la preparacion de la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
         endif;
         $stmt->bind_result($id);
-        if(!$stmt->execute()):
-            throw new Exception("Error al ejecutar la consulta". $stmt->error);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
         $stmt->fetch();
         $stmt->close();
         return $id;
     }
-    private function validaMesReporte(int $idYear, int $fecha_mes): int {
+    private function validaMesReporte(int $idYear, int $fecha_mes): int
+    {
         $sql_reporte = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ?";
         $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt) :
+        if (!$stmt):
             throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
         endif;
         $stmt->bind_param('ii', $idYear, $fecha_mes);
@@ -1452,25 +1473,26 @@ class CorteDiario extends Exception
         $stmt->store_result();
         $numero_reporte = $stmt->num_rows();
         $stmt->close();
-    
-        if ($numero_reporte == 0) :
+
+        if ($numero_reporte == 0):
             $idMes = $this->idMes();
             $sql_insert = "INSERT INTO op_corte_mes (id, id_year, mes) VALUES (?, ?, ?)";
             $stmt = $this->con->prepare($sql_insert);
-            if (!$stmt) :
+            if (!$stmt):
                 throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
             endif;
             $stmt->bind_param('iss', $idMes, $idYear, $fecha_mes);
             $stmt->execute();
             $stmt->close();
         endif;
-    
+
         return $idMes;
     }
-    private function idMes() : int {
+    private function idMes(): int
+    {
         $sql_reporte = "SELECT id FROM op_corte_mes ORDER BY id DESC LIMIT 1";
         $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt) :
+        if (!$stmt):
             throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
         endif;
         $stmt->execute();
@@ -1479,7 +1501,7 @@ class CorteDiario extends Exception
         $stmt->close();
         return ($id + 1);
     }
-    private function agregarAlmacen(int $IDEstacion, int $IdMes, int $idreporte) : void
+    private function agregarAlmacen(int $IDEstacion, int $IdMes, int $idreporte): void
     {
         $sql1 = "DELETE FROM op_inventario_aceites WHERE id_mes = ? AND id_estacion = ?";
         $stmt1 = $this->con->prepare($sql1);
@@ -1487,12 +1509,12 @@ class CorteDiario extends Exception
             throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
         endif;
         $stmt1->bind_param('ii', $IdMes, $IDEstacion);
-        if (!$stmt1->execute()) :
-            throw new Exception('Erro al ejecutar la consulta'. $stmt1->error);
+        if (!$stmt1->execute()):
+            throw new Exception('Erro al ejecutar la consulta' . $stmt1->error);
         endif;
         $sql_reporte = "SELECT id_aceite, inventario_exibidores, inventario_bodega FROM op_aceites_lubricantes_reporte WHERE id_mes = ?";
         $stmt2 = $this->con->prepare($sql_reporte);
-        if (!$stmt2) :
+        if (!$stmt2):
             throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
         endif;
         $stmt2->bind_param('i', $idreporte);
@@ -1514,7 +1536,8 @@ class CorteDiario extends Exception
         $stmt2->close();
         $stmt3->close();
     }
-    public function idAceite(int $idAceite) : int {
+    public function idAceite(int $idAceite): int
+    {
         $sql_reporte = "SELECT id FROM op_aceites WHERE id_aceite = ? LIMIT 1";
         $stmt = $this->con->prepare($sql_reporte);
         if (!$stmt) {
@@ -1527,15 +1550,15 @@ class CorteDiario extends Exception
         $stmt->close();
         return $id;
     }
-    public function editarReporteAceite($tipo,$valor,int $id): bool
-    {   
-        if($valor == "producto_facturado" || $valor == "factura_venta_mostrador"):
+    public function editarReporteAceite($tipo, $valor, int $id): bool
+    {
+        if ($valor == "producto_facturado" || $valor == "factura_venta_mostrador"):
             $bind = "di";
         endif;
         $bind = "ii";
         $result = true;
         $value = "";
-        switch($tipo):
+        switch ($tipo):
             case 'pedido':
                 $value = "pedido =?";
                 break;
@@ -1554,18 +1577,18 @@ class CorteDiario extends Exception
         endswitch;
         $sql = "UPDATE op_aceites_lubricantes_reporte SET $value WHERE id=?";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("". $this->con->error);
+        if (!$stmt):
+            throw new Exception("" . $this->con->error);
         endif;
-        $stmt->bind_param($bind, $valor,$id);
-        if(!$stmt->execute()):
+        $stmt->bind_param($bind, $valor, $id);
+        if (!$stmt->execute()):
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function agregarDocumentoAceite(array $doc,int $idReporte,int $year,int $mes): bool
+    public function agregarDocumentoAceite(array $doc, int $idReporte, int $year, int $mes): bool
     {
         $result = false;
         $aleatorio = uniqid();
@@ -1576,15 +1599,15 @@ class CorteDiario extends Exception
         $fecha_02 = date("$year-$mes_formateado-02");
         $fecha_03 = date("$year-$mes_formateado-03");
         $fecha_04 = date("$year-$mes_formateado-04");
-        
+
         $puntajeFactura = 0;
-        if ($fecha_actual <= $fecha_02) :
+        if ($fecha_actual <= $fecha_02):
             $puntajeFactura = 3;
 
-        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03) :
+        elseif ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03):
             $puntajeFactura = 2;
 
-        elseif($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04) :
+        elseif ($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04):
             $puntajeFactura = 1;
 
         endif;
@@ -1592,20 +1615,20 @@ class CorteDiario extends Exception
         $fecha_10 = date("$year-$mes_formateado-10");
         $fecha_20 = date("$year-$mes_formateado-20");
         $puntajeFicha = 0;
-        if ($fecha_actual <= $fecha_02) :
+        if ($fecha_actual <= $fecha_02):
             $puntajeFicha = 3;
 
-        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10) :
+        elseif ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10):
             $puntajeFicha = 2;
 
-        elseif($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20) :
+        elseif ($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20):
             $puntajeFicha = 1;
         endif;
         //---------- FICHA DE DEPOSITO FALTANTE ----------
         $upload_Ficha = "";
         $documentoFicha = "";
         $fechaFicha = "";
-        
+
         if (!empty($doc[0]) && isset($doc[0]['name'])):
             $ficha = $doc[0]['name'];
             $upload_Ficha = "../../../archivos/" . $aleatorio . "-" . $ficha;
@@ -1617,7 +1640,7 @@ class CorteDiario extends Exception
         //---------- IMAGEN DE BODEGA ----------
         $upload_Imagen = "";
         $documentoImagen = "";
-        if (!empty($doc[1]) && isset($doc[1]['name'])) :
+        if (!empty($doc[1]) && isset($doc[1]['name'])):
             $imagen = $doc[1]['name'];
             $upload_Imagen = "../../../archivos/" . $aleatorio . "-" . $imagen;
             $documentoImagen = $aleatorio . "-" . $imagen;
@@ -1636,7 +1659,7 @@ class CorteDiario extends Exception
             $fechaFactura = $fecha_actual;
         endif;
         $fechaDia = date("Y-m-d");
-        
+
         $sql_insert = "INSERT INTO op_aceites_documento (
             id_mes,
             fecha,
@@ -1650,120 +1673,133 @@ class CorteDiario extends Exception
             )
             VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
-        if (!$stmt) :
+        if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
         endif;
-        $stmt->bind_param("isssisssi", $idReporte,$fechaDia,$documentoFicha,$fechaFicha,$puntajeFicha
-                                ,$documentoImagen,$documentoFactura,$fechaFactura,$puntajeFactura);
-        if (!$stmt->execute()) :
+        $stmt->bind_param(
+            "isssisssi",
+            $idReporte,
+            $fechaDia,
+            $documentoFicha,
+            $fechaFicha,
+            $puntajeFicha
+            ,
+            $documentoImagen,
+            $documentoFactura,
+            $fechaFactura,
+            $puntajeFactura
+        );
+        if (!$stmt->execute()):
             $result = true;
-            throw new Exception("Error al ejecutar la consulta SQL: " .$stmt->error );
+            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function editarDocumentoAceite(array $doc,int $id,int $year, int $mes): void 
+    public function editarDocumentoAceite(array $doc, int $id, int $year, int $mes): void
     {
         $mes_formateado = sprintf("%02d", $mes);
-        $fecha_actual = date("Y-m-d"); 
+        $fecha_actual = date("Y-m-d");
         //---------- FECHAS FACTURA----------
         $fecha_02 = date("$year-$mes_formateado-02");
         $fecha_03 = date("$year-$mes_formateado-03");
         $fecha_04 = date("$year-$mes_formateado-04");
         $puntaje_facturas = 0;
-        if($fecha_actual <= $fecha_02):
+        if ($fecha_actual <= $fecha_02):
             $puntaje_facturas = 3;
-        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03):
+        elseif ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_03):
             $puntaje_facturas = 2;
-        elseif($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04):
-            $puntaje_facturas = 1;  
+        elseif ($fecha_actual > $fecha_03 && $fecha_actual <= $fecha_04):
+            $puntaje_facturas = 1;
         endif;
         //---------- FECHAS FICHA----------
         $fecha_10 = date("$year-$mes_formateado-10");
         $fecha_20 = date("$year-$mes_formateado-20");
         $puntaje_fichas = 0;
-        if($fecha_actual <= $fecha_02):
+        if ($fecha_actual <= $fecha_02):
             $puntaje_fichas = 3;
-        elseif($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10):
-            $puntaje_fichas = 2; 
-        elseif($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20):
-            $puntaje_fichas = 1;  
+        elseif ($fecha_actual > $fecha_02 && $fecha_actual <= $fecha_10):
+            $puntaje_fichas = 2;
+        elseif ($fecha_actual > $fecha_10 && $fecha_actual <= $fecha_20):
+            $puntaje_fichas = 1;
         endif;
-    
+
         $aleatorio = uniqid();
         $campo = "";
         $valor = "ssii";
-        if(!empty($doc[0]) && isset($doc[0]['name'])):
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
             $ficha = $doc[0]['name'];
-            $upload_Ficha = "../../../archivos/".$aleatorio."-".$ficha;
-            $DocumentoFicha = $aleatorio."-".$ficha;
+            $upload_Ficha = "../../../archivos/" . $aleatorio . "-" . $ficha;
+            $DocumentoFicha = $aleatorio . "-" . $ficha;
             $campo = "ficha_deposito = ?,fecha_evaluacion_ficha = ?,puntaje_ficha = ?";
-            if(move_uploaded_file($doc[0]['tmp_name'], $upload_Ficha)) :
-                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoFicha,$fecha_actual,$puntaje_fichas);
+            if (move_uploaded_file($doc[0]['tmp_name'], $upload_Ficha)):
+                $this->actualizaDocumentoAceite($id, $campo, $valor, $DocumentoFicha, $fecha_actual, $puntaje_fichas);
             endif;
-        elseif(!empty($doc[1]) && isset($doc[1]['name'])):
+        elseif (!empty($doc[1]) && isset($doc[1]['name'])):
             $imagen = $doc[1]['name'];
-            $upload_Imagen = "../../../archivos/".$aleatorio."-".$imagen;
-            $DocumentoImagen = $aleatorio."-".$imagen;
+            $upload_Imagen = "../../../archivos/" . $aleatorio . "-" . $imagen;
+            $DocumentoImagen = $aleatorio . "-" . $imagen;
             $fecha = "";
             $puntaje = 0;
             $campo = "imagen_bodega = ?";
             $valor = "si";
-            if(move_uploaded_file($doc[1]['tmp_name'], $upload_Imagen)) :
-                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoImagen,$fecha,$puntaje);
+            if (move_uploaded_file($doc[1]['tmp_name'], $upload_Imagen)):
+                $this->actualizaDocumentoAceite($id, $campo, $valor, $DocumentoImagen, $fecha, $puntaje);
             endif;
-        
-        elseif(!empty($doc[2]) && isset($doc[2]['name'])):
+
+        elseif (!empty($doc[2]) && isset($doc[2]['name'])):
             $factura = $doc[2]['name'];
-            $upload_Factura = "../../../archivos/".$aleatorio."-".$factura;
-            $DocumentoFactura = $aleatorio."-".$factura;
+            $upload_Factura = "../../../archivos/" . $aleatorio . "-" . $factura;
+            $DocumentoFactura = $aleatorio . "-" . $factura;
             $campo = "factura_venta = ?,fecha_evaluacion_factura = ?, puntaje_factura = ?";
-            if(move_uploaded_file($doc[2]['tmp_name'], $upload_Factura)) {
-                $this->actualizaDocumentoAceite($id,$campo,$valor,$DocumentoFactura,$fecha_actual,$puntaje_facturas);
+            if (move_uploaded_file($doc[2]['tmp_name'], $upload_Factura)) {
+                $this->actualizaDocumentoAceite($id, $campo, $valor, $DocumentoFactura, $fecha_actual, $puntaje_facturas);
             }
         endif;
     }
-    private function actualizaDocumentoAceite(int $id,string $campo,string $valor,string $archivo,string $fecha,int $puntaje):void{
-        
+    private function actualizaDocumentoAceite(int $id, string $campo, string $valor, string $archivo, string $fecha, int $puntaje): void
+    {
+
         $sql = "UPDATE op_aceites_documento SET $campo WHERE id=?";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta ".$stmt->error);
-        endif;
-        
-        if($fecha == "" && $puntaje == 0):
-            $stmt->bind_param($valor,$archivo,$id);
-        elseif($fecha != ""):
-            $stmt->bind_param($valor,$archivo,$fecha,$puntaje,$id);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta " . $stmt->error);
         endif;
 
-        if(!$stmt->execute()):
-            throw new Exception("Error al ejecutar la consulta".$this->con->error);
+        if ($fecha == "" && $puntaje == 0):
+            $stmt->bind_param($valor, $archivo, $id);
+        elseif ($fecha != ""):
+            $stmt->bind_param($valor, $archivo, $fecha, $puntaje, $id);
+        endif;
+
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $this->con->error);
         endif;
         $stmt->close();
     }
-    public function eliminarDocumentoAceite(int $id): bool 
+    public function eliminarDocumentoAceite(int $id): bool
     {
         $result = true;
         $sql = "DELETE FROM op_aceites_documento WHERE id= ? ";
         $stmt = $this->con->prepare($sql);
-        if(! $stmt) :
-            throw new Exception("Error al preparar la consulta ". $stmt->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta " . $stmt->error);
         endif;
         $stmt->bind_param("i", $id);
-        if(!$stmt->execute()) :
+        if (!$stmt->execute()):
             $result = false;
-            throw new Exception("Error al ejecutar la consulta". $this->con->error);
+            throw new Exception("Error al ejecutar la consulta" . $this->con->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function agregarFacturaArchivoAceite(int $id, string $fechaAceite, string $conceptoAceite, array $archivo, int $mes,int $year): bool {
+    public function agregarFacturaArchivoAceite(int $id, string $fechaAceite, string $conceptoAceite, array $archivo, int $mes, int $year): bool
+    {
         $result = true;
         $aleatorio = uniqid();
         $upload_Factura = "";
         $documentoFactura = "";
-        if (!empty($archivo) && isset($archivo['name'])) :
+        if (!empty($archivo) && isset($archivo['name'])):
             $factura = $archivo['name'];
             $upload_Factura = "../../../archivos/aceites-facturas/" . $aleatorio . "-" . $factura;
             $documentoFactura = $aleatorio . "-" . $factura;
@@ -1771,21 +1807,21 @@ class CorteDiario extends Exception
         endif;
 
         $mes_formateado = sprintf("%02d", $mes);
-        
+
         $fecha_20 = date("$year-$mes_formateado-20");
         $fecha_25 = date("$year-$mes_formateado-25");
         $fecha_28 = date("$year-$mes_formateado-28");
-        
+
         $fecha_actual = date("Y-m-d");
         $puntaje = 0;
-        if ($fecha_actual <= $fecha_20) :
+        if ($fecha_actual <= $fecha_20):
             $puntaje = 3;
-        elseif ($fecha_actual > $fecha_20 && $fecha_actual <= $fecha_25) :
+        elseif ($fecha_actual > $fecha_20 && $fecha_actual <= $fecha_25):
             $puntaje = 2;
-        elseif($fecha_actual > $fecha_25 && $fecha_actual <= $fecha_28) :
+        elseif ($fecha_actual > $fecha_25 && $fecha_actual <= $fecha_28):
             $puntaje = 1;
         endif;
-        
+
         $sql_insert = "INSERT INTO op_aceites_factura (
             id_mes,
             fecha,
@@ -1795,28 +1831,29 @@ class CorteDiario extends Exception
             puntaje
             ) VALUES (?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql_insert);
-        if(! $stmt) :
-            throw new Exception("Error al preparar la consulta ". $stmt->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta " . $stmt->error);
         endif;
-        $stmt->bind_param("issssi", $id,$fechaAceite,$conceptoAceite,$documentoFactura,$fecha_actual,$puntaje);
-        if(!$stmt->execute()) :
+        $stmt->bind_param("issssi", $id, $fechaAceite, $conceptoAceite, $documentoFactura, $fecha_actual, $puntaje);
+        if (!$stmt->execute()):
             $result = false;
-            throw new Exception("Error al ejecutar la consulta". $this->con->error);
+            throw new Exception("Error al ejecutar la consulta" . $this->con->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function eliminarFacturaArchivoAceite($id) : bool {
+    public function eliminarFacturaArchivoAceite($id): bool
+    {
         $result = true;
         $sql = "DELETE FROM op_aceites_factura WHERE id = ? ";
         $stmt = $this->con->prepare($sql);
-        if(! $stmt) :
-            throw new Exception("Error al preparar la consulta ".$this->con->error );
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta " . $this->con->error);
         endif;
         $stmt->bind_param("i", $id);
-        if(!$stmt->execute()) :
+        if (!$stmt->execute()):
             $result = false;
-            throw new Exception("Error al ejecutar la consulta".$stmt->error);
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
         $stmt->close();
         return $result;
@@ -1830,126 +1867,130 @@ class CorteDiario extends Exception
      * 
      * 
      */
-    public function agregarDocumentoMonedero(array $doc,int $id,string $fecha,string $monedero, float $diferencia): void 
+    public function agregarDocumentoMonedero(array $doc, int $id, string $fecha, string $monedero, float $diferencia): void
     {
         $aleatorio = uniqid();
         $valor = "";
-        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
             $valor = "pdf = ?";
             $pdf = $doc[0]['name'];
-            $upload_PDF = "../../../archivos/".$aleatorio."-".$pdf;
-            $documentoPDF = $aleatorio."-".$pdf;
-            if(move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)) :
-                $this->actualizaDocumentoMonedero($documentoPDF,$id,$valor);
+            $upload_PDF = "../../../archivos/" . $aleatorio . "-" . $pdf;
+            $documentoPDF = $aleatorio . "-" . $pdf;
+            if (move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)):
+                $this->actualizaDocumentoMonedero($documentoPDF, $id, $valor);
             endif;
         endif;
-        if(!empty($doc[1]) && isset($doc[1]['name'])):
+        if (!empty($doc[1]) && isset($doc[1]['name'])):
             $valor = "xml = ?";
-            $xml  =   $doc[1]['name'];
-            $upload_XML = "../../../archivos/".$aleatorio."-".$xml;
-            $documentoXML = $aleatorio."-".$xml;
-            if(move_uploaded_file($doc[1]['tmp_name'], $upload_XML)) :
-                $this->actualizaDocumentoMonedero($documentoXML,$id,$valor);
+            $xml = $doc[1]['name'];
+            $upload_XML = "../../../archivos/" . $aleatorio . "-" . $xml;
+            $documentoXML = $aleatorio . "-" . $xml;
+            if (move_uploaded_file($doc[1]['tmp_name'], $upload_XML)):
+                $this->actualizaDocumentoMonedero($documentoXML, $id, $valor);
             endif;
         endif;
-        
-        if(!empty($doc[2]) && isset($doc[2]['name'])):
+
+        if (!empty($doc[2]) && isset($doc[2]['name'])):
             $valor = "excel = ?";
-            $excel  =   $doc[2]['name'];
-            $upload_EXCEL = "../../../archivos/".$aleatorio."-".$excel;
-            $documentoEXCEL = $aleatorio."-".$excel;
-            if(move_uploaded_file($doc[2]['tmp_name'], $upload_EXCEL)):
-                $this->actualizaDocumentoMonedero($documentoEXCEL,$id,$valor);
+            $excel = $doc[2]['name'];
+            $upload_EXCEL = "../../../archivos/" . $aleatorio . "-" . $excel;
+            $documentoEXCEL = $aleatorio . "-" . $excel;
+            if (move_uploaded_file($doc[2]['tmp_name'], $upload_EXCEL)):
+                $this->actualizaDocumentoMonedero($documentoEXCEL, $id, $valor);
             endif;
         endif;
-        
+
         $sql = "UPDATE op_monedero_documento SET fecha = ?, monedero = ?, diferencia = ? WHERE id=? ";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("ssdi", $fecha,$monedero,$diferencia,$id);
-        if(!$stmt->execute()):
+        $stmt->bind_param("ssdi", $fecha, $monedero, $diferencia, $id);
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
     }
-    private function actualizaDocumentoMonedero(string $documento,int $id, string $valor): void {
+    private function actualizaDocumentoMonedero(string $documento, int $id, string $valor): void
+    {
         $sql = "UPDATE op_monedero_documento SET $valor WHERE id=?";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("si", $documento,$id);
-        if(!$stmt->execute()):
+        $stmt->bind_param("si", $documento, $id);
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
     }
-    public function agregarDocumentoEdi(array $doc, int $id,string $complemento):void {
-        
+    public function agregarDocumentoEdi(array $doc, int $id, string $complemento): void
+    {
+
         $aleatorio = uniqid();
         $archivoPdf = "";
         $archivoXml = "";
-        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
             $pdf = $doc[0]['name'];
-            $upload_PDF = "../../../archivos/".$aleatorio."-".$pdf;
-            $documentoPDF = $aleatorio."-".$pdf;
-            if(move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)) :
+            $upload_PDF = "../../../archivos/" . $aleatorio . "-" . $pdf;
+            $documentoPDF = $aleatorio . "-" . $pdf;
+            if (move_uploaded_file($doc[0]['tmp_name'], $upload_PDF)):
                 $archivoPdf = $documentoPDF;
             endif;
         endif;
-        if(!empty($doc[1]) && isset($doc[1]['name'])):
-            $xml  =   $doc[1]['name'];
-            $upload_XML = "../../../archivos/".$aleatorio."-".$xml;
-            $documentoXML = $aleatorio."-".$xml;
-            if(move_uploaded_file($doc[1]['tmp_name'], $upload_XML)) :
+        if (!empty($doc[1]) && isset($doc[1]['name'])):
+            $xml = $doc[1]['name'];
+            $upload_XML = "../../../archivos/" . $aleatorio . "-" . $xml;
+            $documentoXML = $aleatorio . "-" . $xml;
+            if (move_uploaded_file($doc[1]['tmp_name'], $upload_XML)):
                 $archivoXml = $documentoXML;
             endif;
         endif;
         $sql = "INSERT INTO op_monedero_edi (id_documento,complemento,pdf,xml) VALUES (?,?,?,?)";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("isss",$id,$complemento,$archivoPdf,$archivoXml);
-        if(!$stmt->execute()):
+        $stmt->bind_param("isss", $id, $complemento, $archivoPdf, $archivoXml);
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
-        
+
     }
-    public function eliminarDocumentoEdi(int $id) :bool {
-        $result =true;
+    public function eliminarDocumentoEdi(int $id): bool
+    {
+        $result = true;
         $sql = "DELETE FROM op_monedero_edi WHERE id= ? ";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("i",$id);
-        if(!$stmt->execute()) :
+        $stmt->bind_param("i", $id);
+        if (!$stmt->execute()):
             $result = false;
-            throw new Exception("Error al ejecutar la consulta".$stmt->error);    
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
         return $result;
     }
-    public function agregarPagoDiferencia(int $repAceite,int $year,int $mes,array $doc,int $idEstacion,string $comentario):void {
-        $sql_reporte = 
-        "SELECT inventario_bodega,inventario_exibidores,bodega,exibidores,pedido,id_aceite,id_mes
+    public function agregarPagoDiferencia(int $repAceite, int $year, int $mes, array $doc, int $idEstacion, string $comentario): void
+    {
+        $sql_reporte =
+            "SELECT inventario_bodega,inventario_exibidores,bodega,exibidores,pedido,id_aceite,id_mes
          FROM op_aceites_lubricantes_reporte WHERE id = ?";
         $result_reporte = $this->con->prepare($sql_reporte);
-        if(!$result_reporte):
-            throw new Exception("Error al preparar la consulta".$this->con->error);
+        if (!$result_reporte):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
         $result_reporte->bind_param("i", $repAceite); // "i" indica que $repAceite es un entero (si es otro tipo, ajusta la letra correspondiente)
-        if(!$result_reporte->execute()):
-            throw new Exception("Error al ejectuar la consulta".$result_reporte->error);
+        if (!$result_reporte->execute()):
+            throw new Exception("Error al ejectuar la consulta" . $result_reporte->error);
         endif;
         $result_reporte->store_result();
         $numero_reporte = $result_reporte->num_rows;
-        if ($numero_reporte > 0) :
+        if ($numero_reporte > 0):
             $result_reporte->bind_result($inventario_bodega, $inventario_exibidores, $bodega, $exibidores, $pedido, $noaceite, $idmes);
-            while ($result_reporte->fetch()) :
+            while ($result_reporte->fetch()):
                 $inventario_bodega = $this->valRow($inventario_bodega);
                 $inventario_exibidores = $this->valRow($inventario_exibidores);
                 $bodega = $this->valRow($bodega);
@@ -1963,22 +2004,22 @@ class CorteDiario extends Exception
                 $diferencia = $inventario_final - $inventarioF;
             endwhile;
         endif;
-        if ($mes == 12) :
-          $nwyear = $year + 1;
-          $nwmes = 1;
-          $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
-        else :
-          $nwyear = $year;
-          $nwmes = $mes + 1;
-          $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
+        if ($mes == 12):
+            $nwyear = $year + 1;
+            $nwmes = 1;
+            $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
+        else:
+            $nwyear = $year;
+            $nwmes = $mes + 1;
+            $IdReporte = $this->idReportePago($idEstacion, $nwyear, $nwmes);
         endif;
 
         $aleatorio = uniqid();
-        if (!empty($doc) && isset($doc['name'])) :
+        if (!empty($doc) && isset($doc['name'])):
             $pdf = $doc['name'];
-            $upload_PDF = "../../../archivos/".$aleatorio."-".$pdf;
-            $documentoPDF = $aleatorio."-".$pdf;
-            if(move_uploaded_file($doc['tmp_name'], $upload_PDF)) :
+            $upload_PDF = "../../../archivos/" . $aleatorio . "-" . $pdf;
+            $documentoPDF = $aleatorio . "-" . $pdf;
+            if (move_uploaded_file($doc['tmp_name'], $upload_PDF)):
                 $status = 0;
                 $dif = abs($diferencia);
                 $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte_pagodiferencia (
@@ -1993,28 +2034,29 @@ class CorteDiario extends Exception
                     VALUES 
                     (?,?,?,?,?,?,?)";
                 $stmt = $this->con->prepare($sql_insert);
-                if(!$stmt):
-                    throw new Exception("Error al preparar la consulta".$this->con->error);
+                if (!$stmt):
+                    throw new Exception("Error al preparar la consulta" . $this->con->error);
                 endif;
-                $stmt->bind_param("iiiissi", $repAceite,$IdReporte,$noaceite,$dif,$documentoPDF,$comentario,$status);
-                $this->actualizarAlmacen($IdReporte, $idAceite, $dif);               
+                $stmt->bind_param("iiiissi", $repAceite, $IdReporte, $noaceite, $dif, $documentoPDF, $comentario, $status);
+                $this->actualizarAlmacen($IdReporte, $idAceite, $dif);
             endif;
         endif;
     }
-    private function valRow(int $valor) : int {
+    private function valRow(int $valor): int
+    {
         $resultado = 0;
-        if ($valor != 0) :
+        if ($valor != 0):
             $resultado = number_format($valor, 2, '.', '');
         endif;
         return $resultado;
-    } 
-    private function idReportePago($Session_IDEstacion,$GET_year,$GET_mes)
+    }
+    private function idReportePago($Session_IDEstacion, $GET_year, $GET_mes)
     {
         $idmes = 0;
         $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = (SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?) AND mes = ?";
         $stmt_mes = $this->con->prepare($sql_mes);
-        if (!$stmt_mes) :
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt_mes):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
         $stmt_mes->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
         $stmt_mes->execute();
@@ -2023,28 +2065,29 @@ class CorteDiario extends Exception
         $stmt_mes->close();
         return $idmes;
     }
-    private function totalAceite(int $idmes, int $noaceite) : int {
+    private function totalAceite(int $idmes, int $noaceite): int
+    {
 
         $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
         $result = $this->con->prepare($sql);
-        if(!$result):
-            throw new Exception ("Error al preparar la consulta".$this->con->error);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
         $result->bind_param("i", $idmes);
-        if(!$result->execute()):
-            throw new Exception ("Error al ejecutar la consulta".$result->error);
+        if (!$result->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result->error);
         endif;
         $result->bind_result($id);
         $result->fetch();
         $result->close();
         $sql_lista = "SELECT cantidad FROM op_aceites_lubricantes WHERE idreporte_dia = ? AND id_aceite = ? LIMIT 1 ";
         $result2 = $this->con->prepare($sql_lista);
-        if(!$result2):
-            throw new Exception ("Error al preparas la segunda consulta".$this->con->error);
+        if (!$result2):
+            throw new Exception("Error al preparas la segunda consulta" . $this->con->error);
         endif;
-        $result2->bind_param("ii",$id, $noaceite);
-        if(!$result2->execute()):
-            throw new Exception("Error al ejecutar la segunda consulta ". $result2->error);
+        $result2->bind_param("ii", $id, $noaceite);
+        if (!$result2->execute()):
+            throw new Exception("Error al ejecutar la segunda consulta " . $result2->error);
         endif;
         $result2->bind_result($can);
         $cantidad = $result2->fetch();
@@ -2055,24 +2098,24 @@ class CorteDiario extends Exception
     {
         $sql_reporte = "SELECT id, bodega FROM op_inventario_aceites WHERE id_mes = ? AND id_aceite = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
-        if(!$result_reporte):
-            throw new Exception("Error al preparar la consulta".$this->con->error);
+        if (!$result_reporte):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $result_reporte->bind_param("ii",$IdReporte,$idAceite);
-        if( !$result_reporte->execute() ):
-            throw new Exception("".$result_reporte->error);
+        $result_reporte->bind_param("ii", $IdReporte, $idAceite);
+        if (!$result_reporte->execute()):
+            throw new Exception("" . $result_reporte->error);
         endif;
-        $result_reporte->bind_result($id,$bod);
+        $result_reporte->bind_result($id, $bod);
         $result_reporte->close();
         $bodega = $bod + $diferencia;
         $sql = "UPDATE op_inventario_aceites SET bodega =? WHERE id =?";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta".$this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_param("ii",$bodega,$id);
-        if( !$stmt->execute() ):
-            throw new Exception("Error al ejecutar la consulta".$stmt->error);
+        $stmt->bind_param("ii", $bodega, $id);
+        if (!$stmt->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
         $stmt->close();
     }
@@ -2097,17 +2140,18 @@ class CorteDiario extends Exception
             comentario
             ) VALUES (?,?,?)";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_Param("iis",$idEmbarque, $idEstacion, $comentario);
-        if(!$stmt->execute()):
+        $stmt->bind_Param("iis", $idEmbarque, $idEstacion, $comentario);
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function agregarEmbarques(array $doc, array $val ): void {
+    public function agregarEmbarques(array $doc, array $val): void
+    {
         $sql = "INSERT INTO op_embarques (
             id_mes,
             fecha,
@@ -2125,12 +2169,26 @@ class CorteDiario extends Exception
             VALUES 
             (?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_Param("isssddssssds",$val[0], $val[1], $val[2],$val[3],$val[4],$val[5]
-                                        ,$val[6], $val[7], $val[8],$val[9],$val[10],$val[11]);
-        if(!$stmt->execute()):
+        $stmt->bind_Param(
+            "isssddssssds",
+            $val[0],
+            $val[1],
+            $val[2],
+            $val[3],
+            $val[4],
+            $val[5]
+            ,
+            $val[6],
+            $val[7],
+            $val[8],
+            $val[9],
+            $val[10],
+            $val[11]
+        );
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
@@ -2139,109 +2197,112 @@ class CorteDiario extends Exception
         $aleatorio = uniqid();
         $valor = "";
         $consulta = "id_mes = ?";
-        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
             $valor = "documento = ?";
             $docu = $doc[0]['name'];
-            $documento = "../../../archivos/".$aleatorio."-".$docu;
-            $documentoPDF = $aleatorio."-".$docu;
-            if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
-                $this->actualizaDocumentoEmbarques($documentoPDF,$id_mes,$valor,$consulta);
+            $documento = "../../../archivos/" . $aleatorio . "-" . $docu;
+            $documentoPDF = $aleatorio . "-" . $docu;
+            if (move_uploaded_file($doc[0]['tmp_name'], $documento)):
+                $this->actualizaDocumentoEmbarques($documentoPDF, $id_mes, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[1]) && isset($doc[1]['name'])):
+        if (!empty($doc[1]) && isset($doc[1]['name'])):
             $valor = "pdf = ?";
-            $pdf  =   $doc[1]['name'];
-            $uploadPdf = "../../../archivos/".$aleatorio."-".$pdf;
-            $documentoPdf = $aleatorio."-".$pdf;
-            if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoPdf,$id_mes,$valor,$consulta);
+            $pdf = $doc[1]['name'];
+            $uploadPdf = "../../../archivos/" . $aleatorio . "-" . $pdf;
+            $documentoPdf = $aleatorio . "-" . $pdf;
+            if (move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)):
+                $this->actualizaDocumentoEmbarques($documentoPdf, $id_mes, $valor, $consulta);
             endif;
         endif;
-        
-        if(!empty($doc[2]) && isset($doc[2]['name'])):
+
+        if (!empty($doc[2]) && isset($doc[2]['name'])):
             $valor = "xml = ?";
-            $xml  =   $doc[2]['name'];
-            $uploadXml = "../../../archivos/".$aleatorio."-".$xml;
-            $documentoXml = $aleatorio."-".$xml;
-            if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
-                $this->actualizaDocumentoEmbarques($documentoXml,$id_mes,$valor,$consulta);
+            $xml = $doc[2]['name'];
+            $uploadXml = "../../../archivos/" . $aleatorio . "-" . $xml;
+            $documentoXml = $aleatorio . "-" . $xml;
+            if (move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
+                $this->actualizaDocumentoEmbarques($documentoXml, $id_mes, $valor, $consulta);
             endif;
         endif;
-        if (!empty($doc[3]) && isset($doc[3]['name'])) :
+        if (!empty($doc[3]) && isset($doc[3]['name'])):
             $valor = "comprobante_p = ?";
             $comprobante = $doc[3]['name'];
-            $upload_comprobante = "../../../archivos/".$aleatorio."-".$comprobante;
-            $documentoComprobante = $aleatorio."-".$comprobante;
-            if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
-                $this->actualizaDocumentoEmbarques($documentoComprobante,$id_mes,$valor,$consulta);
+            $upload_comprobante = "../../../archivos/" . $aleatorio . "-" . $comprobante;
+            $documentoComprobante = $aleatorio . "-" . $comprobante;
+            if (move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)):
+                $this->actualizaDocumentoEmbarques($documentoComprobante, $id_mes, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[4]) && isset($doc[4]['name'])):
+        if (!empty($doc[4]) && isset($doc[4]['name'])):
             $valor = "nc_pdf = ?";
-            $nc_pdf  =   $doc[4]['name'];
-            $uploadNc = "../../../archivos/".$aleatorio."-".$nc_pdf;
-            $documentoNc = $aleatorio."-".$nc_pdf;
-            if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
-                $this->actualizaDocumentoEmbarques($documentoNc,$id_mes,$valor,$consulta);
+            $nc_pdf = $doc[4]['name'];
+            $uploadNc = "../../../archivos/" . $aleatorio . "-" . $nc_pdf;
+            $documentoNc = $aleatorio . "-" . $nc_pdf;
+            if (move_uploaded_file($doc[4]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc, $id_mes, $valor, $consulta);
             endif;
         endif;
-        
-        if(!empty($doc[5]) && isset($doc[5]['name'])):
+
+        if (!empty($doc[5]) && isset($doc[5]['name'])):
             $valor = "nc_xml = ?";
-            $nc_xml  =   $doc[5]['name'];
-            $uploadNc = "../../../archivos/".$aleatorio."-".$nc_xml;
-            $documentoNc = $aleatorio."-".$nc_xml;
-            if(move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
-                $this->actualizaDocumentoEmbarques($documentoNc,$id_mes,$valor,$consulta);
+            $nc_xml = $doc[5]['name'];
+            $uploadNc = "../../../archivos/" . $aleatorio . "-" . $nc_xml;
+            $documentoNc = $aleatorio . "-" . $nc_xml;
+            if (move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc, $id_mes, $valor, $consulta);
             endif;
         endif;
-        if (!empty($doc[6]) && isset($doc[6]['name'])) :
+        if (!empty($doc[6]) && isset($doc[6]['name'])):
             $valor = "comPDF = ?";
             $comPDf = $doc[6]['name'];
-            $uploadComPdf = "../../../archivos/".$aleatorio."-".$comPDf;
-            $documentoComPdf = $aleatorio."-".$comPDf;
-            if(move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoComPdf,$id_mes,$valor,$consulta);
+            $uploadComPdf = "../../../archivos/" . $aleatorio . "-" . $comPDf;
+            $documentoComPdf = $aleatorio . "-" . $comPDf;
+            if (move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)):
+                $this->actualizaDocumentoEmbarques($documentoComPdf, $id_mes, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[7]) && isset($doc[7]['name'])):
+        if (!empty($doc[7]) && isset($doc[7]['name'])):
             $valor = "comXML = ?";
-            $comXml  =   $doc[7]['name'];
-            $uploadComXml = "../../../archivos/".$aleatorio."-".$comXml;
-            $documentoXML = $aleatorio."-".$comXml;
-            if(move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)) :
-                $this->actualizaDocumentoEmbarques($documentoXML,$id_mes,$valor,$consulta);
+            $comXml = $doc[7]['name'];
+            $uploadComXml = "../../../archivos/" . $aleatorio . "-" . $comXml;
+            $documentoXML = $aleatorio . "-" . $comXml;
+            if (move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)):
+                $this->actualizaDocumentoEmbarques($documentoXML, $id_mes, $valor, $consulta);
             endif;
         endif;
     }
-    private function actualizaDocumentoEmbarques(string $documento,int $id, string $valor, string $consulta ) : void {
+    private function actualizaDocumentoEmbarques(string $documento, int $id, string $valor, string $consulta): void
+    {
         $sql = "UPDATE op_embarques SET $valor WHERE $consulta";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_Param("si",$documento,$id);
-        if(!$stmt->execute()):
+        $stmt->bind_Param("si", $documento, $id);
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
     }
-    public function eliminaEmbarque(int $id): bool {
+    public function eliminaEmbarque(int $id): bool
+    {
         $result = true;
         $sql = "DELETE FROM op_embarques WHERE id = ? ";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_Param("i",$id);
-        if(!$stmt->execute()):
+        $stmt->bind_Param("i", $id);
+        if (!$stmt->execute()):
             $result = false;
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
         return $result;
     }
-    public function actualizaEmbarque(array $doc,array $val): void {
+    public function actualizaEmbarque(array $doc, array $val): void
+    {
         $sql = "UPDATE op_embarques SET
             fecha = ?,
             embarque = ?,
@@ -2256,12 +2317,26 @@ class CorteDiario extends Exception
             tad = ?
             WHERE id = ?";
         $stmt = $this->con->prepare($sql);
-        if(!$stmt):
-            throw new Exception("Error al preparar la consulta". $this->con->error);
+        if (!$stmt):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
-        $stmt->bind_Param("sssddssssdsi",$val[0], $val[1], $val[2],$val[3],$val[4],$val[5]
-                                        ,$val[6], $val[7], $val[8],$val[9],$val[10],$val[11]);
-        if(!$stmt->execute()):
+        $stmt->bind_Param(
+            "sssddssssdsi",
+            $val[0],
+            $val[1],
+            $val[2],
+            $val[3],
+            $val[4],
+            $val[5]
+            ,
+            $val[6],
+            $val[7],
+            $val[8],
+            $val[9],
+            $val[10],
+            $val[11]
+        );
+        if (!$stmt->execute()):
             throw new Exception("Erro al ejecutar la consulta", $stmt->error);
         endif;
         $stmt->close();
@@ -2271,78 +2346,78 @@ class CorteDiario extends Exception
         $aleatorio = uniqid();
         $valor = "";
         $consulta = "id = ?";
-        if (!empty($doc[0]) && isset($doc[0]['name'])) :
+        if (!empty($doc[0]) && isset($doc[0]['name'])):
             $valor = "documento = ?";
             $docu = $doc[0]['name'];
-            $documento = "../../../archivos/".$aleatorio."-".$docu;
-            $documentoPDF = $aleatorio."-".$docu;
-            if(move_uploaded_file($doc[0]['tmp_name'], $documento)) :
-                $this->actualizaDocumentoEmbarques($documentoPDF,$id,$valor,$consulta);
+            $documento = "../../../archivos/" . $aleatorio . "-" . $docu;
+            $documentoPDF = $aleatorio . "-" . $docu;
+            if (move_uploaded_file($doc[0]['tmp_name'], $documento)):
+                $this->actualizaDocumentoEmbarques($documentoPDF, $id, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[1]) && isset($doc[1]['name'])):
+        if (!empty($doc[1]) && isset($doc[1]['name'])):
             $valor = "pdf = ?";
-            $pdf  =   $doc[1]['name'];
-            $uploadPdf = "../../../archivos/".$aleatorio."-".$pdf;
-            $documentoPdf = $aleatorio."-".$pdf;
-            if(move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoPdf,$id,$valor,$consulta);
+            $pdf = $doc[1]['name'];
+            $uploadPdf = "../../../archivos/" . $aleatorio . "-" . $pdf;
+            $documentoPdf = $aleatorio . "-" . $pdf;
+            if (move_uploaded_file($doc[1]['tmp_name'], $uploadPdf)):
+                $this->actualizaDocumentoEmbarques($documentoPdf, $id, $valor, $consulta);
             endif;
         endif;
-        
-        if(!empty($doc[2]) && isset($doc[2]['name'])):
+
+        if (!empty($doc[2]) && isset($doc[2]['name'])):
             $valor = "xml = ?";
-            $xml  =   $doc[2]['name'];
-            $uploadXml = "../../../archivos/".$aleatorio."-".$xml;
-            $documentoXml = $aleatorio."-".$xml;
-            if(move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
-                $this->actualizaDocumentoEmbarques($documentoXml,$id,$valor,$consulta);
+            $xml = $doc[2]['name'];
+            $uploadXml = "../../../archivos/" . $aleatorio . "-" . $xml;
+            $documentoXml = $aleatorio . "-" . $xml;
+            if (move_uploaded_file($doc[2]['tmp_name'], $uploadXml)):
+                $this->actualizaDocumentoEmbarques($documentoXml, $id, $valor, $consulta);
             endif;
         endif;
-        if (!empty($doc[3]) && isset($doc[3]['name'])) :
+        if (!empty($doc[3]) && isset($doc[3]['name'])):
             $valor = "comprobante_p = ?";
             $comprobante = $doc[3]['name'];
-            $upload_comprobante = "../../../archivos/".$aleatorio."-".$comprobante;
-            $documentoComprobante = $aleatorio."-".$comprobante;
-            if(move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)) :
-                $this->actualizaDocumentoEmbarques($documentoComprobante,$id,$valor,$consulta);
+            $upload_comprobante = "../../../archivos/" . $aleatorio . "-" . $comprobante;
+            $documentoComprobante = $aleatorio . "-" . $comprobante;
+            if (move_uploaded_file($doc[3]['tmp_name'], $upload_comprobante)):
+                $this->actualizaDocumentoEmbarques($documentoComprobante, $id, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[4]) && isset($doc[4]['name'])):
+        if (!empty($doc[4]) && isset($doc[4]['name'])):
             $valor = "nc_pdf = ?";
-            $nc_pdf  =   $doc[4]['name'];
-            $uploadNc = "../../../archivos/".$aleatorio."-".$nc_pdf;
-            $documentoNc = $aleatorio."-".$nc_pdf;
-            if(move_uploaded_file($doc[4]['tmp_name'], $uploadNc)) :
-                $this->actualizaDocumentoEmbarques($documentoNc,$id,$valor,$consulta);
+            $nc_pdf = $doc[4]['name'];
+            $uploadNc = "../../../archivos/" . $aleatorio . "-" . $nc_pdf;
+            $documentoNc = $aleatorio . "-" . $nc_pdf;
+            if (move_uploaded_file($doc[4]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc, $id, $valor, $consulta);
             endif;
         endif;
-        
-        if(!empty($doc[5]) && isset($doc[5]['name'])):
+
+        if (!empty($doc[5]) && isset($doc[5]['name'])):
             $valor = "nc_xml = ?";
-            $nc_xml  =   $doc[5]['name'];
-            $uploadNc = "../../../archivos/".$aleatorio."-".$nc_xml;
-            $documentoNc = $aleatorio."-".$nc_xml;
-            if(move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
-                $this->actualizaDocumentoEmbarques($documentoNc,$id,$valor,$consulta);
+            $nc_xml = $doc[5]['name'];
+            $uploadNc = "../../../archivos/" . $aleatorio . "-" . $nc_xml;
+            $documentoNc = $aleatorio . "-" . $nc_xml;
+            if (move_uploaded_file($doc[5]['tmp_name'], $uploadNc)):
+                $this->actualizaDocumentoEmbarques($documentoNc, $id, $valor, $consulta);
             endif;
         endif;
-        if (!empty($doc[6]) && isset($doc[6]['name'])) :
+        if (!empty($doc[6]) && isset($doc[6]['name'])):
             $valor = "comPDF = ?";
             $comPDf = $doc[6]['name'];
-            $uploadComPdf = "../../../archivos/".$aleatorio."-".$comPDf;
-            $documentoComPdf = $aleatorio."-".$comPDf;
-            if(move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)) :
-                $this->actualizaDocumentoEmbarques($documentoComPdf,$id,$valor,$consulta);
+            $uploadComPdf = "../../../archivos/" . $aleatorio . "-" . $comPDf;
+            $documentoComPdf = $aleatorio . "-" . $comPDf;
+            if (move_uploaded_file($doc[6]['tmp_name'], $uploadComPdf)):
+                $this->actualizaDocumentoEmbarques($documentoComPdf, $id, $valor, $consulta);
             endif;
         endif;
-        if(!empty($doc[7]) && isset($doc[7]['name'])):
+        if (!empty($doc[7]) && isset($doc[7]['name'])):
             $valor = "comXML = ?";
-            $comXml  =   $doc[7]['name'];
-            $uploadComXml = "../../../archivos/".$aleatorio."-".$comXml;
-            $documentoXML = $aleatorio."-".$comXml;
-            if(move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)) :
-                $this->actualizaDocumentoEmbarques($documentoXML,$id,$valor,$consulta);
+            $comXml = $doc[7]['name'];
+            $uploadComXml = "../../../archivos/" . $aleatorio . "-" . $comXml;
+            $documentoXML = $aleatorio . "-" . $comXml;
+            if (move_uploaded_file($doc[7]['tmp_name'], $uploadComXml)):
+                $this->actualizaDocumentoEmbarques($documentoXML, $id, $valor, $consulta);
             endif;
         endif;
     }
