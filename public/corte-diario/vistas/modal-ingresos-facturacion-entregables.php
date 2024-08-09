@@ -50,7 +50,7 @@ echo "</tr>";
 
 }
 }else{
-echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>
