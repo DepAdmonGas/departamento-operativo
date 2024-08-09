@@ -1371,6 +1371,7 @@ class CorteDiario extends Exception
             $result = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
+        $stmt->close();
         $this->newAlmacen($idEstacion, $idReporte);
         //$token = $this->toquenUser(19);
         $token = $this->formato->toquenUser(19);
@@ -1379,12 +1380,12 @@ class CorteDiario extends Exception
         //$this->sendNotification($token,$detalle,$accion);
         $this->formato->sendNotification($token, $detalle, $accion);
 
-        $stmt->close();
+        
         return $result;
     }
     private function mes(int $idReporte): int
     {
-        $sql_mes = "SELECT mes FROM op_corte_mes WHERE id = '" . $idReporte . "' LIMIT 1 ";
+        $sql_mes = "SELECT mes FROM op_corte_mes WHERE id = ? LIMIT 1 ";
         $result_mes = $this->con->prepare($sql_mes);
         if (!$result_mes):
             throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
@@ -1425,7 +1426,7 @@ class CorteDiario extends Exception
         $stmt->bind_result($idYear);
         $stmt->fetch();
         $stmt->store_result();
-        $numero_reporte = $stmt->num_rows();
+        $numero_reporte = $stmt->num_rows;
         $stmt->close();
 
         if ($numero_reporte == 0) {
@@ -1471,7 +1472,7 @@ class CorteDiario extends Exception
         $stmt->bind_result($idMes);
         $stmt->fetch();
         $stmt->store_result();
-        $numero_reporte = $stmt->num_rows();
+        $numero_reporte = $stmt->num_rows;
         $stmt->close();
 
         if ($numero_reporte == 0):
@@ -1481,7 +1482,7 @@ class CorteDiario extends Exception
             if (!$stmt):
                 throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
             endif;
-            $stmt->bind_param('iss', $idMes, $idYear, $fecha_mes);
+            $stmt->bind_param('iii', $idMes, $idYear, $fecha_mes);
             $stmt->execute();
             $stmt->close();
         endif;
