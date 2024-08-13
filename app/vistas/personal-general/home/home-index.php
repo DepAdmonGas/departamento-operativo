@@ -1,9 +1,5 @@
 <?php
-require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
+require 'app/help.php';
 
 $sql_listComunicados = "SELECT * FROM tb_comunicados_do ORDER BY id_comunicado DESC ";  
 $result_listComunicados = mysqli_query($con, $sql_listComunicados);
@@ -27,7 +23,6 @@ $spanAlert = '<span class="ms-1 badge bg-danger text-white rounded-circle">
 if ($session_nompuesto == "Auditor") {
 $onclickF = '';
 $nombreBar = 'Admongas';
-    
 }else{ 
 $onclickF = 'href="'.PORTAL.'"';
 $nombreBar = 'Portal';

@@ -51,7 +51,7 @@ endif;
                 $recibo = $row_listaprosegur['recibo'];
 
                 if ($row_listaprosegur['importe'] == 0) {
-                    $valimporte = "";
+                    $valimporte = 0;
                 } else {
                     $valimporte = number_format($row_listaprosegur['importe'], 2, '.', '');
                 }
@@ -70,9 +70,9 @@ endif;
                             onkeyup="EditPRecibo(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $recibo; ?>"
                             <?=$estado?>>
                     </td>
-                    <td class="p-0 align-middle <?=$deshabilitado, $hover?>">
+                    <td class="p-0 align-middle <?=$deshabilitado, $hover?>">$ 
                         <input class="p-3" id="importe-<?= $idProsegur; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
+                            style="border: 0px;width: 80%;height: 80%; text-align: right;"
                             onkeyup="EditPImporte(this,<?= $idReporte; ?>,<?= $idProsegur; ?>)" value="<?= $valimporte; ?>"
                             <?=$estado?>>
                     </td>

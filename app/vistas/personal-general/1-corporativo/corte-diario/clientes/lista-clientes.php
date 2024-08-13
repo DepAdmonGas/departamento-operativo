@@ -52,7 +52,6 @@ $numero_debito = $corteDiarioGeneral->getNumeroClientesPorTipo($idEstacion, 'Dé
 
 
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-    <hr class="responsive-hr">
 
     <div class="table-responsive">
       <table id="tabla_debito" class="custom-table mt-2" style="font-size: .8em;" width="100%">

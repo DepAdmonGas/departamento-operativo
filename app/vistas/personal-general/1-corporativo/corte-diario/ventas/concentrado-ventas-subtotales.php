@@ -50,4 +50,4 @@ while ($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)) {
 <td class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
     <strong><?= number_format($SubTotalLitros, 2); ?></strong></td>
 <td colspan="2" class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
-    <strong><?= number_format($SubImporteTotal, 2); ?></strong></td>
+    <strong>$ <?= number_format($SubImporteTotal, 2); ?></strong></td>

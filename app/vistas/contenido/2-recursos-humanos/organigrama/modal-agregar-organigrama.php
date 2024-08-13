@@ -18,7 +18,7 @@ $estacion = $row_listaestacion['localidad'];
 
 <div class="modal-body">
 
-<div class="text-secondary"><small>El organigrama debe ser en imagen .PNG o .JPG</small></div>
+<div class="text-secondary"><small>El organigrama debe ser en imagen ".PNG", ".JPG" ó "JPEG"</small></div>
 
 <h6 class="mb-2 mt-2">* Organigrama</h6>
 <input class="form-control" type="file" id="seleccionArchivos">

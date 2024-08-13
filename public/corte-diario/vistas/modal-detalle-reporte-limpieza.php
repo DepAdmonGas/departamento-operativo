@@ -52,18 +52,18 @@ endif;
   <div class="row">
 
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1 text-primary ">Personal:</h6>
+      <h6 class="mb-1">Personal:</h6>
       <div class=""><?= $personal; ?></div>
     </div>
 
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1 text-primary ">Fecha:</h6>
+      <h6 class="mb-1">Fecha:</h6>
       <div class=""><?= $fecha; ?></div>
     </div>
 
 
     <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1 text-primary ">Hora:</h6>
+      <h6 class="mb-1">Hora:</h6>
       <div class=""><?= $hora; ?></div>
     </div>
   </div>
@@ -71,7 +71,7 @@ endif;
   <div class="row">
 
     <div class="col-12">
-      <h6 class="mb-1 text-primary">Detalle:</h6>
+      <h6 class="mb-1 ">Detalle:</h6>
       <div class=""><?=$detalle?></div>
     </div>
   </div>

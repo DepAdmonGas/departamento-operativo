@@ -271,7 +271,7 @@ complete: function () {
 success: function (response) {
 if (response == 1) {
 $(".LoaderPage").hide();
-SelEstacion(idestacion,year,mes);
+SelEstacion(idEstacion,year,mes);
 sizeWindow();
 alertify.success('Registro eliminado exitosamente.')
 
@@ -442,7 +442,7 @@ $(".LoaderPage").show();
 
       },
       success: function (response) {
-       
+
        if(response == 1){
         $('#Comentario').val('');
           SelEstacion(idestacion,year,mes); 

@@ -79,7 +79,7 @@ endif;
                 $estado = $row_listacierre['estado'];
 
                 if ($row_listacierre['importe'] == 0) {
-                    $valimporte = "";
+                    $valimporte = 0;
                 } else {
                     $valimporte = number_format($row_listacierre['importe'], 2, '.', '');
                 }
@@ -102,9 +102,9 @@ endif;
                             onkeyup="EditNoCierre(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $nocierre; ?>" <?= $disabled; ?>>
                     </th>
-                    <td class="p-0 align-middle <?=$deshabilitado?> <?=$hover?>">
+                    <td class="p-0 align-middle <?=$deshabilitado?> <?=$hover?>">$ 
                         <input class="p-2" id="importe-<?= $idCierre; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
+                            style="border: 0px;width: 80%;height: 80%; text-align: right;"
                             onkeyup="EditImporte(this,<?= $idReporte; ?>,<?= $idCierre; ?>,'<?= $empresa; ?>')"
                             value="<?= $valimporte; ?>" <?= $disabled; ?>>
                     </td>
@@ -135,8 +135,8 @@ endif;
             }
             ?>
             <tr id="Total<?= $empresatotal; ?>">
-                <th class="align-middle text-center fw-bold no-hover">Total</th>
-                <td class="align-middle text-end no-hover"><b><?= number_format($TotalImporte, 2); ?></b></td>
+                <th class="align-middle text-center fw-bold no-hover">TOTAL</th>
+                <td class="align-middle text-end no-hover"><b>$ <?= number_format($TotalImporte, 2); ?></b></td>
                 <td class="align-middle text-center no-hover"><b><?= $TotalTicket; ?></b></td>
                 <td class="no-hover"></td>
             </tr>

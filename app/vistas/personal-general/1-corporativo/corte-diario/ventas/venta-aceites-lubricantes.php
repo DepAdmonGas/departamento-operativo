@@ -79,14 +79,13 @@ $numero_listaaceites = mysqli_num_rows($result_listaaceites);
                                 <?=$estado?>>
                         </td>
                         <!-- <td class="align-middle text-end" id="precioAL-<?= $idAceite; ?>"> -->
-                        <td class="p-0 align-middle text-end <?= $deshabilitado,$nohover?>">
-
+                        <td class="p-0 align-middle text-end <?= $deshabilitado,$nohover?>">$ 
                             <input class="p-3 "id="precioAL-<?= $idAceite; ?>" type="number" min="0"
-                                style="border: 0px;width: 100%;height: 100%; text-align: center;"
+                                style="border: 0px;width: 80%;height: 80%; text-align: center;"
                                 onkeyup="EditALPrecio(this,<?= $idReporte; ?>,<?= $idAceite; ?>)" value="<?= $preciounitario; ?>" <?=$estado?>>
                             <!--<?= $precio; ?> -->
                         </td>
-                        <td class=" align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
+                        <td class=" align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>">$ <?= number_format($importe, 2); ?></td>
                     </tr>
 
                     <?php

@@ -28,7 +28,48 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
+<style>
+  .table-responsive {
+    overflow: visible; /* Permitir que el menú se muestre fuera del contenedor */
+}
 
+.dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+    display: none; /* Ocultar el menú por defecto */
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+/* Mostrar el menú cuando esté abierto */
+.dropdown-menu.show {
+    display: block;
+}
+
+/* Ajustar la posición del menú a la derecha */
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+/* Asegúrate de que los íconos tengan suficiente espacio */
+.btn-icon-only {
+    display: inline-block;
+    padding: 0.5rem;
+}
+
+</style>
   <script type="text/javascript">
  
   $(document).ready(function($){
@@ -306,7 +347,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
-  <div class="row"> 
+  <div class=""> 
   <div class="col-12" id="ListaVales"></div> 
   </div>
   </div>
@@ -337,7 +378,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-  
+
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>

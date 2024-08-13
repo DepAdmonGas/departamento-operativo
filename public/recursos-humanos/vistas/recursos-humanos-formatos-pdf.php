@@ -1,6 +1,7 @@
 <?php
-require_once 'dompdf/autoload.inc.php';
-require('app/help.php');
+error_reporting(0);
+require_once 'app/lib/dompdf/vendor/autoload.php';
+require 'app/help.php';
 
 $sql = "SELECT * FROM op_rh_formatos WHERE id = '".$GET_idFormato."' ";
 $result = mysqli_query($con, $sql);
@@ -94,8 +95,8 @@ if($tipo == 'A'){
 
 $RutaFirma = "imgs/firma/".$firma;
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
-
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
+$resultado = '';
 $Personal = NombrePersonal($id_usuario,$con);
 $DetalleFirma = '<div class=""><img src="'.$baseFirma.'" style="width: 200px;"></div>';
 
@@ -106,7 +107,7 @@ $resultado .= '<div class="p-2 border">
 <div class="mt-2 text-secondary text-center"><b>Nombre del solicitante</b></div>
 </div>';
 }else if($tipo == 'B'){
-
+  $resultado = '';
 if($numero_firma != 0){
 $Detalle = '<div class="text-center p-2"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';  
 }else{
@@ -124,7 +125,7 @@ $resultado .= '<div class="p-2 border">
 
 
 }else if($tipo == 'C'){
-
+  $resultado = '';
 if($numero_firma != 0){
 $Detalle = '<div class="text-center p-2"><small>El formato se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';  
 }else{
@@ -147,7 +148,7 @@ return $resultado;
 }
 
 function Formato1($idFormato,$Localidad,$fecha,$con){
-
+  $contenido ='';
 $explode = explode(' ', $fecha);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
 
@@ -243,7 +244,7 @@ if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = '<div class="border-bottom mb-2"></div><div style="padding-top: 10px;">NOMBRE Y FIRMA DE QUIEN ELABORO</div>';
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 $Detalle = '<div style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></br></br></div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
@@ -272,7 +273,7 @@ function Formato2($idFormato,$Localidad,$fecha,$con){
 
 $explode = explode(' ', $fecha);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
-
+$contenido = '';
 $contenido .= '<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="margin-top: 20px;font-size: 1.08em;">';
 $contenido .= '<tbody>';
 $contenido .= '<tr>';
@@ -357,7 +358,7 @@ if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = '<div class="border-bottom mb-2"></div><div style="padding-top: 10px;">NOMBRE Y FIRMA DE QUIEN ELABORO</div>';
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 $Detalle = '<div style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></br></br></div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
@@ -385,7 +386,7 @@ function Formato3($idFormato,$Localidad,$fecha,$con){
 
 $explode = explode(' ', $fecha);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
-
+$contenido = '';
 $contenido .= '<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="margin-top: 20px;font-size: 1.08em;">';
 $contenido .= '<tbody>';
 $contenido .= '<tr>';
@@ -467,7 +468,7 @@ if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = '<div class="border-bottom mb-2"></div><div style="padding-top: 10px;">NOMBRE Y FIRMA DE QUIEN ELABORO</div>';
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 $Detalle = '<div style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></br></br></div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
@@ -495,7 +496,7 @@ function Formato4($idFormato,$Localidad,$fecha,$con){
 
 $explode = explode(' ', $fecha);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
-
+$contenido ='';
 $contenido .= '<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="margin-top: 20px;font-size: 1.08em;">';
 $contenido .= '<tbody>';
 $contenido .= '<tr>';
@@ -579,7 +580,7 @@ if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = '<div class="border-bottom mb-2"></div><div style="padding-top: 10px;">NOMBRE Y FIRMA DE QUIEN ELABORO</div>';
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 $Detalle = '<div style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></br></br></div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
@@ -618,7 +619,7 @@ $observaciones = $rowDetalle['observaciones'];
 }
 
 $Personal = NombrePersonal($idusuario,$con);
-
+$contenido ='';
 $contenido .= '<div style="margin-top: 20px;margin-bottom: 20px;font-size: 1.5em;">Solicitud de vacaciones</div>';
 $contenido .= '<table class="table table-bordered" style>
     <tr>
@@ -671,7 +672,7 @@ function Formato6($idFormato,$Localidad,$fecha,$con){
 $explode = explode(' ', $fecha);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
 
-
+$contenido ='';
 $contenido .= '<div style="margin-top: 20px;margin-bottom: 20px;font-size: 1.05em;">';
 $contenido .= '<div style="margin-top: 20px;margin-bottom: 20px;font-size: 1.05em;"><b>Lic. Alejandro Guzmán</b></div>';
 $contenido .= '<div style="margin-top: 30px;margin-bottom: 20px;font-size: 1.05em;"><b>Departamento de Recursos Humanos</b></div>';
@@ -732,7 +733,7 @@ if($row_firma['tipo_firma'] == "A"){
 $TipoFirma = '<div class="border-bottom mb-2"></div><div style="padding-top: 10px;">NOMBRE Y FIRMA DE QUIEN ELABORO</div>';
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 $Detalle = '<div style="margin-top: 10px;"><img src="'.$baseFirma.'" style="width: 200px;"></br></br></div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
@@ -966,7 +967,7 @@ $contenido .= '<body>';
 
 $RutaLogo = RUTA_IMG_ICONOS.'Logo.png';
 $DataLogo = file_get_contents($RutaLogo);
-$baseLogo = 'data:image/' . $type . ';base64,' . base64_encode($DataLogo);
+$baseLogo = 'data:image/;base64,' . base64_encode($DataLogo);
 
 $contenido .= '<img src="'.$baseLogo.'" style="width: 180px;">';
 

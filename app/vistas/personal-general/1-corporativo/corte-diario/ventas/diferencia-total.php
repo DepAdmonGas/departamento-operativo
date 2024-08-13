@@ -61,7 +61,7 @@ $totalNeto = $SubImporteTotal + $sumImporte;
 
 $CTotal = $totalImporte + $baucherTotal + $consumo;
 
-echo "<strong>" . number_format($CTotal - $totalNeto, 2) . "</strong>";
+echo "<strong>$ " . number_format($CTotal - $totalNeto, 2) . "</strong>";
 
 //------------------
 mysqli_close($con);

@@ -31,7 +31,7 @@ require('app/help.php');
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  listaSubMenu('Almacén')
+  listaSubMenu('Almacen')
   });
 
   //---------- LISTADO SUB MENU ----------//

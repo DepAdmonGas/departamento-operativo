@@ -201,7 +201,7 @@ switch($_POST['accion']):
         break;
     case 'finaliza-resumen-cliente-mes':
             $id = $_POST['IdReporte'];
-            $CorteDiario->finalizaResumenClientesMes($id);
+            echo $CorteDiario->finalizaResumenClientesMes($id);
             break;
         /**
          * 
@@ -264,7 +264,7 @@ switch($_POST['accion']):
         $file = $_FILES['Documento_file'] ?? [''];
         $comentario = $_POST['Comentario'] ?? '';
         $idEstacion = $_POST['idEstacion'];
-        $CorteDiario->agregarPagoDiferencia($repAceite,$year,$mes,$file,$idEstacion,$comentario);
+        echo $CorteDiario->agregarPagoDiferencia($repAceite,$year,$mes,$file,$idEstacion,$comentario);
         break;
     /**
      * 

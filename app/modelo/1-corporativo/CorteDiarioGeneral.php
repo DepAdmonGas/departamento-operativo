@@ -689,6 +689,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         if (!$stmt->execute()):
             throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         endif;
+        $stmt->store_result();
         $numero_reporte = $stmt->num_rows;
         $stmt->close();
         if ($numero_reporte == 0) {
@@ -836,6 +837,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         if (!$result_reporte->execute()):
             throw new Exception("Error al ejecutar la consulta" . $result_reporte->error);
         endif;
+        $result_reporte->store_result();
         $numero_reporte = $result_reporte->num_rows;
         return $numero_reporte;
     }
