@@ -243,8 +243,8 @@ $('#Producto').css('border','2px solid #A52525');
 $('#Embarque').css('border','2px solid #A52525');
 }
 
-}
-
+} 
+ 
 function Eliminar(idReporte,id,idEstacion,year,mes){
 
 var parametros = {
@@ -252,6 +252,9 @@ var parametros = {
 "id": id,
 "accion" : "elimina-embarque"
 };
+
+alertify.confirm('',
+function(){
 
 $.ajax({
 data: parametros,
@@ -280,6 +283,11 @@ $(".LoaderPage").hide();
 
 }
 });
+
+},
+   function(){
+
+   }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
 }
 
@@ -434,14 +442,17 @@ $(".LoaderPage").show();
 
       },
       success: function (response) {
-        if (response == 1) {
-          $('#Comentario').val('');
+       
+       if(response == 1){
+        $('#Comentario').val('');
           SelEstacion(idestacion,year,mes); 
           sizeWindow();   
-          $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idEstacion + '&year=' + year + '&mes=' + mes);  
-        } else {
-          alertify.error('Error al agregar comentario');
-        }
+          alertify.success('Comentario agregado exitosamente.');
+          $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);         
+         } else {
+          alertify.error('Error al agregar el comentario.');
+
+       }
 
       }
     });
@@ -720,7 +731,7 @@ window.location.href = "../../analisis-compra/" + idEstacion + "/" + year + "/" 
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivModalComentario">
   </div>
   </div>

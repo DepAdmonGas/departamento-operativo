@@ -303,9 +303,9 @@ alertify.confirm('',
   window.location.reload();
   }
   });
-
   </script>
   </head>
+  
   <body>
   <div class="LoaderPage"></div>
 

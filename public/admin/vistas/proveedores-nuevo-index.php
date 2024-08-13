@@ -158,6 +158,9 @@ require ('app/help.php');
                                             processData: false,
                                             cache: false
                                           }).done(function (data) {
+
+                                            console.log(data)
+                                          
                                             if (data == 1) {
                                               Regresar();
                                             } else {

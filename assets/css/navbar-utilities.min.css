@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background: #eceef2;
+    background: #F3F6FA;
     overflow-x: hidden;
 }
  
@@ -476,7 +476,7 @@ filter: opacity(50%);
 /* Estilo personalizado para agregar separación entre filas */
 .custom-table {
     border-collapse: separate;
-    border-spacing: 2px 2px;
+    border-spacing: 2.5px 2.5px;
     width: 100%;
 }
 
@@ -500,12 +500,13 @@ filter: opacity(50%);
   color: #000;
   padding-bottom: 12px;
   padding-top: 12px;
+  font-size: 12.5px !important;
 }
 
 .custom-table thead th small {
   color: #000;
 }
-
+ 
 /* Estilo para th en el cuerpo de la tabla con mayor especificidad */
 .custom-table thead tr th {
   border: none; 
@@ -515,8 +516,9 @@ filter: opacity(50%);
 /*---------- TD (DESING TD) ----------- */
 .custom-table tbody th, .custom-table tbody td {
   /* color: #000; */
-  padding-bottom: 14px;
-  padding-top: 14px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  font-size: 12.5px !important;
 }
 
 .custom-table tbody th small, .custom-table tbody td small {
@@ -527,7 +529,10 @@ filter: opacity(50%);
   border: none; 
 }
 
-
+/* Asegúrate de que no haya reglas más específicas que sobrescriban esta */
+.custom-table tbody th, .custom-table tbody td {
+    cursor: pointer !important;
+  }
 
 .custom-table thead tr th:first-child, .custom-table tbody tr td:first-child{
   border-top-left-radius: 7px;
@@ -650,6 +655,47 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
         padding: 6px 12px;
         background: rgba(0, 0, 0, 0.15);
         border-radius: 3px 0 0 3px;
+    }
+
+
+    .table-responsive {
+        overflow: visible; /* Permitir que el menú se muestre fuera del contenedor */
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        z-index: 1000;
+        display: none; /* Ocultar el menú por defecto */
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        font-size: 14px;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+    
+    /* Mostrar el menú cuando esté abierto */
+    .dropdown-menu.show {
+        display: block;
+    }
+    
+    /* Ajustar la posición del menú a la derecha */
+    .dropdown-menu-right {
+        right: 0;
+        left: auto;
+    }
+    
+    /* Asegúrate de que los íconos tengan suficiente espacio */
+    .btn-icon-only {
+        display: inline-block;
+        padding: 0.5rem;
     }
 
 /* ---------------------------------------------------

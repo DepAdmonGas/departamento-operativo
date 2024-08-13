@@ -91,7 +91,7 @@ require('app/help.php');
   if (input != "") {
   $("#seleccionArchivos").css('border', '');
 
-  if (extencion == "jpg" || extencion == "png") {
+  if (extencion == "jpg" || extencion == "png" || extencion == "jpeg" || extencion == "JPG" || extencion == "PNG" || extencion == "JPEG") {
   $("#Mensaje").html('');
 
   $.ajax({

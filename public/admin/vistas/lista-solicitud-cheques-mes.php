@@ -109,14 +109,9 @@ $alertBg = 'bg-danger';
 $alertText = "Sin factura"; 
 }
 
- 
 ?>  
  
-<script type="text/javascript">
-$(document).ready(function($){
-$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+
 
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">

@@ -36,7 +36,7 @@ require('app/help.php');
   if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
   idestacion = sessionStorage.getItem('idestacion');
   $('#ListaContratos').load('../public/contratos/vistas/lista-contratos.php?idEstacion=' + idestacion + '&Cate=<?=$GET_Categoria;?>');
-        
+         
   }    
   }
  
@@ -59,7 +59,7 @@ require('app/help.php');
 	$('#ModalContratos').modal('show'); 
   $('#ContenidoModal').load('../public/contratos/vistas/modal-detalle-contratos.php?idContrato=' + idContrato); 
   }
-
+ 
 
   //---------- MODAL - REGRESAR DETALLE CONTRATO ----------
   function returnDetalleC(idContrato){
@@ -465,9 +465,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

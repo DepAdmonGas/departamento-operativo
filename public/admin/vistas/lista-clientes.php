@@ -69,39 +69,39 @@ $numero_debito = mysqli_num_rows($result_debito);
             while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)) {
 
               if ($row_credito['doc_cc'] != "") {
-                $CC = '<a target="_blank" href="../../../../archivos/' . $row_credito['doc_cc'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
+                $CC = '<a target="_blank" href="'.RUTA_ARCHIVOS.'' . $row_credito['doc_cc'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
               } else {
                 $CC = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               if ($row_credito['doc_ac'] != "") {
-                $AC = '<a target="_blank" href="../../../../archivos/' . $row_credito['doc_ac'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
+                $AC = '<a target="_blank" href="'.RUTA_ARCHIVOS.'' . $row_credito['doc_ac'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
               } else {
                 $AC = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               if ($row_credito['doc_cd'] != "") {
-                $CD = '<a target="_blank" href="../../../../archivos/' . $row_credito['doc_cd'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
+                $CD = '<a target="_blank" href="'.RUTA_ARCHIVOS.'' . $row_credito['doc_cd'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
               } else {
                 $CD = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               if ($row_credito['doc_io'] != "") {
-                $IO = '<a target="_blank" href="../../../../archivos/' . $row_credito['doc_io'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
+                $IO = '<a target="_blank" href="'.RUTA_ARCHIVOS.'' . $row_credito['doc_io'] . '"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a>';
               } else {
                 $IO = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png">';
               }
 
               echo '<tr>
                         <th class="align-middle text-center font-weight-light"  style="font-size: .9em;">' . $row_credito['cuenta'] . '</th>
-                        <td class="align-middle text-center font-weight-light"  style="font-size: .9em;">' . $row_credito['cliente'] . '</td>
+                        <td class="align-middle text-start font-weight-light "  style="font-size: .9em;">' . $row_credito['cliente'] . '</td>
                         <td class="align-middle text-center font-weight-light"  style="font-size: .9em;">' . $row_credito['rfc'] . '</td>
 
                         <td class="align-middle font-weight-light text-center"  style="font-size: .9em;">' . $CC . '</td>
                         <td class="align-middle font-weight-light text-center"  style="font-size: .9em;">' . $AC . '</td>
                         <td class="align-middle font-weight-light text-center"  style="font-size: .9em;">' . $CD . '</td>
                         <td class="align-middle font-weight-light text-center"  style="font-size: .9em;">' . $IO . '</td>
-                        <td width="20px" class="align-middle">
+                        <td width="20px" class="align-middle text-center">
                         <img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $row_credito['id'] . ')" width="20px">
                         </td>
                       </tr>';
@@ -134,7 +134,7 @@ $numero_debito = mysqli_num_rows($result_debito);
 
               echo '<tr>
                         <th class="align-middle font-weight-light" style="font-size: .9em;">' . $row_debito['cuenta'] . '</th>
-                        <td class="align-middle font-weight-light" style="font-size: .9em;">' . $row_debito['cliente'] . '</td>
+                        <td class="align-middle font-weight-light text-start" style="font-size: .9em;">' . $row_debito['cliente'] . '</td>
                       </tr>';
             }
           }

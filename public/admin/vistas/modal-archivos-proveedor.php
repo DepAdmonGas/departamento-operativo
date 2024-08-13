@@ -28,8 +28,6 @@ function ToAlerta($idProveedor, $nameDoc, $con)
     return $BGColor = "";
   }
 
-
-
 }
 
 ?>
@@ -71,6 +69,12 @@ function ToAlerta($idProveedor, $nameDoc, $con)
     </div>
 
   </div>
+<hr>
+
+  <div class="text-end">
+  <button type="button" class="btn btn-labeled2 btn-success mb-2" onclick="ActualizarArchivo(<?= $idProveedor; ?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Actualizar</button>
+</div>
 
   <div class="table-responsive">
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
@@ -109,8 +113,5 @@ function ToAlerta($idProveedor, $nameDoc, $con)
   </div>
 
 </div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="ActualizarArchivo(<?= $idProveedor; ?>)">
-    <span class="btn-label2"><i class="fa fa-check"></i></span>Actualizar</button>
-</div>
-</div>
+
+

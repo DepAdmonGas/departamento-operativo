@@ -63,12 +63,12 @@ require('app/help.php');
    function Contenido(){
     $('#Contenido').load('../public/admin/vistas/lista-importacion-inventario-diario.php');
   }
-
+ 
   function Editar(idReporte){
 window.location.href = "importacion-inventarios-diarios/" + idReporte; 
   }
 
-  function Eliminar(idReporte){
+  function Eliminar(idReporte, year, mes){
 
     var parametros = {
   "idReporte" : idReporte
@@ -89,7 +89,7 @@ alertify.confirm('',
     success:  function (response) {
 
     if (response == 1) {
-    Contenido();
+    $('#Contenido').load('../public/admin/vistas/lista-importacion-inventario-diario.php?Year=' + year + '&Mes=' + mes);
     alertify.success('Inventario eliminado exitosamente.')
     }else{
     alertify.error('Error al eliminar');  
@@ -197,7 +197,7 @@ alertify.confirm('',
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalBuscar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenidoBuscar">
   </div>
   </div>
