@@ -86,7 +86,7 @@ echo '<tr>
 
 
 echo '<tr class="tables-bg">
-<th class="align-middle text-center tables-bg">Gran Total:</th>
+<th class="align-middle text-center tables-bg">GRAN TOTAL:</th>
 <th class="align-middle text-center tables-bg">$ ' . number_format($SumGTotal, 2) . '</th>
 </tr>';
 

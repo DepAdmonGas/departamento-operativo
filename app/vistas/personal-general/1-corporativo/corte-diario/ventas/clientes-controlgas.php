@@ -49,13 +49,13 @@ endif;
                 $concepto = $row_listacontrol['concepto'];
 
                 if ($row_listacontrol['pago'] == 0) {
-                    $pago = "";
+                    $pago = 0;
                 } else {
                     $pago = number_format($row_listacontrol['pago'], 2, '.', '');
                 }
 
                 if ($row_listacontrol['consumo'] == 0) {
-                    $consumo = "";
+                    $consumo = 0;
                 } else {
                     $consumo = number_format($row_listacontrol['consumo'], 2, '.', '');
                 }
@@ -64,14 +64,14 @@ endif;
 
                 <tr>
                     <th class="align-middle p-3 no-hover"><?= $concepto; ?></th>
-                    <td class="align-middle p-0 <?=$deshabilitado?> <?=$hover?>">
+                    <td class="align-middle p-0 <?=$deshabilitado?> <?=$hover?>">$ 
                         <input class="p-3" id="pago-<?= $idControl; ?>" type="number" min="0" step="any"
-                        style="border: 0px;width: 100%;height: 100%; text-align: right;"
+                        style="border: 0px;width: 80%;height: 80%; text-align: right;"
                         onkeyup="EditCGPago(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $pago; ?>" <?= $estado; ?>>
                     </td>
-                    <td class="align-middle p-0 <?=$deshabilitado?> <?=$hover?>">
+                    <td class="align-middle p-0 <?=$deshabilitado?> <?=$hover?>">$ 
                         <input class="p-3" id="consumo-<?= $idControl; ?>" type="number" min="0" step="any"
-                        style="border: 0px;width: 100%;height: 100%; text-align: right;"
+                        style="border: 0px;width: 80%;height: 80%; text-align: right;"
                             onkeyup="EditCGConsumo(this,<?= $idReporte; ?>,<?= $idControl; ?>)" value="<?= $consumo; ?>"
                             <?= $estado; ?>>
                     </td>

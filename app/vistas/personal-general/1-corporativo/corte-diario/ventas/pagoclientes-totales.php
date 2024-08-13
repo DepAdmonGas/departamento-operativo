@@ -12,5 +12,5 @@ while ($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASS
 }
 ?>
 <th class="bg-white text-center">TOTAL 4</th>
-<td class="bg-white align-middle text-end"><strong><?= number_format($totalImporte, 2); ?></strong></td>
+<td class="bg-white align-middle text-end"><strong>$ <?= number_format($totalImporte, 2); ?></strong></td>
 <td class="bg-white align-middle text-end"></td>

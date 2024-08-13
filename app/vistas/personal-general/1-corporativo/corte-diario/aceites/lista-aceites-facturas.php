@@ -44,6 +44,11 @@ $numero_lista = mysqli_num_rows($result_lista);
     </div>
 
     <hr>
+    <div class="text-end mb-2">
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+        <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+    </div>
+    
 
     <div class="table-responsive">
     <table class="custom-table" style="font-size: .75em;" width="100%">
@@ -85,9 +90,4 @@ $numero_lista = mysqli_num_rows($result_lista);
 
     </div>
 
-</div>
-
-<div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarFactura(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
-<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 </div>

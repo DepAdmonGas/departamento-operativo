@@ -1336,8 +1336,9 @@ class CorteDiario extends Exception
         $stmt3->close();
         return $result;
     }
-    public function finalizaResumenClientesMes(int $id): void
+    public function finalizaResumenClientesMes(int $id): bool
     {
+        $resultado = true;
         $sql = "INSERT INTO op_consumos_pagos_resumen_finalizar (id_mes) VALUES(?)";
         $stmt = $this->con->prepare($sql);
         if (!$stmt):
@@ -1345,9 +1346,11 @@ class CorteDiario extends Exception
         endif;
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()):
+            $resultado = false;
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
+        return $resultado;
     }
     /**
      * 

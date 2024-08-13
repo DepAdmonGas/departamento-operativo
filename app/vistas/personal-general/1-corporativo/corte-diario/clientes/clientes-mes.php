@@ -24,9 +24,9 @@ if ($numero_fin == 0):
   $corteDiarioGeneral->actSaldoInicial($IdReporte, $IdReporteA);
   $corteDiarioGeneral->actPagosConsumos($IdReporte);
   $corteDiarioGeneral->actSaldoFinal($IdReporte);
-  $botonFinalizar = '<button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(' . $IdReporte . ','.RUTA_JS2.')">
-  <span class="btn-label2"><i class="fa fa-check"></i></span> Finalizar</button>
-                     ';
+  $botonFinalizar = '<button id="btnFinalizar" type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(' . $IdReporte . ', \'' . RUTA_JS2 . '\')">
+  <span class="btn-label2"><i class="fa fa-check"></i></span> Finalizar</button>';
+
 endif;
 
 ?>

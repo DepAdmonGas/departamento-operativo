@@ -145,7 +145,7 @@ function TotalVentas($idDias, $Producto, $con)
     }
 
     echo '<tr class="title-table-bg">
-          <th class="title-table-bg">Total</th>';
+          <th class="title-table-bg">TOTAL</th>';
 
     if ($ProductoUno != "") {
       echo '<td class="text-start title-table-bg"><b>' . number_format($P1TL, 2) . '</b></td>

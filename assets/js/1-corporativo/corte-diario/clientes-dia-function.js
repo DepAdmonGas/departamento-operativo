@@ -220,10 +220,9 @@ function Eliminar(idReporte, id, ruta_js) {
     url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
     //url:   '../../../public/corte-diario/modelo/eliminar-consumos-pagos.php',
     type: 'post',
-    beforeSend: function () { },
-    complete: function () { },
+    beforeSend: function () {},
+    complete: function () {},
     success: function (response) {
-
       if (response == 1) {
 
 

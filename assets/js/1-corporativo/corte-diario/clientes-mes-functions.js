@@ -71,8 +71,15 @@ function Finalizar(IdReporte, ruta_js) {
 
         },
         success: function (response) {
-            ReporteClientes(IdReporte, ruta_js);
-
+            if(response == 1){
+                // Oculta el botonde finalizar
+                document.getElementById('btnFinalizar').style.display = 'none';
+                ReporteClientes(IdReporte, ruta_js);
+                alertify.success('Clientes finalizado');
+            }else{
+                alertify.error('Error al finalizar cliente');
+            }
+            
         }
     });
 }

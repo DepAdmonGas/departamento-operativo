@@ -119,38 +119,31 @@ $totalConsumo = $consumoC + $consumoD;
             <tbody class="bg-white">
               <tr>
                 <th class="align-middle text-end fw-light">
-                  $<?= number_format($bancomer, 2); ?>
+                  $ <?= number_format($bancomer, 2); ?>
                 </th>
                 <td class="align-middle text-end">
-                  $<?= number_format($amex, 2); ?>
+                  $ <?= number_format($amex, 2); ?>
                 </td>
                 <td class="align-middle text-end">
-                  $<?= number_format($inburgas, 2); ?>
+                  $ <?= number_format($inburgas, 2); ?>
                 </td>
                 <td class="align-middle text-end">
-                  $<?= number_format($inbursa, 2); ?>
+                  $ <?= number_format($inbursa, 2); ?>
                 </td>
                 <td class="align-middle text-end">
-                  <strong>$<?= number_format($totalTB, 2); ?></strong>
+                  <strong>$ <?= number_format($totalTB, 2); ?></strong>
                 </td>
                 <td class="align-middle text-end">
-                  $<?= number_format($ticketcard, 2); ?>
-                </td>
-
-                <!--
-                      <td class="align-middle text-end">
-                      $<?= number_format($g500fleet, 2); ?>
-                      </td>
-                      -->
-
-                <td class="align-middle text-end">
-                  $<?= number_format($efecticard, 2); ?>
+                  $ <?= number_format($ticketcard, 2); ?>
                 </td>
                 <td class="align-middle text-end">
-                  $<?= number_format($sodexo, 2); ?>
+                  $ <?= number_format($efecticard, 2); ?>
                 </td>
                 <td class="align-middle text-end">
-                  <strong>$<?= number_format($totalTarjetas, 2); ?></strong>
+                  $ <?= number_format($sodexo, 2); ?>
+                </td>
+                <td class="align-middle text-end">
+                  <strong>$ <?= number_format($totalTarjetas, 2); ?></strong>
                 </td>
 
                 <!----------------------------------------------------->

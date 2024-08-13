@@ -15,4 +15,4 @@ require('../../../../../help.php');
     ?>
 
     <th class="bg-white text-center" colspan="2">TOTAL 1</th>
-    <td class="bg-white align-middle text-end"><strong><?=number_format($totalImporte,2);?></strong></td>
+    <td class="bg-white align-middle text-end"><strong>$ <?=number_format($totalImporte,2);?></strong></td>

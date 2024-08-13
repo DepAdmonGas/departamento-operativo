@@ -6,12 +6,15 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
-    
-    ListaConsumoPago(<?= $GET_idReporte?>,"<?=RUTA_JS2?>");
+
+    ListaConsumoPago(<?= $GET_idReporte ?>, "<?= RUTA_JS2 ?>");
   });
 </script>
 <!---------- LIBRERIAS DEL DATATABLE ---------->
-<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+<link
+  href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
+  rel="stylesheet">
+
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -27,16 +30,16 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
+                  Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Clientes (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Clientes (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Clientes (<?=$ClassHerramientasDptoOperativo->FormatoFecha($dia)?>)
+                Clientes (<?= $ClassHerramientasDptoOperativo->FormatoFecha($dia) ?>)
               </h3>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
@@ -50,7 +53,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
                     <li onclick="Agregar()">
                       <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar</a>
                     </li>
-                    <li onclick="ClientesLista(<?=$GET_year?>,<?=$GET_mes?>,<?=$GET_idReporte?>)">
+                    <li onclick="ClientesLista(<?= $GET_year ?>,<?= $GET_mes ?>,<?= $GET_idReporte ?>)">
                       <a class="dropdown-item pointer"><i class="fa-solid fa-list"></i> Lista de clientes</a>
                     </li>
                   </ul>
@@ -59,11 +62,11 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             </div>
           </div>
           <hr>
-          
+
         </div>
 
 
-<div class="col-12" id="ConsumosPagos"></div>
+        <div class="col-12" id="ConsumosPagos"></div>
 
       </div>
     </div>
@@ -81,17 +84,17 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           <div class="mb-1">
             <small>* Selecciona el cliente</small>
           </div>
-            <select placeholder="Cliente" id="Cliente" class="form-select">
-              <option value="">Cliente</option>
-                <?php
-                try {
-                  $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
-                } catch (Exception $e) {
-                  echo "Error: " . $e->getMessage();
-                }
-                ?>
-            </select>
-          
+          <select placeholder="Cliente" id="Cliente" class="form-select">
+            <option value="">Cliente</option>
+            <?php
+            try {
+              $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
+            } catch (Exception $e) {
+              echo "Error: " . $e->getMessage();
+            }
+            ?>
+          </select>
+
           <div class="mt-2 mb-1"><small>* Agregue total</small></div>
           <input type="number" class="form-control rounded-0" min="0" placeholder="Total" id="Total">
           <div class="mb-1 mt-2"><small>* Selecciona Consumo o Pago</small></div>
@@ -120,21 +123,25 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           </div>
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$GET_idReporte?>,'<?=RUTA_JS2?>')">
-        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+          <button type="button" class="btn btn-labeled2 btn-success"
+            onclick="Guardar(<?= $GET_idReporte ?>,'<?= RUTA_JS2 ?>')">
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
         </div>
       </div>
     </div>
   </div>
 
-<!---------- FUNCIONES - NAVBAR ---------->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
-<!---------- LIBRERIAS DEL DATATABLE ---------->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script
+    src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
+
 </html>

@@ -50,9 +50,10 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               </h3>
             </div>
           </div>
+          <hr>
         </div>
 
-        <hr>
+        
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <!---------- Ticketcard ---------->

@@ -17,7 +17,7 @@ while ($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC
 
 ?>
 
-<th colspan="2" class="bg-white text-center">Total producto:</th>
+<th colspan="2" class="bg-white text-center">TOTAL PRODUCTO:</th>
 <td class="bg-white align-middle text-center"><strong><?= $totalCantidad; ?></strong></td>
-<th class="bg-white align-middle text-center">Total importe:</th>
-<td class="bg-white align-middle text-end"><strong><?= number_format($totalPrecio, 2); ?></strong></td>
+<th class="bg-white align-middle text-center">TOTAL IMPORTE:</th>
+<td class="bg-white align-middle text-end"><strong>$ <?= number_format($totalPrecio, 2); ?></strong></td>

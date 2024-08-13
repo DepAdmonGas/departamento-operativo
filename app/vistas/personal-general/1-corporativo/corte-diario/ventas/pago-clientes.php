@@ -50,7 +50,7 @@ endif;
                 $nota = $row_listaclientes['nota'];
 
                 if ($row_listaclientes['importe'] == 0) {
-                    $importe = "";
+                    $importe = 0;
                 } else {
                     $importe = number_format($row_listaclientes['importe'], 2, '.', '');
                 }
@@ -59,9 +59,9 @@ endif;
 
                 <tr>
                     <th class="align-middle no-hover"><?= $concepto; ?></th>
-                    <td class="align-middle p-0 <?=$deshabilitado, $hover?>">
+                    <td class="align-middle p-0 <?=$deshabilitado, $hover?>">$ 
                         <input class="p-3" id="importe-<?= $idPagoCliente; ?>" type="number" min="0" step="any"
-                            style="border: 0px;width: 100%;height: 100%; text-align: right;"
+                            style="border: 0px;width: 80%;height: 80%; text-align: right;"
                             onkeyup="EditPCimporte(this,<?= $idReporte; ?>,<?= $idPagoCliente; ?>)" value="<?= $importe; ?>"
                             <?= $estado; ?>>
                     </td>
