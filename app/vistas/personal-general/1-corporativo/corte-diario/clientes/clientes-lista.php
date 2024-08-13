@@ -5,18 +5,6 @@ require 'app/vistas/contenido/header.php';
 <!---------- LIBRERIAS DEL DATATABLE ---------->
 <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
-<style>
-  .responsive-hr {
-    display: none;
-  }
-
-  @media (max-width: 760px) {
-    .responsive-hr {
-      display: block;
-    }
-  }
-</style>
-
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-lista-function.js"></script>
 <script type="text/javascript">
 

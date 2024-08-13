@@ -101,7 +101,7 @@ $numero_lista = mysqli_num_rows($result_lista);
         <th class="align-middle text-center">Puesto</th>
         <th class="align-middle text-center">Personal</th>
         <th class="align-middle text-center">Fecha y hora</th>
-        <?php if ($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo"): ?>
+        <?php if ($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo" && $session_nompuesto != "Gestoria"): ?>
           <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>icon-firmar-w.png"></th>
         <?php endif; ?>
         <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
@@ -117,7 +117,7 @@ $numero_lista = mysqli_num_rows($result_lista);
           $status = $row_lista['status'];
           $explode = explode(' ', $row_lista['fecha']);
 
-          if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"):
+          if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo" || $session_nompuesto == "Gestoria"):
             switch ($status):
               case 0:
                 $tableColor = "background-color: #ffb6af";
@@ -171,7 +171,7 @@ $numero_lista = mysqli_num_rows($result_lista);
           echo '<td class="align-middle">' . $personal['puesto'] . '</td>';
           echo '<td class="align-middle">' . $personal['nombre'] . '</td>';
           echo '<td class="align-middle">' . FormatoFecha($explode[0]) . ', ' . date('g:i a', strtotime($explode[1])) . '</td>';
-          if ($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo") {
+          if ($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo" && $session_nompuesto != "Gestoria") {
             echo '<td class="align-middle text-center">' . $Firmar . '</td>';
           }
           echo '<td class="align-middle text-center"> 

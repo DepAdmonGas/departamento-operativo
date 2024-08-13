@@ -26,7 +26,7 @@ function Resumen($idReporte, $tipo, $consumo, $con)
 {
 
 
-$sql_credito = "SELECT
+	$sql_credito = "SELECT
 op_consumos_pagos.id,
 op_consumos_pagos.id_reportedia,
 op_consumos_pagos.id_cliente,
@@ -66,9 +66,9 @@ mysqli_query($con, $sql2);
 
 ?>
 <div class="table-responsive">
-	<table id="tabla-principal" class="custom-table " style="font-size: 1em;" width="100%">
-	<thead class="tables-bg">
-	<tr>
+	<table id="tabla-principal" class="custom-table" width="100%">
+		<thead class="tables-bg">
+			<tr>
 				<th class="align-middle text-center">#</th>
 				<th class="align-middle text-start">Cliente</th>
 				<th class="align-middle text-start">Nombre</th>
@@ -88,8 +88,8 @@ mysqli_query($con, $sql2);
 			$Topago = 0;
 			$consumo = 0;
 			$Toconsumo = 0;
-			if ($numero_credito > 0) :
-				while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)) :
+			if ($numero_credito > 0):
+				while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)):
 
 					$id = $row_credito['id'];
 
@@ -121,18 +121,20 @@ mysqli_query($con, $sql2);
 
 
 					echo '<tr>
-							<th class="align-middle font-weight-light text-center"  style="font-size: 1em;">' . $row_credito['id'] . '</th>
-							<td class="align-middle font-weight-light">' . $row_credito['cuenta'] . '</td>
-							<td class="align-middle font-weight-light text-start">' . $row_credito['cliente'] . '</td>
-							<td class="align-middle font-weight-light ' . $CTipo . ' ">' . $row_credito['tipo'] . '</td>
-							<td class="align-middle font-weight-light">' . $row_credito['ConsumoTipo'] . '</td>
-							<td class="align-middle font-weight-light">' . $TipoPago . '</td>
-							<td class="align-middle font-weight-light text-center">' . $comprobante . '</td>
-							<td class="align-middle text-end"><b>$' . number_format($row_credito['total'], 2) . '</b></td>
-							<td class="align-middle text-center" width="20px">
-							<img width="20px" class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $idReporte . ',' . $id . ' '.RUTA_JS2.')">
-							</td>
-						</tr>';
+    <th class="align-middle font-weight-light text-center" style="font-size: 1em;">' . $row_credito['id'] . '</th>
+    <td class="align-middle font-weight-light">' . $row_credito['cuenta'] . '</td>
+    <td class="align-middle font-weight-light text-start">' . $row_credito['cliente'] . '</td>
+    <td class="align-middle font-weight-light ' . htmlspecialchars($CTipo) . '">' . $row_credito['tipo'] . '</td>
+    <td class="align-middle font-weight-light">' . $row_credito['ConsumoTipo'] . '</td>
+    <td class="align-middle font-weight-light">' . htmlspecialchars($TipoPago) . '</td>
+    <td class="align-middle font-weight-light text-center">' . $comprobante . '</td>
+    <td class="align-middle text-end"><b>$' . number_format($row_credito['total'], 2) . '</b></td>
+    <td class="align-middle text-center" width="20px">
+        <img width="20px" class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $idReporte . ', ' . $id . ', \'' . RUTA_JS2 . '\')">
+    </td>
+</tr>';
+
+
 				endwhile;
 			endif;
 			?>
@@ -143,47 +145,47 @@ mysqli_query($con, $sql2);
 
 <hr>
 <div class="row justify-content-end">
-<div class="col-lg-3 col-md-12 col-sm-12">
-	
-<div class="table-responsive">
-	<table class="custom-table " style="font-size: 1em; width: 100%;">
-		<thead class="title-table-bg">
-			<tr>
-				<th class="tables-bg" colspan="3">Totales</th>
-			</tr>
-			<tr>
-				<td class="text-center fw-bold">Tipo</td>
-				<th class="text-center ">Consumo</th>
-				<td class="text-center fw-bold">Pago</td>
-			</tr>
-		</thead>
-		<tbody class="bg-white">
-			<tr>
-				<th class="text-success text-center fw-bold no-hover">Débito</th>
-				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
-					<?= number_format(Resumen($idReporte, 'Débito', 'Consumo', $con), 2); ?>
-				</td>
-				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
-					<?= number_format(Resumen($idReporte, 'Débito', 'Pago', $con), 2); ?>
-				</td>
-			</tr>
-			<tr>
-				<th class="text-primary text-center fw-bold no-hover">Crédito</th>
-				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
-					<?= number_format(Resumen($idReporte, 'Crédito', 'Consumo', $con), 2); ?>
-				</td>
-				<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
-					<?= number_format(Resumen($idReporte, 'Crédito', 'Pago', $con), 2); ?>
-				</td>
-			</tr>
-			<tr>
-				<th class="text-center fw-bold no-hover">Total</th>
-				<td class="text-end no-hover"><b>$ <?=number_format($Toconsumo, 2)?></b></td>
-				<td colspan="3" class="text-end no-hover"><b>$ <?=number_format($Topago, 2)?></b></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="col-lg-3 col-md-12 col-sm-12">
 
-</div>
-</div>
+		<div class="table-responsive">
+			<table class="custom-table " style="font-size: 1em; width: 100%;">
+				<thead class="title-table-bg">
+					<tr>
+						<th class="tables-bg" colspan="3">Totales</th>
+					</tr>
+					<tr>
+						<td class="text-center fw-bold">Tipo</td>
+						<th class="text-center ">Consumo</th>
+						<td class="text-center fw-bold">Pago</td>
+					</tr>
+				</thead>
+				<tbody class="bg-white">
+					<tr>
+						<th class="text-success text-center fw-bold no-hover">Débito</th>
+						<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
+							<?= number_format(Resumen($idReporte, 'Débito', 'Consumo', $con), 2); ?>
+						</td>
+						<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
+							<?= number_format(Resumen($idReporte, 'Débito', 'Pago', $con), 2); ?>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-primary text-center fw-bold no-hover">Crédito</th>
+						<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
+							<?= number_format(Resumen($idReporte, 'Crédito', 'Consumo', $con), 2); ?>
+						</td>
+						<td class="text-end pl-4 pr-2 font-weight-light no-hover">$
+							<?= number_format(Resumen($idReporte, 'Crédito', 'Pago', $con), 2); ?>
+						</td>
+					</tr>
+					<tr>
+						<th class="text-center fw-bold no-hover">Total</th>
+						<td class="text-end no-hover"><b>$ <?= number_format($Toconsumo, 2) ?></b></td>
+						<td colspan="3" class="text-end no-hover"><b>$ <?= number_format($Topago, 2) ?></b></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
 </div>

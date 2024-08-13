@@ -31,13 +31,14 @@ $numero_lista = mysqli_num_rows($result_lista);
                     $id = $row_lista['id'];
 
                     if ($row_lista['total'] == 0) {
-                        $total = "";
+                        $total = 0;
                     } else {
                         $total = $row_lista['total'];
                     }
+                    
                     echo '<tr>';
                     echo '<th class="p-0 no-hover">' . $row_lista['serie'] . '</th>';
-                    echo '<td class="text-start no-hover">' . $row_lista['descripcion'] . '</td>';
+                    echo '<td id="product-description" class="text-start no-hover lowercase">' . ucwords(strtolower($row_lista['descripcion'])) . '</td>';
                     echo '<td class="text-end no-hover p-0">
                             $ <input type="number" id="Total' . $id . '" step="any" style="width: 90%;" class="text-end border-0 p-3" value="' . $total . '" onkeyup="EditPrefijo(' . $id . ',' . $IdReporte . ',' . $IdReporteYear . ',' . $GET_mes . ',' . $idEstacion . ')"></td>';
                     echo '</tr>';

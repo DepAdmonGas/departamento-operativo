@@ -1,6 +1,5 @@
 <?php
-require ('../../../../../help.php');
-
+require '../../../../../help.php';
 $IdReporte = $_GET['IdReporte'];
 
 $sql_credito = "SELECT 

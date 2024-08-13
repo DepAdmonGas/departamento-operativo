@@ -132,14 +132,15 @@ endif;
 					<th class="bg-white align-middle text-end" id="totallitros-<?= $idventas; ?>">
 						<?= number_format($totalLitros, 2); ?>
 					</th>
-					<th class="p-0 align-middle <?= $deshabilitado, $hover ?>">
+					<th class="p-0 align-middle fw-normal <?= $deshabilitado, $hover ?>">
+						$
 						<input id="preciolitro-<?= $idventas; ?>" type="number" min="0" step="any"
-							class="border-0 p-3 text-end" style="border: 0px;width:100%;height:100%;"
+							class="border-0 p-3 text-end" style="border: 0px;width:80%;height:80%;"
 							onkeyup="EditPrecioLitro(this,<?= $idReporte; ?>,<?= $idventas; ?>)"
 							value="<?= $preciolitro; ?>" <?= $estado; ?>>
 					</th>
 					<th class="bg-white align-middle text-end" id="importetotal-<?= $idventas; ?>">
-						<?= number_format($importeTotal, 2); ?>
+					$ <?= number_format($importeTotal, 2); ?>
 					</th>
 				</tr>
 				<?php
@@ -178,11 +179,11 @@ endif;
 					<td class=" align-middle <?= $cssaceite; ?> <?= $deshabilitado ?> <?= $hover ?>">
 						<?php
 						if ($disabled == "disabled") {
-							echo "<b>" . number_format($importe, 2) . "</b>";
+							echo "<b>$ " . number_format($importe, 2) . "</b>";
 						} else { ?>
-							<input class="p-3 <?= $deshabilitado ?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0"
+							$ <input class="p-3 <?= $deshabilitado ?>" id="preciootros-<?= $idOtros; ?>" type="number" min="0"
 								step="any" class="border-0 p-3 text-end"
-								style="border: 0px;width:100%;height:100%;text-align: right;"
+								style="border: 0px;width:80%;height:80%;text-align: right;"
 								onkeyup="EditPrecioOtros(this,<?= $idReporte; ?>,<?= $idOtros; ?>)" value="<?= $importe; ?>"
 								<?= $estado ?>>
 						<?php } ?>

@@ -201,7 +201,7 @@ switch($_POST['accion']):
         break;
     case 'finaliza-resumen-cliente-mes':
             $id = $_POST['IdReporte'];
-            $CorteDiario->finalizaResumenClientesMes($id);
+            echo $CorteDiario->finalizaResumenClientesMes($id);
             break;
         /**
          * 

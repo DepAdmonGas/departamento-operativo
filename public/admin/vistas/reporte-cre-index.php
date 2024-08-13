@@ -70,7 +70,7 @@ require('app/help.php');
   </div>
 
   <?php
-  $sql = "SELECT * FROM tb_estaciones ";
+  $sql = "SELECT id,nombre FROM tb_estaciones WHERE numlista BETWEEN 1 AND 8 OR numlista=13";
   $result = mysqli_query($con, $sql);
   echo '<div class="row">';
   while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){

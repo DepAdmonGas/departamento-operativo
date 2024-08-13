@@ -11,4 +11,4 @@ while ($row_listatarjetas = mysqli_fetch_array($result_listatarjetas, MYSQLI_ASS
 endwhile;
 ?>
 <th class="bg-white text-center" colspan="2">TOTAL 2</th>
-<td class="bg-white align-middle text-end"><strong><?= number_format($baucherTotal, 2); ?></strong></td>
+<td class="bg-white align-middle text-end"><strong>$ <?= number_format($baucherTotal, 2); ?></strong></td>
