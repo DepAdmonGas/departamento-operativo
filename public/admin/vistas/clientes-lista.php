@@ -50,15 +50,15 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 
 
     function ListaClientes(idReporte) {
-      let targetsCredito = [1];
+      let targetsCredito = [3,4,5,6,7];
       
       $('#ListaClientes').load('../../../../public/admin/vistas/lista-clientes.php?idReporte=' + idReporte, function () {
         $('#tabla_credito').DataTable({
           "language": {
-            "url:": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+            "url": "<?=RUTA_JS2?>/es-ES.json"
           },
           "order": [[0, "desc"]],
-          "lengthMenu": [15, 30, 50, 100],
+          "lengthMenu": [25, 50, 75, 100],
           "columnDefs": [
             { "orderable": false, "targets": targetsCredito },
             { "searchable": false, "targets": targetsCredito }
@@ -66,10 +66,10 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
         });
         $('#tabla_debito').DataTable({
           "language": {
-            "url:": '<?= RUTA_JS2 ?>' + "/es-ES.json"
-          },
+          "url": "<?=RUTA_JS2?>/es-ES.json"
+          }, 
           "order": [[0, "desc"]],
-          "lengthMenu": [15, 30, 50, 100],
+          "lengthMenu": [25, 50, 75, 100],
           "columnDefs": [
             { "orderable": false},
             { "searchable": false}
@@ -77,12 +77,12 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
         });
       });
 
-    }
+    } 
     function Agregar() {
       $('#Modal').modal('show');
     }
 
-    function Guardar() {
+    function Guardar(idReporte) {
 
       var Cuenta = $('#Cuenta').val();
       var Cliente = $('#Cliente').val();
@@ -105,13 +105,19 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
       Identificacion_file = Identificacion.files[0];
       Identificacion_filePath = Identificacion.value;
 
-      var data = new FormData();
+      var data = new FormData(); 
       var url = '../../../../public/admin/modelo/agregar-cliente.php';
+
+      if (Cuenta != "") {
+      $('#Cuenta').css('border', '');
+
+      if (Cliente != "") {
+        $('#Cliente').css('border', '');
 
       if (Tipo != "") {
         $('#Tipo').css('border', '');
 
-        data.append('idReporte', <?= $GET_idReporte; ?>);
+        data.append('idReporte', idReporte);
         data.append('Cuenta', Cuenta);
         data.append('Cliente', Cliente);
         data.append('Tipo', Tipo);
@@ -130,10 +136,12 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
           cache: false
         }).done(function (response) {
 
+          console.log(response)
+
           if (response == 1) {
             $('#Modal').modal('hide');
-            ListaClientes(<?= $GET_idReporte; ?>);
-
+            ListaClientes(idReporte);
+            alertify.success('Cliente agregado exitosamente.')
             $('#Cuenta').val('');
             $('#Cliente').val('');
             $('#Tipo').val('');
@@ -146,6 +154,14 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 
       } else {
         $('#Tipo').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#Cliente').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#Cuenta').css('border', '2px solid #A52525');
       }
 
     }
@@ -179,6 +195,17 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
       Identificacion_file = Identificacion.files[0];
       Identificacion_filePath = Identificacion.value;
 
+
+      if (Cuenta != "") {
+      $('#EditCuenta').css('border', '');
+
+      if (Cliente != "") {
+      $('#EditCliente').css('border', '');
+
+      if (Tipo != "") {
+      $('#EditTipo').css('border', '');
+
+
       var data = new FormData();
       var url = '../../../../public/admin/modelo/editar-cliente.php';
 
@@ -202,6 +229,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
         cache: false
       }).done(function (response) {
 
+        
         if (response == 1) {
           $('#ModalEditar').modal('hide');
           ListaClientes(<?= $GET_idReporte; ?>);
@@ -217,6 +245,20 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
         }
 
       });
+
+      
+    } else {
+        $('#EditTipo').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#EditCliente').css('border', '2px solid #A52525');
+      }
+
+    } else {
+        $('#EditCuenta').css('border', '2px solid #A52525');
+      }
+
 
     }
 
@@ -238,7 +280,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 </head>
 
 <body>
-
+ 
   <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ---------->
@@ -283,7 +325,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Crear Cliente</h5>
@@ -306,19 +348,20 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
 
           <div id="SelCredito" style="display: none;">
             <hr>
-            <label class="text-secondary mb-1">Carta de crédito</label>
-            <input class="form-control" type="file" id="CartaCredito">
-
-            <label class="text-secondary mt-2 mb-1">Acta constitutiva</label>
-            <div><input class="form-control" type="file" id="ActaConstitutiva"></div>
-
-            <label class="text-secondary mt-2 mb-1">RFC</label>
+            
+            <label class="text-secondary mb-1">RFC</label>
             <input class="form-control" type="text" class="form-control rounded-0" id="RFC">
 
-            <label class="text-secondary mt-2 mb-1">Comprobante de domicilio</label>
+            <label class="text-secondary mt-3 mb-1">Carta de crédito</label>
+            <input class="form-control" type="file" id="CartaCredito">
+
+            <label class="text-secondary mt-3 mb-1">Acta constitutiva</label>
+            <div><input class="form-control" type="file" id="ActaConstitutiva"></div>
+
+            <label class="text-secondary mt-3 mb-1">Comprobante de domicilio</label>
             <div><input class="form-control" type="file" id="ComprobanteDom"></div>
 
-            <label class="text-secondary mt-2 mb-1">Identificación</label>
+            <label class="text-secondary mt-3 mb-1">Identificación</label>
             <div><input class="form-control" type="file" id="Identificacion"></div>
           </div>
 
@@ -331,25 +374,20 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
     </div>
   </div>
 
-  <div class="modal fade" id="ModalEditar" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div id="ModalEditarCliente"></div>
-      </div>
-    </div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ModalEditarCliente"></div>
   </div>
-
-
+  </div>
+  
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-<!---------- LIBRERIAS DEL DATATABLE ---------->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
-</body>
-
-</html>
+  </body>
+  </html>

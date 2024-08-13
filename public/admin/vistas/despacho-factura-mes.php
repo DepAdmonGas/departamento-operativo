@@ -32,8 +32,8 @@ require('app/help.php');
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
-
-  if(sessionStorage){
+ 
+  if(sessionStorage){ 
 
   if (sessionStorage.getItem('idEstacion') !== undefined && sessionStorage.getItem('idEstacion')) {
     idEstacion = sessionStorage.getItem('idEstacion');
@@ -62,6 +62,40 @@ require('app/help.php');
   sessionStorage.setItem('mes', mes);
 
   $('#ListaEmbarques').load('../../../app/vistas/personal-general/1-corporativo/despacho-factura/lista-despacho-factura-mes.php?idEstacion=' + idEstacion + '&Year=' + year + '&Mes=' + mes);
+  }
+
+
+
+  function Editar(e, idDias, Despacho) {
+  var input = e.value;
+  var Litros = $('#' + idDias + 'L' + Despacho).text();
+  LitrosReplace = Litros.replace(/,/g, "");
+  var TotalLitros = LitrosReplace - input;
+
+
+  var parametros = {
+  "idDias": idDias,
+  "input": input,
+  "Despacho": Despacho,
+  "accion": "editar-despacho-factura"
+  };
+
+  $.ajax({
+  data: parametros,
+  //url: '../../public/corte-diario/modelo/editar-despacho-factura.php',
+  url: '../../../app/controlador/1-corporativo/controladorDespacho.php',
+  type: 'post',
+  beforeSend: function () {
+              
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+  $('#' + idDias + 'LC' + Despacho).text(TotalLitros)
+
+  }
+  });
   }
 
   </script>

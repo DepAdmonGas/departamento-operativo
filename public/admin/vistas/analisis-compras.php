@@ -117,6 +117,7 @@ $ValProducto = 'Premium';
 $ValProducto = 'Diesel';
 }
 
+
 $sql = "SELECT  
 op_formato_precios_detalle_c.id,
 op_formato_precios_detalle_c.producto,
@@ -128,6 +129,7 @@ op_formato_precios ON
 op_formato_precios_detalle_c.id_precio = op_formato_precios.id
 WHERE op_formato_precios.fecha = '".$fecha."' AND op_formato_precios_detalle_c.producto = '".$ValProducto."' ";
 $result = mysqli_query($con, $sql);
+$Pemex = 0;
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $Pemex = $row['pemex'];
 }
@@ -168,7 +170,8 @@ return $array;
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">

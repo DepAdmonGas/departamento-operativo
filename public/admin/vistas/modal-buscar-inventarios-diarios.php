@@ -3,7 +3,7 @@ require('../../../app/help.php');
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Buscar</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -21,7 +21,7 @@ require('../../../app/help.php');
   </select>
 
  
-<label class="text-secondary mt-2">Mes:</label>
+<label class="text-secondary mt-3">Mes:</label>
 <select class="form-select" id="Mes">
 <option value="0">Selecciona</option>
 <option value="1">Enero</option>
@@ -41,6 +41,11 @@ require('../../../app/help.php');
 
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" onclick="Buscar()">Buscar</button>
+
+        <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+        <span class="btn-label2"><i class="fa fa-xmark"></i></span>Cancelar</button>
+
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="Buscar()">
+        <span class="btn-label2"><i class="fa fa-search"></i></span>Buscar</button>
+
       </div>

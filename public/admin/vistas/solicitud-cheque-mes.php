@@ -41,7 +41,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
-  </style>
+
    
   <script type="text/javascript">
 
@@ -542,6 +542,13 @@ alertify.confirm('',
   function Telcel(estacion,year,mes){
   window.location.href =  "../../factura-telcel/" + estacion + "/" + year + "/" + mes;
   }
+
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
   </head> 
 

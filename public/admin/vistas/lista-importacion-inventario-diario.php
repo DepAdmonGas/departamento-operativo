@@ -6,16 +6,18 @@ $sql_lista = "SELECT * FROM op_inventarios_diarios WHERE MONTH(fecha) = '".$_GET
 
 $titulo = '
 <div class="row">
-<div class="col-12"><div class="alert alert-primary text-center" role="alert">
+<div class="col-12"><div class="alert alert-primary text-start" role="alert">
 Reportes de '.nombremes($_GET["Mes"]).' del '.$_GET["Year"].'</div>
 </div>
 </div>';
-
 
 $titulo2 = '<button type="button" class="btn btn-labeled2 btn-success mt-3" onclick="Contenido()">
 <span class="btn-label2"><i class="fa-solid fa-rotate-left"></i></span>Regresar a la pagina información principal</button>';
 
 $titulo3 = 'de '.nombremes($_GET["Mes"]).' del '.$_GET["Year"].'';
+
+$valYear = $_GET["Year"];
+$valMes = $_GET["Mes"];
 
 }else{
 $sql_lista = "SELECT * FROM op_inventarios_diarios 
@@ -32,25 +34,28 @@ $titulo2 = "";
 
 $titulo3 = 'de '.nombremes($fecha_mes).' del '.$fecha_year.'';
 
+$valYear = $fecha_year;
+$valMes = $fecha_mes;
+
 }
 
 function Detalle($idReporte,$detalle,$con){
 $contenido ="";
 $contenido .= '<div class="table-responsive">';
-$contenido .= '<table class="custom-table" style="font-size: 0.9em;" width="100%">
+$contenido .= '<table class="custom-table fw-bold style="font-size: 0.9em;" width="100%">
 
 <thead>
 
   <tr>
-    <th class="font-weight-bold text-dark bg-light" colspan="5">'.$detalle.'</th>
+    <td class="font-weight-bold text-dark bg-light" colspan="5">'.$detalle.'</td>
   </tr>
 
   <tr>
-    <td class="fw-bold text-dark bg-light">Sucursal</td>
-    <th class="font-weight-bold text-dark text-center bg-light" >Destino</th>
-    <th class="font-weight-bold text-center" style="background: #76bd1d;color: white;">87 Oct</th>
-    <th class="font-weight-bold text-center" style="background: #e21683;color: white;">91 Oct</th>
-    <td class="fw-bold text-center" style="background: #5e0f8e;color: white;">Diesel</td>
+    <td class="text-dark bg-light">Sucursal</td>
+    <td class="font-weight-bold text-dark text-center bg-light" >Destino</td>
+    <td class="font-weight-bold text-center" style="background: #76bd1d;color: white;">87 Oct</td>
+    <td class="font-weight-bold text-center" style="background: #e21683;color: white;">91 Oct</td>
+    <td class="text-center" style="background: #5e0f8e;color: white;">Diesel</td>
   </tr>
 </thead>';
 
@@ -106,9 +111,9 @@ $coldiesel = "background: #FFC300;";
 $coldiesel = "background: #5e0f8e;";
 }
 
-
+ 
 $contenido .= '<tr>';
-$contenido .= '<td class="align-middle bg-light"><b>'.$row_lista['sucursal'].'</b></td>';
+$contenido .= '<td class="align-middle bg-light">'.$row_lista['sucursal'].'</td>';
 $contenido .= '<td class="align-middle bg-light text-center">'.$destino.'</td>';
 $contenido .= '<td class="align-middle text-center" style="'.$coloct87.'color: white;">'.$oct87.'</td>';
 $contenido .= '<td class="align-middle text-center" style="'.$coloct91.'color: white;">'.$oct91.'</td>';
@@ -171,7 +176,7 @@ echo '
 <i class="fa-solid fa-pencil"></i> Editar         
 </th>
 
-<th class="align-middle text-center p-2 bg-danger text-white" onclick="Eliminar('.$idReporte.')">  
+<th class="align-middle text-center p-2 bg-danger text-white" onclick="Eliminar('.$idReporte.','.$valYear.','.$valMes.')">  
 <i class="fa-regular fa-trash-can"></i> Eliminar         
 </th>
 </tr>

@@ -216,11 +216,7 @@ if ($Session_IDUsuarioBD == "") {
           </div>
           <div class="col-12" id="DivProcedimientos"></div>
 
-                </div>
-
-
-
-
+    </div>
     </div>
 
   </div>
@@ -228,7 +224,7 @@ if ($Session_IDUsuarioBD == "") {
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenidoProcedimientos">
   </div>
   </div>

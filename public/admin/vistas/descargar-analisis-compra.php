@@ -69,11 +69,19 @@ WHERE re_reporte_cre_mes.id_estacion = '".$_GET['idEstacion']."'
 AND YEAR(re_reporte_cre_producto.fecha) = '".$_GET['Year']."' AND MONTH (re_reporte_cre_producto.fecha) = '".$_GET['Month']."' ORDER BY re_reporte_cre_producto.fecha ASC";
 $result_recepcion = mysqli_query($con, $sql_recepcion);
 $numero_recepcion = mysqli_num_rows($result_recepcion);
+
+$TotalDiferenciaPemex = 0;
+$TotalImporteMerma = 0;
+$TotalImporteNota = 0;
+$TotalPickup = 0;
+$TotalPemex = 0;
+$CuentaLitros = 0;
+
 while($row_recepcion = mysqli_fetch_array($result_recepcion, MYSQLI_ASSOC)){
 
-$Embarques = Embarques($row_recepcion['fecha'],$row_recepcion['producto'],$row_recepcion['volumen'],$row_recepcion['precio_litro'],$GET_idEstacion,$con);
+$Embarques = Embarques($row_recepcion['fecha'],$row_recepcion['producto'],$row_recepcion['volumen'],$row_recepcion['precio_litro'],$_GET['idEstacion'],$con);
 
-    $Tuxpan = Tuxpan($row_recepcion['fecha'],$row_recepcion['producto'],$row_recepcion['volumen'],$GET_idEstacion,$con);
+    $Tuxpan = Tuxpan($row_recepcion['fecha'],$row_recepcion['producto'],$row_recepcion['volumen'],$_GET['idEstacion'],$con);
 
     $Precios = Precios($row_recepcion['fecha'],$row_recepcion['producto'],$con);
 
@@ -192,6 +200,9 @@ WHERE op_embarques.fecha = '".$fecha."' AND op_embarques.producto = '".$producto
 AND op_embarques.importef = '".$volumen."'
 AND op_corte_year.id_estacion = '".$IdEstacion."' ";
 $result = mysqli_query($con, $sql);
+$Tad = "";
+$Unidad = "";
+$Chofer = "";
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $Tad = $row['tad'];
 $Unidad = $row['unidad'];
@@ -221,6 +232,9 @@ function Tuxpan($fecha,$producto,$volumen,$IdEstacion,$con){
 
 $sql = "SELECT cuenta_litros, no_factura_remision FROM op_descarga_tuxpa WHERE id_estacion = '".$IdEstacion."' AND fecha_llegada = '".$fecha."' AND producto = '".$ValProducto."' ";
    $result = mysqli_query($con, $sql);
+   $CuentaLitros = 0;
+   $FacturaTransporte = 0;
+
    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
     $CuentaLitros = $row['cuenta_litros'];
     $FacturaTransporte = $row['no_factura_remision'];
@@ -234,35 +248,39 @@ return $array;
 function Precios($fecha,$producto,$con){
 
 if($producto == 'G SUPER'){
-    $ValProducto = 'Super';
-  }else if($producto == 'G PREMIUM'){
-    $ValProducto = 'Premium';
-  }else if($producto == 'G DIESEL'){
-    $ValProducto = 'Diesel';
-  }
+$ValProducto = 'Super';
+}else if($producto == 'G PREMIUM'){
+$ValProducto = 'Premium';
+}else if($producto == 'G DIESEL'){
+$ValProducto = 'Diesel';
+}
+
 
 $sql = "SELECT  
-op_formato_precios_detalle.id,
-op_formato_precios_detalle.producto,
-op_formato_precios_detalle.pemex,
+op_formato_precios_detalle_c.id,
+op_formato_precios_detalle_c.producto,
+op_formato_precios_detalle_c.pemex,
 op_formato_precios.fecha
-FROM op_formato_precios_detalle 
+FROM op_formato_precios_detalle_c 
 INNER JOIN
 op_formato_precios ON 
-op_formato_precios_detalle.id_precio = op_formato_precios.id
-WHERE op_formato_precios.fecha = '".$fecha."' AND op_formato_precios_detalle.producto = '".$ValProducto."' ";
-   $result = mysqli_query($con, $sql);
-   while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-    $Pemex = $row['pemex'];
-   }
+op_formato_precios_detalle_c.id_precio = op_formato_precios.id
+WHERE op_formato_precios.fecha = '".$fecha."' AND op_formato_precios_detalle_c.producto = '".$ValProducto."' ";
+$result = mysqli_query($con, $sql);
+$Pemex = 0;
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$Pemex = $row['pemex'];
+}
 
 $array = array('Pemex' => $Pemex);
 
 return $array;
-
 }
 
+
 function NotaCredito($fecha,$nofactura,$con){
+  $NotaC = "";
+  $Status = "";  
 
 $sql = "SELECT * FROM tb_analisis_compra WHERE fecha = '".$fecha."' AND factura = '".$nofactura."' ";
    $result = mysqli_query($con, $sql);

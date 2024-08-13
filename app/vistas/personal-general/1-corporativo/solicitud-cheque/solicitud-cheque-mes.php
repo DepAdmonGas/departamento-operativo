@@ -52,7 +52,7 @@
   targets = [9, 10, 11]; // Asigna los targets para el caso de "Gestoria"
 
   }else{
-  targets = [10, 11]; // Asigna los targets para el caso de "Gestoria"
+  targets = [9, 10]; // Asigna los targets para el caso de "Gestoria"
   }
 
   }else{
