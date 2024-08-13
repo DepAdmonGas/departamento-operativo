@@ -20,6 +20,11 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
 
+<div class="mb-1text-secondary">Documento:</div>
+<div class="input-group mb-3">
+  <input type="file" class="form-control" id="Documento">
+</div>
+
 <div class="table-responsive">
 <table class="custom-table" style="font-size: 14px;" width="100%">
 <thead>

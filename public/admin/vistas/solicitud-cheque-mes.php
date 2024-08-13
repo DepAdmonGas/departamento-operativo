@@ -283,7 +283,7 @@ alertify.confirm('',
     success:  function (response) {
 
     if (response == 1) {
-    Pago(year,mes,idEstacion,idReporte);
+    Pago(year,mes,idEstacion,depu,idReporte);
     SelEstacion(idEstacion,depu,year,mes);
     sizeWindow();
     alertify.success('Documento eliminado exitosamente.');      
@@ -359,10 +359,11 @@ alertify.confirm('',
 
     }
 
-  function EliminarArchivo(year,mes,idEstacion,depu,idReporte){
+  function EliminarArchivo(year,mes,idEstacion,depu,idReporte,id){
   
+
   var parametros = {
-  "idDocumento" : idReporte,
+  "idDocumento" : id,
   "Accion" : "eliminar-documentos-solicitud-cheque"
   };
 
@@ -380,6 +381,7 @@ alertify.confirm('',
     },
     success:  function (response) {
 
+      
     if (response == 1) {
     sizeWindow();
     $('#DivContenidoComentario').load('../../../public/admin/vistas/modal-archivos-solicitud-cheque.php?idReporte=' + idReporte + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);

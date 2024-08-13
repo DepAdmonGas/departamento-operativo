@@ -181,8 +181,6 @@ require ('app/help.php');
         </div>
 
 
-        <div class="row">
-
           <!----------- 1 Corporativo  -------->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
             <article class="plan card2 border-0 shadow position-relative" onclick="Corporativo()">
@@ -304,7 +302,7 @@ require ('app/help.php');
             </article>
           </div>
 
-        </div>
+
 
         <?php if (
           $Session_IDUsuarioBD == 322 ||
@@ -327,7 +325,6 @@ require ('app/help.php');
 
         </div>
 
-        <div class="row">
           <!----- INTERLOMAS ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
             <article class="plan card2 border-0 shadow position-relative"
@@ -473,7 +470,7 @@ require ('app/help.php');
             </article>
           </div>
 
-        </div>
+
 
 
         <?php } ?>

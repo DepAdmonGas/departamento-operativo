@@ -546,7 +546,9 @@ filter: opacity(50%);
 
 
     .table-responsive {
-        overflow: visible; /* Permitir que el menú se muestre fuera del contenedor */
+        overflow-x: auto; /* Permitir scroll horizontal */
+        overflow-y: auto; /* Evitar scroll vertical, si es necesario */
+        -webkit-overflow-scrolling: touch; /* Para un mejor scroll en dispositivos móviles */
     }
     
     .dropdown-menu {
@@ -582,9 +584,9 @@ filter: opacity(50%);
     /* Asegúrate de que los íconos tengan suficiente espacio */
     .btn-icon-only {
         display: inline-block;
-        padding: 0.5rem;
+        padding: 0.5rem;
     }
-     
+    
     /* ---------------------------------------------------
         MEDIAQUERIES
     ----------------------------------------------------- */

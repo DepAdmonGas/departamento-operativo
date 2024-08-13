@@ -24,11 +24,11 @@ require('app/help.php');
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
   
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
-
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -79,7 +79,7 @@ require('app/help.php');
   
   }
 
-
+ 
  
   function Mas(idReporte,idEstacion,year,mes){
   $('#Modal').modal('show');
