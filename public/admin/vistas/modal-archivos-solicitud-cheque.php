@@ -68,7 +68,7 @@ $id = $row_documento['id'];
 
 echo '<tr>';
 echo '<th class="align-middle font-weight-light">'.$row_documento['nombre'].'</th>';
-echo '<td class="align-middle font-weight-light"><a href="../../archivos/'.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
+echo '<td class="align-middle font-weight-light"><a href="'.RUTA_ARCHIVOS.''.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '<td class="align-middle font-weight-light"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarArchivo('.$year.','.$mes.','.$idEstacion.','.$depu.','.$idReporte.','.$id.')"></td>';
 echo '</tr>';
 
