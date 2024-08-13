@@ -202,6 +202,8 @@ function consultaPuntajeRemisionMes($GET_idEstacion, $GET_year, $GET_mes, $con)
   $result_lista3 = mysqli_query($con, $sql_lista3);
   $numero_lista3 = mysqli_num_rows($result_lista3);
 
+  $puntajeCalculo = 0;
+
   if ($numero_lista3 == 0) {
     $puntaje = 0;
 
@@ -501,7 +503,7 @@ function consultaPuntajeFacturaMes($GET_idEstacion, $GET_year, $GET_mes, $con)
 
   $result_lista3 = mysqli_query($con, $sql_lista3);
   $numero_lista3 = mysqli_num_rows($result_lista3);
-
+  $puntajeCalculo = 0;
   if ($numero_lista3 == 0) {
     $puntaje = 0;
 
@@ -1268,20 +1270,20 @@ function consultaFaltantesAceitesES($GET_idEstacion, $GET_year, $con)
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
       <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
-            class="fa-solid fa-chevron-left"></i> Resumen Aceites</a></li>
-      <li aria-current="page" class="breadcrumb-item active text-uppercase"> Evaluación <?= $titulo ?>
+            class="fa-solid fa-chevron-left"></i> Resumen Aceites, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?></a></li>
+      <li aria-current="page" class="breadcrumb-item active text-uppercase"> Evaluación (<?= $titulo ?>), <?= $GET_year ?>
       </li>
     </ol>
   </div>
 
   <div class="row">
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Evaluación <?= $titulo ?>
+      <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Evaluación (<?= $titulo ?>), <?= $GET_year ?>
       </h3>
     </div>
     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
       <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="InfoEvaluacion(<?= $tipo ?>)">
-        <span class="btn-label2"><i class="fa fa-info"></i></span>Evaluacion</button>
+        <span class="btn-label2"><i class="fa fa-info"></i></span>Forma de evaluacion</button>
     </div>
 
   </div>

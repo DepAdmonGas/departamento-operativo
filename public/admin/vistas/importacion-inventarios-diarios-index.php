@@ -131,6 +131,15 @@ alertify.confirm('',
 
   } 
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
+
+
   </script>
   </head>
 

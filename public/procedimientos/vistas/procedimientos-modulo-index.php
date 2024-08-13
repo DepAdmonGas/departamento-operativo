@@ -53,8 +53,8 @@ if ($Session_IDUsuarioBD == "") {
     }
 
     function detalleProcedimiento(idProcedimiento) {
-      $('#Modal').modal('show');
-      $('#DivContenidoProcedimientos').load('../../public/procedimientos/vistas/modal-detalle-procedimiento.php?idProcedimiento=' + idProcedimiento);
+      $('#Modal2').modal('show');
+      $('#DivContenidoProcedimientos2').load('../../public/procedimientos/vistas/modal-detalle-procedimiento.php?idProcedimiento=' + idProcedimiento);
 
     }
 
@@ -151,7 +151,7 @@ if ($Session_IDUsuarioBD == "") {
 
               if (response == 1) {
                 $(".LoaderPage").hide();
-                $('#Modal').modal('hide');
+                $('#Modal2').modal('hide');
                 alertify.success('Procedimiento eliminado exitosamente.');
                 ListaProcedimientos(idModulo);
 
@@ -226,26 +226,25 @@ if ($Session_IDUsuarioBD == "") {
   </div>
 
 
-  <div class="modal" id="Modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div id="DivContenidoProcedimientos"></div>
-
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content" id="DivContenidoProcedimientos">
+  </div>
+  </div>
   </div>
 
 
-
-
-
-
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivContenidoProcedimientos2"></div>
+  </div>
+  </div>
+  
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
-
 </html>

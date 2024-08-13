@@ -19,6 +19,7 @@ $idEstacion = $_GET['idEstacion'];
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-labeled2 btn-success" onclick="NewRegistro(<?=$idEstacion;?>,<?=$year;?>,<?=$mes;?>,<?=$idDias;?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+<span class="btn-label2"><i class="fa fa-check"></i></span>Activar</button>
 </div>
 
+ 

@@ -53,21 +53,23 @@ if ($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318) {
       <th class="text-center align-middle tableStyle" colspan="2">DÉBITO</th>
       <th class="text-center align-middle tableStyle">PAGOS</th>
       <th class="text-center align-middle tableStyle">CONSUMOS</th>
+      <th class="text-center align-middle tableStyle <?= $ocultarProsegur ?>" colspan="10"></th>
+
     </tr>
 
     <tr class="title-table-bg">
       <td></td>
-      <td class="text-center align-middle tableStyle" colspan="4">TARJETAS BANCARIAS</td>
-      <td class="text-center align-middle tableStyle" colspan="8">TARJETAS</td>
-      <td class="text-center align-middle tableStyle" colspan="5">VALES</td>
-      <td class="text-center align-middle tableStyle" colspan="6">Cartera de Clientes ATIO </td>
+      <td class="text-center align-middle fw-bold" colspan="4">TARJETAS BANCARIAS</td>
+      <td class="text-center align-middle fw-bold" colspan="8">TARJETAS</td>
+      <td class="text-center align-middle fw-bold" colspan="5">VALES</td>
+      <td class="text-center align-middle fw-bold" colspan="6">Cartera de Clientes ATIO </td>
 
-      <td class="text-center align-middle tableStyle <?= $ocultarProsegur ?>" colspan="10">PROSEGUR </td>
+      <td class="text-center align-middle fw-bold <?= $ocultarProsegur ?>" colspan="10">PROSEGUR </td>
 
     </tr>
 
     <tr class="title-table-bg">
-      <td class="text-center align-middle">Fecha</td>
+      <td class="text-center align-middle fw-bold">Fecha</td>
 
       <th class="text-center align-middle">BANCOMER</th>
       <th class="text-center align-middle">AMEX</th>
@@ -115,7 +117,7 @@ if ($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318) {
       <th class="text-center align-middle <?= $ocultarProsegur ?>">Transferencia 1</th>
       <th class="text-center align-middle <?= $ocultarProsegur ?>">Cheque 2</th>
       <th class="text-center align-middle <?= $ocultarProsegur ?>">Transferencia 2</th>
-      <th class="text-center align-middle <?= $ocultarProsegur ?>">TOTAL</th>
+      <td class="text-center align-middle fw-bold <?= $ocultarProsegur ?>">TOTAL</td>
 
 
     </tr>
@@ -304,7 +306,7 @@ if ($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318) {
 
 
       <tr class="">
-        <td><?= FormatoFecha($fecha); ?></td>
+        <th><?= FormatoFecha($fecha); ?></th>
 
 
         <td class="align-middle text-end">

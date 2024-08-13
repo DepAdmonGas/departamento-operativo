@@ -39,12 +39,6 @@ function ToSolicitud($idEstacion, $con)
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {

@@ -87,7 +87,7 @@ function Producto($idProducto, $con)
               echo '<tr>';
               echo '<th class="no-hover align-middle text-center">' . $num . '</th>';
               echo '<td class="no-hover align-middle"><b>' . $Producto . '</b></td>';
-              echo '<td class="no-hover align-middle p-0 text-center"><input id="Piezas-' . $id . '" class="form-control border-0 text-center" type="number" value="' . $row_lista['piezas'] . '" onchange="EditPiezas(' . $id . ',' . $idEstacion . ',' . $idReporte . ')" /></td>';
+              echo '<td class="no-hover align-middle p-0 text-center"><input id="Piezas-' . $id . '" class="form-control border-0 bg-light text-center" type="number" value="' . $row_lista['piezas'] . '" onchange="EditPiezas(' . $id . ',' . $idEstacion . ',' . $idReporte . ')" /></td>';
               echo '<td class="no-hover align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarItem(' . $id . ',' . $idEstacion . ',' . $idReporte . ')"></td>';
               echo '</tr>';
 
@@ -107,11 +107,15 @@ function Producto($idProducto, $con)
     </div>
 
   </div>
-  <br>
-  <div class="text-end">
+
+</div>
+
+
+<div class="modal-footer">
     <button type="button" class="btn btn-labeled2 btn-primary"
       onclick="AgregarItem(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
       <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
     <?php if ($numero_lista > 0) { ?>
       <button type="button" class="btn btn-labeled2 btn-success"
         onclick="FinalizarPedido(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
@@ -119,4 +123,3 @@ function Producto($idProducto, $con)
 
     <?php } ?>
   </div>
-</div>

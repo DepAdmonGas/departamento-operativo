@@ -27,11 +27,10 @@ require ('app/help.php');
   <script src="<?= RUTA_JS2 ?>home-general-functions.js"></script>
 
   <script type="text/javascript">
+  $(document).ready(function ($) {
+  $(".LoaderPage").fadeOut("slow");
 
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-
-    });
+  });
 
     function Regresar() { window.history.back(); }
     //function comunicadoAdmin(){window.location.href = "administracion/comunicados";}
@@ -148,7 +147,7 @@ require ('app/help.php');
     </nav>
 
 
-
+ 
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
 
@@ -164,11 +163,11 @@ require ('app/help.php');
           </div>
 
           <div class="row">
-            <div class="col-10">
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Dirección de
                 operaciones</h3>
             </div>
-            <div class="col-2">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
               <?php if ($session_nompuesto == "Dirección de operaciones") { ?>
                 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="ProcedimientosAdmin()">
                   <span class="btn-label2"><i class="fa-solid fa-briefcase"></i></span>Procedimientos

@@ -16,7 +16,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   });
 </script>
 
-
+<div class="modal-body">
 <div class="table-responsive">
   <table class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
@@ -31,7 +31,8 @@ $numero_lista = mysqli_num_rows($result_lista);
       <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
       <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
     </thead>
-    <tbody>
+
+    <tbody class="bg-light">
       <?php
       if ($numero_lista > 0) {
         while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
@@ -48,7 +49,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
           } else {
 
-            $excel = '<a href="../../../../archivos/' . $row_lista['excel'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'excel.png" data-placement="top" title="Descargar EXCEL"></a>';
+            $excel = '<a href="'.RUTA_ARCHIVOS.'' . $row_lista['excel'] . '" download><img class="pointer" src="' . RUTA_IMG_ICONOS . 'excel.png" data-placement="top" title="Descargar EXCEL"></a>';
 
           }
 
@@ -58,7 +59,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
           } else {
 
-            $archivo = '<a href="../../../../archivos/' . $row_lista['sodi'] . '" download><img class="pointer" class="pointer" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png" data-toggle="tooltip" data-placement="top" title="Soporte de diferencia"></a>';
+            $archivo = '<a href="'.RUTA_ARCHIVOS.'' . $row_lista['sodi'] . '" download><img class="pointer" class="pointer" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png" data-toggle="tooltip" data-placement="top" title="Soporte de diferencia"></a>';
 
           }
 
@@ -66,8 +67,8 @@ $numero_lista = mysqli_num_rows($result_lista);
           echo '<th class="align-middle">' . FormatoFecha($row_lista['fecha']) . '</th>';
           echo '<td class="align-middle text-center">' . $row_lista['monedero'] . '</td>';
           echo '<td class="align-middle text-end">$ ' . number_format($row_lista['diferencia'], 2) . '</td>';
-          echo '<td><a href="../../../../archivos/' . $row_lista['pdf'] . '" download data-toggle="tooltip" data-placement="top" title="Descargar PDF"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a></td>';
-          echo '<td><a href="../../../../archivos/' . $row_lista['xml'] . '" download data-toggle="tooltip" data-placement="top" title="Descargar XML"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'xml.png"></a></td>';
+          echo '<td><a href="'.RUTA_ARCHIVOS.'' . $row_lista['pdf'] . '" download data-toggle="tooltip" data-placement="top" title="Descargar PDF"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></a></td>';
+          echo '<td><a href="'.RUTA_ARCHIVOS.'' . $row_lista['xml'] . '" download data-toggle="tooltip" data-placement="top" title="Descargar XML"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'xml.png"></a></td>';
           echo '<td width="20">' . $excel . '</td>';
           echo '<td width="20">' . $archivo . '</td>';
           echo '<td width="20"><img id="DocEDI" class="pointer" src="' . RUTA_IMG_ICONOS . 'descargar.png" onclick="Edi(' . $IdReporte . ',' . $year . ',' . $mes . ',' . $row_lista['id'] . ')" data-toggle="tooltip" data-placement="top" title="Documentos EDI"></td>';
@@ -77,14 +78,19 @@ $numero_lista = mysqli_num_rows($result_lista);
 
         }
       } else {
-        echo "<tr><th colspan='10' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+        echo "<tr><th colspan='10' class='text-center text-secondary no-hover2 fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
       }
       ?>
     </tbody>
   </table>
 </div>
-<br>
+
+</div>
+
+
+<div class="modal-footer">
 <button type="button" class="btn btn-labeled2 btn-primary float-end"
   onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
-  <span class="btn-label2"><i class="fa fa-plus"></i></span>Nuevo
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar factura
 </button>
+</div>

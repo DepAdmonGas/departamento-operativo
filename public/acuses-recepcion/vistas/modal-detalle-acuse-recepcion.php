@@ -39,30 +39,55 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 ?> 
 
-
 <div class="modal-header">
-<h5 class="modal-title">Finalizar Acuses de Recepción</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Acuse de Recepción (<?=FormatoFecha($Fecha);?>, <?=$Hora;?>)</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 
 <div class="modal-body"> 
 
-<div class="text-end"><small><?=FormatoFecha($Fecha);?>, <?=$Hora;?></small></div>
-<div class="mt-1"><h6><?=$Empresa;?></h6></div>
+<div class="text-secondary">Empresa:</div>
+<div class="mb-3"><h6><?=$Empresa;?></h6></div>
+
+<div class="row">
+
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+<div class="mb-1 text-secondary">Quién entrega:</div>
+<h6><?=$NombreEntrega;?></h6>
+</div>
+
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
+<div class="mb-1 text-secondary">Quién recibió:</div>
+<h6><?=$NombreRecibe;?></h6> 
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+<div class="mb-1 text-secondary">Fecha y hora:</div>
+<h6><?=$FechaEntrega;?></h6>   
+</div>
+
+</div>
 
 
-<div class="text-secondary">Documentos:</div>
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<div class="table-responsive">
+<table id="tabla_bitacora" class="custom-table mt-3" style="font-size: .9em;" width="100%">
 <thead class="tables-bg">
- <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Nombre del documento</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Número paginas</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Original</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Copia</th>
+
+<tr>
+<th class="text-center align-middle fw-bold" colspan="5">Documentos</th>
+</tr>
+
+ <tr class="title-table-bg">
+  <td class="text-center align-middle fw-bold">#</td>
+  <th class="align-middle text-center fw-bold">Nombre del documento</th>
+  <th class="align-middle text-center fw-bold">Número paginas</th>
+  <th class="align-middle text-center fw-bold">Original</th>
+  <td class="align-middle text-center fw-bold">Copia</td>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 $num = 1;
@@ -81,7 +106,7 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 	}
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.$num.'</td>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['documento'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['paginas'].'</td>';
 echo '<td class="align-middle text-center">'.$Original.'</td>';
@@ -96,16 +121,8 @@ echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encont
 ?>
 </tbody>
 </table>
+</div>
 
-<hr>
 
-<div class="mb-1 text-secondary mt-2">Quién entrega:</div>
-<h6><?=$NombreEntrega;?></h6>
-
-<div class="mb-1 text-secondary mt-2">Quién recibió:</div>
-<h6><?=$NombreRecibe;?></h6>
-
-<div class="mb-1 text-secondary mt-2">Fecha y hora:</div>
-<h6><?=$FechaEntrega;?></h6>
 
 </div>

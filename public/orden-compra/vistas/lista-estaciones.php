@@ -69,7 +69,7 @@ if ($nombreES == "Quitarga") {
 </div>
 
 
-<div class="table-responsive mt-2">
+<div class="table-responsive mt-3">
   <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
       <tr class="tables-bg">

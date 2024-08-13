@@ -158,6 +158,14 @@ function TotalAceites($IdReporte, $con)
 }
 
 
+$sql_listaestacion = "SELECT id, nombre FROM tb_estaciones WHERE id = '" . $GET_idEstacion . "'";
+$result_listaestacion = mysqli_query($con, $sql_listaestacion);
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $id = $row_listaestacion['id'];
+  $estacion = $row_listaestacion['nombre'];
+}
+
+
 ?>
 <html lang="es">
 
@@ -213,22 +221,23 @@ function TotalAceites($IdReporte, $con)
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                  Aceites</a></li>
-              <li aria-current="page" class="breadcrumb-item active text-uppercase">Resumen,
-                <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+                  Resumen Aceites, <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">              
+                Resumen Impuestos (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
+
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Resumen, <?= nombremes($GET_mes); ?> <?= $GET_year; ?>
+              Resumen Impuestos (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </h3>
             </div>
           </div>
           <hr>
         </div>
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
           <div class="table-responsive">
             <table class="custom-table" style="font-size: .75em;" width="100%">
               <thead class="tables-bg">

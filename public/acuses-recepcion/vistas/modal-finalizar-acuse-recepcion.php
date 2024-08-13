@@ -24,28 +24,36 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 <div class="modal-header">
-<h5 class="modal-title">Finalizar Acuses de Recepción</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Acuse de Recepción (<?=FormatoFecha($Fecha);?>, <?=$Hora;?>)</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body"> 
 
-<div class="text-end"><small><?=FormatoFecha($Fecha);?>, <?=$Hora;?></small></div>
+<div class="text-secondary">Empresa:</div>
 <div class="mt-1"><h6><?=$Empresa;?></h6></div>
 
+<div class="text-secondary mt-3 mb-1">Quién recibe:</div>
+<textarea class="form-control rounded-0" rows="1" id="QuienRecibe"></textarea>
 
-<div class="text-secondary">Documentos:</div>
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+<div class="table-responsive">
+<table id="tabla_bitacora" class="custom-table mt-3" style="font-size: .9em;" width="100%">
 <thead class="tables-bg">
- <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">#</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Nombre del documento</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Número paginas</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Original</th>
-  <th class="align-middle text-center tableStyle font-weight-bold">Copia</th>
+
+<tr>
+<th class="text-center align-middle fw-bold" colspan="5">Documentos</th>
+</tr>
+
+ <tr class="title-table-bg">
+  <td class="text-center align-middle fw-bold">#</td>
+  <th class="align-middle text-center fw-bold">Nombre del documento</th>
+  <th class="align-middle text-center fw-bold">Número paginas</th>
+  <th class="align-middle text-center fw-bold">Original</th>
+  <td class="align-middle text-center fw-bold">Copia</td>
   </tr>
 </thead> 
-<tbody>
+
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 $num = 1;
@@ -64,7 +72,7 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 	}
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.$num.'</td>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['documento'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['paginas'].'</td>';
 echo '<td class="align-middle text-center">'.$Original.'</td>';
@@ -79,12 +87,11 @@ echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encont
 ?>
 </tbody>
 </table>
-
-<div class="mb-2 text-secondary mt-2">Quién recibe:</div>
-<textarea class="form-control rounded-0" rows="1" id="QuienRecibe"></textarea>
+</div>
 
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="BTNFinalizar(<?=$idReporte;?>)">Finalizar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="BTNFinalizar(<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
 </div>

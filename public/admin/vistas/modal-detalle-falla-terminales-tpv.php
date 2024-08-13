@@ -67,7 +67,7 @@ echo $falla;
 if($atiende == ""){
 echo "S/I";
 }else{
-echo $falla;
+echo $atiende;
 }
 ?>
 </div>
@@ -161,7 +161,7 @@ echo $conexion;
 <div class="col-12"> 
 <div class="font-weight-bold"><b>Observaciones:</b></div>
 <?php 
-if($conexion == ""){
+if($observaciones == ""){
 echo "S/I";
 }else{
 echo $observaciones;

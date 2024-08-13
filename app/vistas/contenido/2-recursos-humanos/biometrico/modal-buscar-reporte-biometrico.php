@@ -55,6 +55,9 @@ echo '<option value="'.$i.'">'.$i.'</option>';
 
 
     <div class="modal-footer">
-<button type="button" class="btn btn-primary rounded-0 fw-lighter fs-6" onclick="btnBuscar(<?=$idEstacion;?>)">Buscar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="btnBuscar(<?=$idEstacion;?>)">
+         <span class="btn-label2"><i class="fa fa-search"></i></span>Buscar</button>
+
+
       </div>
 

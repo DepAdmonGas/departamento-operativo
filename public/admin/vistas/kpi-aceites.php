@@ -30,12 +30,6 @@ require ('app/help.php');
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {

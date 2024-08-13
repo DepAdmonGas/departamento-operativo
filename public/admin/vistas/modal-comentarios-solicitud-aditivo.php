@@ -77,12 +77,13 @@ if ($numero_comen > 0) {
 <div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
 
-<hr>
 
-<div class="text-end mt-3">
-  <button type="button" class="btn btn-labeled2 btn-success float-end m-2"
+</div>
+
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success"
     onclick="GuardarComentario(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
     <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar
   </button>
-</div>
 </div>

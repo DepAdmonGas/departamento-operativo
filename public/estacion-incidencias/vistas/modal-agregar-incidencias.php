@@ -14,13 +14,11 @@ $estacion = $row_listaestacion['nombre'];
  
  
  <div class="modal-header">
-  <h5 class="modal-title">Agregar Incidencia <?=$estacion?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Agregar Incidencia (<?=$estacion?>)</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
-
 <div class="modal-body">
-
 
 <h6 class="mb-1">Fecha:</h6>
 <input class="form-control" type="date" id="FechaInc">
@@ -47,5 +45,6 @@ $estacion = $row_listaestacion['nombre'];
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="GuardarIncidencia(<?=$idEstacion;?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarIncidencia(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>

@@ -32,13 +32,7 @@ $status = $row_lista['status'];
 </div>
 <div class="modal-body">
 
-<?php if($status == 1){ ?>
-<div class="text-end mb-2">
-<button type="button" class="btn btn-labeled2 btn-primary" onclick="ModalNuevaFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">
-<span class="btn-label2"><i class="fa fa-plus"></i></span>Nueva falla</button>
-</div>
-<?php } ?>
- 
+
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table" style="font-size: .9em;" width="100%">
 
@@ -91,3 +85,13 @@ echo "<tr><td colspan='6' class='text-center text-secondary no-hover2'><small>No
 </div>
 
 </div>
+
+
+
+<?php if($status == 1){ ?>
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-primary" onclick="ModalNuevaFalla(<?=$idEstacion;?>, <?=$idTPV;?>)">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar falla</button>
+</div>
+<?php } ?>
+ 

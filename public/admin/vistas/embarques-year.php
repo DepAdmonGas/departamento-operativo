@@ -66,15 +66,15 @@ if ($Session_IDUsuarioBD == "") {
         <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
-              <li class="breadcrumb-item"><a onclick="history.go(-3)" class="text-uppercase text-primary pointer"><i
+              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-house"></i> Corporativo</a></li>
-              <li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"> Embarques</a></li>
-              <li class="breadcrumb-item"><a class="text-uppercase pointer">
-                  <?= $GET_year ?></a></li>
+              <li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer"> Embarques</a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                  <?= $GET_year ?></li>
             </ol>
           </div>
           <div class="row">
-            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
+            <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
                 Embarques <?= $GET_year; ?>
               </h3>
@@ -101,7 +101,9 @@ if ($Session_IDUsuarioBD == "") {
           }
         }
         echo '
+
         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2 mt-2 ' . $icon . '">
+
           <article class="plan card2 border-0 shadow position-relative" onclick="EmbarquesM(' . $GET_year . ',' . $i . ')">
             <div class="inner">
               <div class="row">

@@ -12,7 +12,7 @@ if ($idStatus == 0) {
 ?>
 
 
-<div class="table-responsive mt-2">
+<div class="table-responsive mt-3">
   <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
       <th colspan="6" class="text-center align-middle ">DATOS DEL PROVEEDOR</th>
@@ -25,7 +25,7 @@ if ($idStatus == 0) {
       <th width="16px" class="<?= $ocultarTb ?>"><img src="<?= RUTA_IMG_ICONOS ?>editar-tb.png" width="20px"></th>
       <td width="16px" class="<?= $ocultarTb ?> fw-bold"><img src="<?= RUTA_IMG_ICONOS ?>eliminar.png" width="20px"></td>
     </tr>
-    <tbody>
+    <tbody class="bg-light">
       <?php
 
       $sql = "SELECT * FROM op_orden_compra_proveedor WHERE id_ordencompra = '" . $idReporte . "' ";
