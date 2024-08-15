@@ -1236,7 +1236,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_mes = $partes_ruta[4];
             $ruta_elegida = 'public/admin/vistas/importacion-analisis-compra-detalle.php';
         }
-
+ 
         /* ----- OCULTAR RUTA FORMATO DE PRECIOS 
 
         else if ($partes_ruta[2] == 'formato-precios') {

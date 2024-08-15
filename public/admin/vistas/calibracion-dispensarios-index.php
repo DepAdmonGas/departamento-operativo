@@ -96,6 +96,8 @@ header("Location:".PORTAL."");
   $('#Year').css('border',''); 
   if(Periodo != ""){
   $('#Periodo').css('border',''); 
+  if(Archivo_filePath != ""){
+  $('#Archivo').css('border',''); 
 
     data.append('idEstacion', idEstacion);
     data.append('Year', Year);
@@ -126,6 +128,10 @@ header("Location:".PORTAL."");
      
     }); 
 
+
+  }else{
+  $('#Archivo').css('border','2px solid #A52525'); 
+  }
   }else{
   $('#Periodo').css('border','2px solid #A52525'); 
   }
@@ -310,7 +316,7 @@ $estacion = $row_listaestacion['nombre'];
 
   <div class="modal" id="Modal">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
       <div id="DivContenido"></div>
       </div>
     </div>

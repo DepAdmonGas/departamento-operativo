@@ -23,6 +23,7 @@ function Responsable($id, $con)
   return $Usuario;
 
 }
+
 ?>
 
 <div class="modal-header">
@@ -31,6 +32,16 @@ function Responsable($id, $con)
 </div>
 
 <div class="modal-body">
+<?php if ($session_nompuesto != "Contabilidad") { ?>
+
+<div class="text-end">
+  
+      <button type="button" class="btn btn-labeled2 btn-primary mb-3" onclick="NuevoReg(<?= $idEstacion; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $idDias; ?>)">
+      <span class="btn-label2"><i class="fa-solid fa-lock-open"></i></span>Activar corte diario</button>
+
+</div>
+<?php } ?>
+
   <div class="table-responsive">
     <table class="custom-table " style="font-size: 1em;" width="100%">
       <thead class="tables-bg">
@@ -68,14 +79,5 @@ function Responsable($id, $con)
       </tbody>
     </table>
   </div>
-
-</div>
-<div class="modal-footer">
-<?php if ($session_nompuesto != "Contabilidad") { ?>
-  
-      <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="NuevoReg(<?= $idEstacion; ?>,<?= $year; ?>,<?= $mes; ?>,<?= $idDias; ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Activar corte diario</button>
-
-  <?php } ?>
 
 </div>

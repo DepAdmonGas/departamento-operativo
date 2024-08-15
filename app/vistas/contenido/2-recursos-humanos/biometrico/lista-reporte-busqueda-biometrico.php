@@ -278,6 +278,8 @@ function ValidaFecha($idPersonal,$dia,$con){
 
    
 function Incidencias($id,$con){
+    $detalle = "";
+   
     $sql = "SELECT detalle FROM op_rh_lista_incidencias WHERE id = '".$id."' ";
     $result = mysqli_query($con, $sql);
     $numero = mysqli_num_rows($result);

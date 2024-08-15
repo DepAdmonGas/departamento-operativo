@@ -99,12 +99,15 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
               </h3>
             </div>
           </div>
+          <hr>
         </div>
+
+        <div class="col-12" id="DivCocentradoVentas"></div>
+
+
       </div>
 
-      <hr>
     </div>
-    <div id="DivCocentradoVentas"></div>
 
   </div>
 

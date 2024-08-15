@@ -25,14 +25,21 @@ $pedestales = $row_lista['pedestales'];
 
 ?>
 
+<script type="text/javascript">
+  $('.selectize').selectize({
+      sortField: 'text'
+    });
+  </script>
+
+
 <div class="modal-header">
 <h5 class="modal-title">Falla TPV: <?=$tpv;?>, No DE SERIE: <?=$noserie;?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div>
 
 <div class="modal-body">
 
  <div class="mb-2 text-secondary">Falla:</div>
- <select class="form-select rounded-0" id="Falla">
+ <select class="selectize rounded-0" id="Falla">
 <option></option>
 <option>Falla en impresora</option>
 <option>Se le va la señal</option>

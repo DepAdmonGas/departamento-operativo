@@ -105,9 +105,8 @@ $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
         </div>
 
 
-        <div class="tableFixHead mt-2">
-          <div id="Monedero"></div>
-        </div>
+
+        <div class="col-12" id="Monedero"></div>
 
 
       </div>

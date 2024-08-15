@@ -13,7 +13,7 @@ $idEstacion = $_GET['idEstacion'];
 </div>
 <div class="modal-body">
 
-<div class="text-secondary">Motivo:</div>
+<div class="text-secondary">* Motivo:</div>
 <textarea class="form-control mt-2" id="Detalle"></textarea>
 
 </div>

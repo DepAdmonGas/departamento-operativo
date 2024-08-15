@@ -163,12 +163,12 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Fecha</div>
+      <div class="mb-1 text-secondary">* Fecha</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Embarque</div>
+      <div class="mb-1 text-secondary">* Embarque</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <?php
         if ($embarque == "") {
@@ -201,7 +201,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Producto</div>
+      <div class="mb-1 text-secondary">* Producto</div>
       <select class="form-select" id="Producto">
         <option><?= $producto; ?></option>
         <?php
@@ -362,7 +362,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary">Chofer</div>
       <!--<input type="text" class="form-control" id="Chofer" value="<?= $chofer; ?>">-->
-      <select class="selectize pointer" placeholder="Transporte" id="Chofer">
+      <select class="selectize pointer" id="Chofer">
         <option><?=$chofer?></option>
         <?php
           $sql_unidades = "SELECT nombre_chofer FROM tb_pivoteo_chofer WHERE estado = 0 ORDER BY id ASC";
@@ -380,7 +380,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary">Unidad</div>
       <!--<input type="text" class="form-control" id="Unidad" value="<?= $unidad; ?>">--> 
-      <select class="selectize pointer" placeholder="Transporte" id="Unidad">
+      <select class="selectize pointer" id="Unidad">
         <option><?=$unidad?></option>
         <?php
           $sql_unidades = "SELECT no_unidad FROM tb_unidades_transporte WHERE estado = 0 ORDER BY id ASC";

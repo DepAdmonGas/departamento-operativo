@@ -137,15 +137,15 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
                   ?>
                   <tr>
                     <th><?= $producto; ?></th>
-                    <td class="align-middle text-end">$<?= number_format($precio_litroventas, 2); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($precio_litroventas, 2); ?></td>
                     <td class="align-middle text-end"><?= $ieps; ?></td>
-                    <td class="align-middle text-end"><?= number_format($preciosiniva, 4); ?></td>
-                    <td class="align-middle text-end"><?= number_format($iva1, 4); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($preciosiniva, 4); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($iva1, 4); ?></td>
                     <td class="align-middle text-end"><?= number_format($volumenv, 2); ?></td>
-                    <td class="align-middle text-end"><?= number_format($importesiniva, 2); ?></td>
-                    <td class="align-middle text-end"><?= number_format($iva2, 2); ?></td>
-                    <td class="align-middle text-end"><?= number_format($ieps2, 2); ?></td>
-                    <td class="align-middle text-end"><?= number_format($total, 2); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($importesiniva, 2); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($iva2, 2); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($ieps2, 2); ?></td>
+                    <td class="align-middle text-end">$ <?= number_format($total, 2); ?></td>
                   </tr>
                   <?php
                 }
@@ -166,16 +166,16 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
                 <tr>
                   <th colspan="5" class="align-middle text-end">SUBTOTAL COMBUSTIBLES</th>
                   <td class="align-middle text-end"><strong><?= number_format($totalVV, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totalISI, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totalIV2, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totalIEPS2, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totalneto, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totalISI, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totalIV2, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totalIEPS2, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totalneto, 2); ?></strong></td>
                 </tr>
                 <tr>
                   <th colspan="6" class="align-middle text-end">ACEITES</th>
-                  <td class="align-middle text-end"><?= number_format($aceitessiniva, 2); ?></td>
-                  <td class="align-middle text-end"><?= number_format($aceitesiva, 2); ?></td>
-                  <td colspan="2" class="align-middle text-end"><?= number_format($totalPrecio, 2); ?></td>
+                  <td class="align-middle text-end">$ <?= number_format($aceitessiniva, 2); ?></td>
+                  <td class="align-middle text-end">$ <?= number_format($aceitesiva, 2); ?></td>
+                  <td colspan="2" class="align-middle text-end">$ <?= number_format($totalPrecio, 2); ?></td>
                 </tr>
                 <tr>
                   <?php
@@ -184,10 +184,10 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
                   $totaldia = $totalneto + $totalPrecio;
                   ?>
                   <th colspan="6" class="align-middle text-end">TOTAL DEL DÍA</th>
-                  <td class="align-middle text-end"><strong><?= number_format($totaldiasi, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totaldiaiva, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totalIEPS2, 2); ?></strong></td>
-                  <td class="align-middle text-end"><strong><?= number_format($totaldia, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totaldiasi, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totaldiaiva, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totalIEPS2, 2); ?></strong></td>
+                  <td class="align-middle text-end"><strong>$ <?= number_format($totaldia, 2); ?></strong></td>
                 </tr>
                 <?php
               } else {

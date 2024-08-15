@@ -135,24 +135,31 @@ require('app/help.php');
 
   }else{
   $('#MetodoAutorizacion').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el metodo de autorización.'); 
   }
   }else{
   $('#Autorizadopor').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el nombre del quien autoriza.'); 
   }
   }else{
   $('#Solicitante').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el nombre del solicitante.'); 
   }
   }else{
   $('#Concepto').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el concepto.'); 
   }
   }else{
   $('#Moneda').css('border','2px solid #A52525');   
+  alertify.error('Falta seleccionar la mondena.'); 
   }
   }else{
   $('#Monto').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el monto.'); 
   }
   }else{
   $('#Fecha').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la fecha.'); 
   }  
 
   }
@@ -196,18 +203,18 @@ require('app/help.php');
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">FECHA:</div>
+  <div class="mb-1 text-secondary">* FECHA:</div>
   <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha_del_dia;?>"> 
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">MONTO:</div>
+  <div class="mb-1 text-secondary">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" >
   </div>
 
 
   <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">MONEDA:</div>
+  <div class="mb-1 text-secondary">* MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option>MXN</option>
   <option>USD</option>
@@ -216,13 +223,13 @@ require('app/help.php');
 
 
   <div class="col-12 mb-2">  
-  <div class="mb-1 text-secondary mt-2">CONCEPTO:</div>
+  <div class="mb-1 text-secondary mt-2">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"></textarea>
   </div>
 
         
   <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">NOMBRE DEL SOLICITANTE:</div>
+  <div class="mb-1 text-secondary">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" >
   </div>
 
@@ -294,12 +301,12 @@ require('app/help.php');
   <?php } ?>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">AUTORIZADO POR:</div>
+  <div class="mb-1 text-secondary">* AUTORIZADO POR:</div>
   <input type="text" class="form-control rounded-0" id="Autorizadopor" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">METODO DE AUTORIZACION:</div>
+  <div class="mb-1 text-secondary">* METODO DE AUTORIZACION:</div>
   <select class="form-select rounded-0" id="MetodoAutorizacion">
     <option></option>
     <option>Personal</option>

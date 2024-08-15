@@ -141,7 +141,7 @@ $alertText = "Sin factura";
 </ul>
 </div>
 </div>
-
+   
 </div>
 
 </div>
@@ -257,13 +257,13 @@ $alertText = "Sin factura";
   echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>';
 
   echo '<td class="align-middle text-center">
-  <div class="dropdown">
+  <div class="dropdown-container">
 
   <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
   <i class="fas fa-ellipsis-v"></i>
   </a>
 
-  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+  <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton">
   <a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>
   '.$PDF.'
   <a class="dropdown-item" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')" ><i class="fa-regular fa-file"></i> Agregar archivos</a>

@@ -106,7 +106,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
         "mes": mes
       };
 
-      $.ajax({
+      $.ajax({ 
         data: parametros,
         url: '../../../../public/admin/modelo/actualizar-cliente-mes.php',
         type: 'post',
@@ -117,6 +117,9 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
         },
         success: function (response) {
+
+
+          console.log(response)
 
           if (response == 1) {
             $(".LoaderPage").hide();

@@ -27,7 +27,7 @@ $AsuntoInput = '<textarea class="form-control rounded-0" id="asuntoInc"></textar
 $responsableInput = '<input class="form-control" type="text" id="responsableInc">';
 $actividadInput = '<input type="text" class="without_ampm form-control" id="tiempoInc">';
 $pdfInput= '<input class="form-control" type="file" id="PDF">';
-
+$val2 = "* ";
 }else{
 $nameModal = "Editar";
 $BTN = 'Editar';
@@ -36,7 +36,7 @@ $AsuntoInput = '<textarea class="form-control rounded-0" id="asuntoInc">'.$asunt
 $responsableInput = '<input class="form-control" type="text" id="responsableInc" value="'.$responsable .'">';
 $actividadInput = '<input type="text" class="without_ampm form-control" id="tiempoInc" value="'.$tiempo_actividad .'"> ';
 $pdfInput = '<input class="form-control" type="file" id="PDF" value="'.$archivo.'">';	
-
+$val2 = "";
 }
 ?> 
 
@@ -48,20 +48,20 @@ $pdfInput = '<input class="form-control" type="file" id="PDF" value="'.$archivo.
 
 <div class="modal-body"> 
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1">* Fecha:</h6>
 <?=$fechaInput;?>
 
-<h6 class="mt-3 mb-1">Asunto:</h6>
+<h6 class="mt-3 mb-1">* Asunto:</h6>
 <?=$AsuntoInput;?>
 
-<h6 class="mt-3 mb-1">Responsable:</h6>
+<h6 class="mt-3 mb-1">* Responsable:</h6>
 <?=$responsableInput;?>
 
-<h6 class="mt-3 mb-1">Tiempo que duro la actividad:</h6>
+<h6 class="mt-3 mb-1">* Tiempo que duro la actividad:</h6>
 <?=$actividadInput;?>
 
 
-<h6 class="mt-3 mb-1">PDF:</h6>
+<h6 class="mt-3 mb-1"><?=$val2?>PDF:</h6>
 <?=$pdfInput;?>
 </div>
 

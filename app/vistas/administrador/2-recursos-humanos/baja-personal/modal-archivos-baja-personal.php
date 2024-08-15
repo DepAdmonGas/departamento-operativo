@@ -19,7 +19,7 @@ $numero_archivos_baja = mysqli_num_rows($result_archivos_baja);
 <div class="row">
 
 <div class="col-12 mb-2">  
-<div class="mb-1 text-secondary">Descripción:</div>
+<div class="mb-1 text-secondary">* Descripción:</div>
 <input type="text" list="DataList" class="form-control rounded-0" id="DescripcionArchivo">
 <datalist id="DataList">
 <option>Acta de hechos</option>
@@ -29,14 +29,23 @@ $numero_archivos_baja = mysqli_num_rows($result_archivos_baja);
 </div>
  
 <div class="col-12 mb-2">  
-<div class="mb-1 text-secondary">Archivo:</div>
+<div class="mb-1 text-secondary">* Archivo:</div>
 <input type="file" class="form-control" id="Archivo">
 </div>
 
 </div>
 
+<hr>
+
+
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="subirArchivoBaja(<?=$idBaja;?>,<?=$idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>
+
+
 <div class="table-responsive">
-<table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+<table class="custom-table mt-3" style="font-size: .8em;" width="100%">
 
 <thead class="tables-bg">
 <tr>
@@ -78,9 +87,4 @@ echo "<tr class='bg-light'><th colspan='7' class='text-center text-secondary'><s
 
 </div>
     
-
-<div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success float-end mt-2" onclick="subirArchivoBaja(<?=$idBaja;?>,<?=$idEstacion?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
-</div>
 

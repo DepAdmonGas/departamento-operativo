@@ -173,8 +173,6 @@ header("Location:".PORTAL."");
   $('#CFDI').css('border',''); 
   if(Metodopago != ""){
   $('#Metodopago').css('border',''); 
-  if(FormaPago != ""){
-  $('#FormaPago').css('border',''); 
   if(Banco != ""){
   $('#Banco').css('border',''); 
   if(NoCuenta != ""){
@@ -183,7 +181,8 @@ header("Location:".PORTAL."");
   $('#NoCuentaClave').css('border',''); 
   if(Referencia != ""){
   $('#Referencia').css('border',''); 
-
+  if(FormaPago != ""){
+  $('#FormaPago').css('border',''); 
   if(signaturePad.isEmpty()){
   $('#canvas').css('border','2px solid #A52525'); 
   alertify.error('Falta ingresar la firma'); 
@@ -248,8 +247,6 @@ header("Location:".PORTAL."");
     processData: false,
     cache: false
     }).done(function(data){
-
-console.log(data)
       
     if(data == 1){
       Regresar();
@@ -259,6 +256,11 @@ console.log(data)
      }
     }); 
 
+}
+
+}else{
+$('#FormaPago').css('border','2px solid #A52525'); 
+alertify.error('Falta ingresar la forma de pago'); 
 }
 
 }else{
@@ -277,10 +279,6 @@ alertify.error('Falta ingresar el No. de cuenta');
 }else{
 $('#Banco').css('border','2px solid #A52525'); 
 alertify.error('Falta ingresar la banco'); 
-}
-}else{
-$('#FormaPago').css('border','2px solid #A52525'); 
-alertify.error('Falta ingresar la forma de pago'); 
 }
 }else{
 $('#Metodopago').css('border','2px solid #A52525'); 
@@ -367,7 +365,7 @@ alertify.error('Falta ingresar la fecha');
   <div class="row">  
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">FECHA:</div>
+  <div class="mb-1 text-secondary">* FECHA:</div>
   <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha_del_dia;?>"> 
   </div> 
 
@@ -413,17 +411,17 @@ alertify.error('Falta ingresar la fecha');
   </div>   
       
   <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">NOMBRE DEL BENEFICIARIO:</div>
+  <div class="mb-1 text-secondary">* NOMBRE DEL BENEFICIARIO:</div>
   <input type="text" class="form-control rounded-0" id="Beneficiario" >
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">MONTO:</div>
+  <div class="mb-1 text-secondary">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" >
   </div>
 
   <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">MONEDA:</div>
+  <div class="mb-1 text-secondary">* MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option>MXN</option>
   <option>USD</option>
@@ -432,32 +430,32 @@ alertify.error('Falta ingresar la fecha');
 
        
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">FACTURA NO:</div>
+  <div class="mb-1 text-secondary">* FACTURA NO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="NoFactura" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">CORREO ELÉCTRONICO:</div>
+  <div class="mb-1 text-secondary">* CORREO ELÉCTRONICO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="Correo" >
   </div>
 
   <div class="col-12 mb-2">  
-  <div class="mb-1 text-secondary mt-2">CONCEPTO:</div>
+  <div class="mb-1 text-secondary mt-2">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"></textarea>
   </div>
    
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">NOMBRE DEL SOLICITANTE:</div>
+  <div class="mb-1 text-secondary">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">TELÉFONO:</div>
+  <div class="mb-1 text-secondary">* TELÉFONO:</div>
   <input type="text" class="form-control rounded-0" id="Telefono" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">USO DEL CDFI:</div>
+  <div class="mb-1 text-secondary">* USO DEL CDFI:</div>
   <select class="form-select rounded-0" id="CFDI">
   <option value="">Selecciona una opcion...</option>
   <option>G01 Adquisicion de Mercancias</option>
@@ -485,27 +483,27 @@ alertify.error('Falta ingresar la fecha');
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">BANCO:</div>
+  <div class="mb-1 text-secondary">* BANCO:</div>
   <input type="text" class="form-control rounded-0" id="Banco" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">NO. DE CUENTA: </div>
+  <div class="mb-1 text-secondary">* NO. DE CUENTA: </div>
   <input type="text" class="form-control rounded-0" id="NoCuenta" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">NO. DE CUENTA CLABE:</div>
+  <div class="mb-1 text-secondary">* NO. DE CUENTA CLABE:</div>
   <input type="text" class="form-control rounded-0" id="NoCuentaClave" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">REFERENCIA/CONVENIO:</div>
+  <div class="mb-1 text-secondary">* REFERENCIA/CONVENIO:</div>
   <input type="text" class="form-control rounded-0" id="Referencia" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">      
-  <div class="mb-1 text-secondary">FORMA DE PAGO:</div>
+  <div class="mb-1 text-secondary">* FORMA DE PAGO:</div>
   <select class="form-select rounded-0" id="FormaPago">
   <option value="">Selecciona una opcion...</option>
   <option>01  Efectivo</option>
@@ -655,7 +653,7 @@ alertify.error('Falta ingresar la fecha');
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
+  <tr> <th class="align-middle text-center">* FIRMA DEL ENCARGADO</th> </tr>
   </thead>
   <tbody>
   <tr>

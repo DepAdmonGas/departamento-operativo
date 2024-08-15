@@ -30,10 +30,10 @@ while($row_lista_contrato = mysqli_fetch_array($result_lista_contrato, MYSQLI_AS
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1">* Fecha:</h6>
 <input class="form-control" type="date" id="FechaC" value="<?=$fecha?>">
 
-<h6 class="mt-3 mb-1">Documento:</h6>
+<h6 class="mt-3 mb-1">* Documento:</h6>
 <textarea class="form-control" id="DescripcionC"><?=$descripcion?></textarea>
 
 <h6 class="mt-3 mb-1">PDF:</h6>

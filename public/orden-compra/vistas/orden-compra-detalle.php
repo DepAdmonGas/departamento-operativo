@@ -20,7 +20,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   $estatus = $row['estatus'];
 }
 
-
+ 
 function Personal($idusuario, $con)
 {
   $sql = "SELECT nombre FROM tb_usuarios WHERE id = '" . $idusuario . "' ";
@@ -133,29 +133,37 @@ function Personal($idusuario, $con)
 
                 <div class="col-12 mb-2">
                   <h6>INFORMACIÓN GENERAL</h6>
+
+                  <div class="table-responsive">
+     <table class="table table-sm table-bordered" style="font-size: .9em;">
+    <tr>
+      <td colspan="2" class="align-middle">Dep. Almacén</td>
+
+      <td rowspan="3" class="text-center align-middle"><h5>ORDEN DE COMPRA</h5></td>
+      <td class="align-middle">Cargo:</td>
+      <td ><b><?=$cargo;?> </b></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="align-middle">Ref. Operativa</td>
+      <td class="align-middle">Fecha:</td>
+      <td ><b><?=FormatoFecha($Fecha);?></b></td>
+    </tr>
+    <tr>
+      <td class="align-middle"><b>Refacturación</b></td>
+      <td class="text-end"><b><?=$porcentaje_total;?> %</b></td>
+
+      <td class="align-middle">No. De control:</td>
+      <td class="align-middle"><b>00<?=$no_control?></b></td>
+    </tr>     
+   </table>
+  </div>
                 </div>
 
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1">No. De control: <b>00<?= $no_control ?></b></div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1">Dep. Almacén</div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1">Ref. Operativa</div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1"><b>Cargo: </b><?=$cargo; ?></div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1"><b>Refacturación </b><?= $porcentaje_total; ?> %</div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-                  <div class="mb-1"><b>Fecha: </b><?= FormatoFecha($Fecha); ?></div>
-                </div>
+
                 <div class="col-12 mb-2">
                   <div id="ContenidoEstaciones"></div>                  
                 </div>
+
                 <div class="col-12 mb-2">
                   <div id="ContenidoProveedor"></div>
                 </div>

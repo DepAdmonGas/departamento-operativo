@@ -414,7 +414,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       $('#Modal').modal('show');
       $('#ListaDocumento').load('../../../../public/admin/vistas/lista-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     }
- 
+  
     function Nuevo(IdReporte, year, mes) {
       $('#ListaDocumento').load('../../../../public/admin/vistas/formulario-aceites-documento.php?IdReporte=' + IdReporte + '&year=' + year + '&mes=' + mes);
     }
@@ -460,6 +460,8 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
         $(".LoaderPage").hide();
         Cancelar(IdReporte, year, mes)
+        alertify.success('Información agregada exitosamente.')
+
       });
 
     }
@@ -490,6 +492,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
               if (response == 1) {
 
                 $(".LoaderPage").hide();
+                alertify.success('Información eliminada exitosamente.')
 
                 Cancelar(IdReporte, year, mes)
               } else {
@@ -555,6 +558,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
         $(".LoaderPage").hide();
         Cancelar(IdReporte, year, mes);
+        alertify.success('Información editada exitosamente.')
 
       });
 
@@ -673,7 +677,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
         }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea eliminar el registro seleccionado?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
 
-
+ 
     }
 
     function Resumen(estacion, year, mes) {

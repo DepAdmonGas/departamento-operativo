@@ -63,13 +63,13 @@ if ($nombreES == "Quitarga") {
 ?>
 <hr class="<?= $ocultarE ?>">
 <div class="row <?= $ocultarE ?>">
-  <div class="col-12">
+  <div class="col-12 mb-3">
     <?= $botonAccion ?>
   </div>
 </div>
 
 
-<div class="table-responsive mt-3">
+<div class="table-responsive">
   <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
       <tr class="tables-bg">

@@ -60,6 +60,15 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="col-12 ">
+<hr>
+</div>
+
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success mb-3" onclick="AgregarPiezas(<?=$idEstacion;?>,<?=$idRefaccion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+</div>
+
+<div class="col-12 ">
 <div class="table-responsive">
 <table class="custom-table" style="font-size: 12.5px;" width="100%">
 <thead class="tables-bg">
@@ -100,9 +109,3 @@ echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover2'
 </div>
 </div>
 
-<div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarPiezas(<?=$idEstacion;?>,<?=$idRefaccion;?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-
-
-</div>

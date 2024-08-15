@@ -21,7 +21,7 @@ $contacto = $row_lista['contacto'];
 $idarea = !empty($row_lista['area']) ? $row_lista['area'] : '';
 
 }
-
+ 
 $sql_nom_area = "SELECT id,nombre_area,abreviatura FROM op_rh_areas WHERE id = '".$idarea."' ";
 $result_nom_area = mysqli_query($con, $sql_nom_area);
 $numero_lista_area = mysqli_num_rows($result_nom_area);
@@ -78,16 +78,16 @@ $imagenPrevisualizacion.src = objectURL;
     </div>
 
 
-        <div class="mb-1 text-secondary">Descripción (Factura):</div>
+        <div class="mb-1 text-secondary">* Descripción (Factura):</div>
         <input type="text" class="form-control rounded-0" id="DescripcionRefaccion" value="<?=$descripcion_f;?>"> 
 
-      	<div class="mb-1 mt-2 text-secondary">Nombre genérico:</div>
+      	<div class="mb-1 mt-2 text-secondary">* Nombre genérico:</div>
         <input type="text" class="form-control rounded-0" id="NombreRefaccion" value="<?=$nombre;?>">   
 
         <div class="row">
 
             <div class="col-12 mb-2">
-          <div class="mb-1 mt-2 text-secondary">Área:</div>
+          <div class="mb-1 mt-2 text-secondary">* Área:</div>
           <select class="form-select rounded-0" id="Area">
             <option value="<?=$idarea;?>"><?=$area;?> - <?=$abreviatura?></option>
             <?php 
@@ -124,12 +124,12 @@ $imagenPrevisualizacion.src = objectURL;
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-          <div class="mb-1 text-secondary">Unidades:</div>
+          <div class="mb-1 text-secondary">* Unidades:</div>
           <input type="number" class="form-control rounded-0" id="Unidad" value="<?=$unidad;?>">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Estado:</div>
+          <div class="mb-1 text-secondary">* Estado:</div>
           <select class="form-select" id="EstadoR">
           <option value="<?=$estado_r?>"><?=$estado_r?></option>
           <option value="Nuevo">Nuevo</option>
@@ -138,15 +138,16 @@ $imagenPrevisualizacion.src = objectURL;
           </div> 
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-          <div class="mb-1 text-secondary">Costo por unidad:</div>
+          <div class="mb-1 text-secondary">* Costo por unidad:</div>
           <input type="number" class="form-control rounded-0" id="Costo" value="<?=$costo;?>">
           </div>
+
 
           <div class="col-12 mb-2">
           <div class="mb-1 text-secondary">Archivo:</div>
           <input type="file" id="Archivo" class="form-control">
           </div>
-          
+
         </div>
 
       </div>

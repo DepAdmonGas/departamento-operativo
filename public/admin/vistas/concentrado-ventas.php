@@ -60,9 +60,9 @@ $idReporte = $_GET['idReporte'];
           </td>
           <td class="p-0  align-middle no-hover text-end"><strong><?= number_format($totalLitros, 2); ?></strong></td>
           <td class="p-0 align-middle no-hover text-end">
-            <?= number_format($preciolitro, 2); ?>
+            $ <?= number_format($preciolitro, 2); ?>
           </td>
-          <td class=" align-middle no-hover text-end"><strong><?= number_format($importeTotal, 2); ?></strong></td>
+          <td class=" align-middle no-hover text-end"><strong>$ <?= number_format($importeTotal, 2); ?></strong></td>
 
 
         </tr>
@@ -81,7 +81,7 @@ $idReporte = $_GET['idReporte'];
           <strong><?= number_format($SubTotalLitros, 2); ?></strong>
         </td>
         <td colspan="2" class=" align-middle text-end disabledOP" id="importetotal-<?= $idventas; ?>">
-          <strong><?= number_format($SubImporteTotal, 2); ?></strong>
+          <strong>$ <?= number_format($SubImporteTotal, 2); ?></strong>
         </td>
       </tr>
 
@@ -110,7 +110,7 @@ $idReporte = $_GET['idReporte'];
           <th class="no-hover"><?= $concepto; ?></th>
           <td class="no-hover align-middle text-end"><?= $piezas; ?></td>
           <td colspan="4" class="no-hover align-middle text-end fw-bold">
-            <?= number_format($importe, 2); ?>
+          $ <?= number_format($importe, 2); ?>
           </td>
         </tr>
       <?php }
@@ -118,7 +118,7 @@ $idReporte = $_GET['idReporte'];
 
       <tr>
         <th class="disabledOP">B TOTAL (A+4+5+6)</th>
-        <td colspan="5" class="disabledOP align-middle text-end"><strong><?= number_format($totalNeto, 2); ?></strong></td>
+        <td colspan="5" class="disabledOP align-middle text-end"><strong>$ <?= number_format($totalNeto, 2); ?></strong></td>
       </tr>
     </tbody>
   </table>

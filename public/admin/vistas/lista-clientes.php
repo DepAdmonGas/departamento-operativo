@@ -3,9 +3,9 @@ require ('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
 
-function IdEstacion($idReporte, $con)
-{
-  $sql_credito = "SELECT
+function IdEstacion($idReporte, $con){
+  $idEstacion = ""; 
+$sql_credito = "SELECT
 op_consumos_pagos.id,
 op_consumos_pagos.id_reportedia,
 op_consumos_pagos.id_cliente,

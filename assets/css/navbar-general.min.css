@@ -569,7 +569,7 @@ filter: opacity(50%);
         border-radius: 4px;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
     }
-    
+     
     /* Mostrar el menú cuando esté abierto */
     .dropdown-menu.show {
         display: block;

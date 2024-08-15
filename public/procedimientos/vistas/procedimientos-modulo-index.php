@@ -71,7 +71,7 @@ if ($Session_IDUsuarioBD == "") {
       Documento_file = Documento.files[0];
       Documento_filePath = Documento.value;
 
-
+ 
       //----- AJAX - COMUNICADO -----//
       if (Fecha != "") {
         $('#fechaProcedimiento').css('border', '');
