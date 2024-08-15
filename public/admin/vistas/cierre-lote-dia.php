@@ -1,13 +1,9 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 ?>
-<html lang="es">
 
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -486,7 +482,7 @@ if ($Session_IDUsuarioBD == "") {
 
 
 
-        <div class="row">
+
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 
@@ -545,7 +541,7 @@ if ($Session_IDUsuarioBD == "") {
             </div>
           </div>
 
-        </div>
+
 
       </div>
     </div>

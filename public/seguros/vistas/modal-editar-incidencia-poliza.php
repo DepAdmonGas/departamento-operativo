@@ -38,19 +38,19 @@ $pdfInput = 'S/I';
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1">* Fecha:</h6>
 <input class="form-control" type="date" id="FechaP" value="<?=$fechaIn?>">
 
-<h6 class="mb-1 mt-3">Hora:</h6>
+<h6 class="mb-1 mt-3">* Hora:</h6>
 <input class="form-control" type="time" id="HoraP" value="<?=$horaIn?>">
 
-<h6 class="mb-1 mt-3">Asunto:</h6>
+<h6 class="mb-1 mt-3">* Asunto:</h6>
 <input class="form-control"  id="AsuntoP" value="<?=$asunto?>">
 
-<h6 class="mt-3 mb-1">Observaciones:</h6>
+<h6 class="mt-3 mb-1">* Observaciones:</h6>
 <textarea class="form-control" id="ObservacionesP"><?=$asunto?></textarea>
 
-<h6 class="mt-3 mb-1">Solución/Resultados finales:</h6>
+<h6 class="mt-3 mb-1">* Solución/Resultados finales:</h6>
 <textarea class="form-control" id="SolucionP"><?=$solucion?></textarea>
 
 <h6 class="mt-3 mb-1">Evidencia:</h6>

@@ -132,7 +132,7 @@ function ToSolicitud($idEstacion, $con)
               if (idProducto == 0) {
                 alertify.success('Producto agregado');
               } else {
-                alertify.success('Producto editado');
+                alertify.success('Producto editado exitoso');
               }
             } else {
               alertify.error('Error al agregar el producto');
@@ -172,7 +172,7 @@ function ToSolicitud($idEstacion, $con)
               if (response == 1) {
                 ListaPapeleria()
                 sizeWindow()
-                alertify.success('Producto eliminado');
+                alertify.success('Producto eliminado exitosamente');
               } else {
                 alertify.error('Error al eliminar el producto');
               }
@@ -253,6 +253,8 @@ function ToSolicitud($idEstacion, $con)
           success: function (response) {
 
             if (response == 1) {
+              alertify.success('Registro agregado exitosamente.');
+
               $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-pedido-papeleria.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
             } else {
               alertify.error('Error al agregar el producto');
@@ -305,6 +307,8 @@ function ToSolicitud($idEstacion, $con)
 
 
               if (response == 1) {
+                alertify.success('Registro eliminado exitosamente.');
+
                 SelEstacion(idEstacion)
                 sizeWindow()
                 $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-pedido-papeleria.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
@@ -347,7 +351,7 @@ function ToSolicitud($idEstacion, $con)
                 $('#Modal').modal('hide');
                 SelEstacion(idEstacion)
                 sizeWindow()
-                alertify.success('Pedido finalizado');
+                alertify.success('Pedido finalizado exitosamente');
               } else {
                 alertify.error('Error al finalizar el pedido');
               }
@@ -430,6 +434,8 @@ function ToSolicitud($idEstacion, $con)
               if (response == 1) {
                 SelEstacion(idEstacion)
                 sizeWindow()
+                alertify.success('Pedido eliminado exitosamente.');
+
               } else {
                 alertify.error('Error al eliminar el pedido');
               }
@@ -468,6 +474,7 @@ function ToSolicitud($idEstacion, $con)
 
           if (response == 1) {
             $('#ContenidoModal').load('../public/admin/vistas/modal-agregar-pedido-papeleria.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
+            alertify.success('Piezas editadas exitosamente.');
             sizeWindow()
           } else {
             alertify.error('Error al editar el pedido');
@@ -519,7 +526,7 @@ function ToSolicitud($idEstacion, $con)
                 $('#Modal').modal('hide');
                 AlmacenPapeleria(idEstacion)
 
-                alertify.success('Producto agregado');
+                alertify.success('Producto agregado exitosamente.');
               } else {
                 alertify.error('Error al agregar el producto');
               }
@@ -558,7 +565,7 @@ function ToSolicitud($idEstacion, $con)
 
               if (response == 1) {
                 AlmacenPapeleria(idEstacion)
-                alertify.success('Producto eliminado');
+                alertify.success('Producto eliminado exitosamente');
               } else {
                 alertify.error('Error al eliminar el producto');
               }

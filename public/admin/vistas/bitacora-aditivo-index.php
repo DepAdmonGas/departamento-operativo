@@ -135,6 +135,7 @@ function Resumen(){
   function PDF(){
   window.location = "../public/admin/vistas/pdf-resumen-inventario-aditivo.php";
   }
+  
  
   function SelReporte(idEstacion){
   let targets;

@@ -56,10 +56,7 @@ $numero_poliza_inc = mysqli_num_rows($result_poliza_inc);
   <th class="text-center align-middle">Asunto</th>
   <th class="text-start align-middle">Observaciones</th>
   <th class="text-start align-middle">Solucion</th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>multimedia.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+  <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i> </th>
   </tr>
 </thead> 
  
@@ -71,9 +68,9 @@ while($row_poliza_inc = mysqli_fetch_array($result_poliza_inc, MYSQLI_ASSOC)){
 $id_poliza_inc = $row_poliza_inc['id_poliza_incidencia'];
 
 if($row_poliza_inc['archivo'] != ""){ 
-$PDF = '<a href="'.RUTA_ARCHIVOS.'incidencias-poliza-es/'.$row_poliza_inc['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png"></a>';
+$PDF = '<a class="dropdown-item" href="'.RUTA_ARCHIVOS.'incidencias-poliza-es/'.$row_poliza_inc['archivo'].'" download><i class="fa-solid fa-file-arrow-down"></i> Descargar archivo</a>';
 }else{
-$PDF = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
+$PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-arrow-down"></i> Descargar archivo</a>';
 
 }  
 
@@ -84,10 +81,22 @@ echo '<tr >
 <td class="text-center align-middle">'.$row_poliza_inc['asunto'].'</td>
 <td class="text-start align-middle">'.$row_poliza_inc['observaciones'].'</td>
 <td class="text-start align-middle">'.$row_poliza_inc['solucion'].'</td>
-<td class="text-center align-middle">'.$PDF.'</td>
-<td class="text-center align-middle"><img class="pointer" onclick="DetallePolizaInc('.$id_poliza_inc.')" src="'.RUTA_IMG_ICONOS.'ver-tb.png"></td>
-<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarIncP('.$id_poliza_inc.')"></td>
-<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarInc('.$id_poliza_inc.','.$idEstacion.')"></td>
+
+
+<td class="text-center align-middle">
+    <div class="dropdown-container">
+        <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-ellipsis-v"></i>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+  <a class="dropdown-item" onclick="DetallePolizaInc('.$id_poliza_inc.')"><i class="fa-regular fa-eye"></i> Detalle</a>
+'.$PDF.'
+<a class="dropdown-item" onclick="ModalEditarIncP('.$id_poliza_inc.')"><i class="fa-solid fa-pencil"></i> Editar</a>
+<a class="dropdown-item" onclick="EliminarInc('.$id_poliza_inc.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>
+        </ul>
+    </div>
+</td>
 
 </tr>';
 $i++;

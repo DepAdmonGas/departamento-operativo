@@ -658,6 +658,7 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
     }
 
 
+
     .table-responsive {
         overflow-x: auto; /* Permitir scroll horizontal */
         overflow-y: auto; /* Evitar scroll vertical, si es necesario */
@@ -682,7 +683,7 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
         border-radius: 4px;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
     }
-    
+     
     /* Mostrar el menú cuando esté abierto */
     .dropdown-menu.show {
         display: block;
@@ -690,8 +691,8 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
     
     /* Ajustar la posición del menú a la derecha */
     .dropdown-menu-right {
-        right: 0;
-        left: auto;
+        right: auto;
+        left: 0;
     }
     
     /* Asegúrate de que los íconos tengan suficiente espacio */
@@ -699,8 +700,6 @@ background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace 
         display: inline-block;
         padding: 0.5rem;
     }
-    
-
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

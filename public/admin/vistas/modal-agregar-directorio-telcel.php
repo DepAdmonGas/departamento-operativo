@@ -28,13 +28,13 @@ $clave = $row_lista['clave'];
 
 <div class="modal-body">
         
-<div class="mb-1 text-secondary">Cuenta</div>
+<div class="mb-1 text-secondary">* Cuenta</div>
 <input type="text" class="form-control rounded-0" id="Cuenta" value="<?=$cuenta;?>">
 
-<div class="mb-1 mt-2 text-secondary">Puesto</div>
+<div class="mb-1 mt-2 text-secondary">* Puesto</div>
 <input type="text" class="form-control rounded-0" id="Puesto" value="<?=$puesto;?>">
 
-<div class="mb-1 mt-2 text-secondary">Clave</div>
+<div class="mb-1 mt-2 text-secondary">* Clave</div>
 <input type="text" class="form-control rounded-0" id="Clave" value="<?=$clave;?>">
 
 </div>

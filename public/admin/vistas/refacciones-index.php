@@ -23,6 +23,9 @@ require('app/help.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
@@ -107,6 +110,7 @@ require('app/help.php');
   $('#Modal2').modal('show');  
   $('#ContenidoModal2').load('../public/admin/vistas/modal-agregar-refacciones.php?idEstacion=' + idEstacion);
   }    
+
   
 function Guardar(idEstacion){
 var seleccionArchivos = document.getElementById("seleccionArchivos");
@@ -124,6 +128,27 @@ var Marca = $('#Marca').val();
 var Proveedor = $('#Proveedor').val();
 var Contacto = $('#Contacto').val();
 var Area = $('#Area').val();
+ 
+if (seleccionArchivos_filePath != "") {
+$('#seleccionArchivos').css('border', '');
+ 
+if (DescripcionRefaccion != "") {
+  $('#DescripcionRefaccion').css('border', '');
+
+  if (NombreRefaccion != "") {
+    $('#NombreRefaccion').css('border', '');
+
+    if (Area != "") {
+      $('#Area').css('border', '');
+
+      if (Unidad != "") {
+        $('#Unidad').css('border', '');
+
+        if (EstadoR != "") {
+          $('#EstadoR').css('border', '');
+
+          if (Costo != "") {
+            $('#Costo').css('border', '');
 
 var URL = "../public/admin/modelo/agregar-refaccion.php";
 var data = new FormData();
@@ -154,6 +179,35 @@ alertify.success('Refaccion agregada exitosamente.')
 $('#Modal2').modal('hide');  
 sizeWindow()
 });
+
+
+} else {
+$('#Costo').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#EstadoR').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#Unidad').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#Area').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#NombreRefaccion').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#DescripcionRefaccion').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#seleccionArchivos').css('border', '2px solid #A52525');
+}
 
 } 
 
@@ -566,6 +620,7 @@ var seleccionArchivos = document.getElementById("seleccionArchivos");
 var seleccionArchivos_file = seleccionArchivos.files[0];
 var seleccionArchivos_filePath = seleccionArchivos.value;
 
+
 Archivo = document.getElementById("Archivo");
 Archivo_file = Archivo.files[0];
 Archivo_filePath = Archivo.value;
@@ -583,6 +638,26 @@ var Proveedor = $('#Proveedor').val();
 var Contacto = $('#Contacto').val();
 var Area = $('#Area').val();
  
+
+ 
+if (DescripcionRefaccion != "") {
+  $('#DescripcionRefaccion').css('border', '');
+
+  if (NombreRefaccion != "") {
+    $('#NombreRefaccion').css('border', '');
+
+    if (Area != "") {
+      $('#Area').css('border', '');
+
+      if (Unidad != "") {
+        $('#Unidad').css('border', '');
+
+        if (EstadoR != "") {
+          $('#EstadoR').css('border', '');
+
+          if (Costo != "") {
+            $('#Costo').css('border', '');
+
 var URL = "../public/admin/modelo/editar-refaccion.php";
 var data = new FormData();
   
@@ -623,9 +698,33 @@ alertify.error('Error al editar la refaccion.')
 
 }
 
-
-
 });
+
+} else {
+$('#Costo').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#EstadoR').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#Unidad').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#Area').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#NombreRefaccion').css('border', '2px solid #A52525');
+}
+
+} else {
+$('#DescripcionRefaccion').css('border', '2px solid #A52525');
+}
+
+
 
 }
 

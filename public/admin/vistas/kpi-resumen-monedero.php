@@ -1,11 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
-
 //---------- OBTENER EL NOMBRE DE LA ESTACION ----------
 $sql = "SELECT nombre FROM tb_estaciones WHERE id = '" . $GET_idEstacion . "' ";
 $result = mysqli_query($con, $sql);
@@ -96,7 +91,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
               <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="InfoEvaluacion(101)">
-                <span class="btn-label2"><i class="fa fa-info"></i></span>Información</button>
+                <span class="btn-label2"><i class="fa fa-info"></i></span>Forma de Evaluacion</button>
             </div>
 
           </div>
@@ -117,7 +112,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 
   <div class="modal" id="Modal">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div id="DivContenido"></div>
       </div>
     </div>

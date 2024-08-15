@@ -84,7 +84,6 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
     }
 
     function Guardar(IdReporte, year, mes) {
-
       var Fecha = $('#Fecha').val();
       var Cilote = $('#Cilote').val();
       var Diferencia = $('#Diferencia').val();
@@ -104,6 +103,8 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
         $('#Fecha').css('border', '');
         if (Cilote != "") {
           $('#Cilote').css('border', '');
+          if (Diferencia != "") {
+            $('#Diferencia').css('border', '');
           if (PDF_filePath != "") {
             $('#PDF').css('border', '');
             if (XML_filePath != "") {
@@ -131,6 +132,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
                 $(".LoaderPage").hide();
                 Cancelar(IdReporte, year, mes);
+                alertify.success('Factura agregada exitosamente.');  
 
               });
 
@@ -140,6 +142,9 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
           } else {
             $('#PDF').css('border', '2px solid #A52525');
           }
+        } else {
+          $('#Diferencia').css('border', '2px solid #A52525');
+        }
         } else {
           $('#Cilote').css('border', '2px solid #A52525');
         }
@@ -172,7 +177,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
           if (response == 1) {
 
             $(".LoaderPage").hide();
-            //alertify.success('Registro eliminado exitosamente.');  
+            alertify.success('Registro eliminado exitosamente.');  
             Cancelar(IdReporte, year, mes);
 
           } else {
@@ -197,8 +202,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       var Cilote = $('#Cilote').val();
       var Diferencia = $('#Diferencia').val();
 
-      var data = new FormData();
-      var url = '../../../../public/admin/modelo/editar-documento-monedero.php';
+
 
       PDF = document.getElementById("PDF");
       PDF_file = PDF.files[0];
@@ -215,7 +219,17 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
       SoporteD = document.getElementById("SoporteD");
       SoporteD_file = SoporteD.files[0];
       SoporteD_filePath = SoporteD.value;
+     
+      if (Fecha != "") {
+        $('#Fecha').css('border', '');
+        if (Cilote != "") {
+          $('#Cilote').css('border', '');
+          if (Diferencia != "") {
+            $('#Diferencia').css('border', '');
 
+            var data = new FormData();
+            var url = '../../../../public/admin/modelo/editar-documento-monedero.php';
+            
       data.append('id', id);
       data.append('Fecha', Fecha);
       data.append('Cilote', Cilote);
@@ -238,8 +252,20 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
         $(".LoaderPage").hide();
         Cancelar(IdReporte, year, mes);
+        alertify.success('Información editada exitosamente.');
+
 
       });
+
+    } else {
+          $('#Diferencia').css('border', '2px solid #A52525');
+        }
+        } else {
+          $('#Cilote').css('border', '2px solid #A52525');
+        }
+      } else {
+        $('#Fecha').css('border', '2px solid #A52525');
+      }
 
     }
 

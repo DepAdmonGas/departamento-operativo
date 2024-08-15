@@ -181,7 +181,7 @@ $alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura dispo
 function btnModal(IdReporte){
   $('#Modal').modal('show');
   $('#ContenidoModal').load('../../../../public/admin/vistas/modal-agregar-factura-telcel.php?IdReporte=' + IdReporte); 
-  } 
+  }  
     
   function Guardar(IdReporte){
     var Detalle = $('#Detalle').val();
@@ -261,7 +261,7 @@ function btnModal(IdReporte){
   $('#Modal').modal('show');
   $('#ContenidoModal').load('../../../../public/admin/vistas/modal-agregar-directorio-telcel.php?IdReporte=' + IdReporte + '&id=' + id);   
   }
- 
+  
   function GuardarDirectorio(IdReporte,id){
 
     var Cuenta = $('#Cuenta').val();
@@ -276,7 +276,14 @@ function btnModal(IdReporte){
     "Clave" : Clave
     };
 
-        $.ajax({
+    if (Cuenta != "") {
+    $('#Cuenta').css('border','');
+    if (Puesto != "") {
+    $('#Puesto').css('border','');
+    if (Clave != "") {
+    $('#Clave').css('border','');
+
+    $.ajax({
     data:  parametros,
     url:   '../../../../public/admin/modelo/agregar-directorio-telcel.php',
     type:  'post',
@@ -297,6 +304,16 @@ function btnModal(IdReporte){
 
     }
     });
+
+  }else{
+    $('#Clave').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Puesto').css('border','2px solid #A52525');
+    }
+  }else{
+    $('#Cuenta').css('border','2px solid #A52525');
+    }
 
   }
 
@@ -323,7 +340,6 @@ alertify.confirm('',
 
     if (response == 1) {
     ListaFacturas(IdReporte);
-    location.reload();
     alertify.success('Registro eliminado exitosamente.'); 
     }
 
@@ -408,8 +424,8 @@ alertify.confirm('',
   <div class="dropdown d-inline ms-2">
   <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-screwdriver-wrench"></i></button>
   <ul class="dropdown-menu">
-  <li onclick="btnModalDirectorio(<?=$IdReporte;?>,0)"> <a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar Directorio </a> </li>
-  <li onclick="btnModal(<?=$IdReporte;?>)"><a class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar Factura</a></li>
+  <li onclick="btnModalDirectorio(<?=$IdReporte;?>,0)"> <a class="dropdown-item pointer"><i class="fa-solid fa-address-book"></i></i> Agregar Directorio </a> </li>
+  <li onclick="btnModal(<?=$IdReporte;?>)"><a class="dropdown-item pointer"><i class="fa-regular fa-file-lines"></i> Agregar Factura</a></li>
   </ul>
   </div>
   </div>

@@ -417,8 +417,10 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
         <td></td>
         <td></td>
         <?php
+        $noaceite = 0;
+        $sumt = 0;
+        $importeneto = 0;
         for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
-
           $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
           $totalcantidad = totalcantidad($IdReporte, $fecha, $noaceite, $con);
 

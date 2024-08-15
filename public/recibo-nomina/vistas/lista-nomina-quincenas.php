@@ -212,7 +212,10 @@ require('../../../app/help.php');
   $GET_idPuesto = $row_lista3['puesto'];
 
 
-  GuardarPersonalNomina($year,$mes,$quincena,$descripcion,$idEstacion,$GET_idUsuario,$GET_idPuesto,$con);
+  if($GET_idUsuario != 385){
+    GuardarPersonalNomina($year,$mes,$quincena,$descripcion,$idEstacion,$GET_idUsuario,$GET_idPuesto,$con);
+  }  
+  
   }
     
   }

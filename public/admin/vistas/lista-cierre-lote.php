@@ -50,7 +50,7 @@ $empresa = $_GET['empresa'];
             <?= $nocierre; ?>
           </td>
           <td class="no-hover align-middle text-end">
-            <?= number_format($valimporte, 2); ?>
+            $ <?= number_format($valimporte, 2); ?>
           </td>
           <td class="no-hover align-middle text-center">
             <?= $noticket; ?>
@@ -76,8 +76,8 @@ $empresa = $_GET['empresa'];
       }
       ?>
       <tr id="Total<?= $empresatotal; ?>">
-        <th class="no-hover align-middle text-center">Total</th>
-        <td class="no-hover align-middle text-end"><b><?= number_format($TotalImporte, 2); ?></b></td>
+        <th class="no-hover align-middle text-center">TOTAL</th>
+        <td class="no-hover align-middle text-end"><b>$ <?= number_format($TotalImporte, 2); ?></b></td>
         <td class="no-hover align-middle text-center"><b><?= $TotalTicket; ?></b></td>
         <td class="no-hover"></td>
       </tr>

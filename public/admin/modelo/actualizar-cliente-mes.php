@@ -108,27 +108,30 @@ function IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con){
   }
   }
 
-  function ConsumoPago($idResumen,$IdReporte,$idcliente,$con){
+function ConsumoPago($idResumen, $IdReporte, $idcliente, $con){
+  $totalCo = 0; // Inicializa la variable
+  $totalPa = 0; // Inicializa la variable
+  
   $sql = "SELECT id FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
   $result = mysqli_query($con, $sql);
   $numero = mysqli_num_rows($result);
+  
   while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-  $reportedia = $row['id'];
+    $reportedia = $row['id'];
 
-  $Consumo = TotalCP($reportedia,$idcliente,'Consumo',$con);
-  $totalCo = $totalCo + $Consumo;
+    $Consumo = TotalCP($reportedia, $idcliente, 'Consumo', $con);
+    $totalCo += $Consumo;
 
-  $Pago = TotalCP($reportedia,$idcliente,'Pago',$con);
-  $totalPa = $totalPa + $Pago;
-
+    $Pago = TotalCP($reportedia, $idcliente, 'Pago', $con);
+    $totalPa += $Pago;
   }
 
   $sql_edit1 = "UPDATE op_consumos_pagos_resumen SET consumos = '".$totalCo."' WHERE id='".$idResumen."' ";
   mysqli_query($con, $sql_edit1);
 
-$sql_edit2 = "UPDATE op_consumos_pagos_resumen SET pagos = '".$totalPa."' WHERE id='".$idResumen."' ";
+  $sql_edit2 = "UPDATE op_consumos_pagos_resumen SET pagos = '".$totalPa."' WHERE id='".$idResumen."' ";
   mysqli_query($con, $sql_edit2);
-  }
+}
 
   function TotalCP($reportedia,$idCliente,$tipo,$con){
 
@@ -148,6 +151,7 @@ return $total;
 }
 
 function SaldoInicial($IdReporteA,$idResumen,$idcliente,$con){
+  $saldoFinal = 0; // Inicializa la variable
 
 $sql = "SELECT saldo_final FROM op_consumos_pagos_resumen WHERE id_mes = '".$IdReporteA."' AND id_cliente = '".$idcliente."' LIMIT 1 ";
   $result = mysqli_query($con, $sql);

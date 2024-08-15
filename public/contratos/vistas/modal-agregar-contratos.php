@@ -19,14 +19,14 @@ $estacion = $row_listaestacion['nombre'];
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1">* Fecha:</h6>
 <input class="form-control" type="date" id="FechaC">
 
-<h6 class="mb-1 mt-3">Documento:</h6>
+<h6 class="mb-1 mt-3">* Documento:</h6>
 <textarea class="form-control" id="DescripcionC"></textarea>
 
 
-<h6 class="mt-3 mb-1">PDF:</h6>
+<h6 class="mt-3 mb-1">* PDF:</h6>
 <input class="form-control" type="file" id="ContratoDoc">
 
 <h6 class="mb-1 mt-3">Objeto:</h6>

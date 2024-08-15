@@ -97,7 +97,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
 
     function Regresar() {
       window.history.back();
-    }
+    } 
 
     function Ventas(idReporte) {
       $('#DivConecntradoVentas').html('<div class="text-center"><img width="30px" src="../../../../imgs/iconos/load-img.gif"></div>');
@@ -333,6 +333,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
       <div class="row">
+      
       <div class="col-12">
           <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
             <ol class="breadcrumb breadcrumb-caret">
@@ -359,7 +360,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
           </div>
           <hr>
         </div>
-        <div class="row">
+
 
           <!---------- TABLA - CONCENTRADO DE VENTAS ---------->
 
@@ -465,11 +466,12 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
           </div>
 
 
-        </div>
+          <div class="col-12">
+
 
         <hr>
-
-
+ 
+</div>
         <?php
 
         function ValidaFirma($idReporte, $detalle, $con)
@@ -493,7 +495,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
         $VoBo = ValidaFirma($GET_idReporte, 'VoBo', $con);
         ?>
 
-        <div class="row">
+
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">
             <div class="table-responsive">
               <table class="custom-table" width="100%">
@@ -588,7 +590,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
                   </tr>
                 </thead>
                 <tbody class="bg-white">
-                  <?php
+                  <?php 
                   if ($VoBo > 0) {
                     $RVoBo = Firma($GET_idReporte, 'VoBo', RUTA_IMG_Firma, $con);
                     echo $RVoBo;
@@ -644,7 +646,7 @@ ON op_corte_dia_firmas.id_usuario = tb_usuarios.id WHERE id_reportedia  = '" . $
             </div>
 
           </div>
-        </div>
+
       </div>
     </div>
 

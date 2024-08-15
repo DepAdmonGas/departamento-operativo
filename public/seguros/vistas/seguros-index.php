@@ -53,7 +53,7 @@ require('app/help.php');
 
   function SelSeguro(idEstacion){
   let targets;
-  targets = [6, 7, 8, 9];
+  targets = [6];
   
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
@@ -580,7 +580,7 @@ require('app/help.php');
   $FInicio = date("Y").'-'.date("m").'-01';
   $FTermino = date("Y-m-t", strtotime($FInicio));
 
-  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE (numlista BETWEEN 0 AND 10) OR (numlista BETWEEN 22 AND 23) ORDER BY numlista ASC";
+  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE (numlista BETWEEN 0 AND 9) OR numlista = 10 OR (numlista BETWEEN 22 AND 23) ORDER BY numlista ASC";
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
   $id = $row_listaestacion['id'];

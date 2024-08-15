@@ -67,7 +67,14 @@ $idEstacion = $row['id_estacion'];
     "Ubicacion" : Ubicacion
     };
 
-      $.ajax({
+
+  if (PozoMotobomba != "") {
+  $('#PozoMotobomba').css('border', '');
+
+  if (PPM != "") {
+  $('#PPM').css('border', '');
+
+    $.ajax({
      data:  parametros,
      url:   '../../public/admin/modelo/agregar-pozo-motobombas.php',
      type:  'post',
@@ -94,6 +101,16 @@ $idEstacion = $row['id_estacion'];
 
      }
      });
+
+    } else {
+  $('#PPM').css('border', '2px solid #A52525');
+  }
+
+} else {
+  $('#PozoMotobomba').css('border', '2px solid #A52525');
+  }
+
+
 }
 
 function Eliminar(idReporte,idNivel){
@@ -157,6 +174,9 @@ function Eliminar(idReporte,idNivel){
 
   var baseImage1 = "";
   var baseImage2 = "";
+
+
+
   let signatureBlank1 = signaturePad1.isEmpty();
   if (!signatureBlank1) {
   var ctx1 = document.getElementById("canvas1");
@@ -186,6 +206,13 @@ function Eliminar(idReporte,idNivel){
 
   if(Fecha != ""){
   $('#Fecha').css('border','');
+
+  if (Elemento1 != "") {
+  $('#Elemento1').css('border', '');
+  if (Elemento2 != "") {
+  $('#Elemento2').css('border', '');
+  if (Elemento3 != "") {
+  $('#Elemento3').css('border', '');
   if(Encargado != ""){
   $('#Encargado').css('border','');
   if(baseImage1 != ""){
@@ -242,11 +269,30 @@ function Eliminar(idReporte,idNivel){
   }else{ 
   alertify.error('Falta firma encargado de estación');
   }
+  
   }else{
   $('#Encargado').css('border','2px solid #A52525'); 
   }
+
+
+  }else{
+  $('#Elemento3').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar las observaciones.');
+  }
+
+  }else{
+  $('#Elemento2').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar el tipo de verificador.');
+  }
+  
+  }else{
+  $('#Elemento1').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar el tipo de medición.');
+  }
+
   }else{
   $('#Fecha').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la fecha.');
   }
 
   }

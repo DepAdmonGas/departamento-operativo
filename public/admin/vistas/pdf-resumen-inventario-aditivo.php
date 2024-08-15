@@ -1,6 +1,7 @@
 <?php
-require_once '../../../dompdf/autoload.inc.php';
-require('../../../app/help.php');
+error_reporting(0);
+require_once 'dompdf/vendor/autoload.php';
+require('app/help.php');
 
 $sql_inventario = "SELECT 
 op_inventario_aditivo.id,
@@ -15,6 +16,7 @@ $result_inventario = mysqli_query($con, $sql_inventario);
 
 use Dompdf\Dompdf;
 $dompdf = new Dompdf();
+$contenido ="";
 
 $contenido .= '<html lang="es">';
 $contenido .= '<head>';
@@ -53,11 +55,8 @@ body {
   text-align: left;
   background-color: #fff;
 }
-  .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
+.row {
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
@@ -86,14 +85,10 @@ body {
   padding-left: 15px;
 }
 .col-5 {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 41.666667%;
   flex: 0 0 41.666667%;
   max-width: 41.666667%;
 }
 .col-7 {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 58.333333%;
   flex: 0 0 58.333333%;
   max-width: 58.333333%;
 }
@@ -197,6 +192,7 @@ h1, .h1 {
 }
 ';
 $contenido .= '</style>';
+$contenido .= '</head>';
 $contenido .= '<body>';
 
 $contenido .= '<h1>Resumen inventario de aditivo</h1>';
@@ -211,25 +207,22 @@ $contenido .= '</tr>';
 $contenido .= '</thead>';
 $contenido .= '<tbody>';
 
-   while($row_inventario = mysqli_fetch_array($result_inventario, MYSQLI_ASSOC)){
-
-$contenido .= '<tr>';
-$contenido .= '<td>'.$row_inventario['nombre'].'</td>';
-$contenido .= '<td><b>'.$row_inventario['gasolina'].'</b> <small>Galones</small></td>';
-$contenido .= '<td><b>'.$row_inventario['diesel'].'</b> <small>Galones</small></td></tr>';
-
+while($row_inventario = mysqli_fetch_array($result_inventario, MYSQLI_ASSOC)) {
+    $contenido .= '<tr>';
+    $contenido .= '<td>'.$row_inventario['nombre'].'</td>';
+    $contenido .= '<td><b>'.$row_inventario['gasolina'].'</b> <small>Galones</small></td>';
+    $contenido .= '<td><b>'.$row_inventario['diesel'].'</b> <small>Galones</small></td></tr>';
 }
 
 $contenido .= '</tbody>';
 $contenido .= '</table>';
 
 $contenido .= '</body>';
-$contenido .= '</head>';
 $contenido .= '</html>';
-
 
 $dompdf->loadHtml($contenido);
 $dompdf->setPaper("A4", "portrait");
 $dompdf->render();
-$dompdf->get_canvas()->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font, 6, array(0,0,0));
+$dompdf->getCanvas()->page_text(540, 820, "Página: {PAGE_NUM} de {PAGE_COUNT}", null, 6, array(0,0,0));
 $dompdf->stream("Reporte inventario aditivo ".FormatoFecha($fecha_del_dia).".pdf");
+?>
