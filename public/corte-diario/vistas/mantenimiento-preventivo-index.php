@@ -88,21 +88,40 @@ require('app/help.php');
   $('#ContenidoModal').load('public/admin/vistas/modal-mantenimiento-preventivo-editar.php?idReporte=' + response + '&idEstacion=' + idEstacion);
   }
 
-  function Guardar(idEstacion,idReporte){
-
+  function Guardar(idEstacion, idReporte) {
   var data = new FormData();
   var url = 'public/admin/modelo/editar-mantenimiento-preventivo.php';
 
   let Nombre = $('#Nombre').val();
-    let Fecha = $('#Fecha').val();
-    let Fecha2 = $('#Fecha2').val();
-    let Observacion = $('#Observacion').val();
+  let Fecha = $('#Fecha').val();
+  let Fecha2 = $('#Fecha2').val();
+  let Observacion = $('#Observacion').val();
 
+  let Archivo = document.getElementById("Archivo");
+  let Archivo_file = Archivo.files[0];
 
-    Archivo = document.getElementById("Archivo");
-    Archivo_file = Archivo.files[0];
-    Archivo_filePath = Archivo.value;
+  // Lista de campos a validar
+  var campos = [
+    { id: '#Nombre', valor: Nombre },
+    { id: '#Fecha', valor: Fecha },
+    { id: '#Fecha2', valor: Fecha2 },
+    { id: '#Archivo', valor: Archivo_file } // Validar que se haya seleccionado un archivo
+  ];
 
+  var esValido = true;
+
+  // Validar campos vacíos
+  campos.forEach(function(campo) {
+    if (!campo.valor) {
+      $(campo.id).css('border', '2px solid red');
+      esValido = false;
+    } else {
+      $(campo.id).css('border', '');
+    }
+  });
+
+  // Si todos los campos son válidos, proceder con el envío AJAX
+  if (esValido) {
     data.append('idReporte', idReporte);
     data.append('Archivo_file', Archivo_file);
     data.append('Nombre', Nombre);
@@ -111,23 +130,24 @@ require('app/help.php');
     data.append('Observacion', Observacion);
 
     $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false 
-    }).done(function(data){
-
-    if(data == 1){
-    alertify.success('Registro agregado exitosamente')
-    MantenimientoP(idEstacion)
-    $('#Modal').modal('hide');
-    }else{
-    alertify.error('Error al agregar el registro')
-    }
+      url: url,
+      type: 'POST',
+      contentType: false,
+      data: data,
+      processData: false,
+      cache: false 
+    }).done(function(data) {
+      if (data == 1) {
+        alertify.success('Registro agregado exitosamente');
+        MantenimientoP(idEstacion);
+        $('#Modal').modal('hide');
+      } else {
+        alertify.error('Error al agregar el registro');
+      }
     }); 
- }
+  }
+}
+
 
   function Eliminar(idEstacion,idReporte){
 

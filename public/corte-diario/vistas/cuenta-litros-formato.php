@@ -25,7 +25,8 @@ require('app/help.php');
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 
   <script type="text/javascript">
 

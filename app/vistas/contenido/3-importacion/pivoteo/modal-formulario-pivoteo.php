@@ -3,7 +3,11 @@ require('../../../../../app/help.php');
 $idReporte = $_GET['idReporte'];
 
 ?>
-
+<script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+});
+</script>
 
 <div class="modal-header">
 <h5 class="modal-title">Nuevo Pivoteo</h5>
@@ -49,7 +53,7 @@ $idReporte = $_GET['idReporte'];
 
 
     <div><b>Unidad:</b></div>
-    <select class="form-select mb-2" id="Unidad">
+    <select class="selectize pointer"  id="Unidad">
         <option></option>
 
         <?php
@@ -69,7 +73,7 @@ $idReporte = $_GET['idReporte'];
     </select>
 
     <div><b>Chofer:</b></div>
-    <select class="form-select mb-2" id="Chofer">
+    <select class="selectize pointer"  id="Chofer">
         <option></option>
 
         <?php

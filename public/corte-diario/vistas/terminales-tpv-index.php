@@ -79,7 +79,7 @@ require('app/help.php');
   }  
 
   function Guardar(idEstacion){ 
- 
+  // Obtener valores de los campos
   var Tpv = $('#Tpv').val();
   var Serie = $('#Serie').val();
   var Modelomarca = $('#Modelomarca').val();
@@ -91,50 +91,81 @@ require('app/help.php');
   var Cargadores = $('#Cargadores').val();
   var Pedestales = $('#Pedestales').val();
   var NoLote = $('#NoLote').val();
-
   var EstadoTPV = $('#EstadoTPV').val();
   var NoImpresiones = $('#NoImpresiones').val();
   var TipoTPV = $('#TipoTPV').val();
 
-  var parametros = {
-    "idEstacion" : idEstacion,
-    "Tpv" : Tpv,
-    "Serie" : Serie,
-    "Modelomarca" : Modelomarca,
-    "TipoC" : TipoC,
-    "Afiliado" : Afiliado,
-    "Telefono" : Telefono,
-    "Estado" : Estado,
-    "Rollos" : Rollos,
-    "Cargadores" : Cargadores,
-    "Pedestales" : Pedestales,
-    "NoLote" : NoLote,
-    "EstadoTPV" : EstadoTPV,
-    "NoImpresiones" : NoImpresiones,
-    "TipoTPV" : TipoTPV
+  // Lista de campos a validar
+  var campos = [
+    { id: '#Tpv', valor: Tpv },
+    { id: '#Serie', valor: Serie },
+    { id: '#Modelomarca', valor: Modelomarca },
+    { id: '#TipoC', valor: TipoC },
+    { id: '#Afiliado', valor: Afiliado },
+    { id: '#Telefono', valor: Telefono },
+    { id: '#Estado', valor: Estado },
+    { id: '#Rollos', valor: Rollos },
+    { id: '#Cargadores', valor: Cargadores },
+    { id: '#Pedestales', valor: Pedestales },
+    { id: '#NoLote', valor: NoLote },
+    { id: '#EstadoTPV', valor: EstadoTPV },
+    { id: '#NoImpresiones', valor: NoImpresiones },
+    { id: '#TipoTPV', valor: TipoTPV }
+  ];
+
+  var esValido = true;
+
+  // Validar campos vacíos
+  campos.forEach(function(campo) {
+    if (campo.valor === '') {
+      $(campo.id).css('border', '2px solid red');
+      esValido = false;
+    } else {
+      $(campo.id).css('border', '');
+    }
+  });
+
+  // Si todos los campos son válidos, proceder con el envío AJAX
+  if (esValido) {
+    var parametros = {
+      "idEstacion" : idEstacion,
+      "Tpv" : Tpv,
+      "Serie" : Serie,
+      "Modelomarca" : Modelomarca,
+      "TipoC" : TipoC,
+      "Afiliado" : Afiliado,
+      "Telefono" : Telefono,
+      "Estado" : Estado,
+      "Rollos" : Rollos,
+      "Cargadores" : Cargadores,
+      "Pedestales" : Pedestales,
+      "NoLote" : NoLote,
+      "EstadoTPV" : EstadoTPV,
+      "NoImpresiones" : NoImpresiones,
+      "TipoTPV" : TipoTPV
     };
 
     $.ajax({
-     data:  parametros,
-     url:   'public/admin/modelo/agregar-terminal-tpv.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-
-     },
-     success:  function (response) {
-
-     if (response == 1) {
-     TPVLista(idEstacion);
-     $('#Modal').modal('hide');  
-     alertify.success('Registro agregado exitosamente.');
-     }
-
-     }
-     });
-
+      data:  parametros,
+      url:   'public/admin/modelo/agregar-terminal-tpv.php',
+      type:  'post',
+      beforeSend: function() {
+        // Opcional: alguna acción antes de enviar
+      },
+      complete: function() {
+        // Opcional: alguna acción después de completar
+      },
+      success:  function (response) {
+        if (response == 1) {
+          TPVLista(idEstacion);
+          $('#Modal').modal('hide');  
+          alertify.success('Registro agregado exitosamente.');
+        }
+      }
+    });
   }
+}
+
 
   function ModalEditar(idEstacion,id){
   $('#Modal').modal('show');  

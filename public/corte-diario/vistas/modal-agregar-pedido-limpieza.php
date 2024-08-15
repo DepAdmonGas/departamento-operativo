@@ -48,7 +48,10 @@ function Producto($idProducto, $con)
   <input type="number" class="form-control rounded-0" id="Piezas">
 
   <hr>
-
+<div class="text-end mb-2">
+<button type="button" class="btn btn-labeled2 btn-primary" onclick="AgregarItem(<?= $idReporte ?>)">
+      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+</div>
   <div class="table-responsive">
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
@@ -99,8 +102,6 @@ function Producto($idProducto, $con)
   </div>
 <br>
   <div class="text-end">
-    <button type="button" class="btn btn-labeled2 btn-primary" onclick="AgregarItem(<?= $idReporte ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
     <?php if ($numero_lista > 0) { ?>
       <button type="button" class="btn btn-labeled2 btn-success"
         onclick="FinalizarPedido(<?= $idReporte ?>,<?= $Session_IDEstacion ?>)">

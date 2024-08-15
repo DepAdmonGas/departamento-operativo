@@ -100,7 +100,7 @@ function Personal($idusuario, $con)
         </select>
       </div>
     </div>
-    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mt-4">
       <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="AgregarAditivo(<?= $idReporte ?>)">
         <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar
       </button>

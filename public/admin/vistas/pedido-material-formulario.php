@@ -580,8 +580,11 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   </div>
   </div>
 
+
+  <div class="col-12">
+  <div class="row justify-content-center">
   <!---------- APARTADO TIPO DE SERVICIO ---------->
-  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
   <tr> 
@@ -620,7 +623,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   </div>
 
   <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
-  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
   <tr> 
@@ -659,7 +662,7 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
   </div>
 
   <!---------- LA ORDEN DE TRABAJO ES DE ALTO RIESGO ---------->
-  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
   <tr> 
@@ -688,6 +691,9 @@ var url = '../../public/admin/modelo/finalizar-pedido-material.php';
 
   </tbody>
   </table>
+  </div>
+
+  </div>
   </div>
 
   <!---------- AREA ---------->

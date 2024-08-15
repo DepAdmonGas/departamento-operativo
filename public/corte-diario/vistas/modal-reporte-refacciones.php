@@ -1,10 +1,11 @@
 <?php
-require ('../../../app/help.php');
+require('../../../app/help.php');
 
 $idReporte = $_GET['idReporte'];
 
 function Refaccion($idrefaccion, $con)
 {
+  $nombre = '';
   $sql_lista = "SELECT * FROM op_refacciones WHERE id = '" . $idrefaccion . "' ";
   $result_lista = mysqli_query($con, $sql_lista);
   $numero_lista = mysqli_num_rows($result_lista);
@@ -39,7 +40,11 @@ if ($status == 0) {
 
 
 ?>
-
+<script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+  });
+</script>
 <div class="modal-header">
   <h5 class="modal-title">Agregar reporte de refacciones</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -79,9 +84,9 @@ if ($status == 0) {
         <h6>Refacciones utilizadas</h6>
 
         <div class="row">
-          <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mb-2">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
             <div class="mb-1 text-secondary">Refacción:</div>
-            <select class="form-select rounded-0" id="Refaccion">
+            <select class="selectize pointer" id="Refaccion">
               <option value="">Selecciona...</option>
               <?php
               $sql_lista = "SELECT * FROM op_refacciones WHERE id_estacion = '" . $Session_IDEstacion . "' AND unidad > 0 AND status = 1 ORDER BY id ASC";
@@ -95,11 +100,16 @@ if ($status == 0) {
           </div>
 
 
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
             <div class="mb-1 text-secondary">Unidad utilizada:</div>
             <input type="number" class="form-control rounded-0" id="Unidad">
           </div>
-
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
+            <div class="mt-4 text-center">
+              <button type="button" class="btn btn-labeled2 btn-success mt-2" onclick="AgregarRR(<?= $idReporte; ?>)">
+              <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+            </div>
+          </div>
         </div>
 
 
@@ -149,8 +159,4 @@ if ($status == 0) {
       <?php } ?>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-labeled2 btn-success mt-2" onclick="AgregarRR(<?= $idReporte; ?>)">
-    <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 </div>

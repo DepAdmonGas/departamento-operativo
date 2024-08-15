@@ -17,13 +17,13 @@ $numero_lista = mysqli_num_rows($result_lista);
 
     <div><small>Archivo:</small></div>
     <input class="form-control" type="file" class="mt-1" id="Archivo">
-
-    <div class="text-end mt-3">
+    <hr>
+    <div class="text-end mt-2">
         <button type="button" class="btn btn-primary btn-sm" onclick="GuardarArchivo(<?= $idReporte; ?>)">Guardar
             archivo</button>
     </div>
 
-    <hr>
+
 
     <div class="table-responsive">
         <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
@@ -32,8 +32,8 @@ $numero_lista = mysqli_num_rows($result_lista);
                     <th class="align-middle text-center">Fecha</th>
                     <td class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
                     </td>
-                    <td class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png">
-                    </td>
+                    <th class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png">
+                    </th>
                 </tr>
             </thead>
             <tbody class="bg-light">
@@ -52,7 +52,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
                     }
                 } else {
-                    echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+                    echo "<tr><th colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
                 }
                 ?>
             </tbody>

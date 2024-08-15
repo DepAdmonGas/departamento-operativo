@@ -46,7 +46,7 @@ $('[data-toggle="tooltip"]').tooltip();
 </script>
 <div class="modal-header">
 <h5 class="modal-title">Detalle Alta Personal</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -90,8 +90,8 @@ $('[data-toggle="tooltip"]').tooltip();
 Buenos días por medio del presente solicito de su amable apoyo para realizar las siguientes altas de personal:<br>
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-2" style="font-size: .8em;">
-<thead class="tables-bg">
+      <table id="tabla_debito" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+        <thead class="tables-bg">
 	<tr class="text-center">
 
 
@@ -111,7 +111,7 @@ Buenos días por medio del presente solicito de su amable apoyo para realizar la
 		<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>archivo-tb.png"></th>
 	</tr>
 </thead> 
-<tbody>
+<tbody class="bg-light">
 <?php
 $sql_lista = "SELECT * FROM op_rh_formatos_alta WHERE id_formulario = '".$idFormato."' ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -176,7 +176,7 @@ $detalleIne = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" 
 
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.FormatoFecha($Fecha).'</td>';
+echo '<th class="align-middle text-center">'.FormatoFecha($Fecha).'</th>';
 echo '<td class="align-middle text-center">'.$NombreC.'</td>';
 echo '<td class="align-middle text-center">'.$estacion.'</td>';
 echo '<td class="align-middle text-center">'.$puesto.'</td>';
@@ -190,7 +190,7 @@ echo '<td class="align-middle text-center"><a href="archivos/'.$Documento.'" dow
 echo '</tr>';
 }
 }else{
-echo "<tr><td colspan='15' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='15' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 

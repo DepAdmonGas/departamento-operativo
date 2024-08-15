@@ -717,15 +717,15 @@ require 'app/vistas/contenido/header.php';
 
   <div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
         <div id="ContenidoModal"></div>
       </div>
     </div>
   </div>
 
   <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
         <div id="DivContenido"></div>
       </div>
     </div>
