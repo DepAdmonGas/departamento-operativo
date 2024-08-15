@@ -49,7 +49,7 @@ $('[data-toggle="tooltip"]').tooltip();
 
 <div class="modal-header">
 <h5 class="modal-title">Detalle Baja de Personal</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 
@@ -90,8 +90,8 @@ Buenos días por medio del presente solicito de su amable apoyo para realizar la
 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-<thead class="tables-bg">
+      <table id="tabla_debito" class="custom-table mt-2" style="font-size: .8em;" width="100%">
+        <thead class="tables-bg">
   <tr>
   <th>Fecha de baja</th>
   <th>Nombre del empleado</th>
@@ -99,7 +99,7 @@ Buenos días por medio del presente solicito de su amable apoyo para realizar la
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png" data-toggle="tooltip" data-placement="top" title="Archivo"></th>
   </tr>
 </thead> 
-<tbody>
+<tbody class="bg-light">
 <?php
 $sql_lista = "SELECT * FROM op_rh_formatos_baja WHERE id_formulario = '".$idFormato."' ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -126,14 +126,14 @@ $archivo_tb = '<th class="align-middle text-center" width="32"><a href="'.RUTA_A
 $personal = NombrePersonal($row_lista['id_personal'],$con);
 
 echo '<tr>';
-echo '<td class="align-middle">'.$fecha_tb.'</td>';
+echo '<th class="align-middle">'.$fecha_tb.'</th>';
 echo '<td class="align-middle">'.$personal.'</td>';
 echo '<td class="align-middle">'.$row_lista['baja'].'</td>';
 echo $archivo_tb;
 echo '</tr>';
 }
 }else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>

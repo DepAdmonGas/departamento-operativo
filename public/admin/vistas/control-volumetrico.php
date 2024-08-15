@@ -1,5 +1,5 @@
 <?php
-require ('app/help.php');
+require('app/help.php');
 
 function TotalAtio($idDias, $con)
 {
@@ -581,20 +581,22 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
   <style>
-  td {
-    padding: 0;
-  }
+    td {
+      padding: 0;
+    }
 
-  input[type="number"].w-100 {
-    width: 100%;
-    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
-  }
+    input[type="number"].w-100 {
+      width: 100%;
+      box-sizing: border-box;
+      /* Asegura que el padding se incluya en el tamaño total */
+    }
 
-  input[type="number"].h-100 {
-    height: 100%;
-    display: block; /* Hace que el input sea un elemento de bloque */
-  }
-</style>
+    input[type="number"].h-100 {
+      height: 100%;
+      display: block;
+      /* Hace que el input sea un elemento de bloque */
+    }
+  </style>
 
   <script type="text/javascript">
 
@@ -602,13 +604,13 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
       $(".LoaderPage").fadeOut("slow");
 
       ListaControl(<?= $IdReporte; ?>);
-      ListaResumen(<?= $IdReporte; ?>,<?= $GET_mes; ?>);
-      ListaResumenTotal(<?= $IdReporte; ?>,<?= $GET_mes; ?>);
-      ListaPrefijos(<?= $GET_idEstacion; ?>,<?= $IdReporteYear; ?>,<?= $GET_mes; ?>,<?= $IdReporte; ?>);
-      PrefijoTotal(<?= $GET_idEstacion; ?>,<?= $IdReporte; ?>);
-      GranTotal(<?= $GET_idEstacion; ?>,<?= $IdReporte; ?>);
+      ListaResumen(<?= $IdReporte; ?>, <?= $GET_mes; ?>);
+      ListaResumenTotal(<?= $IdReporte; ?>, <?= $GET_mes; ?>);
+      ListaPrefijos(<?= $GET_idEstacion; ?>, <?= $IdReporteYear; ?>, <?= $GET_mes; ?>, <?= $IdReporte; ?>);
+      PrefijoTotal(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
+      GranTotal(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
 
-      Comentarios(<?= $GET_idEstacion; ?>,<?= $IdReporte; ?>);
+      Comentarios(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
 
     });
 
@@ -617,7 +619,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
     }
 
     function ListaControl(IdReporte) {
- 
+
       $('#ListaControl').load('../../../../public/admin/vistas/lista-control-volumetrico.php?IdReporte=' + IdReporte);
     }
 
@@ -655,46 +657,52 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
       var Fecha = $('#Fecha').val();
       var Anexos = $('#Anexos').val();
 
-      var data = new FormData();
-      var url = '../../../../public/admin/modelo/agregar-control-volumetrico.php';
-
       Documento = document.getElementById("Documento");
       Documento_file = Documento.files[0];
       Documento_filePath = Documento.value;
+      if (Fecha != '') {
+        $('#Fecha').css('border', '');
+        if (Anexos != '') {
+          $('#Anexos').css('border', '');
+          if (Documento_filePath != "") {
+            $('#Documento').css('border', '');
+            var data = new FormData();
+            var url = '../../../../public/admin/modelo/agregar-control-volumetrico.php';
+            data.append('IdReporte', IdReporte);
+            data.append('Documento_file', Documento_file);
+            data.append('Fecha', Fecha);
+            data.append('Anexos', Anexos);
 
-      if (Documento_filePath != "") {
-        $('#Documento').css('border', '');
+            $(".LoaderPage").show();
 
-        data.append('IdReporte', IdReporte);
-        data.append('Documento_file', Documento_file);
-        data.append('Fecha', Fecha);
-        data.append('Anexos', Anexos);
+            $.ajax({
+              url: url,
+              type: 'POST',
+              contentType: false,
+              data: data,
+              processData: false,
+              cache: false
+            }).done(function (data) {
 
-        $(".LoaderPage").show();
+              $(".LoaderPage").hide();
 
-        $.ajax({
-          url: url,
-          type: 'POST',
-          contentType: false,
-          data: data,
-          processData: false,
-          cache: false
-        }).done(function (data) {
+              alertify.success('Registro agregado exitosamente.');
+              ListaControl(IdReporte);
+              $('#Documento').css('border', '');
+              $('#Documento').val('');
+              $('#Modal').modal('hide');
 
-          $(".LoaderPage").hide();
+            });
 
-          alertify.success('Registro agregado exitosamente.');
-          ListaControl(IdReporte);
-          $('#Documento').css('border', '');
-          $('#Documento').val('');
-          $('#Modal').modal('hide');
-
-        });
-
+          } else {
+            $('#Documento').css('border', '2px solid #A52525');
+          }
+        } else {
+          $('#Anexos').css('border', '2px solid #A52525');
+        }
       } else {
-        $('#Documento').css('border', '2px solid #A52525');
+        $('#Fecha').css('border', '2px solid #A52525');
       }
-
     }
 
     function Eliminar(idReporte, id) {
@@ -890,8 +898,8 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
         data: parametros,
         url: '../../../../public/admin/modelo/editar-control-volumetrico-aceite.php',
         type: 'post',
-        beforeSend: function () {},
-        complete: function () {},
+        beforeSend: function () { },
+        complete: function () { },
         success: function (response) {
           if (response == 1) {
 
@@ -972,16 +980,16 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
             <ol class="breadcrumb breadcrumb-caret">
               <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
                     class="fa-solid fa-chevron-left"></i>
-                    Corte Diario, <?=$ClassHerramientasDptoOperativo->nombreMes($GET_mes)?> <?=$GET_year?></a></li>
+                  Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
               <li aria-current="page" class="breadcrumb-item active text-uppercase">
-                Control Volumetrico (<?=nombremes($GET_mes)?> <?=$GET_year?>)
+                Control Volumetrico (<?= nombremes($GET_mes) ?> <?= $GET_year ?>)
               </li>
             </ol>
           </div>
           <div class="row">
             <div class="col-12">
               <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
-                Control Volumetrico (<?=nombremes($GET_mes)?> <?= $GET_year ?>)
+                Control Volumetrico (<?= nombremes($GET_mes) ?> <?= $GET_year ?>)
               </h3>
             </div>
           </div>
@@ -992,7 +1000,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 
-      
+
           <div id="ListaResumen"></div>
           <div id="ListaResumenTotal"></div>
 
@@ -1029,7 +1037,7 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
 
 
   <div class="modal" id="Modal">
-    <div class="modal-dialog" >
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Agregar anexos</h5>
@@ -1057,8 +1065,8 @@ function ValidaIF($IdReporte, $detalle, $posicion, $con)
 
         </div>
         <div class="modal-footer">
-        <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?= $IdReporte; ?>)">
-        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+          <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?= $IdReporte; ?>)">
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
         </div>
       </div>
     </div>

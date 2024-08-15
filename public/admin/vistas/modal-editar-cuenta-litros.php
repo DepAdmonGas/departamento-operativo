@@ -47,7 +47,11 @@ $idDetalle = $_GET['idDetalle'];
 	}
 
 	?>
- 
+ <script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+});
+</script>
     <div class="modal-header">
     <h5 class="modal-title">Editar Cuenta Litros</h5>  
 	<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -70,7 +74,7 @@ $idDetalle = $_GET['idDetalle'];
 
  <div id="DivTransporte" <?=$displayV?>>
     <div class="mt-2 mb-1 text-secondary">Nombre del transporte</div>
-    <select class="form-select" id="transporteCL">
+    <select class="selectize pointer" id="transporteCL">
           <option><?=$transporte?></option>
     <?php
     $sql_unidades = "SELECT nombre_transporte FROM tb_lista_transportes WHERE estado = 0 ORDER BY nombre_transporte ASC";
@@ -162,7 +166,7 @@ $idDetalle = $_GET['idDetalle'];
 
  
     <div class="mb-1 mt-2 text-secondary">*Unidad:</div>
-    <select class="form-select" id="unidadCL">
+    <select class="selectize pointer" id="unidadCL">
     <option><?=$unidad?></option>
    
     <?php

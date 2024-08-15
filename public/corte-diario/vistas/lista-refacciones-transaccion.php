@@ -36,7 +36,7 @@ return $estacion;
 <div class="table-responsive">
 <table id="tabla_transacciones" class="custom-table" style="font-size: .9em;" width="100%">
 
-<thead class="title-table-bg">
+<thead class="tables-bg">
 
   <tr>
   <th class="text-center align-middle">#</th>

@@ -2,7 +2,12 @@
 require 'app/vistas/contenido/header.php';
 $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
+<script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+  });
+</script>
+<script type="text/javascript" src="<?= RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
@@ -14,7 +19,6 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 <link
   href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
   rel="stylesheet">
-
 <body>
   <div class="LoaderPage"></div>
   <!---------- DIV - CONTENIDO ---------->
@@ -74,7 +78,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
   <!--Modal Consumo Pagos-->
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Consumos y Pagos</h5>
@@ -84,8 +88,8 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           <div class="mb-1">
             <small>* Selecciona el cliente</small>
           </div>
-          <select placeholder="Cliente" id="Cliente" class="form-select">
-            <option value="">Cliente</option>
+          <select class="selectize pointer form-select" id="Cliente">
+            <option></option>
             <?php
             try {
               $corteDiarioGeneral->generarOpcionesClientes($Session_IDEstacion);
@@ -94,6 +98,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             }
             ?>
           </select>
+          
 
           <div class="mt-2 mb-1"><small>* Agregue total</small></div>
           <input type="number" class="form-control rounded-0" min="0" placeholder="Total" id="Total">

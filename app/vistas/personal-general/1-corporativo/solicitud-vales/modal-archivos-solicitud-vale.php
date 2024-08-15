@@ -12,7 +12,11 @@ $result_documento = mysqli_query($con, $sql_documento);
 $numero_documento = mysqli_num_rows($result_documento);
 
 ?>  
- 
+ <script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+  });
+</script>
 <div class="modal-header">
 <h5 class="modal-title">Documentación</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -21,7 +25,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 <div class="modal-body">
 
 <div class="mb-1 text-secondary">Documento:</div>
-<select class="form-select" id="Documento">
+<select class="selectize pointer" id="Documento">
 <option></option>
 <option>VALE</option> 
 <option>RECIBO</option> 

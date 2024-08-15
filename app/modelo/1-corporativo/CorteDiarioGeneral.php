@@ -388,7 +388,7 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
             throw new Exception("Error al preparar la consulta: " . $this->con->error);
         endif;
 
-        $stmt_cliente->bind_param("s", $Session_IDEstacion);
+        $stmt_cliente->bind_param("i", $Session_IDEstacion);
         if (!$stmt_cliente->execute()):
             throw new Exception("Error al ejecutar la consulta: " . $stmt_cliente->error);
         endif;

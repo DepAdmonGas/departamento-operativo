@@ -3,7 +3,11 @@ require('../../../app/help.php');
 $idCuentaLitros = $_GET['idCuentaLitros'];
 
 ?>  
-
+<script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+});
+</script>
     <div class="modal-header">
     <h5 class="modal-title">Agregar Cuenta Litros</h5>  
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -26,7 +30,7 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
   
  <div id="DivTransporte" style="display: none;">
     <div class="mt-2 mb-1 text-secondary">*Nombre del transporte</div>
-    <select class="form-select" id="transporteCL">
+    <select class="selectize pointer" id="transporteCL">
 
     <option></option>
     <?php
@@ -101,7 +105,7 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
 
 
     <div class="mb-1 mt-2 text-secondary">*Unidad:</div>
-    <select class="form-select" id="unidadCL">
+    <select class="selectize pointer" id="unidadCL">
     <option></option>
     <?php
     $sql_unidades = "SELECT no_unidad FROM tb_unidades_transporte WHERE estado = 0 ORDER BY no_unidad ASC";
