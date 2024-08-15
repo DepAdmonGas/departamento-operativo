@@ -23,7 +23,11 @@ $numero_lista = mysqli_num_rows($result_lista);
   <div class="input-group">
     <input type="file" class="form-control" id="Documento">
   </div>
-  <br>
+  <hr>
+  <div class="text-end mb-2">
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarPago(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+  </div>
   <div class="table-responsive">
     <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
@@ -56,8 +60,3 @@ $numero_lista = mysqli_num_rows($result_lista);
     </table>
   </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarPago(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
-    <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-    
-  </div>
