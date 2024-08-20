@@ -105,7 +105,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     case 'administracion':
                 $ruta_elegida = 'public/admin/vistas/index.php';
                 break;
-
             case 'embarques':
                 $ruta_elegida = 'public/corte-diario/vistas/embarques-index.php';
                 break;
@@ -516,7 +515,12 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/procedimientos/vistas/procedimientos-admin-index.php';
 
             //---------- Pedidos (Admin) ----------//
-        } else if ($partes_ruta[2] == 'pedidos') {
+        } else if ($partes_ruta[2] == 'reportes-anuales') {
+            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/solicitud-cheque/index.php';
+
+            //---------- Pedidos (Admin) ----------//
+        }
+        else if ($partes_ruta[2] == 'pedidos') {
             $ruta_elegida = 'public/admin/vistas/pedidos-admin-index.php';
 
             //---------- Camioneta Saveiro ----------//
@@ -532,6 +536,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         //---------- RESUMEN MONEDEROS (SERVICIO SOCIAL)----------
         else if ($partes_ruta[2] == 'resumen-aceites') {
             $ruta_elegida = 'public/admin/vistas/resumen-aceites-ss.php';
+        }else if($partes_ruta[2] == 'reporte-solicitud-cheque'){
+            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/solicitud-cheque/reporte.php';
         }
 
         //---------- RESUMEN MONEDEROS (SERVICIO SOCIAL)----------

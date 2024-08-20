@@ -43,6 +43,7 @@ require ('app/help.php');
     function ModeloNegocio() { window.location.href = "modelo-negocio"; }
     function ControlVolumetrico() { window.location.href = "administracion/control-volumetrico"; }
     function ProcedimientosAdmin() { window.location.href = "administracion/procedimientos"; }
+    function reportes() { window.location.href = "administracion/reportes-anuales" }
     //function CSFAdmin(){window.location.href = "administracion/constancia-situacion-fiscal";}
     function ReportesDireccion() { window.location.href = "administracion/reportes"; }
 
@@ -172,9 +173,12 @@ require ('app/help.php');
                 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="ProcedimientosAdmin()">
                   <span class="btn-label2"><i class="fa-solid fa-briefcase"></i></span>Procedimientos
                 </button>
-              <?php } ?>
+              <?php }elseif($session_nompuesto == "Dirección"){ ?>
+                <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="reportes()">
+                  <span class="btn-label2"><i class="fa-solid fa-clipboard-list"></i></i></span>Reporte Anual
+                </button>
+              <?php }?>
             </div>
-
           </div>
 
           <hr>
