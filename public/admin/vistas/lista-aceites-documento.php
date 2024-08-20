@@ -19,14 +19,21 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
 
-  <div class="text-end">
+
+<div class="text-end mb-2">
+  
+  <button type="button" class="btn btn-labeled2 btn-primary " onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar documentos</button>
+    </div>
+
+
 
     <div class="table-responsive">
-      <table class="custom-table" style="font-size: .75em;" width="100%">
+      <table class="custom-table mt-1" style="font-size: .75em;" width="100%">
         <thead class="tables-bg">
           <th class="align-middle text-center">FECHA</th>
           <th class="align-middle text-center">FICHA DEPOSITO FALTANTE</th>
-          <th class="align-middle text-end">IMAGEN DE BODEGA</th>
+          <th class="align-middle text-center">IMAGEN DE BODEGA</th>
           <th class="align-middle text-center">FACTURA VENTA MOSTRADOR</th>
           <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png"></th>
           <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
@@ -83,10 +90,5 @@ $numero_lista = mysqli_num_rows($result_lista);
       </table>
     </div>
 
+
   </div>
-  </div>
-  <div class="modal-footer">
-  
-  <button type="button" class="btn btn-labeled2 btn-primary " onclick="Nuevo(<?= $IdReporte; ?>,<?= $year; ?>,<?= $mes; ?>)">
-  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar documentos</button>
-    </div>

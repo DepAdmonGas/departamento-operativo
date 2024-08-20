@@ -1,13 +1,9 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 ?>
-<html lang="es">
 
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

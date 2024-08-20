@@ -60,14 +60,15 @@ function Personal($idUsuario, $con)
           echo '<td class="align-middle text-center"><b>00' . $row_lista['no_control'] . '</b></td>';
           echo '<td class="align-middle text-center">' . $Personal . '</td>';
           echo '<td class="align-middle text-center">' . FormatoFecha($explode[0]) . '</td>';
+          
           echo '<td class="align-middle text-center"> 
-          <div class="dropdown">
-            <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown-container">
+            <a class="btn btn-sm btn-icon-only text-dropdown-right" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-ellipsis-v"></i>
             </a>
 
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-              ' . $Detalle . '
+  <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton">
+                ' . $Detalle . '
               ' . $PDF . '
               ' . $Editar . '
               ' . $Eliminar . '

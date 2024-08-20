@@ -13,14 +13,22 @@ $numero_documento = mysqli_num_rows($result_documento);
 
 ?>  
   
+  <script type="text/javascript">
+  $('.selectize').selectize({
+      sortField: 'text'
+    });
+  </script>
+
   <div class="modal-header">
 <h5 class="modal-title">Archivos</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
-<div class="mb-1 text-secondary">Documento:</div>
-<select class="form-select" id="Documento">
+<div class="mb-1 text-secondary">* Descripción:</div>
+
+
+<select class="selectize" id="Documento">
 <option></option>
 <option>PRESUPUESTO</option>
 <option>FACTURA PDF</option>
@@ -43,12 +51,19 @@ $numero_documento = mysqli_num_rows($result_documento);
 <option>EVIDENCIA</option>
 </select>
 
-<div class="mb-1 mt-3 text-secondary">Archivo:</div>
+<div class="mb-1 mt-3 text-secondary">* Archivo:</div>
 <div class="input-group">
 <input type="file" class="form-control" id="Archivo">
 </div>
  
 <hr> 
+
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success mb-3" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idEstacion;?>,<?=$depu;?>,<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+</div>
+
+
 <div class="table-responsive">
 <table class="custom-table" style="font-size: 14px;" width="100%">
 <thead>
@@ -83,8 +98,4 @@ echo "<tr><th colspan='3' class='text-center text-secondary no-hover2'><small>No
 
 </div>
 
-<div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarArchivo(<?=$year;?>,<?=$mes;?>,<?=$idEstacion;?>,<?=$depu;?>,<?=$idReporte;?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-</div>
 

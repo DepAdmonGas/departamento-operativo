@@ -1,13 +1,15 @@
 <?php
 require('../../../app/help.php');
-
 $idEstacion = $_GET['idEstacion'];
 
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
+$sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
+$estacion = $row_listaestacion['localidad'];
 }
+
+
+
 
 $sql_lista_poliza = "SELECT * FROM op_poliza_es WHERE id_estacion = '".$idEstacion ."' ORDER BY emision DESC";
 $result_lista_poliza = mysqli_query($con, $sql_lista_poliza);
@@ -23,16 +25,21 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha de emisión:</h6>
+<h6 class="mb-1">* Fecha de emisión:</h6>
 <input class="form-control" type="date" id="EmisionP" onchange="VencimientoPoliza()">
 
-<h6 class="mb-1 mt-3">Fecha de vencimiento:</h6>
+<h6 class="mb-1 mt-3">* Fecha de vencimiento:</h6>
 <div id="fechavencimiento" style="font-size: 1em">S/I</div>
 
 
-<h6 class="mt-3 mb-1">Documento:</h6>
+<h6 class="mt-3 mb-1">* Documento:</h6>
 <input class="form-control" type="file" id="PolizaDoc">
 
+<hr>
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarPolizaS(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>
 
 <div class="table-responsive">
 <table class="custom-table mt-3" style="font-size: 12.5px;" width="100%">
@@ -84,8 +91,3 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 </div>
 
 
-<div class="modal-footer">
-
-<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarPolizaS(<?=$idEstacion;?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
-</div>

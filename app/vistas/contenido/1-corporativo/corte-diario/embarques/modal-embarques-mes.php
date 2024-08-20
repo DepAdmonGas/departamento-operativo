@@ -49,12 +49,12 @@ $mes = $_GET['mes'];
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Agregar fecha</div>
+      <div class="mb-1 text-secondary">* Agregar fecha</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha_del_dia; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Embarque</div>
+      <div class="mb-1 text-secondary">* Embarque</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <option></option>
         <option>Pemex</option>
@@ -64,7 +64,7 @@ $mes = $_GET['mes'];
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Producto</div>
+      <div class="mb-1 text-secondary">* Producto</div>
       <select class="form-select" id="Producto">
         <option></option>
         <option>G SUPER</option>
@@ -75,7 +75,7 @@ $mes = $_GET['mes'];
 
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Agregar documento</div>
+      <div class="mb-1 text-secondary">* Agregar documento</div>
       <input class="form-control" type="file" id="Documento">
     </div>
 

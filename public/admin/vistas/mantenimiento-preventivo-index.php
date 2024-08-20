@@ -124,9 +124,18 @@ return $numero_lista = mysqli_num_rows($result_lista);
     let Observacion = $('#Observacion').val();
 
 
+
+
     Archivo = document.getElementById("Archivo");
     Archivo_file = Archivo.files[0];
     Archivo_filePath = Archivo.value;
+
+
+    if(Nombre != 0){
+      $('#Nombre').css('border','');
+
+    if(Fecha != ""){
+    $('#Fecha').css('border','');
 
     data.append('idReporte', idReporte);
     data.append('Archivo_file', Archivo_file);
@@ -153,6 +162,16 @@ return $numero_lista = mysqli_num_rows($result_lista);
     }
  
     }); 
+
+
+  }else{
+    $('#Fecha').css('border','2px solid #A52525'); 
+    }
+
+    }else{
+    $('#Nombre').css('border','2px solid #A52525'); 
+    }
+
  }
 
  function Eliminar(idEstacion,idReporte){

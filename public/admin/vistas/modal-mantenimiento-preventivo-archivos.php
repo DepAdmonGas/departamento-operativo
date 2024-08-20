@@ -26,6 +26,17 @@ $idEstacion = $_GET['idEstacion'];
 
   </div>
 
+
+<hr>
+
+
+<div class="text-end">
+  <button type="button" class="btn btn-labeled2 btn-success mb-3" onclick="GuardarArchivo(<?=$idEstacion?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
+  </div>
+
+
 <div class="table-responsive">
 <table class="custom-table" style="font-size: .9em;" width="100%">
 
@@ -64,8 +75,3 @@ echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover2'
     </div>
 
 </div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-labeled2 btn-success mb-3" onclick="GuardarArchivo(<?=$idEstacion?>)">
-  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-
-  </div>

@@ -55,7 +55,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 </div> 
  
 <div class="table-responsive">
-<table class="custom-table" style="font-size: .8em;" width="100%">
+<table id="tabla_baja_personal_<?=$idEstacion?>" class="custom-table" style="font-size: .8em;" width="100%">
 
 <thead class="tables-bg">
 <tr class="text-center align-middle">
@@ -74,9 +74,10 @@ $numero_lista = mysqli_num_rows($result_lista);
 <th class="align-middle">RFC</th>
 <th class="align-middle">NSS</th>
 <th class="align-middle">Contrato</th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>archivo-tb.png"></th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
-<th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
+<th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
+
+
 </thead> 
 
 <tbody class="bg-white">
@@ -114,17 +115,17 @@ $Nuevo = '';
 
 if($status == 0){
 $badgeAlert = '<span class="badge bg-danger">Pendiente</span>';
-$editartb = '<a class="pointer" onclick="EditarProceso('.$GET_idBaja.','.$GET_idEstacion.')"><img src="'.RUTA_IMG_ICONOS.'editar-tb.png"></a>';
+$editartb = '<a class="dropdown-item"  onclick="EditarProceso('.$GET_idBaja.','.$GET_idEstacion.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $tableColor = 'style="background-color: #ffb6af"'; 
 
 }else if($status == 1){
 $badgeAlert = '<span class="badge bg-warning text-white">En Proceso</span>';
-$editartb = '<a class="pointer" onclick="EditarProceso('.$GET_idBaja.','.$GET_idEstacion.')"><img src="'.RUTA_IMG_ICONOS.'editar-tb.png"></a>';
+$editartb = '<a class="dropdown-item"  onclick="EditarProceso('.$GET_idBaja.','.$GET_idEstacion.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $tableColor = 'style="background-color: #fcfcda"';
 
 }else if($status == 2){
 $badgeAlert = '<span class="badge bg-success">Finalizado</span>';
-$editartb = '<a class="grayscale"><img src="'.RUTA_IMG_ICONOS.'editar-tb.png"></a>';
+$editartb = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $tableColor = 'style="background-color: #b0f2c2"';
 
 }
@@ -153,15 +154,25 @@ echo '<td class="text-center">'.$detalleCurp.'</td>';
 echo '<td class="text-center">'.$detalleRfc.'</td>';
 echo '<td class="text-center">'.$detalleNss.'</td>';
 echo '<td class="text-center">'.$detalleContrato.'</td>';
-echo '<td class="text-center"><a class="pointer" onclick="ArchivosBaja('.$GET_idBaja.','.$GET_idEstacion.')"><img src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></a></td>';
 echo '<td class="align-middle text-center position-relative" onclick="ComentarioBaja('.$GET_idBaja.','.$GET_idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
-echo '<td class="text-center">'.$editartb.'</td>';
+echo '
+<td class="text-center align-middle">
+<div class="dropdown-container">
+<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
+
+<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+<a class="dropdown-item" onclick="ArchivosBaja('.$GET_idBaja.','.$GET_idEstacion.')"><i class="fa-regular fa-file"></i> Documentación</a>
+'.$editartb.'
+</ul>
+</div>
+</td>';
+
 echo '</tr>';
 
 $num++;
 }
-}else{
-echo "<tr><th class='no-hover' colspan='20'><div class='text-secondary text-center fw-light'>No se encontró información para mostrar </div></th></tr>";	
 }
 ?>
 </tbody>

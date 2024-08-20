@@ -56,7 +56,14 @@ function Producto($idProducto, $con)
   <hr>
 
 
-  <div class="row">
+  <div class="text-end mb-2">
+
+  <button type="button" class="btn btn-labeled2 btn-primary"
+      onclick="AgregarItem(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
+      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+
+</div>
+
 
     <div class="table-responsive">
       <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
@@ -106,20 +113,18 @@ function Producto($idProducto, $con)
       </table>
     </div>
 
-  </div>
+
 
 </div>
 
-
+<?php if ($numero_lista > 0) { ?>
 <div class="modal-footer">
-    <button type="button" class="btn btn-labeled2 btn-primary"
-      onclick="AgregarItem(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
-      <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 
-    <?php if ($numero_lista > 0) { ?>
+
       <button type="button" class="btn btn-labeled2 btn-success"
         onclick="FinalizarPedido(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
         <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
 
-    <?php } ?>
-  </div>
+
+  </div>    
+  <?php } ?>

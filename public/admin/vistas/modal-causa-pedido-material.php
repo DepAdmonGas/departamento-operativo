@@ -18,7 +18,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
 
-<div class="text-secondary mb-1 mt-2">Descripcion de la causa:</div>
+<div class="text-secondary mb-1">Descripcion de la causa:</div>
 <textarea class="form-control rounded-0 mb-2" id="Causa"></textarea>
 
 <div class="text-secondary mb-1 mt-2">La refaccion se queda en:</div>
@@ -44,10 +44,16 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 <div class="text-secondary mb-1 mt-2">Precio:</div>
-<input type="number" class="form-control rounded-0 mb-2" id="Precio">
+<input type="number" class="form-control rounded-0" id="Precio">
 
 <hr>
  
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success mb-1" onclick="AgregarCausa('<?=$idEstacion?>','<?=$idReporte?>')">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+</div>
+
+
 <div class="table-responsive">
 <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 14px;" width="100%">
 
@@ -127,16 +133,6 @@ $num++;
 
 </div>
 </div>
-</div>
-
-<div class="modal-footer">
-
-  <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
-  <span class="btn-label2"><i class="fa-regular fa-circle-xmark"></i></span>Cancelar</button>
-
-  <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarCausa('<?=$idEstacion?>','<?=$idReporte?>')">
-  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
-
 </div>
 
  

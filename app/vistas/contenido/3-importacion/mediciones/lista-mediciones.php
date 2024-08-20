@@ -6,26 +6,38 @@ $sql_lista = "SELECT * FROM op_mediciones WHERE id_estacion = '" . $idEstacion .
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
  
+  //---------- OBTENER EL NOMBRE DE LA ESTACION ----------
+  $sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
+  $result = mysqli_query($con, $sql);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  $Titulo = $row['localidad'];
+  }
+
+
 if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
 $ocultarOp = "";
+$titulos = "";
 }else{
 $ocultarOp = "d-none";
+$titulos = " ($Titulo)";
 }
+
+
 
 ?> 
 
-
+  
 
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
 <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Importacion</a></li>
-<li aria-current="page" class="breadcrumb-item active text-uppercase">Mediciones</li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Mediciones<?=$titulos?></li>
 </ol>
 </div>
 
 <div class="row">
-<div class="col-9"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Mediciones</h3></div>
+<div class="col-9"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Mediciones<?=$titulos?></h3></div>
 <div class="col-3 <?=$ocultarOp?>"><button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Modal(<?=$idEstacion?>)">
 <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 </div>

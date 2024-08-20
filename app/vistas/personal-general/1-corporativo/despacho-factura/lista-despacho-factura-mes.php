@@ -151,13 +151,13 @@ Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes
                         <th class="bg-primary fw-normal text-white">VENTAS</th>
                         <td class="text-center align-middle no-hover" rowspan="3"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
                         <td class ="text-start" id="' . $idDias . 'L1">' . number_format($Producto1['TotalLitros'], 2) . '</td>
-                        <td class ="text-start" id="' . $idDias . 'L4">' . number_format($Producto1['TotalPrecio'], 2) . '</td>
+                        <td class ="text-start" id="' . $idDias . 'L4">$ ' . number_format($Producto1['TotalPrecio'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L2">' . number_format($Producto2['TotalLitros'], 2) . '</td>
-                        <td class ="text-start" id="' . $idDias . 'L5">' . number_format($Producto2['TotalPrecio'], 2) . '</td>
+                        <td class ="text-start" id="' . $idDias . 'L5">$ ' . number_format($Producto2['TotalPrecio'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L3">' . number_format($Producto3['TotalLitros'], 2) . '</td>
-                        <td class ="text-start" id="' . $idDias . 'L6">' . number_format($Producto3['TotalPrecio'], 2) . '</td>
+                        <td class ="text-start" id="' . $idDias . 'L6">$ ' . number_format($Producto3['TotalPrecio'], 2) . '</td>
                         <td class="fw-bold text-start">' . number_format($TotalLitros, 2) . '</td>
-                        <td class="fw-bold text-end">' . number_format($TotalPrecio, 2) . '</td>
+                        <td class="fw-bold text-end">$ ' . number_format($TotalPrecio, 2) . '</td>
                         </tr>
                         <tr tr class = "bg-white">
                         <th class="bg-info fw-normal text-white">DESPACHO</th>
@@ -171,19 +171,19 @@ Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes
                         <td class="p-0"><input type="number" class="border-0 p-2" value="' . $TotalAtio['PProductotres'] . '" style="width: 100%;" onkeyup="Editar(this,' . $idDias . ',6)"></td>
 
                         <td class="fw-bold text-start">' . number_format($TotalALP, 2) . '</td>
-                        <td class="fw-bold text-end">' . number_format($TotalAPP, 2) . '</td>
+                        <td class="fw-bold text-end">$ ' . number_format($TotalAPP, 2) . '</td>
 
                         </tr>
                         <tr class = "bg-white ">
                         <th class="bg-white fw-normal">DIFERENCIA</th>
                         <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiLPoUno) . ' id="' . $idDias . 'LC1">' . number_format($DiLPoUno, 2) . '</td>
-                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoUno) . ' id="' . $idDias . 'LC4">' . number_format($DiPPoUno, 2) . '</td>
+                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoUno) . ' id="' . $idDias . 'LC4">$ ' . number_format($DiPPoUno, 2) . '</td>
                         <td class="font-weight-bold  text-start" ' . $corteDiarioGeneral->esNegativo($DiLPoDos) . ' id="' . $idDias . 'LC2">' . number_format($DiLPoDos, 2) . '</td>
-                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoDos) . ' id="' . $idDias . 'LC5">' . number_format($DiPPoDos, 2) . '</td>
+                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoDos) . ' id="' . $idDias . 'LC5">$ ' . number_format($DiPPoDos, 2) . '</td>
                         <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiLPoTres) . ' id="' . $idDias . 'LC3" >' . number_format($DiLPoTres, 2) . '</td>
-                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoTres) . ' id="' . $idDias . 'LC6" >' . number_format($DiPPoTres, 2) . '</td>
+                        <td class="font-weight-bold text-start" ' . $corteDiarioGeneral->esNegativo($DiPPoTres) . ' id="' . $idDias . 'LC6" >$ ' . number_format($DiPPoTres, 2) . '</td>
                         <td class="fw-bold text-start"' . $corteDiarioGeneral->esNegativo($DiToLitros) . '>' . number_format($DiToLitros, 2) . '</td>
-                        <td class="fw-bold  text-end" ' . $corteDiarioGeneral->esNegativo($DiToPesos) . '>' . number_format($DiToPesos, 2) . '</td>
+                        <td class="fw-bold  text-end" ' . $corteDiarioGeneral->esNegativo($DiToPesos) . '>$ ' . number_format($DiToPesos, 2) . '</td>
 
                         </tr>
 

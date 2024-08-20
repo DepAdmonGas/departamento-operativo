@@ -30,12 +30,13 @@ $idReporte = $_GET['idReporte'];
 				$concepto = $row_listaaceites['concepto'];
         $cantidad = $row_listaaceites['cantidad'];
         $precio = number_format($row_listaaceites['precio_unitario'], 2, '.', '');
-				if ($row_listaaceites['cantidad'] == 0) {
-					$cantidad = "";
+				
+		if ($row_listaaceites['cantidad'] == 0) {
+					$cantidad = 0;
 				}
 
 				if ($row_listaaceites['precio_unitario'] == 0) {
-					$precio = "";
+					$precio = 0;
 				}
 
 				$importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];
@@ -53,7 +54,7 @@ $idReporte = $_GET['idReporte'];
 					<td class="align-middle text-end no-hover" id="precioAL-<?= $idAceite; ?>">
 						<?= $precio; ?>
 					</td>
-					<td class="align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>"><?= number_format($importe, 2); ?></td>
+					<td class="align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>">$ <?= number_format($importe, 2); ?></td>
 				</tr>
 
 				<?php
@@ -61,10 +62,11 @@ $idReporte = $_GET['idReporte'];
 
 			?>
 			<tr>
-				<th class="text-start disabledOP" colspan="2">Total</th>
+				<th class="text-start disabledOP" colspan="2">TOTAL</th>
 				<td class="align-middle text-center disabledOP"><strong><?= $totalCantidad; ?></strong></td>
-				<td class="align-middle text-end disabledOP" colspan="2"><strong><?= number_format($totalPrecio, 2); ?></strong></td>
+				<td class="align-middle text-end disabledOP" colspan="2"><strong>$ <?= number_format($totalPrecio, 2); ?></strong></td>
 			</tr>
+
 		</tbody>
 	</table>
 </div>

@@ -23,10 +23,10 @@ $vencimiento = $row_lista_poliza['vencimiento'];
 
  <div class="modal-body">
 
-<h6 class="mb-1">Fecha de emisión:</h6>
+<h6 class="mb-1">* Fecha de emisión:</h6>
 <input class="form-control" type="date" id="EmisionP" value="<?=$emision?>" onchange="VencimientoPoliza()">
 
-<h6 class="mb-1 mt-3">Fecha de vencimiento:</h6>
+<h6 class="mb-1 mt-3">* Fecha de vencimiento:</h6>
 <div id="fechavencimiento" style="font-size: 1em"><input class="form-control" type="date" id="VencimientoP" value="<?=$vencimiento?>" ></div>
 
 

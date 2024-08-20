@@ -24,8 +24,15 @@ $numero_lista = mysqli_num_rows($result_lista);
  
   <div class="modal-body">
 
-    <div class="text-secondary">* Factura telcel:</div>
+    <div class="text-secondary mb-1">* Factura telcel:</div>
     <input type="file" class="form-control" id="Factura">
+
+<hr>
+
+<div class="text-end">
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarFactura(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+  </div>
 
 
   <div class="table-responsive">
@@ -82,10 +89,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
 
 
-  <div class="modal-footer">
-  <button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarFactura(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">
-  <span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-  </div>
+
 
 
 
