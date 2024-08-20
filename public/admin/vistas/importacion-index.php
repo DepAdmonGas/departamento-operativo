@@ -1,5 +1,5 @@
 <?php
-require('app/help.php');
+require 'app/help.php';
 
 if($Session_IDUsuarioBD == 353){
   $ocultarDivGrnl = "";
