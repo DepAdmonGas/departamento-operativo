@@ -618,15 +618,34 @@ $icon = "fa-solid fa-screwdriver-wrench";
  $icon = "fa-solid fa-gas-pump";    
 }  
 
-  if($id <> 8){
+
+if ($session_nompuesto == "Comercializadora") {
+
+  if($id == 6 || $id == 7){
   echo '  
   <li>
-    <a class="pointer" onclick="SelSeguro('.$id.')">
+    <a class="pointer" onclick="SelContrato('.$id.',\''.$GET_Categoria.'\')">
     <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
     '.$estacion.' 
     </a>
   </li>';
+  }
+
+}else{
+
+  if($id <> 8){
+    echo '  
+    <li>
+      <a class="pointer" onclick="SelSeguro('.$id.')">
+      <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$estacion.' 
+      </a>
+    </li>';
+  }
 }
+
+
+
   
   }
   ?> 

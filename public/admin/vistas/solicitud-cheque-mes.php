@@ -835,7 +835,7 @@ if($session_nompuesto != "Comercializadora"){
   <h4><?=$session_nomusuario;?></h4>
   </div>
 
-  </div>
+  </div> 
 
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">

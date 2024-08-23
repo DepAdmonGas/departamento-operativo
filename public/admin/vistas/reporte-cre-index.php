@@ -77,22 +77,51 @@ require('app/help.php');
   $id = $row['id'];
   $nombre = $row['nombre'];
 
-  if($id != 8 && $id != 10){
-  
-  echo '<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-1 mt-2">
-  <article class="plan card2 border-0 shadow position-relative" onclick="ReporteCre('.$id.')">
-         
-  <div class="inner">
-  <div class="row">
-  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-gas-pump"></i></span> </div>
-  <div class="col-10"><h5 class="text-white text-center">'.$nombre.'</h5></div>
-  </div>
- 
-  </div>
-  </article>
-  </div>'; 
+
+
+  if ($session_nompuesto == "Comercializadora") {
+
+    if ($id == 6 || $id == 7 ) {
+
+      echo '<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-1 mt-2">
+      <article class="plan card2 border-0 shadow position-relative" onclick="ReporteCre('.$id.')">
+             
+      <div class="inner">
+      <div class="row">
+      <div class="col-2"> <span class="pricing"><i class="fa-solid fa-gas-pump"></i></span> </div>
+      <div class="col-10"><h5 class="text-white text-center">'.$nombre.'</h5></div>
+      </div>
+     
+      </div>
+      </article>
+      </div>'; 
+    
+      }
+
+
+  }else{
+
+    if($id != 8 && $id != 10){
+
+      echo '<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-1 mt-2">
+      <article class="plan card2 border-0 shadow position-relative" onclick="ReporteCre('.$id.')">
+             
+      <div class="inner">
+      <div class="row">
+      <div class="col-2"> <span class="pricing"><i class="fa-solid fa-gas-pump"></i></span> </div>
+      <div class="col-10"><h5 class="text-white text-center">'.$nombre.'</h5></div>
+      </div>
+     
+      </div>
+      </article>
+      </div>'; 
+    
+      }
 
   }
+  
+
+
   
   }
   echo '</div>';

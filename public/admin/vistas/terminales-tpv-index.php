@@ -636,13 +636,33 @@ $('#Tpv').css('border', '2px solid #A52525');
     $id = $row_listaestacion['id'];
     $estacion = $row_listaestacion['nombre'];
 
-  echo '  
-  <li>
-    <a class="pointer" onclick="SelEstacion('.$id.')">
-    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-    '.$estacion.'
-    </a>
-  </li>';
+
+
+  if ($session_nompuesto == "Comercializadora") {
+
+    if($id == 6 || $id == 7){
+      echo '  
+      <li>
+        <a class="pointer" onclick="SelEstacion('.$id.')">
+        <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+        '.$estacion.'
+        </a>
+      </li>';
+    }
+  
+  }else{
+    echo '  
+    <li>
+      <a class="pointer" onclick="SelEstacion('.$id.')">
+      <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$estacion.'
+      </a>
+    </li>';
+  
+  }
+
+
+
 
     }
 

@@ -640,7 +640,6 @@ function ToSolicitud($idEstacion, $con)
         while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
           $id = $row_listaestacion['id'];
 
-
           if ($id == 8) {
             $estacion = "Otros Departamentos";
           } else {
@@ -655,13 +654,33 @@ function ToSolicitud($idEstacion, $con)
             $Nuevo = '';
           }
 
-          echo '  
-  <li>
-    <a class="pointer" onclick="SelEstacion(' . $id . ')">
-    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-    ' . $Nuevo . ' ' . $estacion . '
-    </a>
-  </li>';
+
+          if ($session_nompuesto == "Comercializadora") {
+
+            if($id == 6 || $id == 7){
+
+              echo '  
+              <li>
+                <a class="pointer" onclick="SelEstacion(' . $id . ')">
+                <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+                ' . $Nuevo . ' ' . $estacion . '
+                </a>
+              </li>';
+            }
+          
+          }else{
+        
+
+            echo '  
+            <li>
+              <a class="pointer" onclick="SelEstacion(' . $id . ')">
+              <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+              ' . $Nuevo . ' ' . $estacion . '
+              </a>
+            </li>';
+          
+          }
+        
 
         }
 
@@ -680,6 +699,14 @@ function ToSolicitud($idEstacion, $con)
           </a>
         </li>
 
+
+
+
+
+
+
+
+        
       </ul>
     </nav>
 
