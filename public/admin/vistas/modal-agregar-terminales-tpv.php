@@ -16,62 +16,62 @@ $idEstacion = $_GET['idEstacion'];
 
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-          <div class="mb-1 text-secondary">TPV:</div>
+          <div class="mb-1 text-secondary">* TPV:</div>
           <input type="text" class="form-control rounded-0" id="Tpv">  
           </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 
-          <div class="mb-1 text-secondary">No. Serie:</div>
+          <div class="mb-1 text-secondary">* No. Serie:</div>
           <input type="text" class="form-control rounded-0" id="Serie">
           </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 
-          <div class="mb-1 text-secondary">Modelo/Marca:</div>
+          <div class="mb-1 text-secondary">* Modelo/Marca:</div>
           <input type="text" class="form-control rounded-0" id="Modelomarca">
           </div>
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 
-          <div class="mb-1 text-secondary">No. Lote:</div>
+          <div class="mb-1 text-secondary">* No. Lote:</div>
           <input type="text" class="form-control rounded-0" id="NoLote">
           </div>
           
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-          <div class="mb-1 text-secondary">Tipo Conexión:</div>
+          <div class="mb-1 text-secondary">* Tipo Conexión:</div>
           <input type="text" class="form-control rounded-0" id="TipoC">
           </div>
         
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Numero afiliación:</div>
+        <div class="mb-1 text-secondary">* Numero afiliación:</div>
         <input type="text" class="form-control rounded-0" id="Afiliado">
         </div>
 
        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Telefono atención:</div>
+        <div class="mb-1 text-secondary">* Telefono atención:</div>
         <input type="text" class="form-control rounded-0" id="Telefono">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Activas:</div>
+        <div class="mb-1 text-secondary">* Activas:</div>
         <input type="text" class="form-control rounded-0" id="Estado">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Rollos:</div>
+        <div class="mb-1 text-secondary">* Rollos:</div>
         <input type="text" class="form-control rounded-0" id="Rollos">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Cargadores:</div>
+        <div class="mb-1 text-secondary">* Cargadores:</div>
         <input type="text" class="form-control rounded-0" id="Cargadores">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Pedestales en buen estado:</div>
+        <div class="mb-1 text-secondary">* Pedestales en buen estado:</div>
         <input type="text" class="form-control rounded-0" id="Pedestales">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Estado TPV'S:</div>    
+        <div class="mb-1 text-secondary">* Estado TPV'S:</div>    
           <select class="form-select" id="EstadoTPV">
             <option></option>
             <option>Nuevo</option>
@@ -81,13 +81,13 @@ $idEstacion = $_GET['idEstacion'];
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">No. de Impresiones:</div>
+        <div class="mb-1 text-secondary">* No. de Impresiones:</div>
         <input type="number" class="form-control rounded-0" id="NoImpresiones">
         </div>
 
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Tipo TPV'S:</div>
+        <div class="mb-1 text-secondary">* Tipo TPV'S:</div>
           <select class="form-select" id="TipoTPV">
             <option></option>
             <option>Tecla</option>

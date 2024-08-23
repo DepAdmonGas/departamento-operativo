@@ -405,6 +405,21 @@ $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded
 $Nuevo = ''; 
 }
 
+
+if ($session_nompuesto == "Comercializadora") {
+
+  if($id == 6 || $id == 7){
+    echo '  
+    <li>
+      <a class="pointer" onclick="MantenimientoP('.$id.')">
+      <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$Nuevo.' '.$estacion.'
+      </a>
+    </li>';
+  
+  }
+
+}else{
   echo '  
   <li>
     <a class="pointer" onclick="MantenimientoP('.$id.')">
@@ -412,6 +427,10 @@ $Nuevo = '';
     '.$Nuevo.' '.$estacion.'
     </a>
   </li>';
+
+}
+
+
 }
 
 ?> 

@@ -516,7 +516,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
             //---------- Pedidos (Admin) ----------//
         } else if ($partes_ruta[2] == 'reportes-anuales') {
-            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/solicitud-cheque/index.php';
+            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/index.php';
 
             //---------- Pedidos (Admin) ----------//
         }
@@ -537,7 +537,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         else if ($partes_ruta[2] == 'resumen-aceites') {
             $ruta_elegida = 'public/admin/vistas/resumen-aceites-ss.php';
         }else if($partes_ruta[2] == 'reporte-solicitud-cheque'){
-            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/solicitud-cheque/reporte.php';
+            $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/reporte.php';
         }
 
         //---------- RESUMEN MONEDEROS (SERVICIO SOCIAL)----------

@@ -2,31 +2,33 @@
 require('../../../app/help.php');
 
 $idEstacion = $_GET['idEstacion'];
-
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 
 if ($_GET['depu'] == 0) {
   $depu = $session_idpuesto;
 } else {
-  $depu = $_GET['depu'];
+  $depu = $_GET['depu']; 
 }
 
 if ($idEstacion == 8) {
   $sql_puesto = "SELECT tipo_puesto FROM tb_puestos WHERE id = '" . $depu . "' ";
   $result_puesto = mysqli_query($con, $sql_puesto);
+  
   while ($row_puesto = mysqli_fetch_array($result_puesto, MYSQLI_ASSOC)) {
     $estacion = $row_puesto['tipo_puesto'];
   }
 
-  $busqueda = 'depto = ' . $depu;
+   $busqueda = 'depto = ' . $depu;
+
+
 } else {
   $sql_listaestacion = "SELECT nombre, razonsocial FROM tb_estaciones WHERE id = '" . $idEstacion . "' ";
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
     $estacion = $row_listaestacion['nombre'];
   }
-  $busqueda = 'id_estacion = ' . $idEstacion;
+   $busqueda = 'id_estacion = ' . $idEstacion;
 }
 
 $sql_lista = "SELECT * FROM op_solicitud_cheque WHERE id_year = '" . $GET_year . "' AND id_mes = '" . $GET_mes . "' AND $busqueda ORDER BY fecha ";
