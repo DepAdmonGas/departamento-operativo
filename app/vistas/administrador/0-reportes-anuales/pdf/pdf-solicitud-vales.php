@@ -38,6 +38,7 @@ body, html {
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
 }
 
+
 .custom-table {
     width: 100%; /* Asegúrate de que la tabla ocupe el 100% del área disponible */
    
