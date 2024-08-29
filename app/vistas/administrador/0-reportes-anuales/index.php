@@ -44,8 +44,8 @@ require 'app/help.php';
 
   //---------- MODAL DE BUSCAR ----------//
   function ModalBuscar() {
-  $('#ModalBuscar').modal('show');
-  $('#DivContenidoBuscar').load('../app/vistas/administrador/0-reportes-anuales/modal-buscar.php');
+  $('#ModalDetalle').modal('show');
+  $('#DivContenidoDetalle').load('../app/vistas/administrador/0-reportes-anuales/modal-buscar.php');
   }
 
   function Buscar() {
@@ -58,7 +58,7 @@ require 'app/help.php';
   $('#Year').css('border', '');
 
   $('#Contenido').load('../app/vistas/administrador/0-reportes-anuales/lista-reporte.php?idEstacion=' + Estaciones + '&year=' + year);
-  $('#ModalBuscar').modal('hide');
+  $('#ModalDetalle').modal('hide');
  
   } else {
   $('#Year').css('border', '2px solid #A52525');
@@ -76,6 +76,52 @@ require 'app/help.php';
   window.location.reload();
   }
   });
+
+  function detalleSolicitudCheque(idEstacion,year){
+  $('#ModalDetalle2').modal('show');  
+  $('#DivContenidoDetalle2').load('../app/vistas/administrador/0-reportes-anuales/detalle/modal-detalle-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year);
+  }
+
+  function pdfRecibosNomina(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-recibo-nomina.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfRecibosNominaES(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-recibo-nomina-estaciones.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfSolicitudCheque(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-solicitud-cheque.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfSolicitudChequeES(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-solicitud-cheque-estaciones.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfConcentradoVentas(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-concentrado-ventas.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfConcentradoVentasES(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-concentrado-ventas-estaciones.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfResumenAceites(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-resumen-aceites.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfResumenAceitesES(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-resumen-aceites-estaciones.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfSolicitudVales(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-solicitud-vales.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
+  function pdfSolicitudValesES(idEstacion,year){
+  window.location.href = '../app/vistas/administrador/0-reportes-anuales/pdf/pdf-solicitud-vales-estaciones.php?idEstacion=' + idEstacion + '&year=' + year;
+  }
+
 
   </script>
   </head>
@@ -95,24 +141,20 @@ require 'app/help.php';
   </div>
   </div>
 
-
   <!---------- MODAL ---------->
-  <div class="modal fade" id="ModalBuscar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="ModalDetalle" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-  <div class="modal-content" id="DivContenidoBuscar">
+  <div class="modal-content" id="DivContenidoDetalle">
   </div>
   </div>
   </div>
-
 
   <!---------- MODAL (RIGHT)---------->  
-  <div class="modal right fade" id="ModalContenido" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal right fade" id="ModalDetalle2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl">
-  <div class="modal-content" id="DivContenido"></div>
+  <div class="modal-content" id="DivContenidoDetalle2"></div>
   </div>
   </div>
-
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

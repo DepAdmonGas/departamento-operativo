@@ -43,7 +43,7 @@ require ('app/help.php');
     function ModeloNegocio() { window.location.href = "modelo-negocio"; }
     function ControlVolumetrico() { window.location.href = "administracion/control-volumetrico"; }
     function ProcedimientosAdmin() { window.location.href = "administracion/procedimientos"; }
-    function reportes() { window.location.href = "administracion/reportes-anuales" }
+    function reportes() { window.location.href = "administracion/reporte-anual" }
     //function CSFAdmin(){window.location.href = "administracion/constancia-situacion-fiscal";}
     function ReportesDireccion() { window.location.href = "administracion/reportes"; }
 

@@ -515,7 +515,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/procedimientos/vistas/procedimientos-admin-index.php';
 
             //---------- Pedidos (Admin) ----------//
-        } else if ($partes_ruta[2] == 'reportes-anuales') {
+        } else if ($partes_ruta[2] == 'reporte-anual') {
             $ruta_elegida = 'app/vistas/administrador/0-reportes-anuales/index.php';
 
             //---------- Pedidos (Admin) ----------//
@@ -984,7 +984,9 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_year = $partes_ruta[2];
             $GET_mes = $partes_ruta[3];
             $ruta_elegida = 'public/corte-diario/vistas/recibo-nomina-mes.php';
-        } else if ($partes_ruta[2] == 'importacion-inventarios-diarios') {
+    
+
+    }else if ($partes_ruta[2] == 'importacion-inventarios-diarios') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/admin/vistas/importacion-inventarios-diarios-nuevo.php';
         } else if ($partes_ruta[2] == 'importacion-analisis-compra') {
@@ -1018,9 +1020,12 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         } else if ($partes_ruta[2] == 'orden-compra-detalle') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/orden-compra/vistas/orden-compra-detalle.php';
+      
         } else if ($partes_ruta[2] == 'orden-compra-descargar') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/orden-compra/vistas/orden-compra-descargar.php';
+
+
         } else if ($partes_ruta[2] == 'orden-mantenimiento-nuevo') {
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/orden-mantenimiento/vistas/orden-mantenimiento-nuevo.php';
@@ -1156,6 +1161,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/acuses-recepcion/vistas/acuses-recepcion-editar.php';
         }
 
+       
+
 
 
     } else if (count($partes_ruta) == 5) {
@@ -1241,7 +1248,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_year = $partes_ruta[3];
             $GET_mes = $partes_ruta[4];
             $ruta_elegida = 'public/admin/vistas/importacion-analisis-compra-detalle.php';
-        }
+        } 
  
         /* ----- OCULTAR RUTA FORMATO DE PRECIOS 
 
@@ -1298,7 +1305,9 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_mes = $partes_ruta[3];
             $GET_semana = $partes_ruta[4];
             $ruta_elegida = 'public/corte-diario/vistas/recibo-nomina-semana.php';
+        
         }
+
 
 
     } else if (count($partes_ruta) == 6) {
