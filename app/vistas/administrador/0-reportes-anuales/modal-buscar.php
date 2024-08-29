@@ -23,7 +23,7 @@ $idEstacionOP = $row_estaciones['id'];
 $nombreES = $row_estaciones['localidad']; 
 echo '<option value="'.$idEstacionOP.'">'.$nombreES.'</option>';
 }
-echo '<option value="0">Todas</option>';
+echo '<option value="0">Todas las estaciones</option>';
 ?>
 </select>
 

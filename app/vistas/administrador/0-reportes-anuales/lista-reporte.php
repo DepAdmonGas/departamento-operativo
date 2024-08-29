@@ -4,16 +4,23 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 
 $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
+$ocultarCard = "";
 
 if($idEstacion == 0){
 $Estacion = '';
-$consulta = '';
+$estaciones = [1, 2, 3, 4, 5, 6, 7, 14];
+$consulta = "";
+
 }else{
 $Estacion = '('.$datosEstacion['localidad'].'), ';
-$consulta = "AND op_solicitud_cheque.id_estacion = $idEstacion";
+$estaciones = [$idEstacion];
+$consulta = "AND op_recibo_nomina_v2.id_estacion = $idEstacion";
 
+if($idEstacion == 6){
+$ocultarCard = "d-none";
 }
 
+}
 
 ?> 
 
@@ -63,24 +70,46 @@ cursor: auto;
 
 <div class="row ">
 
-<!----- 1. Corte Diario ----->
+<!----- 1. Corte Diario (Resumen Aceites) ----->
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2">    
 <section class="card3 plan2 shadow-lg">
 <div class="inner2">
 
-<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>detalle-corte-diario.png" draggable="false"/></div>
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>aceites-anual.png" draggable="false"/></div>
 
 <div class="product-info">
 <p class="mb-0 pb-0">Reporte Anual  <?=$year?></p>
-<h2>Corte Diario</h2>
-<!-- Botón de ejemplo -->
-<button type="button" class="btn btn-labeled2 btn-success ms-3 mt-2 mb-1">
-<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<h2 class="mb-2">Resumen de Aceites</h2>
 
-<button type="button" class="btn btn-labeled2 btn-success ms-3 mt-2 mb-1">
+<div class="row justify-content-center">
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+
+<?php
+if($idEstacion == 0){
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfResumenAceites(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}else{
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfResumenAceitesES(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}
+?>
+
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-reporte-aceites.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
 <span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
-<!-- O si prefieres un enlace -->
-<!-- <a href="#" class="btn btn-primary mt-2">Ver Detalles</a> -->
+</a>
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -88,8 +117,71 @@ cursor: auto;
 </div>
 
 
+<!----- 2. Corte Diario (Concentrado de Ventas) ----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2">    
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
 
-<!----- 2. Solicitud de Cheque ----->
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>ventas-anuales.png" draggable="false"/></div>
+
+<div class="product-info">
+<p class="mb-0 pb-0">Reporte Anual <?=$year?></p>
+<h2 class="mb-2">Concentrado de Ventas</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+
+<?php
+if($idEstacion == 0){
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfConcentradoVentas(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+
+<?php
+}else{
+?>
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfConcentradoVentasES(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}
+?>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+
+<?php
+if($idEstacion == 0){
+?>
+
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-concentrado-ventas.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
+<span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
+</a>
+
+<?php
+}else{
+?>
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-concentrado-ventas-estaciones.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
+<span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
+</a>
+<?php
+}
+?>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+</div>
+ 
+
+<!----- 3. Solicitud de Cheque ----->
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2">    
 <section class="card3 plan2 shadow-lg">
 <div class="inner2">
@@ -100,124 +192,141 @@ cursor: auto;
 
 <div class="product-info">
 <p class="mb-0 pb-0">Reporte Anual <?=$year?></p>
-<h2 class="mb-3">Solicitud Cheque</h2>
-<!-- Botón de ejemplo -->
-<button type="button" class="btn btn-labeled2 btn-success ms-3">
-<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<h2 class="mb-2">Solicitud Cheque</h2>
 
-<button type="button" class="btn btn-labeled2 btn-success ms-3">
+<div class="row justify-content-center">
+
+<!--
+<div class="col-12">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="detalleSolicitudCheque(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-eye"></i></span>Detalle del reporte</button>
+</div>
+-->  
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<?php
+if($idEstacion == 0){
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfSolicitudCheque(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}else{
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfSolicitudChequeES(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}
+?>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-solicitud-cheque.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
 <span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
-<!-- O si prefieres un enlace -->
-<!-- <a href="#" class="btn btn-primary mt-2">Ver Detalles</a> -->
+</a>
+</div>
+
+</div>
+
 </div>
 
 </div>
 </section>
 </div>
+ 
+
+<!----- 4. Recibo de nomina ----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarCard?>">    
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image">
+<img src="<?=RUTA_IMG_ICONOS;?>nomina.png" draggable="false"/>
+</div>
+
+<div class="product-info">
+<p class="mb-0 pb-0">Reporte Anual <?=$year?></p>
+<h2 class="mb-2">Recibos de Nomina</h2>
+
+<div class="row justify-content-center">
 
 
-
-<div class="col-12 mt-4">
-
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
 <?php
-
-$num = 1;
-
-$sql_lista = "
-SELECT 
-  op_solicitud_cheque.id_estacion, 
-  CASE 
-      WHEN op_solicitud_cheque.id_estacion = 8 THEN tb_puestos.tipo_puesto
-      ELSE tb_estaciones.nombre
-  END AS nombre_estacion,  
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 1 THEN op_solicitud_cheque.monto ELSE 0 END) AS Ene,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 2 THEN op_solicitud_cheque.monto ELSE 0 END) AS Feb,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 3 THEN op_solicitud_cheque.monto ELSE 0 END) AS Mar,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 4 THEN op_solicitud_cheque.monto ELSE 0 END) AS Abr,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 5 THEN op_solicitud_cheque.monto ELSE 0 END) AS May,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 6 THEN op_solicitud_cheque.monto ELSE 0 END) AS Jun,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 7 THEN op_solicitud_cheque.monto ELSE 0 END) AS Jul,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 8 THEN op_solicitud_cheque.monto ELSE 0 END) AS Ago,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 9 THEN op_solicitud_cheque.monto ELSE 0 END) AS Sep,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 10 THEN op_solicitud_cheque.monto ELSE 0 END) AS Oct,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 11 THEN op_solicitud_cheque.monto ELSE 0 END) AS Nov,
-  SUM(CASE WHEN op_solicitud_cheque.id_mes = 12 THEN op_solicitud_cheque.monto ELSE 0 END) AS Dic,
-  SUM(op_solicitud_cheque.monto) AS TotalAnual
-FROM op_solicitud_cheque
-LEFT JOIN tb_estaciones ON op_solicitud_cheque.id_estacion = tb_estaciones.id
-LEFT JOIN tb_puestos ON op_solicitud_cheque.depto = tb_puestos.id AND op_solicitud_cheque.id_estacion = 8
-WHERE op_solicitud_cheque.id_year = ".$year."
-AND op_solicitud_cheque.status != 0 ".$consulta."
-GROUP BY op_solicitud_cheque.id_estacion, nombre_estacion
-ORDER BY 
-  CASE 
-      WHEN op_solicitud_cheque.id_estacion = 8 THEN 1 
-      ELSE 0 
-  END, 
-  op_solicitud_cheque.id_estacion ASC";
-
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-
-echo '<div class="table-responsive">';
-echo '<table class="custom-table" width="100%">';
-
-echo '<thead class="tables-bg">
-    <tr>
-    <th>No.</th>
-    <th>Empresa</th>
-    <th>Ene</th>
-    <th>Feb</th>
-    <th>Mar</th>
-    <th>Abr</th>
-    <th>May</th>
-    <th>Jun</th>
-    <th>Jul</th>
-    <th>Ago</th>
-    <th>Sep</th>
-    <th>Oct</th>
-    <th>Nov</th>
-    <th>Dic</th>
-    <th>Total Anual</th>
-    </tr>
-    </thead>';
-
-    echo '<tbody class="bg-white">';
-
-while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-
-  echo "<tr>
-
-  <td>".$num."</td>
-  <td>" . $row_lista["nombre_estacion"] . "</td>
-  <td>$ " . number_format($row_lista["Ene"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Feb"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Mar"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Abr"], 2) . "</td>
-  <td>$ " . number_format($row_lista["May"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Jun"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Jul"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Ago"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Sep"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Oct"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Nov"], 2) . "</td>
-  <td>$ " . number_format($row_lista["Dic"], 2) . "</td>
-  <td>$ " . number_format($row_lista["TotalAnual"], 2) . "</td>
-</tr>";
-
-
-$num++;
-}
-echo '</tbody>';
-echo '</table>';
-
-echo '</div>';
-
-
+if($idEstacion == 0){
 ?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfRecibosNomina(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}else{
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfRecibosNominaES(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}
+?>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-recibo-nomina.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
+<span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
+</a>
+</div>
 
 </div>
 
+</div>
+
+</div>
+</section>
+</div>
+ 
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2">    
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image">
+<img src="<?=RUTA_IMG_ICONOS;?>vales-tb.png" draggable="false"/>
+</div>
+
+<div class="product-info">
+<p class="mb-0 pb-0">Reporte Anual <?=$year?></p>
+<h2 class="mb-2">Solicitud de Vales</h2>
+
+<div class="row justify-content-center">
+
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<?php
+if($idEstacion == 0){
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfSolicitudVales(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}else{
+?>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="pdfSolicitudValesES(<?=$idEstacion?>,<?=$year?>)">
+<span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Descargar PDF</button>
+<?php
+}
+?>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mt-2">
+<a href="../app/vistas/administrador/0-reportes-anuales/excel/excel-solicitud-vales.php?idEstacion=<?=$idEstacion?>&year=<?=$year?>" download>
+<button type="button" class="btn btn-labeled2 btn-success ">
+<span class="btn-label2"><i class="fa-regular fa-file-excel"></i></span>Descargar Excel</button>
+</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</section>
+</div>
 
 
 </div>
