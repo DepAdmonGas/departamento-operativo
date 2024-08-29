@@ -30,7 +30,7 @@ if ($idEstacion == 0) {
 // Crear el objeto Spreadsheet
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$sheet->setTitle('Reporte Anual '.$nombreES.' '.$year.'');
+$sheet->setTitle('Reporte Anual '.$year.'');
 
 // Encabezado de columnas
 $sheet->setCellValue('A1', 'No.');

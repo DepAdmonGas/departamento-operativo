@@ -28,7 +28,7 @@ if ($idEstacion == 0) {
 // Crear una nueva hoja de cálculo de Excel
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$sheet->setTitle('Reporte Anual '.$nombreES.' '.$year.'');
+$sheet->setTitle('Reporte Anual '.$year.'');
 
 // Escribir los encabezados de las columnas en la primera fila
 $arrayHead = [
