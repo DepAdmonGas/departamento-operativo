@@ -80,7 +80,7 @@ $html = '<html>
         position: relative;
         z-index: 1;
         width: calc(100% - 30px);
-        height: 100%;
+        height: 90%;
         margin: 0 auto;
         padding: 40px;
         box-sizing: border-box;

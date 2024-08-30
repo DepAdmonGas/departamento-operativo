@@ -64,7 +64,7 @@ body, html {
     position: relative;
     z-index: 1;
     width: calc(100% - 40px); /* Ajusta el ancho de acuerdo al padding */
-    height: 100%;
+    height: 90%;
     margin: 0 auto; /* Centra el contenido horizontalmente */
     padding: 40px; /* Aquí puedes ajustar el padding */
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
@@ -210,7 +210,7 @@ body, html {
 
 </head><body>';
 
-
+$ultimoProducto = end($productos); // Obtén el último producto de la lista
 foreach ($productos as $producto) {
 
     $html .= '<div class="content-wrapper">';
@@ -223,7 +223,10 @@ foreach ($productos as $producto) {
     // Agregar tabla de pesos
     $html .= '<h2>Reporte Anual'.$nombreES.' '.$year.' <br> Concentrado de Ventas (Pesos) <br> Producto: ' . $producto . ' </h2>';
     $html .= generarTablaProducto($producto, $estaciones, $meses, $year, $con, $ClassHerramientasDptoOperativo, 'Pesos');
-    $html .= '</div> <div class="page-break"></div>'; // Salto de página después de los pesos
+     // Solo agregar el salto de página si no es el último producto
+     if ($producto !== $ultimoProducto) {
+        $html .= '<div class="page-break"></div>'; // Salto de página después de los pesos
+    }
 }
 
 $html .= '</body></html>';

@@ -32,7 +32,7 @@ body, html {
     position: relative;
     z-index: 1;
     width: calc(100% - 40px); /* Ajusta el ancho de acuerdo al padding */
-    height: 100%;
+    height: 90%;
     margin: 0 auto; /* Centra el contenido horizontalmente */
     padding: 40px; /* Aquí puedes ajustar el padding */
     box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
