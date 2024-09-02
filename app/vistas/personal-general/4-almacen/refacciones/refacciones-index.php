@@ -1,7 +1,9 @@
 <?php
 require 'app/vistas/contenido/header.php';
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 <script type="text/javascript">
 
@@ -13,8 +15,23 @@ require 'app/vistas/contenido/header.php';
   });
 
   function ListaRefacciones() {
-    //$('#ListaRefacciones').load('public/corte-diario/vistas/lista-reporte-refacciones.php');
-    $('#ListaRefacciones').load('app/vistas/contenido/4-almacen/refacciones/lista-reporte.php');
+    let targets;
+    targets = [5,6,7];
+
+    $('#ListaRefacciones').load('app/vistas/contenido/4-almacen/refacciones/lista-reporte.php', function () {
+      $('#tabla_refacciones').DataTable({
+        "language": {
+          "url": "<?= RUTA_JS2 ?>/es-ES.json"
+        },
+        "order": [[0, "desc"]],
+        "lengthMenu": [25, 50, 75, 100],
+        "columnDefs": [
+          { "orderable": false, "targets": targets },
+          { "searchable": false, "targets": targets }
+        ]
+      });
+    });
+
   }
 
   function Agregar() {
@@ -313,6 +330,11 @@ require 'app/vistas/contenido/header.php';
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 
 </body>
 

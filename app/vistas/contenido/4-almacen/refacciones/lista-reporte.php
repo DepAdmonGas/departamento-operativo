@@ -36,7 +36,7 @@ function Refaccion($idrefaccion, $con)
 ?>
 
 <div class="table-responsive">
-    <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+    <table id="tabla_refacciones" class="custom-table mt-2" style="font-size: .8em;" width="100%">
         <thead class="navbar-bg">
             <tr>
                 <th class="text-center align-middle tableStyle font-weight-bold">#</th>
