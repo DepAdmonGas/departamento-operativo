@@ -53,6 +53,22 @@
 </section>
 </div>
 
+<!----- 3. Formatos (V2)----->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="Formatos()">    
+<section class="card3 plan2 shadow-lg">
+<div class="inner2">
+  
+<div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>formatos.png" draggable="false"/></div>
+  
+<div class="product-info">
+<p class="mb-0 pb-0">Dirección de Operaciones</p>
+<h2>Formatos</h2>
+</div>
+
+</div>
+</section>
+</div>
+
 
 <!--  3. Formatos (V1)
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-2 mb-1">
