@@ -25,12 +25,8 @@ function Puesto($idPuesto, $con)
 }
 
 ?>
-<div class="modal-header">
-	<h5 class="modal-title">Formulario alta de personal <?= $estacion; ?></h5>
-	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
 
-<div class="modal-body">
+	<h5 class="modal-title">Formulario alta de personal <?= $estacion; ?></h5>
 
 	<div class="row">
 
@@ -259,10 +255,6 @@ function Puesto($idPuesto, $con)
 		</div>
 	</div>
 
-</div>
 
-
-<div class="modal-footer">
 	<button type="button" class="btn btn-success" onclick="Finalizar(<?= $idReporte; ?>,<?= $idEstacion; ?>)">Finalizar alta
 		de personal</button>
-</div>
