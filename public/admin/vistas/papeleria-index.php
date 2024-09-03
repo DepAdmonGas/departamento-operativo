@@ -653,22 +653,6 @@ function ToSolicitud($idEstacion, $con)
           } else {
             $Nuevo = '';
           }
-
-
-          if ($session_nompuesto == "Comercializadora") {
-
-            if($id == 6 || $id == 7){
-
-              echo '  
-              <li>
-                <a class="pointer" onclick="SelEstacion(' . $id . ')">
-                <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-                ' . $Nuevo . ' ' . $estacion . '
-                </a>
-              </li>';
-            }
-          
-          }else{
         
 
             echo '  
@@ -679,7 +663,7 @@ function ToSolicitud($idEstacion, $con)
               </a>
             </li>';
           
-          }
+          
         
 
         }
