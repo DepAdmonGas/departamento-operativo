@@ -12,7 +12,7 @@ ListaMerma(<?=$Session_IDEstacion?>);
 
 function ListaMerma(idEstacion) {
 let targets;
-targets = [4,5];
+targets = [4];
 
 $('#Contenido').load('app/vistas/contenido/3-importacion/formato-descarga-merma/contenido-merma.php?idEstacion=' + idEstacion, function () {
 $('#tabla_merma').DataTable({

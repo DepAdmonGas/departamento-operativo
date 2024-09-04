@@ -16,7 +16,7 @@ require 'app/vistas/contenido/header.php';
 
   function ListaRefacciones() {
     let targets;
-    targets = [5,6,7];
+    targets = [5];
 
     $('#ListaRefacciones').load('app/vistas/contenido/4-almacen/refacciones/lista-reporte.php', function () {
       $('#tabla_refacciones').DataTable({
