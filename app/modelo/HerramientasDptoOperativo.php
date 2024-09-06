@@ -195,6 +195,26 @@ class HerramientasDptoOperativo extends Exception
 
     return $tipo_puesto;
     }
+
+
+    function obtenerPuestoPersonal($idPuesto)
+    {
+    $puesto = "";
+    $sql = "SELECT puesto FROM op_rh_puestos WHERE id = ?";
+    $consulta = $this->con->prepare($sql);
+
+    if (!$consulta) {
+    throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+    }
+
+    $consulta->bind_param('i', $idPuesto);
+    $consulta->execute();
+    $consulta->bind_result($puesto);
+    $consulta->fetch();
+    $consulta->close();
+
+    return $puesto;
+    }
     
     /* ---------- CONVERTIR UNIDADES  ----------*/
     private static $UNIDADES = [

@@ -49,7 +49,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   $(".LoaderPage").fadeOut("slow");
 
   });  
- 
+  
 function Regresar(){window.history.back();}
 function Organigrama(){window.location.href = "recursos-humanos-organigrama";}
 function Formatos(){window.location.href = "recursos-humanos-formatos";}
