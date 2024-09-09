@@ -119,19 +119,22 @@ return $numero_lista = mysqli_num_rows($result_lista);
   function EditFormulario(idEstacion,idReporte,Formato){
 
   if(Formato == 1){  
-  $('#Modal').modal('show'); 
   window.location.href = "recursos-humanos-formulario-alta-personal/" + idEstacion + '/' + idReporte; 
   }
-
 
   }
 
 
   function Firmar(idEstacion,idFormato){
   window.location.href = "recursos-humanos-formatos-firma/" + idFormato; 
-
   }
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>

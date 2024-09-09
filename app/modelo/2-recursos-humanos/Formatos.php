@@ -1,7 +1,7 @@
 <?php
 require "../../bd/inc.conexion.php";
 require "../../modelo/httpPHPAltiria.php";
-
+ 
 class Formatos extends Exception{
     private $classConexionBD;
     private $con;
@@ -81,15 +81,16 @@ class Formatos extends Exception{
     $result->close();
     return $resultado;
     }  
-
-
-
-
+ 
     //---------- fIRMA DE FORMATOS ----------//
     public function firmaFormatos($idReporte, $idUsuario, $tipoFirma, $img): bool
     {
     $resultado = true;
+    $status = 3;
+    if ($tipoFirma == "A") {
     $status = 1;
+    }
+
     $aleatorio = uniqid();
     $imagenGuardar = str_replace('data:image/png;base64,', '', $img);
     $fileData = base64_decode($imagenGuardar);
@@ -224,7 +225,119 @@ class Formatos extends Exception{
   }
 
 
+  public function firmarMartin($tipoFirma, $idFormato, $idUsuario, $token): bool
+  {
+      $resultado = true;
+      $localidad = 0;
+      $formato = 0;
+      $estado = 3;
+      if ($tipoFirma == "B") {
+      $estado = 2;
+      }
 
+      $sql = "SELECT id_localidad, formato FROM op_rh_formatos WHERE id = ?";
+      $result = $this->con->prepare($sql);
+      if (!$result):
+          throw new Exception("Error al preparar la consulta: " . $this->con->error);
+      endif;
+      $result->bind_param("i", $idFormato);
+      if (!$result->execute()):
+          $resultado = false;
+          throw new Exception("Error al ejecutar la consulta: " . $result->error);
+      endif;
+      $result->bind_result($localidad, $formato);
+      $result->fetch();
+      $result->close();
+      // Preparar la consulta
+      $sql2 = "SELECT * FROM op_rh_formatos_token WHERE id_formato = ? AND id_usuario = ? AND token = ? ORDER BY id ASC LIMIT 1";
+      $stmt2 = $this->con->prepare($sql2);
+
+      if (!$stmt2) {
+        $resultado = false;
+          throw new Exception("Error al ejecutar la consulta: " . $stmt2->error);
+      }
+      $stmt2->bind_param("iii", $idFormato, $idUsuario, $token);
+
+      $stmt2->execute();
+      $result2 = $stmt2->get_result();
+      $numero = $result2->num_rows;
+      $stmt2->close();
+
+    if ($numero == 1):
+    if ($formato == 1 && $tipoFirma == "B") {
+    $sql_lista = "SELECT * FROM op_rh_formatos_alta WHERE id_formulario = ?";
+    $stmt_lista =  $this->con->prepare($sql_lista);
+    $stmt_lista->bind_param("i", $idFormato);
+    $stmt_lista->execute();
+    $result_lista = $stmt_lista->get_result();
+    
+    while ($row_lista = $result_lista->fetch_assoc()) {
+    $idEstacion = $row_lista['id_estacion'];
+    $fecha = $row_lista['fecha_ingreso'];
+    $nombre = $row_lista['nombre'];
+    $puesto = $row_lista['puesto'];
+    $salario = $row_lista['sd'];
+
+    $this->altaPersonal($idEstacion, $fecha, $nombre, $puesto, $salario);
+    }
+    }
+
+    $this->actualizaEstatus($estado,$idFormato,$tipoFirma,$idUsuario);
+
+    else:
+    $resultado = false;
+    endif;
+    return $resultado;
+  }
+
+  private function altaPersonal($estacion, $fecha, $nombre, $puesto, $salario) : bool
+  {
+      $resultado = true;
+      $estado = 1;
+      $sql_insert = "INSERT INTO op_rh_personal (id_estacion,fecha_ingreso,nombre_completo,puesto,sd,estado)
+      VALUES  (?,?,?,?,?,?)";
+      $result = $this->con->prepare($sql_insert);
+      if (!$result):
+          throw new Exception("Error al preparar la consulta \n" . $this->con->error);
+      endif;
+      $result->bind_param("issidi", $estacion,$fecha,$nombre,$puesto,$salario,$estado);
+      if (!$result->execute()):
+          $resultado = false;
+          throw new Exception("Error al ejecutar la consulta \n" . $result->error);
+      endif;
+      $result->close();
+      return $resultado;
+  } 
+
+  private function actualizaEstatus($estado,$idFormato,$tipoFirma,$idUsuario): bool{
+      $resultado = true;
+      $firma = "Firma: " . bin2hex(random_bytes(64)) . "." . uniqid();
+      $sql = "UPDATE op_rh_formatos SET status = ? WHERE id = ? ";
+      $result = $this->con->prepare($sql);
+      if(!$result):
+          throw new Exception("Error al preparar la consulta \n" . $this->con->error);
+      endif;
+      $result->bind_param("ii",$estado,$idFormato);
+      if (!$result->execute()):
+          $resultado = false;
+          throw new Exception("Error al ejecutar la consulta \n" . $result->error);
+      endif;
+      $result->close();
+
+      $sql2 = "INSERT INTO op_rh_formatos_firma (id_formato,id_usuario,tipo_firma,firma) VALUES (?,?,?,?)";
+      $result2 = $this->con->prepare($sql2);
+      if(!$result2):
+          throw new Exception("Error al preparar la consulta \n" . $this->con->error);
+      endif;
+      $result2->bind_param("iiss",$idFormato,$idUsuario,$tipoFirma,$firma);
+      if (!$result2->execute()):
+          $resultado = false;
+          throw new Exception("Error al ejecutar la consulta \n" . $result2->error);
+      endif;
+
+      $result2->close();
+      return $resultado;
+  }
 
 
 

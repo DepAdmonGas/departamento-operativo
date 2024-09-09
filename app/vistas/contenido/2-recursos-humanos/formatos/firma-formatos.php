@@ -36,13 +36,14 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
- 
+  <script type="text/javascript" src="<?=RUTA_JS?>signature_pad.js"></script>
+
   <script type="text/javascript">
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
@@ -73,9 +74,6 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
     },
     success:  function (response) {
-
-        console.log(response)
-
     $(".LoaderPage").hide();
 
     if(response == 1){
@@ -89,55 +87,109 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
     } 
 
-
     //---------- FIRMAR FORMATO TOKEN ----------//
-    
-
     function AutorizacionFormato(idFormato,tipoFirma){
-
     var TokenValidacion = $('#TokenValidacion').val();
 
     var parametros = {
     "idFormato" : idFormato,
+    "idUsuario" : <?=$Session_IDUsuarioBD?>,  
     "tipoFirma" : tipoFirma,
-    "TokenValidacion" : TokenValidacion
+    "TokenValidacion" : TokenValidacion,
+    "accion" : 'firmar-formato-martin'
     };
 
     if(TokenValidacion != ""){
     $('#TokenValidacion').css('border',''); 
-
     $(".LoaderPage").show();
 
     $.ajax({ 
     data:  parametros,
-    url:   '../public/recursos-humanos/modelo/firmar-formato.php',
+    url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
     type:  'post', 
     beforeSend: function() {
+
     },
     complete: function(){ 
 
     },
     success:  function (response) {
 
+      console.log(response)
     $(".LoaderPage").hide();
-
     if(response == 1){
-
     $('#ModalFinalizado').modal('show'); 
 
     }else{
     $('#ModalError').modal('show');
-    alertify.error('Error al firmar');
+    alertify.error('Error al firmar formato');
     }
 
     }
     });
 
     }else{
-    $('#TokenValidacion').css('border','2px solid #A52525'); 
+    alertify.error('Falta ingresar el token');
     }
 
     }
+
+
+
+  //---------- FINALIZAR ALTA PERSONAL ----------//
+  function Finalizar(idReporte, tipoFirma) {
+  let signatureBlank = signaturePad.isEmpty();
+  var ctx = document.getElementById("canvas");
+  var image = ctx.toDataURL();
+  document.getElementById('base64').value = image;
+  var base64 = $('#base64').val();
+  var canvas = $('#canvas').val();
+
+  if (!signatureBlank) {
+
+  var data = new FormData();
+  var url = '../app/controlador/2-recursos-humanos/controladorFormatos.php';
+
+  data.append('idReporte', idReporte);
+  data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
+  data.append('tipoFirma', tipoFirma);
+  data.append('base64', base64);
+  data.append('accion', 'finalizar-formato-firma');  
+
+  alertify.confirm('',
+  function () {
+
+  $(".LoaderPage").show();
+
+  $.ajax({
+  url: url,
+  type: 'POST',
+  contentType: false,
+  data: data,
+  processData: false,
+  cache: false 
+  }).done(function (data) {
+
+
+  if (data == 1) {
+  history.go(-1);
+  } else {
+  $(".LoaderPage").hide();
+  alertify.error('Error al finalizar');
+  }
+
+  });
+
+  },
+  function () {
+
+  }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar el formato?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+
+  } else {
+  alertify.error('Falta agregar la firma');
+  }
+
+  }
 
   </script>
   </head>
@@ -249,7 +301,6 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
 
   <!---------- fIRMAS DE ELABORACION DEL FORMATO ---------->
-
   <div class="col-12">
   <div class="row">
 
@@ -275,9 +326,9 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     
   }else if($row_firma['tipo_firma'] == "C"){
   $TipoFirma = "NOMBRE Y FIRMA DE QUIEN VERIFICA";
-  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }
-  
+    
   echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
@@ -300,9 +351,12 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   ?>
 
 
-<?php 
+
+  <!----- FIRMA LIC. MARTIN ----->
+  <?php 
   if($status == 1){
-  if($Session_IDUsuarioBD == 2){ ?>
+  if($Session_IDUsuarioBD == 2){ 
+  ?>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
@@ -353,648 +407,78 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   </div>
   </div>
 
-<?php 
-}else if($Session_IDUsuarioBD == 2){
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-   ¡Aun no es posible firmar! <br> La persona que autoriza debe finalizar el formato.
-</div></div>';
-}else{
-  echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-   ¡No cuentas con los permisos para firmar!
-</div></div>';
-}
-}
-
-?>
-
-
-
-
-  </div>
-  </div>
-
-
-  </div>
-  </div>
-
-  <div class="col-12 mb-3">
-  <div class="col-12 cardAG p-3 container">
-    
-
-
-  <!---------- FORMULARIOS DE FIRMAS ---------->
-  <div class="col-12">
- 
-
-<?php  if($formato == 2){ ?>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-2">
-<tbody>
-<tr>
-  <td>Ref. Alta y baja de personal</td>
-  <td rowspan="3" class="text-center align-middle" width="250"><b>REESTRUCTURACIÓN DE PERSONAL.</b></td>
-  <td class="align-middle">Sucursal:</td>
-  <td class="align-middle">Grupo Admongas</td>
-</tr>
-<tr>
-  <td class="align-middle">Departamento de Recursos Humanos</td>
-  <td class="align-middle">Fecha:</td>
-  <td class="align-middle"><?=FormatoFecha($explode[0]).', '.$HoraFormato;?></td>
-</tr>
-<tr>
-  <td class="align-middle">Depto.Operativo</td>
-  <td class="align-middle">No. De control:</td>
-  <td class="align-middle"><b>010</b></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<hr>
-
-<div class="row">
-<div class="col-12 mb-2">
-
-<b>Lic. Alejandro Guzmán</b></br>
-<b>Departamento de Recursos Humanos</b>
-
-<div class="mt-2">Buenos días por medio del presente solicito de su amable apoyo para realizar las siguientes altas de personal:</div>
-
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3">
-<thead class="tables-bg">
-  <tr>
-    <th class="align-middle text-center" width="200">Nombre del empleado</th>
-    <th class="align-middle text-center">Cambio a</th>
-    <th class="align-middle text-end">Salario diario</th>
-    <th class="align-middle text-center">A partir de</th>
-    <th class="align-middle text-center">Detalle</th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-$sql_lista = "SELECT * FROM op_rh_formatos_restructuracion WHERE id_formulario = '".$GET_idFormato."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-
-if ($numero_lista > 0) {
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-
-$personal = NombrePersonal($row_lista['id_personal'],$con);
-$estacion = NombreEstacion($row_lista['id_estacion'],$con);
-
-echo '<tr>';
-echo '<td class="align-middle text-center">'.$personal['nombre'].'</td>';
-echo '<td class="align-middle">'.$estacion.'</td>';
-echo '<td class="align-middle text-end">'.number_format($row_lista['sd'],2).'</td>';
-echo '<td class="align-middle">'.FormatoFecha($row_lista['fecha']).'</td>';
-echo '<td class="align-middle">'.$row_lista['detalle'].'</td>';
-echo '</tr>';
-}
-}else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
-<div class="mt-3 text-center">
-Sin más por el momento quedo de usted.
-</div>
-
-<hr>
-
-
-<?php }else if($formato == 3){?>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-2">
-<tbody>
-<tr>
-  <td>Ref. Incidencias de personal</td>
-  <td rowspan="3" class="text-center align-middle" width="250"><b>INCIDENCIA FALTA</b></td>
-  <td class="align-middle">Sucursal:</td>
-  <td class="align-middle">Grupo Admongas</td>
-</tr>
-<tr>
-  <td class="align-middle">Departamento de Recursos Humanos</td>
-  <td class="align-middle">Fecha:</td>
-  <td class="align-middle"><?=FormatoFecha($explode[0]).', '.$HoraFormato;?></td>
-</tr>
-<tr>
-  <td class="align-middle">Depto.Operativo</td>
-  <td class="align-middle">No. De control:</td>
-  <td class="align-middle"><b>011</b></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
-
-<div class="row">
-<div class="col-12 mb-2">
-
-<b>Lic. Alejandro Guzmán</b></br>
-<b>Departamento de Recursos Humanos</b>
-
-<div class="mt-2">Buenos días por medio del presente solicito de su amable apoyo para realizar las siguientes altas de personal:</div>
-
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3">
-<thead class="tables-bg">
-  <tr>
-  <th>Nombre del empleado</th>
-  <th>Días de falta</th>
-  <th>Observaciónes</th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-$sql_lista = "SELECT * FROM op_rh_formatos_falta WHERE id_formulario = '".$GET_idFormato."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-
-if ($numero_lista > 0) {
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-
-$personal = NombrePersonal($row_lista['id_personal'],$con);
-
-echo '<tr>';
-echo '<td class="align-middle">'.$personal['nombre'].'</td>';
-echo '<td class="align-middle">'.$row_lista['dias_falta'].'</td>';
-echo '<td class="align-middle">'.$row_lista['observaciones'].'</td>';
-echo '</tr>';
-}
-}else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
-
-
-<div class="mt-3 text-center">
-Sin más por el momento quedo de usted.
-</div>
-<hr>
-
-
-<?php }else if($formato == 4){?>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0">
-<tbody>
-<tr>
-  <td>Ref. Incidencias de personal</td>
-  <td rowspan="3" class="text-center align-middle" width="250"><b>BAJA DE PERSONAL</b></td>
-  <td class="align-middle">Sucursal:</td>
-  <td class="align-middle">Grupo Admongas</td>
-</tr>
-<tr>
-  <td class="align-middle">Departamento de Recursos Humanos</td>
-  <td class="align-middle">Fecha:</td>
-  <td class="align-middle"><?=FormatoFecha($explode[0]).', '.$HoraFormato;?></td>
-</tr>
-<tr>
-  <td class="align-middle">Depto.Operativo</td>
-  <td class="align-middle">No. De control:</td>
-  <td class="align-middle"><b>011</b></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-
-<hr>
-
-<div class="row">
-<div class="col-12 mb-2">
-
-<b>Lic. Alejandro Guzmán</b></br>
-<b>Departamento de Recursos Humanos</b>
-
-<div class="mt-2">Buenos días por medio del presente solicito de su amable apoyo para realizar las siguientes altas de personal:</div>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3">
-<thead class="tables-bg">
-  <tr>
-  <th>Nombre del empleado</th>
-  <th>Baja</th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-$sql_lista = "SELECT * FROM op_rh_formatos_baja WHERE id_formulario = '".$GET_idFormato."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-
-if ($numero_lista > 0) {
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-
-$personal = NombrePersonal($row_lista['id_personal'],$con);
-
-echo '<tr>';
-echo '<td class="align-middle">'.$personal['nombre'].'</td>';
-echo '<td class="align-middle">'.$row_lista['baja'].'</td>';
-echo '</tr>';
-}
-}else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
-<div class="mt-3 text-center">
-Sin más por el momento quedo de usted.
-</div>
-
-<hr>
-
-
-<?php }else if($formato == 5){?>
-
-<?php
-$sqlDetalle = "SELECT * FROM op_rh_formatos_vacaciones WHERE id_formulario = '".$GET_idFormato."' ";
-$resultDetalle = mysqli_query($con, $sqlDetalle);
-$numeroDetalle = mysqli_num_rows($resultDetalle);
-
-while($rowDetalle = mysqli_fetch_array($resultDetalle, MYSQLI_ASSOC)){
-$idusuario = $rowDetalle['id_usuario']; 
-$numdias = $rowDetalle['num_dias'];
-$fechainicio = $rowDetalle['fecha_inicio'];
-$fechatermino = $rowDetalle['fecha_termino'];
-$fecharegreso = $rowDetalle['fecha_regreso'];
-$observaciones2 = $rowDetalle['observaciones'];
-}
-
-if($observaciones2 == ""){
-$observaciones = "Sin observaciones";
-}else{
-$observaciones = $observaciones2;
-}
-
-$Personal = NombrePersonal($idusuario,$con);
-?>
- 
- 
-<div class="table-responsive">
-<table class="custom-table mb-3" style="font-size: 12.5px;" width="100%">
-<tr>
-<td class="font-weight-bold tables-bg"><b>Área o Departamento:</b></td>
-<td class="font-weight-bold tables-bg"><b>Nombre completo:</b></td>
-<td class="font-weight-bold tables-bg"><b>Número de días a disfrutar:</b></td>
-</tr>
-<tr>
-<td class="bg-light"><?=NombreEstacion($Localidad,$con);?></td>
-<td class="bg-light"><?=$Personal['nombre'];?></td>
-<td class="bg-light"><?=$numdias;?></td>
-</tr>
-
-<tr>
-<th class="tables-bg">Del:</th>
-<td class="tables-bg"><b>Al:</b></td>
-<th class="tables-bg">Regresando el:</th>
-</tr>
-<tr>
-<td class="bg-light"><?=FormatoFecha($fechainicio);?></td>
-<td class="bg-light"><?=FormatoFecha($fechatermino);?></td>
-<td class="bg-light"><?=FormatoFecha($fecharegreso);?></td>
-</tr>
-
-</table>
-</div>
- 
-
-<div class="table-responsive">
-<table class="custom-table" style="font-size: 12.5px;" width="100%">
-<thead class="tables-bg">
-<tr> <th class="align-middle text-center">Observaciones</th> </tr>
-</thead>
-<tbody>
-<tr class="no-hover">
-<th class="align-middle text-center fw-normal bg-light"><?=$observaciones?></th>
-</tr>
-</tbody>
-</table>
-</div>
-
-<hr>
-
-<?php }else if($formato == 6){?>
-
-<div><b>Lic. Alejandro Guzmán</b> <br> <b>Departamento de Recursos Humanos</b> </div>
-<p class="mt-2">Por medio del presente, solicito su apoyo para el ajuste salarial al siguiente colaborador:</p>
-
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0">
-<thead class="tables-bg">
-  <tr>
-  <th>Apartir del</th>
-  <th>Nombre del empleado</th>
-  <th>Sueldo</th>
-  <th>Puesto</th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-$sql_lista = "SELECT * FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = '".$GET_idFormato."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-
-if ($numero_lista > 0) {
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-
-$personal = NombrePersonal($row_lista['id_personal'],$con);
-
-echo '<tr>';
-echo '<td class="align-middle">'.FormatoFecha($row_lista['fecha']).'</td>';
-echo '<td class="align-middle">'.$personal['nombre'].'</td>';
-echo '<td class="align-middle">$'.number_format($row_lista['sueldo'],2).'</td>';
-echo '<td class="align-middle">'.$personal['puesto'].'</td>';
-echo '</tr>';
-}
-}else{
-echo "<tr><td colspan='7' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
-
-<p class="text-center mt-3">Sin más por el momento quedo de usted.</p>
-<hr>
-<?php } ?>
-  </div>
-
-  <!---------- FIRMAS ---------->
-  <div class="col-12">
-  <div class="row">     
-
   <?php 
-  if($formato != 5){
 
-  if($status == 1){
-  if($Session_IDUsuarioBD == 318){ ?>
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-  <div class="table-responsive">
-  <table class="custom-table" width="100%">
-  <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
-  </thead>
-  <tbody>
-    
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <h4 class="text-primary text-center">Token Móvil</h4>
-  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-
-  <!--
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
-  -->
-  </th>
-  
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light p-0">
-  <div class="input-group">
-  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-  <div class="input-group-append">
-  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'B')">Firmar solicitud</button>
-  </div>
-  </div>
-  </th>
-  </tr>
-
-
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-<?php 
-}else if($Session_IDUsuarioBD == 2){
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-   ¡Aun no es posible firmar! <br> La persona que elabora el formato debe finalizar la solicitud.
-</div></div>';
-}else{
-  echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-   ¡No cuentas con los permisos para firmar!
-</div></div>';
-}
-}
-}
-?>
-
-
-   
-
-<?php 
-if($formato != 5){
-if($status == 2){
-
-$sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idFormato."' ";
-$result_firma = mysqli_query($con, $sql_firma);
-$numero_firma = mysqli_num_rows($result_firma);
-
-  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-  $explode = explode(' ', $row_firma['fecha']);
-
-  if($row_firma['tipo_firma'] == "A"){
-  $TipoFirma = "Elaboró";
-  $Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG.'/firma/'.$row_firma['firma'].'" width="70%"></div>';
-
-  }else if($row_firma['tipo_firma'] == "B"){
-  $TipoFirma = "Vo.Bo";
-  $Detalle = '<div class="border-bottom text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-
-  }
-
-    echo '<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-3">';
-    echo '<div class="border p-3">';
-    echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6><hr>';
-    echo $Detalle;
-    echo '<div class="text-center mt-2">'.Personal($row_firma['id_usuario'],$con).'</div>';
-    echo '</div>';
-    echo '</div>';
-    }
-
-  ?>
-
-  
-
-<?php if($Session_IDUsuarioBD == 2){ ?>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-  <div class="table-responsive">
-  <table class="custom-table" width="100%">
-  <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
-  </thead>
-  <tbody>
-    
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <h4 class="text-primary text-center">Token Móvil</h4>
-  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-
-  <!--
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
-  -->
-  </th>
-  
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light p-0">
-  <div class="input-group">
-  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-  <div class="input-group-append">
-  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'C')">Firmar solicitud</button>
-  </div>
-  </div>
-  </th>
-  </tr>
-
-
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-
-
- 
-<?php }else{
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-   ¡No cuentas con los permisos para firmar!
-</div></div>';
-} 
-?>
-
-<?php 
-} 
-}else{
-?>
-
-
-
-<?php if($Session_IDUsuarioBD == 2){ ?>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-  <div class="table-responsive">
-  <table class="custom-table" width="100%">
-  <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
-  </thead>
-  <tbody>
-    
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <h4 class="text-primary text-center">Token Móvil</h4>
-  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,1)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idFormato;?>,2)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-
-  <!--
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearTokenEmail(<?=$GET_idFormato;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span>Crear token vía email</button>
-  -->
-  </th>
-  
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light p-0">
-  <div class="input-group">
-  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-  <div class="input-group-append">
-  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idFormato;?>,'C')">Firmar solicitud</button>
-  </div>
-  </div>
-  </th>
-  </tr>
-
-
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-  <?php }else{
-  echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+  }else if($Session_IDUsuarioBD == 354){
+  echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡Aun no es posible firmar! <br> La persona que autoriza debe finalizar el formato.
+  </div></div>';
+  }else{
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
     ¡No cuentas con los permisos para firmar!
   </div></div>';
-  } 
+  }
 
   }
   ?>
 
-  </div>
+    
+  <!----- FIRMA ALEJANDRO GUZMAN ----->
+  <?php 
+  if($status == 2){
+  if($Session_IDUsuarioBD == 354){
+  ?>
 
-
-  </div>
-
-
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: .8em;" width="100%">
   
+  <thead class="tables-bg">
+  <tr><th class="text-center align-middle">Firma de quien verifica</th></tr>
+  </thead>
+
+  <tbody class="bg-light"> 
+  <tr>
+  <td class="no-hover2 p-0">
+  <div id="signature-pad" class="signature-pad border-0" style="cursor:crosshair">
+  <div class="signature-pad--body">
+  <canvas style="width: 100%; height: 200px; border-right: 0.1px solid rgb(33, 93, 152); border-left: 0.1px solid rgb(33, 93, 152); cursor: crosshair; touch-action: none;" id="canvas" width="900" height="150"></canvas>  
+  <input type="hidden" name="base64" value="" id="base64">
   </div>
+  </div>
+  </td>
+  </tr>
+                      
+  <tr><th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()"><i class="fa-solid fa-broom"></i> Limpiar firma</th></tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  <div class="col-12">
+  <hr>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'C')">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
+  </div>
+
+  <?php 
+  }else{
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+  </div></div>';
+  }
+  }
+  ?>
+
+
+
+  </div>
+  </div>
+
+  </div>
+  </div>
+
+
   </div>
   </div>
   </div>
@@ -1012,7 +496,7 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
   </div>
 
   <div class="modal-footer">
-	<button type="button" class="btn btn-labeled2 btn-success" onclick="Regresar()">
+	<button type="button" class="btn btn-labeled2 btn-success" onclick="history.back()">
   <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
   </div>
 
@@ -1038,8 +522,8 @@ echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-0"><div class="te
   </div>
 
 
-
   <!---------- FUNCIONES - NAVBAR ---------->
+  <script src="<?= RUTA_JS2 ?>signature-pad-functions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
