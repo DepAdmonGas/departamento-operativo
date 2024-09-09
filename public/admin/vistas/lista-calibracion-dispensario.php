@@ -59,8 +59,7 @@ if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Adminis
           <th class="align-middle text-center">Fecha</th>
           <th class="align-middle text-center">Año</th>
           <th class="align-middle text-center">Periodo</th>
-          <th class="align-middle text-center" width="24"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
-          <th class="align-middle" width="24"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+          <th class="align-middle text-center" width="20"><i class="fa-solid fa-ellipsis-vertical text-white"></i></th>
         </tr>
       </thead>
       <tbody class="bg-white">
@@ -70,14 +69,26 @@ if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Adminis
     
 		while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
     $Fecha = explode(" ", $row_lista['fecha']);
-
+      $PDF = '<a class="dropdown-item" href="'.RUTA_ARCHIVOS.''.$row_lista['archivo'].'" download><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+      $Eliminar = '<a class="dropdown-item" onclick="Eliminar('.$idEstacion.','.$row_lista['id'].')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 		echo '<tr>';
 		echo '<th class="align-middle text-center">'.$num.'</th>';
 		echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($Fecha[0]).'</td>';
     echo '<td class="align-middle text-center"><b>'.$row_lista['year'].'</b></td>';
     echo '<td class="align-middle text-center">'.$row_lista['periodo'].'</td>';
-    echo '<td class="text-center align-middle"><a href="'.RUTA_ARCHIVOS.''.$row_lista['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></td>';
-		echo '<td class="text-center align-middle"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$idEstacion.','.$row_lista['id'].')"></td>';
+    echo '<td class="align-middle text-center">
+                  <div class="dropdown">
+
+                  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                  ' . $PDF . '
+                  ' . $Eliminar . '
+                  </div>
+                  </div>
+                </td>';
 		echo '</tr>';
     $num++;
 		}

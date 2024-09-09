@@ -1,7 +1,7 @@
 <?php
 require "../../bd/inc.conexion.php";
 require "../../modelo/httpPHPAltiria.php";
- 
+
 class Formatos extends Exception{
     private $classConexionBD;
     private $con;
@@ -81,11 +81,13 @@ class Formatos extends Exception{
     $result->close();
     return $resultado;
     }  
- 
+
+  
     //---------- fIRMA DE FORMATOS ----------//
     public function firmaFormatos($idReporte, $idUsuario, $tipoFirma, $img): bool
     {
     $resultado = true;
+
     $status = 3;
     if ($tipoFirma == "A") {
     $status = 1;
@@ -186,6 +188,7 @@ class Formatos extends Exception{
         $stmt2->fetch();
         $stmt2->close();
         return $tel;
+
     }
     function notificacionesWA($Numero, $aleatorio, $token)
     {
@@ -338,6 +341,7 @@ class Formatos extends Exception{
       $result2->close();
       return $resultado;
   }
+
 
 
 

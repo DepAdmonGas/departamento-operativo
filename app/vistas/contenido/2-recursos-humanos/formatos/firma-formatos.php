@@ -44,6 +44,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script type="text/javascript" src="<?=RUTA_JS?>signature_pad.js"></script>
 
+
   <script type="text/javascript">
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
@@ -74,6 +75,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
     },
     success:  function (response) {
+
     $(".LoaderPage").hide();
 
     if(response == 1){
@@ -89,6 +91,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
     //---------- FIRMAR FORMATO TOKEN ----------//
     function AutorizacionFormato(idFormato,tipoFirma){
+
     var TokenValidacion = $('#TokenValidacion').val();
 
     var parametros = {
@@ -97,14 +100,17 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     "tipoFirma" : tipoFirma,
     "TokenValidacion" : TokenValidacion,
     "accion" : 'firmar-formato-martin'
+
     };
 
     if(TokenValidacion != ""){
     $('#TokenValidacion').css('border',''); 
+
     $(".LoaderPage").show();
 
     $.ajax({ 
     data:  parametros,
+
     url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
     type:  'post', 
     beforeSend: function() {
@@ -115,14 +121,17 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     },
     success:  function (response) {
 
+
       console.log(response)
     $(".LoaderPage").hide();
     if(response == 1){
+
     $('#ModalFinalizado').modal('show'); 
 
     }else{
     $('#ModalError').modal('show');
     alertify.error('Error al firmar formato');
+
     }
 
     }
@@ -329,6 +338,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }
     
+
   echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
@@ -350,13 +360,12 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   ?>
 
-
-
   <!----- FIRMA LIC. MARTIN ----->
   <?php 
   if($status == 1){
   if($Session_IDUsuarioBD == 2){ 
   ?>
+
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
@@ -450,6 +459,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   </tr>
                       
   <tr><th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()"><i class="fa-solid fa-broom"></i> Limpiar firma</th></tr>
+
   </tbody>
   </table>
   </div>
@@ -480,6 +490,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
 
   </div>
+
   </div>
   </div>
   </div>
@@ -497,6 +508,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   <div class="modal-footer">
 	<button type="button" class="btn btn-labeled2 btn-success" onclick="history.back()">
+
   <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
   </div>
 
@@ -521,12 +533,10 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   </div>
   </div>
 
-
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="<?= RUTA_JS2 ?>signature-pad-functions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
 
 </body>
 </html>

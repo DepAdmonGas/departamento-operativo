@@ -55,8 +55,7 @@ $tituloMenu = "Importacion";
 <th class="align-middle text-start">Fecha y hora</th>
 <th class="align-middle text-center">Responsable</th>
 <th class="align-middle text-center">Producto</th>
-<th class="align-middle text-center" width="20px"><img src="<?= RUTA_IMG_ICONOS; ?>ver-tb.png"></th>
-<th class="align-middle text-center" width="20px"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
+<th class="align-middle text-center" width="20"><i class="fa-solid fa-ellipsis-vertical text-white"></i></th>
 </th>
 </tr>
 </thead>
@@ -87,15 +86,28 @@ $responsable = $datosPersonal['nombre'];
 $responsable = '';
 }
 
-
+$Detalle = '<a class="dropdown-item" onclick="Detalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+$PDF = '<a class="dropdown-item" onclick=PDF(' . $id . ')><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 echo '<tr>
 <th class="align-middle text-center"><b>00' . $folio . '</b></th>
 <td class="align-middle text-start">' . $fechallegada . ', ' . $horallegada . '</td>
 <td class="align-middle text-center">' . $responsable . '</td>
 <td class="align-middle text-center">'.$row_lista['producto'].'</td>
-<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="Detalle('.$id.')"></td>
-<td class="align-middle text-center" onclick="PDF(' . $id . ')"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'pdf.png"></td>
-</tr>';
+';
+echo '<td class="align-middle text-center">
+                  <div class="dropdown">
+
+                  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v"></i>
+                  </a>
+
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                  ' . $Detalle . '
+                  ' . $PDF . '
+                  </div>
+                  </div>
+                </td>
+                </tr>';
 endwhile;
 endif;
 ?>

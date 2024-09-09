@@ -45,6 +45,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   <link rel="stylesheet" href="<?=RUTA_CSS ?>selectize.css">
 
 
+
   <script type="text/javascript">
   $(document).ready(function ($) {
   $(".LoaderPage").fadeOut("slow");
@@ -100,6 +101,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   processData: false,
   cache: false
   }).done(function(data){
+
+
 
   if(data == 1){
   $(".LoaderPage").hide();
@@ -218,7 +221,9 @@ $numero_lista = mysqli_num_rows($result_lista);
   },
   function () {
 
+
   }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar el formato?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+
 
   } else {
   alertify.error('Falta agregar la firma');
