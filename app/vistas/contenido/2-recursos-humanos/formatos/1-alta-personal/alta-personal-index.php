@@ -42,7 +42,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS ?>signature_pad.js"></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
+  <link rel="stylesheet" href="<?=RUTA_CSS ?>selectize.css">
+
 
 
   <script type="text/javascript">
@@ -100,7 +101,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   processData: false,
   cache: false
   }).done(function(data){
-  console.log(data)
+
 
 
   if(data == 1){
@@ -220,7 +221,9 @@ $numero_lista = mysqli_num_rows($result_lista);
   },
   function () {
 
-  }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar la orden de compra?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+
+  }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar el formato?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+
 
   } else {
   alertify.error('Falta agregar la firma');
@@ -329,8 +332,8 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
   </div>
 
-  <script src="<?= RUTA_JS2 ?>signature-pad-functions.js"></script>
   <!---------- FUNCIONES - NAVBAR ---------->
+  <script src="<?= RUTA_JS2 ?>signature-pad-functions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
