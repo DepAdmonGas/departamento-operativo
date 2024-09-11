@@ -121,7 +121,7 @@ mysqli_query($con, $sql2);
 
 
 					echo '<tr>
-    <th class="align-middle font-weight-light text-center" style="font-size: 1em;">' . $row_credito['id'] . '</th>
+    <th class="align-middle fw-normal font-weight-light text-center" style="font-size: 1em;">' . $row_credito['id'] . '</th>
     <td class="align-middle font-weight-light">' . $row_credito['cuenta'] . '</td>
     <td class="align-middle font-weight-light text-start">' . $row_credito['cliente'] . '</td>
     <td class="align-middle font-weight-light ' . htmlspecialchars($CTipo) . '">' . $row_credito['tipo'] . '</td>

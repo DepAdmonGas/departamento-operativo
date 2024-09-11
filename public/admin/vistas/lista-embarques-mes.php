@@ -305,8 +305,8 @@ $bgTable = 'style="background-color: #fcfcda"';
 }
 
 echo '<tr ' . $bgTable . '>';
-echo '<th class="align-middle text-center">'.$num.'</th>';
-echo '<th class="align-middle text-center">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</th>';
+echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
+echo '<th class="align-middle text-center fw-normal">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</th>';
 echo '<td class="align-middle text-center">' . $row_lista['embarque'] . '</td>';
 echo '<td class="align-middle text-center">' . $row_lista['producto'] . '</td>';
 echo '<td class="align-middle text-center"><a href="'.RUTA_ARCHIVOS.'' . $row_lista['documento'] . '" download  data-toggle="tooltip" data-placement="top" title="Documento"><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';

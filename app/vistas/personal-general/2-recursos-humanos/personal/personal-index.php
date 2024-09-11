@@ -347,7 +347,7 @@ require('app/help.php');
 
   <!---------- MODAL CENTRADO ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="ContenidoModal"></div>
   </div>
   </div>

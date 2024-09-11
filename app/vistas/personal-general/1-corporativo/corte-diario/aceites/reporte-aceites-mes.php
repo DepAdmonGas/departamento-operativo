@@ -133,9 +133,9 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
             ?>
 
             <tr>
-                <th class="align-middle p-1 text-center"><?= $idaceite;?></th>
-                <td class="align-middle p-1"><b><?= $noaceite; ?></b></td>
-                <td class="align-middle p-1"><b><?= $row_listaaceites['concepto']; ?></b></td>
+                <th class="align-middle p-1 fw-normal text-center"><?= $idaceite;?></th>
+                <td class="align-middle p-1"><?= $noaceite; ?></td>
+                <td class="align-middle p-1"><?= $row_listaaceites['concepto']; ?></td>
                 <td class="align-middle text-end p-1"><?= number_format($row_listaaceites['precio'], 2); ?></td>
                 <td class="align-middle text-end"><?= $bodega; ?></td>
 

@@ -24,7 +24,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 
 <div class="modal-body">
 
-<div class="mb-1 text-secondary">Documento:</div>
+<h6 class="mb-2">* Documento: </h6>
 <select class="selectize pointer" id="Documento">
 <option></option>
 <option>VALE</option> 
@@ -35,7 +35,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 </select>
 
 
-<div class="mb-1 mt-2 text-secondary">Archivo:</div>
+<h6 class="mb-2 mt-2">* Archivo:</h6>
 <div class="input-group">
 <input type="file" class="form-control" id="Archivo">
 </div>
@@ -61,7 +61,7 @@ while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
 $idDocumento = $row_documento['id'];
 
 echo '<tr>';
-echo '<th class="align-middle font-weight-light">'.$row_documento['nombre'].'</th>';
+echo '<th class="align-middle fw-normal">'.$row_documento['nombre'].'</th>';
 echo '<td class="align-middle font-weight-light"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png"></a></td>';
 echo '<td class="align-middle font-weight-light"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarArchivo('.$year.','.$mes.','.$idEstacion.','.$depu.','.$idReporte.','.$idDocumento.')"></td>';
 echo '</tr>';

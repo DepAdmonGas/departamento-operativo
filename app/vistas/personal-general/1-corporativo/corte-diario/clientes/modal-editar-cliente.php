@@ -46,17 +46,17 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 
 <div class="modal-body">
 
-    <label class="text-secondary">* Cuenta</label>
+    <h6>* Cuenta</h6>
     <textarea class="form-control rounded-0" id="EditCuenta"><?= $cuenta; ?></textarea>
 
-    <label class="text-secondary mt-2">* Cliente</label>
+    <h6>* Cliente</h6>
     <textarea class="form-control rounded-0" id="EditCliente"><?= $cliente; ?></textarea>
 
-    <label class="text-secondary mt-2">* Tipo</label>
+    <h6>* Tipo</h6>
     <select class="form-select rounded-0" id="EditTipo">
         <option value="<?= $tipo; ?>"><?= $tipo; ?></option>
         <option value="Crédito">Crédito</option>
-        <option value="Débito">Débito</option>
+        <option value="Débito">Débito</option>_
     </select>
 
     <?php if ($tipo == "Crédito") { ?>

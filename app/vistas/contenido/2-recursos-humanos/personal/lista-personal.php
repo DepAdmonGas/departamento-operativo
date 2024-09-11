@@ -324,7 +324,7 @@ $btnEliminarUser = '<a class="dropdown-item" onclick="DetalleBajaPersonalV2('.$i
 }
 
 echo '<tr '.$bgTable.'>
-<th class="text-center align-middle">'.$row_personal['id'].'</th>
+<th class="text-center align-middle fw-normal">'.$row_personal['id'].'</th>
 <td class="align-middle text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_personal['fecha_ingreso']).'</td>
 '.$tablaInfo2.'
 <td class="align-middle text-center">'.$row_personal['no_colaborador'].'</td>

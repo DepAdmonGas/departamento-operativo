@@ -16,12 +16,12 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>Fecha inicio</h6>
+<h6>* Fecha Inicio</h6>
 <input type="date" class="form-control" id="MFInicio">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>Fecha termino</h6>
+<h6>* Fecha Termino</h6>
 <input type="date" class="form-control" id="MFTermino">
 </div>
 

@@ -90,7 +90,7 @@
 
 
   echo '<tr '.$TrColor.'>';
-  echo '<th class="align-middle text-center">'.$num.'</th>';
+  echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
   echo '<td class="align-middle text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($date).'</td>';
   echo '<td class="align-middle text-center">'.$btnDetalle.'</td>';
   echo '<td class="align-middle text-center '.$ocultarOp.'">'.$btnAgregar.'</td>';

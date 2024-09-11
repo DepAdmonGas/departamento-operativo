@@ -164,7 +164,7 @@ $EstacionName = '('.$datosEstacion['localidad'].')';
                     } else {
 
                         echo '<tr>';
-                        echo '<td class="no-hover text-center align-middle fw-bold">' . $row_personal['id'] . '</td>';
+                        echo '<td class="no-hover text-center align-middle fw-normal">' . $row_personal['id'] . '</td>';
                         echo '<td class="no-hover align-middle">' . $row_personal['nombre_completo'] . '</td>';
                         echo '<td class="no-hover align-middle text-center">' . $row_personal['puesto'] . '</td>';
 

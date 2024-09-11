@@ -116,7 +116,7 @@ function TotalVentas($idDias, $Producto, $con)
 
 
       echo "<tr >";
-      echo "<th class='text-start'>" . FormatoFecha($fecha) . "</th>";
+      echo "<th class='text-start fw-normal'>" . FormatoFecha($fecha) . "</th>";
 
       if ($ProductoUno != "") {
         echo "<td class='align-middle text-start'>" . number_format($Producto1['TotalLitros'], 2) . "</td>";

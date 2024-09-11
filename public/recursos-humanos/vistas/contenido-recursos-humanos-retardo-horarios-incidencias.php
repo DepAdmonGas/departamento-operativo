@@ -171,8 +171,8 @@ Actualizar Días
         $id = $row['id'];
 
         echo '<tr>';
-        echo '<th class="text-center align-middle">'.$row['id'].'</th>';
-        echo '<td class="align-middle"><b>'.$row['titulo'].'</b></td>';
+        echo '<th class="text-center align-middle fw-normal">'.$row['id'].'</th>';
+        echo '<td class="align-middle">'.$row['titulo'].'</td>';
         echo '<td class="align-middle">'.$row['hora_entrada'].'</td>';
         echo '<td class="align-middle">'.$row['hora_salida'].'</td>';
         echo '<td class="text-center align-middle"> <img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" class="pointer" 

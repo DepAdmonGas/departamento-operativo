@@ -141,7 +141,7 @@ $numeroP2 = mysqli_num_rows($resultP2);
 				$TCTEJ1 = $TCTEJ1 + $totalEj1;
 				?>
 				<tr>
-					<th><?= $rowP1['detalle']; ?></th>
+					<th class="fw-normal"><?= $rowP1['detalle']; ?></th>
 					<td class="align-middle p-0"><input id="D11<?= $id; ?>" class="form-control border-0 rounded-0 text-end"
 							type="number" step="any" min="0" value="<?= $enero1; ?>" style="font-size: .9em;"
 							onkeyup="EditIF(<?= $idReporte; ?>,<?= $id; ?>,1,1)"></td>
@@ -187,7 +187,7 @@ $numeroP2 = mysqli_num_rows($resultP2);
 			}
 			?>
 			<tr>
-				<th class="align-middle font-weight-bold">Total cortes diarios</td>
+				<th class="align-middle">Total cortes diarios</td>
 				<th class="align-middle text-end font-weight-bold" id="T11">$ <?= number_format($TCE1, 2); ?></th>
 				<th class="align-middle text-end font-weight-bold" id="T12">$ <?= number_format($TCF1, 2); ?></th>
 				<th class="align-middle text-end font-weight-bold" id="T13">$ <?= number_format($TCM1, 2); ?></th>
@@ -338,7 +338,7 @@ $numeroP2 = mysqli_num_rows($resultP2);
 				$TCTEJ2 = $TCTEJ2 + $totalEj2;
 				?>
 				<tr>
-					<th><?= $rowP2['detalle']; ?></th>
+					<th class="fw-normal"><?= $rowP2['detalle']; ?></th>
 					<td class="align-middle p-0"><input id="D21<?= $id; ?>" class="form-control border-0 rounded-0 text-end"
 							type="number" step="any" min="0" value="<?= $enero2; ?>" style="font-size: .9em;"
 							onkeyup="EditIF(<?= $idReporte; ?>,<?= $id; ?>,1,2)"></td>
@@ -412,9 +412,6 @@ $numeroP2 = mysqli_num_rows($resultP2);
 				</th>
 				<th class="align-middle text-end font-weight-bold" id="TF2">$ <?= number_format($TCTEJ2, 2); ?>
 				</th>
-			</tr>
-			<tr>
-				<th class="p-1" colspan="14"></th>
 			</tr>
 
 			<?php

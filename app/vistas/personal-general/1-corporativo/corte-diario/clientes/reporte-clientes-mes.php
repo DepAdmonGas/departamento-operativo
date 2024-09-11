@@ -80,7 +80,7 @@ while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)):
 $id = $row_credito['id'];
 
 echo '<tr>
-<th class="align-middle text-center"  style="font-size: .9em;">' . $row_credito['id'] . '</th>
+<th class="align-middle text-center fw-normal"  style="font-size: .9em;">' . $row_credito['id'] . '</th>
 <td class="align-middle"  style="font-size: .9em;">' . $row_credito['cuenta'] . '</td>
 <td class="align-middle"  style="font-size: .9em;">' . $row_credito['cliente'] . '</td>
 <td class="text-end p-0"> 
@@ -144,7 +144,7 @@ $sql_edit = "UPDATE op_consumos_pagos_resumen SET saldo_final = '" . $saldofinal
 mysqli_query($con, $sql_edit);
 
 echo '<tr>
-<th class="align-middle text-center" style="font-size: .9em;">' . $row_debito['id'] . '</th>
+<th class="align-middle text-center fw-normal" style="font-size: .9em;">' . $row_debito['id'] . '</th>
 <td class="align-middle" style="font-size: .9em;">' . $row_debito['cuenta'] . '</td>
 <td class="align-middle" style="font-size: .9em;">' . $row_debito['cliente'] . '</td>
 <td class="text-end p-0">  <input id="ESICredito' . $id . '" class="border-0 text-end p-3" style="width: 100%;height:100%;font-size: 1em;" type="number" value="' . $row_debito['saldo_inicial'] . '" onkeyup="ESICredito(' . $id . ')" /> </td>
