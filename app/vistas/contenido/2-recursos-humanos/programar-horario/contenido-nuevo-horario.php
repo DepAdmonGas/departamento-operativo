@@ -127,8 +127,8 @@ endif;
                     } else {
 
                         echo '<tr>';
-                        echo '<th class="text-center align-middle">' . $row_personal['id'] . '</th>';
-                        echo '<td class="align-middle text-start fw-normal">' . $row_personal['nombre_completo'] . '</td>';
+                        echo '<th class="text-center align-middle fw-normal">' . $row_personal['id'] . '</th>';
+                        echo '<td class="align-middle text-start">' . $row_personal['nombre_completo'] . '</td>';
 
                         echo '<td class="p-0 m-0 align-middle no-hover"><select class="p-1 border-0 sel-text" style="width: 100%;" onchange="EditHorario(this,1,' . $id . ',' . $idReporte . ',' . $idEstacion . ')"><option>' . $Dia1 . '</option>';
                         for ($i = 0; $i < count($Horarios); $i++) {

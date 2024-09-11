@@ -167,13 +167,13 @@ require 'app/vistas/contenido/header.php';
         </div>
         <div class="modal-body">
 
-          <label class="text-secondary">* Cuenta</label>
+          <h6 class="mb-2 mt-2">* Cuenta</h6>
           <textarea class="form-control rounded-0" id="Cuenta"></textarea>
 
-          <label class="text-secondary mt-2">* Cliente</label>
+          <h6 class="mb-2 mt-2">* Cliente</h6>
           <textarea class="form-control rounded-0" id="Cliente"></textarea>
 
-          <label class="text-secondary mt-2">* Tipo</label>
+          <h6 class="mb-2 mt-2">* Tipo</h6>
           <select class="form-select rounded-0" id="Tipo" onchange="SelCredito(this)">
             <option value="">Selecciona una opción...</option>
             <option value="Crédito">Crédito</option>

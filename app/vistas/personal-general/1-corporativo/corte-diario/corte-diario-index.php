@@ -147,7 +147,7 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                   }
 
                   echo "<tr>";
-                  echo "<th class='text-start " . $text . "'>" . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . "</th>";
+                  echo "<th class='text-start fw-normal " . $text . "'>" . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . "</th>";
 
                   echo "<td class='align-middle text-center' onclick='ventas(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "ventas.png' ></td>";
                   echo "<td class='align-middle text-center' onclick='cierrelote(" . $GET_year . "," . $GET_mes . "," . $idDias . ")'><img class='" . $img . " pointer' src='" . RUTA_IMG_ICONOS . "tpv.png' ></td>";

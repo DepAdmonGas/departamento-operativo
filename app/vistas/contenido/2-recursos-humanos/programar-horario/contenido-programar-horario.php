@@ -36,7 +36,7 @@ $eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png"/>'
 }
 
 echo '<tr ' . $trcolor . '">';
-echo '<th class="text-center align-middle">' . $row_empresa['id'] . '</th>';
+echo '<th class="text-center align-middle fw-normal">' . $row_empresa['id'] . '</th>';
 echo '<td class="text-start">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_empresa['fecha']) . '</td>';
 echo '<td class="text-center align-middle"><img src="' . RUTA_IMG_ICONOS . 'ver-tb.png" onclick="Detalle('.$id.')"/></td>';
 echo '<td class="text-center align-middle">' . $eliminar . '</td>';

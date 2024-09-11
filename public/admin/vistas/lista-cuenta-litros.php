@@ -24,7 +24,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 <div class="col-12">
-  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <div aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-caret">
       <li class="breadcrumb-item"><a onclick="history.go(-3)" class="text-uppercase text-primary pointer"><i
             class="fa-solid fa-house"></i> Importación</a></li>
@@ -40,10 +40,10 @@ $numero_lista = mysqli_num_rows($result_lista);
 
   <div class="row">
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Tabla de
+      <h3 class="text-secondary"> Tabla de
         Descarga<?= $Estacion ?>, <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?></h3>
     </div>
-    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2 <?= $ocultarTB ?>">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 <?= $ocultarTB ?>">
       <button type="button" class="btn btn-labeled2 btn-primary float-end"
         onclick="NuevoCuentaLitros(<?= $idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)"><span class="btn-label2"><i
             class="fa fa-plus"></i></span>Agregar</button>
@@ -98,7 +98,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
           echo '<tr ' . $TrColor . '>';
-          echo '<th class="align-middle text-center">' . $num . '</th>';
+          echo '<th class="align-middle text-center fw-normal">' . $num . '</th>';
           echo '<td class="align-middle">' . FormatoFecha($row_lista['fecha']) . '</td>';
           echo '<td class="align-middle text-center"> 
               <div class="dropdown">

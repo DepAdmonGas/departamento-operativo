@@ -14,12 +14,12 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-1">
-<h6>Fecha inicio:</h6>
+<h6>* Fecha inicio:</h6>
 <input type="date" class="form-control" id="FInicio">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-1">
-<h6>Fecha termino:</h6>
+<h6>* Fecha termino:</h6>
 <input type="date" class="form-control" id="FTermino">
 </div>
 

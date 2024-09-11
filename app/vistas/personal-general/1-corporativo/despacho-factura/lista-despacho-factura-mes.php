@@ -149,7 +149,7 @@ Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes
                 echo '<tr class="bg-white">
                 
                         <th class="bg-primary fw-normal text-white">VENTAS</th>
-                        <td class="text-center align-middle no-hover" rowspan="3"><b>' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</b></td>
+                        <td class="text-center align-middle no-hover" rowspan="3">' . $ClassHerramientasDptoOperativo->FormatoFecha($fecha) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L1">' . number_format($Producto1['TotalLitros'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L4">$ ' . number_format($Producto1['TotalPrecio'], 2) . '</td>
                         <td class ="text-start" id="' . $idDias . 'L2">' . number_format($Producto2['TotalLitros'], 2) . '</td>

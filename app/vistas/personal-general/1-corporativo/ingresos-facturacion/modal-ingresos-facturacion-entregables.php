@@ -15,7 +15,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
 
-    <div><small>Archivo:</small></div>
+    <h6>* Archivo</h6>
     <input class="form-control" type="file" class="mt-1" id="Archivo">
     <hr>
     <div class="text-end mt-2">

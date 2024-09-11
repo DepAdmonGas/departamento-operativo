@@ -119,8 +119,8 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   }
 
   function ModalArchivos(year,mes,idEstacion,depu,id){
-  $('#ModalComentario').modal('show');  
-  $('#DivContenidoComentario').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-archivos-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
+  $('#ModalArchivo').modal('show');  
+  $('#DivContenidoArchivo').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/modal-archivos-solicitud-vale.php?idReporte=' + id + '&year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu);
   } 
 
   function AgregarArchivo(year,mes,idEstacion,depu,id){
@@ -370,8 +370,15 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
 
   <!---------- MODAL (CENTER) ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
+  </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="ModalArchivo" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenidoArchivo">
   </div>
   </div>
   </div>

@@ -213,6 +213,11 @@ function ReporteAceites(year, mes) {
     Factura_file = Factura.files[0];
     Factura_filePath = Factura.value;
 
+    if(!Ficha_file && !Imagen_file && !Factura_file){
+      alertify.error('Debe subir al menos un archivo: Ficha, Imagen o Factura.')
+      return;
+    }
+
     data.append('idReporte', IdReporte);
     data.append('year', year);
     data.append('mes', mes);

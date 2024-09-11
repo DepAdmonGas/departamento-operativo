@@ -86,9 +86,9 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
         </div>
         <div class="modal-body">
           <div class="mb-1">
-            <small>* Selecciona el cliente</small>
+            <h6>* Selecciona el cliente</h6>
           </div>
-          <select class="selectize pointer form-select" id="Cliente">
+          <select id="BorderCliente" class="selectize pointer form-select">
             <option></option>
             <?php
             try {
@@ -100,9 +100,9 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           </select>
           
 
-          <div class="mt-2 mb-1"><small>* Agregue total</small></div>
+          <div class="mt-2 mb-1"><h6>* Agregue total</h6></div>
           <input type="number" class="form-control rounded-0" min="0" placeholder="Total" id="Total">
-          <div class="mb-1 mt-2"><small>* Selecciona Consumo o Pago</small></div>
+          <div class="mb-1 mt-2"><h6>* Selecciona Consumo o Pago</h6></div>
           <select id="Tipo" class="form-select" onchange="VerTipoPago(this)">
             <option value="">Consumos o Pagos</option>
             <option>Consumo</option>
