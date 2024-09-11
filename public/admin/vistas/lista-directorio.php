@@ -44,7 +44,7 @@ $fondo = "";
 } 
 
 echo '<tr class="'.$fondo.'">';
-echo '<th class="align-middle text-center fw-normal">'.$row_lista['cuenta'].'</th>';
+echo '<th class="align-middle text-center">'.$row_lista['cuenta'].'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['puesto'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['clave'].'</td>';
 echo '<td class="text-center align-middle '.$ocultar.'"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="btnModalDirectorio('.$IdReporte.','.$row_lista['id'].')"></td>';

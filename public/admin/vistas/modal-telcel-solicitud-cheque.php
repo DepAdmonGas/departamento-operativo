@@ -24,8 +24,8 @@ $numero_lista = mysqli_num_rows($result_lista);
  
   <div class="modal-body">
 
-    <div class="text-secondary mb-1">* Factura telcel:</div>
-    <input type="file" class="form-control" id="Factura">
+    <div class="text-secondary mb-1 fw-bold">* FACTURA TELCEL:</div>
+    <input type="file" class="form-control rounded-0" id="Factura">
 
 <hr>
 

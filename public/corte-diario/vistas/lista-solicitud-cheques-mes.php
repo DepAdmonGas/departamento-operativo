@@ -142,7 +142,7 @@ echo '<th class="align-middle text-center">'.$num.'</th>';
 if($session_nompuesto == "Gestoria"){
 echo '<td class="align-middle text-center">'.$row_lista['razonsocial'].'</td>'; 
 }
-echo '<td class="align-middle text-center"><b>'.FormatoFecha($row_lista['fecha']).'</b></td>';
+echo '<td class="align-middle text-center">'.FormatoFecha($row_lista['fecha']).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['beneficiario'].'</td>';
 echo '<td class="align-middle text-center">$ '.number_format($row_lista['monto'],2).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['no_factura'].'</td>';

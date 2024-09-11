@@ -65,17 +65,24 @@ function FirmaSolicitud($idReporte, $con)
 
 function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con)
 {
+
+  $idmes = 0;
+
   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '" . $GET_idEstacion . "' AND year = '" . $GET_year . "' ";
   $result_year = mysqli_query($con, $sql_year);
-  while ($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)) {
-    $idyear = $row_year['id'];
-  }
+  $row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC);
+  $numero_year = mysqli_num_rows($result_year);
+  if($numero_year > 0){
+  $idyear = $row_year['id'];
+  
   $idmes = "";
   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '" . $idyear . "' AND mes = '" . $GET_mes . "' ";
   $result_mes = mysqli_query($con, $sql_mes);
 
   while ($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)) {
     $idmes = $row_mes['id'];
+  }
+
   }
   return $idmes;
 }
@@ -151,9 +158,11 @@ if ($statusFactura > 0) {
           <ul class="dropdown-menu">
             <li onclick="Mas(<?= $idEstacion; ?>,<?= $depu; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)"> <a
                 class="dropdown-item pointer"><i class="fa-solid fa-plus"></i> Agregar </a> </li>
+            <?php if ($idEstacion != 8) { ?>
             <li onclick="Telcel(<?= $idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)"><a
                 class="dropdown-item pointer <?= $alertBgText ?>"><i class="fa-solid fa-file-invoice-dollar"></i> Facturas
                 Telcel</a></li>
+            <?php } ?>
             <?php if ($idEstacion == 6 || $idEstacion == 7) { ?>
               <li onclick="FacTelcel(<?= $idEstacion; ?>,<?= $depu; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)"><a
                   class="dropdown-item pointer"><i class="fa-solid fa-money-check-dollar"></i> Comprobante de Pago</a>
@@ -259,12 +268,12 @@ if ($statusFactura > 0) {
           }
 
           echo '<tr ' . $trColor . '>';
-          echo '<td class="align-middle text-center">' . $num . '</td>';
+          echo '<td class="align-middle text-center fw-bold">' . $num . '</td>';
           if ($estacion == "Gestoria") {
             echo '<td class="align-middle text-center">' . $row_lista['razonsocial'] . '</td>';
           }
 
-          echo '<td class="align-middle text-center"><b>' . FormatoFecha($row_lista['fecha']) . ', ' . date("g:i a", strtotime($row_lista['hora'])) . '</b></td>';
+          echo '<td class="align-middle text-center">' . FormatoFecha($row_lista['fecha']) . ', ' . date("g:i a", strtotime($row_lista['hora'])) . '</td>';
           echo '<td class="align-middle text-center">' . $row_lista['beneficiario'] . '</td>';
           echo '<td class="align-middle text-center">$ ' . number_format($row_lista['monto'], 2) . '</td>';
           echo '<td class="align-middle text-center">' . $row_lista['no_factura'] . '</td>';
@@ -278,13 +287,13 @@ if ($statusFactura > 0) {
           echo '<td class="align-middle text-center position-relative" onclick="ModalComentario(' . $GET_year . ',' . $GET_mes . ',' . $idEstacion . ',' . $depu . ',' . $id . ')">' . $Nuevo . '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-comentario-tb.png"></td>';
 
           echo '<td class="align-middle text-center">
-                <div class="dropdown">
-
+                
+                <div class="btn-group">
                 <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                 <a class="dropdown-item" onclick="ModalDetalle(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a>
                 ' . $PDF . '
                 <a class="dropdown-item" onclick="ModalArchivos(' . $GET_year . ',' . $GET_mes . ',' . $idEstacion . ',' . $depu . ',' . $id . ')" ><i class="fa-regular fa-file"></i> Agregar archivos</a>
@@ -292,8 +301,10 @@ if ($statusFactura > 0) {
                 ' . $Editar . '
                 ' . $Eliminar . '
                 </div>
-                </div>
-                </td>';
+               </div>
+
+                </td>
+                ';
 
           echo '</tr>';
 
@@ -303,6 +314,9 @@ if ($statusFactura > 0) {
         }
       }
       ?>
+
+
+
 
     </tbody>
   </table>

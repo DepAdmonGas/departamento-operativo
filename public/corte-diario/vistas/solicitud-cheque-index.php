@@ -85,7 +85,7 @@ require ('app/help.php');
 
 
       <?php
-      $sql_listayear = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '" . $Session_IDEstacion . "' ORDER BY year desc";
+      $sql_listayear = "SELECT id, year FROM op_corte_year GROUP BY year ORDER BY year desc";
       $result_listayear = mysqli_query($con, $sql_listayear);
       echo '<div class="row">';
       while ($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)) {
