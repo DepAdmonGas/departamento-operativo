@@ -117,8 +117,6 @@ $numero_lista = mysqli_num_rows($result_lista);
           $num++;
         }
 
-      } else {
-        echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
       }
       ?>
     </tbody>
