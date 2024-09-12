@@ -314,7 +314,7 @@ WHERE id_reportedia = ? AND detalle = ?";
         endif;
 
         $stmt_mes->bind_param("iii", $Session_IDEstacion, $GET_year, $GET_mes);
-        if (!$stmt_mes->execute()){
+        if (!$stmt_mes->execute()) {
             throw new Exception("Error al ejecutar la consulta" . $stmt_mes->error);
         }
         $stmt_mes->bind_result($idmes);
@@ -366,7 +366,7 @@ WHERE id_reportedia = ? AND detalle = ?";
         endif;
         // Vincular parámetros
         $stmt->bind_param("i", $IdReporte);
-        if(!$stmt->execute()){
+        if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta" . $stmt->error);
         }
         // Obtener el resultado
@@ -828,17 +828,9 @@ WHERE id_reportedia = ? AND detalle = ?";
     }
     public function validaPagoD(int $idaceite): int
     {
-        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = ?";
-        $result_reporte = $this->con->prepare($sql_reporte);
-        if (!$result_reporte):
-            throw new Exception("Error al preparar la consulta" . $this->con->error);
-        endif;
-        $result_reporte->bind_param("i", $idaceite);
-        if (!$result_reporte->execute()):
-            throw new Exception("Error al ejecutar la consulta" . $result_reporte->error);
-        endif;
-        $result_reporte->store_result();
-        $numero_reporte = $result_reporte->num_rows;
+        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = '" . $idaceite . "'";
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
         return $numero_reporte;
     }
     public function valRow($valor): int
@@ -923,10 +915,10 @@ WHERE id_reportedia = ? AND detalle = ?";
     }
 
 
-    public function getTotalImporte(int $idReporte,string $consulta): float
+    public function getTotalImporte(int $idReporte, string $consulta): float
     {
         $tabla = 'op_prosegur';
-        if($consulta == "clientes"){
+        if ($consulta == "clientes") {
             $tabla = "op_pago_clientes";
         }
         $sql = "SELECT importe FROM $tabla WHERE idreporte_dia = ?";
@@ -937,13 +929,13 @@ WHERE id_reportedia = ? AND detalle = ?";
             throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         endif;
         $stmt->bind_param("i", $idReporte);
-        if(!$stmt->execute()){
+        if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         }
         $stmt->bind_result($importe);
         while ($stmt->fetch()):
             $totalImporte += $importe;
-       endwhile;
+        endwhile;
         $stmt->close();
         return $totalImporte;
     }
@@ -954,11 +946,11 @@ WHERE id_reportedia = ? AND detalle = ?";
         $baucher = 0.0;
         $baucherTotal = 0.0;
         $stmt = $this->con->prepare($sql);
-        if (!$stmt){
+        if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         }
         $stmt->bind_param("i", $idReporte);
-        if(!$stmt->execute()){
+        if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         }
         $stmt->bind_result($baucher);
@@ -975,15 +967,15 @@ WHERE id_reportedia = ? AND detalle = ?";
         $consumo = 0.0;
         $consumoTotal = 0.0;
         $stmt = $this->con->prepare($sql);
-        if (!$stmt){
+        if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         }
         $stmt->bind_param("i", $idReporte);
-        if(!$stmt->execute()){
+        if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         }
         $stmt->bind_result($consumo);
-        while ($stmt->fetch()){
+        while ($stmt->fetch()) {
             $consumoTotal += $consumo;
         }
         $stmt->close();
@@ -995,11 +987,11 @@ WHERE id_reportedia = ? AND detalle = ?";
         $pago = 0.0;
         $pagoTotal = 0.0;
         $stmt = $this->con->prepare($sql);
-        if (!$stmt){
+        if (!$stmt) {
             throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         }
         $stmt->bind_param("i", $idReporte);
-        if(!$stmt->execute()){
+        if (!$stmt->execute()) {
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         }
         $stmt->bind_result($pago);
