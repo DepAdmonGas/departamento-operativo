@@ -333,6 +333,14 @@ ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
     </thead>
     <tbody class="bg-white">
         <?php
+        function ValidaPagoD($idaceite,$con){
+
+          $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = '".$idaceite."'";
+           $result_reporte = mysqli_query($con, $sql_reporte);
+           $numero_reporte = mysqli_num_rows($result_reporte);
+           return $numero_reporte;
+          }
+
         $sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '" . $IdReporte . "' AND id_aceite <> 0 ORDER BY id_aceite ASC";
         #$sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '" . $IdReporte . "' ORDER BY id_aceite ASC ";
         $result_listaaceites = mysqli_query($con, $sql_listaaceites);
@@ -384,14 +392,9 @@ ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
             if (is_numeric($diferencia) and ($diferencia < 0)) {
 
                 if ($InventarioFin == 1) {
-                    $ValidaPagoD = $corteDiarioGeneral->validaPagoD($idaceite);
+                    $ValidaPagoD = ValidaPagoD($idaceite,$con);
 
-                    if ($ValidaPagoD == 0) {
-                        $iconDiferencia = '<div class="float-start"><img src="' . RUTA_IMG_ICONOS . 'merma-si.png" onclick="ModalDiferencia(' . $idaceite . ',' . $GET_year . ',' .
-                            $GET_mes . ')"></div>';
-                    } else {
-                        $iconDiferencia = '<div class="float-start"><img src="' . RUTA_IMG_ICONOS . 'merma-no.png" onclick="ModalDetalle(' . $idaceite . ')"></div>';
-                    }
+                    $iconDiferencia = '<div class="float-start"><img src="' . RUTA_IMG_ICONOS . 'merma-no.png" onclick="ModalDetalle(' . $idaceite . ')"></div>';
 
                 }
             }
