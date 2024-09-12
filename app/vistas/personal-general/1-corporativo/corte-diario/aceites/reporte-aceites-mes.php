@@ -122,7 +122,7 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
   $Udia = ultimodia($GET_year,$GET_mes);
 
 function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
-
+  $cantidad =0;
       $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' AND fecha = '".$fecha."' LIMIT 1 ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
@@ -367,7 +367,7 @@ ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
             $producto_facturado = (int) $row_listaaceites['producto_facturado'];
             $factura_venta_mostrador = (int) $row_listaaceites['factura_venta_mostrador'];
 
-            $totalaceites = $corteDiarioGeneral->totalaceites($IdReporte, $noaceite);
+            $totalaceites = totalaceites($IdReporte, $noaceite, $con);
 
             $inventarioI = $bodega + $exibidores;
             $inventarioF = $inventarioI + $pedido - $totalaceites;
@@ -484,11 +484,11 @@ ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
                 for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
                     $fechap = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                    $precioaceite = $corteDiarioGeneral->precioAceite($IdReporte, $fechap, $noaceite);
+                    $precioaceite = precioaceite($IdReporte, $fechap, $noaceite, $con);
                     $TotalSumaAceites = $TotalSumaAceites + $precioaceite;
                     echo "<td class='align-middle text-center'>" . number_format($precioaceite, 2) . "</td>";
                 }
-                $totalprecio = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
+                $totalprecio = totalprecio($IdReporte, $fecha, $noaceite, $con);
                 $importeneto = $importeneto + $totalprecio;
                 ?>
                 <td class="align-middle text-center fw-bold bg-light"><?= number_format($TotalSumaAceites, 2); ?></td>
@@ -529,7 +529,7 @@ ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
             for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
                 $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                $totalimporte = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
+                $totalimporte = totalimporte($IdReporte, $fecha, $noaceite, $con);
 
                 echo "<td class='align-middle text-center bg-light'>" . number_format($totalimporte, 2) . "</td>";
             }
