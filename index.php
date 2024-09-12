@@ -190,7 +190,8 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
             case 'recursos-humanos-formatos':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-index.php';
+                $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/formatos/formatos-index.php';
+                //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-index.php';
                 break;
 
             case 'recursos-humanos-horario-personal':
@@ -684,8 +685,9 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         } else if ($partes_ruta[2] == 'pivoteo') {
             $ruta_elegida = 'public/admin/vistas/pivoteo-index.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-formatos-firma') {
-            $GET_idFormato = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-firmar.php';
+            $GET_idReporte = $partes_ruta[2];
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/firma-formatos.php';
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-firmar.php';
         } else if ($partes_ruta[1] == 'recursos-humanos-formatos-pdf') {
             $GET_idFormato = $partes_ruta[2];
             $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-formatos-pdf.php';
@@ -860,63 +862,77 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
     } else if (count($partes_ruta) == 4) {
 
+    //---------- 1. CORPOTATIVO ----------
+    if ($partes_ruta[1] == 'solicitud-cheque') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-mes.php';
+        
+    } else if ($partes_ruta[1] == 'solicitud-cheque-crear') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-crear.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-crear.php';
 
-        //---------- 1. CORPOTATIVO ----------
-        if ($partes_ruta[1] == 'solicitud-cheque') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-mes.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-mes.php';
-        } else if ($partes_ruta[1] == 'solicitud-cheque-crear') {
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-crear.php';
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-crear.php';
-
-        }// 6. Solicitud de Vales 
-        else if ($partes_ruta[1] == 'solicitud-vales') {
-        $Pagina = $partes_ruta[1];
-        $GET_year = $partes_ruta[2];
-        $GET_mes = $partes_ruta[3];
-        //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
-        $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-vales/solicitud-vales-mes.php';
-        }else if ($partes_ruta[1] == 'corte-diario') {
-            $Pagina = $partes_ruta[1];
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-index.php';
-            //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-mes.php';
-        } else if ($partes_ruta[1] == 'cuenta-litros') {
-            $GET_idYear = $partes_ruta[2];
-            $GET_idMes = $partes_ruta[3];
-            $ruta_elegida = 'public/corte-diario/vistas/cuenta-litros-mes-index.php';
-        } else if ($partes_ruta[1] == 'aceites-mes') {
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/aceites/aceites-mes.php';
-            //$ruta_elegida = 'public/corte-diario/vistas/aceites-mes.php';
-        } else if ($partes_ruta[1] == 'clientes-mes') {
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes/clientes-mes.php';
-            //$ruta_elegida = 'public/corte-diario/vistas/clientes-mes.php';
-        } else if ($partes_ruta[1] == 'embarques-mes') {
-            $GET_year = $partes_ruta[2];
-            $GET_mes = $partes_ruta[3];
-            $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/embarques/embarques-mes.php';
-            //$ruta_elegida = 'public/corte-diario/vistas/embarques-mes.php';
-        } else if ($partes_ruta[2] == 'corte-diario') {
-            $GET_year = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/corte-diario-year.php';
-        }
+    }// 6. Solicitud de Vales 
+    else if ($partes_ruta[1] == 'solicitud-vales') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    //$ruta_elegida = 'public/solicitud-vales/vistas/solicitud-vales-mes.php';
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-vales/solicitud-vales-mes.php';
+        
+    }else if ($partes_ruta[1] == 'corte-diario') {
+    $Pagina = $partes_ruta[1];
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/corte-diario-index.php';
+    //$ruta_elegida = 'public/corte-diario/vistas/corte-diario-mes.php';
+        
+    } else if ($partes_ruta[1] == 'cuenta-litros') {
+    $GET_idYear = $partes_ruta[2];
+    $GET_idMes = $partes_ruta[3];
+    $ruta_elegida = 'public/corte-diario/vistas/cuenta-litros-mes-index.php';
+    } else if ($partes_ruta[1] == 'aceites-mes') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/aceites/aceites-mes.php';
+    //$ruta_elegida = 'public/corte-diario/vistas/aceites-mes.php';
+        
+    } else if ($partes_ruta[1] == 'clientes-mes') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/clientes/clientes-mes.php';
+    //$ruta_elegida = 'public/corte-diario/vistas/clientes-mes.php';
+        
+    } else if ($partes_ruta[1] == 'embarques-mes') {
+    $GET_year = $partes_ruta[2];
+    $GET_mes = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/embarques/embarques-mes.php';
+    //$ruta_elegida = 'public/corte-diario/vistas/embarques-mes.php';
+        
+    //---------- FORMULARIOS RECURSOS HUMANOS (FORMATOS) ----------//
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-alta-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/alta-personal-index.php';
 
 
-        //---------- RESUMEN ACEITES (SERVICIO SOCIAL)----------
-        else if ($partes_ruta[2] == 'resumen-aceites') {
-            $GET_year = $partes_ruta[3];
-            $ruta_elegida = 'public/admin/vistas/resumen-aceites-year-ss.php';
-        }
+
+
+    } else if ($partes_ruta[2] == 'corte-diario') {
+    $GET_year = $partes_ruta[3];
+    $ruta_elegida = 'public/admin/vistas/corte-diario-year.php';
+    }
+
+
+    //---------- RESUMEN ACEITES (SERVICIO SOCIAL)----------
+    else if ($partes_ruta[2] == 'resumen-aceites') {
+    $GET_year = $partes_ruta[3];
+    $ruta_elegida = 'public/admin/vistas/resumen-aceites-year-ss.php';
+    }
 
         //---------- RESUMEN MONEDEROS (SERVICIO SOCIAL)----------
         else if ($partes_ruta[2] == 'resumen-monedero') {

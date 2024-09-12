@@ -15,7 +15,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 ?>
 
 <div class="modal-header">
-<h5 class="modal-title">Facturas telcel, <?=$ClassHerramientasDptoOperativo->nombremes($mes)?> del <?=$year;?></h5>
+<h5 class="modal-title">Facturas telcel, <?=$ClassHerramientasDptoOperativo->nombremes($mes)?> <?=$year;?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 

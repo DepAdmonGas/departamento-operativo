@@ -119,7 +119,7 @@ $Nuevo = '';
 }
 
 echo '<tr '.$trColor.'>';
-echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
+echo '<th class="align-middle text-center">'.$num.'</th>';
 if($session_nompuesto == "Gestoria"){
 echo '<td class="align-middle text-center">'.$row_lista['razonsocial'].'</td>'; 
 }
@@ -146,8 +146,7 @@ echo '<td class="align-middle text-center">'.$Firmar.'</td>';
 echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>';
 
 echo '<td class="align-middle text-center">
-<div class="dropdown">
-
+<div class="btn-group">
 <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 <i class="fas fa-ellipsis-v"></i>
 </a>

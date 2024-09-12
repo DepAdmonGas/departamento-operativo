@@ -40,8 +40,14 @@
 
   }); 
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  window.location.reload();
+  }
+  });
+
   function SelEstacion(year,mes) {
-    
+   
   let nombrePuesto = "<?=$session_nompuesto?>";
   let idUsuario = "<?=$Session_IDUsuarioBD?>";
 
@@ -260,7 +266,7 @@
   Archivo_filePath = Archivo.value;
 
   if(Documento != ""){
-  $('#Documento').css('border','');
+  $('#border-documento').css('border','');
   if(Archivo_filePath != ""){
   $('#Archivo').css('border','');
 
@@ -296,7 +302,7 @@
   $('#Archivo').css('border','2px solid #A52525'); 
   }
   }else{
-  $('#Documento').css('border','2px solid #A52525'); 
+  $('#border-documento').css('border','2px solid #A52525'); 
   }
   }
 

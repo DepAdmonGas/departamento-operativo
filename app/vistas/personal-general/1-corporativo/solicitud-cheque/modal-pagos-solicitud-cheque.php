@@ -19,9 +19,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <?php
 if($session_nompuesto == "Gestoria"){
-echo '<div class="mb-1 text-secondary">Documento:</div>
+echo '<div class="mb-1 text-secondary fw-bold">* DOCUMENTO:</div>
 <div class="input-group">
-<input type="file" class="form-control" id="Documento">
+<input type="file" class="form-control rounded-0" id="Documento">
 </div>
 
 <hr>';

@@ -16,8 +16,8 @@ $estacion = $row_listaestacion['razonsocial'];
 ?>
 
  <div class="modal-header">
-  <h5 class="modal-title">Facturas telcel, <?=nombremes($mes);?> del <?=$year;?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Facturas telcel, <?=nombremes($mes);?> <?=$year;?></h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
  
   <div class="modal-body">
@@ -25,12 +25,12 @@ $estacion = $row_listaestacion['razonsocial'];
     <b class=""><?=$estacion;?></b>
     
     <div class="mb-2 mt-2">
-    <div class="text-secondary mb-1">* Factura telcel:</div>
+    <div class="text-secondary mb-1 fw-bold">* FACTURA TELCEL:</div>
     <input class="form-control" type="file" id="Factura">
     </div>
 
     <div class="">
-    <div class="text-secondary mb-1">* Comprobante de pago:</div>
+    <div class="text-secondary mb-1 fw-bold">* COMPROBANTE DE PAGO:</div>
     <input class="form-control" type="file" id="Pago">
     </div>
 
@@ -39,7 +39,7 @@ $estacion = $row_listaestacion['razonsocial'];
 
   <div class="modal-footer">
 
-  <button type="button" class="btn btn-labeled2 btn-success" onclick="CancelarTelcel(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">
+  <button type="button" class="btn btn-labeled2 btn-danger" onclick="CancelarTelcel(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>)">
   <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
 
   <button type="button" class="btn btn-labeled2 btn-success"onclick="EditarTelcelInfo(<?=$idEstacion;?>,<?=$depu;?>,<?=$year;?>,<?=$mes;?>,<?=$id;?>)">
