@@ -41,6 +41,7 @@ function idAceite($idaceite, $con)
 
 function totalaceites($IdReporte, $noaceite, $con)
 {
+  $cantidad = 0;
   $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '" . $IdReporte . "' ";
   $result_listaaceite = mysqli_query($con, $sql_listaaceite);
   while ($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)) {
@@ -58,7 +59,7 @@ function valRow($valor)
 {
 
   if ($valor == 0) {
-    $resultado = "";
+    $resultado = 0;
   } else {
     $resultado = number_format($valor, 2, '.', '');
   }
