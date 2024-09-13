@@ -53,17 +53,17 @@ endif;
 
 
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1">Personal:</h6>
+      <div class="mb-1 text-secondary fw-bold">PERSONAL:</div>
       <div class=""><?= $personal; ?></div>
     </div>
 
     <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1">Fecha:</h6>
+    <div class="mb-1 text-secondary fw-bold">FECHA:</div>
       <div class=""><?= $fecha; ?></div>
     </div>
 
     <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-      <h6 class="mb-1">Hora:</h6>
+    <div class="mb-1 text-secondary fw-bold">HORA:</div>
       <div class=""><?= $hora; ?></div>
     </div>
 
@@ -75,7 +75,7 @@ endif;
 
     <div class="col-12">
 
-      <h6 class="mb-1">Detalle:</h6>
+    <div class="mb-1 text-secondary fw-bold">DETALLE:</div>
       <div class=""><?= $detalle; ?></div>
     </div>
 
