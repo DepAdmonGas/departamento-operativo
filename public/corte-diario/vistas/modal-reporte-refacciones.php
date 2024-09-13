@@ -56,22 +56,22 @@ if ($status == 0) {
   <div class="row">
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Fecha:</div>
+      <div class="mb-1 text-secondary">FECHA:</div>
       <input type="date" class="form-control rounded-0" id="Fecha" value="<?= $fecha; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Hora:</div>
+      <div class="mb-1 text-secondary">HORA:</div>
       <input type="time" class="form-control rounded-0" id="Hora" value="<?= $hora; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">Dispensario:</div>
+      <div class="mb-1 text-secondary">DISPENSARIO:</div>
       <input type="text" class="form-control rounded-0" id="Dispensario" value="<?= $dispensario; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">Motivo:</div>
+      <div class="mb-1 text-secondary">MOTIVO:</div>
       <textarea class="form-control rounded-0" id="Motivo" height="100%" <?= $onclickBTN ?>><?= $motivo; ?></textarea>
     </div>
 
@@ -81,11 +81,12 @@ if ($status == 0) {
       <?php if ($status == 1) { ?>
         <hr>
 
-        <h6>Refacciones utilizadas</h6>
+        <h6>REFACCIONES UTILIZADAS</h6>
 
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-            <div class="mb-1 text-secondary">Refacción:</div>
+            <div class="mb-1 text-secondary">REFACCIÓN:</div>
+            <div id="contenido-refaccion">
             <select class="selectize pointer" id="Refaccion">
               <option value="">Selecciona...</option>
               <?php
@@ -98,10 +99,11 @@ if ($status == 0) {
               ?>
             </select>
           </div>
+          </div>
 
 
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-            <div class="mb-1 text-secondary">Unidad utilizada:</div>
+            <div class="mb-1 text-secondary">UNIDAD UTILIZADA:</div>
             <input type="number" class="form-control rounded-0" id="Unidad">
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
@@ -111,8 +113,6 @@ if ($status == 0) {
             </div>
           </div>
         </div>
-
-
 
         <div class="table-responsive">
           <table id="tabla_bitacora" class="custom-table mt-2" style="font-size: .8em;" width="100%">

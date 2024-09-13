@@ -229,8 +229,8 @@ Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes
     <td class="text-end">$<?= number_format($GTPProducto2, 2); ?></td>
     <td><?= number_format($GTProducto3, 2); ?></td>
     <td class="text-end">$<?= number_format($GTPProducto3, 2); ?></td>
-    <td class="bg-light"><?= number_format($GTotalLitros, 2); ?></td>
-    <td class="bg-light text-end">$<?= number_format($GTotalPrecio, 2); ?></td>
+    <td class="fw-bold"><?= number_format($GTotalLitros, 2); ?></td>
+    <td class="fw-bold text-end">$<?= number_format($GTotalPrecio, 2); ?></td>
     </tr>
 
     <tr class="bg-white">            
@@ -241,28 +241,31 @@ Despacho VS Factura<?=$Estacion?>, <?=$ClassHerramientasDptoOperativo->nombremes
     <td class="text-end">$<?= number_format($GTPProductodos, 2); ?></td>
     <td><?= number_format($GTLProductotres, 2); ?></td>
     <td class="text-end">$<?= number_format($GTPProductotres, 2); ?></td>
-    <td class="bg-light"><?= number_format($GTotalALP, 2); ?></td>
-    <td class="bg-light text-end">$<?= number_format($GTotalAPP, 2); ?></td>
+    <td class="fw-bold"><?= number_format($GTotalALP, 2); ?></td>
+    <td class="fw-bold text-end">$<?= number_format($GTotalAPP, 2); ?></td>
     </tr>
 
-            <tr class="bg-white">               
-                 <td class="bg-light font-weight-bold">DIFERENCIA</td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiLPoUno); ?>"><?= number_format($GTDiLPoUno, 2); ?></td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiPPoUno); ?> text-end">
-                    $<?= number_format($GTDiPPoUno, 2); ?></td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiLPoDos); ?>"><?= number_format($GTDiLPoDos, 2); ?></td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiPPoDos); ?> text-end">
-                    $<?= number_format($GTDiPPoDos, 2); ?></td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiLPoTres); ?>"><?= number_format($GTDiLPoTres, 2); ?>
-                </td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiPPoTres); ?> text-end">
-                    $<?= number_format($GTDiPPoTres, 2); ?></td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiToLitros); ?>"><?= number_format($GTDiToLitros, 2); ?>
-                </td>
-                <td class="font-weight-bold <?= $corteDiarioGeneral->esNegativo($GTDiToPesos); ?> text-end">
-                    $<?= number_format($GTDiToPesos, 2); ?></td>
+       <?php    
+       
+       echo ' <tr class="bg-white">               
+            <td class="fw-bold">DIFERENCIA</td>
+            <td class="fw-bold" '.$corteDiarioGeneral->esNegativo($GTDiLPoUno).'>'.number_format($GTDiLPoUno, 2).'</td>
+            <td class="fw-bold text-end" '.$corteDiarioGeneral->esNegativo($GTDiPPoUno).'>$'.number_format($GTDiPPoUno, 2).'</td>
+            <td class="fw-bold" '.$corteDiarioGeneral->esNegativo($GTDiLPoDos).'>'.number_format($GTDiLPoDos, 2).'</td>
+            <td class="fw-bold text-end" '.$corteDiarioGeneral->esNegativo($GTDiPPoDos).'>$'.number_format($GTDiPPoDos, 2).'</td>
+            <td class="fw-bold" '.$corteDiarioGeneral->esNegativo($GTDiLPoTres).'>'.number_format($GTDiLPoTres, 2).'</td>
+            <td class="fw-bold text-end" '.$corteDiarioGeneral->esNegativo($GTDiPPoTres).'>$'.number_format($GTDiPPoTres, 2).'</td>
+            <td class="fw-bold" '.$corteDiarioGeneral->esNegativo($GTDiToLitros).'>'.number_format($GTDiToLitros, 2).'</td>
+            <td class="fw-bold text-end" '.$corteDiarioGeneral->esNegativo($GTDiToPesos).'>$'.number_format($GTDiToPesos, 2).'</td>
+            
+            
+            
+            
+            
+            
+            </tr>';
 
-            </tr>
+        ?>
         </tbody>
     </table>
 </div>

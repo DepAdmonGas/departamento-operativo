@@ -135,7 +135,7 @@ $Nuevo = '';
 	<td class="align-middle text-center">'.$row_lista['concepto'].'</td>
 	<td class="align-middle text-center">'.$row_lista['solicitante'].'</td>
 	<td class="align-middle text-center">'.$row_lista['autorizado_por'].'</td>
-	<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>
+	<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>
 	<td class="align-middle text-center">
 	<div class="dropdown">
 	<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

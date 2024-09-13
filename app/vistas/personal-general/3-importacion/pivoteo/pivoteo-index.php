@@ -13,7 +13,7 @@ $(".LoaderPage").fadeOut("slow");
 ListaPivoteo(<?=$Session_IDEstacion?>);
 
 }); 
- 
+
 function ListaPivoteo(idEstacion) {
 let targets;
 targets = [4];

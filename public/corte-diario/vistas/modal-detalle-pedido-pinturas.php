@@ -91,7 +91,7 @@ function Personal($idusuario, $con)
   </div>
 
   <hr>
-  <b>Observaciones: </b><?=$observaciones?>
+  <div class="text-secondary fw-bold ">OBSERVACIONES:</div><?=$observaciones?>
   <hr>
 
   <?php

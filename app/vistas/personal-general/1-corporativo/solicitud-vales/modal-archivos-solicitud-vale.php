@@ -24,7 +24,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 
 <div class="modal-body">
 
-<h6 class="mb-2">* Documento: </h6>
+<div class="text-secondary fw-bold">* DOCUMENTO: </div>
 <select class="selectize pointer" id="Documento">
 <option></option>
 <option>VALE</option> 
@@ -35,9 +35,9 @@ $numero_documento = mysqli_num_rows($result_documento);
 </select>
 
 
-<h6 class="mb-2 mt-2">* Archivo:</h6>
+<div class="text-secondary mt-2 fw-bold">* ARCHIVO:</div>
 <div class="input-group">
-<input type="file" class="form-control" id="Archivo">
+<input type="file" class="form-control rounded-0" id="Archivo">
 </div>
  
 

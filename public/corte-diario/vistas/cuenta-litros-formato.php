@@ -104,7 +104,7 @@ require('app/help.php');
   $('#tadCL').css('border',''); 
 
   if(unidadCL != ""){
-  $('#unidadCL').css('border','');
+  $('#contenido-unidad').css('border','');
 
   if(facturaCL != ""){
   $('#facturaCL').css('border',''); 
@@ -202,7 +202,7 @@ require('app/help.php');
   }
 
   }else{
-  $('#unidadCL').css('border','2px solid #A52525'); 
+  $('#contenido-unidad').css('border','2px solid #A52525'); 
   }
 
   }else{
@@ -311,7 +311,7 @@ if(horaCL != ""){
   data.append('ventaCL', ventaCL);
   data.append('mermaCL', mermaCL);
 
-  data.append('Archivo_file', Archivo_file);
+  data.append('imagenCL', Archivo_file);
   data.append('comentariosCL', comentariosCL);
 
   $(".LoaderPage").show();
@@ -326,7 +326,7 @@ if(horaCL != ""){
     }).done(function(data){
 
     if(data == 1){
-      
+     
     $(".LoaderPage").hide();
     alertify.success('Cuenta litros editado exitosamente.');
 

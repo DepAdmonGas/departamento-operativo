@@ -131,7 +131,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }
 
   echo '<tr '.$trColor.'>
-  <th class="align-middle text-center fw-normal">00'.$row_lista['folio'].'</th>
+  <th class="align-middle text-center">00'.$row_lista['folio'].'</th>
 	<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).'</td>';
 
 	if($idEstacion == 8){

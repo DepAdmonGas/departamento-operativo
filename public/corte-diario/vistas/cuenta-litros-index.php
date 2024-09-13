@@ -37,6 +37,12 @@ require('app/help.php');
   window.location.href = "cuenta-litros/" + year; 
   } 
  
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
   </head>
 

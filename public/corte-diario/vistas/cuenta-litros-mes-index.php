@@ -12,22 +12,22 @@ require('app/help.php');
   <meta name="viewport" content="width=device-width initial-scale=1.0">
   <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
   <link rel="apple-touch-icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>alertify.css">
-  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
+  <link rel="stylesheet" href="<?=RUTA_CSS2?>alertify.css">
+  <link rel="stylesheet" href="<?=RUTA_CSS2?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
-  <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet"/>
+
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script>
 
 <!---------- LIBRERIAS DEL DATATABLE ---------->
 <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
-
+   
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -35,7 +35,15 @@ require('app/help.php');
   SelEstacionLts(<?=$Session_IDEstacion?>,<?=$GET_idYear?>,<?=$GET_idMes?>)
   }); 
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
   function SelEstacionLts(idEstacion,year,mes) {
+    
     let targets;
     targets = [2];
 
@@ -54,9 +62,6 @@ require('app/help.php');
     });
 
   }
-
-
-
   //---------- FORMULARIO EDITAR CUENTA LITROS ----------
   function EditarCL(idCuentaLitros){
   window.location.href = "../../cuenta-litros-formato/" + idCuentaLitros; 
@@ -138,12 +143,7 @@ require('app/help.php');
 
   }
 
-  window.addEventListener('pageshow', function(event) {
-  if (event.persisted) {
-  // Si la página está en la caché del navegador, recargarla
-  window.location.reload();
-  }
-  });
+
 
   </script>
   </head> 
@@ -167,13 +167,12 @@ require('app/help.php');
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+  <script src="<?=RUTA_JS2?>bootstrap.min.js"></script>
 
 <!---------- LIBRERIAS DEL DATATABLE ---------->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

@@ -97,7 +97,7 @@ $Estacion = '('.$datosEstacion['nombre'].')';
   }
 
   echo '<tr ' . $tableColor . '>';
-  echo '<th class="align-middle text-center fw-normal">0' . $nocontrol . '</th>';
+  echo '<th class="align-middle text-center">0' . $nocontrol . '</th>';
   echo '<td class="align-middle text-center">' . $Fecha . '</td>';
   echo '<td class="align-middle text-center">' . $row_lista['sucursal'] . '</td>';
   echo '<td class="align-middle text-center">' . $row_lista['causa'] . '</td>';

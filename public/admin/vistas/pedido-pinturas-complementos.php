@@ -79,6 +79,7 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
       var ParaQue = $('#ParaQue').val();
       var OtroProducto = $('#OtroProducto').val();
 
+      
       if (Piezas != "") {
         $('#Piezas').css('border', '');
         if (ParaQue != "") {
@@ -125,7 +126,6 @@ while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
       } else {
         $('#Piezas').css('border', '2px solid #A52525');
       }
-
 
     }
 

@@ -70,7 +70,7 @@ $motivo = $row_lista['motivo'];
 
 <div class="row">
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
-    <h6 class="mb-1 text-secondary ">Personal:</h6>
+    <div class="mb-1 text-secondary fw-bold">PERSONAL:</div>
     <div><?=$personal;?></div>
 
   </div>
@@ -78,13 +78,13 @@ $motivo = $row_lista['motivo'];
   <hr>
 
 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-1 mt-2">
-    <h6 class="mb-1 text-secondary ">Fecha:</h6>
+    <div class="mb-1 text-secondary fw-bold">FECHA:</div>
     <div><?=$fecha;?></div>
   </div>
 
 
 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-1 mt-2">
-    <h6 class="mb-1 text-secondary ">Hora:</h6>
+    <div class="mb-1 text-secondary fw-bold">HORA:</div>
     <div><?=$hora;?></div>
   </div>
 </div>
@@ -93,19 +93,18 @@ $motivo = $row_lista['motivo'];
 <div class="row">
 
   <div class="col-6 mt-2">
-      <h6 class="mb-1 text-secondary">Dispensario:</h6>
+      <div class="mb-1 text-secondary fw-bold">DISPENSARIO:</div>
     <div><?=$dispensario;?></div>
 
   </div>
 
   <hr>
   <div class="col-6 mt-2">
-    <h6 class="mb-1 text-secondary">Motivo:</h6>
+    <div class="mb-1 text-secondary fw-bold">MOTIVO:</div>
     <div><?=$motivo;?></div>
 
   </div>
 <hr>
-
 
   <div class="table-responsive">
   <table class="custom-table mt-2" style="font-size: .8em;"width="100%">

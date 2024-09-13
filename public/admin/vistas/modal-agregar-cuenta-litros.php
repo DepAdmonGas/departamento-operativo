@@ -16,11 +16,11 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
  
     <div class="modal-body">
  	
- 	<div class="mb-1 text-secondary">*Hora:</div>
-    <input class="form-control" type="time" id="horaCL">
+ 	<div class="mb-1 text-secondary fw-bold">* HORA:</div>
+    <input class="form-control rounded-0" type="time" id="horaCL">
 
-    <div class="mt-2 mb-1 text-secondary">*Embarque</div>
-    <select class="form-select" id="embarqueCL" onchange="Embarque()">
+    <div class="mt-2 mb-1 text-secondary fw-bold">* EMBARQUE:</div>
+    <select class="form-select rounded-0" id="embarqueCL" onchange="Embarque()">
           <option></option>
           <option>Pemex</option>
           <option>Delivery</option>
@@ -29,8 +29,8 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
  
   
  <div id="DivTransporte" style="display: none;">
-    <div class="mt-2 mb-1 text-secondary">*Nombre del transporte</div>
-    <select class="selectize pointer" id="transporteCL">
+    <div class="mt-2 mb-1 text-secondary fw-bold">* NOMBRE DEL TRANSPORTE:</div>
+    <select class="selectize pointer rounded-0" id="transporteCL">
 
     <option></option>
     <?php
@@ -51,12 +51,12 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
   </div>
    
    
-    <div class="mb-1 mt-2 text-secondary">*Tanque:</div>
-    <input class="form-control" type="number" id="tanqueCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TANQUE:</div>
+    <input class="form-control rounded-0" type="number" id="tanqueCL">
 
 
-    <div class="mb-1 mt-2 text-secondary">*Producto:</div>
-    <select class="form-select" id="productoCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* PRODUCTO:</div>
+    <select class="form-select rounded-0" id="productoCL">
 	<option></option>
 	<?php
  
@@ -92,8 +92,8 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
 	</select>
 
 
-    <div class="mb-1 mt-2 text-secondary">*TAD:</div>
-    <select class="form-select" id="tadCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TAD:</div>
+    <select class="form-select rounded-0" id="tadCL">
     <option></option>
     <option>Atlacomulco</option>
     <option>Tizayuca</option>
@@ -104,50 +104,47 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
     </select>
 
 
-    <div class="mb-1 mt-2 text-secondary">*Unidad:</div>
-    <select class="selectize pointer" id="unidadCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* UNIDAD:</div>
+    <div id="contenido-unidad">
+    <select class="selectize pointer rounded-0" id="unidadCL">
     <option></option>
     <?php
     $sql_unidades = "SELECT no_unidad FROM tb_unidades_transporte WHERE estado = 0 ORDER BY no_unidad ASC";
     $result_unidades = mysqli_query($con, $sql_unidades);
     $numero_unidades = mysqli_num_rows($result_unidades); 
-
     while($row_unidades = mysqli_fetch_array($result_unidades, MYSQLI_ASSOC)){
     $no_unidad = $row_unidades['no_unidad'];
-
     echo '<option>'.$no_unidad.'</option>';
-    
     }
-
     ?>
-
     </select>
+    </div>
 
   
-    <div class="mb-1 mt-2 text-secondary">*Factura:</div>
-    <input class="form-control" type="number" id="facturaCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* FACTURA:</div>
+    <input class="form-control rounded-0" type="number" id="facturaCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Tirilla de Descarga Neto:</div>
-    <input class="form-control" type="number" id="descargaNetoCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TIRILLA DE DESCARGA NETO:</div>
+    <input class="form-control rounded-0" type="number" id="descargaNetoCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Tirilla de Descarga Bruto:</div>
-    <input class="form-control" type="number" id="descargaBrutoCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TIRILLA DE DESCARGA BRUTO:</div>
+    <input class="form-control rounded-0" type="number" id="descargaBrutoCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Cuenta Litros a 20° C:</div>
-    <input class="form-control" type="number" id="descargaGradosCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* CUENTA LITROS A 20° C:</div>
+    <input class="form-control rounded-0" type="number" id="descargaGradosCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Venta al momento:</div>
-    <input class="form-control" type="number" id="ventaCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* VENTA AL MOMENTO:</div>
+    <input class="form-control rounded-0" type="number" id="ventaCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Folio de merma:</div>
-    <input class="form-control" type="number" id="mermaCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* FOLIO DE MERMA:</div>
+    <input class="form-control rounded-0" type="number" id="mermaCL">
 
-    <div class="mb-1 mt-2 text-secondary">*Imagen:</div>
-    <input class="form-control" type="file" id="imagenCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* IMAGEN:</div>
+    <input class="form-control rounded-0" type="file" id="imagenCL">
 
 
-    <div class="mb-1 mt-2 text-secondary">Comentarios:</div>
-    <textarea class="form-control" id="comentariosCL"></textarea>
+    <div class="mb-1 mt-2 text-secondary">COMENTARIOS:</div>
+    <textarea class="form-control rounded-0" id="comentariosCL"></textarea>
 
 
 	</div>

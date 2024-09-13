@@ -66,32 +66,32 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="row">
 
-<div class="col-12 mb-2"><h6>Fecha y hora:</h6><?=$Fecha.', '.$Hora;?></div>
+<div class="col-12 mb-2"><div class="text-secondary fw-bold">FECHA Y HORA:</div><?=$Fecha.', '.$Hora;?></div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-<h6>Estación proveedora:</h6>
+<div class="text-secondary fw-bold">ESTACIÓN PROVEEDORA:</div>
 <?=$Estacion;?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
- <h6>Refacción que sale:</h6>
+<div class="text-secondary fw-bold">REFACCIÓN QUE SALE:</div>
  <?=$NomRefaccion;?>
  </div>
 
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
- <h6>Estación receptora:</h6>
+  <div class="text-secondary fw-bold">ESTACIÓN RECEPTORA:</div>
  <?=$EstacionReceptora;?>
  </div>
 
  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
- <h6>Refacción que entra:</h6>
+ <div class="text-secondary fw-bold">REFACCIÓN QUE ENTRA:</div>
  <?=$NomRefaccionEntra;?>
  </div>
 
 
  <div class="col-12 mb-2"> 
-<h6>Observación y/o motivo:</h6>
+ <div class="text-secondary fw-bold">OBSERVACIÓN Y/O MOTIVO:</div>
  <?=$observaciones;?>
  </div>
 

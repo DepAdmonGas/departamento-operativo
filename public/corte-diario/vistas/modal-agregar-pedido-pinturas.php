@@ -37,7 +37,8 @@ function Producto($idProducto, $con)
 <div class="modal-body">
   <div class="row">
     <div class="col-8 mb-2">
-      <div class="mb-1 text-secondary">Producto:</div>
+      <div class="mb-1 text-secondary fw-bold">* PRODUCTO:</div>
+      <div id="contenido-producto">
       <select class="selectize" placeholder="Producto" id="Producto">
         <option value="">Producto</option>
         <?php
@@ -47,21 +48,22 @@ function Producto($idProducto, $con)
 
         ?>
       </select>
+      </div>
     </div>
 
 
     <div class="col-4 mb-2">
-      <div class="mb-1 text-secondary">Piezas:</div>
+      <div class="mb-1 text-secondary fw-bold">* PIEZAS:</div>
       <input type="number" class="form-control rounded-0" id="Piezas">
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">Otro:</div>
+      <div class="mb-1 text-secondary">OTRO:</div>
       <input type="text" class="form-control rounded-0" id="OtroProducto">
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">¿Para que?</div>
+      <div class="mb-1 text-secondary">¿PARA QUE?</div>
       <textarea class="form-control rounded-0" id="ParaQue"></textarea>
     </div>
   </div>

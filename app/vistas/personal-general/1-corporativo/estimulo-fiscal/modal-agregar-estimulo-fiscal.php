@@ -11,18 +11,18 @@ $idEstacion = $_GET['idEstacion'];
 
 <div class="modal-body">
 
-<h5>Periodo</h5>
+<h5>PERIODO</h5>
 
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>* Fecha Inicio</h6>
-<input type="date" class="form-control" id="MFInicio">
+<div class="fw-bold text-secondary">* FECHA INICIO:</div>
+<input type="date" class="form-control rounded-0" id="MFInicio">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>* Fecha Termino</h6>
-<input type="date" class="form-control" id="MFTermino">
+<div class="fw-bold text-secondary">* FECHA TERMINO</div>
+<input type="date" class="form-control rounded-0" id="MFTermino">
 </div>
 
 </div>
@@ -32,19 +32,19 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
 <div class="col-12 mb-2"> 
-<h6 class="mt-2">Agregar factura PDF</h6>
-<input type="file" class="form-control" id="PDF">
+<div class="mt-2 fw-bold text-secondary">* AGREGAR FACTURA PDF:</div>
+<input type="file" class="form-control rounded-0" id="PDF">
 </div>
 
 <div class="col-12 mb-2"> 
-<h6 class="mt-2">Agregar factura XML</h6>
-<input type="file" class="form-control" id="XML">
+<div class="mt-2 fw-bold text-secondary">* AGREGAR FACTURA XML:</div>
+<input type="file" class="form-control rounded-0" id="XML">
 </div>
 
 </div>
 
 
-<div class="text-danger mt-3">Nota: Usu del <b>CFDI</b> es <b>Gastos en general</b> y la forma de pago es <b>PPD</b></div>
+<div class="text-danger mt-3">NOTA: USO DEL CFDI ES GASTOS EN GENERAL Y LA FORMA DE PAGO ES PPD</div>
 </div>
 
 <div class="modal-footer">
