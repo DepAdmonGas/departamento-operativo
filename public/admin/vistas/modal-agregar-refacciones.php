@@ -36,7 +36,7 @@ $imagenPrevisualizacion.src = objectURL;
     <div class="row">
    
     <div class="col-12 mb-2">
-    <div class="mb-1 text-secondary">* Refacción:</div>
+    <div class="mb-1 text-secondary fw-bold">* REFACCIÓN:</div>
     <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
     <div class="text-center">
     <img id="imagenPrevisualizacion" width="150px">
@@ -45,19 +45,19 @@ $imagenPrevisualizacion.src = objectURL;
     </div>
 
     <div class="col-12 mb-2">
-    <div class="mb-1 mt-2 text-secondary">* Descripción (Factura):</div>
+    <div class="mb-1 mt-2 text-secondary fw-bold">* DESCRIPCIÓN (FACTURA):</div>
     <input type="text" class="form-control rounded-0" id="DescripcionRefaccion">  
     </div> 
 
 
     <div class="col-12 mb-2">
-    <div class="mb-1 mt-2 text-secondary">* Nombre genérico:</div>
+    <div class="mb-1 mt-2 text-secondary fw-bold">* NOMBRE GENÉRICO:</div>
     <input type="text" class="form-control rounded-0" id="NombreRefaccion">  
     </div> 
 
 
     <div class="col-12 mb-2">
-    <div class="mb-1 text-secondary">* Área:</div>
+    <div class="mb-1 text-secondary fw-bold">* ÁREA:</div>
           <select class="form-select rounded-0" id="Area">
             <option></option>
             <?php 
@@ -75,32 +75,32 @@ $imagenPrevisualizacion.src = objectURL;
           
   
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Modelo:</div>
+          <div class="mb-1 text-secondary fw-bold">MODELO:</div>
           <input type="text" class="form-control rounded-0" id="Modelo">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Marca:</div>
+          <div class="mb-1 text-secondary fw-bold">MARCA:</div>
           <input type="text" class="form-control rounded-0" id="Marca">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Proveedor:</div>
+          <div class="mb-1 text-secondary fw-bold">PROVEEDOR:</div>
           <input type="text" class="form-control rounded-0" id="Proveedor">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Contacto (Correo, Teléfono):</div>
+          <div class="mb-1 text-secondary fw-bold">CONTADO (CORREO, TELÉFONO):</div>
           <input type="text" class="form-control rounded-0" id="Contacto">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">* Unidades:</div>
+          <div class="mb-1 text-secondary fw-bold">* UNIDADES:</div>
           <input type="number" class="form-control rounded-0" id="Unidad">
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">* Estado:</div>
+          <div class="mb-1 text-secondary fw-bold">* ESTADO:</div>
           <select class="form-select" id="EstadoR">
           <option value="">Selecciona una opción...</option>
           <option value="Nuevo">Nuevo</option>
@@ -110,7 +110,7 @@ $imagenPrevisualizacion.src = objectURL;
 
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">* Costo por unidad:</div>
+          <div class="mb-1 text-secondary fw-bold">* COSTO POR UNIDAD:</div>
           <input type="number" class="form-control rounded-0" id="Costo">
           </div>
   

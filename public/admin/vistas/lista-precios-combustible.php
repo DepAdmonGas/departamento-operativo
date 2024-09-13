@@ -73,7 +73,9 @@
   <th class="text-center align-middle font-weight-bold" width="60">#</th>
   <th class="text-start align-middle font-weight-bold">Fecha</th>
   <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-  <th class="text-center align-middle text-center <?=$ocultarOp?>" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
+  <?php if($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo") :?>
+    <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
+  <?php endif; ?>
   </thead> 
 
   <tbody>
@@ -93,7 +95,9 @@
   echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
   echo '<td class="align-middle text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($date).'</td>';
   echo '<td class="align-middle text-center">'.$btnDetalle.'</td>';
-  echo '<td class="align-middle text-center '.$ocultarOp.'">'.$btnAgregar.'</td>';
+  if($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo"):
+    echo '<td class="align-middle text-center '.$ocultarOp.'">'.$btnAgregar.'</td>';
+  endif;
   echo '</tr>';
 
   $num++;

@@ -29,7 +29,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
  
-  <label class="text-secondary">* Refacción</label>
+  <label class="text-secondary fw-bold">* REFACCIÓN</label>
   <select class=" form-select" placeholder="Refacciones" id="Concepto">
   <option value=""></option>
   <?php
@@ -39,10 +39,10 @@ $numero_lista = mysqli_num_rows($result_lista);
   ?>
   </select>
 
-<label class="text-secondary">Otro</label>
+<label class="text-secondary fw-bold">OTRO</label>
 <input type="text" class="form-control rounded-0" id="Otro">
 
-<label class="text-secondary mt-2">* Cantidad</label>
+<label class="text-secondary mt-2 fw-bold">* CANTIDAD</label>
 <input type="text" class="form-control rounded-0" id="Cantidad">
 
 </div>
