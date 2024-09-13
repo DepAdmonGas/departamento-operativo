@@ -309,7 +309,7 @@ endif;
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <small>* Documento</small>
+          <h6 class="mb-2">* Documento</h6>
           <select class="form-select mb-1" id="NombreDocumento">
             <option value="">Selecciona</option>
             <option value="Ficha prosegur">Ficha prosegur</option>
@@ -322,7 +322,7 @@ endif;
             <option value="Corte">Corte</option>
             <option value="Documento/archivo adicional">Documento/archivo adicional</option>
           </select>
-          <div class="mt-2 mb-1"><small>* Selecciona el documento</small></div>
+          <h6 class="mb-2">* Selecciona el documento</h6>
           <input class="form-control" type="file" id="Documento">
         </div>
         <div class="modal-footer">
