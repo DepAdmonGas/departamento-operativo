@@ -56,22 +56,22 @@ if ($status == 0) {
   <div class="row">
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">FECHA:</div>
+      <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
       <input type="date" class="form-control rounded-0" id="Fecha" value="<?= $fecha; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">HORA:</div>
+      <div class="mb-1 text-secondary fw-bold">* HORA:</div>
       <input type="time" class="form-control rounded-0" id="Hora" value="<?= $hora; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">DISPENSARIO:</div>
+      <div class="mb-1 text-secondary fw-bold">* DISPENSARIO:</div>
       <input type="text" class="form-control rounded-0" id="Dispensario" value="<?= $dispensario; ?>" <?= $onclickBTN ?>>
     </div>
 
     <div class="col-12 mb-2">
-      <div class="mb-1 text-secondary">MOTIVO:</div>
+      <div class="mb-1 text-secondary fw-bold">* MOTIVO:</div>
       <textarea class="form-control rounded-0" id="Motivo" height="100%" <?= $onclickBTN ?>><?= $motivo; ?></textarea>
     </div>
 
@@ -85,7 +85,7 @@ if ($status == 0) {
 
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-            <div class="mb-1 text-secondary">REFACCIÓN:</div>
+            <div class="mb-1 text-secondary fw-bold">* REFACCIÓN:</div>
             <div id="contenido-refaccion">
             <select class="selectize pointer" id="Refaccion">
               <option value="">Selecciona...</option>
@@ -103,7 +103,7 @@ if ($status == 0) {
 
 
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-            <div class="mb-1 text-secondary">UNIDAD UTILIZADA:</div>
+            <div class="mb-1 text-secondary fw-bold">* UNIDAD UTILIZADA:</div>
             <input type="number" class="form-control rounded-0" id="Unidad">
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">

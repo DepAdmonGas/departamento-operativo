@@ -64,7 +64,7 @@ function Refaccion($idrefaccion, $con)
           $Editar = '<a class="dropdown-item" onclick="EditarReporte(' . $id . ')"><i class="fa-solid fa-pencil"></i> Editar</a>';
           $Eliminar = '<a class="dropdown-item" onclick="EliminarReporte(' . $id . ')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
           echo '<tr ' . $tableColor . '>';
-          echo '<th class="align-middle text-center"><b>' . $id . '</b></th>';
+          echo '<th class="align-middle text-center">' . $id . '</th>';
           echo '<td class="align-middle text-center">' . Personal($row_lista['id_usuario'], $con) . '</td>';
           echo '<td class="align-middle text-center">' . FormatoFecha($row_lista['fecha']) . ', ' . date('g:i a', strtotime($row_lista['hora'])) . '</td>';
           echo '<td class="align-middle text-center">' . $row_lista['motivo'] . '</td>';

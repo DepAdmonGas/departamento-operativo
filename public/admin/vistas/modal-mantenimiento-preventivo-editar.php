@@ -39,7 +39,7 @@ return $return;
 
       <div class="modal-body">
 
-        <div class="mb-1 text-secondary">Encargado:</div>        
+        <div class="mb-1 text-secondary fw-bold">* ENCARGADO:</div>        
         <select class="form-select" id="Nombre">
         <option value="<?=$nombre?>"><?=NombrePersonal($nombre,$con)?></option>
         <?php 
@@ -51,7 +51,7 @@ return $return;
     
 
 
-        <div class="mb-1 mt-2 text-secondary">Fechas de prueba de eficiencia:</div>
+        <div class="mb-1 mt-2 text-secondary fw-bold">* FECHAS DE PRUEBA DE EFICIENCIA:</div>
         <div class="row">
           
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -65,11 +65,11 @@ return $return;
       </div>
         
 
-        <div class="mb-1 mt-2 text-secondary mt-2">Orden de servicio:</div>
+        <div class="mb-1 mt-2 text-secondary mt-2 fw-bold">* ORDEN DE SERVICIO:</div>
         <input class="form-control" type="file" id="Archivo">
 
 
-        <div class="mb-1 mt-2 text-secondary mt-2">Observación:</div>
+        <div class="mb-1 mt-2 text-secondary mt-2 fw-bold">OBSERVACIÓN:</div>
         <textarea class="form-control" id="Observacion"><?=$observaciones;?></textarea>
 
        

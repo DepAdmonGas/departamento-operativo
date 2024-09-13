@@ -215,7 +215,7 @@ return $nombre;
   <div class="col-12">
   <hr>
 
-  <h5 class="text-secondary mb-3">Firmas:</h5>
+  <h5 class="text-secondary mb-3 fw-bold">FIRMAS:</h5>
   <div class="row">
     <?php
     $sql_firma = "SELECT * FROM op_nivel_explosividad_firma WHERE id_reporte = '".$idReporte."' ";
