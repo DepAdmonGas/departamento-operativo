@@ -46,7 +46,7 @@ $id = $row_lista['id'];
           }
 echo '<tr>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['nombre'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
 echo '<td class="align-middle text-center">'.$estatusR.'</td>';
 echo '<td class="align-middle text-center">$ '.number_format($row_lista['costo'],2).'</td>';

@@ -15,15 +15,13 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <div class="modal-body">
 
-    <h6>* Archivo</h6>
-    <input class="form-control" type="file" class="mt-1" id="Archivo">
+    <div class="text-secondary fw-bold">* ARCHIVO:</div>
+    <input class="form-control rounded-0" type="file" class="mt-1" id="Archivo">
     <hr>
     <div class="text-end mt-2">
         <button type="button" class="btn btn-primary btn-sm" onclick="GuardarArchivo(<?= $idReporte; ?>)">Guardar
             archivo</button>
     </div>
-
-
 
     <div class="table-responsive">
         <table class="custom-table mt-2" style="font-size: .8em;" width="100%">

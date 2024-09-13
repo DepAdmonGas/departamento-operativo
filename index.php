@@ -743,7 +743,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/corte-diario/vistas/nivel-explosividad-detalle.php';
         }
 
-
         //----------------------------------------------------------------------------
         else if ($partes_ruta[1] == 'miselanea-30-31') {
             $GET_idYear = $partes_ruta[2];

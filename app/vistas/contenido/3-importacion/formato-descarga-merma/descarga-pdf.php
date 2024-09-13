@@ -1,7 +1,8 @@
 <?php
 error_reporting(0);
 require 'app/help.php';
-require 'app/lib/dompdf/vendor/autoload.php';
+require_once 'app/lib/dompdf/vendor/autoload.php';
+
 function Estacion($idEstacion,$con){
 $sql = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
 $result = mysqli_query($con, $sql);

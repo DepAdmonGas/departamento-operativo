@@ -16,6 +16,10 @@ $sql_insert = "INSERT INTO op_refacciones_reporte (
 id,
 id_estacion,
 id_usuario,
+fecha,
+hora,
+dispensario,
+motivo,
 archivo,
 status
     )
@@ -25,7 +29,11 @@ status
     '".$Session_IDEstacion."',
     '".$Session_IDUsuarioBD."',
     '".$fecha_del_dia."',
-    '".$hora_del_dia."'
+    '".$hora_del_dia."',
+    '',
+    '',
+    '',
+    0
     )";
 
 if(mysqli_query($con, $sql_insert)){

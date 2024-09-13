@@ -17,18 +17,18 @@ $numeroP2 = mysqli_num_rows($resultP2);
 			</tr>
 			<tr>
 				<td class="align-middle text-center fw-bold">Cortes diarios</td>
-				<th class="align-middle text-end" width="110px">Enero</th>
-				<th class="align-middle text-end" width="110px">Febrero</th>
-				<th class="align-middle text-end" width="110px">Marzo</th>
-				<th class="align-middle text-end" width="110px">Abril</th>
-				<th class="align-middle text-end" width="110px">Mayo</th>
-				<th class="align-middle text-end" width="110px">Junio</th>
-				<th class="align-middle text-end" width="110px">Julio</th>
-				<th class="align-middle text-end" width="110px">Agosto</th>
-				<th class="align-middle text-end" width="110px">Septiembre</th>
-				<th class="align-middle text-end" width="110px">Octubre</th>
-				<th class="align-middle text-end" width="110px">Noviembre</th>
-				<th class="align-middle text-end" width="110px">Diciembre</th>
+				<th class="align-middle text-end" width="120px">Enero</th>
+				<th class="align-middle text-end" width="120px">Febrero</th>
+				<th class="align-middle text-end" width="120px">Marzo</th>
+				<th class="align-middle text-end" width="120px">Abril</th>
+				<th class="align-middle text-end" width="120px">Mayo</th>
+				<th class="align-middle text-end" width="120px">Junio</th>
+				<th class="align-middle text-end" width="120px">Julio</th>
+				<th class="align-middle text-end" width="120px">Agosto</th>
+				<th class="align-middle text-end" width="120px">Septiembre</th>
+				<th class="align-middle text-end" width="120px">Octubre</th>
+				<th class="align-middle text-end" width="120px">Noviembre</th>
+				<th class="align-middle text-end" width="120px">Diciembre</th>
 				<td class="align-middle text-center fw-bold">Total Ejercicio</td>
 			</tr>
 		</thead>
@@ -214,18 +214,18 @@ $numeroP2 = mysqli_num_rows($resultP2);
 			</tr>
 			<tr>
 				<td class="align-middle text-center fw-bold">Facturación</td>
-				<th class="align-middle text-end" width="110px">Enero</th>
-				<th class="align-middle text-end" width="110px">Febrero</th>
-				<th class="align-middle text-end" width="110px">Marzo</th>
-				<th class="align-middle text-end" width="110px">Abril</th>
-				<th class="align-middle text-end" width="110px">Mayo</th>
-				<th class="align-middle text-end" width="110px">Junio</th>
-				<th class="align-middle text-end" width="110px">Julio</th>
-				<th class="align-middle text-end" width="110px">Agosto</th>
-				<th class="align-middle text-end" width="110px">Septiembre</th>
-				<th class="align-middle text-end" width="110px">Octubre</th>
-				<th class="align-middle text-end" width="110px">Noviembre</th>
-				<th class="align-middle text-end" width="110px">Diciembre</th>
+				<th class="align-middle text-end" width="120px">Enero</th>
+				<th class="align-middle text-end" width="120px">Febrero</th>
+				<th class="align-middle text-end" width="120px">Marzo</th>
+				<th class="align-middle text-end" width="120px">Abril</th>
+				<th class="align-middle text-end" width="120px">Mayo</th>
+				<th class="align-middle text-end" width="120px">Junio</th>
+				<th class="align-middle text-end" width="120px">Julio</th>
+				<th class="align-middle text-end" width="120px">Agosto</th>
+				<th class="align-middle text-end" width="120px">Septiembre</th>
+				<th class="align-middle text-end" width="120px">Octubre</th>
+				<th class="align-middle text-end" width="120px">Noviembre</th>
+				<th class="align-middle text-end" width="120px">Diciembre</th>
 				<td class="align-middle text-end fw-bold">Total Ejercicio</td>
 			</tr>
 		</thead>

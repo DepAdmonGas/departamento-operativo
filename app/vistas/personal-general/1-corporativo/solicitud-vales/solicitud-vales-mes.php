@@ -82,6 +82,13 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   window.history.back();
   } 
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
   function ListaVales(idEstacion, depu, year, mes, pagina){
     
   let targets = [];// Variable para almacenar los targets dinámicos

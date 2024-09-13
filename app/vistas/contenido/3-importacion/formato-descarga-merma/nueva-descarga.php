@@ -95,6 +95,8 @@ FacturaRemision_filePath = FacturaRemision.value;
             $('#Estacion').css('border', '');
             if (Responsable != "") {
                 $('#Responsable').css('border', '');
+                if (Fechallegada != "") {
+                $('#Fechallegada').css('border', '');
                 if (Litros != "") {
                     $('#Litros').css('border', '');
                     if (PrecioLitro != "") {
@@ -226,6 +228,10 @@ FacturaRemision_filePath = FacturaRemision.value;
                     alertify.error('Faltan los litros');
                 }
             } else {
+                $('#Fechallegada').css('border', '2px solid #A52525');
+                alertify.error('Falta fecha de llegada');
+            }
+            } else {
                 $('#Responsable').css('border', '2px solid #A52525');
                 alertify.error('Falta responsable');
             }
@@ -294,8 +300,8 @@ FacturaRemision_filePath = FacturaRemision.value;
 
 <div class="row">
 <div class="col-12 col-sm-3 mb-2">
-<div class="text-secondary mb-1">Estación de descarga:</div>
-                                    <select class="form-select" id="Estacion"
+<div class="text-secondary mb-1 fw-bold">* ESTACIÓN DE DESCARGA:</div>
+                                    <select class="form-select rounded-0" id="Estacion"
 
                                         <?= $Disabled; ?>>
                                         <option value="<?= $idEstacion; ?>"><?= $session_nomestacion; ?></option>
@@ -312,10 +318,10 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Responsable de la estación:</div>
+                                    <div class="text-secondary mb-1 fw-bold">* RESPONSABLE DE LA ESTACIÓN:</div>
                                     <div id="Personal">
 
-                                        <select class="form-select" id="Responsable" <?= $Disabled; ?>>
+                                        <select class="form-select rounded-0" id="Responsable" <?= $Disabled; ?>>
                                             <option value="<?= $Session_IDUsuarioBD; ?>"><?= $session_nomusuario; ?></option>
 
                                         </select>
@@ -323,21 +329,21 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 </div>
 
                                 <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Fecha y hora de llegada de full:</div>
+                                    <div class="text-secondary mb-1 fw-bold">* FECHA Y HORA DE LLEGADA DE FULL:</div>
                                     <div class="row">
                                     <div class="col-12 col-sm-6 mb-2">
-                                            <input type="date" class="form-control" id="Fechallegada">
+                                            <input type="date" class="form-control rounded-0" id="Fechallegada">
                                         </div>
 
                                         <div class="col-12 col-sm-6 mb-2">
-                                            <input type="time" class="form-control" id="Horallegada">
+                                            <input type="time" class="form-control rounded-0" id="Horallegada">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Productos recibido:</div>
-                                    <select class="form-select" id="Productos">
+                                    <div class="text-secondary mb-1">PRODUCTO RECIBIDO:</div>
+                                    <select class="form-select rounded-0" id="Productos">
                                         <option></option>
                                         <option>87 oct</option>
                                         <option>91 oct</option>
@@ -346,53 +352,53 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 </div>
 
                                 <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Numero Factura o Remisión:</div>
-                                    <input type="text" class="form-control" id="NoFactura">
+                                    <div class="text-secondary mb-1">NUMERO FACTURA O REMISIÓN:</div>
+                                    <input type="text" class="form-control rounded-0" id="NoFactura">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Litros:</div>
-                                    <input type="number" class="form-control" id="Litros" onchange="mermaLts(this,1)">
+                                    <div class="text-secondary mb-1 fw-bold">* LITROS:</div>
+                                    <input type="number" class="form-control rounded-0" id="Litros" onchange="mermaLts(this,1)">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Precio por litro:</div>
-                                    <input type="number" class="form-control" id="PrecioLitro">
+                                    <div class="text-secondary mb-1 fw-bold">* PRECIO POR LITRO:</div>
+                                    <input type="number" class="form-control rounded-0" id="PrecioLitro">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Cuenta litro:</div>
-                                    <input type="number" class="form-control" id="CuentaLitros"
+                                    <div class="text-secondary mb-1 fw-bold">* CUENTA LITRO:</div>
+                                    <input type="number" class="form-control rounded-0" id="CuentaLitros"
                                     onchange="mermaLts(this,2)">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Anexar merma en Litros:</div>
-                                    <input type="number" class="form-control" id="Merma" disabled>
+                                    <div class="text-secondary mb-1">ANEXAR MERMA EN LITROS:</div>
+                                    <input type="number" class="form-control rounded-0" id="Merma" disabled>
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Unidad:</div>
-                                    <input type="text" class="form-control" id="Unidad">
+                                    <div class="text-secondary mb-1 fw-bold">* UNIDAD:</div>
+                                    <input type="text" class="form-control rounded-0" id="Unidad">
                                 </div>
 
                                 <div class="col-12 col-sm-6 mb-2">
-                                    <div class="text-secondary mb-1">Nombre del operador de la unidad:</div>
-                                    <input type="text" class="form-control" id="Operador">
+                                    <div class="text-secondary mb-1 fw-bold">* NOMBRE DEL OPERADOR DE LA UNIDAD:</div>
+                                    <input type="text" class="form-control rounded-0" id="Operador">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Compañía de Transportista:</div>
-                                    <input type="text" class="form-control" id="Transportista">
+                                    <div class="text-secondary mb-1 fw-bold">* COMPAÑÍA DE TRANSPORTISTA:</div>
+                                    <input type="text" class="form-control rounded-0" id="Transportista">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Factura o Remisión:</div>
-                                    <input type="file" class="form-control" id="FacturaRemision">
+                                    <div class="text-secondary mb-1">FACTURA O REMISIÓN:</div>
+                                    <input type="file" class="form-control rounded-0" id="FacturaRemision">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Sellos alterados:</div>
+                                    <div class="text-secondary mb-1">SELLOS ALTERADOS:</div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Radios1"
                                             id="SellosAlterados1" style="width: 18px; height: 18px;margin-top: 4px;">
@@ -413,7 +419,7 @@ FacturaRemision_filePath = FacturaRemision.value;
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Se detuvo venta durante la descarga:</div>
+                                    <div class="text-secondary mb-1">SE DETUVO VENTA DURANTE LA DESCARGA:</div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Radios2" id="sdvdld1"
                                             style="width: 18px; height: 18px;margin-top: 4px;">
@@ -432,30 +438,30 @@ FacturaRemision_filePath = FacturaRemision.value;
 
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Reporte de inventario Inicial con fecha y hora:
+                                    <div class="text-secondary mb-1 fw-bold">* REPORTE DE INVENTARIO INICIAL CON FECHA Y HORA:
                                     </div>
-                                    <input type="file" class="form-control" id="InventarioInicial">
+                                    <input type="file" class="form-control rounded-0" id="InventarioInicial">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Medida Nice:</div>
-                                    <input type="file" class="form-control" id="Nice">
+                                    <div class="text-secondary mb-1 fw-bold">* MEDIDA NICE:</div>
+                                    <input type="file" class="form-control rounded-0" id="Nice">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Reporte de inventario final con fecha y hora:</div>
-                                    <input type="file" class="form-control" id="InventarioFinal">
+                                    <div class="text-secondary mb-1 fw-bold">* REPORTE DE INVENTARIO FINAL CON FECHA Y HORA:</div>
+                                    <input type="file" class="form-control rounded-0" id="InventarioFinal">
                                 </div>
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Metro contador temperatura normal:</div>
-                                    <input type="file" class="form-control" id="MetroContador">
+                                    <div class="text-secondary mb-1 fw-bold">* METRO CONTADOR TEMPERATURA NORMAL:</div>
+                                    <input type="file" class="form-control rounded-0" id="MetroContador">
                                 </div>
 
 
                                 <div class="col-12 col-sm-3 mb-2">
-                                    <div class="text-secondary mb-1">Metro contador a 20 grados:</div>
-                                    <input type="file" class="form-control" id="MC20Grados">
+                                    <div class="text-secondary mb-1 fw-bold">* METRO CONTADOR A 20 GRADOS:</div>
+                                    <input type="file" class="form-control rounded-0" id="MC20Grados">
                                 </div>
 
                             </div>
@@ -482,7 +488,7 @@ FacturaRemision_filePath = FacturaRemision.value;
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
+  <tr> <th class="align-middle text-center">* FIRMA DEL ENCARGADO</th> </tr>
   </thead>
   <tbody>
   <tr>
@@ -511,7 +517,7 @@ FacturaRemision_filePath = FacturaRemision.value;
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DEL OPERADOR</th> </tr>
+  <tr> <th class="align-middle text-center">* FIRMA DEL OPERADOR</th> </tr>
   </thead>
   <tbody>
   <tr>

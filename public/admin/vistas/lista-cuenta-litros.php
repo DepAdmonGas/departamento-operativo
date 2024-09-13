@@ -16,7 +16,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
 }
 
-$sql_lista = "SELECT * FROM op_cuenta_litros WHERE id_estacion = '" . $idEstacion . "' AND year = '" . $GET_year . "'  AND mes = '" . $GET_mes . "' ORDER BY fecha DESC";
+$sql_lista = "SELECT * FROM op_cuenta_litros WHERE id_estacion = '" . $idEstacion . "' AND year = '" . $GET_year . "'  AND mes = '" . $GET_mes . "' ORDER BY fecha ASC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
@@ -98,7 +98,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
           echo '<tr ' . $TrColor . '>';
-          echo '<th class="align-middle text-center fw-normal">' . $num . '</th>';
+          echo '<th class="align-middle text-center">' . $num . '</th>';
           echo '<td class="align-middle">' . FormatoFecha($row_lista['fecha']) . '</td>';
           echo '<td class="align-middle text-center"> 
               <div class="dropdown">
@@ -116,10 +116,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
           $num++;
         }
-
-      } else {
-        echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-      }
+      } 
       ?>
     </tbody>
   </table>

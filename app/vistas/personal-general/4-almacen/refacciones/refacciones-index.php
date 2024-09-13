@@ -118,7 +118,7 @@ require 'app/vistas/contenido/header.php';
     var Unidad = $('#Unidad').val();
 
     if (Refaccion != "") {
-      $('#Refaccion').css('border', '');
+      $('#contenido-refaccion').css('border', '');
       if (Unidad != "") {
         $('#Unidad').css('border', '');
 
@@ -152,10 +152,10 @@ require 'app/vistas/contenido/header.php';
         });
 
       } else {
-        $('#Hora').css('border', '2px solid #A52525');
+        $('#Unidad').css('border', '2px solid #A52525');
       }
     } else {
-      $('#Refaccion').css('border', '2px solid #A52525');
+      $('#contenido-refaccion').css('border', '2px solid #A52525');
     }
 
   }

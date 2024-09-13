@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
-require 'app/help.php';
-require 'app/lib/dompdf/vendor/autoload.php';
+require_once 'dompdf2/vendor/autoload.php';
+require('app/help.php');
 $sql_lista = "SELECT * FROM op_pivoteo WHERE id = '".$GET_idReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista); 

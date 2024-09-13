@@ -70,7 +70,6 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 </div>
 
 <div class="modal-footer">
-
 <button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$year;?>,<?=$mes;?>,<?=$idReporte;?>)">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>

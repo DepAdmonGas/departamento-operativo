@@ -8,23 +8,23 @@ $idEstacion = $_GET['idEstacion'];
 </div>
 <div class="modal-body">
 
-    <h6 class="mb-1"> * Fecha</h6>
-    <input type="date" class="mb-2 form-control" id="Fecha" value="<?=$fecha_del_dia?>">
+    <div class="text-secondary fw-bold">* FECHA:</div>
+    <input type="date" class="mb-2 form-control rounded-0" id="Fecha" value="<?=$fecha_del_dia?>">
 
-    <h6 class="mb-2">* Factura</h6>
-    <input type="text" class="mb-2 form-control" id="Factura">
+    <div class="text-secondary fw-bold">* FACTURA:</div>
+    <input type="text" class="mb-2 form-control rounded-0" id="Factura">
 
-    <h6 class="mb-2">* Neto</h6>
-    <input type="number" step="any" class="mb-2 form-control" id="Neto">
+    <div class="text-secondary fw-bold">* NETO:</div>
+    <input type="number" step="any" class="mb-2 form-control rounded-0" id="Neto">
 
-    <h6 class="mb-2">* Bruto</h6>
-    <input type="number" step="any" class="mb-2 form-control" id="Bruto">
+    <div class="text-secondary fw-bold">* BRUTO</div>
+    <input type="number" step="any" class="mb-2 form-control rounded-0" id="Bruto">
 
-    <h6 class="mb-2">* Cuenta litros</h6>
-    <input type="number" step="any" class="mb-2 form-control" id="CuentaLitros">
+    <div class="text-secondary fw-bold">* CUENTA LITROS</div>
+    <input type="number" step="any" class="mb-2 form-control rounded-0" id="CuentaLitros">
 
-    <h6 class="mb-2">* Proveedor</h6>
-    <select class="form-select" id="Proveedor">
+    <div class="text-secondary fw-bold">* PROVEEDOR:</div>
+    <select class="form-select rounded-0" id="Proveedor">
         <option></option>
         <option>Pemex</option>
         <option>Delivery</option>

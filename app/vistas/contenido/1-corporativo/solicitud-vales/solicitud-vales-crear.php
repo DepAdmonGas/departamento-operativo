@@ -203,18 +203,18 @@ require('app/help.php');
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* FECHA:</div>
+  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
   <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha_del_dia;?>"> 
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">* MONTO:</div>
+  <div class="mb-1 text-secondary fw-bold">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" >
   </div>
 
 
   <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">* MONEDA:</div>
+  <div class="mb-1 text-secondary">MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option>MXN</option>
   <option>USD</option>
@@ -223,13 +223,13 @@ require('app/help.php');
 
 
   <div class="col-12 mb-2">  
-  <div class="mb-1 text-secondary mt-2">* CONCEPTO:</div>
+  <div class="mb-1 text-secondary mt-2 fw-bold">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"></textarea>
   </div>
 
         
   <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* NOMBRE DEL SOLICITANTE:</div>
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" >
   </div>
 
@@ -249,7 +249,7 @@ require('app/help.php');
   <?php if($GET_idEstacion == 8){ ?>
   <div class="col-12">  
   <hr>
-  <h6>Cargo a cuenta:</h6>
+  <h6>CARGO A CUENTA:</h6>
   <div class="row">
 
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">  
@@ -301,12 +301,12 @@ require('app/help.php');
   <?php } ?>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">* AUTORIZADO POR:</div>
+  <div class="mb-1 text-secondary fw-bold">* AUTORIZADO POR:</div>
   <input type="text" class="form-control rounded-0" id="Autorizadopor" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">* METODO DE AUTORIZACION:</div>
+  <div class="mb-1 text-secondary fw-bold">* METODO DE AUTORIZACION:</div>
   <select class="form-select rounded-0" id="MetodoAutorizacion">
     <option></option>
     <option>Personal</option>
@@ -326,30 +326,29 @@ require('app/help.php');
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
 <div class="mb-1 text-secondary mt-2">VALE:</div>
-    <input type="file" class="form-control" id="Vale">
+    <input type="file" class="form-control rounded-0" id="Vale">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
     <div class="mb-1 text-secondary mt-2">RECIBO:</div>
-    <input type="file" class="form-control" id="Recibo">
+    <input type="file" class="form-control rounded-0" id="Recibo">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
     <div class="mb-1 text-secondary mt-2">FACTURA:</div>
-    <input type="file" class="form-control" id="Factura">
+    <input type="file" class="form-control rounded-0" id="Factura">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
     <div class="mb-1 text-secondary mt-2">PDF:</div>
-    <input type="file" class="form-control" id="PDF">
+    <input type="file" class="form-control rounded-0" id="PDF">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
     <div class="mb-1 text-secondary mt-2">XML:</div>
-    <input type="file" class="form-control" id="XML">
+    <input type="file" class="form-control rounded-0" id="XML">
   </div>
 
-  
   <div class="col-12">  
   <hr>
   <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?=$GET_idEstacion;?>,<?=$GET_depu;?>,<?=$GET_year;?>,<?=$GET_mes;?>)">

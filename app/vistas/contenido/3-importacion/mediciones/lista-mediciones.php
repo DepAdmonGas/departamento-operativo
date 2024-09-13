@@ -72,7 +72,7 @@ $num = 1;
 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
 echo '<tr>';
-echo '<th class="align-middle text-center fw-normal">' . $num . '</th>';
+echo '<th class="align-middle text-center">' . $num . '</th>';
 echo '<td class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</td>';
 echo '<td class="align-middle text-center">' . $row_lista['factura'] . '</td>';
 echo '<td class="align-middle text-center">' . $row_lista['neto'] . '</td>';

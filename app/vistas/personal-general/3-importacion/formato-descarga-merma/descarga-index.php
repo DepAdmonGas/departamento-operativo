@@ -10,6 +10,13 @@ $(".LoaderPage").fadeOut("slow");
 ListaMerma(<?=$Session_IDEstacion?>);
 });
 
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
 function ListaMerma(idEstacion) {
 let targets;
 targets = [4];
