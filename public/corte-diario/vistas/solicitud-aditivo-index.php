@@ -45,6 +45,13 @@ if ($Session_IDUsuarioBD == "") {
       ListaSolicitud(<?= $Session_IDEstacion ?>);
     });
 
+    window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+    // Si la página está en la caché del navegador, recargarla
+    window.location.reload();
+    }
+    });
+
     function Regresar() {
       window.history.back();
     }
@@ -110,7 +117,12 @@ if ($Session_IDUsuarioBD == "") {
         "Cantidad": Cantidad
       };
 
-      $.ajax({
+      if (Cantidad != "") {
+        $('#Cantidad').css('border', '');
+        if (Aditivo != "") {
+        $('#Aditivo').css('border', '');
+
+        $.ajax({
         data: parametros,
         url: 'public/corte-diario/modelo/agregar-tambo-aditivo.php',
         type: 'post',
@@ -129,6 +141,14 @@ if ($Session_IDUsuarioBD == "") {
 
         }
       });
+
+      } else {
+        $('#Aditivo').css('border', '2px solid #A52525');
+      }
+
+      } else {
+        $('#Cantidad').css('border', '2px solid #A52525');
+      }
 
     }
 
@@ -361,8 +381,8 @@ if ($Session_IDUsuarioBD == "") {
   </div>
 
   <div class="modal" id="ModalComentario">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+    <div class="modal-dialog">
+      <div class="modal-content modal-md">
         <div id="DivContenidoComentario"></div>
       </div>
     </div>

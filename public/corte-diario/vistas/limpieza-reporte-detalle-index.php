@@ -57,6 +57,13 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
 
     });
 
+    window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
     function Regresar() {
       window.history.back();
     }
@@ -269,17 +276,17 @@ while ($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
             <div class="row">
 
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                <div class="mb-1 text-secondary">Fecha:</div>
+                <div class="mb-1 text-secondary">FECHA:</div>
                 <input type="date" class="form-control rounded-0" id="Fecha" value="<?= $fecha; ?>">
               </div>
 
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                <div class="mb-1 text-secondary">Hora:</div>
+                <div class="mb-1 text-secondary">HORA:</div>
                 <input type="time" class="form-control rounded-0" id="Hora" value="<?= $hora; ?>">
               </div>
 
               <div class="col-12">
-                <div class="mb-1 text-secondary">Detalle:</div>
+                <div class="mb-1 text-secondary">DETALLE:</div>
                 <textarea class="form-control rounded-0" id="Detalle"><?= $detalle; ?></textarea>
               </div>
 
