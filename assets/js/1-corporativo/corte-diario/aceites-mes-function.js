@@ -92,8 +92,8 @@ function ReporteAceites(year, mes) {
     var Comentario = $('#Comentario').val();
 
     var data = new FormData();
-    var url =  '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-    //var url = '../../public/corte-diario/modelo/agregar-pago-diferencia.php';
+    //var url =  '../../app/controlador/1-corporativo/controladorCorteDiario.php';
+    var url = '../../public/corte-diario/modelo/agregar-pago-diferencia.php';
 
     Documento = document.getElementById("Documento");
     Documento_file = Documento.files[0];
@@ -121,7 +121,6 @@ function ReporteAceites(year, mes) {
           processData: false,
           cache: false
         }).done(function (data) {
-
           ReporteAceites(year, mes);
           $('#ModalPrincipal').modal('hide');
         });

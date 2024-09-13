@@ -2,8 +2,8 @@
 require ('../../../../../help.php');
 
 $idReporte = $_GET['idReporte'];
-
-$totalImporte = $corteDiarioGeneral->getTotalImporte($idReporte);
+$tabla= "prosegur";
+$totalImporte = $corteDiarioGeneral->getTotalImporte($idReporte,$tabla);
 $baucherTotal = $corteDiarioGeneral->getBaucherTotal($idReporte);
 $consumo = $corteDiarioGeneral->getConsumoTotal($idReporte);
 
