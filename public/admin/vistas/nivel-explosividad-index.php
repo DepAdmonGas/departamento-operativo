@@ -188,6 +188,8 @@ require('app/help.php');
 
   if ($session_nompuesto == "Comercializadora") {
 
+    if($Session_IDUsuarioBD == 28){
+
     if($id == 6 || $id == 7){
 
       echo '  
@@ -199,6 +201,17 @@ require('app/help.php');
       </li>';
     }
   
+  }else{
+    echo '  
+    <li>
+    <a class="pointer" onclick="SelEstacion('.$id.')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$estacion.'
+    </a>
+    </li>';
+
+  }
+
   }else{
 
     echo '  

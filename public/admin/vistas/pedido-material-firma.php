@@ -336,7 +336,7 @@ return $Result;
   <td class="align-middle text-center no-hover2 p-2">NO</td>
   <td class="align-middle text-center no-hover2 p-2">AMBAS</td>
 
-  </tr>
+  </tr> 
 
   <tr>
   <td class="align-middle text-center no-hover2 p-2">
@@ -521,7 +521,7 @@ return $Result;
   
   <tr>
   <th class="align-middle text-center no-hover2"> 
-  <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
   </th> 
   <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
   <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>
@@ -559,8 +559,9 @@ return $Result;
   <div class="row">
     
   <?php  
-  if($Session_IDUsuarioBD == 21){
   if($firmaB == 0){
+  if($Session_IDUsuarioBD == 21){
+
   ?>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -600,10 +601,22 @@ return $Result;
   </div>
 
   <?php
-  }
 
-  }else if($Session_IDUsuarioBD == 19){
+
+  }else{
+    echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+    <div class="text-center alert alert-warning" role="alert">
+    No cuentas con los permisos para firmar el VO.BO
+    </div>
+    </div>';
+    }
+
+  }
+  
+
   if($firmaB == 1 && $firmaC == 0){
+  if($Session_IDUsuarioBD == 19){
+
   ?>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -644,15 +657,15 @@ return $Result;
 
 
   <?php 
-  }else{
-
-  }
+  
   }else{
   echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="text-center alert alert-warning" role="alert">
-  No cuentas con los permisos para firmar la autorizacion
+  No cuentas con los permisos para firmar la autorización
   </div>
   </div>';
+  }
+
   }
 
   $sql_firma = "SELECT * FROM op_pedido_materiales_firma WHERE id_pedido = '".$GET_idPedido."' ";
@@ -664,7 +677,7 @@ return $Result;
 
   if($row_firma['tipo_firma'] == "A"){
   $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-  $Detalle = '<div class="border-0 text-center"><img src="../../imgs/firma/'.$row_firma['firma'].'" width="70%"></div>';
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }else if($row_firma['tipo_firma'] == "B"){
   $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
   $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';

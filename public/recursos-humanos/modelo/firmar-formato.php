@@ -13,7 +13,7 @@ $estado = 2;
 }else if($tipoFirma == "C"){
 $estado = 3;
 }
-
+ 
 $sqlLocalidad = "SELECT * FROM op_rh_formatos WHERE id = '".$idFormato."' ";
 $resultLocalidad = mysqli_query($con, $sqlLocalidad);
 $numeroLocalidad = mysqli_num_rows($resultLocalidad);
@@ -48,7 +48,7 @@ $Documento = $row_lista['documento'];
 GuardarPersonal($Estacion,$Fecha,$NombreC,$Puesto,$ine,$curp,$rfc,$nss,$SalarioD,$Documento,$con);
 }
   
-}
+} 
 
 
 if($formato == 6 AND $tipoFirma == "C"){

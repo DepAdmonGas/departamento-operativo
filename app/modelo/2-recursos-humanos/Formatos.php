@@ -1,16 +1,21 @@
 <?php
 require "../../bd/inc.conexion.php";
 require "../../modelo/httpPHPAltiria.php";
+require_once '../../modelo/HerramientasDptoOperativo.php';
 
 class Formatos extends Exception{
     private $classConexionBD;
     private $con;
     private $altiriaSMS;
+    private $formato;
+
     public function __construct()
     {
     $this->classConexionBD = Database::getInstance();
     $this->con = $this->classConexionBD->getConnection();
     $this->altiriaSMS = new AltiriaSMS();
+    $this->formato = new herramientasDptoOperativo($this->con);
+
     }
     public function formatos(int $idEstacion,int $formato): int{
         $status = 0;
@@ -82,12 +87,308 @@ class Formatos extends Exception{
     return $resultado;
     }  
 
-  
+    private function altaPersonal($estacion, $fecha, $nombre, $puesto, $salario) : bool
+    {
+        $resultado = true;
+        $estado = 1;
+        $sql_insert = "INSERT INTO op_rh_personal (id_estacion,fecha_ingreso,nombre_completo,puesto,sd,estado)
+        VALUES  (?,?,?,?,?,?)";
+        $result = $this->con->prepare($sql_insert);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta \n" . $this->con->error);
+        endif;
+        $result->bind_param("issidi", $estacion,$fecha,$nombre,$puesto,$salario,$estado);
+        if (!$result->execute()):
+            $resultado = false;
+            throw new Exception("Error al ejecutar la consulta \n" . $result->error);
+        endif;
+        $result->close();
+        return $resultado;
+    }
+
+    //---------- 2. FORMULARIO BAJA DE PERSONAL ----------//
+    public function guardarBajaPersonal(int $idReporte, int $idEstacion, string $NombreCompleto, string $FechaBaja, string $Motivo, string $Detalle): bool{
+        $resultado = true;
+        $sql = "INSERT INTO op_rh_formatos_baja (
+        id_formulario, id_personal, id_estacion, fecha_baja, motivo, detalle) VALUES (?,?,?,?,?,?)";
+            
+        $result = $this->con->prepare($sql);
+        if (!$result) :
+        throw new Exception("Error al preparar la consulta \n". $this->con->error);
+        endif;
+
+        if($Detalle == ""){
+        $Detalle2 = "Sin Información";
+        }else{
+        $Detalle2 = $Detalle;
+        }
+            
+        $result->bind_param("iiisss", $idReporte, $NombreCompleto, $idEstacion, $FechaBaja, $Motivo, $Detalle2);
+        if (!$result->execute()) :
+        $resultado = false;
+        throw new Exception("Error al ejecutar la consulta". $result->error);
+        endif;
+    
+        $result->close();
+        return $resultado;
+    }
+
+    public function eliminarBajaPersonal(int $idUsuario) : bool {
+    $resultado = true;
+        $sql = "DELETE FROM op_rh_formatos_baja WHERE id = ? ";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i",$idUsuario);
+        $result->execute();
+        $result->close();
+        return $resultado;
+    }  
+
+
+    private function editarStatusPersonal($idEstacion, $idPersonal, $fecha_baja, $motivo, $detalle)
+    {
+    
+    $sql = "UPDATE op_rh_personal SET estado = 0 WHERE id = '".$idPersonal."' ";
+    
+    if(mysqli_query($this->con, $sql)){
+    $resultado = $this->BajaPersonal($idEstacion, $idPersonal, $fecha_baja, $motivo, $detalle);
+    
+    }else{
+    $resultado = false;
+    }
+            
+    return $resultado;
+    }
+        
+
+
+    private function BajaPersonal($idEstacion, $idPersonal, $fecha_baja, $motivo, $detalle) : bool
+    {
+        $resultado = true;
+        $estado = 0;
+        $sql_insert = "INSERT INTO op_rh_personal_baja (id_personal,fecha_baja,motivo,detalle,estado_proceso)
+        VALUES  (?,?,?,?,?)";
+        $result = $this->con->prepare($sql_insert);
+        if (!$result):
+            throw new Exception("Error al preparar la consulta \n" . $this->con->error);
+        endif;
+        $result->bind_param("isssi", $idPersonal,$fecha_baja, $motivo, $detalle, $estado);
+        if (!$result->execute()):
+            $resultado = false;
+            throw new Exception("Error al ejecutar la consulta \n" . $result->error);
+        endif;
+        $result->close();
+        return $resultado;
+    }
+
+
+
+    
+    //---------- 3. FALTA DEL PERSONAL ----------//
+    public function guardarFaltaPersonal(int $idReporte, int $idEstacion, string $NombreCompleto, string $FechaFalta): bool{
+    
+        $resultado = true;
+        $sql = "INSERT INTO op_rh_formatos_falta (
+        id_formulario, id_personal, id_estacion, dias_falta) VALUES (?,?,?,?)";
+                
+        $result = $this->con->prepare($sql);
+        if (!$result) :
+        throw new Exception("Error al preparar la consulta \n". $this->con->error);
+        endif;
+    
+        $result->bind_param("iiis", $idReporte, $idEstacion, $idEstacion, $FechaFalta);
+        if (!$result->execute()) :
+        $resultado = false;
+        throw new Exception("Error al ejecutar la consulta". $result->error);
+        endif;
+        
+        $result->close();
+        return $resultado;
+        }
+
+ 
+
+        public function eliminarFaltaPersonal(int $idUsuario) : bool {
+            $resultado = true;
+                $sql = "DELETE FROM op_rh_formatos_falta WHERE id = ? ";
+                $result = $this->con->prepare($sql);
+                $result->bind_param("i",$idUsuario);
+                $result->execute();
+                $result->close();
+                return $resultado;
+            }  
+
+
+    //---------- 4. REESTRUCTURACIÓN DE PERSONAL ----------//
+    public function guardarReestructuracionPersonal(int $idReporte, int $idEstacion, string $NombreCompleto, string $NombreEstacion, string $FechaAplicacion): bool{
+        $resultado = true;
+        $sql = "INSERT INTO op_rh_formatos_restructuracion (
+        id_formulario, id_personal, id_estacion, id_estacion_cambio, fecha) VALUES (?,?,?,?,?)";
+            
+        $result = $this->con->prepare($sql);
+        if (!$result) :
+        throw new Exception("Error al preparar la consulta \n". $this->con->error);
+        endif;
+
+        $result->bind_param("iiiis", $idReporte, $NombreCompleto, $idEstacion, $NombreEstacion, $FechaAplicacion);
+        if (!$result->execute()) :
+        $resultado = false;
+        throw new Exception("Error al ejecutar la consulta". $result->error);
+        endif;
+    
+        $result->close();
+        return $resultado;
+    }
+
+
+    public function eliminarReestructuracionPersonal(int $idUsuario) : bool {
+        $resultado = true;
+            $sql = "DELETE FROM op_rh_formatos_restructuracion WHERE id = ? ";
+            $result = $this->con->prepare($sql);
+            $result->bind_param("i",$idUsuario);
+            $result->execute();
+            $result->close();
+            return $resultado;
+        }  
+
+
+    private function finalizarReestructuracionPersonal($idPersonal, $idEstacionCambio)
+    {
+    
+    $sql = "UPDATE op_rh_personal SET id_estacion = '".$idEstacionCambio."' WHERE id = '".$idPersonal."' ";
+    if(mysqli_query($this->con, $sql)){
+    $resultado = true;
+
+    }else{
+    $resultado = false;
+    }
+            
+    return $resultado;
+    }
+
+
+
+    //---------- 5. AJUSTE SALARIAL ----------//
+    public function guardarAjusteSalarial(int $idReporte, int $idEstacion, string $NombreCompleto, string $AjusteSalario, string $FechaAplicacion): bool{
+    
+    $datosPersonal = $this->formato->obtenerDatosPersonal($NombreCompleto);
+    $salario_actual = $datosPersonal['salario']; 
+
+    $resultado = true;
+    $sql = "INSERT INTO op_rh_formatos_ajuste_salarial (
+    id_formulario, id_personal, id_estacion, salario_actual, salario_ajustado, fecha_aplicacion) VALUES (?,?,?,?,?,?)";
+            
+    $result = $this->con->prepare($sql);
+    if (!$result) :
+    throw new Exception("Error al preparar la consulta \n". $this->con->error);
+    endif;
+
+    $result->bind_param("iiidds", $idReporte, $NombreCompleto, $idEstacion, $salario_actual, $AjusteSalario, $FechaAplicacion);
+    if (!$result->execute()) :
+    $resultado = false;
+    throw new Exception("Error al ejecutar la consulta". $result->error);
+    endif;
+    
+    $result->close();
+    return $resultado;
+    }
+
+    public function eliminarAjusteSalarial(int $idUsuario) : bool {
+    $resultado = true;
+    $sql = "DELETE FROM op_rh_formatos_ajuste_salarial WHERE id = ? ";
+    $result = $this->con->prepare($sql);
+    $result->bind_param("i",$idUsuario);
+    $result->execute();
+    $result->close();
+    return $resultado;
+    }  
+
+
+    private function finalizarAjusteSalarial($idPersonal, $salario_ajustado){
+    
+    $sql = "UPDATE op_rh_personal SET sd = '".$salario_ajustado."' WHERE id = '".$idPersonal."' ";
+    if(mysqli_query($this->con, $sql)){
+    $resultado = true;
+
+    }else{
+    $resultado = false;
+    }
+    
+    return $resultado;
+    }
+
+
+    //---------- 6. VACACIONES DE PERSONAL ----------//
+    public function guardarVacacionesPersonal(int $idReporte, int $Personal, int $NumDias, string $FechaInicio, string $FechaTermino, string $FechaRegreso, string $Observaciones): bool{
+    
+        $resultado = true;
+        $sql = "INSERT INTO op_rh_formatos_vacaciones (
+        id_formulario, id_usuario, num_dias, fecha_inicio, fecha_termino, fecha_regreso, observaciones) VALUES (?,?,?,?,?,?,?)";
+                
+        $result = $this->con->prepare($sql);
+        if (!$result) :
+        throw new Exception("Error al preparar la consulta \n". $this->con->error);
+        endif;
+    
+        $result->bind_param("iiissss", $idReporte,$Personal, $NumDias, $FechaInicio, $FechaTermino, $FechaRegreso, $Observaciones);
+        if (!$result->execute()) :
+        $resultado = false;
+        throw new Exception("Error al ejecutar la consulta". $result->error);
+        endif;
+        
+        $result->close();
+        return $resultado;
+        }
+
+
+    public function eliminarVacacionesPersonal(int $idUsuario) : bool {
+    $resultado = true;
+    $sql = "DELETE FROM op_rh_formatos_vacaciones WHERE id = ? ";
+    $result = $this->con->prepare($sql);
+    $result->bind_param("i",$idUsuario);
+    $result->execute();
+    $result->close();
+    return $resultado;
+    }  
+
+    //---------- 7. PRIMA VACACIONAL ----------//
+    public function guardarPrimaVacacional($idReporte, $idEstacion, $NombresCompleto, $Periodo): bool{
+    $resultado = true;
+    $sql = "INSERT INTO op_rh_formatos_prima_vacacional (
+    id_formulario, id_personal, id_estacion, periodo) VALUES (?,?,?,?)";
+                
+    $result = $this->con->prepare($sql);
+    if (!$result) :
+    throw new Exception("Error al preparar la consulta \n". $this->con->error);
+    endif;
+
+                
+    $result->bind_param("iiii", $idReporte, $NombresCompleto, $idEstacion, $Periodo);
+    if (!$result->execute()) :
+    $resultado = false;
+    throw new Exception("Error al ejecutar la consulta". $result->error);
+    endif;
+        
+    $result->close();
+    return $resultado;
+    }
+
+
+
+    public function eliminarPrimaVacacional(int $idUsuario) : bool {
+        $resultado = true;
+        $sql = "DELETE FROM op_rh_formatos_prima_vacacional WHERE id = ? ";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i",$idUsuario);
+        $result->execute();
+        $result->close();
+        return $resultado;
+        }  
+
+
     //---------- fIRMA DE FORMATOS ----------//
     public function firmaFormatos($idReporte, $idUsuario, $tipoFirma, $img): bool
     {
     $resultado = true;
-
     $status = 3;
     if ($tipoFirma == "A") {
     $status = 1;
@@ -188,11 +489,10 @@ class Formatos extends Exception{
         $stmt2->fetch();
         $stmt2->close();
         return $tel;
-
     }
     function notificacionesWA($Numero, $aleatorio, $token)
     {
-        $telefono = '525527314824';
+        $telefono = '52'.$Numero;
 
         //URL A DONDE SE MANDARA EL MENSAJE
         $url = 'https://graph.facebook.com/v19.0/343131472217554/messages';
@@ -267,6 +567,7 @@ class Formatos extends Exception{
       $stmt2->close();
 
     if ($numero == 1):
+    
     if ($formato == 1 && $tipoFirma == "B") {
     $sql_lista = "SELECT * FROM op_rh_formatos_alta WHERE id_formulario = ?";
     $stmt_lista =  $this->con->prepare($sql_lista);
@@ -283,6 +584,54 @@ class Formatos extends Exception{
 
     $this->altaPersonal($idEstacion, $fecha, $nombre, $puesto, $salario);
     }
+
+ 
+    }else if ($formato == 2 && $tipoFirma == "B") {
+    $sql_lista = "SELECT * FROM op_rh_formatos_baja WHERE id_formulario = ?";
+    $stmt_lista =  $this->con->prepare(query: $sql_lista);
+    $stmt_lista->bind_param("i", $idFormato);
+    $stmt_lista->execute();
+    $result_lista = $stmt_lista->get_result();
+
+    while ($row_lista = $result_lista->fetch_assoc()) {
+    $idEstacion = $row_lista['id_estacion'];
+    $idPersonal = $row_lista['id_personal'];
+    $fecha_baja = $row_lista['fecha_baja'];
+    $motivo = $row_lista['motivo'];
+    $detalle = $row_lista['detalle'];
+
+    $this->editarStatusPersonal($idEstacion, $idPersonal, $fecha_baja, $motivo, $detalle);
+    }
+
+    }else if ($formato == 4 && $tipoFirma == "B") {
+    $sql_lista = "SELECT id_personal, id_estacion_cambio FROM op_rh_formatos_restructuracion WHERE id_formulario = ?";
+    $stmt_lista =  $this->con->prepare(query: $sql_lista);
+    $stmt_lista->bind_param("i", $idFormato);
+    $stmt_lista->execute();
+    $result_lista = $stmt_lista->get_result();
+
+    while ($row_lista = $result_lista->fetch_assoc()) {
+    $idPersonal = $row_lista['id_personal'];
+    $idEstacionCambio = $row_lista['id_estacion_cambio'];
+
+    $this->finalizarReestructuracionPersonal($idPersonal, $idEstacionCambio);
+    }
+
+        
+    }else if ($formato == 5 && $tipoFirma == "B") {
+    $sql_lista = "SELECT id_personal, salario_ajustado FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = ?";
+    $stmt_lista =  $this->con->prepare(query: $sql_lista);
+    $stmt_lista->bind_param("i", $idFormato);
+    $stmt_lista->execute();
+    $result_lista = $stmt_lista->get_result();
+    
+    while ($row_lista = $result_lista->fetch_assoc()) {
+    $idPersonal = $row_lista['id_personal'];
+    $salario_ajustado = $row_lista['salario_ajustado'];
+    
+    $this->finalizarAjusteSalarial($idPersonal, $salario_ajustado);
+    }
+
     }
 
     $this->actualizaEstatus($estado,$idFormato,$tipoFirma,$idUsuario);
@@ -293,24 +642,6 @@ class Formatos extends Exception{
     return $resultado;
   }
 
-  private function altaPersonal($estacion, $fecha, $nombre, $puesto, $salario) : bool
-  {
-      $resultado = true;
-      $estado = 1;
-      $sql_insert = "INSERT INTO op_rh_personal (id_estacion,fecha_ingreso,nombre_completo,puesto,sd,estado)
-      VALUES  (?,?,?,?,?,?)";
-      $result = $this->con->prepare($sql_insert);
-      if (!$result):
-          throw new Exception("Error al preparar la consulta \n" . $this->con->error);
-      endif;
-      $result->bind_param("issidi", $estacion,$fecha,$nombre,$puesto,$salario,$estado);
-      if (!$result->execute()):
-          $resultado = false;
-          throw new Exception("Error al ejecutar la consulta \n" . $result->error);
-      endif;
-      $result->close();
-      return $resultado;
-  } 
 
   private function actualizaEstatus($estado,$idFormato,$tipoFirma,$idUsuario): bool{
       $resultado = true;
@@ -343,7 +674,39 @@ class Formatos extends Exception{
   }
 
 
+    public function agregarComentarioFormato(int $idFormato, int $idUsuario, string $Comentario): bool
+    {
+    $result = true;
+    $sql_insert = "INSERT INTO op_recibo_formatos_comentarios (id_formato,id_usuario,comentario) VALUES (?,?,?)";
+    $stmt = $this->con->prepare($sql_insert);
+    if(!$stmt) :
+    $result = false;
+    throw new Exception("Error al preparar la consulta ". $stmt->error);
+    endif;
 
+    $stmt->bind_param("iis", $idFormato,$idUsuario,$Comentario);
+    if(!$stmt->execute()) :
+    $result = false;
+    throw new Exception("Error al ejecutar la consulta". $this->con->error);
+    endif;
+
+    $stmt->close();
+    return $result;
+    }
+    
+
+
+
+    
+    public function eliminarFormato(int $idReporte) : bool {
+        $resultado = true;
+        $sql = "DELETE FROM op_rh_formatos WHERE id = ? ";
+        $result = $this->con->prepare($sql);
+        $result->bind_param("i",$idReporte);
+        $result->execute();
+        $result->close();
+        return $resultado;
+        }  
 
 
 

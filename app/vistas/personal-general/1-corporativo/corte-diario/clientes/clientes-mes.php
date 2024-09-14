@@ -1,6 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
-error_reporting(0);
+
 function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
   $result_year = mysqli_query($con, $sql_year);

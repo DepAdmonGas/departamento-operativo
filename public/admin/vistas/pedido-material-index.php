@@ -459,6 +459,8 @@ if($estacion == "Comodines"){
 
   if ($session_nompuesto == "Comercializadora") {
 
+    if($Session_IDUsuarioBD == 28){
+    
     if($id == 6 || $id == 7){
   
       echo '  
@@ -466,6 +468,14 @@ if($estacion == "Comodines"){
       <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
       </li>';
     }
+
+  }else{
+
+    echo '  
+    <li>
+    <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
+    </li>';
+  }
   
   }else{
   

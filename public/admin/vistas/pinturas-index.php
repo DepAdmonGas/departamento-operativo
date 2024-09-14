@@ -524,7 +524,6 @@ function ToSolicitud($idEstacion, $con)
           }
 
 
-
     echo '  
     <li>
       <a class="pointer" onclick="PedidoPinturas(' . $id . ')">

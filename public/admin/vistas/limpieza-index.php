@@ -627,6 +627,7 @@ function ToSolicitud($idEstacion, $con)
             $Nuevo = '';
           }
 
+
     echo '  
     <li>
       <a class="pointer" onclick="SelEstacion(' . $id . ')">
@@ -636,8 +637,6 @@ function ToSolicitud($idEstacion, $con)
     </li>';
   
   
-
-
 
 
         }

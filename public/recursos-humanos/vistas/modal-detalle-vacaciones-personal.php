@@ -16,46 +16,7 @@ $return = $row_listaestacion['localidad'];
 return $return;
 }
 
-function Firmas($idFormato,$tipo,$con){
-    $resultado = "";
-    $id_usuario = "";
-    
-    $sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$idFormato."' AND tipo_firma = '".$tipo."' ";
-    $result_firma = mysqli_query($con, $sql_firma);
-    $numero_firma = mysqli_num_rows($result_firma);
-    while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-    $explode = explode(' ', $row_firma['fecha']);
-    $firma = $row_firma['firma'];
-    $id_usuario = $row_firma['id_usuario'];
-    }
-    
-    if($numero_firma != 0){
-    $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';    
-    }else{
-    $Detalle = '<div class="text-center text-danger"><small>Falta firma</small></div>'; 
-    }
-    
-    $resultado.= '  <div class="col-12">
-    <table class="custom-table" style="font-size: 14px;" width="100%">
-    <thead class="tables-bg">
-    <tr> <th class="align-middle text-center">'.PersonalPortal($id_usuario,$con).'</th> </tr>
-    </thead>
-    <tbody class="bg-light">
-    <tr>
-    <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
-    </tr>
 
-    <tr>
-    <th class="align-middle text-center no-hover2">NOMBRE Y FIRMA DE AUTORIZACIÓN</th>
-    </tr>
-    
-    </tbody>
-    </table>
-    </div>';
-
-    
-    return $resultado;
-    }
 
     function PersonalPortal($idusuario,$con){
         $nombre = "Sin información";
@@ -158,7 +119,57 @@ $observaciones = $observaciones2;
 <hr>
 
 
-<?=$Solicitante = Firmas($idReporte,'C',$con)?>
+<div class="row">
+
+<?php 
+  $sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$idReporte."' ";
+  $result_firma = mysqli_query($con, $sql_firma);
+  $numero_firma = mysqli_num_rows($result_firma);
+
+  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
+  $explode = explode(' ', $row_firma['fecha']);
+
+  $datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($row_firma['id_usuario']);
+  $nombreUser = $datosUsuario['nombre'];
+
+
+  if($row_firma['tipo_firma'] == "A"){
+  $TipoFirma = "NOMBRE Y FIRMA DE QUIEN ELABORÓ";
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
+    
+  }else if($row_firma['tipo_firma'] == "B"){
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+    
+  }else if($row_firma['tipo_firma'] == "C"){
+  $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
+  }
+    
+  echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">'.$nombreUser.'</th> </tr>
+  </thead>
+  <tbody class="bg-light">
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+  </tr>
+  
+  </tbody>
+  </table>
+  </div>';
+  }
+
+  ?>
+
+</div>
+
+
 
 </div>
 

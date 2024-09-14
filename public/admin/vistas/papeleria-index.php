@@ -659,7 +659,7 @@ function ToSolicitud($idEstacion, $con)
           } else {
             $Nuevo = '';
           }
-        
+
 
             echo '  
             <li>

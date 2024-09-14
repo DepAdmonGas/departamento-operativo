@@ -1,7 +1,34 @@
 <?php
 require 'app/vistas/contenido/header.php';
-$IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
-$InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
+function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
+  $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
+  $result_year = mysqli_query($con, $sql_year);
+  while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
+  $idyear = $row_year['id'];
+  }
+
+  $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
+  $result_mes = mysqli_query($con, $sql_mes);
+  while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
+  $idmes = $row_mes['id'];
+  }
+
+  return $idmes;  
+  }
+ 
+  function InventarioFin($IdReporte,$con){
+ $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = '".$IdReporte."' LIMIT 1 ";
+  $result_reporte = mysqli_query($con, $sql_reporte);
+  $numero_reporte = mysqli_num_rows($result_reporte);
+
+  return $numero_reporte;
+  }
+
+ $IdReporte = IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con); 
+  $InventarioFin = InventarioFin($IdReporte,$con);
+
+
+
 ?>
 <script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>aceites-mes-function.js"></script>
 <script type="text/javascript">
@@ -83,7 +110,7 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
           }
 
           if (fisicoE != "") {
-            TfisicoE = fisicoE;
+            TfisicoE = fisicoE; 
           } else {
             TfisicoE = 0;
           }
@@ -245,7 +272,7 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
     });
 
   }
-</script>
+</script> 
 
 <body>
   <div class="LoaderPage"></div>
@@ -315,13 +342,15 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
 
     </div>
   </div>
+
   <div class="modal fade bd-example-modal-lg" id="ModalPrincipal" data-backdrop="static">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content border-0 rounded-0">
+      <div class="modal-content">
         <div id="DivModal"></div>
       </div>
     </div>
   </div>
+
   <div class="modal" id="Modal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -331,8 +360,7 @@ $InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
   </div>
 </body>
 <!---------- FUNCIONES - NAVBAR ---------->
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 

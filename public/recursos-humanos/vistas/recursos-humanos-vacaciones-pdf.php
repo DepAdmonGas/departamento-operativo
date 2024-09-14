@@ -269,27 +269,51 @@ $contenido .= '<table class="table table-sm table-bordered mt-2">
 $contenido .= '</tbody></table>';
 $contenido .= '<div class="h6 mt-2"><b>FIRMA</b></div>';
 
-$contenido .= '<table class="table-sm table-bordered mt-2" style="width: 350px;">';
-$contenido .= '<tr>';
 
-$sql_firma = "SELECT * FROM op_rh_vacaciones_pago_firma WHERE id_pago = '".$GET_idReporte."' ";
+
+$sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idReporte."' ";
 $result_firma = mysqli_query($con, $sql_firma);
 $numero_firma = mysqli_num_rows($result_firma);
-while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
+while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 $explode = explode(' ', $row_firma['fecha']);
 
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($row_firma['id_usuario']);
+$nombreUser = $datosUsuario['nombre'];
+
+
 if($row_firma['tipo_firma'] == "A"){
+$TipoFirma = "NOMBRE Y FIRMA DE QUIEN ELABORÓ";
+$Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
+  
+}else if($row_firma['tipo_firma'] == "B"){
 $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  
+}else if($row_firma['tipo_firma'] == "C"){
+$TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+$Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
+}
+  
+$contenido .= '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
+<table class="custom-table" style="font-size: 14px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">'.$nombreUser.'</th> </tr>
+</thead>
+<tbody class="bg-light">
+<tr>
+<th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+</tr>
+
+</tbody>
+</table>
+</div>';
 }
 
-$contenido .= '<td><div class="text-secondary text-center"><div>'.PersonalFirma($row_firma['id_usuario'],$con).'</div>'.$Detalle.'<div style="margin-top: 10px;">'.$TipoFirma.'</div></div></td>';
-
-}
-
-$contenido .= '</tr>';
-$contenido .= '</table>';
 
 $contenido .= '</body>';
 $contenido .= '</head>';
@@ -300,3 +324,5 @@ $dompdf->setPaper("A4", "portrait");
 $dompdf->render();
 $dompdf->get_canvas()->page_text(540,820,"Pagina: {PAGE_NUM} de {PAGE_COUNT}", $font, 6, array(0,0,0));
 $dompdf->stream("Pago vacaciones.pdf");
+
+
