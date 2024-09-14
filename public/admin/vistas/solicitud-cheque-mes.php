@@ -319,7 +319,7 @@ alertify.confirm('',
     Archivo_filePath = Archivo.value;
 
     if(Documento != ""){
-    $('#Documento').css('border','');
+    $('#border-documento').css('border','');
     if(Archivo_filePath != ""){
     $('#Archivo').css('border','');
 
@@ -355,7 +355,7 @@ alertify.confirm('',
     $('#Archivo').css('border','2px solid #A52525'); 
     }
     }else{
-    $('#Documento').css('border','2px solid #A52525'); 
+    $('#border-documento').css('border','2px solid #A52525'); 
     }
 
     }
@@ -875,7 +875,7 @@ if($session_nompuesto != "Comercializadora"){
   
   <!---------- MODAL (CENTER)---------->  
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>

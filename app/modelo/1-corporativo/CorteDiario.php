@@ -1364,7 +1364,6 @@ class CorteDiario extends Exception
         $result = true;
         $accion = "https://asuntoslegales.tmfsmexico.com/asuntos-legales/";
         $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte_finalizar (id_mes) VALUES (?)";
-        $nomMes = $this->mes($idReporte);
         $stmt = $this->con->prepare($sql_insert);
         if (!$stmt):
             throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
@@ -1375,184 +1374,176 @@ class CorteDiario extends Exception
             throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
         endif;
         $stmt->close();
+        $nomMes = $this->mes($idReporte);
         $this->newAlmacen($idEstacion, $idReporte);
         //$token = $this->toquenUser(19);
         $token = $this->formato->toquenUser(19);
 
-        $detalle = 'Se finalizo el inventario de ' . $this->formato->nombremes($nomMes) . ', de la estación ' . $nombreEstacion;
+        $detalle = 'Se finalizo el inventario de ' . $this->formato->nombremes($nomMes['mes']) . ', de la estación ' . $nombreEstacion;
         //$this->sendNotification($token,$detalle,$accion);
         $this->formato->sendNotification($token, $detalle, $accion);
 
-        
+
         return $result;
     }
-    private function mes(int $idReporte): int
+    private function mes(int $id): array
     {
-        $sql_mes = "SELECT mes FROM op_corte_mes WHERE id = ? LIMIT 1 ";
-        $result_mes = $this->con->prepare($sql_mes);
-        if (!$result_mes):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $result_mes->bind_param('i', $idReporte);
-        $result_mes->execute();
-        $result_mes->bind_result($mes);
-        $result_mes->fetch();
-        $result_mes->close();
-        return $mes;
+        $sql_mes = "SELECT id_year, mes FROM op_corte_mes WHERE id = '" . $id . "' LIMIT 1 ";
+        $result_mes = mysqli_query($this->con, $sql_mes);
+        while ($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)) {
+            $mes = $row_mes['mes'];
+            $idyear = $row_mes['id_year'];
+        }
+        $array = array("mes" => $mes, "idyear" => $idyear);
+        return $array;
     }
-    private function newAlmacen(int $idEstacion, int $idReporte): void
+    private function newAlmacen(int $IDEstacion, int $idreporte): void
     {
         date_default_timezone_set('America/Mexico_City');
-        $mes = $this->mes($idReporte);
-        if ($mes == 12):
-            $newyear = date("Y");
+        $year = date("Y");
+
+        $mes = $this->mes($idreporte);
+        if ($mes['mes'] == 12) {
+
             $newmes = 1;
-            $idYear = $this->validaYearReporte($idEstacion, $newyear);
-            $idMes = $this->validaMesReporte($idYear, $newmes);
-            $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
-        else:
-            $newmes = $mes + 1;
-            $idyear = $mes;
-            $idMes = $this->validaMesReporte($idyear, $newmes);
-            $this->agregarAlmacen($idEstacion, $idMes, $idReporte);
-        endif;
-    }
-    private function validaYearReporte(int $idEstacion, string $newyear): int
-    {
-        $sql_reporte = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?";
-        $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt) {
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
+            $newyear = $year;
+            $IdYear = $this->validaYearReporte($IDEstacion, $newyear);
+            $IdMes = $this->validaMesReporte($IdYear, $newmes);
+            $this->agregarAlmacen($IDEstacion, $IdMes, $idreporte);
+
+        } else {
+
+            $newmes = $mes['mes'] + 1;
+            $idyear = $mes['idyear'];
+            $IdMes = $this->validaMesReporte($idyear, $newmes);
+            $this->agregarAlmacen($IDEstacion, $IdMes, $idreporte);
         }
-        $stmt->bind_param('is', $idEstacion, $newyear);
-        $stmt->execute();
-        $stmt->bind_result($idYear);
-        $stmt->fetch();
-        $stmt->store_result();
-        $numero_reporte = $stmt->num_rows;
-        $stmt->close();
+    }
+    private function validaYearReporte(int $Session_IDEstacion, int $fecha_year): int
+    {
+        $sql_reporte = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '" . $Session_IDEstacion . "' AND year = '" . $fecha_year . "' ";
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
 
         if ($numero_reporte == 0) {
-            $idYear = $this->idYear();
-            $sql_insert = "INSERT INTO op_corte_year (id, id_estacion, year) VALUES (?, ?, ?)";
-            $stmt = $this->con->prepare($sql_insert);
-            if (!$stmt) {
-                throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
+            $IdYear = $this->idYear();
+            $sql_insert = "INSERT INTO op_corte_year (
+                id,
+                id_estacion,
+                year
+                )
+                VALUES 
+                (
+                '" . $IdYear . "',
+                '" . $Session_IDEstacion . "',
+                '" . $fecha_year . "'
+                )";
+            mysqli_query($this->con, $sql_insert);
+        } else {
+            while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+                $IdYear = $row_mes['id'];
             }
-            $stmt->bind_param('iis', $idYear, $idEstacion, $newyear);
-            $stmt->execute();
-            $stmt->close();
-            return $idYear;
         }
 
-        return $idYear;
+        return $IdYear;
     }
 
     private function idYear(): int
     {
         $sql_reporte = "SELECT id FROM op_corte_year ORDER BY id desc LIMIT 1 ";
-        $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $stmt->bind_result($id);
-        if (!$stmt->execute()):
-            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
-        endif;
-        $stmt->fetch();
-        $stmt->close();
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
+        while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+            $id = $row_mes['id'] + 1;
+        }
         return $id;
     }
-    private function validaMesReporte(int $idYear, int $fecha_mes): int
+    private function validaMesReporte(int $IdReporte, int $fecha_mes): int
     {
-        $sql_reporte = "SELECT id FROM op_corte_mes WHERE id_year = ? AND mes = ?";
-        $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $stmt->bind_param('ii', $idYear, $fecha_mes);
-        $stmt->execute();
-        $stmt->bind_result($idMes);
-        $stmt->fetch();
-        $stmt->store_result();
-        $numero_reporte = $stmt->num_rows;
-        $stmt->close();
+        $sql_reporte = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '" . $IdReporte . "' AND mes = '" . $fecha_mes . "' ";
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
 
-        if ($numero_reporte == 0):
-            $idMes = $this->idMes();
-            $sql_insert = "INSERT INTO op_corte_mes (id, id_year, mes) VALUES (?, ?, ?)";
-            $stmt = $this->con->prepare($sql_insert);
-            if (!$stmt):
-                throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-            endif;
-            $stmt->bind_param('iii', $idMes, $idYear, $fecha_mes);
-            $stmt->execute();
-            $stmt->close();
-        endif;
+        if ($numero_reporte == 0) {
 
-        return $idMes;
+            $IdMes = $this->idMes();
+
+            $sql_insert = "INSERT INTO op_corte_mes (
+                id,
+                id_year,
+                mes
+                )
+                VALUES 
+                (
+                '" . $IdMes . "',
+                '" . $IdReporte . "',
+                '" . $fecha_mes . "'
+                )";
+            mysqli_query($this->con, $sql_insert);
+        } else {
+            while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+                $IdMes = $row_mes['id'];
+            }
+
+        }
+
+        return $IdMes;
     }
     private function idMes(): int
     {
-        $sql_reporte = "SELECT id FROM op_corte_mes ORDER BY id DESC LIMIT 1";
-        $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $stmt->execute();
-        $stmt->bind_result($id);
-        $stmt->fetch();
-        $stmt->close();
-        return ($id + 1);
+        $sql_reporte = "SELECT id FROM op_corte_mes ORDER BY id desc LIMIT 1 ";
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
+        while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+            $id = $row_mes['id'] + 1;
+        }
+        return $id;
     }
     private function agregarAlmacen(int $IDEstacion, int $IdMes, int $idreporte): void
     {
-        $sql1 = "DELETE FROM op_inventario_aceites WHERE id_mes = ? AND id_estacion = ?";
-        $stmt1 = $this->con->prepare($sql1);
-        if (!$stmt1):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $stmt1->bind_param('ii', $IdMes, $IDEstacion);
-        if (!$stmt1->execute()):
-            throw new Exception('Erro al ejecutar la consulta' . $stmt1->error);
-        endif;
-        $sql_reporte = "SELECT id_aceite, inventario_exibidores, inventario_bodega FROM op_aceites_lubricantes_reporte WHERE id_mes = ?";
-        $stmt2 = $this->con->prepare($sql_reporte);
-        if (!$stmt2):
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
-        endif;
-        $stmt2->bind_param('i', $idreporte);
-        $stmt2->execute();
-        $stmt2->bind_result($idAceite, $inventarioExibidores, $inventarioBodega);
-        while ($stmt2->fetch()):
-            $idAeite = $this->idAceite($idAceite);
-            $sql_insert = "INSERT INTO op_inventario_aceites (id_mes, id_estacion, id_aceite, exhibidores, bodega) VALUES (?, ?, ?, ?, ?)";
-            $stmt3 = $this->con->prepare($sql_insert);
-            if (!$stmt3) {
-                throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
+        $sql1 = "DELETE FROM op_inventario_aceites WHERE id_mes = '" . $IdMes . "' AND id_estacion = '" . $IDEstacion . "' ";
+        if (mysqli_query($this->con, $sql1)) {
+
+
+            $sql_reporte = "SELECT id_aceite, inventario_exibidores, inventario_bodega FROM op_aceites_lubricantes_reporte WHERE id_mes = '" . $idreporte . "' ";
+            $result_reporte = mysqli_query($this->con, $sql_reporte);
+            $numero_reporte = mysqli_num_rows($result_reporte);
+            while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+                $idAeite = $this->idAceite($row_mes['id_aceite']);
+                $sql_insert = "INSERT INTO op_inventario_aceites (
+                    id_mes,
+                    id_estacion,
+                    id_aceite,
+                    exhibidores,
+                    bodega
+                    )
+                    VALUES 
+                    (
+                    '" . $IdMes . "',
+                    '" . $IDEstacion . "',
+                    '" . $idAeite . "',
+                    '" . $row_mes['inventario_exibidores'] . "',
+                    '" . $row_mes['inventario_bodega'] . "'
+                    )";
+
+                mysqli_query($this->con, $sql_insert);
+
+
+
             }
-            $stmt3->bind_param('iiiii', $IdMes, $IDEstacion, $idAeite, $inventarioExibidores, $inventarioBodega);
-            if (!$stmt3->execute()) {
-                throw new Exception("Error al ejecutar la consulta" . $stmt3->error);
-            }
-        endwhile;
-        $stmt1->close();
-        $stmt2->close();
-        $stmt3->close();
-    }
-    public function idAceite(int $idAceite): int
-    {
-        $sql_reporte = "SELECT id FROM op_aceites WHERE id_aceite = ? LIMIT 1";
-        $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt) {
-            throw new Exception("Error en la preparacion de la consulta" . $this->con->error);
+
         }
-        $stmt->bind_param('i', $idAceite);
-        $stmt->execute();
-        $stmt->bind_result($id);
-        $stmt->fetch();
-        $stmt->close();
-        return $id;
+    }
+    public function idAceite(int $idaceite)
+    {
+        $sql_reporte = "SELECT id FROM op_aceites WHERE id_aceite = '" . $idaceite . "' LIMIT 1 ";
+        $result_reporte = mysqli_query($this->con, $sql_reporte);
+        $numero_reporte = mysqli_num_rows($result_reporte);
+        while ($row_mes = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)) {
+            $return = $row_mes['id'];
+        }
+
+        return $return;
     }
     public function editarReporteAceite($tipo, $valor, int $id): bool
     {

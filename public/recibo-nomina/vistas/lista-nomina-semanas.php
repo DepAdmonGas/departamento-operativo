@@ -756,7 +756,7 @@ require('../../../app/help.php');
   
 
   echo '<tr '.$bgTable.'>';
-  echo '<th class="align-middle text-center"><b>'.$num.'</b></th>';
+  echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
   echo '<td class="align-middle text-center">'.$no_colaborador2 .'</td>';
   echo '<td class="align-middle text-center">'.$nombreNomina.'</td>';
   echo '<td class="align-middle text-center">'.$puestoNomina.'</td>'; 

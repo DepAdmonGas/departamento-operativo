@@ -126,7 +126,7 @@ echo '<td class="align-middle text-center">'.$row_lista['razonsocial'].'</td>';
 
 
 
-echo '<td class="align-middle text-center"><b>'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</b></td>';
+echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['beneficiario'].'</td>';
 echo '<td class="align-middle text-center">$ '.number_format($row_lista['monto'],2).'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['no_factura'].'</td>';
@@ -146,8 +146,7 @@ echo '<td class="align-middle text-center">'.$Firmar.'</td>';
 echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>';
 
 echo '<td class="align-middle text-center">
-<div class="dropdown">
-
+<div class="btn-group">
 <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 <i class="fas fa-ellipsis-v"></i>
 </a>

@@ -25,10 +25,10 @@ $numero_documento = mysqli_num_rows($result_documento);
 </div>
 
 <div class="modal-body">
-<div class="mb-1 text-secondary">* Descripción:</div>
+<div class="mb-1 text-secondary fw-bold">* DESCRIPCIÓN:</div>
 
-
-<select class="selectize" id="Documento">
+<div id="border-documento">
+<select class="selectize rounded-0" id="Documento">
 <option></option>
 <option>PRESUPUESTO</option>
 <option>FACTURA PDF</option>
@@ -50,10 +50,11 @@ $numero_documento = mysqli_num_rows($result_documento);
 <option>COMPLEMENTO DE PAGO XML</option>
 <option>EVIDENCIA</option>
 </select>
+</div>
 
-<div class="mb-1 mt-3 text-secondary">* Archivo:</div>
+<div class="mb-1 mt-3 text-secondary fw-bold">* ARCHIVO:</div>
 <div class="input-group">
-<input type="file" class="form-control" id="Archivo">
+<input type="file" class="form-control rounded-0" id="Archivo">
 </div>
  
 <hr> 

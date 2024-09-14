@@ -9,11 +9,11 @@ $mes = $_GET['mes'];
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
-    <div class="mb-1 text-secondary">Ficha deposito faltante</div>
+    <h6 class="mb-2">* Ficha Deposito Faltante</h6>
     <input class="form-control" type="file" id="Ficha">
-    <div class="mb-1 mt-2 text-secondary">Imagen de bodega</div>
+    <h6 class="mb-2 mt-2">* Imagen de Bodega</h6>
     <input class="form-control" type="file" id="Imagen">
-    <div class="mb-1 mt-2 text-secondary">Factura venta mostrador</div>
+    <h6 class="mb-2 mt-2">* Factura Venta Mostrador</h6>
     <input class="form-control" type="file" id="Factura">
 </div>
 <div class="modal-footer ">

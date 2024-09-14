@@ -9,17 +9,17 @@ $idPedido = $_GET['idPedido'];
 </div>
 <div class="modal-body">
 
-<label class="text-secondary mb-1">Selecciona el archivo:</label>
+<label class="text-secondary mb-1 fw-bold">* SELECCIONA EL ARCHIVO:</label>
 <input class="form-control" type="file" id="archivoEvidencia">
 
  
 <div class="row ">
 <div class="col-6">
-  <label class="text-secondary mb-1 mt-2">* Area</label>
+  <label class="text-secondary mb-1 mt-2 fw-bold">* ÁREA</label>
   <textarea class="form-control" id="Area"></textarea>
 </div>
 <div class="col-6">
-  <label class="text-secondary mb-1 mt-2">* Motivo</label>
+  <label class="text-secondary mb-1 mt-2 fw-bold">* MOTIVO</label>
   <textarea class="form-control" id="Motivo"></textarea>
 </div>
 </div>

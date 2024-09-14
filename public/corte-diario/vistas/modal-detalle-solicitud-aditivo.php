@@ -54,12 +54,12 @@ function Personal($idusuario, $con)
   <br>
   <div class="row">
     <div class="col-12">
-      <h6>Para:</h6>
+    <div class="text-secondary fw-bold">PARA:</div>
       <?= $para ?>
     </div>
     <br>
     <div class="col-12">
-      <h6>Comentarios o instrucciones especiales:</h6>
+    <div class="text-secondary fw-bold">COMENTARIOS O INSTRUCCIONES ESPECIALES:</div>
       <?= $comentarios ?>
     </div>
   </div>

@@ -92,7 +92,7 @@ $explode = explode(" ", $row_lista['fechacreacion']);
 echo '<tr >';
 echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['unidad'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
 echo '<td class="align-middle text-center"><img class="pointer" width="18px" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarUnidad('.$id.','.$idRefaccion.')"></td>';
 echo '</tr>';
 $num++;

@@ -91,7 +91,8 @@ require ('app/help.php');
       var OtroProducto = $('#OtroProducto').val();
       var Piezas = $('#Piezas').val();
 
-
+      if (Producto != "") {
+        $('#contenido-producto').css('border', '');
       if (Piezas != "") {
         $('#Piezas').css('border', '');
 
@@ -126,6 +127,9 @@ require ('app/help.php');
 
       } else {
         $('#Piezas').css('border', '2px solid #A52525');
+      }
+    } else {
+        $('#contenido-producto').css('border', '2px solid #A52525');
       }
 
 

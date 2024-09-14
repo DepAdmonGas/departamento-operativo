@@ -122,8 +122,8 @@ $Dia7 = BuscarHorarioFormato(7, $id, $idReporte, $con);
 if ($Dia1 != "S/I" || $Dia2 != "S/I" || $Dia3 != "S/I" || $Dia4 != "S/I" || $Dia5 != "S/I" || $Dia6 != "S/I" || $Dia7 != "S/I") {
 
 echo '<tr>';
-echo '<th class="text-center align-middle">' . $row_personal['id'] . '</th>';
-echo '<td class="align-middle"><b>' . $row_personal['nombre_completo'] . '</b></td>';
+echo '<th class="text-center align-middle fw-normal">' . $row_personal['id'] . '</th>';
+echo '<td class="align-middle">' . $row_personal['nombre_completo'] . '</td>';
 echo '<td class="align-middle">' . $Dia1 . '</td>';
 echo '<td class="align-middle">' . $Dia2 . '</td>';
 echo '<td class="align-middle">' . $Dia3 . '</td>';

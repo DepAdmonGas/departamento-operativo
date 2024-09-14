@@ -68,7 +68,7 @@ $<?=number_format($monto,2);?> <?=$moneda;?>
 
 <div class="col-12 mb-2"> 
 <hr>
-<h6>Cargo a cuenta:</h6>
+<h6>CARGO A CUENTA:</h6>
 </div>
 
 <?php if($idEstacion != 0){ ?>
@@ -126,7 +126,7 @@ $<?=number_format($monto,2);?> <?=$moneda;?>
 
     echo '<tr>';
     echo '<th class="text-center fw-normal">'.$row_documento['nombre'].'</th>';
-    echo '<td class="text-center fw-normal" width="24px"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download>
+    echo '<td class="text-center" width="24px"><a href="'.RUTA_ARCHIVOS.'vales/'.$row_documento['documento'].'" download>
     <img class="pointer" src="'.RUTA_IMG_ICONOS.'descargar.png">
     </a>
     </td>';

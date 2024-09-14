@@ -478,7 +478,7 @@ class HerramientasDptoOperativo extends Exception
 
     /* ---------- FORMATOS DE FECHAS  ----------*/
 
-    public function nombremes(int $mes): string {
+    public function nombremes(string $mes): string {
     switch ($mes) :
     case "01": $mes = "Enero"; return $mes;
     case "02": $mes = "Febrero"; return $mes;

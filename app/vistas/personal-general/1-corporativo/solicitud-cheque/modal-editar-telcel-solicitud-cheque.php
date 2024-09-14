@@ -19,9 +19,9 @@ $estacion = $datosEstacion['razonsocial'];
 <div class="modal-body">
 <b><?=$estacion;?></b>
 
-<div class="text-secondary mt-2">* Comprobante de pago:</div>
+<div class="text-secondary mt-2 fw-bold">* COMPROBANTE DE PAGO:</div>
 <div class="mt-1">
-<input class="form-control" type="file" id="Pago">
+<input class="form-control rounded-0" type="file" id="Pago">
 </div>
 
 </div>

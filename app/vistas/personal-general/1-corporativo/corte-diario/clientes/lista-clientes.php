@@ -32,7 +32,7 @@ $numero_debito = $corteDiarioGeneral->getNumeroClientesPorTipo($idEstacion, 'Dé
             $result_credito = mysqli_query($con, $sql_credito);
             while ($row_credito = mysqli_fetch_array($result_credito, MYSQLI_ASSOC)) {
               echo '<tr>
-                                <th class="align-middle font-weight-light fw-bold"  style="font-size: .9em;">' . $row_credito['cuenta'] . '</th>
+                                <th class="align-middle font-weight-light fw-normal"  style="font-size: .9em;">' . $row_credito['cuenta'] . '</th>
                                 <td class="align-middle font-weight-light"  style="font-size: .9em;">' . $row_credito['cliente'] . '</td>
                                 <td class="align-middle font-weight-light"  style="font-size: .9em;">' . $row_credito['rfc'] . '</td>
                                 <td width="20px" class="align-middle">
@@ -72,7 +72,7 @@ $numero_debito = $corteDiarioGeneral->getNumeroClientesPorTipo($idEstacion, 'Dé
             $result_debito = mysqli_query($con, $sql_debito);
             while ($row_debito = mysqli_fetch_array($result_debito, MYSQLI_ASSOC)) {
               echo '<tr>
-                                <th class="align-middle font-weight-light fw-bold" style="font-size: .9em;">' . $row_debito['cuenta'] . '</th>
+                                <th class="align-middle font-weight-light fw-normal" style="font-size: .9em;">' . $row_debito['cuenta'] . '</th>
                                 <td class="align-middle font-weight-light" style="font-size: .9em;">' . $row_debito['cliente'] . '</td>
                                 <td width="20px" class="align-middle">
                                 <img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="Editar(' . $row_debito['id'] . ')" width="20px">

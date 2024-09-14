@@ -123,6 +123,7 @@ class SolicitudVale extends Exception
     $ultimaSolicitudVale = $this->obtenerUltimaSolicitudVale();
     $idReporte = $ultimaSolicitudVale['id'];
     $Folio = $ultimaSolicitudVale['folio'];
+    date_default_timezone_set('America/Mexico_City');
     $hora_del_dia = date("H:i:s");
     $status = 1;
 
@@ -140,8 +141,8 @@ class SolicitudVale extends Exception
     $Departamento = $infoSolicitud[13]; 
     }
 
-    $stmt_insert->bind_param("iiiisiissdssssssii", $idReporte, $infoSolicitud[2], $infoSolicitud[3], $Estacion, $Cuentas, $infoSolicitud[4], $Folio, $infoSolicitud[5], $hora_del_dia, $infoSolicitud[6],
-    $infoSolicitud[7], $infoSolicitud[8], $infoSolicitud[9], $infoSolicitud[11], $infoSolicitud[12], $infoSolicitud[10], $infoSolicitud[1], $status);
+    $stmt_insert->bind_param("iiiisiissdssssssii", $idReporte, $infoSolicitud[2], $infoSolicitud[3], $Estacion, $Cuentas, $infoSolicitud[4], $Folio,$infoSolicitud[5], 
+    $hora_del_dia, $infoSolicitud[6],$infoSolicitud[7], $infoSolicitud[8], $infoSolicitud[9], $infoSolicitud[11], $infoSolicitud[12], $infoSolicitud[10], $infoSolicitud[1], $status);
     if (!$stmt_insert->execute()):
     $result = false;
     throw new Exception("Error al ejecutar la consulta SQL: " . $stmt_insert->error);

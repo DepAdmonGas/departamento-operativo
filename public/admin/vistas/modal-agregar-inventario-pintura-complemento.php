@@ -20,7 +20,7 @@ sortField: 'text'
 </div>
       <div class="modal-body">
 
-      	<div class="mb-1 text-secondary">Producto:</div>
+      	<div class="mb-1 text-secondary fw-bold">* PRODUCTO:</div>
         <select class="selectize pointer" placeholder="Producto" id="Producto">
           <option value="">Producto</option>
         <?php
@@ -31,12 +31,12 @@ sortField: 'text'
         ?>
         </select>
 
-        <div class="mb-1 mt-2 text-secondary">Piezas:</div>
+        <div class="mb-1 mt-2 text-secondary fw-bold">* PIEZAS:</div>
         <input type="number" class="form-control rounded-0" id="Piezas">
 
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-labeled2 btn-success" onclick="CreateInventario(<?=$idEstacion?>)">
-        <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+      <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       
       </div>

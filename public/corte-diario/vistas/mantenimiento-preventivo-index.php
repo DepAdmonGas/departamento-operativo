@@ -78,6 +78,7 @@ require('app/help.php');
   },
   success:  function (response) {
   ModalEditar(idEstacion,response)
+  MantenimientoP(idEstacion)
 
   }
   });

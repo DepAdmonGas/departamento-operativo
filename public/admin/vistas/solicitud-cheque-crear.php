@@ -365,7 +365,7 @@ alertify.error('Falta ingresar la fecha');
   <div class="row">  
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* FECHA:</div>
+  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
   <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha_del_dia;?>"> 
   </div> 
 
@@ -411,17 +411,17 @@ alertify.error('Falta ingresar la fecha');
   </div>   
       
   <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">* NOMBRE DEL BENEFICIARIO:</div>
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL BENEFICIARIO:</div>
   <input type="text" class="form-control rounded-0" id="Beneficiario" >
   </div>
 
   <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">* MONTO:</div>
+  <div class="mb-1 text-secondary fw-bold">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" >
   </div>
 
   <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">* MONEDA:</div>
+  <div class="mb-1 text-secondary">MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option>MXN</option>
   <option>USD</option>
@@ -430,32 +430,32 @@ alertify.error('Falta ingresar la fecha');
 
        
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* FACTURA NO:</div>
+  <div class="mb-1 text-secondary fw-bold">* FACTURA NO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="NoFactura" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* CORREO ELÉCTRONICO:</div>
+  <div class="mb-1 text-secondary fw-bold">* CORREO ELÉCTRONICO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="Correo" >
   </div>
 
   <div class="col-12 mb-2">  
-  <div class="mb-1 text-secondary mt-2">* CONCEPTO:</div>
+  <div class="mb-1 text-secondary mt-2 fw-bold">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"></textarea>
   </div>
    
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* NOMBRE DEL SOLICITANTE:</div>
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* TELÉFONO:</div>
+  <div class="mb-1 text-secondary fw-bold">* TELÉFONO:</div>
   <input type="text" class="form-control rounded-0" id="Telefono" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* USO DEL CDFI:</div>
+  <div class="mb-1 text-secondary fw-bold">* USO DEL CDFI:</div>
   <select class="form-select rounded-0" id="CFDI">
   <option value="">Selecciona una opcion...</option>
   <option>G01 Adquisicion de Mercancias</option>
@@ -483,27 +483,27 @@ alertify.error('Falta ingresar la fecha');
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* BANCO:</div>
+  <div class="mb-1 text-secondary fw-bold">* BANCO:</div>
   <input type="text" class="form-control rounded-0" id="Banco" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* NO. DE CUENTA: </div>
+  <div class="mb-1 text-secondary fw-bold">* NO. DE CUENTA: </div>
   <input type="text" class="form-control rounded-0" id="NoCuenta" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* NO. DE CUENTA CLABE:</div>
+  <div class="mb-1 text-secondary fw-bold">* NO. DE CUENTA CLABE:</div>
   <input type="text" class="form-control rounded-0" id="NoCuentaClave" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">* REFERENCIA/CONVENIO:</div>
+  <div class="mb-1 text-secondary fw-bold">* REFERENCIA/CONVENIO:</div>
   <input type="text" class="form-control rounded-0" id="Referencia" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">      
-  <div class="mb-1 text-secondary">* FORMA DE PAGO:</div>
+  <div class="mb-1 text-secondary fw-bold">* FORMA DE PAGO:</div>
   <select class="form-select rounded-0" id="FormaPago">
   <option value="">Selecciona una opcion...</option>
   <option>01  Efectivo</option>
@@ -536,98 +536,98 @@ alertify.error('Falta ingresar la fecha');
             
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">PRESUPUESTO:</div>
-  <input type="file" class="form-control" id="FacturaPresupuesto">
+  <input type="file" class="form-control rounded-0" id="FacturaPresupuesto">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">PREFACTURA PDF:</div>
-  <input type="file" class="form-control" id="PrefacturaPDF">
+  <input type="file" class="form-control rounded-0" id="PrefacturaPDF">
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">FACTURA PDF:</div>
-  <input type="file" class="form-control" id="FacturaPDF">
+  <input type="file" class="form-control rounded-0" id="FacturaPDF">
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">FACTURA XML:</div>
-  <input type="file" class="form-control" id="FacturaXML">
+  <input type="file" class="form-control rounded-0" id="FacturaXML">
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">CARATULA BANCARIA</div>
-  <input type="file" class="form-control" id="CaratulaB">
+  <input type="file" class="form-control rounded-0" id="CaratulaB">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">CONSTANCIA DE SITUACION</div>
-  <input type="file" class="form-control" id="ConstanciaS">
+  <input type="file" class="form-control rounded-0" id="ConstanciaS">
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">ORDEN DE SERVICIO</div>
-  <input type="file" class="form-control" id="OrdenServicio">
+  <input type="file" class="form-control rounded-0" id="OrdenServicio">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">ORDEN DE COMPRA</div>
-  <input type="file" class="form-control" id="OrdenCompra">
+  <input type="file" class="form-control rounded-0" id="OrdenCompra">
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">ORDEN DE MANTENIMIENTO</div>
-  <input type="file" class="form-control" id="OrdenMantenimiento">          
+  <input type="file" class="form-control rounded-0" id="OrdenMantenimiento">          
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">PÓLIZA DE GARANTÍA</div>
-  <input type="file" class="form-control" id="PolizaGarantia"> 
+  <input type="file" class="form-control rounded-0" id="PolizaGarantia"> 
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">PRORRATEO</div>
-  <input type="file" class="form-control" id="Prorrateo"> 
+  <input type="file" class="form-control rounded-0" id="Prorrateo"> 
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">REEMBOLSO CAJA CHICA</div>
-  <input type="file" class="form-control" id="ReembolsoCajaChica"> 
+  <input type="file" class="form-control rounded-0" id="ReembolsoCajaChica"> 
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">COTIZACIÓN</div>
-  <input type="file" class="form-control" id="Cotizacion"> 
+  <input type="file" class="form-control rounded-0" id="Cotizacion"> 
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">NOTA DE CREDITO PDF:</div>
-  <input type="file" class="form-control" id="NotaPDF"> 
+  <input type="file" class="form-control rounded-0" id="NotaPDF"> 
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">NOTA DE CREDITO XML:</div>
-  <input type="file" class="form-control" id="NotaXML"> 
+  <input type="file" class="form-control rounded-0" id="NotaXML"> 
   </div>
   
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary mt-2">CONTRATO:</div>
-  <input type="file" class="form-control" id="Contrato"> 
+  <input type="file" class="form-control rounded-0" id="Contrato"> 
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2"> 
   <div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO PDF:</div>
-  <input type="file" class="form-control" id="ComPDF">
+  <input type="file" class="form-control rounded-0" id="ComPDF">
   </div>
 
 
   <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2"> 
   <div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO XML:</div>
-  <input type="file" class="form-control" id="ComXML">
+  <input type="file" class="form-control rounded-0" id="ComXML">
   </div>
 
   <div class="col-12"><hr></div>
@@ -653,7 +653,7 @@ alertify.error('Falta ingresar la fecha');
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">* FIRMA DEL ENCARGADO</th> </tr>
+  <tr> <th class="align-middle text-center fw-bold">* FIRMA DEL ENCARGADO</th> </tr>
   </thead>
   <tbody>
   <tr>
