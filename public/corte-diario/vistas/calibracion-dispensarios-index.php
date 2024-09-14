@@ -37,7 +37,7 @@ require ('app/help.php');
 
   function SelEstacion(idEstacion) {
   let targets;
-  targets = [4, 5];
+  targets = [4];
 
   $('#ListaCalibracion').load('public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idEstacion, function() {
   $('#tabla_calibracion_' + idEstacion).DataTable({

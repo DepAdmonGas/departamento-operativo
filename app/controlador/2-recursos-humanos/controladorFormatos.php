@@ -2,7 +2,7 @@
 require "../../modelo/2-recursos-humanos/Formatos.php";
 $formatos = new Formatos();
 switch($_POST['accion']):
-      
+
     case 'agregar-formulario':
     $idEstacion = $_POST['idEstacion'];
     $formato = $_POST['Formato'];
@@ -135,7 +135,7 @@ switch($_POST['accion']):
     $tipoFirma = $_POST['tipoFirma'];
     echo $formatos->firmaFormatos($idReporte,$idUsuario,$tipoFirma,$img);
     break;
-    
+
     case 'firmar-formato-token':
     $idFormato = $_POST['idFormato'];
     $idVal = $_POST['idVal'];
@@ -158,6 +158,7 @@ switch($_POST['accion']):
     $idReporte = $_POST['idReporte'];
     echo $formatos->eliminarFormato($idReporte);
     break;
+
 
 
 endswitch;     

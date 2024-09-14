@@ -138,6 +138,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   function EditFormulario(idEstacion,idReporte,Formato){
 
   if(Formato == 1){  
+
   window.location.href = "recursos-humanos-formulario-alta-personal/" + idEstacion + '/' + idReporte; 
 
   }else if(Formato == 2){
@@ -166,6 +167,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   //---------- FIRMAR FORMATOS ----------
   function Firmar(idEstacion,idFormato){
   window.location.href = "recursos-humanos-formatos-firma/" + idFormato; 
+
   }
 
 
@@ -283,6 +285,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   window.location.reload();
   }
   });
+
 
   </script>
   </head>

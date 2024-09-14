@@ -64,6 +64,7 @@
 <div class="product-info">
 <p class="mb-0 pb-0">Dirección de Operaciones</p>
 <h2>Lista Formatos</h2>
+
 </div>
 
 </div>
