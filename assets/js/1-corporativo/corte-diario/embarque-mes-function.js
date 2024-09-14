@@ -44,11 +44,9 @@ document.getElementById("DivMerma").style.display = "none";
     var Chofer = $('#Chofer').val();
     var Unidad = $('#Unidad').val();
     
-    
     //----- CUARTA SECCION FORMULARIO -----//
     var Merma  = $('#Merma').val();
     var NombreTransporte = $('#NombreTransporte').val();
-    
     
     var data = new FormData(); 
     var url = '../../public/admin/modelo/agregar-embarques-mes.php';
@@ -99,6 +97,10 @@ document.getElementById("DivMerma").style.display = "none";
     $('#Producto').css('border','');
     if (Documento_filePath != "") {
     $('#Documento').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
     
     data.append('IdReporte', IdReporte);
     
@@ -148,7 +150,14 @@ document.getElementById("DivMerma").style.display = "none";
         ListaEmbarques(idEstacion,year,mes);
      
         });
-     
+      
+    }else{
+    $('#Unidad').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+    }else{
+    $('#Chofer').css('border', '2px solid #A52525'); // Marcar error en select
+
+    }
     }else{
     $('#Documento').css('border','2px solid #A52525');
     }
@@ -232,9 +241,17 @@ document.getElementById("DivMerma").style.display = "none";
     ComXML_file = ComXML.files[0];
     ComXML_filePath = ComXML.value;
     
+
+    if (Embarque != "") {
+    $('#Embarque').css('border','');
+    if (Producto != "") {
+    $('#Producto').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
     
     data.append('id', id);
-    
     //----- PRIMERA SECCION FORMULARIO -----//
     data.append('Fecha', Fecha);
     data.append('Embarque', Embarque);
@@ -279,6 +296,21 @@ document.getElementById("DivMerma").style.display = "none";
   ListaEmbarques(idEstacion,year,mes);
   });
     
+
+}else{
+  $('#Unidad').css('border','2px solid #A52525');
+  }
+  }else{
+  $('#Chofer').css('border','2px solid #A52525');
+  }
+  }else{
+  $('#Producto').css('border','2px solid #A52525');
+  }
+  }else{
+  $('#Embarque').css('border','2px solid #A52525');
+  }
+
+
   }
 
  

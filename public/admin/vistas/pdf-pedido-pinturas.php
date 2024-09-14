@@ -1,6 +1,5 @@
 <?php
-error_reporting(0);
-require_once 'dompdf/vendor/autoload.php';
+require_once 'dompdf2/vendor/autoload.php';
 require('app/help.php');
 
 function Personal($idpersonal, $con){

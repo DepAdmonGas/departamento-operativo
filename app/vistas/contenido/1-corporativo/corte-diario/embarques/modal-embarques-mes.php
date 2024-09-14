@@ -26,6 +26,7 @@ $mes = $_GET['mes'];
             estación de servicio debe recabar:</th>
         </tr>
       </thead>
+      
       <tbody>
         <tr class="no-hover">
           <th class="align-middle text-start bg-light">
@@ -158,7 +159,8 @@ $mes = $_GET['mes'];
   <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary">Chofer</div>
-      <select class="selectize pointer"  id="Chofer">
+     <!--
+      <select class="selectize" id="Chofer">
         <option></option>
         <?php
           $sql_unidades = "SELECT nombre_chofer FROM tb_pivoteo_chofer WHERE estado = 0 ORDER BY id ASC";
@@ -170,12 +172,14 @@ $mes = $_GET['mes'];
           }
         ?>
       </select>
-      <!--<input type="text" class="form-control" id="Chofer">-->
+      -->
+      <input type="text" class="form-control" id="Chofer">
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary">Unidad</div>
-      <select class="selectize pointer" id="Unidad">
+      <!--
+      <select class="selectize" id="Unidad">
         <option></option>
         <?php
           $sql_unidades = "SELECT no_unidad FROM tb_unidades_transporte WHERE estado = 0 ORDER BY id ASC";
@@ -187,7 +191,8 @@ $mes = $_GET['mes'];
           }
         ?>
       </select>
-        <!--<input type="text" class="form-control" id="Unidad">-->
+      -->
+        <input type="text" class="form-control" id="Unidad">
     </div>
 
 

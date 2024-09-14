@@ -126,6 +126,11 @@ var Tad = $('#Tad').val();
 var Chofer = $('#Chofer').val();
 var Unidad = $('#Unidad').val();
 
+var selectChofer = $('#Chofer').selectize()[0].selectize;
+    var choferValor = selectChofer.getValue();
+
+    var selectUnidad = $('#Unidad').selectize()[0].selectize;
+    var unidadValor = selectUnidad.getValue();
 
 //----- CUARTA SECCION FORMULARIO -----//
 var Merma  = $('#Merma').val();
@@ -164,7 +169,6 @@ NCXML = document.getElementById("NCXML");
 NCXML_file = NCXML.files[0];
 NCXML_filePath = NCXML.value;
 
-
 //----- COMPLEMENTO XML Y PDF -----//
 ComPDF = document.getElementById("ComPDF");
 ComPDF_file = ComPDF.files[0];
@@ -176,11 +180,15 @@ ComXML_filePath = ComXML.value;
 
  
 if (Embarque != "") {
-$('#Embarque').css('border','');
-if (Producto != "") {
-$('#Producto').css('border','');
-if (Documento_filePath != "") {
-$('#Documento').css('border','');
+    $('#Embarque').css('border','');
+    if (Producto != "") {
+    $('#Producto').css('border','');
+    if (Documento_filePath != "") {
+    $('#Documento').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
 
 data.append('IdReporte', IdReporte);
 
@@ -233,15 +241,22 @@ $(".LoaderPage").show();
  
     });
  
-}else{
-$('#Documento').css('border','2px solid #A52525');
-}
-}else{
-$('#Producto').css('border','2px solid #A52525');
-}
-}else{
-$('#Embarque').css('border','2px solid #A52525');
-}
+      
+    }else{
+    $('#Unidad').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+    }else{
+    $('#Chofer').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+    }else{
+    $('#Documento').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Producto').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Embarque').css('border','2px solid #A52525');
+    }
 
 } 
  
@@ -313,7 +328,6 @@ var Tad = $('#Tad').val();
 var Chofer = $('#Chofer').val();
 var Unidad = $('#Unidad').val();
 
-
 //----- CUARTA SECCION FORMULARIO -----//
 var Merma  = $('#Merma').val();
 var NombreTransporte = $('#NombreTransporte').val();
@@ -361,6 +375,14 @@ ComXML = document.getElementById("ComXML");
 ComXML_file = ComXML.files[0];
 ComXML_filePath = ComXML.value;
 
+    if (Embarque != "") {
+    $('#Embarque').css('border','');
+    if (Producto != "") {
+    $('#Producto').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
 
 data.append('id', id);
 
@@ -408,6 +430,22 @@ $(".LoaderPage").show();
     SelEstacion(idestacion,year,mes);
     alertify.success('Registro editado exitosamente.')
     });
+
+    }else{
+    $('#Unidad').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+
+    }else{
+    $('#Chofer').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+
+    }else{
+    $('#Producto').css('border','2px solid #A52525');
+    }
+    
+    }else{
+    $('#Embarque').css('border','2px solid #A52525');
+    }
 
   }
 

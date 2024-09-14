@@ -2,7 +2,7 @@
 require('app/help.php');
 
 function ToSolicitudVacaciones($idEstacion, $year, $con){
-$sql_lista = "SELECT id FROM op_rh_formatos WHERE formato = 5 AND status = 1  AND id_localidad = '".$idEstacion."' AND YEAR(fecha) = '".$year."'";
+$sql_lista = "SELECT id FROM op_rh_formatos WHERE formato = 6 AND status = 1  AND id_localidad = '".$idEstacion."' AND YEAR(fecha) = '".$year."'";
 $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
@@ -132,23 +132,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
   if (response != 0) {
   SelEstacion(idEstacion);
 
-  if(Formato == 1){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-  }else if(Formato == 2){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario2.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-  }else if(Formato == 3){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario3.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-  }else if(Formato == 4){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario4.php?idEstacion=' + idEstacion + '&idReporte=' + response);
-  }else if(Formato == 5){
-
   sessionStorage.setItem('idestacion', idEstacion);
-  window.location.href = "recursos-humanos-formatos-vacaciones/" + response; 
-  }
+  window.location.href = "recursos-humanos-formulario-vacaciones-personal/" + idEstacion + '/' + response; 
     
   }else{
   alertify.error('Error al crear');  
@@ -161,25 +146,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   function EditFormulario(idEstacion,idReporte,Formato){
 
-    if(Formato == 1){
-      $('#Modal').modal('show'); 
-       $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario1.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-    }else if(Formato == 2){
-      $('#Modal').modal('show'); 
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario2.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-    }else if(Formato == 3){
-      $('#Modal').modal('show'); 
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario3.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-    }else if(Formato == 4){
-      $('#Modal').modal('show'); 
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario4.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-    }else if(Formato == 5){
     sessionStorage.setItem('idestacion', idEstacion);
-    window.location.href = "recursos-humanos-formatos-vacaciones/" + idReporte; 
-    }else if(Formato == 6){
- $('#Modal').modal('show'); 
-      $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-opciones-formulario6.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);
-    }
+    window.location.href = "recursos-humanos-formulario-vacaciones-personal/" + idEstacion + '/' + Formato; 
 
 }
 
@@ -202,8 +170,6 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
 
         },
         success:  function (response) {
-
-console.log(response)
 
           if(response == 1){
           SelEstacion(idEstacion, Year)

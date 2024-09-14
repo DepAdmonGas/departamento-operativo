@@ -363,6 +363,8 @@ $icon = "fa-solid fa-screwdriver-wrench";
 
 if ($session_nompuesto == "Comercializadora") {
 
+  if($Session_IDUsuarioBD == 28){
+
   if($id == 6 || $id == 7){
   echo '  
   <li>
@@ -372,6 +374,17 @@ if ($session_nompuesto == "Comercializadora") {
     </a>
   </li>';
   }
+
+}else{
+
+  echo '  
+  <li>
+    <a class="pointer" onclick="SelContrato('.$id.',\''.$GET_Categoria.'\')">
+    <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$estacion.' 
+    </a>
+  </li>';
+}
 
 }else{
 

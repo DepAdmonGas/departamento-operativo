@@ -901,6 +901,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/aceites/aceites-mes.php';
     //$ruta_elegida = 'public/corte-diario/vistas/aceites-mes.php';
         
+    
     } else if ($partes_ruta[1] == 'clientes-mes') {
     $GET_year = $partes_ruta[2];
     $GET_mes = $partes_ruta[3];
@@ -912,7 +913,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $GET_mes = $partes_ruta[3];
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/corte-diario/embarques/embarques-mes.php';
     //$ruta_elegida = 'public/corte-diario/vistas/embarques-mes.php';
-        
+     
     //---------- FORMULARIOS RECURSOS HUMANOS (FORMATOS) ----------//
     }else if ($partes_ruta[1] == 'recursos-humanos-formulario-alta-personal') {
     $GET_idEstacion = $partes_ruta[2];
@@ -920,7 +921,38 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/alta-personal-index.php';
 
 
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-baja-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/2-baja-personal/baja-personal-index.php';
 
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-falta-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/3-falta-personal/falta-personal-index.php';
+
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-reestructuracion-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/4-reestructuracion-personal/reestructuracion-personal-index.php';
+
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-ajuste-salarial') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/5-ajuste-salarial/ajuste-salarial-index.php';
+
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-vacaciones-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/6-vacaciones-personal/vacaciones-personal-index.php';
+
+    }else if ($partes_ruta[1] == 'recursos-humanos-formulario-prima-vacacional') {
+    $GET_idEstacion = $partes_ruta[2];
+    $GET_idReporte = $partes_ruta[3];
+    $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/formatos/7-prima-vacacional/prima-vacacional-index.php';
+    //------------------------------------------------------------//
+ 
+  
 
     } else if ($partes_ruta[2] == 'corte-diario') {
     $GET_year = $partes_ruta[3];
@@ -1141,7 +1173,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/control-volumetrico-mes.php';
         }
 
-
         //--- Vales
         else if ($partes_ruta[1] == 'admin-solicitud-vales') {
             $GET_year = $partes_ruta[2];
@@ -1220,7 +1251,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_mes = $partes_ruta[4];
             $ruta_elegida = 'public/admin/vistas/resumen-aceites-mes-ss.php';
         }
-
+        
         //---------- RESUMEN MONEDERO (SERVICIO SOCIAL)----------
         else if ($partes_ruta[2] == 'resumen-monedero') {
             $GET_year = $partes_ruta[3];
@@ -1437,12 +1468,14 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_idEstacion = $partes_ruta[3];
             $GET_year = $partes_ruta[4];
             $GET_mes = $partes_ruta[5];
-            $ruta_elegida = 'public/admin/vistas/control-volumetrico.php';
+            $ruta_elegida = 'public/admin/vistas/control-volumetrico.php'; 
+
         } else if ($partes_ruta[2] == 'control-volumetrico-resumen') {
             $GET_idEstacion = $partes_ruta[3];
             $GET_year = $partes_ruta[4];
             $GET_mes = $partes_ruta[5];
             $ruta_elegida = 'public/admin/vistas/control-volumetrico-resumen.php';
+
         } else if ($partes_ruta[2] == 'concentrado-ventas') {
             $GET_idEstacion = $partes_ruta[3];
             $GET_year = $partes_ruta[4];

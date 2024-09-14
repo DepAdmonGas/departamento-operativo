@@ -2,7 +2,7 @@
 require('app/help.php');
 
 function ToSolicitud($idLocalidad,$con){
-$sql_lista = "SELECT id FROM op_rh_formatos WHERE id_localidad = '".$idLocalidad."' AND (status BETWEEN 1 AND 2) AND (formato IN (1, 2, 3, 4, 6)) ORDER BY id DESC";
+$sql_lista = "SELECT id FROM op_rh_formatos WHERE id_localidad = '".$idLocalidad."' AND (status BETWEEN 1 AND 2) AND (formato IN (1, 2, 3, 4, 6, 7)) ORDER BY id DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
@@ -76,7 +76,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   });
   });
   
-  }
+  } 
 
   //---------- AGREGAR FORMATOS ----------
   function Formulario(Formato,idEstacion){
@@ -103,10 +103,29 @@ return $numero_lista = mysqli_num_rows($result_lista);
  
   if(Formato == 1){
   window.location.href = "recursos-humanos-formulario-alta-personal/" + idEstacion + '/' + response; 
-  }
 
+  }else if(Formato == 2){
+  window.location.href = "recursos-humanos-formulario-baja-personal/" + idEstacion + '/' + response; 
+
+  }else if(Formato == 3){
+  window.location.href = "recursos-humanos-formulario-falta-personal/" + idEstacion + '/' + response; 
+
+  }else if(Formato == 4){
+  window.location.href = "recursos-humanos-formulario-reestructuracion-personal/" + idEstacion + '/' + response; 
+
+  }else if(Formato == 5){
+  window.location.href = "recursos-humanos-formulario-ajuste-salarial/" + idEstacion + '/' + response; 
+
+  }else if(Formato == 6){
+  window.location.href = "recursos-humanos-formulario-vacaciones-personal/" + idEstacion + '/' + response; 
+
+  }else if(Formato == 7){
+  window.location.href = "recursos-humanos-formulario-prima-vacacional/" + idEstacion + '/' + response; 
+
+  }
+ 
   }else{
-  alertify.error('Error al crear');  
+  alertify.error('Error al crear formato');  
   }
 
   }
@@ -120,13 +139,142 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   if(Formato == 1){  
   window.location.href = "recursos-humanos-formulario-alta-personal/" + idEstacion + '/' + idReporte; 
-  }
+
+  }else if(Formato == 2){
+  window.location.href = "recursos-humanos-formulario-baja-personal/" + idEstacion + '/' + idReporte; 
+
+  }else if(Formato == 3){
+  window.location.href = "recursos-humanos-formulario-falta-personal/" + idEstacion + '/' + idReporte; 
+
+  }else if(Formato == 4){
+  window.location.href = "recursos-humanos-formulario-reestructuracion-personal/" + idEstacion + '/' + idReporte; 
+
+  }else if(Formato == 5){
+  window.location.href = "recursos-humanos-formulario-ajuste-salarial/" + idEstacion + '/' + idReporte; 
+
+  }else if(Formato == 6){
+  window.location.href = "recursos-humanos-formulario-vacaciones-personal/" + idEstacion + '/' + idReporte; 
+
+  }else if(Formato == 7){
+  window.location.href = "recursos-humanos-formulario-prima-vacacional/" + idEstacion + '/' + idReporte; 
 
   }
 
+  }
 
+
+  //---------- FIRMAR FORMATOS ----------
   function Firmar(idEstacion,idFormato){
   window.location.href = "recursos-humanos-formatos-firma/" + idFormato; 
+  }
+
+
+  //---------- COMENTARIOS FORMATOS ----------
+  function ModalComentario(idReporte,idEstacion){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-comentario-formatos.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte); 
+  } 
+
+  
+  function GuardarComentario(idReporte,idEstacion){
+  var Comentario = $('#Comentario').val();
+
+  var parametros = {
+  "idFormato" : idReporte,
+  "idUsuario" : <?=$Session_IDUsuarioBD?>,
+  "Comentario" : Comentario,
+  "accion" : "agregar-comentario-formatos"
+  }; 
+    
+  if(Comentario != ""){
+  $('#Comentario').css('border',''); 
+
+  $.ajax({
+  data:  parametros,
+  //url:   'public/recursos-humanos/modelo/agregar-comentario-personal.php', 
+  url:   'app/controlador/2-recursos-humanos/controladorFormatos.php', 
+  type:  'post',
+  beforeSend: function() {
+
+  },
+  complete: function(){  
+
+  },
+  success:  function (response) {
+
+  if (response == 1) {
+  sizeWindow();
+  SelEstacion(idEstacion)
+  alertify.success('Comentario agregado exitosamente');
+  $('#Comentario').val('');
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-comentario-formatos.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte); 
+
+  }else{
+  alertify.error('Error al guardar el comentario');  
+  }
+
+  } 
+  });
+
+  }else{
+  $('#Comentario').css('border','2px solid #A52525'); 
+  }
+
+  }
+
+
+  //---------- ELIMINAR FORMULARIO ----------
+  function DeleteFormulario(idReporte,idEstacion){
+    
+  alertify.confirm('',
+  function(){
+
+  var parametros = {
+  "idReporte" : idReporte,
+  "accion" : "eliminar-formato"
+  };
+
+  $.ajax({ 
+  data:  parametros,
+  url:    'app/controlador/2-recursos-humanos/controladorFormatos.php',
+  type:  'post',
+  beforeSend: function() {
+        
+  },
+  complete: function(){
+
+  }, 
+  success:  function (response) {
+    console.log(response)
+
+  if(response == 1){ 
+  SelEstacion(idEstacion)
+  alertify.success('Formato eliminado exitosamente.');   
+  
+  }else{
+  alertify.error('Error al eliminar el formato');    
+  }
+
+  }
+  });
+  },
+  function(){
+
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el formato seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+  
+  }
+
+
+  //---------- DETALLE FORMATOS ----------
+  function DetalleFormulario(idReporte,idFormato){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-detalle-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato); 
+  } 
+
+    //---------- DETALLE FORMATOS ----------
+
+  function DescargarPDF(idReporte,idFormato){
+  window.location.href = 'app/vistas/contenido/2-recursos-humanos/formatos/pdf-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato;
   }
 
   window.addEventListener('pageshow', function(event) {
@@ -264,8 +412,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   <div id="ContenidoFormatos" class="col-12"></div>
   
-  <!--<div class="col-12 mb-3"><div id="ContenidoOrganigrama" class="cardAG"></div> </div> -->
-
   </div>
   </div> 
   </div>
@@ -275,19 +421,19 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
 
   <div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content">
+  <div id="ContenidoModal"></div>
+  </div>
+  </div>
   </div>
 
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
+
+  <!---------- MODAL RIGHT ----------> 
+  <div class="modal right fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal2"></div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

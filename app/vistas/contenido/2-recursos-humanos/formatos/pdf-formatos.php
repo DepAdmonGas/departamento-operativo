@@ -1,49 +1,60 @@
+
 <?php
-require('app/help.php');
+require '../../../../help.php';
+require '../../../../lib/dompdf/vendor/autoload.php';
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+$GET_idReporte = $_GET['idReporte'];
+$formato = $_GET['idFormato'];
+
 
 $sql = "SELECT * FROM op_rh_formatos WHERE id = '".$GET_idReporte."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
 
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$explode = explode(' ', $row['fecha']);
-$HoraFormato = date("g:i a",strtotime($explode[1]));
-$idEstacion = $row['id_localidad'];
-$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
-$formato = $row['formato'];
-$status = $row['status'];
-}
+    $explode = explode(' ', $row['fecha']);
+    $HoraFormato = date("g:i a",strtotime($explode[1]));
+    $idEstacion = $row['id_localidad'];
+    $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
+    $formato = $row['formato'];
+    $status = $row['status'];
+    }
 
-$estacion = '('.$datosEstacion['localidad'].')';
+    $estacion = ''.$datosEstacion['localidad'].'';
+
 
 if($formato == 1){
-$Titulo = 'Firmar Alta de Personal '.$estacion;
-
-}else if($formato == 2){
-$Titulo = 'Firmar Baja de Personal '.$estacion;
-
-}else if($formato == 3){
-$Titulo = 'Firmar Falta de Personal '.$estacion;
-
-}else if($formato == 4){
-$Titulo = 'Firmar Reestructuración de Personal '.$estacion;
-  
-}else if($formato == 5){
-$Titulo = 'Firmar Ajuste Salarial '.$estacion;
+    $Titulo = 'Alta de Personal '.$estacion;
     
-}else if($formato == 6){
-$Titulo = 'Firmar Vacaciones de Personal '.$estacion;
+    }else if($formato == 2){
+    $Titulo = 'Baja de Personal '.$estacion;
+    
+    }else if($formato == 3){
+    $Titulo = 'Falta de Personal '.$estacion;
+    
+    }else if($formato == 4){
+    $Titulo = 'Reestructuración de Personal '.$estacion;
       
-}else if($formato == 7){
-$Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
+    }else if($formato == 5){
+    $Titulo = 'Ajuste Salarial '.$estacion;
         
-}
-    
+    }else if($formato == 6){
+    $Titulo = 'Vacaciones de Personal '.$estacion;
+          
+    }else if($formato == 7){
+    $Titulo = 'Solicitud Prima Vacacional '.$estacion;
+            
+    }
 
+// Genera el contenido HTML de la tabla
+ob_start();
 ?>
 
-<html lang="es">
-  <head>
+<html>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Dirección de operaciones</title>
@@ -54,204 +65,100 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>alertify.css">
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
-  <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
+  <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  <script type="text/javascript" src="<?=RUTA_JS?>signature_pad.js"></script>
-
-  <script type="text/javascript">
-  $(document).ready(function($){
-  $(".LoaderPage").fadeOut("slow");
-  $('[data-toggle="tooltip"]').tooltip();
-
-  });
 
 
-  function CrearToken(idFormato,idVal,idTipo){
-  $(".LoaderPage").show();
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url(<?=RUTA_IMG_LOGOS?>Fondo2.jpg); /* Usa la ruta correcta */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
-  var parametros = {
-    "idFormato" : idFormato,
-    "idVal" : idVal,
-    "idUsuario" : <?=$Session_IDUsuarioBD?>,
-    "idTipo" : idTipo,
-    "token" : '<?=$tokenWhats?>',
-    "accion" : 'firmar-formato-token'
-    };
 
-    $.ajax({
-    data:  parametros,
-    url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - 40px); /* Ajusta el ancho de acuerdo al padding */
+    height: 90%;
+    margin: 0 auto; /* Centra el contenido horizontalmente */
+    padding: 40px; /* Aquí puedes ajustar el padding */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
 
-    },
-    success:  function (response) {
-    $(".LoaderPage").hide();
+.custom-table {
+    width: 100%; /* Asegúrate de que la tabla ocupe el 100% del área disponible */
+   
+}
 
-    if(response == 1){
-    alertify.message('El token fue enviado por mensaje');   
-    }else{
-    alertify.error('Error al crear el token');   
+        .custom-table {
+            width: 100%;
+            font-size: .75em;
+        }
+
+        .custom-table thead th,
+        .custom-table tbody td {
+            text-align: left;
+            padding: 10px;
+            font-size: 10.5px;
+        }
+
+        .tables-bg {
+            background: #215D98;
+            color: white;
+        }
+
+        .title-table-bg {
+            background: #749ABF;
+            color: white;
+        }
+
+        .contenido-table-bg {
+            background: #f2f2f2;
+            color: dark;
+        }
+
+        .firmas-contenedor {
+        width: 100%;
+    }
+    .firma-col {
+        width: 32%; /* Ajusta este valor para el número de columnas que desees */
+        float: left;
+        padding: 0 5px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    .firma-col img {
+        width: 70%; /* Ajusta este valor para el tamaño de las firmas */
+    }
+    .clearfix {
+        clear: both;
     }
 
-    }
-    });
+    </style>
+</head>
+<body>
 
-    } 
+<div class="content-wrapper">
+<h2><?=$Titulo?></h2>
 
-    //---------- FIRMAR FORMATO TOKEN ----------//
-    function AutorizacionFormato(idFormato,tipoFirma){
-    var TokenValidacion = $('#TokenValidacion').val();
-
-    var parametros = {
-    "idFormato" : idFormato,
-    "idUsuario" : <?=$Session_IDUsuarioBD?>,  
-    "tipoFirma" : tipoFirma,
-    "TokenValidacion" : TokenValidacion,
-    "accion" : 'firmar-formato-martin'
-    };
-
-    if(TokenValidacion != ""){
-    $('#TokenValidacion').css('border',''); 
-    $(".LoaderPage").show();
-
-    $.ajax({ 
-    data:  parametros,
-    url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
-    type:  'post', 
-    beforeSend: function() {
-
-    },
-    complete: function(){ 
-
-    },
-    success:  function (response) {
-
-      console.log(response)
-    $(".LoaderPage").hide();
-    if(response == 1){
-    $('#ModalFinalizado').modal('show'); 
-
-    }else{
-    $('#ModalError').modal('show');
-    alertify.error('Error al firmar formato');
-    }
-
-    }
-    });
-
-    }else{
-    alertify.error('Falta ingresar el token');
-    }
-
-    }
-
-
-
-  //---------- FINALIZAR ALTA PERSONAL ----------//
-  function Finalizar(idReporte, tipoFirma) {
-  let signatureBlank = signaturePad.isEmpty();
-  var ctx = document.getElementById("canvas");
-  var image = ctx.toDataURL();
-  document.getElementById('base64').value = image;
-  var base64 = $('#base64').val();
-  var canvas = $('#canvas').val();
-
-  if (!signatureBlank) {
-
-  var data = new FormData();
-  var url = '../app/controlador/2-recursos-humanos/controladorFormatos.php';
-
-  data.append('idReporte', idReporte);
-  data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
-  data.append('tipoFirma', tipoFirma);
-  data.append('base64', base64);
-  data.append('accion', 'finalizar-formato-firma');  
-
-  alertify.confirm('',
-  function () {
-
-  $(".LoaderPage").show();
-
-  $.ajax({
-  url: url,
-  type: 'POST',
-  contentType: false,
-  data: data,
-  processData: false,
-  cache: false 
-  }).done(function (data) {
-
-
-  if (data == 1) {
-  history.go(-1);
-  } else {
-  $(".LoaderPage").hide();
-  alertify.error('Error al finalizar');
-  }
-
-  });
-
-  },
-  function () {
-
-  }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea finalizar el formato?', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-
-  } else {
-  alertify.error('Falta agregar la firma');
-  }
-
-  }
-
-  </script>
-  </head>
-
-  <body> 
-  <div class="LoaderPage"></div>
-  <!---------- DIV - CONTENIDO ----------> 
-  <div id="content">
-  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
-  <?php include_once "public/navbar/navbar-perfil.php";?>
-  <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
-
-  <div class="cardAG container p-3">
-
-  <div class="row">
-  <div class="col-12">
-  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-  <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Formatos
-  </a></li>
-  <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$Titulo;?></li>
-  </ol>
-  </div>
-  
-  <div class="row"> 
-  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$Titulo;?></h3> </div>
-  </div>
-
-  <hr>
-  </div>
-
-  <div class="col-12">
+<div class="row">
+<div class="col-12">
   <!---------- 1. ALTA DE PERSONAL ---------->
   <?php if($formato == 1){ ?>
-  <div class="col-12 text-end mb-3 ">
+  <div class="col-12 text-end mb-3">
   <b>Formato:</b> RH-ALT-01
   <br>
   <b>No. De control:</b> 00<?=$GET_idReporte?>
   <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
   </div>
-
+  
   <div class="col-12">
   <b>Lic. Alejandro Guzmán</b>
   <br>
@@ -395,18 +302,19 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <!---------- 5. FALTA DE PERSONAL ---------->
   <?php } else if($formato == 3){ ?>
 
-  <div class="col-12 text-end mb-3 ">
+  <div class="col-12 text-end mb-3" style='text-align:right;'>
   <b>Formato:</b> RH-FALT-03
   <br>
   <b>No. De control:</b> 00<?=$GET_idReporte?>
   
-  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  <br>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?>
   </div>
 
   <div class="col-12">
+  <br>
   <b>Lic. Alejandro Guzmán</b>
   <br>
-  <p><b>Departamento de Recursos Humanos</b></p>
+  <b>Departamento de Recursos Humanos</b>
   <p>Por medio del presente se le notifica la siguiente incidencia que corresponde a faltas de personal.</p>
   </div>
  
@@ -415,10 +323,10 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   <thead class="tables-bg">
   <tr>
-  <th class="align-middle text-center">#</th>
-  <th class="align-middle text-center">Colaborador</th>
-  <th class="align-middle text-center">Dia faltante</th>
-  <th class="align-middle text-center">Estacion</th>
+  <th class="align-middle text-center" style='text-align:center;'>#</th>
+  <th class="align-middle text-center" style='text-align:center;'>Colaborador</th>
+  <th class="align-middle text-center" style='text-align:center;'>Dia faltante</th>
+  <th class="align-middle text-center" style='text-align:center;'>Estacion</th>
   </tr>
   </thead>
 
@@ -442,17 +350,17 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   $dias_falta = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['dias_falta']);
 
   echo '<tr>';              
-  echo '<td class="align-middle text-center">' . $num . '</td>';      
-  echo '<td class="align-middle text-center">' . $NombreC . '</td>';  
-  echo '<td class="align-middle text-center">' . $dias_falta . '</td>';          
-  echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
+  echo '<td class="align-middle text-center" style="text-align:center;">' . $num . '</td>';      
+  echo '<td class="align-middle text-center" style="text-align:center;">' . $NombreC . '</td>';  
+  echo '<td class="align-middle text-center" style="text-align:center;">' . $dias_falta . '</td>';          
+  echo '<td class="align-middle text-center" style="text-align:center;">' . $nombreEstacion . '</td>';           
   echo '</tr>';
        
   $num++;                     
   }
 
   }else{
-  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal' style='text-align:center;'><small>No se encontró información para mostrar </small></th></tr>";
   }
   ?>
 
@@ -460,13 +368,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   </table>
   </div>
   
-  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
-
-
-
-
-
-
+  <div class="col-12 text-center" style='text-align:center;'><p>Sin más por el momento quedo de usted.</p><hr></div>
 
   <!---------- 4. REESTRUCTURACIÓN DE PERSONAL ---------->
   <?php } else if($formato == 4){ ?>
@@ -761,7 +663,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <p><b>Departamento de Recursos Humanos</b></p>
   <p>
   Sirva la presente para enviarle un cordial saludo, al mismo tiempo, me permito solicitarle el pago de mi prima vacacional, correspondiente al periodo de  
-  <input class="form-control ms-2" type="number" value="<?=$periodo?>" style="display: inline-block; width: auto; width: 150px" disabled>
+  <b><?=$periodo?></b>
   </p>
   </div>
 
@@ -793,244 +695,80 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     
   <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
 
-
-
-
-
-
-
   <?php } ?>
 
-  </div>
+
+  <!---------- FIRMAS DE ELABORACIÓN DEL FORMATO ---------->
+<div class="firmas-contenedor">
+    <?php 
+    $sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idReporte."' ";
+    $result_firma = mysqli_query($con, $sql_firma);
+    $numero_firma = mysqli_num_rows($result_firma);
+
+    while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
+        $explode = explode(' ', $row_firma['fecha']);
+
+        $datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($row_firma['id_usuario']);
+        $nombreUser = $datosUsuario['nombre'];
+
+        if($row_firma['tipo_firma'] == "A"){
+            $TipoFirma = "NOMBRE Y FIRMA DE QUIEN ELABORÓ";
+            $Detalle = '<div><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'"></div>';
+        } else if($row_firma['tipo_firma'] == "B"){
+            $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+            $Detalle = '<div><small>La solicitud de cheque se firmó por un medio electrónico.<br><b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+        } else if($row_firma['tipo_firma'] == "C"){
+            $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+            $Detalle = '<div><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'"></div>';
+        }
+
+        echo '
+        <div class="firma-col">
+                <table class="custom-table" style="font-size: 14px;" width="100%">
+                    <thead class="tables-bg">
+                        <tr> <th class="align-middle text-center">'.$nombreUser.'</th> </tr>
+                    </thead>
+                    <tbody class="bg-light">
+                        <tr>
+                            <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+                        </tr>
+                        <tr>
+                            <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>';
+    }
+    ?>
+    <div class="clearfix"></div>
+
+</div>
 
 
-  <!---------- fIRMAS DE ELABORACION DEL FORMATO ---------->
-  <div class="col-12">
-  <div class="row">
+</div>
+</div>
+</div>
 
-  <?php 
-  $sql_firma = "SELECT * FROM op_rh_formatos_firma WHERE id_formato = '".$GET_idReporte."' ";
-  $result_firma = mysqli_query($con, $sql_firma);
-  $numero_firma = mysqli_num_rows($result_firma);
-
-  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-  $explode = explode(' ', $row_firma['fecha']);
-
-  $datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($row_firma['id_usuario']);
-  $nombreUser = $datosUsuario['nombre'];
-
-
-  if($row_firma['tipo_firma'] == "A"){
-  $TipoFirma = "NOMBRE Y FIRMA DE QUIEN ELABORÓ";
-  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
-    
-  }else if($row_firma['tipo_firma'] == "B"){
-  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-    
-  }else if($row_firma['tipo_firma'] == "C"){
-  $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
-  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
-  }
-    
-  echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
-  <table class="custom-table" style="font-size: 14px;" width="100%">
-  <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">'.$nombreUser.'</th> </tr>
-  </thead>
-  <tbody class="bg-light">
-  <tr>
-  <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
-  </tr>
-
-  <tr>
-  <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
-  </tr>
-  
-  </tbody>
-  </table>
-  </div>';
-  }
-
-  ?>
-
-
-
-  <!----- FIRMA LIC. MARTIN ----->
-  <?php 
-  if($status == 1){
-  if($Session_IDUsuarioBD == 2){ 
-  ?>
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-  <div class="table-responsive">
-  <table class="custom-table" width="100%">
-  <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
-  </thead>
-  <tbody>
-    
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <h4 class="text-primary text-center">Token Móvil</h4>
-  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
-
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-
-  </th>
-  
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light p-0">
-  <div class="input-group">
-  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-  <div class="input-group-append">
-  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'B')">Firmar solicitud</button>
-  </div>
-  </div>
-  </th>
-  </tr>
-
-
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-  <?php 
-
-  }else if($Session_IDUsuarioBD == 354){
-  echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-    ¡Aun no es posible firmar! <br> La persona que autoriza debe finalizar el formato.
-  </div></div>';
-  }else{
-    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-    ¡No cuentas con los permisos para firmar!
-  </div></div>';
-  }
-
-  }
-  ?>
-
-    
-  <!----- FIRMA ALEJANDRO GUZMAN ----->
-  <?php 
-  if($status == 2){
-  if($Session_IDUsuarioBD == 354){
-  ?>
-
-  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
-  <div class="table-responsive">
-  <table class="custom-table" style="font-size: .8em;" width="100%">
-  
-  <thead class="tables-bg">
-  <tr><th class="text-center align-middle">FIRMA DEL VOBO</th></tr>
-  </thead>
-
-  <tbody class="bg-light"> 
-  <tr>
-  <td class="no-hover2 p-0">
-  <div id="signature-pad" class="signature-pad border-0" style="cursor:crosshair">
-  <div class="signature-pad--body">
-  <canvas style="width: 100%; height: 200px; border-right: 0.1px solid rgb(33, 93, 152); border-left: 0.1px solid rgb(33, 93, 152); cursor: crosshair; touch-action: none;" id="canvas" width="900" height="150"></canvas>  
-  <input type="hidden" name="base64" value="" id="base64">
-  </div>
-  </div>
-  </td>
-  </tr>
-                      
-  <tr><th colspan="6" class="bg-danger text-white p-2" onclick="resizeCanvas()"><i class="fa-solid fa-broom"></i> Limpiar firma</th></tr>
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-  <div class="col-12">
-  <hr>
-  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'C')">
-  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
-  </div>
-
-  <?php 
-  }else{
-    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
-    ¡No cuentas con los permisos para firmar!
-  </div></div>';
-  }
-  }
-  ?>
-
-
-
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-
-  </div>
-  </div>
-  </div>
-  </div>
-
-
-  <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
-  <div class="modal-dialog" role="document">
-  <div class="modal-content">
-  <div class="modal-body">
-    
-  <h5 class="text-info">El token fue validado correctamente.</h5>
-  <div class="text-secondary">El formato fue firmado.</div>
-
-  </div>
-
-  <div class="modal-footer">
-	<button type="button" class="btn btn-labeled2 btn-success" onclick="history.back()">
-  <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
-  </div>
-
-  </div>
-  </div>
-  </div>
-
-  <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
-  <div class="modal-dialog" role="document">
-  <div class="modal-content">
-  <div class="modal-body">
-
-  <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
-  <div class="text-secondary">El formato no fue firmado.</div>
-  </div>
-
-  <div class="modal-footer">
-	<button type="button" class="btn btn-labeled2 btn-success" data-bs-dismiss="modal">
-  <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
-  </div>
-
-  </div>
-  </div>
-
-
-  <!---------- FUNCIONES - NAVBAR ---------->
-  <script src="<?= RUTA_JS2 ?>signature-pad-functions.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-
-
+<!---------- FUNCIONES - NAVBAR ---------->
+<script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 </body>
 </html>
+
+<?php
+$html = ob_get_clean(); // Captura el contenido HTML generado
+
+// Configuración de DomPDF
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isRemoteEnabled', true);
+
+$dompdf = new Dompdf($options);
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'portrait'); // Configura el tamaño y la orientación del papel en vertical
+$dompdf->render();
+
+// Salida del PDF generado al navegador
+$dompdf->stream(''.$Titulo.'.pdf', ['Attachment' => 0]);
+
+?>
+

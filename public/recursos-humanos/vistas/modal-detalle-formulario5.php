@@ -62,17 +62,35 @@ $numero = mysqli_num_rows($result);
     $status = $row['status'];
     $Localidad = $row['id_localidad'];
     $observaciones = $row['observaciones'];
+
+
+    if($status == ""){
+    $trColor = 'style="background-color: #ffb6af"';
+    $detalle = '<img src="'.RUTA_IMG_ICONOS.'ver-tb.png" class="grayscale">';
+    $eliminar = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" class="grayscale">'; 
+
+    }else{ 
+    $trColor = "";
+    $detalle = '<img src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="detalleVacaciones2('.$idReporte.', '.$idPersonal.', '.$Year.')">';
+    $eliminar = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="DeleteFormulario('.$Localidad.','.$idPersonal.','.$Year.','.$idReporte.')">';    
+    }
       
-    echo '<tr>
+    echo '<tr '.$trColor.'>
     <th class="align-middle text-center">'.$num.'</th>
     <td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($fechainicio).'</td>
     <td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($fechatermino).'</td>
     <td class="align-middle text-center">'.$numdias.'</td>
-    <td class="align-middle text-center" width="32px"><img src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="detalleVacaciones2('.$idReporte.', '.$idPersonal.', '.$Year.')"></td>
-    <td class="align-middle text-center" width="32px"><img src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="DeleteFormulario('.$Localidad.','.$idPersonal.','.$Year.','.$idReporte.')"></td>
+    <td class="align-middle text-center" width="32px">'.$detalle.'</td>
+    <td class="align-middle text-center" width="32px">'.$eliminar.'</td>
     </tr>';
     
-    $sumaDias = $sumaDias + $numdias;
+    if($status == ""){
+    $numdiasVal = 0;
+    }else{
+    $numdiasVal = $numdias;
+    }
+
+    $sumaDias = $sumaDias + $numdiasVal;
     $num++;
     }
 

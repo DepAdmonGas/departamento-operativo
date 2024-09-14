@@ -1,19 +1,347 @@
 <?php
 require '../../../../../help.php';
+
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
-$IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
-$InventarioFin = $corteDiarioGeneral->inventarioFin($IdReporte);
-$disabled = "";
-$disabledStyle = "";
-if ($InventarioFin == 1):
+
+function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
+   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
+   $result_year = mysqli_query($con, $sql_year);
+   while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
+   $idyear = $row_year['id'];
+   }
+
+   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
+   $result_mes = mysqli_query($con, $sql_mes);
+   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
+   $idmes = $row_mes['id'];
+   }
+
+   return $idmes;
+   }
+
+  function InventarioFin($IdReporte,$con){
+  $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = '".$IdReporte."' LIMIT 1 ";
+   $result_reporte = mysqli_query($con, $sql_reporte);
+   $numero_reporte = mysqli_num_rows($result_reporte);
+ 
+   return $numero_reporte;
+   }
+
+   $IdReporte = IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con); 
+   $InventarioFin = InventarioFin($IdReporte,$con);
+
+   if ($InventarioFin == 1) {
     $disabled = "disabled";
     $disabledStyle = "inputD";
-endif;
-$corteDiarioGeneral->listaAceite($Session_IDEstacion,$IdReporte, $InventarioFin);
-$corteDiarioGeneral->pagoDiferencias($IdReporte);
-$Pdia = $corteDiarioGeneral->primerDia($GET_year, $GET_mes);
-$Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
+   }else{
+    $disabled = "";
+    $disabledStyle = "";
+   }
+
+$sql_listaaceite = "SELECT
+op_aceites.id,
+op_aceites.id_aceite,
+op_aceites.concepto,
+op_aceites.precio,
+op_inventario_aceites.id_mes,
+op_inventario_aceites.exhibidores,
+op_inventario_aceites.bodega
+FROM op_inventario_aceites
+INNER JOIN op_aceites
+ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.id_estacion = '".$Session_IDEstacion."' AND id_mes = '".$IdReporte."' ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+
+    $noAceite = $row_listaaceite['id_aceite'];
+    $concepto = $row_listaaceite['concepto'];
+    $precio = $row_listaaceite['precio'];
+    $exhibidores = $row_listaaceite['exhibidores'];
+    $bodega = $row_listaaceite['bodega'];
+
+    if($InventarioFin == 0){
+    Validaaceites($IdReporte,$noAceite,$concepto,$precio,$exhibidores,$bodega,$con);
+    }else{}
+    }
+
+    function Validaaceites($idReporte,$noAceite,$concepto,$precio,$exhibidores,$bodega,$con){
+  
+   $sql_reporte = "SELECT id_mes, concepto FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$idReporte."' AND concepto = '".$concepto."' ";
+   $result_reporte = mysqli_query($con, $sql_reporte);
+   $numero_reporte = mysqli_num_rows($result_reporte);
+
+    if($numero_reporte == 0){
+    $sql_insert = "INSERT INTO op_aceites_lubricantes_reporte (
+    id_mes,
+    id_aceite,
+    concepto,
+    precio,
+    bodega,
+    exibidores,
+    pedido,
+    inventario_bodega,
+    inventario_exibidores,
+    producto_facturado,
+    factura_venta_mostrador
+    )
+    VALUES 
+    (
+    '".$idReporte."',
+    '".$noAceite."',
+    '".$concepto."',
+    '".$precio."',
+    '".$bodega."',
+    '".$exhibidores."',
+    0,
+    0,
+    0,
+    0,
+    0
+    )";
+    mysqli_query($con, $sql_insert);
+  }
+  }
+
+  function ultimodia($year,$mes) { 
+      $month = $mes;
+      $year = $year;
+      $day = date("d", mktime(0,0,0, $month+1, 0, $year)); 
+      return date('d', mktime(0,0,0, $month, $day, $year));
+  };
+ 
+  
+  function primerdia($year,$mes) {
+      $month = $mes;
+      $year = $year;
+      return date('d', mktime(0,0,0, $month, 1, $year));
+  }
+
+  $Pdia = primerdia($GET_year,$GET_mes);
+  $Udia = ultimodia($GET_year,$GET_mes);
+
+function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
+
+  $cantidad = 0;
+
+      $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' AND fecha = '".$fecha."' LIMIT 1 ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+    }
+
+
+    $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $row_listatotal['cantidad'];
+    }
+
+    return $cantidad;
+
+    }
+
+    function totalaceites($IdReporte,$noaceite, $con){
+
+    $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+
+       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $cantidad + $row_listatotal['cantidad'];
+
+
+    }
+
+    }
+
+    return $cantidad;
+
+    }
+
+    function precioaceite($IdReporte, $fecha, $noaceite, $con){
+
+      $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' AND fecha = '".$fecha."' LIMIT 1 ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+    }
+
+    $total = 0;
+    $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $row_listatotal['cantidad'];
+      $precio = $row_listatotal['precio_unitario'];
+
+      $total = $cantidad * $precio;
+
+      
+    }
+
+    return $total;
+
+    }
+
+    function totalprecio($IdReporte, $fecha, $noaceite, $con){
+      $cantidad = 0;
+    $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+
+       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $cantidad + $row_listatotal['cantidad'];
+      $precio = $row_listatotal['precio_unitario'];
+
+      $total = $cantidad * $precio;
+
+
+    }
+
+    }
+
+    return $total;
+
+    }
+
+    function totalcantidad($IdReporte, $fecha, $noaceite, $con){
+      $cantidad = 0;
+      $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' AND fecha = '".$fecha."' ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+    
+
+
+    $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $cantidad + $row_listatotal['cantidad'];
+    }
+
+    return $cantidad;
+  }
+
+    
+
+    }
+
+    function totalimporte($IdReporte, $fecha, $noaceite, $con){
+
+      $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' AND fecha = '".$fecha."' ";
+    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
+    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
+      $id = $row_listaaceite['id'];
+    
+
+
+    $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' ";
+    $result_listatotal = mysqli_query($con, $sql_listatotal);
+    $totalimporte = 0;
+
+    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
+      $cantidad = $row_listatotal['cantidad'];
+      $precio = $row_listatotal['precio_unitario'];
+
+      $total = $cantidad * $precio;
+
+      $totalimporte = $totalimporte + $total;
+
+    }
+
+      return $totalimporte;
+
+    }
+
+
+  }
+
+PagoDiferencias($IdReporte,$con);
+
+function PagoDiferencias($IdReporte,$con){
+
+$sql_reporte = "SELECT * FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_reporte = '".$IdReporte."' AND estado = 0 ";
+    $result_reporte = mysqli_query($con, $sql_reporte);
+    while($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)){
+    $id = $row_reporte['id'];
+    $nomaceite = $row_reporte['nomaceite'];
+    $diferencia = $row_reporte['diferencia'];
+
+ActualizarAlmacen($id,$IdReporte,$nomaceite,$diferencia,$con);
+
+}
+}
+
+  function ActualizarAlmacen($id,$IdReporte,$idAceite,$diferencia,$con){
+    $sql_reporte = "SELECT id, bodega FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$IdReporte."' AND id_aceite = '".$idAceite."' ";
+    $result_reporte = mysqli_query($con, $sql_reporte);
+    $numero_reporte = mysqli_num_rows($result_reporte);
+    while($row_reporte = mysqli_fetch_array($result_reporte, MYSQLI_ASSOC)){
+
+        $bodega = $row_reporte['bodega'] + $diferencia;
+
+    $sql = "UPDATE op_aceites_lubricantes_reporte SET bodega ='".$bodega."' WHERE id ='".$row_reporte['id']."' ";
+
+        $sql1 = "UPDATE op_aceites_lubricantes_reporte_pagodiferencia SET estado = 1 WHERE id ='".$id."' ";
+
+    if (mysqli_query($con, $sql)) {}
+    if (mysqli_query($con, $sql1)) {}
+
+    }
+  }
+
+/*
+  if($GET_mes == 12){
+  $GET_yearS = $GET_year + 1;
+  $GET_mesS = 1;
+  }else{
+  $GET_yearS = $GET_year;
+  $GET_mesS = $GET_mes + 1;
+  }
+
+$IdReporteSig = IdReporte($Session_IDEstacion,$GET_yearS,$GET_mesS,$con); 
+
+  $sql = "SELECT
+op_aceites.id,
+op_aceites.id_aceite,
+op_aceites.concepto,
+op_aceites.precio,
+op_inventario_aceites.id_mes,
+op_inventario_aceites.exhibidores,
+op_inventario_aceites.bodega
+FROM op_inventario_aceites
+INNER JOIN op_aceites
+ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.id_estacion = '".$Session_IDEstacion."' AND op_inventario_aceites.id_mes = '".$IdReporteSig."' ";
+    $result = mysqli_query($con, $sql);
+    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+
+    $noAceite = $row['id_aceite'];
+    $exhibidores = $row['exhibidores'];
+    $bodega = $row['bodega'];
+
+
+    ValidaaceitesSig($IdReporte,$noAceite,$exhibidores,$bodega,$con);
+
+
+    }
+
+  function ValidaaceitesSig($IdReporte,$noAceite,$exhibidores,$bodega,$con){
+  
+    $sql_edit = "UPDATE op_aceites_lubricantes_reporte SET 
+    inventario_bodega = '".$bodega."',
+    inventario_exibidores = '".$exhibidores."'
+    WHERE id_mes ='".$IdReporte."' AND id_aceite = '".$noAceite."' ";
+    mysqli_query($con, $sql_edit);
+
+  }
+
+*/
+
 ?>
 
 <div class="table-responsive">
@@ -186,39 +514,39 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
                 <td id="diffactura-<?= $idaceite; ?>" class="align-middle text-end">
                     <?= number_format($diffactura, 2); ?></td>
 
-                <?php
+                    <?php
 
-                for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
+for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
+  
+  $fecha = $GET_year."-".$GET_mes."-".$Pdia;
+  $cantidad = cantidadaceites($IdReporte, $fecha, $noaceite, $con);
 
-                    $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                    $cantidad = $corteDiarioGeneral->cantidadaceites($IdReporte, $fecha, $noaceite);
+  echo "<td class='align-middle text-center'>".$cantidad."</td>";
 
-                    echo "<td class='align-middle text-center'>" . $cantidad . "</td>";
-
-                }
+}
 
 
-                $sumt = $sumt + $totalaceites;
-                ?>
-                <td class="align-middle text-center bg-light fw-bold"><?= $totalaceites; ?></td>
-                <?php
-                $TotalSumaAceites = 0;
-                for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
+$sumt = $sumt + $totalaceites;
+?>
+<td class="align-middle text-center bg-light fw-bold"><?=$totalaceites;?></td>
+<?php
+$TotalSumaAceites = 0;
+for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
-                    $fechap = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                    $precioaceite = $corteDiarioGeneral->precioAceite($IdReporte, $fechap, $noaceite);
-                    $TotalSumaAceites = $TotalSumaAceites + $precioaceite;
-                    echo "<td class='align-middle text-center'>" . number_format($precioaceite, 2) . "</td>";
-                }
-                $totalprecio = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
-                $importeneto = $importeneto + $totalprecio;
-                ?>
-                <td class="align-middle text-center fw-bold bg-light"><?= number_format($TotalSumaAceites, 2); ?></td>
-            </tr>
+  $fechap = $GET_year."-".$GET_mes."-".$Pdia;
+  $precioaceite = precioaceite($IdReporte, $fechap, $noaceite, $con);
+  $TotalSumaAceites = $TotalSumaAceites + $precioaceite;
+  echo "<td class='align-middle text-center'>".number_format($precioaceite,2)."</td>";
+}
+$totalprecio = totalprecio($IdReporte, $fecha, $noaceite, $con);
+$importeneto = $importeneto + $totalprecio;
+?>
+<td class="align-middle text-center bg-light"><?=number_format($TotalSumaAceites,2);?></td>
+</tr>
 
-            <?php
-        }
-        ?>
+<?php
+}    
+?>
 
         <tr class="fw-bold">
 
@@ -238,26 +566,27 @@ $Udia = $corteDiarioGeneral->ultimoDia($GET_year, $GET_mes);
             <td class="align-middle text-end bg-light"></td>
             <td class="align-middle text-end bg-light"></td>
             <td class="align-middle text-end bg-light"></td>
-            <?php
-            for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
+<?php
+    for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
-                $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                $totalcantidad = $corteDiarioGeneral->cantidadAceites($IdReporte, $fecha, $noaceite);
-                echo "<td class='align-middle text-center bg-light'>" . $totalcantidad . "</td>";
-            }
-            ?>
-            <td class="align-middle text-center bg-light"><?php echo $sumt; ?></td>
-            <?php
-            for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
+      $fecha = $GET_year."-".$GET_mes."-".$Pdia;
+      $totalcantidad = totalcantidad($IdReporte, $fecha, $noaceite, $con);
 
-                $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
-                $totalimporte = $corteDiarioGeneral->precioAceite($IdReporte, $fecha, $noaceite);
+      echo "<td class='align-middle text-center'>".$totalcantidad."</td>";
+    }
+    ?>
+    <td class="align-middle text-center bg-light"><?php echo $sumt; ?></td>
+    <?php
+    for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
-                echo "<td class='align-middle text-center bg-light'>" . number_format($totalimporte, 2) . "</td>";
-            }
-            ?>
+      $fecha = $GET_year."-".$GET_mes."-".$Pdia;
+      $totalimporte = totalimporte($IdReporte, $fecha, $noaceite, $con);
+
+      echo "<td class='align-middle text-center'>".number_format($totalimporte,2)."</td>";
+    }
+    ?>
             <td class="align-middle text-center bg-light"><?= number_format($importeneto, 2); ?></td>
         </tr>
     </tbody>
 </table>
-</div>
+</div>   

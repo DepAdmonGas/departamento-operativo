@@ -321,6 +321,8 @@ while($row_personal = mysqli_fetch_array($result_personal, MYSQLI_ASSOC)){
 $explode = explode("-", $row_personal['fecha_ingreso']);
 $Mes = $explode[1];
 $Vacaciones = Vacaciones($row_personal['id'], $_GET['Year'], $con);
+$idFormatoVacaciones = $Vacaciones['id'];
+
 $FechaInicio = FechaVacaciones($Vacaciones['fechainicio']);
 $FechaTermino = FechaVacaciones($Vacaciones['fechatermino']);
 $FechaRegreso = FechaVacaciones($Vacaciones['fecharegreso']);
@@ -339,24 +341,24 @@ $colorFechas = "text-primary";
 $colorFechas = "text-success";
 }
 
-if($Vacaciones['resultado'] == 0){
-$trColor = "";
-$Detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$row_personal['id'].','.$_GET['Year'].',5)"><i class="fa-regular fa-eye"></i> Detalle</a>';    
+if($Vacaciones['status'] == 0){
 $Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
+$Editar = '<a class="dropdown-item" onclick="EditFormulario('.$idEstacion.','.$Vacaciones['id'].','.$idFormatoVacaciones.')"><i class="fa-solid fa-pencil"></i> Editar</a>';    
+ 
+}else if($Vacaciones['status'] == 1){
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';    
-}else{
-$Detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$row_personal['id'].','.$_GET['Year'].',5)"><i class="fa-regular fa-eye"></i> Detalle</a>';    
-if($Vacaciones['status'] == 1){
-$trColor = ""; 
-$Editar = '<a class="dropdown-item" onclick="EditFormulario('.$idEstacion.','.$Vacaciones['id'].',5)"><i class="fa-solid fa-pencil"></i> Editar</a>';    
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" onclick="Firmar('.$idEstacion.','.$Vacaciones['id'].')">';
 //$PDF = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'pdf.png">';
+
 }else if($Vacaciones['status'] == 2){
-$trColor = ""; 
+$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';    
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" onclick="Firmar('.$idEstacion.','.$Vacaciones['id'].')">';
+//$PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')" >';
+
+}else if($Vacaciones['status'] == 3){
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';    
 $Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png">';
 //$PDF = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png" onclick="DescargarPDF('.$id.')" >';
-}
 }
 
 $ToComentarios = ToComentarios($row_personal['id'], $_GET['Year'],$con);
@@ -374,7 +376,7 @@ $PrimaV = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png">';
 $PrimaV = '<a href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$PrimaVacacional.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
 }
 
-echo '<tr class="'.$trColor.'">
+echo '<tr>
 <th class="align-middle text-center">'.$num.'</th>
 <td class="align-middle text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_personal['fecha_ingreso']).'</td>
 <td class="align-middle text-start">'.$row_personal['nombre_completo'].'</td>
@@ -394,12 +396,10 @@ echo '<tr class="'.$trColor.'">
 </a>
 
 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-'.$Detalle.'
+<a class="dropdown-item" onclick="DetalleFormulario('.$row_personal['id'].','.$_GET['Year'].',5)"><i class="fa-regular fa-eye"></i> Detalle</a>   
 '.$Editar.'
 </div>
 </div>
-
-
 
 </td>
 </tr>';
