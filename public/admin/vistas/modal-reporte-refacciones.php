@@ -44,29 +44,29 @@ $status = $row_reporte['status'];
         
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-1 text-secondary">* Fecha:</div>
+        <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
         <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha;?>">
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-1 text-secondary">* Hora:</div>
+        <div class="mb-1 text-secondary fw-bold">* HORA:</div>
         <input type="time" class="form-control rounded-0" id="Hora" value="<?=$hora;?>">
         </div>
 
         <div class="col-12 mb-2">
-        <div class="mb-1 text-secondary">* Dispensario:</div>
+        <div class="mb-1 text-secondary fw-bold">* DISPENSARIO:</div>
         <input type="text" class="form-control rounded-0" id="Dispensario" value="<?=$dispensario;?>">
         </div>
 
 
         <div class="col-12 mb-2">
-        <div class="mb-1 text-secondary">* Motivo:</div>
+        <div class="mb-1 text-secondary fw-bold">* MOTIVO:</div>
         <textarea class="form-control rounded-0" id="Motivo"><?=$motivo;?></textarea>
         </div>
 
 
         <div class="col-12 mb-2">
-        <div class="mb-1 text-secondary">* Archivo:</div>
+        <div class="mb-1 text-secondary fw-bold">* ARCHIVO:</div>
         <input type="file" class="rounded-0 form-control" id="seleccionArchivos">  
         </div>
 
@@ -82,7 +82,7 @@ $status = $row_reporte['status'];
         <div class="row">
 
         <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12mb-2">
-        <div class="mb-1 text-secondary">Refacción:</div>
+        <div class="mb-1 text-secondary">REFACCIÓN:</div>
         <select class="selectize rounded-0" id="Refaccion">
         <option value="">Selecciona una opción...</option>
         <?php 
@@ -97,7 +97,7 @@ $status = $row_reporte['status'];
         </div>
 
         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Unidad utilizada:</div>
+        <div class="mb-1 text-secondary">UNIDAD UTILIZADA:</div>
         <input type="number" class="form-control rounded-0" id="Unidad">
         </div>
 

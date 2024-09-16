@@ -164,7 +164,7 @@ $estacion = $row_listaestacion['localidad'];
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
-  <li class="breadcrumb-item"><a onclick="SelEstacionReturn(<?=$idEstacion;?>)" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventario</a></li>
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventario</a></li>
   <li aria-current="page" class="breadcrumb-item active">FORMULARIO DE TRANSACCIÓN (<?= strtoupper($estacion)?>)</li>
   </ol>
   </div>
@@ -180,12 +180,12 @@ $estacion = $row_listaestacion['localidad'];
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-  <h6>Estación proveedora:</h6>
+  <div class="text-secondary mb-1">ESTACIÓN PROVEEDORA:</div>
   <?=$estacion;?>
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-  <h6>Refacción que sale:</h6>
+  <div class="text-secondary fw-bold mb-1">* REFACCIÓN QUE SALE:</div>
   <select class="form-select rounded-0" id="idRefacccion">
   <option></option>
   <?php 
@@ -201,7 +201,7 @@ $estacion = $row_listaestacion['localidad'];
 
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-  <h6>Estación receptora:</h6>
+  <div class="text-secondary fw-bold mb-1">* ESTACIÓN RECEPTORA:</div>
   <select class="form-select rounded-0" id="idER" onchange="BuscarRER()">
   <option></option>
   <?php 
@@ -215,19 +215,19 @@ $estacion = $row_listaestacion['localidad'];
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-  <h6>Refacción que entra:</h6>
+  <div class="text-secondary fw-bold mb-1">* REFACCIÓN QUE ENTRA:</div>
   <div id="RefaccionEntrada">
   <select class="form-select rounded-0"></select>
   </div>
   </div>
 
   <div class="col-12 mb-3">
-  <h6>Observación y/o motivo:</h6>
+  <div class="text-secondary mb-1">OBSERVACIÓN Y/O MOTIVO:</div>
   <textarea class="form-control rounded-0" id="Observaciones"></textarea>
   </div>
 
   <div class="col-12">
-  <div class="alert alert-primary" role="alert"> <div id="DivCheck"><input type="checkbox" id="CheckAgregarR"> <b class="ms-2">Agregar refacción a la lista</b></div></div>
+  <div class="alert alert-primary" role="alert"> <div id="DivCheck"><input type="checkbox" id="CheckAgregarR"> <b class="ms-2">AGREGAR REFACCIÓN A LA LISTA</b></div></div>
   <hr>
   </div>
  
@@ -252,7 +252,7 @@ $estacion = $row_listaestacion['localidad'];
 
   <tr>
   <th class="align-middle text-center p-2 bg-danger text-white" onclick="resizeCanvas()">  
-  <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma        
+  <i class="fa-solid fa-arrow-rotate-left"></i> LIMPIAR FIRMA
   </th>
   </tr>
 

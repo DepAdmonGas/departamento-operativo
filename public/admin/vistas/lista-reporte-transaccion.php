@@ -138,8 +138,8 @@ echo '<th class="align-middle text-center">'.$id.'</th>';
 echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
 echo '<td class="align-middle text-center">'.$NomRefaccion.'</td>';
 echo '<td class="align-middle text-center">1</td>';
-echo '<td class="align-middle text-center"><b>'.$EstacionProveedora.'</b></td>';
-echo '<td class="align-middle text-center"><b>'.$Estacion.'</b></td>';
+echo '<td class="align-middle text-center">'.$EstacionProveedora.'</td>';
+echo '<td class="align-middle text-center">'.$Estacion.'</td>';
 echo '<td class="align-middle text-center">'.$firmatb.'</td>';
 echo '<td class="align-middle text-center position-relative" onclick="ComentarioTransaccion('.$idEstacion.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
 

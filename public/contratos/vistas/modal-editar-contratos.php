@@ -30,28 +30,28 @@ while($row_lista_contrato = mysqli_fetch_array($result_lista_contrato, MYSQLI_AS
 
 <div class="modal-body">
 
-<h6 class="mb-1">* Fecha:</h6>
+<h6 class="mb-1 text-secondary">FECHA:</h6>
 <input class="form-control" type="date" id="FechaC" value="<?=$fecha?>">
 
-<h6 class="mt-3 mb-1">* Documento:</h6>
+<h6 class="mt-3 mb-1 text-secondary text-secondary">DOCUMENTO:</h6>
 <textarea class="form-control" id="DescripcionC"><?=$descripcion?></textarea>
 
-<h6 class="mt-3 mb-1">PDF:</h6>
+<h6 class="mt-3 mb-1 text-secondary">PDF:</h6>
 <input class="form-control" type="file" id="ContratoDoc">
 
-<h6 class="mb-1 mt-3">Objeto:</h6>
+<h6 class="mb-1 mt-3 text-secondary">OBJETO:</h6>
 <textarea class="form-control" id="Objeto"><?=$objeto;?></textarea>
 
-<h6 class="mb-1 mt-3">Proveedor:</h6>
+<h6 class="mb-1 mt-3 text-secondary">PROVEEDOR:</h6>
 <textarea class="form-control" id="Proveedor"><?=$proveedor;?></textarea>
 
-<h6 class="mb-1 mt-3">Vencimiento:</h6>
+<h6 class="mb-1 mt-3 text-secondary">VENCIMIENTO:</h6>
 <input type="date" class="form-control" id="Vencimiento" value="<?=$vencimiento;?>">
 
-<h6 class="mb-1 mt-3">Personas que firman:</h6>
+<h6 class="mb-1 mt-3 text-secondary">PERSONAS QUE FIRMAN:</h6>
 <textarea class="form-control" id="Firman"><?=$firmas;?></textarea>
 
-<h6 class="mb-1 mt-3">Comentario:</h6>
+<h6 class="mb-1 mt-3 text-secondary">COMENTARIO:</h6>
 <textarea class="form-control" id="Comentario"><?=$comentario;?></textarea>
 
 </div>

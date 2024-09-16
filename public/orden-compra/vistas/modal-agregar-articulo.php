@@ -9,7 +9,7 @@ $idReporte = $_GET['idReporte'];
 </div>
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Proveedor:</div>
+  <div class="mb-1 text-secondary fw-bold">PROVEEDOR:</div>
   <select class="form-select" id="Proveedor">
     <option></option>
     <?php
@@ -25,14 +25,14 @@ $idReporte = $_GET['idReporte'];
     ?>
   </select>
 
-  <div class="mb-1 mt-2 text-secondary">Concepto:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold fw-bold">* CONCEPTO:</div>
   <textarea class="form-control" id="Concepto"></textarea>
 
-  <div class="mb-1 mt-2 text-secondary">Unidades:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">*UNIDADES:</div>
   <input type="number" class="form-control" id="Unidades">
 
 
-  <div class="mb-1 mt-2 text-secondary">Estatus:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">ESTATUS:</div>
   <select class="form-select" id="EstatusR">
     <option></option>
     <option value="Nuevo">Nuevo</option>
@@ -40,7 +40,7 @@ $idReporte = $_GET['idReporte'];
 
   </select>
 
-  <div class="mb-1 mt-2 text-secondary">Precio Unitario:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* PRECIO UNITARIO:</div>
   <input type="number" class="form-control" id="PrecioUnitario">
 
 
