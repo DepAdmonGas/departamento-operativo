@@ -28,7 +28,7 @@ $total = $unidad * $costo;
 
 <div class="row">
 <div class="col-12 mb-3">
-<h6 class="mb-2 text-secondary ">Refacción:</h6>
+<h6 class="mb-2 text-secondary ">REFACCIÓN:</h6>
 <?php if($imagen != ""){ ?>
 <div class="border p-1 text-center"><img src="<?=RUTA_ARCHIVOS;?><?=$imagen;?>" width="200px"></div>
 <?php }else{ ?>
@@ -37,17 +37,17 @@ $total = $unidad * $costo;
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-<h6 class="mb-2 text-secondary ">Nombre Refacción:</h6>
+<h6 class="mb-2 text-secondary ">NOMBRE REFACCIÓN:</h6>
 <div class=""><?=$nombre;?></div>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-<h6 class="mb-2 text-secondary ">Unidades:</h6>
+<h6 class="mb-2 text-secondary ">UNIDADES:</h6>
 <div class=""><?=$unidad;?></div>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-<h6 class="mb-2 text-secondary ">Agregar Unidades:</h6>
+<h6 class="mb-2 text-secondary ">AGREGAR UNIDADES:</h6>
 <input type="number" name="" class="form-control rounded-0" id="Unidades">
 </div>
 

@@ -9,16 +9,16 @@ $idReporte = $_GET['idReporte'];
 </div>
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Razón Social:</div>
+  <div class="mb-1 text-secondary fw-bold">* RAZÓN SOCIAL:</div>
   <input type="text" class="form-control" id="RazonSocial">
 
-  <div class="mb-1 mt-2 text-secondary">Dirección:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* DIRECCIÓN:</div>
   <textarea class="form-control" id="Direccion"></textarea>
 
-  <div class="mb-1 mt-2 text-secondary">Contacto:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* CONTACTO:</div>
   <input type="text" class="form-control" id="Contacto">
 
-  <div class="mb-1 mt-2 text-secondary">Email:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* EMAIL:</div>
   <input type="text" class="form-control" id="Email">
 
 

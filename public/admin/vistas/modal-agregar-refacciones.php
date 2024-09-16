@@ -90,7 +90,7 @@ $imagenPrevisualizacion.src = objectURL;
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary fw-bold">CONTADO (CORREO, TELÉFONO):</div>
+          <div class="mb-1 text-secondary fw-bold">CONTACTO (CORREO, TELÉFONO):</div>
           <input type="text" class="form-control rounded-0" id="Contacto">
           </div>
 

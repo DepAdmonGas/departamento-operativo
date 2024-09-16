@@ -15,12 +15,12 @@ $idEstacion = $_GET['idEstacion'];
   <div class="row">
            
   <div class="col-12 mb-2">
-  <div class="mb-1 text-secondary">Fecha:</div>
+  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
   <input class="form-control" type="date" id="Fecha">
   </div>
  
   <div class="col-12 mb-2 mb-2">
-  <div class="mb-1 text-secondary">Archivo:</div>
+  <div class="mb-1 text-secondary fw-bold">* ARCHIVO:</div>
   <input class="form-control" type="file" id="Archivo">
   </div>
 

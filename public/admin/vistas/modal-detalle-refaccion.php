@@ -46,7 +46,7 @@ $area = "S/I";
   <div class="row">
     
   <div class="col-12 mb-3">
-  <h6 class="mb-2 text-secondary ">Refacción:</h6>
+  <h6 class="mb-2 text-secondary ">REFACCIÓN:</h6>
   <?php if($imagen != ""){ ?>
   <div class="border p-1 text-center"><img src="<?=RUTA_ARCHIVOS;?><?=$imagen;?>" width="350px"></div>
   <?php }else{ ?>
@@ -56,43 +56,43 @@ $area = "S/I";
 
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 text-secondary ">Descripción (Factura):</h6>
+  <h6 class="mb-1 text-secondary ">DESCRIPCIÓN (FACTURA):</h6>
   <div class=""><?=$descripcion_f;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 text-secondary ">Nombre genérico:</h6>
+  <h6 class="mb-1 text-secondary ">NOMBRE GENÉRICO:</h6>
   <div class=""><?=$nombre;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 mt-2 text-secondary ">Área:</h6>
+  <h6 class="mb-1 mt-2 text-secondary ">ÁREA:</h6>
   <div class=""><?=$area;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 text-secondary ">Modelo:</h6>
+  <h6 class="mb-1 text-secondary ">MODELO:</h6>
   <div class=""><?=$modelo;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 text-secondary ">Marca:</h6>
+  <h6 class="mb-1 text-secondary ">MARCA:</h6>
   <div class=""><?=$marca;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-    <h6 class="mb-1 text-secondary ">Proveedor:</h6>
+    <h6 class="mb-1 text-secondary ">PROVEEDOR:</h6>
     <div class=""><?=$proveedor;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-1 text-secondary ">Contacto:</h6>
+  <h6 class="mb-1 text-secondary ">CONTACTO:</h6>
   <div class=""><?=$contacto;?></div>
   </div>
 
 
   <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3">
-  <h6 class="mb-2 text-secondary ">Documento:</h6>
+  <h6 class="mb-2 text-secondary ">DOCUMENTO:</h6>
   <?php if($archivo != ""){ ?>
   <a href="<?=RUTA_ARCHIVOS;?><?=$archivo;?>" download>
   <button type="button" class="btn btn-labeled2 btn-danger">
@@ -105,17 +105,17 @@ $area = "S/I";
 
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-    <h6 class="mb-2 text-secondary ">Unidades:</h6>
+    <h6 class="mb-2 text-secondary ">UNIDADES:</h6>
     <div class=""><?=$unidad;?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-    <h6 class="mb-2 text-secondary ">Costo por unidad:</h6>
+    <h6 class="mb-2 text-secondary ">COSTO POR UNIDAD:</h6>
     <div class="">$ <?= $costo?></div>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
-    <h6 class="mb-2 text-secondary ">Total:</h6>
+    <h6 class="mb-2 text-secondary ">TOTAL:</h6>
     <div class=""><b>$ <?=number_format($total,2);?></b></div>
   </div>
 

@@ -61,17 +61,17 @@ $motivo = $row_lista['motivo'];
 <div class="row">
  
 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2"> 
-    <h6 class="mb-1 text-secondary ">Personal:</h6>
+    <h6 class="mb-1 text-secondary ">PERSONAL:</h6>
     <div class=""><?=$personal;?></div>
   </div>
 
 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2"> 
-    <h6 class="mb-1 text-secondary ">Fecha:</h6>
+    <h6 class="mb-1 text-secondary ">FECHA:</h6>
     <div class=""><?=$fecha;?></div>
   </div>
 
 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2"> 
-    <h6 class="mb-1 text-secondary ">Hora:</h6>
+    <h6 class="mb-1 text-secondary ">HORA:</h6>
     <div class=""><?=$hora;?></div>
   </div>
 
@@ -80,17 +80,17 @@ $motivo = $row_lista['motivo'];
 <div class="row ">
   
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-      <h6 class="mb-1 text-secondary">Dispensario:</h6>
+      <h6 class="mb-1 text-secondary">DISPENSARIO:</h6>
     <div class=""><?=$dispensario;?></div>
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-    <h6 class="mb-1 text-secondary">Motivo:</h6>
+    <h6 class="mb-1 text-secondary">MOTIVO:</h6>
     <div class=""><?=$motivo;?></div>
   </div>
 </div>
 
-<h6 class="text-secondary">Refacciones:</h6>
+<h6 class="text-secondary">REFACCIONES:</h6>
 
 <div class="table-responsive">
 <table class="custom-table" style="font-size: .8em;" width="100%">

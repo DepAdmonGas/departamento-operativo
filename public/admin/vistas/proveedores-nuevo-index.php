@@ -286,37 +286,37 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">FECHA:</div>
+                  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
                   <input type="date" class="form-control rounded-0" id="Fecha" value="<?= $fecha_del_dia; ?>">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">RAZÓN SOCIAL:</div>
+                  <div class="mb-1 text-secondary fw-bold">* RAZÓN SOCIAL:</div>
                   <input type="text" class="form-control rounded-0" id="RazonSocial">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">ACTIVIDAD ECONOMICA:</div>
+                  <div class="mb-1 text-secondary fw-bold">* ACTIVIDAD ECONOMICA:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="ActividadEco">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">E-MAIL:</div>
+                  <div class="mb-1 text-secondary fw-bold">* E-MAIL:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="Email">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">RFC:</div>
+                  <div class="mb-1 text-secondary fw-bold">* RFC:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="RFC">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">CIUDAD:</div>
+                  <div class="mb-1 text-secondary fw-bold">* CIUDAD:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="Ciudad">
                 </div>
 
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">TELÉFONO 1:</div>
+                  <div class="mb-1 text-secondary fw-bold">* TELÉFONO 1:</div>
                   <input type="number" class="form-control rounded-0" id="Telefono1">
                 </div>
 
@@ -326,23 +326,23 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">DIRECCIÓN:</div>
+                  <div class="mb-1 text-secondary fw-bold">* DIRECCIÓN:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="Direccion">
                 </div>
 
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">NOMBRE DEL BENEFICIARIO:</div>
+                  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL BENEFICIARIO:</div>
                   <input type="text" min="0" class="form-control rounded-0" id="Beneficiario">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">BANCO:</div>
+                  <div class="mb-1 text-secondary fw-bold">* BANCO:</div>
                   <input type="text" class="form-control rounded-0" id="Banco">
                 </div>
 
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-2 text-secondary">MÉTODO DE PAGO:</div>
+                  <div class="mb-2 text-secondary fw-bold">* MÉTODO DE PAGO:</div>
                   <select class="form-select rounded-0" id="Metodopago">
                     <option value="">Seleccione una opcion...</option>
                     <option>PUE Pago en una sola exhibición</option>
@@ -351,7 +351,7 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">USO DEL CDFI:</div>
+                  <div class="mb-1 text-secondary fw-bold">* USO DEL CDFI:</div>
                   <select class="form-select rounded-0" id="CFDI">
                     <option value="">Seleccione una opcion...</option>
                     <option>G01 Adquisicion de Mercancias</option>
@@ -370,7 +370,7 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">MONEDA:</div>
+                  <div class="mb-1 text-secondary fw-bold">* MONEDA:</div>
                   <select class="form-select rounded-0" id="Moneda">
                     <option>MXN</option>
                     <option>USD</option>
@@ -378,7 +378,7 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">FORMA DE PAGO:</div>
+                  <div class="mb-1 text-secondary fw-bold">* FORMA DE PAGO:</div>
                   <select class="form-select rounded-0" id="FormaPago">
                     <option value="">Seleccione una opcion...</option>
                     <option>01 Efectivo</option>
@@ -413,7 +413,7 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">DESCRIPCIÓN:</div>
+                  <div class="mb-1 text-secondary fw-bold">* DESCRIPCIÓN:</div>
                   <textarea class="form-control rounded-0" id="Descripcion"></textarea>
                 </div>
 
@@ -424,23 +424,23 @@ require ('app/help.php');
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">CONSTANCIA DE SITUACION FISCAL:</div>
+                  <div class="mb-1 text-secondary fw-bold">* CONSTANCIA DE SITUACION FISCAL:</div>
                   <input type="file" class="form-control" id="ConstanciaS">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">FECHA ULTIMA ACTUALIZACIÓN:</div>
+                  <div class="mb-1 text-secondary fw-bold">* FECHA ULTIMA ACTUALIZACIÓN:</div>
                   <input type="date" class="form-control rounded-0" id="FechaConstancia">
                 </div>
 
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">CARATULA BANCARIA:</div>
+                  <div class="mb-1 text-secondary fw-bold">* CARATULA BANCARIA:</div>
                   <input type="file" class="form-control" id="CaratulaB">
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">FECHA ULTIMA ACTUALIZACIÓN:</div>
+                  <div class="mb-1 text-secondary fw-bold">* FECHA ULTIMA ACTUALIZACIÓN:</div>
                   <input type="date" class="form-control rounded-0" id="FechaCaratula">
                 </div>
 
