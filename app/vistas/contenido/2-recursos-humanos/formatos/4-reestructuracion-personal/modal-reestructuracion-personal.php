@@ -14,8 +14,8 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
  
-<div class="mb-2">
-<label class="text-secondary">* Nombre del empleado</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* NOMBRE DEL EMPLEADO:</div>
 <select class="form-select rounded-0" id="NombresCompleto">
 <option value="">Selecciona una opción...</option>
 <?php 
@@ -28,8 +28,8 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['nombre_completo'].'</op
 </select>
 </div>   
 
-<div class="mb-2">
-<label class="text-secondary">* Cambio a:</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* CAMBIO A:</div>
 <select class="form-select rounded-0" id="NombreEstacion">
 <option value="">Selecciona una opción...</option>
 <?php 
@@ -47,7 +47,7 @@ echo '<option value='.$row_listaestacion['id'].'>'.$row_listaestacion['localidad
 </div>  
 
 <div class="col-12">
-<label class="text-secondary">* Fecha de aplicacion de reestructuración:</label>
+<div class="fw-bold text-secondary">* FECHA DE APLIACACIÓN:</div>
 <input type="date" class="form-control rounded-0" id="FechaAplicacion">
 </div>
 

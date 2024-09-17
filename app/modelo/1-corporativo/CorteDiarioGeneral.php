@@ -8,7 +8,7 @@ class CorteDiarioGeneral extends Exception
         $this->con = $con;
         $this->formato = new herramientasDptoOperativo($this->con);
     }
-
+ 
     /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
 
     /* ---------- Corte Diario - Mes ---------- */
@@ -313,28 +313,27 @@ WHERE id_reportedia = ? AND detalle = ?";
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
 
-        $stmt_mes->bind_param("iii", $Session_IDEstacion, $GET_year, $GET_mes);
-        if (!$stmt_mes->execute()) {
-            throw new Exception("Error al ejecutar la consulta" . $stmt_mes->error);
-        }
-        $stmt_mes->bind_result($idmes);
-        $stmt_mes->fetch();
-        $stmt_mes->close();
+        $stmt_mes->bind_param("iss", $Session_IDEstacion, $GET_year, $GET_mes);
+        if ($stmt_mes->execute()):
+            $stmt_mes->bind_result($idmes);
+            $stmt_mes->fetch();
+            $stmt_mes->close();
+        endif;
 
         return $idmes;
     }
     function obtenerListaDias(int $Session_IDEstacion, int $GET_year, int $GET_mes): array
     {
         $sql_listadia = "SELECT
-            op_corte_year.id_estacion,
-            op_corte_year.year,
-            op_corte_mes.mes,
-            op_corte_dia.id AS idDia,
-            op_corte_dia.fecha
-            FROM op_corte_year
-            INNER JOIN op_corte_mes ON op_corte_year.id = op_corte_mes.id_year
-            INNER JOIN op_corte_dia ON op_corte_mes.id = op_corte_dia.id_mes 
-            WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.mes = ?";
+op_corte_year.id_estacion,
+op_corte_year.year,
+op_corte_mes.mes,
+op_corte_dia.id AS idDia,
+op_corte_dia.fecha
+FROM op_corte_year
+INNER JOIN op_corte_mes ON op_corte_year.id = op_corte_mes.id_year
+INNER JOIN op_corte_dia ON op_corte_mes.id = op_corte_dia.id_mes 
+WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.mes = ?";
 
         $stmt = $this->con->prepare($sql_listadia);
         if (!$stmt):
@@ -361,19 +360,20 @@ WHERE id_reportedia = ? AND detalle = ?";
         $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_finalizar WHERE id_mes = ? LIMIT 1";
 
         $stmt = $this->con->prepare($sql_reporte);
-        if (!$stmt):
+        if ($stmt === false):
             throw new Exception("Error al preparar la consulta" . $this->con->error);
         endif;
         // Vincular parámetros
         $stmt->bind_param("i", $IdReporte);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta" . $stmt->error);
-        }
+        $stmt->execute();
         // Obtener el resultado
         $stmt->store_result();
-        $numero_reporte = $stmt->num_rows;
+        $numero_reporte = $stmt->num_rows();
         $stmt->close();
 
+        if ($numero_reporte == null):
+            $numero_reporte = 0;
+        endif;
         // Retornar el número de filas encontradas
         return $numero_reporte;
     }
@@ -633,7 +633,7 @@ WHERE id_reportedia = ? AND detalle = ?";
             $stmt->bind_param("isi", $idEstacion, $tipo, $estado);
             $stmt->execute();
             $stmt->store_result();
-            $numeroClientes = $stmt->num_rows;
+            $numeroClientes = $stmt->num_rows();
             $stmt->close();
         }
         // Devuelve el número de clientes
@@ -828,9 +828,17 @@ WHERE id_reportedia = ? AND detalle = ?";
     }
     public function validaPagoD(int $idaceite): int
     {
-        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = '" . $idaceite . "'";
-        $result_reporte = mysqli_query($this->con, $sql_reporte);
-        $numero_reporte = mysqli_num_rows($result_reporte);
+        $sql_reporte = "SELECT id FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = ?";
+        $result_reporte = $this->con->prepare($sql_reporte);
+        if (!$result_reporte):
+            throw new Exception("Error al preparar la consulta" . $this->con->error);
+        endif;
+        $result_reporte->bind_param("i", $idaceite);
+        if (!$result_reporte->execute()):
+            throw new Exception("Error al ejecutar la consulta" . $result_reporte->error);
+        endif;
+        $result_reporte->store_result();
+        $numero_reporte = $result_reporte->num_rows;
         return $numero_reporte;
     }
     public function valRow($valor): int
@@ -898,12 +906,12 @@ WHERE id_reportedia = ? AND detalle = ?";
     public function ventas(int $idReporte): int
     {
         $ventas = 0;
-        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? ";
+        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? LIMIT 1";
         $result = $this->con->prepare($sql_dia);
 
         if (!$result):
-            // Manejo de error
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        // Manejo de error
+        throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         endif;
 
         $result->bind_param('i', $idReporte);
@@ -913,94 +921,175 @@ WHERE id_reportedia = ? AND detalle = ?";
         $result->close();
         return $ventas;
     }
+    
 
-
-    public function getTotalImporte(int $idReporte, string $consulta): float
+    public function getTotalImporte($idReporte)
     {
-        $tabla = 'op_prosegur';
-        if ($consulta == "clientes") {
-            $tabla = "op_pago_clientes";
-        }
-        $sql = "SELECT importe FROM $tabla WHERE idreporte_dia = ?";
-        $importe = 0;
-        $totalImporte = 0;
-        $stmt = $this->con->prepare($sql);
-        if (!$stmt):
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        endif;
-        $stmt->bind_param("i", $idReporte);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-        }
-        $stmt->bind_result($importe);
-        while ($stmt->fetch()):
-            $totalImporte += $importe;
-        endwhile;
-        $stmt->close();
-        return $totalImporte;
+    $totalImporte = 0;
+    $sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listaprosegur = mysqli_query($this->con, $sql_listaprosegur);
+    while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
+    $importe = $row_listaprosegur['importe'];
+
+    $totalImporte = $totalImporte + $importe;
     }
 
+        
+        return $totalImporte;
+    } 
+
+
+    public function getTotalImporte2($idReporte)
+    {
+        $totalImporte = 0;
+        $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
+       $result_listaclientes = mysqli_query($this->con, $sql_listaclientes);
+       while($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASSOC)){
+       $importe = $row_listaclientes['importe'];
+   
+       $totalImporte = $totalImporte + $importe;
+       }
+
+        
+        return $totalImporte;
+    } 
+
+
+
+/*
+    public function getTotalImporte(int $idReporte): float
+    {
+        $sql = "SELECT importe FROM op_prosegur WHERE idreporte_dia = ?";
+        $importe = 0;
+        $totalImporte = 0;
+        if ($stmt = $this->con->prepare($sql)):
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($importe);
+            while ($stmt->fetch()):
+                $totalImporte += $importe;
+            endwhile;
+            $stmt->close();
+        endif;
+        return $totalImporte;
+    }
+*/
+
+
+
+
+public function getBaucherTotal($idReporte)
+{
+
+    $baucherTotal = 0;
+    $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listatarjetas = mysqli_query($this->con, $sql_listatarjetas);
+    while($row_listatarjetas = mysqli_fetch_array($result_listatarjetas, MYSQLI_ASSOC)){
+    
+    $baucherTotal = $baucherTotal + $row_listatarjetas['baucher'];
+    }
+    
+    return $baucherTotal;
+} 
+
+
+/*
     public function getBaucherTotal(int $idReporte): float
     {
         $sql = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ?";
-        $baucher = 0.0;
-        $baucherTotal = 0.0;
-        $stmt = $this->con->prepare($sql);
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        }
-        $stmt->bind_param("i", $idReporte);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-        }
-        $stmt->bind_result($baucher);
-        while ($stmt->fetch()):
-            $baucherTotal += $baucher;
-        endwhile;
-        $stmt->close();
+        $baucher = 0;
+        $baucherTotal = 0;
+        if ($stmt = $this->con->prepare($sql)):
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($baucher);
+            while ($stmt->fetch()):
+                $baucherTotal += $baucher;
+            endwhile;
+            $stmt->close();
+        endif;
         return $baucherTotal;
     }
+*/
 
+
+public function getConsumoTotal($idReporte)
+{
+    $consumo = 0;
+    $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listacontrol = mysqli_query($this->con, $sql_listacontrol);
+    while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
+
+    $consumo = $consumo + $row_listacontrol['consumo'];
+    
+    }
+    
+    return $consumo;
+} 
+
+/*
     function getConsumoTotal(int $idReporte): float
     {
         $sql = "SELECT consumo FROM op_clientes_controlgas WHERE idreporte_dia = ?";
-        $consumo = 0.0;
-        $consumoTotal = 0.0;
-        $stmt = $this->con->prepare($sql);
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        }
-        $stmt->bind_param("i", $idReporte);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-        }
-        $stmt->bind_result($consumo);
-        while ($stmt->fetch()) {
-            $consumoTotal += $consumo;
-        }
-        $stmt->close();
+        $consumo = 0;
+        $consumoTotal = 0;
+        if ($stmt = $this->con->prepare($sql)):
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($consumo);
+            while ($stmt->fetch()):
+                $consumoTotal += $consumo;
+            endwhile;
+            $stmt->close();
+        endif;
         return $consumoTotal;
     }
-    public function getPagoTotal($idReporte): float
+
+*/
+
+
+
+
+public function getPagoTotal($idReporte)
+{
+        $pago = 0;
+
+        $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
+        $result_listacontrol = mysqli_query($this->con, $sql_listacontrol);
+        while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
+    
+        $pago = $pago + $row_listacontrol['pago'];
+        
+        }
+    
+    return $pago;
+} 
+
+
+
+
+
+
+/*
+    public function getPagoTotal($idReporte): int
     {
         $sql = "SELECT pago FROM op_clientes_controlgas WHERE idreporte_dia = ?";
-        $pago = 0.0;
-        $pagoTotal = 0.0;
-        $stmt = $this->con->prepare($sql);
-        if (!$stmt) {
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        }
-        $stmt->bind_param("i", $idReporte);
-        if (!$stmt->execute()) {
-            throw new Exception("Error al ejecutar la consulta SQL: " . $stmt->error);
-        }
-        $stmt->bind_result($pago);
-        while ($stmt->fetch()):
-            $pagoTotal += $pago;
-        endwhile;
-        $stmt->close();
+        $pago = 0;
+        $pagoTotal = 0;
+        if ($stmt = $this->con->prepare($sql)):
+            $stmt->bind_param("i", $idReporte);
+            $stmt->execute();
+            $stmt->bind_result($pago);
+            while ($stmt->fetch()):
+                $pagoTotal += $pago;
+            endwhile;
+            $stmt->close();
+        endif;
         return $pagoTotal;
     }
+
+    */
+
     /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
     function obtenerDatosSolicitudCheque($idReporte)
     {
@@ -1415,13 +1504,14 @@ re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
 
             $TotalLitros += $litros;
             $TotalPrecio += $LitrosPrecio;
-        endwhile;
+        endwhile; 
         $array = array(
             'TotalLitros' => $TotalLitros,
             'TotalPrecio' => $TotalPrecio
         );
         return $array;
     }
+    
     public function totalAtio(int $idDias): array
     {
         $LProductouno = 0;

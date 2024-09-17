@@ -13,8 +13,8 @@ $idEstacion = $_GET['idEstacion'];
 <div class="modal-body">
 <div class="row">
 
-<div class="mb-2">
-<label class="text-secondary">* Colaborador</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* COLABORADOR:</div>
 <select class="form-select rounded-0" id="NombresCompleto">
 <option value="">Selecciona una opción...</option>
 <?php 
@@ -28,8 +28,8 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['nombre_completo'].'</op
 </div>   
 
 
-<div class="mb-2">
-<label class="text-secondary">* Periodo</label>
+<div class="col-12">
+<div class="fw-bold text-secondary">* PERIODO:</div>
 <select class="form-select rounded-0" id="Periodo">
 <option value="">Selecciona una opción...</option>
 <?php

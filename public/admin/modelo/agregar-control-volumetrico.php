@@ -21,9 +21,15 @@ $sql_insert = "INSERT INTO op_control_volumetrico (
     '".$_POST['Anexos']."',
     '".$Documento."'
     )";
-mysqli_query($con, $sql_insert);
 
-echo 1;
+if(mysqli_query($con, $sql_insert)){
+    echo 1;
+}else{
+    echo 0;
+}
+
+}else{
+echo 0;
 }
 
 //------------------

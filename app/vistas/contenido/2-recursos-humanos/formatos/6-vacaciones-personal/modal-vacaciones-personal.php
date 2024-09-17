@@ -14,8 +14,8 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
  
-<div class="mb-2">
-<label class="text-secondary">* Nombre completo</label>
+<div class="mb-3">
+<div class="fw-bold text-secondary">* NOMBRE COMPLETO:</div>
 <select class="form-select rounded-0" id="Personal">
 <option value="">Selecciona una opción...</option>
 <?php 
@@ -28,28 +28,28 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['nombre_completo'].'</op
 </select>
 </div>   
 
-<div class="col-12 mb-2">
-<label class="text-secondary">* Número de días a disfrutar:</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* NUMERO DE DIAS A DISFRUTAR:</div>
 <input type="number" class="form-control" id="NumDias" >
 </div>
 
-<div class="col-12 mb-2">
-<label class="text-secondary">* Del:</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* DEL:</div>
 <input type="date" class="form-control" id="FechaInicio">
 </div>
 
-<div class="col-12 mb-2">
-<label class="text-secondary">* Al:</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* AL:</div>
 <input type="date" class="form-control" id="FechaTermino">
 </div>
 
-<div class="col-12 mb-2">
-<label class="text-secondary">* Regresando el:</label>
+<div class="col-12 mb-3">
+<div class="fw-bold text-secondary">* REGRESANDO EL:</div>
 <input type="date" class="form-control" id="FechaRegreso">
 </div>
 
 <div class="col-12">
-<label class="text-secondary">Observaciones:</label>
+<div class="text-secondary">OBSERVACIONES:</div>
 <textarea class="form-control" rows="3" id="Observaciones"></textarea>
 </div>
 
