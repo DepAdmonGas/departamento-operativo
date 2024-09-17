@@ -271,7 +271,7 @@ function Usuario($idfirma, $con)
         </div>
 
         <br>
-        <div class="mb-1"><b>Firmas:</b></div>
+        <div class="mb-1 text-secondary fw-bold">FIRMAS:</div>
         <hr>
         <br>
         <div class="row">

@@ -488,7 +488,7 @@ console.log(data)
 
 
   <div class="modal" id="ModalCamioneta">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div id="ContenidoModal"></div>
       </div>
