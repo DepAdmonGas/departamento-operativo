@@ -26,7 +26,7 @@ $producto = $row_producto['producto'];
 
       <div class="modal-body">
 
-      	<div class="mb-1 text-secondary">Producto:</div>
+      	<div class="mb-1 text-secondary fw-bold">* PRODUCTO:</div>
         <textarea class="form-control rounded-0" id="Producto"><?=$producto;?></textarea>
 
       </div>

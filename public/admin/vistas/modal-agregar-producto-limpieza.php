@@ -25,10 +25,10 @@ $value = $row_producto['unidad'];
 </div>
       <div class="modal-body">
 
-      	<div class="mb-2 text-secondary">Producto:</div>
+      	<div class="mb-2 text-secondary fw-bold">* PRODUCTO:</div>
         <textarea class="form-control rounded-0" id="Producto"><?=$producto;?></textarea>
 
-        <div class="mb-1 mt-2 text-secondary">Unidad:</div>
+        <div class="mb-1 mt-2 text-secondary fw-bold">* UNIDAD:</div>
         <select class="form-select rounded-0" id="Unidad">
           <option value="<?=$value;?>"><?=$unidad;?></option>
 
