@@ -11,17 +11,17 @@ $idEstacion = $_GET['idEstacion'];
 
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Año:</div>
+  <div class="mb-1 text-secondary fw-bold">* AÑO:</div>
   <input type="number" class="form-control" id="Year">
 
-  <div class="mb-1 mt-2 text-secondary">Periodo:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* PERIODO:</div>
   <select class="form-select" id="Periodo">
     <option value="">Selecciona una opción...</option>
     <option value="Primer periodo">Primer periodo</option>
     <option value="Segundo periodo">Segundo periodo</option>
   </select>
 
-  <div class="mb-1 text-secondary mt-2">Archivo:</div>
+  <div class="mb-1 text-secondary mt-2 fw-bold">* Archivo:</div>
   <input class="form-control" type="file" id="Archivo">
 
 </div>

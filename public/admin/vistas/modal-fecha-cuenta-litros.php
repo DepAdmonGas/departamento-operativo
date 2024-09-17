@@ -11,8 +11,8 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
 
 
     <div class="modal-body">
- 	<div class="mb-1 text-secondary">Fecha:</div>
-    <input class="form-control" type="date" id="fechaCL">
+ 	<div class="mb-1 text-secondary fw-bold">* FECHA:</div>
+    <input class="form-control rounded-0" type="date" id="fechaCL">
     </div>
 
     <div class="modal-footer">

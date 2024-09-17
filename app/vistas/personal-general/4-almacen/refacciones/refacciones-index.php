@@ -2,7 +2,9 @@
 require 'app/vistas/contenido/header.php';
 ?>
 <!---------- LIBRERIAS DEL DATATABLE ---------->
-<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+<link
+  href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
+  rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 <script type="text/javascript">
@@ -71,38 +73,47 @@ require 'app/vistas/contenido/header.php';
       $('#Fecha').css('border', '');
       if (Hora != "") {
         $('#Hora').css('border', '');
+        if (Dispensario != "") {
+          $('#Dispensario').css('border', '');
+          if (Motivo != "") {
+            $('#Motivo').css('border', '');
+            var parametros = {
+              "idReporte": idReporte,
+              "Fecha": Fecha,
+              "Hora": Hora,
+              "Dispensario": Dispensario,
+              "Motivo": Motivo
+            };
 
-        var parametros = {
-          "idReporte": idReporte,
-          "Fecha": Fecha,
-          "Hora": Hora,
-          "Dispensario": Dispensario,
-          "Motivo": Motivo
-        };
+            $.ajax({
+              data: parametros,
+              url: 'public/corte-diario/modelo/finalizar-refaccion-reporte.php',
+              type: 'post',
+              beforeSend: function () {
+              },
+              complete: function () {
 
-        $.ajax({
-          data: parametros,
-          url: 'public/corte-diario/modelo/finalizar-refaccion-reporte.php',
-          type: 'post',
-          beforeSend: function () {
-          },
-          complete: function () {
+              },
+              success: function (response) {
 
-          },
-          success: function (response) {
+                if (response == 1) {
+                  $('#ContenidoModal').load('public/corte-diario/vistas/modal-reporte-refacciones.php?idReporte=' + idReporte);
+                  ListaRefacciones()
+                } else if (response == 0) {
+                  alertify.error('Error al crear el reporte');
+                } else if (response == 2) {
+                  alertify.warning('No cuenta con suficientes unidades');
+                }
 
-            if (response == 1) {
-              $('#ContenidoModal').load('public/corte-diario/vistas/modal-reporte-refacciones.php?idReporte=' + idReporte);
-              ListaRefacciones()
-            } else if (response == 0) {
-              alertify.error('Error al crear el reporte');
-            } else if (response == 2) {
-              alertify.warning('No cuenta con suficientes unidades');
-            }
+              }
+            });
 
+          } else {
+            $('#Motivo').css('border', '2px solid #A52525');
           }
-        });
-
+        } else {
+          $('#Dispensario').css('border', '2px solid #A52525');
+        }
       } else {
         $('#Hora').css('border', '2px solid #A52525');
       }
@@ -118,7 +129,7 @@ require 'app/vistas/contenido/header.php';
     var Unidad = $('#Unidad').val();
 
     if (Refaccion != "") {
-      $('#Refaccion').css('border', '');
+      $('#contenido-refaccion').css('border', '');
       if (Unidad != "") {
         $('#Unidad').css('border', '');
 
@@ -152,10 +163,10 @@ require 'app/vistas/contenido/header.php';
         });
 
       } else {
-        $('#Hora').css('border', '2px solid #A52525');
+        $('#Unidad').css('border', '2px solid #A52525');
       }
     } else {
-      $('#Refaccion').css('border', '2px solid #A52525');
+      $('#contenido-refaccion').css('border', '2px solid #A52525');
     }
 
   }
@@ -330,10 +341,11 @@ require 'app/vistas/contenido/header.php';
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
-<!---------- LIBRERIAS DEL DATATABLE ---------->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script
+    src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 
 </body>

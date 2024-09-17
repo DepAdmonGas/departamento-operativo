@@ -39,7 +39,6 @@ $V_checkSI = "checked";
 $V_checkNO = "";
 }
 
-
 $operador = $row_lista['operador'];
 $transportista = $row_lista['transportista'];
 
@@ -227,93 +226,93 @@ window.location.reload();}
 <div class="row">
 
 <div class="col-12 col-sm-1 mb-3">
-<div class="text-secondary titulos mb-1"><small>Folio:</small></div>
-<input type="text" class="form-control" disabled value="00<?= $folio; ?>">
+<div class="text-secondary mb-1"><small>FOLIO:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="00<?= $folio; ?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Estación de descarga:</small></div>
-<select class="form-select" disabled>
+<div class="text-secondary mb-1"><small>ESTACIÓN DE DESCARGA:</small></div>
+<select class="form-select rounded-0" disabled>
 <option><?= $Estacion; ?></option>
 </select>
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Responsable de la estación:</small></div>
-<select class="form-select" disabled>
+<div class="text-secondary mb-1"><small>RESPONSABLE DE LA ESTACIÓN:</small></div>
+<select class="form-select rounded-0" disabled>
 <option><?= $Personal; ?></option>
 </select>
 </div>
 
 <div class="col-12 col-sm-5 mb-3">
-<div class="text-secondary titulos mb-1"><small>Fecha y hora de llegada de full:</small></div>
-<input type="text" class="form-control" disabled value="<?= $fechallegada; ?>, <?= $horallegada; ?>">
+<div class="text-secondary mb-1"><small>FECHA Y HORA DE LLEGADA DE FULL:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?= $fechallegada; ?>, <?= $horallegada; ?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Productos recibido:</small></div>
-<select class="form-select" disabled>
+<div class="text-secondary mb-1"><small>PRODUCTO RECIBIDO:</small></div>
+<select class="form-select rounded-0" disabled>
 <option><?= $producto; ?></option>
 </select>
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Numero Factura o Remisión:</small></div>
-<input type="text" class="form-control" disabled value="<?=$nofacturaremision;?>">
+<div class="text-secondary mb-1"><small>NUMERO FACTURA O REMISIÓN:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$nofacturaremision;?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Litros:</small></div>
-<input type="text" class="form-control" disabled value="<?=number_format($litros, 2)?>">
+<div class="text-secondary mb-1"><small>LITROS:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=number_format($litros, 2)?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Precio por litro:</small></div>
-<input type="text" class="form-control" disabled value="<?=$preciolitro?>">
+<div class="text-secondary mb-1"><small>PRECIO POR LITRO:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$preciolitro?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Cuenta litro:</small></div>
-<input type="text" class="form-control" disabled value="<?=$cuentalitros?>">
+<div class="text-secondary mb-1"><small>CUENTA LITRO:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$cuentalitros?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Tolerancia:</small></div>
-<input type="text" class="form-control" disabled value="<?=$tolerancia?>">
+<div class="text-secondary mb-1"><small>TOLERANCIA:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$tolerancia?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Merma en Litros:</small></div>
-<input type="text" class="form-control" disabled value="<?=$merma?>">
+<div class="text-secondary mb-1"><small>MERMA EN LITROS:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$merma?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>N.C:</small></div>
-<input type="text" class="form-control" disabled value="<?=$calculaNC?>">
+<div class="text-secondary mb-1"><small>N.C:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$calculaNC?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Importe N.C:</small></div>
-<input type="text" class="form-control" disabled value="$<?=$NC?>">
+<div class="text-secondary mb-1"><small>IMPORTE N.C:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="$<?=$NC?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Unidad:</small></div>
-<input type="text" class="form-control" disabled value="<?=$unidad?>">
+<div class="text-secondary mb-1"><small>UNIDAD:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$unidad?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Nombre del operador de la unidad:</small></div>
-<input type="text" class="form-control" disabled value="<?=$operador?>">
+<div class="text-secondary mb-1"><small>NOMBRE DEL OPERADOR DE LA UNIDAD:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$operador?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary titulos mb-1"><small>Compañía de Transportista:</small></div>
-<input type="text" class="form-control" disabled value="<?=$transportista?>">
+<div class="text-secondary mb-1"><small>COMPAÑÍA DE TRANSPORTISTA:</small></div>
+<input type="text" class="form-control rounded-0" disabled value="<?=$transportista?>">
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary mb-1">Sellos alterados:</div>
+<div class="text-secondary mb-1">SELLOS ALTERADOS:</div>
 
 <div class="form-check">
     <input class="form-check-input" type="radio" style="width: 18px; height: 18px;margin-top: 4px;" <?=$checkSI?> disabled>
@@ -327,7 +326,7 @@ window.location.reload();}
 </div>
 
 <div class="col-12 col-sm-3 mb-3">
-<div class="text-secondary mb-1">Se detuvo venta durante la descarga:</div>
+<div class="text-secondary mb-1">SE DETUVO VENTA DURANTE LA DESCARGA:</div>
 
 <div class="form-check">
     <input class="form-check-input" type="radio" style="width: 18px; height: 18px;margin-top: 4px;" <?=$V_checkSI?> disabled>

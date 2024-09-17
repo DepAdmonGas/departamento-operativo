@@ -10,7 +10,7 @@ $idPedido = $_GET['idPedido'];
 
 <div class="modal-body">
 
-  <label class="text-secondary">* Área</label>
+  <label class="text-secondary fw-bold">* ÁREA</label>
   <input type="text" class="form-control rounded-0" min="0" id="Area">
 
 </div>

@@ -57,7 +57,7 @@ function Reporte($id, $con)
                     echo '<tr class="' . $fondo . '">';
                     echo '<td class="align-middle text-center">' . $num . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['tpv'] . '</td>';
-                    echo '<td class="align-middle text-center"><b>' . $row_lista['no_serie'] . '</b></td>';
+                    echo '<td class="align-middle text-center">' . $row_lista['no_serie'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['modelo'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['no_lote'] . '</td>';
                     echo '<td class="align-middle text-center">' . $row_lista['tipo_conexion'] . '</td>';

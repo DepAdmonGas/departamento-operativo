@@ -10,8 +10,8 @@ $IdReporte = $_GET['IdReporte'];
       
 <div class="modal-body">
 
-<div class="mb-1 text-secondary">* Detalle</div>
-<select class="form-select" id="Detalle">
+<div class="mb-1 text-secondary fw-bold">* DETALLE:</div>
+<select class="form-select rounded-0" id="Detalle">
 <option value="">Selecciona una opción...</option>
 <option value="Factura">Factura</option>
 <option value="Pago">Pago</option>
@@ -21,8 +21,8 @@ $IdReporte = $_GET['IdReporte'];
 <option value="XML">XML</option>     
 </select>
         
-<div class="mb-1 text-secondary mt-2">* Agregar factura Telcel</div>
-<input class="form-control" type="file" id="Documento">
+<div class="mb-1 text-secondary fw-bold mt-2">* AGREGAR FACTURA TELCEL:</div>
+<input class="form-control rounded-0" type="file" id="Documento">
 
 </div>
 

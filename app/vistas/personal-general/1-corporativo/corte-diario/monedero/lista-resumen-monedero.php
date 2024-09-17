@@ -218,8 +218,8 @@ $GTVales = 0;
         $GTVales = $GTVales + $totalVales;
 
         ?>
-        <tr class="">
-          <th><?= $ClassHerramientasDptoOperativo->FormatoFecha($fecha); ?></th>
+        <tr>
+          <th class="fw-normal"><?= $ClassHerramientasDptoOperativo->FormatoFecha($fecha); ?></th>
           <td class="align-middle text-end">
             $<?= number_format($bancomer, 2); ?>
           </td>
@@ -238,11 +238,11 @@ $GTVales = 0;
           <td class="align-middle text-end">
             $<?= number_format($ticketcard, 2); ?>
           </td>
-          <!--
-  <td class="align-middle text-end">
-   $<?= number_format($g500fleet, 2); ?>
-  </td>
-  -->
+                  <!--
+          <td class="align-middle text-end">
+          $<?= number_format($g500fleet, 2); ?>
+          </td>
+          -->
           <td class="align-middle text-end">
             $<?= number_format($efecticard, 2); ?>
           </td>

@@ -19,7 +19,7 @@ $idReporte = $_GET['idReporte'];
 
 
 
-    <div><b>Producto:</b></div>
+    <div class="text-secondary fw-bold">* PRODUCTO:</div>
     <select class="form-select mb-2" id="Producto">
         <option></option>
         <option>87 OCTANOS</option>
@@ -27,10 +27,10 @@ $idReporte = $_GET['idReporte'];
         <option>DIESEL</option>
     </select>
 
-    <div><b>Litros:</b></div>
+    <div class="text-secondary fw-bold">* LITROS:</div>
     <input type="number" class="form-control mb-2" id="Litros">
 
-    <div><b>Tanque:</b></div>
+    <div class="text-secondary fw-bold">* TANQUE:</div>
     <div id="ResulTanque"></div>
     <select class="form-select mb-2" id="Tanque">
         <option></option>
@@ -39,7 +39,7 @@ $idReporte = $_GET['idReporte'];
         <option>Tanque 2</option>
     </select>
 
-    <div><b>TAD:</b></div>
+    <div class="text-secondary fw-bold">* TAD:</div>
     <select class="form-select mb-2" id="TAD">
         <option></option>
         <option>Atlacomulco</option>
@@ -52,7 +52,7 @@ $idReporte = $_GET['idReporte'];
 
 
 
-    <div><b>Unidad:</b></div>
+    <div class="text-secondary fw-bold">* UNIDAD:</div>
     <select class="selectize pointer"  id="Unidad">
         <option></option>
 
@@ -72,7 +72,7 @@ $idReporte = $_GET['idReporte'];
 
     </select>
 
-    <div><b>Chofer:</b></div>
+    <div class="text-secondary fw-bold">* CHOFER:</div>
     <select class="selectize pointer"  id="Chofer">
         <option></option>
 

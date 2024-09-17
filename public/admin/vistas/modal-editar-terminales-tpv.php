@@ -57,52 +57,52 @@ if($tipoTpv == "Tecla"){
        <div class="row">
          
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-2 text-secondary">TPV:</div>
+          <div class="mb-2 text-secondary fw-bold">TPV:</div>
           <input type="text" class="form-control rounded-0" value="<?=$tpv;?>" id="Tpv">
           </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-2 text-secondary">No. Serie:</div>
+          <div class="mb-2 text-secondary fw-bold">NO. SERIE:</div>
           <input type="text" class="form-control rounded-0" value="<?=$noserie;?>" id="Serie">
           </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-2 text-secondary">Modelo/Marca:</div>
+          <div class="mb-2 text-secondary fw-bold">MODELO/MARCA:</div>
           <input type="text" class="form-control rounded-0" value="<?=$modelo;?>" id="Modelomarca">
           </div>
      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-2 text-secondary">No. Lote:</div>
+          <div class="mb-2 text-secondary fw-bold">NO. LOTE:</div>
           <input type="text" class="form-control rounded-0" value="<?=$lote;?>" id="NoLote">
           </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-2 text-secondary">Tipo Conexión:</div>
+          <div class="mb-2 text-secondary fw-bold">TIPO CONEXIÓN:</div>
           <input type="text" class="form-control rounded-0" value="<?=$tipoconexion;?>" id="TipoC">
           </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Numero afiliación:</div>
+        <div class="mb-2 text-secondary fw-bold">NUMERO AFILIACIÓN:</div>
         <input type="text" class="form-control rounded-0" value="<?=$noafiliacion;?>" id="Afiliado">
         </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Telefono atención:</div>
+        <div class="mb-2 text-secondary fw-bold">TELEFONO ATENCIÓN:</div>
         <input type="text" class="form-control rounded-0" value="<?=$telefono;?>" id="Telefono">
         </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Activas:</div>
+        <div class="mb-2 text-secondary fw-bold">ACTIVAS:</div>
         <input type="text" class="form-control rounded-0" value="<?=$estado;?>" id="Estado">
         </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Rollos:</div>
+        <div class="mb-2 text-secondary fw-bold">ROLLOS:</div>
         <input type="text" class="form-control rounded-0" value="<?=$rollos;?>" id="Rollos">
         </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Cargadores:</div>
+        <div class="mb-2 text-secondary fw-bold">CARGADORES:</div>
         <input type="text" class="form-control rounded-0" value="<?=$cargadores;?>" id="Cargadores">
         </div>
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-2 text-secondary">Pedestales en buen estado:</div>
+        <div class="mb-2 text-secondary fw-bold">PEDESTALES EN BUEN ESTADO:</div>
         <input type="text" class="form-control rounded-0" value="<?=$pedestales;?>" id="Pedestales">
         </div>
 
@@ -110,7 +110,7 @@ if($tipoTpv == "Tecla"){
 
      
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Estado TPV'S:</div>    
+        <div class="mb-1 text-secondary fw-bold">ESTADO TPV'S:</div>    
           <select class="form-select" id="EstadoTPV">
             <option><?=$estatusTPV;?></option>
             <option class="<?=$ocultar1;?>">Nuevo</option>
@@ -120,13 +120,13 @@ if($tipoTpv == "Tecla"){
         </div>
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">No. de Impresiones:</div>
+        <div class="mb-1 text-secondary fw-bold">NO. DE IMPRESIONES:</div>
         <input type="number" class="form-control rounded-0" id="NoImpresiones" value="<?=$impresiones;?>">
         </div>
 
 
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-        <div class="mb-1 text-secondary">Tipo TPV'S:</div>
+        <div class="mb-1 text-secondary fw-bold">TIPO TPV'S:</div>
           <select class="form-select" id="TipoTPV">
             <option><?=$tipoTpv;?></option>
             <option class="<?=$ocultarT1;?>">Tecla</option>

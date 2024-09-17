@@ -13,7 +13,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
 ?>
 <div class="table-responsive">
-<table id="tabla_refacciones_a" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+<table id="tabla_refacciones" class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 
 <thead class="tables-bg">
   <tr>
@@ -46,11 +46,11 @@ $id = $row_lista['id'];
           }
 echo '<tr>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['nombre'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
 echo '<td class="align-middle text-center">'.$estatusR.'</td>';
 echo '<td class="align-middle text-center">$ '.number_format($row_lista['costo'],2).'</td>';
-echo '<td class="align-middle text-center"><b>$ '.number_format($total,2).'</b></td>';
+echo '<td class="align-middle text-center">$ '.number_format($total,2).'</td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalDetalle('.$id.')"></td>';
 echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'mas-tb.png" onclick="ModalMas('.$id.')"></td>';
 echo '</tr>';

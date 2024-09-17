@@ -35,7 +35,8 @@ function Producto($idProducto, $con)
 
 <div class="modal-body">
 
-  <div class="mb-2 mt-2 text-secondary">Producto:</div>
+  <div class="mb-2 mt-2 text-secondary fw-bold">* PRODUCTO:</div>
+  <div id="contenido-producto">
   <select class="selectize" placeholder="Producto" id="Producto">
     <option value="">Producto</option>
     <?php
@@ -45,11 +46,12 @@ function Producto($idProducto, $con)
 
     ?>
   </select>
+  </div>
 
-  <div class="mb-1 text-secondary mt-3">Otro Producto:</div>
+  <div class="mb-1 text-secondary mt-3">OTRO PRODUCTO:</div>
   <input type="text" class="form-control rounded-0" id="OtroProducto">
 
-  <div class="mb-2 mt-2 text-secondary">Piezas:</div>
+  <div class="mb-2 mt-2 text-secondary fw-bold">* PIEZAS:</div>
   <input type="number" class="form-control rounded-0" id="Piezas">
 
 
@@ -63,7 +65,6 @@ function Producto($idProducto, $con)
       <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
 
 </div>
-
 
     <div class="table-responsive">
       <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">

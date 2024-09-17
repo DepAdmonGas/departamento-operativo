@@ -25,7 +25,6 @@ $cardsYear = $ClassHomeCorporativo->cardsCorporativoYear($Pagina,$Session_IDEsta
 
 }
  
-
 ?> 
 
 <html lang="es">

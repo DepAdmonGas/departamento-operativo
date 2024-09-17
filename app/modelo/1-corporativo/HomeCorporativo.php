@@ -170,8 +170,11 @@ class HomeCorporativo
     if($Pagina == "solicitud-vales"){
     $fecha_year = date("Y");    
 
-    for ($i = $fecha_year; $i >= 2023; $i--) {
-    $year = $i;
+    $sql_listayear = "SELECT id, year FROM op_corte_year GROUP BY year ORDER BY year desc";
+    $result_listayear = mysqli_query($this->con, $sql_listayear);
+      
+    while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
+    $year = $row_listayear['year'];
          
     $result .= ' <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-2 mt-1">
     <article class="plan card2 border-0 shadow position-relative" onclick="corporativoYear(\''.$Pagina.'\','.$year.')">
@@ -190,7 +193,7 @@ class HomeCorporativo
 
     }else{
 
-    $sql_listayear = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY year DESC";
+    $sql_listayear = "SELECT id, year FROM op_corte_year GROUP BY year ORDER BY year desc";
     $result_listayear = mysqli_query($this->con, $sql_listayear);
       
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){

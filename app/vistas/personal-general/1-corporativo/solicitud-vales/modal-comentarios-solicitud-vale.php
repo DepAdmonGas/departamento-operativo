@@ -7,6 +7,11 @@ $year = $_GET['year'];
 $mes = $_GET['mes'];
 $idEstacion = $_GET['idEstacion'];
 
+$sql_lista = "SELECT * FROM op_solicitud_vale WHERE id = '".$idReporte."' ";
+$result_lista = mysqli_query($con, $sql_lista);
+$numero_lista = mysqli_num_rows($result_lista);
+$row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC);
+
 $sql_comen = "SELECT * FROM op_solicitud_vale_comentario WHERE id_solicitud = '".$idReporte."' ORDER BY id DESC ";
 $result_comen = mysqli_query($con, $sql_comen);
 $numero_comen = mysqli_num_rows($result_comen);
@@ -17,7 +22,11 @@ echo '<div class="modal-header">
 </div>
 
 <div class="p-3">
-<div class="border-bottom" style="height: 300px;overflow: auto;">';
+<div class="" style="height: 300px;overflow: auto;">';
+
+echo '<div style="font-size: .75em;" class="mb-1 text-secondary">Información</div> 
+        <div class="bg-light fw-light pt-2 pb-1 ps-3 pe-3 mb-3" style="font-size: .85em;border-radius: 25px;"><b>Folio:</b> 00'.$row_lista['folio'].', <b>Fecha y hora:</b> '.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).', <b>Monto:</b> $'.number_format($row_lista['monto'],2).'</div>';
+
 
 if ($numero_comen > 0) {
 while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
@@ -49,14 +58,14 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 </div>
 <?php
 }
-}else{
-echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
 }
 ?>
 </div>
 
-<div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
-<textarea class="form-control rounded-0" id="Comentario"></textarea>
+</div>
+
+<div class="border-top">
+<textarea class="form-control rounded-0 border-0" id="Comentario" placeholder="* Comentarios"></textarea>
 </div>
 
 <div class="modal-footer">

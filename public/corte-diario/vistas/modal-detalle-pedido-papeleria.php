@@ -102,7 +102,7 @@ function Personal($idpersonal, $con)
       </table>
    </div>
 
-   <div class="mt-1 mb-1"><b>Firmas:</b></div>
+   <div class="mt-1 mb-1 text-secondary fw-bold">FIRMAS:</div>
 
    <div class="row">
     <?php

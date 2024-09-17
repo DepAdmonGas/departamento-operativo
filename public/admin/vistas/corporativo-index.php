@@ -199,7 +199,7 @@ if ($Session_IDUsuarioBD == "") {
               <div class="row">
                 <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-8"></i></span> </div>
                 <div class="col-10">
-                  <h5 class="text-white text-center">Lista de Vales</h5>
+                  <h5 class="text-white text-center">Solicitud de Vales</h5>
                 </div>
               </div>
             </div>

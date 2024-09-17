@@ -88,7 +88,7 @@ function resumenTotal(idReporte){
 
       
   echo '<tr>';
-  echo '<th class="align-middle text-center">'.$num.'</th>';
+  echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
   echo '<td class="align-middle text-start">'.$ClassHerramientasDptoOperativo->FormatoFecha($fecha).'</td>';
   echo '<td class="align-middle text-start" onclick="detalleImpuestoDia(' . $idDias . ', \'' . $fechaUrl . '\')"> <img src="' . RUTA_IMG_ICONOS . 'ver-tb.png"> </td>';
   echo '</tr>';

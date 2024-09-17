@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 require 'app/help.php';
-require 'app/lib/dompdf/vendor/autoload.php';
+require_once 'app/lib/dompdf/vendor/autoload.php';
 
 
 $sql_lista = "SELECT * FROM op_refacciones_transaccion WHERE id = '".$GET_idReporte."' ORDER BY id DESC";

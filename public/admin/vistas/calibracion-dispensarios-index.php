@@ -53,7 +53,7 @@ header("Location:".PORTAL."");
 
   function SelEstacion(idEstacion) {
   let targets;
-  targets = [4, 5];
+  targets = [4];
 
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);

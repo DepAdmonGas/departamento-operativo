@@ -89,7 +89,7 @@ $responsable = '';
 $Detalle = '<a class="dropdown-item" onclick="Detalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $PDF = '<a class="dropdown-item" onclick=PDF(' . $id . ')><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 echo '<tr>
-<th class="align-middle text-center"><b>00' . $folio . '</b></th>
+<th class="align-middle text-center">00' . $folio . '</th>
 <td class="align-middle text-start">' . $fechallegada . ', ' . $horallegada . '</td>
 <td class="align-middle text-center">' . $responsable . '</td>
 <td class="align-middle text-center">'.$row_lista['producto'].'</td>

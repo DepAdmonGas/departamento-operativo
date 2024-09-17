@@ -15,18 +15,18 @@ $fecha_termino = $datosEstimuloFiscal['fecha_termino'];
 </div>
 <div class="modal-body">
 
-<h5 class="mb-3">Periodo</h5>
+<h5 class="mb-3">PERIODO</h5>
 
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>Fecha inicio</h6>
-<input type="date" class="form-control" id="EFInicio" value="<?=$fecha_inicio?>">
+<div class="fw-bold text-secondary">* FECHA INICIO:</div>
+<input type="date" class="form-control rounded-0" id="EFInicio" value="<?=$fecha_inicio?>">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6>Fecha termino</h6>
-<input type="date" class="form-control" id="EFTermino" value="<?=$fecha_termino?>">
+<div class="fw-bold text-secondary">* FECHA TERMINO:</div>
+<input type="date" class="form-control rounded-0" id="EFTermino" value="<?=$fecha_termino?>">
 </div>
 
 </div>
@@ -35,13 +35,13 @@ $fecha_termino = $datosEstimuloFiscal['fecha_termino'];
 
 <div class="row">
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6 class="mt-2">Agregar factura PDF</h6>
-<input type="file" class="form-control" id="EPDF">
+<div class="mt-2 text-secondary">AGREGAR FACTURA PDF:</div>
+<input type="file" class="form-control rounded-0" id="EPDF">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6 class="mt-2">Agregar factura XML</h6>
-<input type="file" class="form-control" id="EXML">
+<div class="mt-2 text-secondary">AGREGAR FACTURA XML:</div>
+<input type="file" class="form-control rounded-0" id="EXML">
 </div>
 
 </div>
@@ -50,13 +50,13 @@ $fecha_termino = $datosEstimuloFiscal['fecha_termino'];
 
 <div class="row">
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6 class="mt-2">Agregar complemento PDF</h6>
-<input type="file" class="form-control" id="CPDF">
+<div class="mt-2 text-secondary">AGREGAR COMPLEMENTO PDF:</div>
+<input type="file" class="form-control rounded-0" id="CPDF">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<h6 class="mt-2">Agregar complemento XML</h6>
-<input type="file" class="form-control" id="CXML">
+<div class="mt-2 text-secondary">AGREGAR COMPLEMENTO XML:</div>
+<input type="file" class="form-control rounded-0" id="CXML">
 </div>
 
 </div>

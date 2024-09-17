@@ -1065,10 +1065,11 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
         </div>
         <div class="modal-body">
 
-          <div class="mb-1 text-secondary">Agregar fecha</div>
+          <h6 class="mb-2 mt-2">* Agregar fecha</h6>
           <input type="date" class="form-control" id="Fecha">
 
-          <div class="mb-1 mt-2 text-secondary">Agregar anexo</div>
+          <h6 class="mb-2 mt-2">* Agregar Anexo</h6>
+
           <select class="form-control" id="Anexos">
             <option></option>
             <option>Tirilla de inventarios</option>
@@ -1078,8 +1079,7 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
             <option>Acuse de aceptación controles volumétricos</option>
             <option>Jarreo</option>
           </select>
-
-          <div class="mb-1 mt-2 text-secondary">Agregar documento</div>
+          <h6 class="mb-2 mt-2">* Agregar Documento</h6>
           <input class="form-control" type="file" id="Documento">
 
         </div>

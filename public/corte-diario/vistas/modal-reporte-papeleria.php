@@ -32,7 +32,7 @@ function Producto($idProducto, $con)
   <div class="row">
 
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mt-2 mb-2">
-      <div class="mb-1 text-secondary">Producto:</div>
+      <div class="mb-1 text-secondary FW-BOLD">* PRODUCTO:</div>
       <select class="selectize pointer" placeholder="Producto" id="Producto">
         <option value="">Selecciona</option>
         <?php
@@ -48,12 +48,12 @@ function Producto($idProducto, $con)
     </div>
 
     <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2 mb-2">
-      <div class="mb-1 text-secondary">Piezas utilizadas:</div>
+      <div class="mb-1 text-secondary FW-BOLD">PIEZAS UTILIZADAS:</div>
       <input type="number" class="form-control rounded-0" id="Unidad" min="1">
     </div>
 
     <div class="col-12">
-      <div class="mb-1 text-secondary">Observación:</div>
+      <div class="mb-1 text-secondary">OBSERVACIONES:</div>
       <textarea class="form-control rounded-0" id="Observacion"></textarea>
     </div>
 

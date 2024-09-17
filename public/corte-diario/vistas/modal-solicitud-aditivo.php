@@ -48,11 +48,11 @@ function Personal($idusuario, $con)
   </div>
   <div class="row">
     <div class="col-12 p-3">
-      <h6 class="text-secundary">Para:</h6>
+      <div class="text-secondary fw-bold">PARA:</div>
       <?= $para ?>
     </div>
     <div class="col-12">
-      <h6 class="text-secundary">Comentarios o instrucciones especiales:</h6>
+      <div class="text-secondary fw-bold">COMENTARIOS O INSTRUCCIONES ESPECIALES:</div>
       <textarea class="form-control rounded-0 p-1" rows="2" id="comentarios" style="font-size: 1em;"
         oninput="EditarSolicitud(this,<?= $idReporte; ?>,2)"><?= $comentarios; ?></textarea>
     </div>
@@ -85,12 +85,12 @@ function Personal($idusuario, $con)
   <br>
   <div class="row">
     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-      <h6 class="text-secundary">Cantidad</h6>
+      <div class="text-secondary fw-bold">CANTIDAD:</div>
       <input type="number" class="form-control rounded-0" id="Cantidad" style="font-size: .8em;">
     </div>
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
     
-    <h6 class="text-secundary">Producto</h6>  
+    <div class="text-secondary fw-bold">PRODUCTO:</div>  
     <div class="input-group">
         <select id="Aditivo" class="form-select rounded-0" aria-describedby="button-addon2"
           style="font-size: .8em; width: auto;">
