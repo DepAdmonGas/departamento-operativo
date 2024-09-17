@@ -8,7 +8,7 @@ class CorteDiarioGeneral extends Exception
         $this->con = $con;
         $this->formato = new herramientasDptoOperativo($this->con);
     }
-
+ 
     /* ------------------------------ PUNTO 1. CORTE DIARIO ------------------------------ */
 
     /* ---------- Corte Diario - Mes ---------- */
@@ -906,12 +906,12 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
     public function ventas(int $idReporte): int
     {
         $ventas = 0;
-        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? ";
+        $sql_dia = "SELECT ventas FROM op_corte_dia WHERE id = ? LIMIT 1";
         $result = $this->con->prepare($sql_dia);
 
         if (!$result):
-            // Manejo de error
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
+        // Manejo de error
+        throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
         endif;
 
         $result->bind_param('i', $idReporte);
@@ -921,9 +921,43 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         $result->close();
         return $ventas;
     }
+    
+
+    public function getTotalImporte($idReporte)
+    {
+    $totalImporte = 0;
+    $sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listaprosegur = mysqli_query($this->con, $sql_listaprosegur);
+    while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
+    $importe = $row_listaprosegur['importe'];
+
+    $totalImporte = $totalImporte + $importe;
+    }
+
+        
+        return $totalImporte;
+    } 
 
 
-    public function getTotalImporte(int $idReporte): int
+    public function getTotalImporte2($idReporte)
+    {
+        $totalImporte = 0;
+        $sql_listaclientes = "SELECT * FROM op_pago_clientes WHERE idreporte_dia = '".$idReporte."' ";
+       $result_listaclientes = mysqli_query($this->con, $sql_listaclientes);
+       while($row_listaclientes = mysqli_fetch_array($result_listaclientes, MYSQLI_ASSOC)){
+       $importe = $row_listaclientes['importe'];
+   
+       $totalImporte = $totalImporte + $importe;
+       }
+
+        
+        return $totalImporte;
+    } 
+
+
+
+/*
+    public function getTotalImporte(int $idReporte): float
     {
         $sql = "SELECT importe FROM op_prosegur WHERE idreporte_dia = ?";
         $importe = 0;
@@ -939,8 +973,28 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         endif;
         return $totalImporte;
     }
+*/
 
-    public function getBaucherTotal(int $idReporte): int
+
+
+
+public function getBaucherTotal($idReporte)
+{
+
+    $baucherTotal = 0;
+    $sql_listatarjetas = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listatarjetas = mysqli_query($this->con, $sql_listatarjetas);
+    while($row_listatarjetas = mysqli_fetch_array($result_listatarjetas, MYSQLI_ASSOC)){
+    
+    $baucherTotal = $baucherTotal + $row_listatarjetas['baucher'];
+    }
+    
+    return $baucherTotal;
+} 
+
+
+/*
+    public function getBaucherTotal(int $idReporte): float
     {
         $sql = "SELECT baucher FROM op_tarjetas_c_b WHERE idreporte_dia = ?";
         $baucher = 0;
@@ -956,8 +1010,25 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         endif;
         return $baucherTotal;
     }
+*/
 
-    function getConsumoTotal(int $idReporte)
+
+public function getConsumoTotal($idReporte)
+{
+    $consumo = 0;
+    $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
+    $result_listacontrol = mysqli_query($this->con, $sql_listacontrol);
+    while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
+
+    $consumo = $consumo + $row_listacontrol['consumo'];
+    
+    }
+    
+    return $consumo;
+} 
+
+/*
+    function getConsumoTotal(int $idReporte): float
     {
         $sql = "SELECT consumo FROM op_clientes_controlgas WHERE idreporte_dia = ?";
         $consumo = 0;
@@ -973,6 +1044,33 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         endif;
         return $consumoTotal;
     }
+
+*/
+
+
+
+
+public function getPagoTotal($idReporte)
+{
+        $pago = 0;
+
+        $sql_listacontrol = "SELECT * FROM op_clientes_controlgas WHERE idreporte_dia = '".$idReporte."' ";
+        $result_listacontrol = mysqli_query($this->con, $sql_listacontrol);
+        while($row_listacontrol = mysqli_fetch_array($result_listacontrol, MYSQLI_ASSOC)){
+    
+        $pago = $pago + $row_listacontrol['pago'];
+        
+        }
+    
+    return $pago;
+} 
+
+
+
+
+
+
+/*
     public function getPagoTotal($idReporte): int
     {
         $sql = "SELECT pago FROM op_clientes_controlgas WHERE idreporte_dia = ?";
@@ -989,6 +1087,9 @@ WHERE op_corte_year.id_estacion = ? AND op_corte_year.year = ? AND op_corte_mes.
         endif;
         return $pagoTotal;
     }
+
+    */
+
     /* ------------------------------ PUNTO 2. SOLICITUD DE CHEQUE ------------------------------ */
     function obtenerDatosSolicitudCheque($idReporte)
     {
@@ -1403,13 +1504,14 @@ re_reporte_cre_producto.fecha BETWEEN ? AND ? LIMIT 1";
 
             $TotalLitros += $litros;
             $TotalPrecio += $LitrosPrecio;
-        endwhile;
+        endwhile; 
         $array = array(
             'TotalLitros' => $TotalLitros,
             'TotalPrecio' => $TotalPrecio
         );
         return $array;
     }
+    
     public function totalAtio(int $idDias): array
     {
         $LProductouno = 0;

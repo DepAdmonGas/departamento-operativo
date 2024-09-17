@@ -26,7 +26,7 @@ function Resumen($idReporte, $tipo, $consumo, $con)
 {
 
 
-	$sql_credito = "SELECT
+$sql_credito = "SELECT
 op_consumos_pagos.id,
 op_consumos_pagos.id_reportedia,
 op_consumos_pagos.id_cliente,
@@ -52,10 +52,10 @@ WHERE op_consumos_pagos.id_reportedia = '" . $idReporte . "' AND op_cliente.tipo
 }
 
 
-$DC = Resumen($idReporte, mb_convert_encoding('Débito', 'UTF-8', 'ISO-8859-1'), 'Consumo', $con);
-$DP = Resumen($idReporte, mb_convert_encoding('Débito', 'UTF-8', 'ISO-8859-1'), 'Pago', $con);
-$CC = Resumen($idReporte, mb_convert_encoding('Crédito', 'UTF-8', 'ISO-8859-1'), 'Consumo', $con);
-$CP = Resumen($idReporte, mb_convert_encoding('Crédito', 'UTF-8', 'ISO-8859-1'), 'Pago', $con);
+$DC = Resumen($idReporte, 'Débito', 'Consumo', $con);
+$DP = Resumen($idReporte, 'Débito', 'Pago', $con);
+$CC = Resumen($idReporte, 'Crédito', 'Consumo', $con);
+$CP = Resumen($idReporte, 'Crédito', 'Pago', $con);
 
 $sql1 = "UPDATE op_clientes_controlgas SET pago = '" . $DP . "', consumo = '" . $DC . "' WHERE idreporte_dia ='" . $idReporte . "' AND concepto = 'DEBITO (ANEXO)' ";
 mysqli_query($con, $sql1);

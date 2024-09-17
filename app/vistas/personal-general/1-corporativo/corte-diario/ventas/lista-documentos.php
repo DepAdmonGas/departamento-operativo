@@ -4,9 +4,9 @@ require ('../../../../../help.php');
 $idReporte = $_GET['idReporte'];
 // condicion que se ocupa para mostrar boton documento
 $ventas = $corteDiarioGeneral->getEstado($idReporte);
-$documentoVista='<th colspan="2" class="text-center align-middle">Documento</th>';
 $documentosinInfo = '<tr><th colspan="4" class="text-center text-secondary no-hover"><small>No se encontró información para mostrar </small></th></tr>';
-if ($ventas == 0):
+
+  
   $documentoVista = '
                     <th class="text-center align-middle">Documento</th>
                     <th class="text-center align-middle" width="250px">
@@ -15,7 +15,7 @@ if ($ventas == 0):
                       <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar documento</button>
                   </th>';
 $documentosinInfo = '<tr><th colspan="4" class="text-center text-secondary no-hover"><small>No se encontró información para mostrar </small></th></tr>';
-endif;
+
 
 $sql_lista = "SELECT * FROM op_corte_dia_archivo WHERE id_reportedia = '" . $idReporte . "' ";
 $result_lista = mysqli_query($con, $sql_lista);

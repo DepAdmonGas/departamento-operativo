@@ -85,22 +85,22 @@ function ReporteAceites(year, mes) {
     $('#DivModal').load('../../app/vistas/personal-general/1-corporativo/corte-diario/aceites/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
     //$('#DivModal').load('../../public/corte-diario/vistas/modal-pago-aceite.php?idaceite=' + idaceite + '&year=' + year + '&mes=' + mes);
   }
-
+ 
   function PagarDiferencia(idaceite, year, mes,idEstacion) {
 
     var Documento = $('#Documento').val();
     var Comentario = $('#Comentario').val();
 
     var data = new FormData();
-    var url =  '../../app/controlador/1-corporativo/controladorCorteDiario.php';
-    //var url = '../../public/corte-diario/modelo/agregar-pago-diferencia.php';
+    //var url =  '../../app/controlador/1-corporativo/controladorCorteDiario.php';
+    var url = '../../public/corte-diario/modelo/agregar-pago-diferencia.php';
 
     Documento = document.getElementById("Documento");
     Documento_file = Documento.files[0];
     Documento_filePath = Documento.value;
     var ext = Documento_filePath.split('.').reverse()[0]
 
-
+  
     if (Documento_filePath != "") {
       $('#Documento').css('border', '');
       if (ext == "pdf") {
@@ -121,6 +121,8 @@ function ReporteAceites(year, mes) {
           processData: false,
           cache: false
         }).done(function (data) {
+
+          console.log(data);
 
           ReporteAceites(year, mes);
           $('#ModalPrincipal').modal('hide');
@@ -152,8 +154,8 @@ function ReporteAceites(year, mes) {
 
     $.ajax({
       data: parametros,
-      url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../public/corte-diario/modelo/finalizar-aceites.php',
+      //url: '../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      url:   '../../public/corte-diario/modelo/finalizar-aceites.php',
       type: 'post',
       beforeSend: function () {
         $(".LoaderPage").show();
