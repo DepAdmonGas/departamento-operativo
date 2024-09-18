@@ -25,14 +25,14 @@ $numero_lista_poliza = mysqli_num_rows($result_lista_poliza);
 
 <div class="modal-body">
 
-<h6 class="mb-1">* Fecha de emisión:</h6>
+<h6 class="mb-1 text-secondary fw-bold">* FECHA DE EMISIÓN:</h6>
 <input class="form-control" type="date" id="EmisionP" onchange="VencimientoPoliza()">
 
-<h6 class="mb-1 mt-3">* Fecha de vencimiento:</h6>
+<h6 class="mb-1 mt-3 text-secondary fw-bold">* FECHA DE VENCIMIENTO:</h6>
 <div id="fechavencimiento" style="font-size: 1em">S/I</div>
 
 
-<h6 class="mt-3 mb-1">* Documento:</h6>
+<h6 class="mt-3 mb-1 text-secondary fw-bold">* DOCUMENTO:</h6>
 <input class="form-control" type="file" id="PolizaDoc">
 
 <hr>
