@@ -483,7 +483,7 @@ $(".LoaderPage").show();
 
        if(response == 1){
         $('#Comentario').val('');
-          SelEstacion(idestacion,year,mes); 
+          SelEstacion(idEstacion,year,mes); 
           sizeWindow();   
           alertify.success('Comentario agregado exitosamente.');
           $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);         
