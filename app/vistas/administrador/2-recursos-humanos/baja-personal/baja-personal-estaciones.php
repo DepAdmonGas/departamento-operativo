@@ -137,8 +137,8 @@ require('app/help.php');
 
   // ---------- COMENTARIOS BAJA (MODAL) ----------
   function ComentarioBaja(idBaja,idEstacion){
-  $('#Modal').modal('show');
-  $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
+  $('#ModalComentario').modal('show');
+  $('#ContenidoModalComentario').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
   }
 
   function GuardarComentario(idBaja,idEstacion){
@@ -166,11 +166,10 @@ require('app/help.php');
 
   },
   success:  function (response) {
-
   if (response == 1) {
   $('#Comentario').val('');
-  alertify.success('Comentario agregado exitosamente');  
-  $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
+  alertify.success('Comentario agregado exitosamente');
+  ComentarioBaja(idBaja,idEstacion)  
   SelEstacion(idEstacion);
   sizeWindow();
 
@@ -462,6 +461,14 @@ $ToSolicitudBaja = $ClassRecursosHumanosGeneral->ToSolicitudBaja($id);
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+
+<!---------- MODAL COMENTARIO ----------> 
+<div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="ContenidoModalComentario">
   </div>
   </div>
   </div>

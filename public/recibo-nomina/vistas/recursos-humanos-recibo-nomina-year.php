@@ -263,8 +263,8 @@ require('app/help.php');
 
   //---------- COMENTARIOS DEL RECIBO DE NOMINA ----------
   function ModalComentario(idReporte,idEstacion,year,mes,SemQui,descripcion){
-  $('#Modal').modal('show');  
-  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  $('#ModalComentario').modal('show');  
+  $('#DivContenidoComentario').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
   }
  
   function GuardarComentario(idReporte,idEstacion,year,mes,SemQui,descripcion){
@@ -290,7 +290,8 @@ require('app/help.php');
   success:  function (response) {
 
   if (response == 1) {
-  
+    $('#Comentario').val('');
+    ModalComentario(idReporte,idEstacion,year,mes,SemQui,descripcion)
   if(descripcion == "Semana"){
   SelSemanasES(idEstacion,year,SemQui);
 
@@ -298,11 +299,6 @@ require('app/help.php');
   SelQuincenasES(idEstacion,year,SemQui);
 
   }
-
-
-  $('#Comentario').val('');
-  sizeWindow() 
-  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
 
   }else{
   alertify.error('Error al guardar el comentario');  
@@ -659,6 +655,14 @@ require('app/help.php');
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenido">
+  </div>
+  </div>
+  </div>
+
+   <!---------- MODAL COMENTARIO----------> 
+   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>
   </div>

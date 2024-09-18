@@ -83,7 +83,7 @@ echo '<tr class="'.$tableColor.'">
 <td class="align-middle ">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</td>
 <td class="align-middle text-center">'.$row_lista['no_factura'].'</td>
 <td class="align-middle text-center">'.$row_lista['producto'].'</td>
-<td class="align-middle text-center"><b>'.$row_lista['galones'].'</b></td>
+<td class="align-middle text-center">'.$row_lista['galones'].'</td>
 <td class="align-middle text-center">'.$row_lista['inventario_fisico'].'</td>
 </tr>';
 }

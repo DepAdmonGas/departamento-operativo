@@ -69,8 +69,8 @@ $password = $ClassEncriptar->decrypt($row_empresa['password']);
 
 echo '<tr>';
 echo '<th class="text-center align-middle">'.$row_empresa['id'].'</td>';
-echo '<td class="text-center align-middle"><strong>'.$ClassEncriptar->decrypt($row_empresa['usuario']).'</strong></th>';
-echo '<td class="text-center align-middle"><strong>'.$ClassEncriptar->decrypt($row_empresa['password']).'</strong></td>';
+echo '<td class="text-center align-middle">'.$ClassEncriptar->decrypt($row_empresa['usuario']).'</th>';
+echo '<td class="text-center align-middle">'.$ClassEncriptar->decrypt($row_empresa['password']).'</td>';
 echo '<td class="text-center align-middle"> <img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" class="pointer" onclick="editar('.$id.', '.$idEstacion.')"> </td>';
 echo '<td class="text-center align-middle"> <img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" class="pointer" onclick="eliminarPerfil('.$id.', '.$idEstacion.')"/> </td>';
 echo '</tr>';

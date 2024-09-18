@@ -14,16 +14,16 @@ $idEstacion = $_GET['idEstacion'];
 
 <div class="form-group">
 
-<label for="lblNombreGrupo" class="col-form-label">* Usuario:</label>
+<label for="lblNombreGrupo" class="col-form-label fw-bold text-secondary">* USUARIO:</label>
 <input type="text" id="txtUsuario" class="form-control rounded-0 " autocomplete="off">
 
-<label for="lblNombreGrupo" class="col-form-label">* Contraseña:</label>
+<label for="lblNombreGrupo" class="col-form-label fw-bold text-secondary">* CONTRASEÑA:</label>
 <input type="text" id="txtPassword" class="form-control rounded-0 mb-3" autocomplete="off"
 onkeyup="validatePassword(this.value)">
 
 <div class="text-secondary border p-3 mb-3">
 <small>
-<b>La contraseña debe de contener:</b>
+<b>LA CONTRASEÑA DEBE DE CONTENER:</b>
 <hr>Al menos 1 letra mayuscula
 <br>Al menos 1 letra minuscula
 <br>Al menos 1 digito
@@ -31,7 +31,7 @@ onkeyup="validatePassword(this.value)">
 </small>
 </div>
 
-<label for="lblNombreGrupo" class="col-form-label">* Valida Contraseña:</label>
+<label for="lblNombreGrupo" class="col-form-label fw-bold text-secondary">* VALIDA CONTRASEÑA:</label>
 <input type="password" id="txtValidaPassword" class="form-control rounded-0" autocomplete="off">
 
 </div>

@@ -163,12 +163,12 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Fecha</div>
+      <div class="mb-1 text-secondary">* FECHA</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Embarque</div>
+      <div class="mb-1 text-secondary">* EMBARQUE</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <?php
         if ($embarque == "") {
@@ -201,7 +201,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Producto</div>
+      <div class="mb-1 text-secondary">* PRODUCTO</div>
       <select class="form-select" id="Producto">
         <option><?= $producto; ?></option>
         <?php
@@ -224,22 +224,22 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Agregar documento</div>
+      <div class="mb-1 text-secondary">AGREGAR DOCUMENTO</div>
       <input class="form-control" type="file" id="Documento">
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">No. Documento CV</div>
+      <div class="mb-1 text-secondary">NO. DOCUMENTO CV</div>
       <input type="text" class="form-control" id="NoDocumento" value="<?= $documentocv; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Litros Factura</div>
+      <div class="mb-1 text-secondary">LITROS FACTURA</div>
       <input type="number" class="form-control" id="ImporteF" step="any" value="<?= $importef; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Precio por litro</div>
+      <div class="mb-1 text-secondary">PRECIO POR LITRO</div>
       <input type="number" class="form-control" id="PrecioLitro" step="any" value="<?= $PrecioLitro; ?>">
     </div>
 
@@ -266,7 +266,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
       <table class="custom-table" style="font-size: 12.5px;" width="100%">
         <thead class="tables-bg">
           <tr>
-            <th class="align-middle text-center">Descripcion</th>
+            <th class="align-middle text-center">DESCRIPCION</th>
             <th class="align-middle text-center" colspan="2"><img src="<?= RUTA_IMG_ICONOS; ?>pdf.png"></th>
             <th class="align-middle text-center" colspan="2"><img src="<?= RUTA_IMG_ICONOS; ?>xml.png"></th>
           </tr>
@@ -274,7 +274,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
         <tbody>
 
           <tr class="no-hover">
-            <th class="align-middle text-center bg-light">Factura</th>
+            <th class="align-middle text-center bg-light">FACTURA</th>
             <!----- PFD ----->
             <th class="align-middle text-center bg-light" width="60">
               <img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png" class="clickable-img">
@@ -295,7 +295,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
           </tr>
 
           <tr class="no-hover">
-            <th class="align-middle text-center bg-light">Comprobante de pago</th>
+            <th class="align-middle text-center bg-light">COMPROBANTE DE PAGO</th>
             <!----- PFD ----->
             <th class="align-middle text-center bg-light">
               <img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png" class="clickable-img3">
@@ -310,7 +310,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
           </tr>
 
           <tr class="no-hover">
-            <th class="align-middle text-center bg-light">Nota de credito</th>
+            <th class="align-middle text-center bg-light">NOTA DE CREDITO</th>
             <!----- PFD ----->
             <th class="align-middle text-center bg-light">
               <img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png" class="clickable-img4">
@@ -331,7 +331,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
           </tr>
 
           <tr class="no-hover">
-            <th class="align-middle text-center bg-light">Complemento de pago</th>
+            <th class="align-middle text-center bg-light">COMPLEMENTO DE PAGO</th>
             <!----- PFD ----->
             <th class="align-middle text-center bg-light">
               <img src="<?= RUTA_IMG_ICONOS; ?>editar-tb.png" class="clickable-img6">
@@ -360,7 +360,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
   <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Chofer</div>
+      <div class="mb-1 text-secondary">CHOFER</div>
       <input type="text" class="form-control" id="Chofer" value="<?= $chofer; ?>">
       <!--
       <select class="selectize pointer" id="Chofer">
@@ -379,7 +379,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Unidad</div>
+      <div class="mb-1 text-secondary">UNIDAD</div>
       <input type="text" class="form-control" id="Unidad" value="<?= $unidad; ?>"> 
       <!--
       <select class="selectize pointer" id="Unidad">
