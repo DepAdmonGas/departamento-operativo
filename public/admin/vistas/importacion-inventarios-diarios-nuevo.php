@@ -353,7 +353,7 @@ $fecha = $row_lista['fecha'];
   <div class="row">
 
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-  <label>Fecha:</label>
+  <label class="mb-1 text-secondary fw-bold">* FECHA:</label>
   <input type="date" class="form-control" id="Fecha" value="<?=$fecha;?>">
   </div>
 

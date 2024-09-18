@@ -39,6 +39,7 @@ if (isset($_FILES['Identificacion_file']) && $_FILES['Identificacion_file']['err
 }
 
 function IdEstacion($idReporte, $con) {
+    $idEstacion = 0;
     $sql_credito = "SELECT
         op_consumos_pagos.id,
         op_consumos_pagos.id_reportedia,

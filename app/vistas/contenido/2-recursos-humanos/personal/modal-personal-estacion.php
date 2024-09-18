@@ -70,28 +70,28 @@ $ocultarOpcion = "d-none";
  
 <div class="col-12 mb-3">
 <div class="border p-3">
-<h6>Información Personal</h6>
+<h6>INFORMACIÓN PERSONAL</h6>
 <hr>
 
 <div class="row">
 
 <div class="col-12 mb-2">
-<label class="text-secondary">* Fecha ingreso:</label>
+<label class="text-secondary fw-bold">* FECHA INGRESO:</label>
 <input type="date" class="form-control rounded-0" id="FechaIngreso" value="<?=$fechaingreso;?>">
 </div>
 
 <div class="col-12 mb-2 <?=$ocultarOpcion?>">
-<label class="text-secondary">No. de colaborador:</label>
+<label class="text-secondary fw-bold">NO. DE COLABORADOR:</label>
 <input type="number" class="form-control rounded-0" id="NoColaborador" value="<?=$no_colaborador;?>">
 </div>
 
 <div class="<?=$columnaDiv1?> mb-2">
-<label class="text-secondary">* Nombre completo:</label>
+<label class="text-secondary fw-bold">* NOMBRE COMPLETO:</label>
 <input type="text" class="form-control rounded-0" id="NombresCompleto" value="<?=$nombrecompleto;?>">
 </div>
  
 <div class="<?=$columnaDiv2?> mb-2">
-<label class="text-secondary">* Puesto</label>
+<label class="text-secondary fw-bold">* PUESTO</label>
 <select class="form-select rounded-0" id="Puesto" onchange="PuestoDiv()">
 <option value="<?=$idPuesto;?>"><?=$puesto;?></option>
 <?php 
@@ -105,7 +105,7 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['puesto'].'</option>';
 </div>  
  
 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2 <?=$ocultarOpcion?>">
-<label class="text-secondary">Salario Diario:</label>
+<label class="text-secondary">SALARIO DIARIO:</label>
 <input type="number" class="form-control rounded-0" id="sd" value="<?=$sd;?>">
 </div>
 	
@@ -118,73 +118,73 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['puesto'].'</option>';
 <!---------- DOCUMENTACION PERSONAL ---------->
 <div class="col-12 mb-3">
 <div class="border p-3">
-<h6>Documentación</h6>
+<h6>DOCUMENTACIÓN</h6>
 <hr>
 
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Requisición del Personal:</label>
+<label class="text-secondary">REQUISICIÓN DEL PESONAL:</label>
 <input type="file" class="form-control rounded-0" id="R_Personal">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Solicitud de empleo y/o Curriculum Vitae (CV):</label>
+<label class="text-secondary">SOLICITUD DE EMPLEO Y/O CURRICULUM VITAE (CV):</label>
 <input type="file" class="form-control rounded-0" id="CV">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Identificación oficial (vigente, elector o pasaporte):</label>
+<label class="text-secondary">IDENTIFICAIÓN OFICIAL (VIGENTE, ELECTOR O PASAPORTE):</label>
 <input type="file" class="form-control rounded-0" id="INE">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Acta de Nacimiento (Certificada):</label>
+<label class="text-secondary">ACTA DE NACIMIENTO (CERTIFICADA):</label>
 <input type="file" class="form-control rounded-0" id="A_Nacimiento">
 </div>
 
 <div class="col-12 mb-3">
-<label class="text-secondary">Comprobante de Domicilio (recibo de teléfono, agua, o predio con antigüedad máxima de tres meses):</label>
+<label class="text-secondary">COMPROBANTE DE DOMICILIO (RECIBO DE TELÉFONO, AGUA, O PREDIO CON ANTIGUEDAD MÁXIMA DE TRES MESES):</label>
 <input type="file" class="form-control rounded-0" id="C_Domicilio">
 </div>
 
 <div class="col-12 mb-3">
-<label class="text-secondary">Comprobante de Afiliación IMSS (en caso de no tener, presentar afiliación):</label>
+<label class="text-secondary">COMPROBANTE DE AFILIACIÓN IMSS (EN CASO DE NO TENER, PRESENTAR AFILIACIÓN):</label>
 <input type="file" class="form-control rounded-0" id="C_IMSS">
 </div>
 
 <div class="col-12 mb-3">
-<label class="text-secondary">Cartas de Recomendación de los últimos empleos (Hoja membretada con dirección y teléfono):</label>
+<label class="text-secondary">CARTAS DE RECOMENDACIÓN DE LOS ÚLTIMOS EMPLEOS (HOJA MEMBRETADA CON DIRECCIÓN Y TELÉFONO):</label>
 <input type="file" class="form-control rounded-0" id="C_Recomendacion">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Ultimo comprobante de estudios:</label>
+<label class="text-secondary">ULTIMO COMPROBANTE DE ESTUDIOS:</label>
 <input type="file" class="form-control rounded-0" id="C_Estudios">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Clave Única de Registro de Población (CURP):</label>
+<label class="text-secondary">CLAVE ÚNICA DE REGISTRO DE POBLACIÓN (CURP):</label>
 <input type="file" class="form-control rounded-0" id="CURP">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Aviso de Retención de Infonavit:</label>
+<label class="text-secondary">AVISO DE RETENCIÓN DE INFONAVIT:</label>
 <input type="file" class="form-control rounded-0" id="A_Infonavit">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Constancia de Situación Fiscal (CSF) con homoclave:</label>
+<label class="text-secondary">CONSTANCIA DE SITUACIÓN FISCAL (CSF) CON HOMOCLAVE:</label>
 <input type="file" class="form-control rounded-0" id="RFC">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3" id="Cartas_Penales">
-<label class="text-secondary">Carta de antecedentes no penales:</label>
+<label class="text-secondary">CARTA DE ANTECEDENTES NO PENALES:</label>
 <input type="file" class="form-control rounded-0" id="C_Antecedentes">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">Contrato:</label>
+<label class="text-secondary">CONTRATO:</label>
 <input type="file" class="form-control rounded-0" id="Contrato">
 </div>
 
@@ -196,7 +196,7 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['puesto'].'</option>';
 <div class="border ">
 <div class="p-3">
 
-<div class="text-danger"><b>En caso de ser colaboradores nuevos y recientes</b></div>
+<div class="text-danger"><b>EN CASO DE SER COLABORADORES NUEVOS Y RECIENTES.</b></div>
 <hr>
 <ol>
 <li>Requisición de personal.</li>
