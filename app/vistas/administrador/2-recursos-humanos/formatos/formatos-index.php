@@ -173,8 +173,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   //---------- COMENTARIOS FORMATOS ----------
   function ModalComentario(idReporte,idEstacion){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-comentario-formatos.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte); 
+  $('#ModalComentario').modal('show');  
+  $('#ContenidoModalComentario').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-comentario-formatos.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte); 
   } 
 
   
@@ -209,8 +209,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   SelEstacion(idEstacion)
   alertify.success('Comentario agregado exitosamente');
   $('#Comentario').val('');
-  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-comentario-formatos.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte); 
-
+  ModalComentario(idReporte,idEstacion)
   }else{
   alertify.error('Error al guardar el comentario');  
   }
@@ -421,6 +420,14 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   </div>
 
+
+  <div class="modal" id="ModalComentario" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content">
+  <div id="ContenidoModalComentario"></div>
+  </div>
+  </div>
+  </div>
 
 
   <div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">

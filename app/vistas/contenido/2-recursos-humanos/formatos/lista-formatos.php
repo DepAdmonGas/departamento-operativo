@@ -287,7 +287,7 @@ $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i
 
   echo '<tr '.$trColor.'>';
   echo '<th class="align-middle text-center">'.$num.'</th>';
-  echo '<td class="align-middle"><b>'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato.'</b></td>';
+  echo '<td class="align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato.'</td>';
   echo ''.$tdName.'';
   echo '<td class="align-middle">'.$Formatos.'</td>';
   echo '<td class="align-middle">'.$Firmar.'</td>';

@@ -307,7 +307,7 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
         $totalInventarioFinal = $totalInventarioFinal + $inventario_final;
         $totalDiferencia = $totalDiferencia + $diferencia;
         $totalDigPrecio = $totalDigPrecio + $difPrecio;
-
+        $sumt = 0;
         ?>
         <tr>
           <th class="align-middle p-1"><?= $row_listaaceites['id_aceite']; ?></th>
@@ -382,6 +382,7 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
           ?>
           <td class="align-middle text-center bg-white"><?= $totalaceites; ?></td>
           <?php
+          $importeneto = 0;
           for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
             $fechap = $GET_year . "-" . $GET_mes . "-" . $Pdia;
