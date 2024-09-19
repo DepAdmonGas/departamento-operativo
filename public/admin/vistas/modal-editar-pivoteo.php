@@ -14,14 +14,14 @@ $Categoria = $_GET['Categoria'];
 
 <?php 
 if($Categoria == 1){
-echo '<h6>Documentación Facturada (CANCELAR)</h6>';
+echo '<h6>DOCUMENTACIÓN FACTURADA (CANCELAR)</h6>';
 }else{
-echo '<h6>Documentación a refacturar</h6>';
+echo '<h6>DOCUMENTACIÓN A REFACTURAR</h6>';
 }
 ?>
 
 
-<div class="mt-2"><b>Estación:</b></div>
+<div class="mt-2 fw-bold text-secondary">ESTACIÓN:</div>
 <select class="form-select" id="EstacionFC">
 <option></option>
 <?php
@@ -38,13 +38,13 @@ echo '<option>'.$row_lista['razonsocial'].'</option>';
 </select>
 
 <div class="border p-3 mt-3">
-<div class="text-center"><small>Otra estación:</small></div>
+<div class="text-center"><small>OTRA ESTACIÓN:</small></div>
 <hr>
 
-<div><b>Estación:</b></div>
+<div class="text-secondary fw-bold">ESTACIÓN:</div>
 <input type="text" class="form-control" id="EstacionOtroFC">
 
-<div class="mt-2"><b>Destino:</b></div>
+<div class="mt-2 text-secondary fw-bold">DESTINO:</div>
 <input type="number" class="form-control" id="DestinoOtroFC">
 
 </div>
