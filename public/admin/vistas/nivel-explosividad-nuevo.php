@@ -333,12 +333,12 @@ function Eliminar(idReporte,idNivel){
   <div class="row ">
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Fecha:</label>
+  <label class="text-secondary mb-1 fw-bold">* FECHA:</label>
   <input type="date" class="form-control rounded-0" id="Fecha">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Tipo de Medicion</label>
+  <label class="text-secondary mb-1 fw-bold">* TIPO DE MEDICION</label>
   <select class="form-select rounded-0" id="Elemento1">
     <option></option>
     <option>Mantenimiento</option>
@@ -347,7 +347,7 @@ function Eliminar(idReporte,idNivel){
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Verificador</label>
+  <label class="text-secondary mb-1 fw-bold">VERIFICADOR</label>
   <select class="form-select rounded-0" id="Elemento2">
     <option></option>
     <option>Interno</option>
@@ -356,7 +356,7 @@ function Eliminar(idReporte,idNivel){
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Observaciones</label>
+  <label class="text-secondary mb-1 fw-bold">* OBSERVACIONES</label>
   <select class="form-select rounded-0" id="Elemento3">
     <option></option>
     <option>Urgentes SI</option>
@@ -365,77 +365,77 @@ function Eliminar(idReporte,idNivel){
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Estacionamiento:</label>
+  <label class="text-secondary mb-1">ESTACIONAMIENTO:</label>
   <input type="number" class="form-control rounded-0" id="Elemento4">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Local Comercial:</label>
+  <label class="text-secondary mb-1">LOCAL COMERCIAL:</label>
   <input type="number" class="form-control rounded-0" id="Elemento5">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Oficinas:</label>
+  <label class="text-secondary ">OFICINAS:</label>
   <input type="number" class="form-control rounded-0" id="Elemento6">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Bodega Local:</label>
+  <label class="text-secondary mb-1">BODEGA LOCAL:</label>
   <input type="number" class="form-control rounded-0" id="Elemento7">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Baños Empleados:</label>
+  <label class="text-secondary mb-1">BAÑOS EMPLEADOS:</label>
   <input type="number" class="form-control rounded-0" id="Elemento8">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Bodega de Aceites:</label>
+  <label class="text-secondary mb-1">BODEGA DE ACEITES:</label>
   <input type="number" class="form-control rounded-0" id="Elemento9">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Baños Hombres:</label>
+  <label class="text-secondary mb-1">BAÑOS HOMBRES:</label>
   <input type="number" class="form-control rounded-0" id="Elemento10">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Baños Mujeres:</label>
+  <label class="text-secondary mb-1">BAÑOS MUJERES:</label>
   <input type="number" class="form-control rounded-0" id="Elemento11">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Cuarto de Sucios:</label>
+  <label class="text-secondary mb-1">CCUARTO DE SUCIOS:</label>
   <input type="number" class="form-control rounded-0" id="Elemento12">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Cto de Maquinas:</label>
+  <label class="text-secondary mb-1">CTO DE MAQUINAS:</label>
   <input type="number" class="form-control rounded-0" id="Elemento13">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Zona 1 Despacho:</label>
+  <label class="text-secondary mb-1">ZONA 1 DESPACHO:</label>
   <input type="number" class="form-control rounded-0" id="Elemento14">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Zona 2 Despacho:</label>
+  <label class="text-secondary mb-1">ZONA 2 DESPACHO:</label>
   <input type="number" class="form-control rounded-0" id="Elemento15">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Zona 3 Despacho:</label>
+  <label class="text-secondary mb-1">ZONA 3 DESPACHO:</label>
   <input type="number" class="form-control rounded-0" id="Elemento16">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Cto de aditivo:</label>
+  <label class="text-secondary mb-1">CTO DE ADITIVO:</label>
   <input type="number" class="form-control rounded-0" id="Elemento17">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-  <label class="text-secondary">Zona de tanques:</label>
+  <label class="text-secondary mb-1">ZONA DE TANQUES:</label>
   <input type="number" class="form-control rounded-0" id="Elemento18">
   </div>
 

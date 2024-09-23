@@ -27,7 +27,7 @@ $estado = "Finalizado";
 <div class="row">
 
 <div class="col-12 mb-2">
-<h6>* Proceso de baja</h6>
+<div class="text-secondary fw-bold mb-1">* PROCESO DE BAJA</div>
 <input type="text" list="DataList" class="form-control mt-1" id="Proceso" value="<?=$proceso?>">
 <datalist id="DataList">
 <option>Finiquito</option>
@@ -37,7 +37,7 @@ $estado = "Finalizado";
 </div> 
 </div>
 
-<h6>* Status</h6>
+<div class="text-secondary fw-bold mb-1">* STATUS</div>
 <select class="form-select" id="Status">
 <option value="<?=$EstadoProceso;?>"><?=$estado?></option>
 <option value="0">Pendiente</option>

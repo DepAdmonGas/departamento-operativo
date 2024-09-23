@@ -50,12 +50,12 @@ $mes = $_GET['mes'];
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Agregar fecha</div>
+      <div class="mb-1 text-secondary fw-bold">* AGREGAR FECHA</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha_del_dia; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Embarque</div>
+      <div class="mb-1 text-secondary fw-bold">* EMBARQUE</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <option></option>
         <option>Pemex</option>
@@ -65,7 +65,7 @@ $mes = $_GET['mes'];
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Producto</div>
+      <div class="mb-1 text-secondary fw-bold">* PRODUCTO</div>
       <select class="form-select" id="Producto">
         <option></option>
         <option>G SUPER</option>
@@ -76,22 +76,22 @@ $mes = $_GET['mes'];
 
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Agregar documento</div>
+      <div class="mb-1 text-secondary fw-bold">* AGREGAR DOCUMENTO</div>
       <input class="form-control" type="file" id="Documento">
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">No. Documento CV</div>
+      <div class="mb-1 text-secondary">NO. DOCUMENTO CV</div>
       <input type="text" class="form-control" id="NoDocumento">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Litros Factura</div>
+      <div class="mb-1 text-secondary">LITROS FACTURA</div>
       <input type="number" class="form-control" id="ImporteF" step="any">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Precio por litro</div>
+      <div class="mb-1 text-secondary">PRECIO POR</div>
       <input type="number" class="form-control" id="PrecioLitro" step="any">
     </div>
 
@@ -158,7 +158,7 @@ $mes = $_GET['mes'];
 
   <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Chofer</div>
+      <div class="mb-1 text-secondary fw-bold">* CHOFER</div>
      <!--
       <select class="selectize" id="Chofer">
         <option></option>
@@ -177,7 +177,7 @@ $mes = $_GET['mes'];
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Unidad</div>
+      <div class="mb-1 text-secondary fw-bold">* UNIDAD</div>
       <!--
       <select class="selectize" id="Unidad">
         <option></option>

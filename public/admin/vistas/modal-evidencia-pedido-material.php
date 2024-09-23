@@ -19,7 +19,7 @@ $ocultarTB = "";
 </div>
 <div class="modal-body">
 
-<label class="text-secondary">Imagen:</label>
+<label class="text-secondary fw-bold">* IMAGEN:</label>
 <div><input type="file" class="form-control" id="Imagen"></div>
 
 <hr>

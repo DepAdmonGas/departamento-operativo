@@ -63,42 +63,42 @@ $pdfInput = '<header class="bg-light py-5">
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<h6 class="mb-1">Documento:</h6>
+<h6 class="mb-1 text-secondary">DOCUMENTO:</h6>
 <label><?=$descripcion?></label>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1 text-secondary">FECHA:</h6>
 <label><?=$fecha?></label>
 </div>
 
 <div class="col-12 mb-3">
-<h6 class="mb-1">PDF:</h6>
+<h6 class="mb-1 text-secondary">PDF:</h6>
 <?=$pdfInput;?>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<h6 class="mb-1">Objeto:</h6>
+<h6 class="mb-1 text-secondary">OBJETO:</h6>
 <label><?=$objeto?></label>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<h6 class="mb-1">Proveedor:</h6>
+<h6 class="mb-1 text-secondary">PROVEEDOR:</h6>
 <label><?=$proveedor?></label>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<h6 class="mb-1">Vencimiento:</h6>
+<h6 class="mb-1 text-secondary">VENCIMIENTO:</h6>
 <label><?=$vencimiento?></label>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<h6 class="mb-1">Personas que firman:</h6>
+<h6 class="mb-1 text-secondary">PERSONAS QUE FIRMAN:</h6>
 <label><?=$firmas?></label>
 </div>
 
 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<h6 class="mb-1 ">Comentario:</h6>
+<h6 class="mb-1 text-secondary">COMENTARIO:</h6>
 <label><?=$comentario?></label>
 </div>
 

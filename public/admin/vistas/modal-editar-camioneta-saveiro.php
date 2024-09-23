@@ -26,13 +26,13 @@ $descripcion = $row_lista['descripcion'];
 
 <div class="modal-body">
 
-<div class="text-secondary mb-1">Fecha:</div>
+<div class="text-secondary mb-1">FECHA:</div>
 <input type="date" class="form-control rounded-0 mb-2" id="Fecha" value="<?=$fecha?>">
 
-<div class="text-secondary mb-1">Descripción:</div>
+<div class="text-secondary mb-1">DESCRIPCIÓN:</div>
 <input type="text" class="form-control rounded-0 mb-2" id="Descripcion" value="<?=$descripcion?>">
 
-<div class="text-secondary mb-1">Archivo:</div>
+<div class="text-secondary mb-1">ARCHIVO:</div>
 <input type="file" class="form-control rounded-0 mb-2" id="Archivo">
 
 </div> 

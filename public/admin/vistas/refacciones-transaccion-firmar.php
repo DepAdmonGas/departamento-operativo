@@ -246,27 +246,27 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Estación proveedora:</h6>
+  <div class="text-secondary mb-1 fw-bold">ESTACIÓN PROVEEDORA:</div>
   <?=$Estacion;?>
   </div>
   
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Refacción que sale:</h6>
+  <div class="text-secondary mb-1 fw-bold">REFACCIÓN QUE SALE:</div>
   <?=$NomRefaccion;?>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Estación receptora:</h6>
+  <div class="text-secondary mb-1 fw-bold">ESTACIÓN RECEPTORA:</div>
   <?=$EstacionReceptora;?>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Refacción que entra:</h6>
+  <div class="text-secondary mb-1 fw-bold">REFACCIÓN QUE ENTRA:</div>
   <?=$NomRefaccionEntra;?>
   </div>
 
   <div class="bcol-12">
-  <h6>Observación y/o motivo:</h6>
+  <div class="text-secondary mb-1 fw-bold">OBSERVACIÓN Y/O MOTIVO:</div>
   <?=$observaciones;?>
   </div>
 

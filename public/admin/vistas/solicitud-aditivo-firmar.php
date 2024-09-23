@@ -229,21 +229,21 @@ function FirmaSC($idReporte, $tipoFirma, $con)
         <div class="row">
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <span class="badge rounded-pill tables-bg float-start" style="font-size:14px">Fecha:
+            <span class="badge rounded-pill tables-bg float-start" style="font-size:14px">FECHA:
               <?= FormatoFecha($fecha); ?></span>
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <span class="badge rounded-pill tables-bg float-end" style="font-size:14px">No. Orden de Compra:
+            <span class="badge rounded-pill tables-bg float-end" style="font-size:14px">No. ORDEN DE COMPRA:
               <?= $ordencompra; ?></span>
           </div>
 
         </div>
         <br>
         <div>
-          <h6>Para: </h6> <?= $para ?>
+          <h6 class="text-secondary">PARA: </h6> <?= $para ?>
           <hr>
-          <h6>Comentarios o instrucciones especiales: </h6><?= $comentarios ?>
+          <h6 class="text-secondary">COMENTARIOS O INSTRUCCIONES ESPECIALES: </h6><?= $comentarios ?>
           <hr>
         </div>
 
@@ -313,7 +313,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
         <br>
         <div>
-          <h6>Firmas:</h6>
+          <h6 class="text-secondary">FIRMAS:</h6>
           <hr>
 
 

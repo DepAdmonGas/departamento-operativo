@@ -23,14 +23,14 @@ $vencimiento = $row_lista_poliza['vencimiento'];
 
  <div class="modal-body">
 
-<h6 class="mb-1">* Fecha de emisión:</h6>
+<h6 class="mb-1 text-secondary">* FECHA DE EMISIÓN:</h6>
 <input class="form-control" type="date" id="EmisionP" value="<?=$emision?>" onchange="VencimientoPoliza()">
 
-<h6 class="mb-1 mt-3">* Fecha de vencimiento:</h6>
+<h6 class="mb-1 mt-3 text-secondary">FECHA DE VENCIMIENTO:</h6>
 <div id="fechavencimiento" style="font-size: 1em"><input class="form-control" type="date" id="VencimientoP" value="<?=$vencimiento?>" ></div>
 
 
-<h6 class="mt-3 mb-1">Documento:</h6>
+<h6 class="mt-3 mb-1 text-secondary">DOCUMENTO:</h6>
 <input class="form-control" type="file" id="PolizaDoc">
 
 </div>

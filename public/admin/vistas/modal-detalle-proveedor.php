@@ -49,113 +49,113 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Folio:</b></div>
+      <div class="text-secondary fw-bold">FOLIO:</div>
       00<?= $folio; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Fecha:</b></div>
+      <div class="text-secondary fw-bold">FECHA:</div>
       <?= $fecha; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Razon Social:</b></div>
+      <div class="text-secondary fw-bold">RAZÓN SOCIAL:</div>
       <?= $razon_social; ?>
 
     </div>
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="font-weight-bold"><b>E-mail:</b></div>
+      <div class="text-secondary fw-bold">E-MAIL:</div>
       <?= $email; ?>
     </div>
 
     <div class="col-12 mb-2">
 
-      <div class="font-weight-bold"><b>Actividad Economica:</b></div>
+      <div class="text-secondary fw-bold">ACTIVIDAD ECONOMICA:</div>
       <?= $actividad_economica; ?>
 
     </div>
     <hr>
     <div class="col-12 mb-2">
 
-      <div class="font-weight-bold"><b>Razon Social:</b></div>
+      <div class="text-secondary fw-bold">RAZÓN SOCIAL:</div>
       <?= $rfc; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Ciudad:</b></div>
+      <div class="text-secondary fw-bold">CIUDAD:</div>
       <?= $ciudad; ?>
 
     </div>
 
     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Telefono 1:</b></div>
+      <div class="text-secondary fw-bold">TELEFONO 1:</div>
       <?= $telefono_1; ?>
 
     </div>
 
     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Telefono 2:</b></div>
+      <div class="text-secondary fw-bold">TELEFONO 2:</div>
       <?= $telefono_2; ?>
 
     </div>
 
     <div class="col-12 mb-2">
 
-      <div class="font-weight-bold"><b>Nombre del Beneficiario:</b></div>
+      <div class="text-secondary fw-bold">NOMBRE DEL BENEFICIARIO:</div>
       <?= $beneficiario; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Banco:</b></div>
+      <div class="text-secondary fw-bold">BANCO:</div>
       <?= $banco; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Metodo de Pago:</b></div>
+      <div class="text-secondary fw-bold">MÉTODO DE PAGO:</div>
       <?= $metodo_pago; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Uso del CDFI:</b></div>
+      <div class="text-secondary fw-bold">USO DEL CDFI:</div>
       <?= $cfdi; ?>
 
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
 
-      <div class="font-weight-bold"><b>Moneda:</b></div>
+      <div class="text-secondary fw-bold">MONEDA:</div>
       <?= $moneda; ?>
 
     </div>
 
     <div class="col-12 mb-2">
 
-      <div class="font-weight-bold"><b>Forma de Pago:</b></div>
+      <div class="text-secondary fw-bold">FORMA DE PAGO:</div>
       <?= $forma_pago; ?>
 
     </div>
 
     <div class="col-12 mt-3 mb-2">
-      <span class="badge bg-primary" style="font-size:0.9em">Productos o Servicios Ofrecidos:</span>
+      <span class="badge bg-primary" style="font-size:0.9em">PRODUCTOS O SERVICIOS OFRECIDOS:</span>
     </div>
 
     <div class="col-12 mb-2">
 
-      <div class="font-weight-bold"><b>Descripción:</b></div>
+      <div class="text-secondary fw-bold">DESCRIPCIÓN:</div>
       <?= $descripcion; ?>
     </div>
   </div>
