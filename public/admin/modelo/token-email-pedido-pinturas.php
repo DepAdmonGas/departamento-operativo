@@ -16,13 +16,13 @@ return $email;
 }
 
 $idReporte = $_POST['idReporte'];
-$sql = "DELETE FROM op_solicitud_cheque_token WHERE id_solicitud = '" . $idReporte . "' AND id_usuario = '" . $Session_IDUsuarioBD . "' ";
+$sql = "DELETE FROM op_pedido_pinturas_complementos_token WHERE id_pedido = '" . $idReporte . "' AND id_usuario = '" . $Session_IDUsuarioBD . "' ";
 
 if (mysqli_query($con, $sql)) {
     $aleatorio = rand(100000, 999999);
 
-    $sql_insert = "INSERT INTO op_solicitud_cheque_token (
-        id_solicitud,
+    $sql_insert = "INSERT INTO op_pedido_pinturas_complementos_token (
+        id_pedido,
         id_usuario,
         token 
     ) VALUES (
@@ -52,8 +52,9 @@ if (mysqli_query($con, $sql)) {
             // Contenido del correo
             $mail->isHTML(true);  // Habilitar HTML en el correo
             $mail->Subject = 'Token web';
-            $mail->Body = 'AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: <b>' . $aleatorio . '</b>';
+            $mail->Body = 'AdmonGas: Usa el siguiente token para firmar el pedido de aceites y complementos. Token: <b>' . $aleatorio . '</b>';
 
+    
             // Envío del correo
             if ($mail->send()) {
                 echo 1;

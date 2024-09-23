@@ -145,6 +145,12 @@ switch($_POST['accion']):
     echo $formatos->firmaFormatosToken($idFormato,$idVal,$idUsuario,$tokenWhats,$idTipo);
     break;
 
+    case 'crear-token-email':
+    $idFormato = $_POST['idFormato'];
+    $idUsuario = $_POST['idUsuario'];
+    echo $formatos->firmaFormatosTokenEmail($idFormato,$idUsuario);
+    break;
+ 
     case 'firmar-formato-martin':
     $idFormato = $_POST['idFormato'];
     $idUsuario = $_POST['idUsuario'];

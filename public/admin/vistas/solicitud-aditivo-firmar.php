@@ -158,6 +158,38 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
     }
 
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url: '../../public/admin/modelo/token-email-solicitud-aditivo.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
 </head>
 
@@ -316,6 +348,11 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                               onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                               <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                               Whatsapp</button>
+
+                              <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
                           </th>
                         </tr>
                         <tr>
@@ -364,6 +401,9 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                         token SMS</small></button>
                     <button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear
                         token Whatsapp</small></button>
+                        <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
                     <hr>
                     <div class="input-group mt-3">
                       <input type="text" class="form-control" placeholder="Token de seguridad"
@@ -483,8 +523,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>

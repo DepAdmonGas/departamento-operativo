@@ -197,6 +197,38 @@ return $Result;
 
     }
 
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/token-email-pedido-materiales.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
 
   </head>
@@ -564,7 +596,7 @@ return $Result;
 
   ?>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
@@ -573,7 +605,7 @@ return $Result;
   <tbody>
   
   <tr>
-  <th class="align-middle text-center bg-light no-hover2">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
@@ -582,10 +614,20 @@ return $Result;
 
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
   </th>
   </tr>
 
-  <tr class="no-hover2">
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -619,16 +661,16 @@ return $Result;
 
   ?>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
   
   <tr>
-  <th class="align-middle text-center bg-light no-hover2">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
@@ -637,10 +679,20 @@ return $Result;
 
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
   </th>
   </tr>
 
-  <tr class="no-hover2">
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -654,7 +706,6 @@ return $Result;
   </table>
   </div>
   </div>
-
 
   <?php 
   

@@ -203,7 +203,7 @@ $Estatus = 'Orden de Mantenimiento Pendiente';
 }else if($row_lista['estatus'] == 1){
 $bgTable = 'style="background-color: #fcfcda"';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
-$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Editar = '<a class="dropdown-item" onclick="Editar('.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
 if($firmaB == 1){

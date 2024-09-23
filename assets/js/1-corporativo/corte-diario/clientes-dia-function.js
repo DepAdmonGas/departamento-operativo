@@ -96,7 +96,7 @@ function Guardar(idReporte, ruta_js) {
               agregar = 1
 
             }
-
+ 
 
             if (agregar == 1) {
 
@@ -180,6 +180,9 @@ function AgregarConsumo(idReporte, ruta_js) {
 
     },
     success: function (response) {
+      console.log(response)
+
+
       if (response == 1) {
         $('#Modal').modal('hide');
 
