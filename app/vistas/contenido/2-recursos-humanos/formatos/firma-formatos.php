@@ -164,6 +164,40 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     }
 
 
+  //---------- CREAR TOKEN VIA EMAIL ----------//
+
+    function CrearTokenEmail(idFormato,idTipo){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idFormato" : idFormato,
+    "idUsuario" : <?=$Session_IDUsuarioBD?>,
+    "accion" : 'crear-token-email'
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+  
+    }
+    });
+    }   
+
 
   //---------- FINALIZAR ALTA PERSONAL ----------//
   function Finalizar(idReporte, tipoFirma) {
@@ -890,6 +924,10 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
   </th>
   

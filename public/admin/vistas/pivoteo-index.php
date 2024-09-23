@@ -157,6 +157,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
     "Contenido" : Contenido,
     };
 
+    $(".LoaderPage").show();
+
     $.ajax({ 
     data:  parametros,
     url:   '../public/admin/modelo/enviar-correo-pivoteo.php',
@@ -165,10 +167,11 @@ return $numero_lista = mysqli_num_rows($result_lista);
     },
     complete: function(){
 
-    },
+    }, 
     success:  function (response) {
 
-console.log(response)
+      $(".LoaderPage").hide();
+
 
     if (response == 1) {
     GMail(idEstacion,idReporte)

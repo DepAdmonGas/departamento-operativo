@@ -54,14 +54,19 @@ if ($ValidaUsuario == 0) { ?>
                 número de teléfono o de clic en el siguiente botón para crear uno:</small>
               <br>
               <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
-                onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
+                onclick="CrearToken(<?= $idReporte; ?>,1)" style="font-size: .85em;">
                 <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
                 SMS</button>
 
               <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
-                onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
+                onclick="CrearToken(<?= $idReporte; ?>,2)" style="font-size: .85em;">
                 <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                 Whatsapp</button>
+
+                <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+                onclick="CrearTokenEmail(<?=$idReporte;?>)" style="font-size: .85em;">
+              <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+              
             </th>
           </tr>
           <tr>
@@ -83,6 +88,8 @@ if ($ValidaUsuario == 0) { ?>
                 </div>
               </div>
             </th>
+
+            
           </tr>
         </tbody>
       </table>

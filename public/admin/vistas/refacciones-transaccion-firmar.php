@@ -173,6 +173,40 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   }
 
   }
+
+
+  
+  function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/token-email-refaccion-transaccion.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+ 
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
   </head>
 
@@ -250,15 +284,16 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
 <?php if($Session_IDUsuarioBD == 21){ ?>
 <?php if($firmaB == 0){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO DEP. DE MANTENIMIENTO</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
+  
   <tr>
-  <th class="align-middle text-center bg-light ">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
@@ -267,10 +302,20 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
   </th>
   </tr>
 
-  <tr class="">
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -291,15 +336,16 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
  <?php if($Session_IDUsuarioBD == 19){ ?>
 <?php if($firmaC == 0){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO GERENTE OPERATIVO</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
+  
   <tr>
-  <th class="align-middle text-center bg-light ">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
@@ -308,10 +354,20 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
   </th>
   </tr>
 
-  <tr class="">
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -438,7 +494,6 @@ echo '  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
    
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
   </body>

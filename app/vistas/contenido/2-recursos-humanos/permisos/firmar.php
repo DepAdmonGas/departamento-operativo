@@ -194,6 +194,45 @@
             });
         }
         }
+
+
+
+        function CrearTokenEmail(idFormato){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idFormato" : idFormato,
+    "idUsuario" : <?=$Session_IDUsuarioBD?>,
+    "accion" : 'crear-token-email'
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../app/controlador/2-recursos-humanos/controladorPermisos.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+        console.log(response)
+      
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+  
+    }
+    });
+    }   
+
+
+
+
     </script>
 </head>
 
@@ -412,8 +451,15 @@
     <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
     <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
+    <!--
     <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
     <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+    -->
+
+    <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+    onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+    <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
     </th>
     </tr>
 
@@ -517,8 +563,7 @@
     </script>
 
     <!---------- FUNCIONES - NAVBAR ---------->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>

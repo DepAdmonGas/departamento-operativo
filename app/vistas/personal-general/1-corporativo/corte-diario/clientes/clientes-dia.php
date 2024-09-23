@@ -2,17 +2,19 @@
 require 'app/vistas/contenido/header.php';
 $dia = $corteDiarioGeneral->getDia($GET_idReporte);
 ?>
-<script type="text/javascript">
-  $('.selectize').selectize({
-    sortField: 'text'
-  });
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+<link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 <script type="text/javascript" src="<?= RUTA_CORTEDIARIO_JS ?>clientes-dia-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
 
     ListaConsumoPago(<?= $GET_idReporte ?>, "<?= RUTA_JS2 ?>");
+
+    $('.select').selectize({
+  sortField: 'text'
+  });
+
   });
 </script>
 <!---------- LIBRERIAS DEL DATATABLE ---------->
@@ -88,7 +90,8 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
           <div class="mb-1">
             <h6>* Selecciona el cliente</h6>
           </div>
-          <select id="BorderCliente" class="selectize pointer form-select">
+          <div id="BorderCliente">
+          <select id="Cliente" class="select">
             <option></option>
             <?php
             try {
@@ -98,6 +101,7 @@ $dia = $corteDiarioGeneral->getDia($GET_idReporte);
             }
             ?>
           </select>
+          </div>
           
 
           <div class="mt-2 mb-1"><h6>* Agregue total</h6></div>

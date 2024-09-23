@@ -2,6 +2,10 @@
 require "../../bd/inc.conexion.php";
 require "../../modelo/httpPHPAltiria.php";
 require_once '../../modelo/HerramientasDptoOperativo.php';
+require '../../../phpmailer/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class Formatos extends Exception{
     private $classConexionBD;
@@ -473,6 +477,79 @@ class Formatos extends Exception{
         }
         return $resultado;
     }
+
+
+
+    function CorreoE($IDUsuarioBD){
+        $sql = "SELECT email FROM tb_usuarios WHERE id = '".$IDUsuarioBD."' ";
+        $result = mysqli_query($this->con, $sql);
+        $numero = mysqli_num_rows($result);
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+        $email = $row['email'];
+        }
+        return $email;
+        }
+
+
+    public function firmaFormatosTokenEmail($idFormato, $idUsuario)
+    {
+
+    $sql = "DELETE FROM op_rh_formatos_token WHERE id_formato = '" . $idFormato . "' AND id_usuario = '" . $idUsuario . "' ";
+    
+    if (mysqli_query($this->con, $sql)) {
+        $aleatorio = rand(100000, 999999);
+    
+        $sql_insert = "INSERT INTO op_rh_formatos_token (
+            id_formato,
+            id_usuario,
+            token 
+        ) VALUES ( 
+            '" . $idFormato . "',
+            '" . $idUsuario . "',
+            '" . $aleatorio . "'
+        )";
+    
+        if (mysqli_query($this->con, $sql_insert)) {
+            try {
+                $Email = $this->CorreoE($idUsuario);
+                $mail = new PHPMailer(true);  // Usa "true" para habilitar excepciones
+    
+                // Configuración del servidor SMTP
+                $mail->isSMTP();  // Envío mediante SMTP
+                $mail->Host = "admongas.com.mx";  // Servidor SMTP
+                $mail->SMTPAuth = true;  // Activar autenticación SMTP
+                $mail->Username = "portal@admongas.com.mx";  // Usuario SMTP
+                $mail->Password = "92Tov8&l5";  // Contraseña SMTP
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // TLS para encriptación
+                $mail->Port = 587;  // Puerto para TLS (o 465 para SSL)
+    
+                // Configuración del remitente y destinatario
+                $mail->setFrom('portal@admongas.com.mx', 'Portal AdmonGas');
+                $mail->addAddress($Email);  // Añade el destinatario
+    
+                // Contenido del correo
+                $mail->isHTML(true);  // Habilitar HTML en el correo
+                $mail->Subject = 'Token web';
+                $mail->Body = 'AdmonGas: Usa el siguiente token para firmar el formato solicitado. Token: <b>' . $aleatorio . '</b>';
+    
+                // Envío del correo
+                if ($mail->send()) { 
+                    return true;
+                } else {
+                    return false;
+                } 
+            } catch (Exception $e) {
+                echo "Error en el envío de correo: {$e->getMessage()}";
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    
+    }
+
     function numero($idUsuario): string
     {
         $tel = '';

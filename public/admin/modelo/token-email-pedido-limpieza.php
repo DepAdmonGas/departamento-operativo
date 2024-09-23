@@ -6,23 +6,19 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 function CorreoE($IDUsuarioBD,$con){
-$sql = "SELECT email FROM tb_usuarios WHERE id = '".$IDUsuarioBD."' ";
-$result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($result);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-$email = $row['email'];
-}
+$email = "adrianvargasa7@gmail.com";
+
 return $email;
 }
 
 $idReporte = $_POST['idReporte'];
-$sql = "DELETE FROM op_solicitud_cheque_token WHERE id_solicitud = '" . $idReporte . "' AND id_usuario = '" . $Session_IDUsuarioBD . "' ";
+$sql = "DELETE FROM op_pedido_limpieza_token WHERE id_pedido = '" . $idReporte . "' AND id_usuario = '" . $Session_IDUsuarioBD . "' ";
 
 if (mysqli_query($con, $sql)) {
     $aleatorio = rand(100000, 999999);
 
-    $sql_insert = "INSERT INTO op_solicitud_cheque_token (
-        id_solicitud,
+    $sql_insert = "INSERT INTO op_pedido_limpieza_token (
+        id_pedido,
         id_usuario,
         token 
     ) VALUES (
@@ -52,8 +48,9 @@ if (mysqli_query($con, $sql)) {
             // Contenido del correo
             $mail->isHTML(true);  // Habilitar HTML en el correo
             $mail->Subject = 'Token web';
-            $mail->Body = 'AdmonGas: Usa el siguiente token para firmar la solicitud de cheque solicitada. Token: <b>' . $aleatorio . '</b>';
+            $mail->Body = 'AdmonGas: Usa el siguiente token para firmar el pedido de limpieza. Token: <b>' . $aleatorio . '</b>';
 
+    
             // Envío del correo
             if ($mail->send()) {
                 echo 1;
@@ -71,3 +68,4 @@ if (mysqli_query($con, $sql)) {
 }
 
 mysqli_close($con);
+

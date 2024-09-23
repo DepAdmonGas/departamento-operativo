@@ -176,6 +176,38 @@ function Personal($idusuario, $con)
       }
     }
 
+
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url: '../../public/admin/modelo/token-email-pedido-pinturas.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+   alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+   alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
   </script>
 </head>
 
@@ -303,6 +335,12 @@ function Personal($idusuario, $con)
                           onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                           Whatsapp</button>
+
+
+                          <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+                onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+              <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
                       </th>
                     </tr>
                     <tr>
