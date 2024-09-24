@@ -31,138 +31,158 @@ require('app/help.php');
   });
 
 
-  function Guardar(idEstacion,GETdepu,GETyear,GETmes){
+  function Guardar(idEstacion, GETdepu, GETyear, GETmes) {
 
-  var Fecha              = $('#Fecha').val();
-  var Monto              = $('#Monto').val();
-  var Moneda             = $('#Moneda').val();
-  var Concepto           = $('#Concepto').val();
-  var Solicitante        = $('#Solicitante').val();
-  var Observaciones      = $('#Observaciones').val();
-  var Estacion           = $('#Estacion').val();
-  var Cuentas            = $('#Cuentas').val();
-  var Autorizadopor      = $('#Autorizadopor').val();
-  var MetodoAutorizacion = $('#MetodoAutorizacion').val();
-  var Departamento       = $('#Departamento').val();
+var Fecha              = $('#Fecha').val();
+var Monto              = $('#Monto').val();
+var Moneda             = $('#Moneda').val();
+var Concepto           = $('#Concepto').val();
+var Solicitante        = $('#Solicitante').val();
+var Observaciones      = $('#Observaciones').val();
+var Estacion           = $('#Estacion').val();
+var Cuentas            = $('#Cuentas').val();
+var Autorizadopor      = $('#Autorizadopor').val();
+var MetodoAutorizacion = $('#MetodoAutorizacion').val();
+var Departamento       = $('#Departamento').val();
 
-  Vale = document.getElementById("Vale");
-  Vale_file = Vale.files[0];
-  Vale_filePath = Vale.value;
+Vale = document.getElementById("Vale");
+Vale_file = Vale.files[0];
+Vale_filePath = Vale.value;
 
-  Recibo = document.getElementById("Recibo");
-  Recibo_file = Recibo.files[0];
-  Recibo_filePath = Recibo.value;
+Recibo = document.getElementById("Recibo");
+Recibo_file = Recibo.files[0];
+Recibo_filePath = Recibo.value;
 
-  Factura = document.getElementById("Factura");
-  Factura_file = Factura.files[0];
-  Factura_filePath = Factura.value;
+Factura = document.getElementById("Factura");
+Factura_file = Factura.files[0];
+Factura_filePath = Factura.value;
 
-  PDF = document.getElementById("PDF");
-  PDF_file = PDF.files[0];
-  PDF_filePath = PDF.value;
+PDF = document.getElementById("PDF");
+PDF_file = PDF.files[0];
+PDF_filePath = PDF.value;
 
-  XML = document.getElementById("XML");
-  XML_file = XML.files[0];
-  XML_filePath = XML.value;
+XML = document.getElementById("XML");
+XML_file = XML.files[0];
+XML_filePath = XML.value;
 
-  var data = new FormData();
-  //var url = '../../../../public/solicitud-vales/modelo/agregar-solicitud-vale.php';
-  var url = '../../../../app/controlador/1-corporativo/controladorSolicitudVale.php';
+var data = new FormData();
+var url = '../../../../app/controlador/1-corporativo/controladorSolicitudVale.php';
 
-  if(Fecha != ""){
-  $('#Fecha').css('border',''); 
-  if(Monto != ""){
-  $('#Monto').css('border',''); 
-  if(Moneda != ""){
-  $('#Moneda').css('border',''); 
-  if(Concepto != ""){
-  $('#Concepto').css('border',''); 
-  if(Solicitante != ""){
-  $('#Solicitante').css('border','');
-  if(Autorizadopor != ""){
-  $('#Autorizadopor').css('border','');
-  if(MetodoAutorizacion != ""){
-  $('#MetodoAutorizacion').css('border',''); 
- 
-  data.append('idEstacion', idEstacion);
-  data.append('GETdepu', GETdepu);
-  data.append('GETyear', GETyear);
-  data.append('GETmes', GETmes);
-  data.append('idUsuario', <?=$Session_IDUsuarioBD?>)
+// Validación común
+if (Fecha != "") {
+  $('#Fecha').css('border', '');
+  if (Monto != "") {
+    $('#Monto').css('border', '');
+    if (Moneda != "") {
+      $('#Moneda').css('border', '');
+      if (Concepto != "") {
+        $('#Concepto').css('border', '');
+        if (Solicitante != "") {
+          $('#Solicitante').css('border', '');
 
-  data.append('Fecha', Fecha);
-  data.append('Monto', Monto);
-  data.append('Moneda', Moneda);
-  data.append('Concepto', Concepto);
-  data.append('Solicitante', Solicitante);
-  data.append('Observaciones', Observaciones);
-  data.append('Autorizadopor', Autorizadopor);
-  data.append('MetodoAutorizacion', MetodoAutorizacion);
-  data.append('Departamento', Departamento);
-  data.append('Estacion', Estacion);
-  data.append('Cuentas', Cuentas);
+               // Si el idEstacion es 8 o el usuario es 292, validar Estacion y Cuentas
+               if (idEstacion == 8 || <?=$Session_IDUsuarioBD?> == 292) {
+                  // Lógica para mandar uno vacío si el otro está lleno
+                  if (Estacion !== "") {
+                    data.append('Estacion', Estacion);
+                    data.append('Cuentas', "");  // Mandar Cuentas vacío
+                    $('#Estacion').css('border', '');
+                    $('#Cuentas').css('border', '');
+                  } else if (Cuentas !== "") {
+                    data.append('Estacion', "");  // Mandar Estacion vacío
+                    data.append('Cuentas', Cuentas);
+                    $('#Estacion').css('border', '');
+                    $('#Cuentas').css('border', '');
+                  } else {
+                    alertify.error('Debe seleccionar una Estación o ingresar una Cuenta.');
+                  $('#Estacion').css('border', '2px solid #A52525');
+                  $('#Cuentas').css('border', '2px solid #A52525');
+                  return; // Detener la ejecución si ninguno está lleno
+                  }
+              }else{
+                data.append('Estacion', Estacion);
+                data.append('Cuentas', Cuentas);
+              }
 
-  data.append('Vale_file', Vale_file);
-  data.append('Recibo_file', Recibo_file);
-  data.append('Factura_file', Factura_file);
-  data.append('PDF_file', PDF_file);
-  data.append('XML_file', XML_file);
+          if (Autorizadopor != "") {
+            $('#Autorizadopor').css('border', '');
+            if (MetodoAutorizacion != "") {
+              $('#MetodoAutorizacion').css('border', '');
 
-  data.append('Accion','agregar-solicitud-vale');
-  
-  $(".LoaderPage").show();
-  $.ajax({
-  url: url,
-  type: 'POST',
-  contentType: false,
-  data: data,
-  processData: false,
-  cache: false
-  }).done(function(data){
+              // Campos comunes a agregar al formulario
+              data.append('idEstacion', idEstacion);
+              data.append('GETdepu', GETdepu);
+              data.append('GETyear', GETyear);
+              data.append('GETmes', GETmes);
+              data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
 
-    console.log(data)
+              data.append('Fecha', Fecha);
+              data.append('Monto', Monto);
+              data.append('Moneda', Moneda);
+              data.append('Concepto', Concepto);
+              data.append('Solicitante', Solicitante);
+              data.append('Observaciones', Observaciones);
+              data.append('Autorizadopor', Autorizadopor);
+              data.append('MetodoAutorizacion', MetodoAutorizacion);
+              data.append('Departamento', Departamento);
 
-  if(data == 1){  
-  history.back()
-  
-  }else{
-  $(".LoaderPage").hide();
-  alertify.error('Error al crear la Solicitud de Vale'); 
+              data.append('Vale_file', Vale_file);
+              data.append('Recibo_file', Recibo_file);
+              data.append('Factura_file', Factura_file);
+              data.append('PDF_file', PDF_file);
+              data.append('XML_file', XML_file);
+
+              data.append('Accion', 'agregar-solicitud-vale');
+
+              $(".LoaderPage").show();
+              $.ajax({
+                url: url,
+                type: 'POST',
+                contentType: false,
+                data: data,
+                processData: false,
+                cache: false
+              }).done(function (data) {
+
+                if (data == 1) {
+                  history.back();
+                } else {
+                  $(".LoaderPage").hide();
+                  alertify.error('Error al crear la Solicitud de Vale');
+                }
+
+              });
+
+            } else {
+              $('#MetodoAutorizacion').css('border', '2px solid #A52525');
+              alertify.error('Falta ingresar el metodo de autorización.');
+            }
+          } else {
+            $('#Autorizadopor').css('border', '2px solid #A52525');
+            alertify.error('Falta ingresar el nombre del quien autoriza.');
+          }
+        } else {
+          $('#Solicitante').css('border', '2px solid #A52525');
+          alertify.error('Falta ingresar el nombre del solicitante.');
+        }
+      } else {
+        $('#Concepto').css('border', '2px solid #A52525');
+        alertify.error('Falta ingresar el concepto.');
+      }
+    } else {
+      $('#Moneda').css('border', '2px solid #A52525');
+      alertify.error('Falta seleccionar la moneda.');
+    }
+  } else {
+    $('#Monto').css('border', '2px solid #A52525');
+    alertify.error('Falta ingresar el monto.');
   }
-     
-  }); 
+} else {
+  $('#Fecha').css('border', '2px solid #A52525');
+  alertify.error('Falta ingresar la fecha.');
+}
+}
 
-
-  }else{
-  $('#MetodoAutorizacion').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar el metodo de autorización.'); 
-  }
-  }else{
-  $('#Autorizadopor').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar el nombre del quien autoriza.'); 
-  }
-  }else{
-  $('#Solicitante').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar el nombre del solicitante.'); 
-  }
-  }else{
-  $('#Concepto').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar el concepto.'); 
-  }
-  }else{
-  $('#Moneda').css('border','2px solid #A52525');   
-  alertify.error('Falta seleccionar la mondena.'); 
-  }
-  }else{
-  $('#Monto').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar el monto.'); 
-  }
-  }else{
-  $('#Fecha').css('border','2px solid #A52525'); 
-  alertify.error('Falta ingresar la fecha.'); 
-  }  
-
-  }
   </script>
   </head>
 
@@ -246,16 +266,16 @@ require('app/help.php');
   </select>
   </div>
 
-  <?php if($GET_idEstacion == 8){ ?>
+  <?php if($GET_idEstacion == 8 || $Session_IDUsuarioBD == 292){ ?>
   <div class="col-12">  
   <hr>
   <h6>CARGO A CUENTA:</h6>
   <div class="row">
 
   <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">  
-      <div class="mb-1 text-secondary mt-2">ESTACION:</div>
+  <div class="mb-1 text-secondary fw-bold mt-2">* ESTACION:</div>
       <select class="form-select rounded-0" id="Estacion">
-        <option value="0"></option>
+        <option value=""></option>
         <?php 
         $sql = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
         $result = mysqli_query($con, $sql);
@@ -267,7 +287,7 @@ require('app/help.php');
     </div>
     
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">  
-      <div class="mb-1 text-secondary mt-2">CUENTAS:</div>
+      <div class="mb-1 text-secondary fw-bold mt-2">* CUENTAS:</div>
       <input class="form-control rounded-0" type="text" multiple list="CargoCuentas" id="Cuentas" />
       <datalist id="CargoCuentas">
       <option value="Club deportivo"></option>
@@ -321,7 +341,7 @@ require('app/help.php');
 
   <div class="col-12">  
   <hr>
-  <h6>Documentacion:</h6>
+  <h6>DOCUMENTACIÓN:</h6>
   </div>
 
   <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
@@ -368,6 +388,37 @@ require('app/help.php');
   </div>
  
   </div>
+
+
+  
+  <script>
+  // Obtener los elementos de Estacion y Cuentas
+  const estacionSelect = document.getElementById('Estacion');
+  const cuentasInput = document.getElementById('Cuentas');
+
+  // Función que deshabilita/activa los elementos dependiendo del valor
+  function toggleElements() {
+    if (estacionSelect.value !== "") {
+      cuentasInput.disabled = true;  // Si hay valor en Estación, deshabilitar Cuentas
+    } else {
+      cuentasInput.disabled = false;  // Si no hay valor, activar Cuentas
+    }
+    
+    if (cuentasInput.value !== "") {
+      estacionSelect.disabled = true;  // Si hay valor en Cuentas, deshabilitar Estación
+    } else {
+      estacionSelect.disabled = false;  // Si no hay valor, activar Estación
+    }
+  }
+
+  // Escuchar el cambio de valor en ambos elementos
+  estacionSelect.addEventListener('change', toggleElements);
+  cuentasInput.addEventListener('input', toggleElements);
+
+  // Llamar la función inicialmente para verificar los valores
+  toggleElements();
+  </script>
+
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

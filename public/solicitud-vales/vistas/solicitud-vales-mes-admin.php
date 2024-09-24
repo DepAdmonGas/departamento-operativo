@@ -33,7 +33,17 @@ require('app/help.php');
  
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
+
+  if(<?=$Session_IDUsuarioBD?> == 292){
+  ListaVales(8,3,<?=$GET_year;?>,<?=$GET_mes;?>)
+
+  }else{
   ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>)
+
+  }
+
+
+
   });
 
   function Regresar(){

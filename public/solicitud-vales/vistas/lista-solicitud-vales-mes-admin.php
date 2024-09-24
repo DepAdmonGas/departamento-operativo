@@ -122,10 +122,16 @@ $Nuevo = '';
 	$Detalle = '<a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 	$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 	$Archivos = '<a class="dropdown-item" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"><i class="fa-regular fa-file"></i> Documentación</a>';
-	$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 	$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 	$Firma = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
+
+	if($Session_IDUsuarioBD == 292){
+	$Editar = '<a class="dropdown-item" onclick="Editar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+	}else{
+	$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 	}
+
+	} 
 
 	echo '<tr '.$trColor.'>
 	<th class="align-middle text-center">00'.$row_lista['folio'].'</th>
