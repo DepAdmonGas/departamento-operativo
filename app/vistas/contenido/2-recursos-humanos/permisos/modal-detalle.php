@@ -53,12 +53,12 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     <div class="row">
 
         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-            <small class="mb-1 text-secondary ">Estación:</small>
+            <small class="mb-1 text-secondary ">ESTACIÓN:</small>
             <div class=""><?= $Estacion; ?></div>
         </div>
 
         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
-            <small class="mb-1 text-secondary ">Colaborador:</small>
+            <small class="mb-1 text-secondary ">COLABORADOR:</small>
             <div class=""><?= $nameUSUR; ?></div>
         </div>
 
@@ -68,38 +68,38 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
             <div class="row">
 
                 <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mb-2">
-                    <small class="text-secondary">Del:</small>
+                    <small class="text-secondary">DEL:</small>
                     <div><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio); ?></div>
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mb-2">
-                    <small class="text-secondary">Hasta:</small>
+                    <small class="text-secondary">HASTA:</small>
                     <div><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino); ?></div>
                 </div>
 
 
                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-                <small class="mb-1 text-secondary ">Días tomados:</small>
+                <small class="mb-1 text-secondary ">DÍAS TOMADOS:</small>
                 <div class=""><?= $diastomados; ?></div>
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-                <small class="text-secondary">Estacion de quien cubre:</small>
+                <small class="text-secondary">ESTACION DE QUIEN CUBRE:</small>
                     <div><?= $nameES; ?></div>
                 </div>
 
                 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
-                <small class="text-secondary">Quien cubre:</small>
+                <small class="text-secondary">QUIEN CUBRE:</small>
                     <div><?= $nameUSU; ?></div>
                 </div>
 
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
-                <small class="text-secondary">Motivo:</small>
+                <small class="text-secondary">MOTIVO:</small>
                     <div><?= $Motivo; ?></div>
                 </div>
 
                 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-2">
-                    <small class="text-secondary">Observaciones:</small>
+                    <small class="text-secondary">OBSERVACIONES:</small>
                     <div><?= $observaciones; ?></div>
                 </div>
 

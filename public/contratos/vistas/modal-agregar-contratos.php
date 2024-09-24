@@ -19,29 +19,29 @@ $estacion = $row_listaestacion['nombre'];
 
 <div class="modal-body">
 
-<h6 class="mb-1">* Fecha:</h6>
+<h6 class="mb-1 text-secondary fw-bold">* FECHA:</h6>
 <input class="form-control" type="date" id="FechaC">
 
-<h6 class="mb-1 mt-3">* Documento:</h6>
+<h6 class="mb-1 mt-3 text-secondary fw-bold">* DOCUMENTO:</h6>
 <textarea class="form-control" id="DescripcionC"></textarea>
 
 
-<h6 class="mt-3 mb-1">* PDF:</h6>
+<h6 class="mt-3 mb-1 text-secondary fw-bold">* PDF:</h6>
 <input class="form-control" type="file" id="ContratoDoc">
 
-<h6 class="mb-1 mt-3">Objeto:</h6>
+<h6 class="mb-1 mt-3 text-secondary">OBJETO:</h6>
 <textarea class="form-control" id="Objeto"></textarea>
 
-<h6 class="mb-1 mt-3">Proveedor:</h6>
+<h6 class="mb-1 mt-3 text-secondary">PROVEDOR:</h6>
 <textarea class="form-control" id="Proveedor"></textarea>
 
-<h6 class="mb-1 mt-3">Vencimiento:</h6>
+<h6 class="mb-1 mt-3 text-secondary">VENCIMIENTO:</h6>
 <input type="date" class="form-control" id="Vencimiento">
 
-<h6 class="mb-1 mt-3">Personas que firman:</h6>
+<h6 class="mb-1 mt-3 text-secondary">PERSONAS QUE FIRMAN:</h6>
 <textarea class="form-control" id="Firman"></textarea>
 
-<h6 class="mb-1 mt-3">Comentario:</h6>
+<h6 class="mb-1 mt-3 text-secondary">COMENTARIO:</h6>
 <textarea class="form-control" id="Comentario"></textarea>
 
 </div>

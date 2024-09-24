@@ -483,7 +483,7 @@ $(".LoaderPage").show();
 
        if(response == 1){
         $('#Comentario').val('');
-          SelEstacion(idestacion,year,mes); 
+          SelEstacion(idEstacion,year,mes); 
           sizeWindow();   
           alertify.success('Comentario agregado exitosamente.');
           $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);         
@@ -769,7 +769,7 @@ window.location.href = "../../analisis-compra/" + idEstacion + "/" + year + "/" 
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivModalComentario">
   </div>
   </div>

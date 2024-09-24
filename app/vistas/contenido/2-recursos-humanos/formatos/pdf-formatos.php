@@ -768,7 +768,7 @@ $dompdf->setPaper('A4', 'portrait'); // Configura el tamaño y la orientación d
 $dompdf->render();
 
 // Salida del PDF generado al navegador
-$dompdf->stream(''.$Titulo.'.pdf', ['Attachment' => 0]);
+$dompdf->stream(''.$Titulo.'.pdf', ['Attachment' => 1]);
 
 ?>
 

@@ -46,12 +46,12 @@ $factura = $row['factura'];
 <div class="row">
   
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Fecha de falla:</b></div>
+<div class="fw-bold text-secondary">FECHA DE FALLA:</div>
 <?=$Fecha;?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Falla:</b></div>
+<div class="fw-bold text-secondary">FALLA:</div>
 <?php 
 if($falla == ""){
 echo "S/I";
@@ -62,7 +62,7 @@ echo $falla;
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Atiende:</b></div>
+<div class="fw-bold text-secondary">ATIENDE:</div>
 <?php 
 if($atiende == ""){
 echo "S/I";
@@ -73,7 +73,7 @@ echo $atiende;
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>No Reporte:</b></div>
+<div class="fw-bold text-secondary">NO REPORTE:</div>
 <?php 
 if($noreporte == ""){
 echo "S/I";
@@ -84,7 +84,7 @@ echo $noreporte;
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Día reporte:</b></div>
+<div class="fw-bold text-secondary">DÍA REPORTE:</div>
 <?php 
 if($diareporte == "0000-00-00"){
 echo "S/I";
@@ -95,7 +95,7 @@ echo $ClassHerramientasDptoOperativo->FormatoFecha($diareporte);
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Día solución:</b></div>
+<div class="fw-bold text-secondary">DÍA SOLUCIÓN:</div>
 <?php 
 if($diasolucion == "0000-00-00"){
 echo "S/I";
@@ -106,12 +106,12 @@ echo $ClassHerramientasDptoOperativo->FormatoFecha($diasolucion);
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Costo:</b></div>
+<div class="fw-bold text-secondary">COSTO:</div>
 $ <?=number_format($costo,2);?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Factura:</b></div>
+<div class="fw-bold text-secondary">FACTURA:</div>
 <?php 
 if($factura == ""){
 echo "S/I";
@@ -125,7 +125,7 @@ echo '<a href="'.RUTA_ARCHIVOS.''.$factura.'" download>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Serie que se queda:</b></div>
+<div class="fw-bold text-secondary">SERIE QUE SE QUEDA:</div>
 <?php 
 if($serie == ""){
 echo "S/I";
@@ -136,7 +136,7 @@ echo $serie;
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Modelo:</b></div>
+<div class="fw-bold text-secondary">MODELO:</div>
 <?php 
 if($modelo == ""){
 echo "S/I";
@@ -147,7 +147,7 @@ echo $modelo;
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"> 
-<div class="font-weight-bold"><b>Conexión:</b></div>
+<div class="fw-bold text-secondary">CONEXIÓN:</div>
 <?php 
 if($conexion == ""){
 echo "S/I";
@@ -159,7 +159,7 @@ echo $conexion;
 
 
 <div class="col-12"> 
-<div class="font-weight-bold"><b>Observaciones:</b></div>
+<div class="fw-bold text-secondary">OBSERVACIONES:</div>
 <?php 
 if($observaciones == ""){
 echo "S/I";

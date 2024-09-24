@@ -132,18 +132,18 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 
 <div class="col-12 <?=$ocultarFormulario?>">
 
-<h6 class="text-secondary">Importe:</h6>
+<h6 class="text-secondary">IMPORTE:</h6>
 <input class="form-control mb-3" type="number" id="Importe" value="<?=$importe_total?>">
 
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<h6 class="text-secondary">Recibo de Nomina:</h6>
+<h6 class="text-secondary">RECIBO DE NOMINA:</h6>
 <input class="form-control" type="file" id="DocumentoAcuse">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<h6 class="text-secondary">Recibo de Nomina <b>(Firmado)</b>:</h6>
+<h6 class="text-secondary">RECIBO DE NOMINA <b>(FIRMADO)</b>:</h6>
 <input class="form-control" type="file" id="DocumentoFirma">
 </div>
 
@@ -151,7 +151,7 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 <div class="col-12 mt-3 <?=$ocultarPrima?> <?=$ocultarOpcion?>">
 <div class="border p-3">
 
-<h6 class="text-secondary">¿Se realizo el pago de prima vacacional?:</h6>
+<h6 class="text-secondary">¿SE REALIZO EL PAGO DE PRIMA VACACIONAL?:</h6>
 <hr>
 
 <div class="row">

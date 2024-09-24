@@ -45,8 +45,8 @@ $numero_lista = mysqli_num_rows($result_lista);
 
           echo '<tr>';
           echo '<th class="align-middle text-center">' . $num . '</th>';
-          echo '<td class="align-middle"><b>' . $row_lista['producto'] . '</b></td>';
-          echo '<td class="align-middle"><b>' . $row_lista['unidad'] . '</b></td>';
+          echo '<td class="align-middle">' . $row_lista['producto'] . '</td>';
+          echo '<td class="align-middle">' . $row_lista['unidad'] . '</td>';
           echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'editar-tb.png" onclick="EditarProducto(' . $id . ')"></td>';
           echo '<td class="align-middle text-center"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="EliminarProducto(' . $id . ')"></td>';
           echo '</tr>';

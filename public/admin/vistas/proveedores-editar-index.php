@@ -280,7 +280,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
                 </div>
 
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-                  <div class="mb-1 text-secondary">Folio:</div>
+                  <div class="mb-1 text-secondary">FOLIO:</div>
                   <input type="text" class="form-control rounded-0" id="Folio" value="00<?= $folio; ?>" disabled>
                 </div>
 

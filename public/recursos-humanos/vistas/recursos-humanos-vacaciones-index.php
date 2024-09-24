@@ -189,8 +189,8 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
     }
 
   function ModalComentario(idEstacion,idPersonal,Year){
-  $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
+  $('#ModalComentario').modal('show');  
+  $('#ContenidoModalComentario').load('public/recursos-humanos/vistas/modal-comentarios-vacaciones.php?idPersonal=' + idPersonal + '&Year=' + Year + '&idEstacion=' + idEstacion );
   }
 
   function regresarModal(idPersonal,Year){
@@ -477,11 +477,20 @@ $ToSolicitud = ToSolicitudVacaciones($id,$GET_year_actual,$con);
 
   </div>
 
+<!---------- MODAL COMENTARIO ----------> 
+<div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="ContenidoModalComentario">
+  </div>
+  </div>
+  </div>
+
 
   <!---------- MODAL 1 ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="ContenidoModal">
+  </div>
   </div>
   </div>
 

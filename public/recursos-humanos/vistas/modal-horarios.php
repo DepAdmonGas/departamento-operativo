@@ -32,12 +32,12 @@ $Titulo = "Editar";
 
 <div class="modal-body">
 
-<h6 class="mb-1">* Titulo </h6>
+<h6 class="mb-1 fw-bold text-secondary">* TITULO </h6>
 <textarea class="form-control" id="Titulo"><?=$titulo;?></textarea>
 
-<h6 class="mt-2 mb-1">* Hora Entrada</h6>
+<h6 class="mt-2 mb-1 fw-bold text-secondary">* HORA ENTRADA</h6>
 <input type="time" id="HoraEntrada" class="form-control" value="<?=$horaentrada;?>">
-<h6 class="mt-2 mb-1">* Hora Salida</h6>
+<h6 class="mt-2 mb-1 fw-bold text-secondary">* HORA SALIDA</h6>
 <input type="time" id="HoraSalida" class="form-control" value="<?=$horasalida;?>">
 
 </div>

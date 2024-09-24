@@ -99,7 +99,7 @@ $fondo = "";
 echo '<tr '.$fondo.'>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['tpv'].'</td>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['no_serie'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['no_serie'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['modelo'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['no_lote'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['tipo_conexion'].'</td>';

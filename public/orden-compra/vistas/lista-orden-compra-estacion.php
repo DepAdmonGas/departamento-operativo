@@ -57,7 +57,7 @@ function Personal($idUsuario, $con)
 
           echo '<tr style="' . $trColor . '">';
           echo '<th class="text-center align-middle">' . $num . '</th>';
-          echo '<td class="align-middle text-center"><b>00' . $row_lista['no_control'] . '</b></td>';
+          echo '<td class="align-middle text-center">00' . $row_lista['no_control'] . '</td>';
           echo '<td class="align-middle text-center">' . $Personal . '</td>';
           echo '<td class="align-middle text-center">' . FormatoFecha($explode[0]) . '</td>';
           

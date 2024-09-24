@@ -306,7 +306,7 @@ function Personal($idusuario, $con)
           </div>
         </div>
         <br>
-        <div class="mb-2"><b>Firmas:</b></div>
+        <div class="mb-2 text-secondary fw-bold">FIRMAS:</div>
         <hr>
         <div class="row">
           <?php if ($Session_IDUsuarioBD == 19) { ?>

@@ -20,13 +20,13 @@ $numero_lista = mysqli_num_rows($result_lista);
 <div class="modal-body">
 
   <div class="col-xl-12 mb-2">
-    <div class="mb-1 text-secondary">* Fecha</div>
+    <div class="mb-1 text-secondary fw-bold">* FECHA</div>
     <input class="form-control" type="date" id="fechaAceite">
   </div>
 
 
   <div class="col-12 mb-2">
-    <div class="mb-1 text-secondary">* Concepto</div>
+    <div class="mb-1 text-secondary fw-bold">* CONCEPTO</div>
     <select class="form-select" id="conceptoAceite">
       <option value="">Selecciona una opcion...</option>
       <option value="Nota de remisión QUAKER STATE">Nota de remisión QUAKER STATE</option>
@@ -39,7 +39,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
 
   <div class="col-12">
-    <div class="mb-1 text-secondary">* Archivo</div>
+    <div class="mb-1 text-secondary fw-bold">* ARCHIVO</div>
     <input class="form-control" type="file" id="facturaAceite">
   </div>
 

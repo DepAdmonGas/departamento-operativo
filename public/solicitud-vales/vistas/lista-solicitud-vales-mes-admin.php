@@ -136,7 +136,7 @@ $Nuevo = '';
 	echo '<tr '.$trColor.'>
 	<th class="align-middle text-center">00'.$row_lista['folio'].'</th>
 	<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).'</td>
-	<td class="align-middle text-center"><b>'.$CargoCuenta.'</b></td>
+	<td class="align-middle text-center">'.$CargoCuenta.'</td>
 	<td class="align-middle text-center">$'.number_format($row_lista['monto'],2).'</td>
 	<td class="align-middle text-center">'.$row_lista['concepto'].'</td>
 	<td class="align-middle text-center">'.$row_lista['solicitante'].'</td>
