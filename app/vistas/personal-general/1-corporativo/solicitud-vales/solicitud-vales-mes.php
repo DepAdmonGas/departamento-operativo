@@ -76,6 +76,10 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>,'<?=$Pagina;?>')
+
+  $('.selectize').selectize({
+    sortField: 'text'
+  });
   }); 
 
   function Regresar(){
