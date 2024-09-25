@@ -23,8 +23,8 @@ $mes = $_GET['mes'];
     $inventario_final = $inventario_bodega + $inventario_exibidores;
     $diferencia = $inventario_final - $inventarioF;
     }
-
-    $sql_reporte_pago = "SELECT * FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = '".$idaceite."' ";
+    $comentario = '';
+    echo $sql_reporte_pago = "SELECT * FROM op_aceites_lubricantes_reporte_pagodiferencia WHERE id_aceite = '".$idaceite."' ";
    $result_reporte_pago = mysqli_query($con, $sql_reporte_pago);
    $numero_reporte_pago = mysqli_num_rows($result_reporte_pago);
     while($row_reporte_pago = mysqli_fetch_array($result_reporte_pago, MYSQLI_ASSOC)){
@@ -38,7 +38,7 @@ $mes = $_GET['mes'];
     function valRow($valor){
 
     if ($valor == 0) {
-        $resultado = "";
+        $resultado = 0;
       }else{
         $resultado =  number_format($valor, 2, '.', '');
       }
@@ -48,7 +48,7 @@ $mes = $_GET['mes'];
   }
 
       function totalaceites($IdReporte,$noaceite, $con){
-
+        $cantidad =0;
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
@@ -70,7 +70,7 @@ $mes = $_GET['mes'];
 ?>
  <div class="modal-header">
         <h5 class="modal-title">Detalle pago de diferencia</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
  <div class="modal-body">
