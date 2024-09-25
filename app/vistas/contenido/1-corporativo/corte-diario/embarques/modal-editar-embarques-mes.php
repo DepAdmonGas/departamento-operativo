@@ -163,12 +163,12 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* FECHA</div>
+      <div class="mb-1 text-secondary fw-bold">* FECHA</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* EMBARQUE</div>
+      <div class="mb-1 text-secondary fw-bold">* EMBARQUE</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <?php
         if ($embarque == "") {
@@ -201,7 +201,7 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* PRODUCTO</div>
+      <div class="mb-1 text-secondary fw-bold">* PRODUCTO</div>
       <select class="form-select" id="Producto">
         <option><?= $producto; ?></option>
         <?php

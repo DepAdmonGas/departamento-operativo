@@ -139,7 +139,7 @@ function cantidadaceites($IdReporte, $fecha, $noaceite, $con){
     }
 
     function totalaceites($IdReporte,$noaceite, $con){
-
+      $cantidad = 0;
     $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
     $result_listaaceite = mysqli_query($con, $sql_listaaceite);
     while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
@@ -442,15 +442,20 @@ ON op_inventario_aceites.id_aceite = op_aceites.id WHERE op_inventario_aceites.i
             $diffactura = $factotal - $ventas;
             $iconDiferencia = '';
 
-            if (is_numeric($diferencia) and ($diferencia < 0)) {
+            if( is_numeric($diferencia) AND ($diferencia<0) ){
 
-                if ($InventarioFin == 1) {
-                    $ValidaPagoD = ValidaPagoD($idaceite,$con);
-
-                    $iconDiferencia = '<div class="float-start"><img src="' . RUTA_IMG_ICONOS . 'merma-no.png" onclick="ModalDetalle(' . $idaceite . ')"></div>';
-
-                }
-            }
+              if ($InventarioFin == 1) {
+              $ValidaPagoD = ValidaPagoD($idaceite,$con);
+          
+              if ($ValidaPagoD == 0) {
+                $iconDiferencia = '<div class="float-start"><img src="'.RUTA_IMG_ICONOS.'merma-si.png" onclick="ModalDiferencia('.$idaceite.','.$GET_year.','.
+            $GET_mes.')"></div>';
+                }else{
+            $iconDiferencia = '<div class="float-start"><img src="'.RUTA_IMG_ICONOS.'merma-no.png" onclick="ModalDetalle('.$idaceite.')"></div>';
+              }
+              
+              }
+              }
 
             $totalBodegas = $totalBodegas + $bodega;
             $totalExibidores = $totalExibidores + $exibidores;
