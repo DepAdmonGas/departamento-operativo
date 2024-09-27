@@ -110,6 +110,7 @@ require('app/help.php');
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
+      "stateSave": true,
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },
@@ -169,6 +170,7 @@ require('app/help.php');
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
+      "stateSave": true,
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },

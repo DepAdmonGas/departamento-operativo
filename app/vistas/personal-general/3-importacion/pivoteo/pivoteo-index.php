@@ -21,6 +21,7 @@ targets = [4];
 //$('#ListaPivoteo').load('public/corte-diario/vistas/lista-pivoteo.php?idEstacion=' + idEstacion);
 $('#ListaPivoteo').load('app/vistas/contenido/3-importacion/pivoteo/lista-pivoteo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_pivoteo_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

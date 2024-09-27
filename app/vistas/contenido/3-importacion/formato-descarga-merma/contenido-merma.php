@@ -48,7 +48,7 @@ $tituloMenu = "Importacion";
 
 <div class="table-responsive">
 
-<table id="tabla_merma" class="custom-table" style="font-size: .9em;" width="100%">
+<table id="tabla_merma_<?=$idEstacion?>" class="custom-table" style="font-size: .9em;" width="100%">
 <thead class="tables-bg">
 <tr>
 <th class="align-middle text-center" width="40px">Folio</th>

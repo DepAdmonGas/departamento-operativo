@@ -16,6 +16,7 @@ targets = [7];
   
 $('#DivContenido').load('app/vistas/contenido/3-importacion/mediciones/lista-mediciones.php?idEstacion=' + idEstacion, function () {
 $('#tabla_mediciones').DataTable({
+  "stateSave": true,
 "language": {
 "url": "<?= RUTA_JS2 ?>/es-ES.json"
 },

@@ -57,6 +57,8 @@ require('app/help.php');
 
   $('#Inventario').load('../public/admin/vistas/bitacora-aditivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_aditivo_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -80,6 +82,8 @@ require('app/help.php');
 
   $('#Inventario').load('../public/admin/vistas/inventario-aditivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_inventario_aditivo_' + idEstacion).DataTable({
+  "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -144,6 +148,7 @@ function Resumen(){
 
   $('#Inventario').load('../public/admin/vistas/reporte-aditivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_reporte_aditivo_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

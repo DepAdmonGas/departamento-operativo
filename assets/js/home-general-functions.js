@@ -1,10 +1,12 @@
 $(document).ready(function ($) {
 $(".LoaderPage").fadeOut("slow");
 listaMenu()
+
+localStorage.clear();
 });
 
 function Regresar() {
-    window.history.back();
+window.history.back();
 }
 
 //---------- LISTADO DE ACTIVIDADES USUARIOS ----------//

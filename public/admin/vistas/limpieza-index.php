@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 function ToSolicitud($idEstacion, $con)
 {
   $sql_lista = "SELECT id FROM op_pedido_limpieza WHERE id_estacion = '" . $idEstacion . "' AND (status >= 1 AND status < 2) ";
@@ -44,12 +40,6 @@ function ToSolicitud($idEstacion, $con)
     href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css"
     rel="stylesheet">
 
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {
@@ -70,7 +60,8 @@ function ToSolicitud($idEstacion, $con)
       sessionStorage.setItem('idestacion', idEstacion);
       sizeWindow();
       $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-limpieza.php?idEstacion=' + idEstacion, function () {
-        $('#tabla-principal').DataTable({
+        $('#tabla_limpieza_' + idEstacion).DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

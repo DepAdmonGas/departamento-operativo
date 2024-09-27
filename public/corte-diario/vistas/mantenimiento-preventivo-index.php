@@ -45,6 +45,7 @@ require('app/help.php');
 
   $('#ContenidoPrin').load('public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_mantenimiento_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

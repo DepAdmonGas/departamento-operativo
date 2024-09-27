@@ -30,6 +30,7 @@ require ('app/help.php');
   $(document).ready(function ($) {
   $(".LoaderPage").fadeOut("slow");
 
+  localStorage.clear();
   });
 
     function Regresar() { window.history.back(); }
@@ -69,6 +70,14 @@ require ('app/help.php');
         }
       });
     }
+
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
 </head>

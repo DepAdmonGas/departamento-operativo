@@ -74,6 +74,8 @@ require('app/help.php');
       
   // Inicializar DataTables
   $('#' + tableId).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   }, 
@@ -745,6 +747,8 @@ function BuscarArea(Area, idEstacion){
       
   // Inicializar DataTables
   $('#' + tableId).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   }, 
@@ -810,6 +814,8 @@ var Buscar = e.value;
 
   $('#ListaTerminales').load('../public/admin/vistas/lista-reporte-transaccion.php?idEstacion=' + idEstacion, function() {
   $('#tabla_transaccion_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

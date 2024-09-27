@@ -46,7 +46,7 @@ $titulos = " ($Titulo)";
 </div>
 
 <div class="table-responsive">
-<table id="tabla_mediciones" class="custom-table" style="font-size: .8em;" width="100%">
+<table id="tabla_mediciones_<?=$idEstacion?>" class="custom-table" style="font-size: .8em;" width="100%">
 
 <thead class="tables-bg">
 <th class="align-middle text-center">#</th>

@@ -431,6 +431,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
     //$ruta_elegida = 'public/corte-diario/vistas/solicitud-cheque-firmar.php';
     $ruta_elegida = 'app/vistas/personal-general/1-corporativo/solicitud-cheque/solicitud-cheque-firmar.php';
     
+    
     // 3. Ingresos vs Facturacion -----
     } else if ($partes_ruta[1] == 'ingresos-facturacion') {
     $Pagina = $partes_ruta[1];

@@ -20,6 +20,7 @@ targets = [2,3];
 
 $('#Contenido').load('app/vistas/contenido/2-recursos-humanos/programar-horario/contenido-programar-horario.php?idEstacion=' + idEstacion, function () {
 $('#tabla_horario').DataTable({
+"stateSave": true,
 "language": {
 "url": "<?= RUTA_JS2 ?>/es-ES.json"
 },

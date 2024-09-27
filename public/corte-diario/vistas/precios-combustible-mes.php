@@ -46,6 +46,7 @@ require('app/help.php');
       targets = [2];
       $('#ListaFecha').load('../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes, function () {
         $('#tabla_precios').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

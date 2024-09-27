@@ -56,7 +56,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 
 <div class="table-responsive">
-  <table id="tabla_cuenta_litros" class="custom-table" style="font-size: .9em;" width="100%">
+  <table id="tabla_cuenta_litros_<?=$idEstacion?>" class="custom-table" style="font-size: .9em;" width="100%">
 
 
     <thead class="tables-bg">

@@ -66,6 +66,7 @@ $ClassRecursosHumanosGeneral->ValAsistencia($Session_IDEstacion,1);
 
   $('#ListaAsistencia').load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-biometrico-estaciones.php?idEstacion=' + idEstacion, function() {
   $('#tabla_biometrico_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -275,8 +276,6 @@ processData: false,
 cache: false
 }).done(function(data){
  
-console.log(data)
-
 if(data == 1){
 alertify.success('Se agrego el documento');
 $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-incidencias.php?idAsistencia=' + idAsistencia + '&idPersonal=' + idPersonal + '&idEstacion=' + idEstacion); 

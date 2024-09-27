@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 ?>
 <html lang="es">
 
@@ -35,7 +31,7 @@ if ($Session_IDUsuarioBD == "") {
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
-
+      localStorage.clear();
     });
 
     function Regresar() { window.history.back(); }
@@ -50,6 +46,13 @@ if ($Session_IDUsuarioBD == "") {
     function Aceites() { window.location.href = "../administracion/aceites"; }
     function InventarioAceites() { window.location.href = "../administracion/inventario-aceites"; }
     function SolicitudVales() { window.location.href = "../solicitud-vales"; }
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
 </head>

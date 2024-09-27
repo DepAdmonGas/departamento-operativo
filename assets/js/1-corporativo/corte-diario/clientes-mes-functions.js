@@ -7,6 +7,7 @@ function ReporteClientes(IdReporte, ruta_js) {
     
             // Inicializar DataTables
             $('#' + tableId).DataTable({
+                "stateSave": true,
                 "language": {
                     "url": ruta_js + "/es-ES.json"
                 },

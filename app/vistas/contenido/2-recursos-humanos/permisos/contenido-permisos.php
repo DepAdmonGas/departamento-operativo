@@ -48,7 +48,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
 <div class="row">
   <div class="table-responsive">
-    <table id="tabla_permisos" class="custom-table" style="font-size: .8em;" width="100%">
+    <table id="tabla_permisos_<?=$idEstacion?>" class="custom-table" style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
         <tr>
           <th class="text-center align-middle tableStyle font-weight-bold">#</th>

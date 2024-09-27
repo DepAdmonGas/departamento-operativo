@@ -22,6 +22,7 @@ require 'app/vistas/contenido/header.php';
 
     $('#ListaRefacciones').load('app/vistas/contenido/4-almacen/refacciones/lista-reporte.php', function () {
       $('#tabla_refacciones').DataTable({
+            "stateSave": true,
         "language": {
           "url": "<?= RUTA_JS2 ?>/es-ES.json"
         },

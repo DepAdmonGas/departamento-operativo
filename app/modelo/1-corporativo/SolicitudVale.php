@@ -127,8 +127,6 @@ class SolicitudVale extends Exception
     $hora_del_dia = date("H:i:s");
     $status = 1;
 
-
-
     if($infoSolicitud[4] == 292){
     $Estacion = $infoSolicitud[14];
     $Cuentas = $infoSolicitud[15];

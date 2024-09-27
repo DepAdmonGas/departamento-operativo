@@ -35,6 +35,8 @@ header("Location:".PORTAL."");
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   listaSubMenu('Comercializadora')
+  localStorage.clear();
+
   });
 
   //---------- LISTADO SUB MENU ----------//
@@ -53,8 +55,14 @@ header("Location:".PORTAL."");
   window.history.back();
   }
   
- 
 
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+ 
   </script> 
   </head>
 

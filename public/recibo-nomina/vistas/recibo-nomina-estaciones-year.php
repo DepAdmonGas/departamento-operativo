@@ -155,6 +155,7 @@ $noneDiv2 = "d-none";
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
+      "stateSave": true,
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },

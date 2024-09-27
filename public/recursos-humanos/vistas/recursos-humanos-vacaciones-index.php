@@ -60,6 +60,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-tabulador.php', function() {
   $('#tabla_tabulador').DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -78,6 +79,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   $('#ListaNegra').load('public/recursos-humanos/vistas/contenido-recursos-humanos-vacaciones.php?idEstacion=' + idEstacion + '&Year=' + Year, function() {
   $('#tabla_vacaciones_' + idEstacion + '_' + Year).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

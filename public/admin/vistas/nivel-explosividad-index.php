@@ -59,6 +59,7 @@ require('app/help.php');
 
   $('#ListaSenalamientos').load('../public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion, function() {
   $('#tabla_nivel_explosividad_' + idestacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
