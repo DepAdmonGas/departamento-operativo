@@ -45,6 +45,7 @@ if ($Session_IDUsuarioBD == "") {
       targets = [4];
       $('#ListaFecha').load('../../../public/orden-compra/vistas/lista-orden-compra-estacion.php?year=' + year + '&mes=' + mes, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

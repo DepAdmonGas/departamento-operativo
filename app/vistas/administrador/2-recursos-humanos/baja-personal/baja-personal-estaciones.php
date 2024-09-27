@@ -58,6 +58,7 @@ require('app/help.php');
 
   $('#ListaNegra').load('app/vistas/administrador/2-recursos-humanos/baja-personal/contenido-baja-personal-estaciones.php?idEstacion=' + idEstacion, function() {
   $('#tabla_baja_personal_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

@@ -41,6 +41,7 @@ if($Session_IDUsuarioBD == 353){
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   
+  localStorage.clear();
   });
 
   function Embarques(){window.location.href = "embarques";}
@@ -51,11 +52,14 @@ if($Session_IDUsuarioBD == 353){
   function AnalisisCompra(){window.location.href = "importacion-analisis-compra";}
   function Pivoteo(){window.location.href = "pivoteo";}
   function CombustibleD(){window.location.href = "precios-combustible";}
+  function CuentaLitros(){  window.location.href = "cuenta-litros"; }
 
-  function CuentaLitros(){  
-  window.location.href = "cuenta-litros";
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
   }
-
+  });
   </script>
   </head>
   

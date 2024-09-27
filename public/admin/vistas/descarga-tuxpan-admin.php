@@ -58,7 +58,8 @@ require('app/help.php');
 
 
   $('#Contenido').load('../app/vistas/contenido/3-importacion/formato-descarga-merma/contenido-merma.php?idEstacion=' + idEstacion, function () {
-  $('#tabla_merma').DataTable({
+  $('#tabla_merma_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?= RUTA_JS2 ?>/es-ES.json"
   },

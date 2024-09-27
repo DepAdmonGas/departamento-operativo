@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 ?>
 
 <html lang="es">
@@ -35,6 +31,8 @@ if ($Session_IDUsuarioBD == "") {
 
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
+
+      localStorage.clear();
 
     });
 
@@ -68,6 +66,12 @@ if ($Session_IDUsuarioBD == "") {
 
     }
 
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
 </head>

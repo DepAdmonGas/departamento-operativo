@@ -72,6 +72,7 @@ require('app/help.php');
 
   $(referencia).load('app/vistas/contenido/2-recursos-humanos/personal/lista-personal.php?idEstacion=' + idEstacion + '&idActivos=' + idActivos, function() {
   $('#tabla_personal_' + idActivos + '_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

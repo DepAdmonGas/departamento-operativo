@@ -49,6 +49,7 @@ require('app/help.php');
 
     $('#ListaCuentaLts').load('../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes, function () {
       $('#tabla_cuenta_litros').DataTable({
+        "stateSave": true,
         "language": {
           "url": "<?= RUTA_JS2 ?>/es-ES.json"
         },

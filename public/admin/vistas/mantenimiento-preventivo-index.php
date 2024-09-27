@@ -68,6 +68,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   $('#ContenidoPrin').load('../public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_mantenimiento_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

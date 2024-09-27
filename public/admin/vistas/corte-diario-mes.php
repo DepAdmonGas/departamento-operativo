@@ -51,6 +51,8 @@ require ('app/help.php');
 
       }
 
+    localStorage.clear();
+ 
     });
 
 
@@ -348,6 +350,15 @@ require ('app/help.php');
       window.location.href = "../../corte-diario-evaluacion/" + year + "/" + mes + "/" + idEstacion;
 
     }
+
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
 
   </script>
 </head>

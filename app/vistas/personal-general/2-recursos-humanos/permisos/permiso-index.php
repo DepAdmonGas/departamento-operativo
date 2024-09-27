@@ -19,6 +19,7 @@ require 'app/vistas/contenido/header.php';
 
     $('#Permisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion, function () {
       $('#tabla_permisos').DataTable({
+        "stateSave": true,
         "language": {
           "url": "<?= RUTA_JS2 ?>/es-ES.json"
         },

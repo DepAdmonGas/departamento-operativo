@@ -24,6 +24,7 @@ require 'app/vistas/contenido/header.php';
 
   $('#ContenidoFormatos').load('app/vistas/contenido/2-recursos-humanos/formatos/lista-formatos.php?idEstacion=' + idEstacion, function() {
   $('#tabla_formatos_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

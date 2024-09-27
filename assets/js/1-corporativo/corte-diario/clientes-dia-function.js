@@ -3,6 +3,7 @@ function ListaConsumoPago(idReporte, ruta_js) {
   targets = [6, 8];
   $('#ConsumosPagos').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-consumo-pagos.php?idReporte=' + idReporte, function () {
     $('#tabla-principal').DataTable({
+      "stateSave": true,
       "language": {
         "url": ruta_js + "/es-ES.json"
       },

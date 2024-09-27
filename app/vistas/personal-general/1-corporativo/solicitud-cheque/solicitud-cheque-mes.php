@@ -70,6 +70,7 @@
   $('#ListaSolicitudes').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/lista-solicitud-cheques-mes.php?year=' + year + '&mes=' + mes, function() {
   // Una vez que se carguen los datos en la tabla, inicializa DataTables
   $('#tabla_solicitud_cheque').DataTable({
+    "stateSave": true,
     "language": { // Corrección de "lenguage" a "language"
     "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
     },

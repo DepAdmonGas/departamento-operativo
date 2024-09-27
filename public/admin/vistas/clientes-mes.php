@@ -68,6 +68,7 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
           // Inicializar DataTables
           $('#' + tableId).DataTable({
+            "stateSave": true,
             "language": {
               "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
             },

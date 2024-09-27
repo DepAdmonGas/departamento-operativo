@@ -39,11 +39,13 @@ require('app/help.php');
   function Regresar(){
   window.history.back();
   }
+  
   function ListaPrecios(year,mes) {
       let targets;
       targets = [2,3];
       $('#ListaFecha').load('../../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes, function () {
         $('#tabla_precios').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

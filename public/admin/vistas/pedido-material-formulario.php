@@ -247,6 +247,8 @@ $('#Cantidad').css('border','');
     "Cantidad" : Cantidad
     };
 
+
+    
     $.ajax({
     data:  parametros,
     url:   '../../public/admin/modelo/agregar-materiales-pedido-materiales.php',

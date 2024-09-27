@@ -84,10 +84,10 @@ return $numero_lista = mysqli_num_rows($result_lista);
     let targets = []; // Variable para almacenar los targets dinámicos
     targets = [8, 9, 10]; // Asigna los targets para el caso de "Gestoria"
 
-  
     $('#ListaEmbarques').load('../../../public/admin/vistas/lista-solicitud-cheques-mes.php?idEstacion=' + idestacion + '&depu=' + depu + '&year=' + year + '&mes=' + mes, function() {
     // Una vez que se carguen los datos en la tabla, inicializa DataTables
     $('#tabla_solicitud_cheque_' + idestacion).DataTable({
+      "stateSave": true,
       "language": { // Corrección de "lenguage" a "language"
       "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
       },

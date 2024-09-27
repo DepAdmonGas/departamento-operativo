@@ -60,6 +60,8 @@ require('app/help.php');
 
   $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idEstacion, function() {
   $('#tabla_seguros_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

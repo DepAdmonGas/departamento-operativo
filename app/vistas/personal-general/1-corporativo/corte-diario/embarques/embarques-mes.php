@@ -21,6 +21,7 @@
 
   $('#DivEmbarques').load('../../public/admin/vistas/lista-embarques-mes.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes, function() {
   $('#tabla_embarques_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?= RUTA_JS2 ?>/es-ES.json"
   },

@@ -7,6 +7,7 @@ function ListaClientes(idestacion, ruta_js) {
 
   $('#ListaClientes').load('../../../app/vistas/personal-general/1-corporativo/corte-diario/clientes/lista-clientes.php?idEstacion=' + idestacion, function () {
     $('#tabla_credito').DataTable({
+      "stateSave": true,
       "language": {
         "url": ruta_js + "/es-ES.json"
       },
@@ -18,6 +19,7 @@ function ListaClientes(idestacion, ruta_js) {
       ]
     });
     $('#tabla_debito').DataTable({
+      "stateSave": true,
       "language": {
         "url": ruta_js + "/es-ES.json"
       },

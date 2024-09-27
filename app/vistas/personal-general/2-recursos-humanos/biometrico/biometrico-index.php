@@ -68,6 +68,7 @@ $ClassRecursosHumanosGeneral->ValAsistencia(9,0);
   
   $(referencia).load('app/vistas/contenido/2-recursos-humanos/biometrico/lista-biometrico-estaciones.php?idEstacion=' + idEstacion, function() {
   $('#tabla_biometrico_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

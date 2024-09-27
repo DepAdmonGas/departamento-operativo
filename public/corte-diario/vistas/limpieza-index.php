@@ -48,6 +48,7 @@ require ('app/help.php');
       targets = [4];
       $('#ListaPedido').load('public/admin/vistas/lista-pedido-limpieza.php?idEstacion=' + idEstacion, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

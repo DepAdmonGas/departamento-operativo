@@ -42,8 +42,6 @@ require('app/help.php');
 
   }
 
-
-
   });
 
   function Regresar(){
@@ -58,6 +56,7 @@ require('app/help.php');
 
   $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu, function() {
   $('#tabla_vales_' + idEstacion).DataTable({
+    "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

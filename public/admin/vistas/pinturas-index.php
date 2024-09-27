@@ -66,6 +66,7 @@ function ToSolicitud($idEstacion, $con)
       targets = [3,4];
       $('#ContenidoPrin').load('../public/admin/vistas/lista-pinturas.php',function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -240,10 +241,11 @@ function ToSolicitud($idEstacion, $con)
       sessionStorage.setItem('idestacion', idEstacion);
       sizeWindow();
       $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion, function () {
-        $('#tabla-principal').DataTable({
+        $('#tabla_pinturas_' + idEstacion).DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
-          },
+          }, 
           "order": [[0, "desc"]],
           "lengthMenu": [15, 30, 50, 100],
           "columnDefs": [

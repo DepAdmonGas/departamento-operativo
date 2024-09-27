@@ -52,8 +52,18 @@ $nombreBar = 'Portal';
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="<?=RUTA_JS2?>home-general-functions.js"></script>
+
+  <script type="text/javascript">
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+  </script> 
+
   </head>
- 
+
   <body>
   <div class="LoaderPage"></div>
 

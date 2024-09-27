@@ -29,7 +29,8 @@ require('app/help.php');
   
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  
+
+  localStorage.clear();
   });
  
   function Regresar(){
@@ -50,6 +51,13 @@ require('app/help.php');
   function Explosividad(){window.location.href = "../administracion/nivel-explosividad";}
   function MantenimientoPreventivo(){window.location.href = "../administracion/mantenimiento-preventivo";}
   function Mantenimiento(){window.location.href = "../administracion/mantenimiento";}
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>

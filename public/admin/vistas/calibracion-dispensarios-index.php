@@ -60,6 +60,7 @@ header("Location:".PORTAL."");
 
   $('#ListaCalibracion').load('../public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idEstacion, function() {
   $('#tabla_calibracion_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

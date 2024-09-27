@@ -71,6 +71,8 @@ return $numero_lista;
   
   $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-materiales.php?idEstacion=' + idEstacion, function() {
   $('#tabla_orden_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

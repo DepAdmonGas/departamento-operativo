@@ -73,6 +73,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
   //$('#ListaPivoteo').load('public/corte-diario/vistas/lista-pivoteo.php?idEstacion=' + idEstacion);
   $('#ListaPivoteo').load('../app/vistas/contenido/3-importacion/pivoteo/lista-pivoteo.php?idEstacion=' + idestacion, function() {
   $('#tabla_pivoteo_' + idestacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

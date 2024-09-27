@@ -54,6 +54,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
       
       $('#ListaClientes').load('../../../../public/admin/vistas/lista-clientes.php?idReporte=' + idReporte, function () {
         $('#tabla_credito').DataTable({
+          "stateSave": true,
           "language": {
             "url": "<?=RUTA_JS2?>/es-ES.json"
           },
@@ -65,6 +66,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
           ]
         });
         $('#tabla_debito').DataTable({
+          "stateSave": true,
           "language": {
           "url": "<?=RUTA_JS2?>/es-ES.json"
           }, 

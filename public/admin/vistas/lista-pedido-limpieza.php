@@ -87,7 +87,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 </div>
 
 <div class="table-responsive">
-  <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+  <table id="tabla_limpieza_<?=$idEstacion?>" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
       <tr>
         <th class="text-center align-middle">#</th>

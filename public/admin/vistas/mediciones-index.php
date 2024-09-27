@@ -54,9 +54,10 @@ require('app/help.php');
 
   function SelEstacion(idEstacion) {
   sessionStorage.setItem('idestacion', idEstacion);
-
+ 
   $('#ListaMedicion').load('../app/vistas/contenido/3-importacion/mediciones/lista-mediciones.php?idEstacion=' + idEstacion, function () {
-  $('#tabla_mediciones').DataTable({
+  $('#tabla_mediciones_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?= RUTA_JS2 ?>/es-ES.json"
   },
