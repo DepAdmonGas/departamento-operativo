@@ -209,9 +209,11 @@ function FirmaSC($idReporte, $tipoFirma, $con)
         </div>
         <br>
         <div>
-          <h6>Para: </h6> <?= $para ?>
+          <div class="fw-bold text-secondary">PARA:</div>
+          <?= $para ?>
           <hr>
-          <h6>Comentarios o instrucciones especiales: </h6><?= $comentarios ?>
+          <div class="fw-bold text-secondary">COMENTARIOS O INSTRUCCIONES ESPECIALES: </div>
+          <?= $comentarios ?>
           <hr>
         </div>
 
@@ -281,7 +283,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
         <br>
         <div>
-          <h6>Firmas:</h6>
+        <div class="fw-bold text-secondary">FIRMAS:</div>
           <hr>
 
 
@@ -329,7 +331,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                         <tr>
                           <th class="align-middle text-center p-0 no-hover2">
                             <div class="input-group">
-                              <input type="text" class="form-control border-0" placeholder="Token de seguridad"
+                              <input type="text" class="form-control border-0 rounded-0" placeholder="Token de seguridad"
                                 aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
                               <div class="input-group-append">
                                 <button class="btn btn-outline-success border-0" type="button"

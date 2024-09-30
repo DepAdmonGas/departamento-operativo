@@ -20,15 +20,15 @@ $value = $row_producto['unidad'];
 }
 ?>
 <div class="modal-header">
-<h5 class="modal-title">Agregar pintura y complemento</h5>
+<h5 class="modal-title">Agregar producto de limpieza</h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
       <div class="modal-body">
 
-      	<div class="mb-2 text-secondary">Producto:</div>
+      	<div class="mb-2 text-secondary fw-bold">* PRODUCTO:</div>
         <textarea class="form-control rounded-0" id="Producto"><?=$producto;?></textarea>
 
-        <div class="mb-1 mt-2 text-secondary">Unidad:</div>
+        <div class="mb-1 mt-2 text-secondary fw-bold">* UNIDAD:</div>
         <select class="form-select rounded-0" id="Unidad">
           <option value="<?=$value;?>"><?=$unidad;?></option>
 

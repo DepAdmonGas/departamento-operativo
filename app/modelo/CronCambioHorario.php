@@ -1,6 +1,17 @@
 <?php 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 include_once "../bd/inc.conexion.php";
+// Instancia a la base de datos
+$database = Database::getInstance();
+ 
+// Obtiene la  conexión a la base de datos
+$con = $database->getConnection();
 
 if($_GET['idToken'] == '789784512365987451235478945135785412'){
 ListaHorario($con);

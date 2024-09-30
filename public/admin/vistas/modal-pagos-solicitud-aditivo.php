@@ -19,9 +19,9 @@ $numero_lista = mysqli_num_rows($result_lista);
 </div>
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Documento:</div>
+  <div class="mb-1 text-secondary fw-bold">* DOCUMENTO:</div>
   <div class="input-group">
-    <input type="file" class="form-control" id="Documento">
+    <input type="file" class="form-control rounded-0" id="Documento">
   </div>
   <hr>
   <div class="text-end mb-2">

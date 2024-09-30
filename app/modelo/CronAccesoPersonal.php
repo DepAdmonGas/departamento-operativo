@@ -1,6 +1,17 @@
 <?php 
-error_reporting(0);
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include_once "../bd/inc.conexion.php";
+// Instancia a la base de datos
+$database = Database::getInstance();
+ 
+// Obtiene la  conexión a la base de datos
+$con = $database->getConnection();
 
 date_default_timezone_set('America/Mexico_City');
 $fechaHoy = date("Y-m-d");
@@ -40,12 +51,12 @@ $BuscarHorario = BuscarHorario($idPersonal,$nombreDias,$con);
 
 AgregarAsistencia($idEstacion,$idPersonal,$fechaHoy,$BuscarHorario['horaentrada'],$BuscarHorario['horasalida'],$con);
 
-
 }
 }
 
 function BuscarHorario($idPersonal,$nombreDias,$con){
-
+$horaentrada = '';
+$horasalida = '';
 $sql = "SELECT * FROM op_rh_personal_horario WHERE id_personal = '".$idPersonal."' AND dia = '".$nombreDias."' ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
