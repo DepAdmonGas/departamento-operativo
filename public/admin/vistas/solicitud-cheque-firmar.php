@@ -550,6 +550,8 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22){ ?>
 
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Telegram</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">

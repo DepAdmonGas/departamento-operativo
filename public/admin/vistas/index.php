@@ -104,16 +104,52 @@ require('app/help.php');
         }
       });
     }
-
-    function tokenTelegram(idUsuario) {
+    /**
+     * 
+     * Token Telegram
+     * 
+     * 
+     */
+    // se agrega un parametro estatico para que en el momento de actualizar el token se actualice
+    function tokenTelegram(idUsuario, tokenActualizado = 1) {
       // Muestra el modal
-      $('#Modal').modal('show');
-
+      $('#Modal').modal('show')
       // Carga el contenido desde el archivo PHP
-      $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario);
+      $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario + '&tokenActualizado=' + tokenActualizado)
     }
+    function actualizaTokenTelegram(idUsuario){
+      
+      var parametros = {
+        "idUsuario": idUsuario
+      };
 
+      alertify.confirm('',
+      
+        function () {
+          $.ajax({
+            data: parametros,
+            url: 'public/admin/modelo/actualizar-token-telegram.php',
+            type: 'post',
+            beforeSend: function () {},
+            complete: function () {},
+            success: function (response) {
+              if (response != null) {
+                tokenTelegram(idUsuario,response)
+                alertify.success('Token actualizado exitosamente');
+              } else {
+                alertify.error('Error al eliminar el token');
+              }
 
+            }
+          });
+        },
+        function () {
+
+        }).setHeader('¡Alerta!').set({ transition: 'zoom', message: '¿Desea Actualizar el token?\nAl hacerlo perdera su sesion en telegram', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+    }
+    function pdfManual(){
+      
+    }
     window.addEventListener('pageshow', function(event) {
       if (event.persisted) {
         // Si la página está en la caché del navegador, recargarla
@@ -536,7 +572,7 @@ require('app/help.php');
 
 
   <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <!-- Aquí se cargará el contenido dinámicamente -->
         <div id="ContenidoModal"></div>

@@ -13,6 +13,9 @@ include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
 //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
 include_once "modelo/2-recursos-humanos/RecursosHumanosGeneral.php";
 
+//----- CLASE TOKEN TELEGRAM -----
+include_once 'modelo/tokenTelegram.php';
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -37,6 +40,9 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         $session_idpuesto = $decoded->id_puesto_usuario;
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
+        // Token Telegram
+        $tokenTelegram = new Telegram($con);
+
         // Token WhatsApp
         $tokenWhats = TokenWhats::get_token();
         //----- CLASES GENERALES -----
