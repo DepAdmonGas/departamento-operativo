@@ -51,29 +51,78 @@ header("Location:".PORTAL."");
 
   function LicitacionAdmin(){window.location.href = "administracion/licitacion-municipal";}
 
- 
- 
-  function VerSasisopa(Sasisopa,EstacionUser){
-  sessionStorage.setItem('EstacionUser', EstacionUser);
-  var parametros = {
-  "ValEstacion" : Sasisopa
-  };
-  $.ajax({
-  data:  parametros,
-  url:   'public/admin/modelo/editar-estacion.php',
-  type:  'post',
-  beforeSend: function() {
-  },
-  complete: function(){
-  },
-  success:  function (response) {
-  window.location.href = "../portal-sasisopa/";
-  }
-  });
-  }
- 
-  </script> 
-  </head>
+
+
+    function VerSasisopa(Sasisopa, EstacionUser) {
+      sessionStorage.setItem('EstacionUser', EstacionUser);
+      var parametros = {
+        "ValEstacion": Sasisopa
+      };
+      $.ajax({
+        data: parametros,
+        url: 'public/admin/modelo/editar-estacion.php',
+        type: 'post',
+        beforeSend: function() {},
+        complete: function() {},
+        success: function(response) {
+          window.location.href = "../portal-sasisopa/";
+        }
+      });
+    }
+
+    function tokenTelegram(idUsuario) {
+      // Muestra el modal
+      $('#Modal').modal('show');
+
+      // Carga el contenido desde el archivo PHP
+      $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario);
+    }
+    function actualizaTokenTelegram(idUsuario){
+      
+      var parametros = {
+        "idItem": idUsuario
+      };
+
+      alertify.confirm('',
+      
+        function () {
+          console.log('Exito')
+          /*$.ajax({
+            data: parametros,
+            url: '../public/corte-diario/modelo/eliminar-producto-pedido-pinturas.php',
+            type: 'post',
+            beforeSend: function () {
+            },
+            complete: function () {
+
+            },
+            success: function (response) {
+
+
+              if (response == 1) {
+                ListaPedido(idReporte)
+                alertify.success('Registro eliminado exitosamente');
+              } else {
+                alertify.error('Error al eliminar el pedido');
+              }
+
+            }
+          });
+          */
+        },
+        function () {
+
+        }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea Actualizar el token?\nAl hacerlo perdera su sesion en telegram', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+    }
+
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        // Si la página está en la caché del navegador, recargarla
+        window.location.reload();
+      }
+    });
+  </script>
+</head>
 
   <body>
  
@@ -530,61 +579,12 @@ header("Location:".PORTAL."");
   </div>
 
 
-<?php 
-/*
-    function totalaceites($IdReporte,$noaceite, $con){
-
-    $sql_listaaceite = "SELECT * FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
-    $result_listaaceite = mysqli_query($con, $sql_listaaceite);
-    while($row_listaaceite = mysqli_fetch_array($result_listaaceite, MYSQLI_ASSOC)){
-      $id = $row_listaaceite['id'];
-
-       $sql_listatotal = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$id."' AND id_aceite = '".$noaceite."' LIMIT 1 ";
-    $result_listatotal = mysqli_query($con, $sql_listatotal);
-    while($row_listatotal = mysqli_fetch_array($result_listatotal, MYSQLI_ASSOC)){
-      $cantidad = $cantidad + $row_listatotal['cantidad'];
-
-
-    }
-
-    }
-
-    return $cantidad;
-
-    }
-
-$sql_year = "SELECT
-op_corte_year.id,
-op_corte_year.id_estacion,
-op_corte_year.year,
-op_corte_mes.id AS idMes,
-op_corte_mes.id_year,
-op_corte_mes.mes
-FROM op_corte_year
-INNER JOIN op_corte_mes
-ON op_corte_year.id = op_corte_mes.id_year
-WHERE op_corte_year.id_estacion = 7 AND year = 2021 ";
-$result_year = mysqli_query($con, $sql_year);
-while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
-
-$idMes = $row_year['idMes'];
-
-$sql_listaaceites = "SELECT * FROM op_aceites_lubricantes_reporte WHERE id_mes = '".$idMes."' ORDER BY id_aceite ASC ";
-    $result_listaaceites = mysqli_query($con, $sql_listaaceites);
-while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
-
-$noaceite = $row_listaaceites['id_aceite'];
-$totalaceites = totalaceites($idMes, $noaceite, $con);
-
-$Total = $Total + $totalaceites;
-
-}
-}
-
-echo $Total;
-*/
-?>
-    
+  <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div id="ContenidoModal"></div>
+      </div>
+    </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
