@@ -1,5 +1,5 @@
 <?php
-require ('app/help.php');
+require('app/help.php');
 
 ?>
 <html lang="es">
@@ -26,29 +26,65 @@ require ('app/help.php');
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="<?= RUTA_JS2 ?>home-general-functions.js"></script>
 
+
   <script type="text/javascript">
-  $(document).ready(function ($) {
-  $(".LoaderPage").fadeOut("slow");
+    $(document).ready(function($) {
+      $(".LoaderPage").fadeOut("slow");
 
-  localStorage.clear();
-  });
+      localStorage.clear();
+    });
 
-    function Regresar() { window.history.back(); }
+    function Regresar() {
+      window.history.back();
+    }
     //function comunicadoAdmin(){window.location.href = "administracion/comunicados";}
-    function IncidenciaAdmin() { window.location.href = "administracion/incidencias"; }
-    function Corporativo() { window.location.href = "administracion/corporativo"; }
-    function RecursosHumanos() { window.location.href = "recursos-humanos"; }
-    function Importacion() { window.location.href = "administracion/importacion"; }
-    function Almacen() { window.location.href = "administracion/almacen"; }
-    function PedidosAdmin() { window.location.href = "administracion/pedidos"; }
-    function ModeloNegocio() { window.location.href = "modelo-negocio"; }
-    function ControlVolumetrico() { window.location.href = "administracion/control-volumetrico"; }
-    function ProcedimientosAdmin() { window.location.href = "administracion/procedimientos"; }
-    function reportes() { window.location.href = "administracion/reporte-anual" }
-    //function CSFAdmin(){window.location.href = "administracion/constancia-situacion-fiscal";}
-    function ReportesDireccion() { window.location.href = "administracion/reportes"; }
+    function IncidenciaAdmin() {
+      window.location.href = "administracion/incidencias";
+    }
 
-    function LicitacionAdmin() { window.location.href = "administracion/licitacion-municipal"; }
+    function Corporativo() {
+      window.location.href = "administracion/corporativo";
+    }
+
+    function RecursosHumanos() {
+      window.location.href = "recursos-humanos";
+    }
+
+    function Importacion() {
+      window.location.href = "administracion/importacion";
+    }
+
+    function Almacen() {
+      window.location.href = "administracion/almacen";
+    }
+
+    function PedidosAdmin() {
+      window.location.href = "administracion/pedidos";
+    }
+
+    function ModeloNegocio() {
+      window.location.href = "modelo-negocio";
+    }
+
+    function ControlVolumetrico() {
+      window.location.href = "administracion/control-volumetrico";
+    }
+
+    function ProcedimientosAdmin() {
+      window.location.href = "administracion/procedimientos";
+    }
+
+    function reportes() {
+      window.location.href = "administracion/reporte-anual"
+    }
+    //function CSFAdmin(){window.location.href = "administracion/constancia-situacion-fiscal";}
+    function ReportesDireccion() {
+      window.location.href = "administracion/reportes";
+    }
+
+    function LicitacionAdmin() {
+      window.location.href = "administracion/licitacion-municipal";
+    }
 
 
 
@@ -61,24 +97,65 @@ require ('app/help.php');
         data: parametros,
         url: 'public/admin/modelo/editar-estacion.php',
         type: 'post',
-        beforeSend: function () {
-        },
-        complete: function () {
-        },
-        success: function (response) {
+        beforeSend: function() {},
+        complete: function() {},
+        success: function(response) {
           window.location.href = "../portal-sasisopa/";
         }
       });
     }
+    /**
+     * 
+     * Token Telegram
+     * 
+     * 
+     */
+    // se agrega un parametro estatico para que en el momento de actualizar el token se actualice
+    function tokenTelegram(idUsuario, tokenActualizado = 1) {
+      // Muestra el modal
+      $('#Modal').modal('show')
+      // Carga el contenido desde el archivo PHP
+      $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario + '&tokenActualizado=' + tokenActualizado)
+    }
+    function actualizaTokenTelegram(idUsuario){
+      
+      var parametros = {
+        "idUsuario": idUsuario
+      };
 
+      alertify.confirm('',
+      
+        function () {
+          $.ajax({
+            data: parametros,
+            url: 'public/admin/modelo/actualizar-token-telegram.php',
+            type: 'post',
+            beforeSend: function () {},
+            complete: function () {},
+            success: function (response) {
+              if (response != null) {
+                tokenTelegram(idUsuario,response)
+                alertify.success('Token actualizado exitosamente');
+              } else {
+                alertify.error('Error al eliminar el token');
+              }
 
-  window.addEventListener('pageshow', function (event) {
-  if (event.persisted) {
-  // Si la página está en la caché del navegador, recargarla
-  window.location.reload();
-  }
-  });
+            }
+          });
+        },
+        function () {
 
+        }).setHeader('¡Alerta!').set({ transition: 'zoom', message: '¿Desea Actualizar el token?\nAl hacerlo perdera su sesion en telegram', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+    }
+    function pdfManual(){
+      
+    }
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        // Si la página está en la caché del navegador, recargarla
+        window.location.reload();
+      }
+    });
   </script>
 </head>
 
@@ -142,7 +219,11 @@ require ('app/help.php');
               <a class="dropdown-item" href="<?= PERFIL_ADMIN ?>">
                 <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
               </a>
-
+              <?php if ($Session_IDUsuarioBD == 2): ?>
+                <a class="dropdown-item pointer" onclick="tokenTelegram(<?= $Session_IDUsuarioBD ?>)">
+                  <i class="fa-brands fa-telegram" style="padding-right: 5px;"></i>Token Telegram
+                </a>
+              <?php endif; ?>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="<?= RUTA_SALIR2 ?>salir">
                 <i class="fa-solid fa-power-off" style="padding-right: 5px;"></i> Cerrar Sesión
@@ -157,7 +238,6 @@ require ('app/help.php');
     </nav>
 
 
- 
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
 
@@ -182,45 +262,43 @@ require ('app/help.php');
                 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="ProcedimientosAdmin()">
                   <span class="btn-label2"><i class="fa-solid fa-briefcase"></i></span>Procedimientos
                 </button>
-              <?php }elseif($session_nompuesto == "Dirección"){ ?>
+              <?php } elseif ($session_nompuesto == "Dirección") { ?>
                 <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="reportes()">
                   <span class="btn-label2"><i class="fa-solid fa-clipboard-list"></i></i></span>Reporte Anual
                 </button>
-              <?php }?>
+              <?php } ?>
             </div>
           </div>
 
           <hr>
         </div>
+        <!----------- 1 Corporativo  -------->
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+          <article class="plan card2 border-0 shadow position-relative" onclick="Corporativo()">
 
-
-          <!----------- 1 Corporativo  -------->
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="Corporativo()">
-
-              <div class="inner">
-                <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-1"></i></span> </div>
-                  <div class="col-10">
-                    <h5 class="text-white text-center">Corporativo</h5>
-                  </div>
+            <div class="inner">
+              <div class="row">
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-1"></i></span> </div>
+                <div class="col-10">
+                  <h5 class="text-white text-center">Corporativo</h5>
                 </div>
-
               </div>
-            </article>
-          </div>
 
-          <!-------- --------- ------- --------->
+            </div>
+          </article>
+        </div>
 
-          <!----------- 2 Recursos humanos  ------->
-          <?php
-          if (
-            $session_nompuesto != "Contabilidad" and
-            $session_nompuesto != "Comercializadora" and
-            $session_nompuesto != "Dirección de operaciones servicio social" and
-            $Session_IDUsuarioBD != 353
-          ) {
-            ?>
+        <!-------- --------- ------- --------->
+
+        <!----------- 2 Recursos humanos  ------->
+        <?php
+        if (
+          $session_nompuesto != "Contabilidad" and
+          $session_nompuesto != "Comercializadora" and
+          $session_nompuesto != "Dirección de operaciones servicio social" and
+          $Session_IDUsuarioBD != 353
+        ) {
+        ?>
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
             <article class="plan card2 border-0 shadow position-relative" onclick="RecursosHumanos()">
 
@@ -236,20 +314,20 @@ require ('app/help.php');
             </article>
           </div>
 
-          <?php
-          }
-          ?>
-          <!-- ---- --------- ---------------->
+        <?php
+        }
+        ?>
+        <!-- ---- --------- ---------------->
 
-          <!----------- 3 Importación  ------->
-          <?php
-          if (
-            $session_nompuesto != "Contabilidad" and
-            $Session_IDUsuarioBD != 332 and
-            $Session_IDUsuarioBD != 353 and
-            $Session_IDUsuarioBD != 354
-          ) {
-            ?>
+        <!----------- 3 Importación  ------->
+        <?php
+        if (
+          $session_nompuesto != "Contabilidad" and
+          $Session_IDUsuarioBD != 332 and
+          $Session_IDUsuarioBD != 353 and
+          $Session_IDUsuarioBD != 354
+        ) {
+        ?>
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
             <article class="plan card2 border-0 shadow position-relative" onclick="Importacion()">
 
@@ -266,18 +344,18 @@ require ('app/help.php');
           </div>
 
 
-          <?php
-          }
-          ?>
-          <!-- ---- --------- ---------------->
+        <?php
+        }
+        ?>
+        <!-- ---- --------- ---------------->
 
-          <!----------- 4 Almacen  ------->
-          <?php if (
-            $session_nompuesto != "Contabilidad" and
-            $session_nompuesto != "Dirección de operaciones servicio social" and
-            $Session_IDUsuarioBD != 353 and
-            $Session_IDUsuarioBD != 354
-          ) { ?>
+        <!----------- 4 Almacen  ------->
+        <?php if (
+          $session_nompuesto != "Contabilidad" and
+          $session_nompuesto != "Dirección de operaciones servicio social" and
+          $Session_IDUsuarioBD != 353 and
+          $Session_IDUsuarioBD != 354
+        ) { ?>
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
             <article class="plan card2 border-0 shadow position-relative" onclick="Almacen()">
 
@@ -293,27 +371,27 @@ require ('app/help.php');
             </article>
           </div>
 
-          <?php
-          }
-          ?>
-          <!-- ---- --------- ---------------->
+        <?php
+        }
+        ?>
+        <!-- ---- --------- ---------------->
 
-          <!----------- 5 Comercializadora  ------->
+        <!----------- 5 Comercializadora  ------->
 
-          <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
-            <article class="plan card2 border-0 shadow position-relative" onclick="PedidosAdmin()">
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+          <article class="plan card2 border-0 shadow position-relative" onclick="PedidosAdmin()">
 
-              <div class="inner">
-                <div class="row">
-                  <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-5"></i></span> </div>
-                  <div class="col-10">
-                    <h5 class="text-white text-center">Comercializadora</h5>
-                  </div>
+            <div class="inner">
+              <div class="row">
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-5"></i></span> </div>
+                <div class="col-10">
+                  <h5 class="text-white text-center">Comercializadora</h5>
                 </div>
-
               </div>
-            </article>
-          </div>
+
+            </div>
+          </article>
+        </div>
 
 
 
@@ -330,13 +408,13 @@ require ('app/help.php');
         ) { ?>
 
 
-        <div class="col-12 mb-2">
-          <hr>
+          <div class="col-12 mb-2">
+            <hr>
 
-          <h4 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">SASISOPA
-          </h4>
+            <h4 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">SASISOPA
+            </h4>
 
-        </div>
+          </div>
 
           <!----- INTERLOMAS ----->
           <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
@@ -492,7 +570,16 @@ require ('app/help.php');
     </div>
   </div>
 
+
+  <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <!-- Aquí se cargará el contenido dinámicamente -->
+        <div id="ContenidoModal"></div>
+      </div>
+    </div>
   </div>
+
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script
@@ -500,6 +587,7 @@ require ('app/help.php');
 
 
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
 
 </body>
 
