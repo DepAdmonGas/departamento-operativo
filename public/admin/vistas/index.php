@@ -112,7 +112,43 @@ require('app/help.php');
       // Carga el contenido desde el archivo PHP
       $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario);
     }
+function actualizaTokenTelegram(idUsuario){
+      
+      var parametros = {
+        "idItem": idUsuario
+      };
 
+      alertify.confirm('',
+      
+        function () {
+          console.log('Exito')
+          /*$.ajax({
+            data: parametros,
+            url: '../public/corte-diario/modelo/eliminar-producto-pedido-pinturas.php',
+            type: 'post',
+            beforeSend: function () {
+            },
+            complete: function () {
+
+            },
+            success: function (response) {
+
+
+              if (response == 1) {
+                ListaPedido(idReporte)
+                alertify.success('Registro eliminado exitosamente');
+              } else {
+                alertify.error('Error al eliminar el pedido');
+              }
+
+            }
+          });
+          */
+        },
+        function () {
+
+        }).setHeader('Mensaje').set({ transition: 'zoom', message: '¿Desea Actualizar el token?\nAl hacerlo perdera su sesion en telegram', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+    }
 
     window.addEventListener('pageshow', function(event) {
       if (event.persisted) {
@@ -536,9 +572,8 @@ require('app/help.php');
 
 
   <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
-        <!-- Aquí se cargará el contenido dinámicamente -->
         <div id="ContenidoModal"></div>
       </div>
     </div>
