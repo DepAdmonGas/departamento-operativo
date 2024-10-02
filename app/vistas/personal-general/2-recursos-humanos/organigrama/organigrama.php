@@ -126,6 +126,44 @@ require 'app/vistas/contenido/header.php';
 
   }
 
+
+
+  function datosRazonSocial(e, id, num){
+  var valor = e.value;
+  
+  var parametros = {
+  "valor": valor,
+  "id": id,
+  "num": num
+  };
+
+
+  $.ajax({
+  data: parametros,
+  url:   'public/recursos-humanos/modelo/editar-organigrama-info-estacion.php',
+  type: 'post',
+  beforeSend: function () {
+         
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+
+  if (response == 1) {
+  alertify.success('Información actualizada exitosamente.')
+
+  } else {
+  alertify.error('Error al editar la información.')
+
+  }
+
+  }
+  });
+
+  }
+
+
 </script>
 
 <body>

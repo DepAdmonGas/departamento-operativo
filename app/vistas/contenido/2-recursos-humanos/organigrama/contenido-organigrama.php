@@ -111,55 +111,168 @@ if ($idEstacion == 2) {
 </div>
 
 
- 
 <div class="row">
-    <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-        <?= $archivo; ?>
-    </div>
-    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-        <div>
-            <div class="table-responsive">
-                <table class="custom-table " style="font-size: .8em;" width="100%">
-                    <thead class="<?=$ColorTB?>">
 
-                    <?=$tablaAL?>
-                        <tr>
-                    <?=$tablaDesc1?>                            
-                            <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
-                            <th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
-                            <?=$tablaDesc2?>                            
+<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
+<?= $archivo; ?>
+</div>
 
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                        <?php
-                        if ($numero_lista > 0) {
+<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
+<div class="row">
 
-                            while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
-                                $id = $row_lista['id'];
-                                $explode = explode(' ', $row_lista['fechacreacion']);
+<div class="col-12 mb-3">
+<div class="table-responsive">
+<table class="custom-table " style="font-size: .8em;" width="100%">
+<thead class="<?=$ColorTB?>">
+<?=$tablaAL?>
+<tr>
+<?=$tablaDesc1?>                            
+<th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
+<th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
+<?=$tablaDesc2?>                            
+</tr>
+</thead>
 
-                                echo '<tr class="pointer" onclick="SelEstacion(' . $idEstacion . ',' . $id . ')">
-                                    <th class="align-middle text-center"><b>' . $row_lista['version'] . '</b></th>
-                                    <td class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</td>
-                                    <td class="text-center align-middle"><small>' . $row_lista['observaciones'] . '</small></td>
-                                    <td class="align-middle text-center pointer" width="20" onclick="Eliminar(' . $idEstacion . ',' . $id . ')"><img src="' . RUTA_IMG_ICONOS . 'eliminar.png"></td>
-                                    </tr>';
-                            }
-                        } else {
-                            echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <?php
-        // verifica la estacion en la que se encuentra
-        if (in_array($idEstacion, [1, 2, 3, 4, 5, 6, 7, 14])):
-            echo $ClassRecursosHumanosGeneral->mostrarEstacion($idEstacion);
-        endif;
-        ?>
-    </div>
+<tbody class="bg-white">
+<?php
+if ($numero_lista > 0) {
+while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+$id = $row_lista['id'];
+$explode = explode(' ', $row_lista['fechacreacion']);
+
+echo '<tr class="pointer" onclick="SelEstacion(' . $idEstacion . ',' . $id . ')">
+<th class="align-middle text-center"><b>' . $row_lista['version'] . '</b></th>
+<td class="align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</td>
+<td class="text-center align-middle"><small>' . $row_lista['observaciones'] . '</small></td>
+<td class="align-middle text-center pointer" width="20" onclick="Eliminar(' . $idEstacion . ',' . $id . ')"><img src="' . RUTA_IMG_ICONOS . 'eliminar.png"></td>
+</tr>';
+}
+
+} else {
+echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+}
+
+?>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<div class="col-12">
+
+<?php
+
+if($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 6 || $idEstacion == 7 || $idEstacion == 14){
+
+$sql_registro = "SELECT 
+tb_organigrama_estaciones.id,
+tb_estaciones.razonsocial,
+tb_organigrama_estaciones.registro_patronal,
+tb_organigrama_estaciones.calle,
+tb_organigrama_estaciones.numero_exterior,
+tb_organigrama_estaciones.numero_interior,
+tb_organigrama_estaciones.colonia,
+tb_organigrama_estaciones.codigo_postal,
+tb_organigrama_estaciones.estado,
+tb_organigrama_estaciones.municipio,
+tb_organigrama_estaciones.numero_telefono
+FROM tb_organigrama_estaciones 
+INNER JOIN tb_estaciones ON tb_organigrama_estaciones.id_estacion = tb_estaciones.id
+WHERE tb_organigrama_estaciones.id_estacion = '" . $idEstacion . "'";
+$result_registro = mysqli_query($con, $sql_registro);
+$numero_registro = mysqli_num_rows($result_registro);
+
+while ($row_registro = mysqli_fetch_array($result_registro, MYSQLI_ASSOC)) {
+$id = $row_registro['id'];
+$nombre = $row_registro['razonsocial'];
+$registro = $row_registro['registro_patronal'];
+$calle = $row_registro['calle'];
+$exterior = $row_registro['numero_exterior'];
+$interior = $row_registro['numero_interior'];
+$colonia = $row_registro['colonia'];
+$cp = $row_registro['codigo_postal'];
+$estado = $row_registro['estado'];
+$municipio = $row_registro['municipio'];
+$telefono = $row_registro['numero_telefono'];
+
+
+echo '
+<div class="table-responsive">
+<table class="custom-table mt-3" style="font-size: .8em;" width="100%">
+<thead class="tables-bg">
+<th>Nombre de la empresa</th>
+<th>'.$nombre.'</th>
+</thead>
+<tbody class="bg-white">
+  
+<tr>
+<th class="no-hover">Registro Patronal</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',1)" class="form-control border-0 text-center" type="text" value="'.$registro.'" style="font-size: 1em;"></td>
+</tr>
+ 
+<tr>
+<th class="no-hover">Calle</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',2)" class="form-control border-0 text-center" type="text" value="'.$calle.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Numero Ext.</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',3)" class="form-control border-0 text-center" type="text" value="'.$exterior.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Numero Int. </th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',4)" class="form-control border-0 text-center" type="text" value="'.$interior.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Colonia</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',5)" class="form-control border-0 text-center" type="text" value="'.$colonia.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Codigo Postal</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',6)" class="form-control border-0 text-center" type="text" value="'.$cp.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Estado</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',7)" class="form-control border-0 text-center" type="text" value="'.$estado.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Municipio</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',8)" class="form-control border-0 text-center" type="text" value="'.$municipio.'" style="font-size: 1em;"></td>
+</tr>
+
+<tr>
+<th class="no-hover">Numero de telefono</th>
+<td class="no-hover p-0"><input onchange="datosRazonSocial(this,'.$id.',9)" class="form-control border-0 text-center" type="text" value="'.$telefono.'" style="font-size: 1em;"></td>
+</tr>
+
+
+</tbody>
+</table>
+</div>';
+
+
+}
+}
+
+
+
+?>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+
 </div>
 </div>
