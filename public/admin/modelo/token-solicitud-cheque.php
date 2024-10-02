@@ -87,6 +87,10 @@ token
         } elseif ($idVal == 2) {
             notificacionesWA($Numero, $aleatorio, $tokenWhats);
             echo 1;
+        } elseif ($idVal == 3) {
+            $mensaje = "Usa el siguiente token para firmar la solicitud de cheque: " . $aleatorio;
+            $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+            echo 1;
         }
     } else {
         echo 0;
