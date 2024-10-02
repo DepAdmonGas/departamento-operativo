@@ -41,7 +41,7 @@ $sql_reporte = "SELECT * FROM op_cliente WHERE id = '".$idCliente."' ";
 
       <div class="modal-header">
         <h5 class="modal-title" >Editar Cliente</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">  
 
@@ -136,5 +136,6 @@ $sql_reporte = "SELECT * FROM op_cliente WHERE id = '".$idCliente."' ";
     
       </div>
       <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="EditarCliente(<?=$idCliente;?>)">Guardar</button>
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarCliente(<?=$idCliente?>)">
+      <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div>

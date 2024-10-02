@@ -1,10 +1,6 @@
  <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $sql_lista_f = "SELECT * FROM op_formato_precios WHERE id = '".$GET_IdPrecio."' ";
 $result_lista_f = mysqli_query($con, $sql_lista_f);
 $numero_lista_f = mysqli_num_rows($result_lista_f);
@@ -13,24 +9,19 @@ $fecha = $row_lista_f['fecha'];
 $estatus = $row_lista_f['estatus']; 
 }
  
- 
 if($estatus == 0){
 $ocultar = "";
 }else{
 $ocultar = "d-none";
 }
 
-
-
-
 ?> 
  
-    
 <html lang="es">
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Dirección <?=$fecha?> de operaciones</title>
+  <title>Dirección de operaciones</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width initial-scale=1.0">
   <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
@@ -40,15 +31,14 @@ $ocultar = "d-none";
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-
-
-
+ 
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -58,69 +48,66 @@ $ocultar = "d-none";
 
   function Regresar(){
   window.history.back();
-  }
-
+  } 
 
   function tablasPrecios(idPrecio){
   $('#tablasPrecios').load('../../public/admin/vistas/lista-tablas-precios.php?idPrecio=' + idPrecio);
   }
 
-
-   function EditPrecio(e,id,num){
+  function EditPrecio(e,id,num){
     
-    var PemexV = $('#PemexV' + id).val();
+  var PemexV = $('#PemexV' + id).val();
 
-    var MonterraVD = $('#MonterraVD' + id).val();
-  	var VopakVD = $('#VopakVD' + id).val();
-    var TuxpanVD = $('#TuxpanVD' + id).val();
+  var MonterraVD = $('#MonterraVD' + id).val();
+  var VopakVD = $('#VopakVD' + id).val();
+  var TuxpanVD = $('#TuxpanVD' + id).val();
 
-    var VopakVP = $('#VopakVP' + id).val();
-  	var TuxpanVP = $('#TuxpanVP' + id).val();
-    var MonterraVP = $('#MonterraVP' + id).val();
-  	var TizayuVP = $('#TizayuVP' + id).val();
-  	var PueblaVP = $('#PueblaVP' + id).val();
+  var VopakVP = $('#VopakVP' + id).val();
+  var TuxpanVP = $('#TuxpanVP' + id).val();
+  var MonterraVP = $('#MonterraVP' + id).val();
+  var TizayuVP = $('#TizayuVP' + id).val();
+  var PueblaVP = $('#PueblaVP' + id).val();
 
-    var VopakP = $('#VopakP' + id).val();
-    var TuxpanP = $('#TuxpanP' + id).val();
-    var MonterraP = $('#MonterraP' + id).val();
-    var TizayuP = $('#TizayuP' + id).val();
-    var PueblaP = $('#PueblaP' + id).val();
+  var VopakP = $('#VopakP' + id).val();
+  var TuxpanP = $('#TuxpanP' + id).val();
+  var MonterraP = $('#MonterraP' + id).val();
+  var TizayuP = $('#TizayuP' + id).val();
+  var PueblaP = $('#PueblaP' + id).val();
 
-  	var valor = e.value;
+  var valor = e.value;
  
-  	var parametros = {
-    "valor" : valor,
-    "id" : id,
-    "num" : num
-    }; 
+  var parametros = {
+  "valor" : valor,
+  "id" : id,
+  "num" : num
+  }; 
  
-    $.ajax({ 
-     data:  parametros,
-     url:   '../../public/admin/modelo/editar-formato-precios.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
+  $.ajax({ 
+  data:  parametros,
+  url:   '../../public/admin/modelo/editar-formato-precios.php',
+  type:  'post',
+  beforeSend: function() {
+     
+  },
+  complete: function(){
     
-     },
-     success:  function (response) {
+  },
+  success:  function (response) {
+  if (response == 1) {
 
-    if (response == 1) {
-
-    if(num == 1){
+  if(num == 1){
  
-    //----- DELIVERY -----
-	  var difMvsPD =  MonterraVD - valor;
-    $('#MonterraD' + id).val(difMvsPD.toFixed(4));
+  //----- DELIVERY -----
+	var difMvsPD =  MonterraVD - valor;
+  $('#MonterraD' + id).val(difMvsPD.toFixed(4));
 
-    var difMvsVD = VopakVD - valor;
-    $('#VopakD' + id).val(difMvsVD.toFixed(4));
+  var difMvsVD = VopakVD - valor;
+  $('#VopakD' + id).val(difMvsVD.toFixed(4));
 
-	  var difMvsTD = TuxpanVD - valor;
-    $('#TuxpanD' + id).val(difMvsTD.toFixed(4));
+	var difMvsTD = TuxpanVD - valor;
+  $('#TuxpanD' + id).val(difMvsTD.toFixed(4));
 
-
-	  //----- PICK UP -----
+	//----- PICK UP -----
     var DifMvsVP = valor - VopakVP;
     $('#VopakP' + id).val(DifMvsVP);
 
@@ -212,28 +199,20 @@ $ocultar = "d-none";
 
     }
 
-
- 
-
-
     }else{
     alertify.error('Error al editar')
 
-    }
+  }
 
-     }
-     });
+  }
+  });
 
-}
-
+  }
   </script>
-
   </head>
 
   <body> 
   <div class="LoaderPage"></div>
-
-
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
@@ -242,135 +221,98 @@ $ocultar = "d-none";
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Agregar Precio de Combustible</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Precios diarios de combustible</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?> </li>
+  </ol>
+  </div>
+ 
+  <div class="row"> 
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?></div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2 <?=$ocultar?>">
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="EditPrecio(this,<?=$GET_IdPrecio?>,0)"> <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
+  </div>
+  </div>
 
   <hr>
-  
-  
-  <div class="row">
-
-  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">FECHA:</div>
-  <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha?>" onchange="EditPrecio(this,<?=$GET_IdPrecio?>,15)"> 
   </div>
 
-  </div>
+  <div class="col-12 mb-3"> 
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
+  
+  <thead class="title-table-bg">
+  <tr class="tables-bg">
+  <th class="align-middle text-center" colspan="6">Precio del transporte</th>
+  </tr>
 
-
-<div  class="row justify-content-md-center">
- 
- <div class="col-12 mt-2 mb-0"> 
-
- <div class="table-responsive">   
-    <table class="table table-sm table-bordered" style="font-size: .72em;">
-  <thead class="bg-light">
-    <tr>
-      <th class="align-middle text-center" colspan="6">PRECIO TRANSPORTE</th>
-    </tr>
+  <tr>
+  <td class="align-middle text-center fw-bold">Terminal</td>
+  <th class="align-middle text-center">Pickup</th>
+  <th class="align-middle text-center">IVA 16%</th>
+  <th class="align-middle text-center">Retencion 4%</th>
+  <td class="align-middle text-center fw-bold">Tarifa final transporte <br> Pickup</td>
+  </tr>
   </thead>
 
-    <thead class="tables-bg">
-    <tr>
-      <th class="align-middle text-center">Terminal</th>
-      <th class="align-middle text-center">Pickup</th>
-      <th class="align-middle text-center">IVA 16%</th>
-      <th class="align-middle text-center">Retencion 4%</th>
-      <th class="align-middle text-center">Tarifa final transporte <br> Pickup</th>
-    </tr>
-  </thead>
-  <tbody>
+  <tbody class="bg-white">
 
-<?php 
-$sql = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$GET_IdPrecio."' ";
-$result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($result);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
- 
-$idTransporte = $row['id'];
-$detalle = $row['detalle'];
+  <?php 
+  $sql = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$GET_IdPrecio."' ";
+  $result = mysqli_query($con, $sql);
+  $numero = mysqli_num_rows($result);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+  
+  $idTransporte = $row['id'];
+  $detalle = $row['detalle'];
 
-if($row['precio'] == 0){
-$precioT = 0;
-$precioIVA = number_format(0,4);
-$precioRetencion = number_format(0,4);
-$totalPickUp = number_format(0,4);
+  if($row['precio'] == 0){
+  $precioT = 0;
+  $precioIVA = number_format(0,4);
+  $precioRetencion = number_format(0,4);
+  $totalPickUp = number_format(0,4);
 
-}else{
-$precioT = $row['precio']; 
-$precioIVA = number_format(($precioT * 0.16),4);
-$precioRetencion = number_format(($precioT * 0.04),4);
-$totalPickUp = number_format(($precioT + $precioIVA - $precioRetencion),4);
-}
+  }else{
+  $precioT = $row['precio']; 
+  $precioIVA = number_format(($precioT * 0.16),4);
+  $precioRetencion = number_format(($precioT * 0.04),4);
+  $totalPickUp = number_format(($precioT + $precioIVA - $precioRetencion),4);
+  }
 
-echo '<tr class="text-center">
-<td class="align-middle"><b>'.$detalle.'</b></td>
+  echo '<tr class="text-center">
+  <td class="align-middle no-hover"><b>'.$detalle.'</b></td>
 
-<td class="p-0 m-0">
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center" value="'.$precioT.'" onkeyup="EditPrecio(this,'.$idTransporte.',14)" style="font-size: .9em;"/>
-</td> 
- 
-<td> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-white" id="inputIVA'.$idTransporte.'"  value="'.$precioIVA.'" style="font-size: .9em; " disabled/>
-</td>
+  <td class="p-0 no-hover">
+  <input type="number" class="form-control rounded-0 border-0 text-center" value="'.$precioT.'" onkeyup="EditPrecio(this,'.$idTransporte.',14)" style="font-size: .9em;"/>
+  </td> 
+  
+  <td class="p-0 no-hover"> 
+  <input type="number" class="form-control rounded-0 border-0 text-center bg-white" id="inputIVA'.$idTransporte.'"  value="'.$precioIVA.'" style="font-size: .9em; " disabled/>
+  </td>
 
-<td> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-white" id="inputRetencion'.$idTransporte.'" value="'.$precioRetencion.'" style="font-size: .9em; " disabled/>
-</td>
+  <td class="p-0 no-hover"> 
+  <input type="number" class="form-control rounded-0 border-0 text-center bg-white" id="inputRetencion'.$idTransporte.'" value="'.$precioRetencion.'" style="font-size: .9em; " disabled/>
+  </td>
 
-<td> 
-<input type="number" class="form-control rounded-0 border-0 p-1 text-center bg-white"  id="input'.$detalle.'" name="inputTotalPU'.$idTransporte.'" value='.$totalPickUp.' style="font-size: .9em; " disabled/>
-</td>
+  <td class="p-0 no-hover"> 
+  <input type="number" class="form-control rounded-0 border-0 text-center bg-white"  id="input'.$detalle.'" name="inputTotalPU'.$idTransporte.'" value='.$totalPickUp.' style="font-size: .9em; " disabled/>
+  </td>
 
-</tr>';
- 
+  </tr>';
+  
+  }
 
-
-}
-
-?>    
+  ?>    
   </tbody>
    
 
-</table>
-</div>
-
-</div>
-
-</div>
-
-
-<div id="tablasPrecios"></div>
-
-
-
-	<hr>
-
-	<div class="text-end <?=$ocultar?>">
-   <button type="button" class="btn btn-success" onclick="EditPrecio(this,<?=$GET_IdPrecio?>,0)">Guardar</button>
-	</div>
-
-
+  </table>
   </div>
   </div>
-  </div>
+
+  <div class="col-12" id="tablasPrecios"></div>
 
   </div>
   </div>

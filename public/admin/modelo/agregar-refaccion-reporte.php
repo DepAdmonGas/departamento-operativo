@@ -1,7 +1,6 @@
 <?php
 require('../../../app/help.php');
 
-$idEstacion = $_POST['idEstacion'];
 $idReporte = $_POST['idReporte'];
 $idRefaccion = $_POST['Refaccion'];
 

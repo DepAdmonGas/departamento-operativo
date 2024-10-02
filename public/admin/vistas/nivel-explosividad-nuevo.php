@@ -1,16 +1,13 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $sql = "SELECT id_estacion FROM op_nivel_explosividad WHERE id = '".$GET_idReporte."' ";
 $result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($resul);
+$numero = mysqli_num_rows($result);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $idEstacion = $row['id_estacion'];  
 }
+
 ?>
 <html lang="es">
   <head>
@@ -47,24 +44,21 @@ $idEstacion = $row['id_estacion'];
   DetallePozo(<?=$GET_idReporte;?>);
   });
  
-  function Regresar(){
-  window.history.back();
-  }
 
-function DetallePozo(idReporte){
-$('#DetallePozo').load('../../public/admin/vistas/lista-nivel-explosividad-pozo.php?idReporte=' + idReporte);  
-} 
+  function DetallePozo(idReporte){
+  $('#DetallePozo').load('../../public/admin/vistas/lista-nivel-explosividad-pozo.php?idReporte=' + idReporte);  
+  } 
 
-function ModalPozo(idReporte){
-$('#Modal').modal('show');
-$('#ContenidoModal').load('../../public/admin/vistas/modal-pozo-motobombas.php?idReporte=' + idReporte); 
-} 
+  function ModalPozo(idReporte){
+  $('#Modal').modal('show');
+  $('#ContenidoModal').load('../../public/admin/vistas/modal-pozo-motobombas.php?idReporte=' + idReporte); 
+  } 
 
-function GuardarPozo(idReporte){
+  function GuardarPozo(idReporte){
 
-var PozoMotobomba = $('#PozoMotobomba').val();
-var PPM = $('#PPM').val();
-var Ubicacion = $('#Ubicacion').val();
+  var PozoMotobomba = $('#PozoMotobomba').val();
+  var PPM = $('#PPM').val();
+  var Ubicacion = $('#Ubicacion').val();
 
     var parametros = {
     "idReporte" : idReporte,
@@ -73,7 +67,14 @@ var Ubicacion = $('#Ubicacion').val();
     "Ubicacion" : Ubicacion
     };
 
-      $.ajax({
+
+  if (PozoMotobomba != "") {
+  $('#PozoMotobomba').css('border', '');
+
+  if (PPM != "") {
+  $('#PPM').css('border', '');
+
+    $.ajax({
      data:  parametros,
      url:   '../../public/admin/modelo/agregar-pozo-motobombas.php',
      type:  'post',
@@ -100,6 +101,16 @@ var Ubicacion = $('#Ubicacion').val();
 
      }
      });
+
+    } else {
+  $('#PPM').css('border', '2px solid #A52525');
+  }
+
+} else {
+  $('#PozoMotobomba').css('border', '2px solid #A52525');
+  }
+
+
 }
 
 function Eliminar(idReporte,idNivel){
@@ -163,13 +174,16 @@ function Eliminar(idReporte,idNivel){
 
   var baseImage1 = "";
   var baseImage2 = "";
+
+
+
   let signatureBlank1 = signaturePad1.isEmpty();
   if (!signatureBlank1) {
   var ctx1 = document.getElementById("canvas1");
   var image1 = ctx1.toDataURL();
   document.getElementById('baseImage1').value = image1;
   baseImage1 = $('#baseImage1').val();  
-  $('#canvas1').css('border','1px solid black');
+  $('#canvas1').css('border','0px solid black');
   }else{
   $('#canvas1').css('border','2px solid #A52525'); 
   baseImage1 = ""; 
@@ -181,7 +195,7 @@ function Eliminar(idReporte,idNivel){
   var image2 = ctx2.toDataURL();
   document.getElementById('baseImage2').value = image2;
   baseImage2 = $('#baseImage2').val();
-  $('#canvas2').css('border','1px solid black');
+  $('#canvas2').css('border','0px solid black');
   }else{
   $('#canvas2').css('border','2px solid #A52525');
   baseImage2 = "";   
@@ -192,12 +206,19 @@ function Eliminar(idReporte,idNivel){
 
   if(Fecha != ""){
   $('#Fecha').css('border','');
+
+  if (Elemento1 != "") {
+  $('#Elemento1').css('border', '');
+  if (Elemento2 != "") {
+  $('#Elemento2').css('border', '');
+  if (Elemento3 != "") {
+  $('#Elemento3').css('border', '');
   if(Encargado != ""){
   $('#Encargado').css('border','');
   if(baseImage1 != ""){
-  $('#canvas1').css('border','1px solid black'); 
+  $('#canvas1').css('border','0px solid black'); 
   if(baseImage2 != ""){
-  $('#canvas2').css('border','1px solid black');
+  $('#canvas2').css('border','0px solid black');
 
   data.append('idReporte', idReporte);
   data.append('Fecha', Fecha);
@@ -237,7 +258,7 @@ function Eliminar(idReporte,idNivel){
 
   $(".LoaderPage").hide();
   if(data == 1){
-  Regresar();
+  history.back();
   }
   
   });
@@ -248,11 +269,30 @@ function Eliminar(idReporte,idNivel){
   }else{ 
   alertify.error('Falta firma encargado de estación');
   }
+  
   }else{
   $('#Encargado').css('border','2px solid #A52525'); 
   }
+
+
+  }else{
+  $('#Elemento3').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar las observaciones.');
+  }
+
+  }else{
+  $('#Elemento2').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar el tipo de verificador.');
+  }
+  
+  }else{
+  $('#Elemento1').css('border','2px solid #A52525'); 
+  alertify.error('Falta seleccionar el tipo de medición.');
+  }
+
   }else{
   $('#Fecha').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la fecha.');
   }
 
   }
@@ -271,252 +311,251 @@ function Eliminar(idReporte,idNivel){
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+  <div class="col-12 cardAG p-3 container">
+
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
- 
-    <div class="row">
-    <div class="col-12">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Nivel de explosividad</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Nivel de explosividad</li>
+  </ol>
+  </div>
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-    <h5>Agregar medición nivel de explosividad</h5>
-    </div>
-    </div>
-
-    </div>
-    </div>
-
+  <div class="row">
+  <div class="col-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Formulario Nivel de explosividad</h3></div>
+  </div>
   <hr>
+  </div>
 
-<div class="container">
-
-<div class="row ">
-
-<div class="col-12">
-  <div class="border p-3">
-
-<div class="row ">
+  <div class="col-12">
+  <div class="row ">
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-    <label class="text-secondary">Fecha:</label>
-    <input type="date" class="form-control rounded-0" id="Fecha">
+  <label class="text-secondary mb-1 fw-bold">* FECHA:</label>
+  <input type="date" class="form-control rounded-0" id="Fecha">
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-    <label class="text-secondary">Tipo de Medicion</label>
-    <select class="form-select rounded-0" id="Elemento1">
-      <option></option>
-      <option>Mantenimiento</option>
-      <option>Extraordinaria</option>
-    </select>
+  <label class="text-secondary mb-1 fw-bold">* TIPO DE MEDICION</label>
+  <select class="form-select rounded-0" id="Elemento1">
+    <option></option>
+    <option>Mantenimiento</option>
+    <option>Extraordinaria</option>
+  </select>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-    <label class="text-secondary">Verificador</label>
-    <select class="form-select rounded-0" id="Elemento2">
-      <option></option>
-      <option>Interno</option>
-      <option>Externo</option>
-    </select>
+  <label class="text-secondary mb-1 fw-bold">VERIFICADOR</label>
+  <select class="form-select rounded-0" id="Elemento2">
+    <option></option>
+    <option>Interno</option>
+    <option>Externo</option>
+  </select>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-    <label class="text-secondary">Observaciones</label>
-    <select class="form-select rounded-0" id="Elemento3">
-      <option></option>
-      <option>Urgentes SI</option>
-      <option>Urgentes NO</option>
-    </select>
+  <label class="text-secondary mb-1 fw-bold">* OBSERVACIONES</label>
+  <select class="form-select rounded-0" id="Elemento3">
+    <option></option>
+    <option>Urgentes SI</option>
+    <option>Urgentes NO</option>
+  </select>
   </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">ESTACIONAMIENTO:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento4">
+  </div>
 
-    <label class="text-secondary">Estacionamiento:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento4">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">LOCAL COMERCIAL:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento5">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary ">OFICINAS:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento6">
+  </div>
 
-    <label class="text-secondary">Local Comercial:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento5">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">BODEGA LOCAL:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento7">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">BAÑOS EMPLEADOS:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento8">
+  </div>
 
-    <label class="text-secondary">Oficinas:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento6">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">BODEGA DE ACEITES:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento9">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">BAÑOS HOMBRES:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento10">
+  </div>
 
-    <label class="text-secondary">Bodega Local:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento7">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">BAÑOS MUJERES:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento11">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">CCUARTO DE SUCIOS:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento12">
+  </div>
 
-    <label class="text-secondary">Baños Empleados:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento8">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">CTO DE MAQUINAS:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento13">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">ZONA 1 DESPACHO:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento14">
+  </div>
 
-    <label class="text-secondary">Bodega de Aceites:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento9">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">ZONA 2 DESPACHO:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento15">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">ZONA 3 DESPACHO:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento16">
+  </div>
 
-    <label class="text-secondary">Baños Hombres:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento10">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">CTO DE ADITIVO:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento17">
+  </div>
 
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Baños Mujeres:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento11">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Cuarto de Sucios:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento12">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Cto de Maquinas:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento13">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Zona 1 Despacho:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento14">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Zona 2 Despacho:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento15">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Zona 3 Despacho:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento16">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Cto de aditivo:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento17">
-    </div>
-
-      <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
-
-    <label class="text-secondary">Zona de tanques:</label>
-    <input type="number" class="form-control rounded-0" id="Elemento18">
-    </div>
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2">
+  <label class="text-secondary mb-1">ZONA DE TANQUES:</label>
+  <input type="number" class="form-control rounded-0" id="Elemento18">
+  </div>
 
   </div>
+  <hr>
   </div>
-    </div>
-    </div>
 
-    <div id="DetallePozo"></div>
- 
+  <!---------- DETALLE DE PPM ---------->
+  <div class="col-12">  <div id="DetallePozo"></div> </div>
 
-    <div class="row"> 
+  <!---------- OBSERVACIONES ---------->
+  <div class="col-12">
+  <div class="table-responsive">
+  <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">Observaciones</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0"><textarea class="form-control rounded-0 border-0 bg-light" id="Observaciones" style="height: 150px;"></textarea></th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  <hr>
+  </div>
 
-        <div class="col-12 col-sm-12 mt-3">
+  <!---------- FIRMAS ---------->
+  <div class="col-12">
+  <h5 class="text-secondary mb-2">Firmas:</h5>
 
-        <div class="border p-3">
-        <label class="text-secondary">Observaciones:</label>
-        <hr>
-        <textarea class="form-control rounded-0" id="Observaciones"></textarea>
-        </div>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="border p-3 mt-3">
-
-    <div class="text-secondary font-weight-bold titulos">Firmas:</div>
-
-    <hr>
-
-    <div class="row">
+  <div class="row">
       
-      <div class="col-12 col-sm-6 mb-3">
-    <div class="border p-3">
-        <div class="text-secondary titulos">FIRMA DE QUIEN TOMA MEDICIÓN:</div>
-                <hr>
-        <div id="signature-pad-1" class="signature-pad mt-2">
-        <div class="signature-pad--body">
-        <canvas style="width: 100%; height: 150px; border: 1px black solid;" id="canvas1"></canvas>
-        </div>
-        </div>
-        <input type="hidden" name="base64" value="" id="baseImage1">
-        <div class="text-end mt-2">
-        <button type="button" class="btn btn-sm btn-info text-white" onclick="clear1()">Limpiar</button>
-        </div>
-      </div>
-    </div>
-
-
-      <div class="col-12 col-sm-6 mb-3">
-
-    <div class="border p-3">
-        <div class="text-secondary titulos">NOMBRE Y FIRMA POR LA ESTACIÓN:</div>
-        <hr>
-        <select class="form-select rounded-0" id="Encargado">
-          <option value=""></option>
-        <?php 
-        $sql_lista = "SELECT id, nombre FROM tb_usuarios WHERE id_gas = '".$idEstacion."' AND id_puesto = 6 AND estatus = 0 ";
-        $result_lista = mysqli_query($con, $sql_lista);
-        $numero_lista = mysqli_num_rows($result_lista);
-        while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-        echo '<option value="'.$row_lista['id'].'">'.$row_lista['nombre'].'</option>';
-        }
-        ?>
-        </select>
-        <div id="signature-pad-2" class="signature-pad mt-3" >
-        <div class="signature-pad--body">
-        <canvas style="width: 100%; height: 150px; border: 1px black solid; " id="canvas2"></canvas>
-        </div>
-        </div>
-        <input type="hidden" name="base64" value="" id="baseImage2">
-        <div class="text-end mt-2">
-        <button type="button" class="btn btn-sm btn-info text-white" onclick="clear2()">Limpiar</button>
-        </div>
-
-      </div>
-
-    </div>
-</div>
-
-</div>
-
-    <hr>
-
-    <div class="text-end">
-      <button type="button" class="btn btn-success" onclick="Guardar(<?=$GET_idReporte;?>)">Guardar</button>
-    </div>
-
-</div>
-
-
+  <div class="col-12 col-sm-6 mt-2 mb-1">
+  <div class="table-responsive">
+  <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE QUIEN TOMA MEDICIÓN</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0 ">
+    
+  <div id="signature-pad-1" class="signature-pad">
+  <div class="signature-pad--body">
+  <canvas style="width: 100%; height: 205px; border: 0px black solid;" id="canvas1"></canvas>
   </div>
   </div>
+  <input type="hidden" name="base64" value="" id="baseImage1">
+  </th>
+  </tr>
+
+  <tr onclick="clear1()">
+  <th class="align-middle bg-danger text-center text-white p-2">
+  <i class="fa-solid fa-rotate-left"></i> Limpiar firma
+  </th>
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  <div class="col-12 col-sm-6 mt-2 mb-1">
+  <div class="table-responsive">
+  <table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">NOMBRE Y FIRMA POR LA ESTACIÓN</th> </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <th class="no-hover2 p-0">
+  <select class="form-select rounded-0 border-0 bg-light" id="Encargado">
+  <option value="">Selecciona una opción...</option>
+  <?php 
+  $sql_lista = "SELECT id, nombre FROM tb_usuarios WHERE id_gas = '".$idEstacion."' AND id_puesto = 6 AND estatus = 0 ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+  while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  echo '<option value="'.$row_lista['id'].'">'.$row_lista['nombre'].'</option>';
+  }
+  ?>
+  </select>
+  </th>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center bg-light p-0 ">
+  <div id="signature-pad-2" class="signature-pad" >
+  <div class="signature-pad--body">
+  <canvas style="width: 100%; height: 165px; border: 0px black solid; " id="canvas2"></canvas>
+  </div>
+  </div>
+  <input type="hidden" name="base64" value="" id="baseImage2">
+  </th>
+  </tr>
+
+  <tr onclick="clear2()">
+  <th class="align-middle bg-danger text-center text-white p-2">
+  <i class="fa-solid fa-rotate-left"></i> Limpiar firma
+  </th>
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  </div>
+  <hr>
+  </div>
+
+
+
+
+  <div class="col-12">
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
   </div>
 
   </div>
@@ -528,7 +567,7 @@ function Eliminar(idReporte,idNivel){
 
 <div class="modal" id="Modal">
 <div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
+<div class="modal-content">
 <div id="ContenidoModal"></div>    
 </div>
 </div>

@@ -1,11 +1,7 @@
-  <?php
+<?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-    
-?>  
+?>
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -19,9 +15,12 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -34,24 +33,21 @@ header("Location:".PORTAL."");
 
   });
 
-    
-  function Regresar(){
-  window.history.back(); 
-  }
-
   function CuentaLitrosY(year){
-    window.location.href = "cuenta-litros/" + year; 
+  window.location.href = "cuenta-litros/" + year; 
   } 
  
- 
- 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
-
   </head>
 
-<body> 
-<div class="LoaderPage"></div>
-
+  <body> 
+  <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -61,77 +57,54 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Tabla de Descarga (Cuenta Litros)</h5>
-     
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Importación</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Tabla de Descarga (Cuenta Litros)</li>
+  </ol>
+  </div>
  
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Tabla de Descarga (Cuenta Litros)</h3> </div>
+  </div>
+
   <hr>
+  </div> 
 
-<?php
-  echo '<div class="row">';
-
+  <?php
+  
   for ($i = $fecha_year; $i >= 2023; $i--) {
-  echo '  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer" onclick="CuentaLitrosY('.$i.')">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon "> 
-  <i class="fa-solid fa-calendar color-CB"></i>
+
+  echo '<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-1 mt-2 ">
+  <article class="plan card2 border-0 shadow position-relative" onclick="CuentaLitrosY('.$i.')">
+         
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-calendar"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">'.$i.'</h5></div>
   </div>
  
-  <div class="m-details ms-2"> 
-  <span>Año:</span> 
-  <br>
-  <h6>'.$i.'</h6> 
-  </div>
-  </div>
 
   </div>
+  </article>
   </div>';
 
-
-}
-
-   echo '</div>';
-
-?>
+  }
+  ?>
 
 
-
-
-  </div>
-  </div>
-  </div>
 
   </div>
   </div>
 
   </div>
 
-
-  
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-  
-  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
-  
-  </body>
-  </html>
-           
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
+</body>
+</html>
+

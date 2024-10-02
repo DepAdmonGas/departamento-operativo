@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
 <html lang="es">
   <head>
@@ -40,8 +36,8 @@ header("Location:".PORTAL."");
     if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
     idEstacion = sessionStorage.getItem('idestacion');
-    $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=0");
-      
+    $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=0");
+
     }       
     } 
    
@@ -56,75 +52,81 @@ header("Location:".PORTAL."");
   function SelEstacion(idEstacion,idOrganigrama){
 
   if(idOrganigrama > 0){
-   
+    
   }else{
-    sizeWindow(); 
+  sizeWindow(); 
   }
 
-
-  sizeWindow();
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+  $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=" + idOrganigrama);
+
   } 
 
   function Mas(idEstacion){
   $('#Modal').modal('show');  
-  $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);   
+  //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-organigrama-estacion.php?idEstacion=' + idEstacion);   
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/organigrama/modal-agregar-organigrama.php?idEstacion=' + idEstacion);
   }
- 
-  function Guardar(idEstacion){
-
-var seleccionArchivos = document.getElementById("seleccionArchivos");
-var seleccionArchivos_file = seleccionArchivos.files[0];
-var seleccionArchivos_filePath = seleccionArchivos.value;
-
-var Observaciones = $('#Observaciones').val();
-
-var input = $("#seleccionArchivos").val()
-var extencion = input.split(".").pop().toLowerCase();
 
 
-var URL = "public/recursos-humanos/modelo/agregar-organigrama-estacion.php";
-var data = new FormData();
 
-data.append('idEstacion', idEstacion);
-data.append('seleccionArchivos_file', seleccionArchivos_file);
-data.append('Observaciones', Observaciones);
+  function Guardar(idEstacion) {
 
-if(input != "" ){
+  var seleccionArchivos = document.getElementById("seleccionArchivos");
+  var seleccionArchivos_file = seleccionArchivos.files[0];
+  var seleccionArchivos_filePath = seleccionArchivos.value;
+  var Observaciones = $('#Observaciones').val();
+  var input = $("#seleccionArchivos").val()
+  var extencion = input.split(".").pop().toLowerCase();
 
-$("#seleccionArchivos").css('border','');
+  //var URL = "public/recursos-humanos/modelo/agregar-organigrama-estacion.php";
+  var URL = "app/controlador/2-recursos-humanos/controladorOrganigrama.php";
+  var data = new FormData();
 
-if( extencion == "jpg" || extencion == "png" ){
+  data.append('idEstacion', idEstacion);
+  data.append('seleccionArchivos_file', seleccionArchivos_file);
+  data.append('Observaciones', Observaciones);
+  data.append('accion', 'guardar-organigrama');
 
-$("#Mensaje").html('');
+  if (input != "") {
+  $("#seleccionArchivos").css('border', '');
 
-$.ajax({
-url: URL,
-type: 'POST',
-contentType: false,
-data: data,
-processData: false,
-cache: false
-}).done(function(data){
+  if (extencion == "jpg" || extencion == "png" || extencion == "jpeg" || extencion == "JPG" || extencion == "PNG" || extencion == "JPEG") {
+  $("#Mensaje").html('');
 
-SelEstacion(idEstacion,0)
-$('#Modal').modal('hide');  
-alertify.success('Organigrama agregado exitosamente.');
-sizeWindow();
-});
+  $.ajax({
+  url: URL,
+  type: 'POST',
+  contentType: false,
+  data: data,
+  processData: false,
+  cache: false
+  }).done(function (data) {
+
+  if (data == 1) {
+  SelEstacion(idEstacion,0)
+  $('#Modal').modal('hide');  
+  alertify.success('Organigrama agregado exitosamente.');
+  sizeWindow();
+
+  } else {
+  alertify.error('Error al agregar organigrama.');
+  }
+  });
 
 
-}else{
-$("#Mensaje").html('<div class="text-center text-danger">La imagen debe ser .JPG o .PNG</div>');
-}
-}else{
-$("#seleccionArchivos").css('border','2px solid #A52525');
-}
-}
+  } else {
+  alertify.error('La imagen debe ser .JPG o .PNG');
+  }
 
-function Eliminar(idEstacion,idOrganigrama){
-sizeWindow();
+  } else {
+  $("#seleccionArchivos").css('border', '2px solid #A52525');
+  }
+  }
+
+
+  function Eliminar(idEstacion,idOrganigrama){
+  sizeWindow();
     var parametros = {
     "idOrganigrama" : idOrganigrama
     };
@@ -425,24 +427,22 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="row">  
   
   <div class="col-12 mb-3">
-  <div id="ContenidoOrganigrama" class="cardAG"></div>
+  <div id="ContenidoOrganigrama"></div>
   </div> 
 
   </div>
   </div> 
   </div>
 
-</div>
-
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
   </div>
 
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

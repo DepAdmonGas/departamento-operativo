@@ -1,4 +1,4 @@
-<?php
+<?php 
 require('../../../app/help.php');
 
 $idEstacion = $_GET['idEstacion'];
@@ -22,27 +22,28 @@ $cargadores = $row_lista['cargadores'];
 $pedestales = $row_lista['pedestales'];
 }
 
-
 ?>
+
 <div class="modal-header">
 <h5 class="modal-title">Terminal punto de venta</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
 
-
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="font-size: .9em;">
+<table class="custom-table mb-3" style="font-size: .9em;" width="100%">
+
 <thead class="tables-bg">
-<th class="align-middle text-center">TPV´S</th>
+<th class="align-middle text-center">TPV'S</th>
 <th class="align-middle text-center">No DE SERIE</th>
 <th class="align-middle text-center">MODELO/MARCA</th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <tr>
-  <td class="align-middle text-center"><?=$tpv;?></td>
-  <td class="align-middle text-center"><?=$noserie;?></td>
-  <td class="align-middle text-center"><?=$modelo;?></td>
+  <th class="align-middle text-center no-hover2 fw-normal"><?=$tpv;?></th>
+  <td class="align-middle text-center no-hover2"><?=$noserie;?></td>
+  <td class="align-middle text-center no-hover2"><?=$modelo;?></td>
 </tr>
 </tbody>
 </table> 
@@ -50,19 +51,18 @@ $pedestales = $row_lista['pedestales'];
 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="font-size: .9em;">
-
+<table class="custom-table mb-3" style="font-size: .9em;" width="100%">
 
 <thead class="tables-bg">
 <th class="align-middle text-center">No LOTE</th>
 <th class="align-middle text-center">TIPO DE CONEXIÓN</th>
 <th class="align-middle text-center">NUMERO DE AFILIACION</th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <tr>
-  <td class="align-middle text-center"><?=$lote;?></td>
-  <td class="align-middle text-center"><?=$tipoconexion;?></td>
-  <td class="align-middle text-center"><?=$noafiliacion;?></td>
+  <th class="align-middle text-center no-hover2 fw-normal"><?=$lote;?></th>
+  <td class="align-middle text-center no-hover2"><?=$tipoconexion;?></td>
+  <td class="align-middle text-center no-hover2"><?=$noafiliacion;?></td>
 </tr>
 </tbody>
 </table> 
@@ -70,32 +70,32 @@ $pedestales = $row_lista['pedestales'];
 
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="font-size: .9em;">
+<table class="custom-table mb-3" style="font-size: .9em;" width="100%">
 <thead class="tables-bg">
 <th class="align-middle text-center">TELEFONO ATENCION A CLIENTES</th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <tr>
-  <td class="align-middle text-center"><?=$telefono;?></td>
+  <th class="align-middle text-center no-hover2 fw-normal"><?=$telefono;?></th>
 </tr>
 </tbody>
 </table> 
 </div>
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="font-size: .9em;">
+<table class="custom-table mb-3" style="font-size: .9em;" width="100%">
 <thead class="tables-bg">
 <th class="align-middle text-center">ACTIVAS</th>
 <th class="align-middle text-center">ROLLOS</th>
 <th class="align-middle text-center">CARGADORES</th>
 <th class="align-middle text-center">PEDESTALES EN BUEN ESTADO</th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <tr>
-  <td class="align-middle text-center"><?=$estado;?></td>
-  <td class="align-middle text-center"><?=$rollos;?></td>
-  <td class="align-middle text-center"><?=$cargadores;?></td>
-  <td class="align-middle text-center"><?=$pedestales;?></td>
+  <th class="align-middle text-center no-hover2 fw-normal"><?=$estado;?></th>
+  <td class="align-middle text-center no-hover2 "><?=$rollos;?></td>
+  <td class="align-middle text-center no-hover2 "><?=$cargadores;?></td>
+  <td class="align-middle text-center no-hover2 "><?=$pedestales;?></td>
 </tr>
 </tbody>
 </table> 
@@ -120,9 +120,9 @@ while($row_ant = mysqli_fetch_array($result_ant, MYSQLI_ASSOC)){
 
 ?>
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-3" style="font-size: .8em;">
-<thead class="bg-light">
-<th class="align-middle text-center">TPV´S</th>
+<table class="custom-table" style="font-size: .9em;" width="100%">
+<thead class="tables-bg">
+<th class="align-middle text-center">TPV'S</th>
 <th class="align-middle text-center">No DE SERIE</th>
 <th class="align-middle text-center">MODELO/MARCA</th>
 <th class="align-middle text-center">No LOTE</th>
@@ -130,17 +130,17 @@ while($row_ant = mysqli_fetch_array($result_ant, MYSQLI_ASSOC)){
 <th class="align-middle text-center">NUMERO DE AFILIACION</th>
 <th class="align-middle text-center"></th>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <?php 
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.$row_ant['tpv'].'</td>';
-echo '<td class="align-middle text-center"><b>'.$row_ant['no_serie'].'</b></td>';
-echo '<td class="align-middle text-center">'.$row_ant['modelo'].'</td>';
-echo '<td class="align-middle text-center">'.$row_ant['no_lote'].'</td>';
-echo '<td class="align-middle text-center">'.$row_ant['tipo_conexion'].'</td>';
-echo '<td class="align-middle text-center">'.$row_ant['no_afiliacion'].'</td>';
-echo '<td class="align-middle text-center"><img src="'.RUTA_IMG_ICONOS.'falla-icon.png" onclick="ModalFalla('.$idEstacion.','.$row_ant['id'].')"></td>';
+echo '<th class="align-middle text-center no-hover2 fw-normal">'.$row_ant['tpv'].'</th>';
+echo '<td class="align-middle text-center no-hover2"><b>'.$row_ant['no_serie'].'</b></td>';
+echo '<td class="align-middle text-center no-hover2">'.$row_ant['modelo'].'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$row_ant['no_lote'].'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$row_ant['tipo_conexion'].'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$row_ant['no_afiliacion'].'</td>';
+echo '<td class="align-middle text-center no-hover2"><img src="'.RUTA_IMG_ICONOS.'falla-icon.png" onclick="ModalFalla('.$idEstacion.','.$row_ant['id'].')"></td>';
 echo '</tr>';
 
 ?>

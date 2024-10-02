@@ -18,17 +18,28 @@ $ordenriesgo = $row_pedido['orden_riesgo'];
 $comentarios = $row_pedido['comentarios'];
 }
   
-
-
 $sql_listaestacion = "SELECT razonsocial FROM tb_estaciones WHERE id = '".$id_estacion."' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
 while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
 $razonsocial = $row_listaestacion['razonsocial'];
 }
 
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+  
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+  
+}
+
 function EvidenciaImagen($idEvidencia,$con){
 
 $sql = "SELECT id, imagen FROM op_pedido_materiales_evidencia_foto WHERE id_evidencia = '".$idEvidencia."' ";
+$Contenido = "";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $id = $row['id'];
@@ -53,7 +64,7 @@ return $nombre;
 }
 
 function DetalleArea($id,$con){
-
+  $Result = "";
 $sql = "SELECT * FROM op_pedido_materiales_area_otros WHERE id_area = '".$id."' AND estatus = 1 ";
   $result = mysqli_query($con, $sql);
   $numero = mysqli_num_rows($result);
@@ -67,230 +78,344 @@ return $Result;
 
 <div class="modal-header">
 <h5 class="modal-title">Detalle Orden de Mantenimiento</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
 
-<div class="table-responsive">
-  <table class="table table-bordered">
-    <tr>
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
-      <td class="align-middle"><b>Folio:</b> <br>00<?=$folio;?></td>
-      <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
-    </tr>
-  </table>
-</div>
+<div class="row">
 
-
-
-<!-- APARTADO ¿EN QUE AFECTA A LA ESTACION? -->
-<div class="p-3 border mb-3">
-<h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
-<hr>
-<div class="row p-1">
-
-<div class="col-12 mb-2">
-<label id="afectacionOM"><?=$afectacion?></label>
-  
-</div>
-
-</div>
-</div> 
-
-
-  <div class="border p-3 mb-3 d-none">
-    <h6>TIPO DE SERVICIO</h6>
-
-  <hr>
-
-  <div class="row">
-  	
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">PREVENTIVO <?php if($tiposervicio == 1){echo '<br>
-    <img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?> </div>
-
-   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">CORRECTIVO <?php if($tiposervicio == 2){echo '<br>
-    <img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
-   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">EMERGENTE <?php if($tiposervicio == 3){echo '<br>
-    <img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-  </div>
-
-  </div>
-
-
-
-  <div class="border p-3 mb-3">
-    <h6>LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</h6>
-    <hr>
-
-    <div class="row">
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">SI <?php if($ordentrabajo == 1){echo '<img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">NO <?php if($ordentrabajo == 2){echo '<img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">AMBAS <?php if($ordentrabajo == 3){echo '<img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-  </div>
-
-</div>
-
-
-
-  <div class="border p-3 mb-2">
-    <h6>LA ORDEN DE TRABAJO ES DE ALTO RIESGO</h6>
-    <hr>
-
-    <div class="row justify-content-center">
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">SI <?php if($ordenriesgo == 1){echo '<img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">NO <?php if($ordenriesgo == 2){echo '<img class="ms-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-  </div>
-
-</div>
-
-
-
-<div class="table-responsive">
-  <table class="table table-bordered table-sm mt-3">
+  <!---------- INFORMACION FORMULARIO ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr>
-    <th class="text-center">ÁREA</th>
-    <th class="text-center p-0 m-0" width="30"></th>
+  <tr> 
+    <th class="align-middle text-center">Razón social</th>
+    <th class="align-middle text-center">Folio</th>
+    <th class="align-middle text-center">Fecha</th>
+
   </tr>
   </thead>
+
   <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light fw-normal"><?=$razonsocialDesc?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$folio?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?></th>
+  </tr>
+  </tbody>
+  </table>
+
+
+  </table>
+  </div>
+  </div>
+
+
+  <!---------- APARTADO ¿EN QUE AFECTA A LA ESTACION? ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+    <th class="align-middle text-center"><?=$DescripcionES?></th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <tr class="no-hover2">
+  <th class="align-middle text-center fw-normal no-hover2"><?=$afectacion;?></th>
+  </tr>
+  </tbody>
+  </table>
+
+  </table>
+  </div>
+  </div>
+
+  <!---------- APARTADO TIPO DE SERVICIO ---------->
+  <div class="col-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">TIPO DE SERVICIO</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2"> PREVENTIVO</td>
+  <td class="align-middle text-center no-hover2 p-2">CORRECTIVO</td>
+  <td class="align-middle text-center no-hover2 p-2">EMERGENTE</td>
+
+  </tr>
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 3){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+
+    <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
+    <div class="col-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">SI</td>
+  <td class="align-middle text-center no-hover2 p-2">NO</td>
+  <td class="align-middle text-center no-hover2 p-2">AMBAS</td>
+
+  </tr>
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 3){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+
+  
+  <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
+  <div class="col-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">LA ORDEN DE TRABAJO ES DE ALTO RIESGO</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">SI</td>
+  <td class="align-middle text-center no-hover2 p-2">NO</td>
+
+  </tr>
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordenriesgo == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?></div>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordenriesgo == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?></div>
+  </td>
+
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+  <!---------- AREA ---------->
+  <div class="col-12 mb-3 <?=$ocultarDivs?>">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">ÁREA</th>
+
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+
   <?php  
   $sql_lista = "SELECT * FROM op_pedido_materiales_area WHERE id_pedido = '".$idPedido."' ";
   $result_lista = mysqli_query($con, $sql_lista);
   $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) {
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  $id  = $row_lista['id'];
+  if($row_lista['estatus'] == 1){
+  $checked = '<i class="fa-regular fa-circle-check text-success" style="font-size: 22px;"></i>';
+  $SADetalle = DetalleArea($id,$con);
+  }else{
+  $checked = '';
+  $SADetalle = '';
+  }
 
-    $id  = $row_lista['id'];
-
-    if($row_lista['estatus'] == 1){
-    $checked = '<img class="" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';
-    $SADetalle = DetalleArea($id,$con);
-    }else{
-    $checked = '';
-    $SADetalle = '';
-    }
- 
   echo '<tr>
-       <td>'.$row_lista['area'].' '.$SADetalle.'</td>
-       <td class="align-middle text-center">'.$checked.'</td>
-       </tr>';
+  <th class="align-middle text-start no-hover2 fw-normal">'.$row_lista['area'].' '.$SADetalle.'</th>
+  <td class="align-middle text-center no-hover2" width="40px">'.$checked.'</td>
+  </tr>';
 
   }
+
+  }else{
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
+  }
   ?>
+
+
   </tbody>
-</table>
-</div>
+  </table>
+  </div>
+  </div>
 
-
-<div class="table-responsive">
-<table class="table table-bordered table-sm">
-  <thead class="tables-bg text-center align-middle">
-  <tr>
-    <th colspan="3">REFACCIONES</th>
+  <!---------- REFACCIONES ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">REFACCIONES</th>
   </tr>
 
-  <tr>
-    <th class="">REFACCIÓN</th>
-    <th class="text-center">CANTIDAD</th>
-    <th class="">ESTATUS</th>
+  <tr class="title-table-bg">
+  <td class="fw-bold align-middle">REFACCIÓN</td>
+  <th class="text-center align-middle">CANTIDAD</th>
+  <td class="fw-bold text-center align-middle">ESTATUS</td>
   </tr>
+
   </thead>
-  <tbody>
+
+  <tbody class="bg-light">
   <?php  
   $sql_detalle = "SELECT * FROM op_pedido_materiales_detalle WHERE id_pedido = '".$idPedido."' ";
   $result_detalle = mysqli_query($con, $sql_detalle);
   $numero_detalle = mysqli_num_rows($result_detalle);
   if ($numero_detalle > 0) {
+
+
+    
   while($row_detalle = mysqli_fetch_array($result_detalle, MYSQLI_ASSOC)){
 
-    $id  = $row_detalle['id'];
+  $id  = $row_detalle['id'];
 
-       echo '<tr>
-       <td class="align-middle">'.$row_detalle['concepto'].'</td>       
-       <td class="align-middle text-center">'.$row_detalle['cantidad'].'</td>
-       <td class="align-middle">'.$row_detalle['nota'].'</td>
-       </tr>';
+  echo '<tr>
+  <th class="fw-normal no-hover2">'.$row_detalle['concepto'].'</th>
+  <td class="text-center no-hover2">'.$row_detalle['cantidad'].'</td>
+  <td class="text-center no-hover2">'.$row_detalle['nota'].'</td>
+  </tr>';
   }
   }else{
-  echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";  
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
+
   </tbody>
-</table>
-</div>
+  </table>
+  </div>
+  </div>
 
 
 
-<div class="border p-3 mb-3">
-  <h6>EVIDENCIA</h6>
+  <!---------- EVIDENCIA ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">EVIDENCIA</th>
+  </tr>
 
-<hr> 
+  <tr class="title-table-bg">
+  <td class="fw-bold align-middle" width="20px">ARCHIVO</td>
+  <th class="text-center align-middle">ÁREA</th>
+  <th class="text-center align-middle">MOTIVO</th>
+  </tr>
 
+  </thead>
 
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 ">
-        <thead>
-        <tr class="tables-bg">
-        <th class="align-middle text-center" width="20" >ARCHIVO</th>
-        <th class="align-middle text-center">AREA</th>
-        <th class="align-middle text-center">MOTIVO</th>
-        </tr>
-        </thead>
-  
-<?php  
+  <tbody class="bg-light">
+  <?php  
 
   $sql_evidencia = "SELECT * FROM op_pedido_materiales_evidencia_archivo WHERE id_pedido = '".$idPedido."' ";
 
-  
   $result_evidencia = mysqli_query($con, $sql_evidencia);
   $numero_evidencia = mysqli_num_rows($result_evidencia);
 
-    if ($numero_evidencia > 0) {
+  if ($numero_evidencia > 0) {
   while($row_evidencia = mysqli_fetch_array($result_evidencia, MYSQLI_ASSOC)){
-  
   $idEvidencia = $row_evidencia['id'];
 
-echo'   <tr>
-        <td class="align-middle text-center"> 
-        <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'descargar.png"></a>
-        </td> 
-        <td class="align-middle text-center">'.$row_evidencia['area'].'</td>
-        <td class="align-middle text-center">'.$row_evidencia['motivo'].'</td>
-        </tr>';
+  echo'
+  
+  <tr>
+  <th class="align-middle text-center no-hover2"> 
+  <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  </th> 
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>
+  </tr>';
+
 
   }
-
   }else{
-  echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";  
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
-
   ?>
 
-
-</table>
-</div>
-</div>
-
-
-<div class="border p-3 mb-3">
-<div ><h6>COMENTARIOS</h6></div>
-<hr>
-<div class="border p-2"><?=$comentarios;?></div>
-</div>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 
+  <!---------- COMENTARIO ---------->
+  <div class="col-12">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">COMENTARIOS</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center fw-normal no-hover2 bg-light"><?=$comentarios;?></th>
+  </tr>
+  </tbody>
+  </table>
+  <hr>
+  </div>
 
-<div class="border p-3 mb-3">
 
-<h6>FIRMAS</h6>
-<hr>
- 
+  <!---------- FIRMAS ---------->
+
+<div class="col-12">
 <div class="row">
 <?php
 
 $sql_firma = "SELECT * FROM op_pedido_materiales_firma WHERE id_pedido = '".$idPedido."' ";
+
 $result_firma = mysqli_query($con, $sql_firma);
 $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
@@ -298,28 +423,46 @@ while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 $explode = explode(' ', $row_firma['fecha']);
 
 if($row_firma['tipo_firma'] == "A"){
-$TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-$Detalle = '<div class="border p-1 text-center"><img src="'.RUTA_IMG_Firma.$row_firma['firma'].'" width="70%"></div>';
-}else if($row_firma['tipo_firma'] == "B"){
-$TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-}else if($row_firma['tipo_firma'] == "C"){
-$TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-}
+  $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG.'firma/'.$row_firma['firma'].'" width="70%"></div>';
+  }else if($row_firma['tipo_firma'] == "B"){
+  $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  }else if($row_firma['tipo_firma'] == "C"){
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  }
 
 
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-2 mb-2"> ';
-echo '<div class="border p-3"> ';
-echo '<div class="mb-2 text-center">'.Personal($row_firma['id_usuario'],$con).'<hr></div>';
-echo $Detalle;
-echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6>';
-echo '</div>';
-echo '</div>';
+
+  echo '  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">'.Personal($row_firma['id_usuario'],$con).'</th> </tr>
+  </thead>
+  <tbody class="bg-light">
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+  </tr>
+  
+  </tbody>
+  </table>
+  </div>';
 }
 
 ?> 
 </div>
 </div>
+
+
+
+
+</div>
+
+
 
 </div>

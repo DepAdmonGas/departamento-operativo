@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -303,15 +300,13 @@ $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   
   <div class="col-12" id="ListaEstaciones">
 
-  <div id="ListaAnalisis" class="mb-3"></div>
-  <div id="SubtotalAnalisis" class="mb-3"></div>
-  <div id="TotalAnalisis" class="mb-3"></div>  
+  <div id="ListaAnalisis"></div>
+  <div id="SubtotalAnalisis"></div>
+  <div id="TotalAnalisis" ></div>  
   </div> 
 
 
-  <div class="col-12" id="ListaGeneral">
-  <div id="TotalAnalisisGeneral" class="mb-3"></div>  
-  </div>
+  <div class="col-12" id="ListaGeneral"> <div id="TotalAnalisisGeneral"></div> </div>
 
   </div>
   </div> 

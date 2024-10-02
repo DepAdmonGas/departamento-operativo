@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?> 
 
 <html lang="es">
@@ -20,8 +16,8 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -29,8 +25,6 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
    
-
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -59,67 +53,54 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Reporte estadístico de la CRE</li>
+  </ol>
+  </div>
  
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Reporte estadístico de la CRE</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Reporte estadístico de la CRE</h3> </div>
+  </div>
 
   <hr>
+  </div>
 
-   <?php
-  $sql = "SELECT * FROM tb_estaciones ";
+  <?php
+  $sql = "SELECT id,nombre FROM tb_estaciones WHERE numlista BETWEEN 1 AND 8 OR numlista=13";
   $result = mysqli_query($con, $sql);
   echo '<div class="row">';
   while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
   $id = $row['id'];
   $nombre = $row['nombre'];
+
+
   if($id != 8 && $id != 10){
+
+    echo '<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-1 mt-2">
+    <article class="plan card2 border-0 shadow position-relative" onclick="ReporteCre('.$id.')">
+           
+    <div class="inner">
+    <div class="row">
+    <div class="col-2"> <span class="pricing"><i class="fa-solid fa-gas-pump"></i></span> </div>
+    <div class="col-10"><h5 class="text-white text-center">'.$nombre.'</h5></div>
+    </div>
+   
+    </div>
+    </article>
+    </div>'; 
+  
+    }
   
 
-echo '<div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-1 mt-2">
-  <div class="card card-menuB rounded shadow-sm pointer p-3" onclick="ReporteCre('.$id.')">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon">
-  <i class="fa-solid fa-gas-pump color-CB"></i>
-  </div>
 
-  <div class="m-details ms-2" style="padding-top: 10px"> 
-  <span>Estación:</span> 
-  <br>
-  <h6>'.$nombre.'</h6> 
-  </div>
-  </div>
-
-  </div>
-  </div>';
-
-
-  }
+  
   }
   echo '</div>';
   ?>
-
-
-
-  </div>
-  </div>
-  </div>
 
   </div>
   </div>

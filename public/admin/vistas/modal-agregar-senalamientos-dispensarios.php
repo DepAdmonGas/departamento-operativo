@@ -28,9 +28,10 @@ $imagenPrevisualizacion.src = objectURL;
 
 <div class="modal-header">
 <h5 class="modal-title">Agregar señalamiento</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-      <div class="modal-body">
+
+<div class="modal-body">
  
     <div class="mb-1 text-secondary">Dispensario:</div>
     <select class="form-select rounded-0" id="Dispensario">
@@ -156,46 +157,55 @@ $imagenPrevisualizacion.src = objectURL;
 
 
 
-    <div class="row">
-    <div class="col-12">
-    <div class="mb-2 mt-2 text-secondary">Diseño:</div>
-    <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
-    <div class="text-center mt-3">
-    <img id="imagenPrevisualizacion" width="150px">
-    </div>
-    </div>
-    </div>
+  <div class="row">
+  <div class="col-12">
+  <div class="mt-2 text-secondary">Diseño:</div>
+  <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
+  <div class="text-center mt-3">
+  <img id="imagenPrevisualizacion" width="150px">
+  </div>
+  </div>
+  </div>
 
-   
-      <hr>
+  <hr> 
+ 
+  <div class="row">
+    
+  <div class="col-12 mb-3">
+  <button type="button" class="btn btn-labeled2 btn-danger float-end ms-2" onclick="eliminarFila()">
+  <span class="btn-label2"><i class="fa-solid fa-table"></i></span>Eliminar fila</button>
 
-      <div class="mb-2 mt-2 text-secondary">Especificaciones:</div>
-      
+  <button type="button" class="btn btn-labeled2 btn-primary float-end ms-2" onclick="agregarFila()">
+  <span class="btn-label2"><i class="fa-solid fa-table"></i></span>Agregar fila</button>
+  </div>
 
-<div class="table-responsive">
-      <table class="table table-bordered table-sm mb-3" id="tablaprueba" style="font-size: .8em;">
-        <thead class="tables-bg">
-          <tr>
-            <th class="align-middle text-center">Dimensión</th>
-            <th class="align-middle text-center">Aprobación del modelo prototipo</th>
-            <th class="align-middle text-center">Modelo</th>
-            <th class="align-middle text-center">Número de serie</th>
-            <th class="align-middle text-center">Material</th>
-          </tr>
-        </thead>
-      <tbody>
-      </tbody>
-      </table>
-</div>
+  </div>
 
+  <div class="table-responsive">
+  <table id="tablaprueba" class="custom-table" style="font-size: .8em;" width="100%">
+  <thead class="title-table-bg">
+          
+  <tr class="tables-bg">
+  <th class="align-middle text-center" colspan="5">Especificaciones</th>
+  </tr>
+ 
+  <tr>
+  <td class="align-middle text-center fw-bold">Dimensión</td>
+  <th class="align-middle text-center">Aprobación del modelo prototipo</th>
+  <th class="align-middle text-center">Modelo</th>
+  <th class="align-middle text-center">Número de serie</th>
+  <td class="align-middle text-center fw-bold">Material</td>
+  </tr>
+  
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
+  </div>
 
-    <div class="form-group text-end">
-    <button type="button" class="btn btn-primary mr-2 btn-sm" onclick="agregarFila()">Agregar</button>
-    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila()">Eliminar</button>
-    </div>
-
-
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion;?>)">Guardar</button>
-      </div>
+  </div>
+  
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+  </div>

@@ -1,11 +1,8 @@
    <?php
 require('app/help.php');
+ 
+?>  
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-     
-?>   
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,7 +17,6 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
@@ -30,11 +26,8 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
   <script type="text/javascript">
 
@@ -43,21 +36,18 @@ header("Location:".PORTAL."");
   sizeWindow();
 
   if(sessionStorage){
-    if (sessionStorage.getItem('idEstacion') !== undefined && sessionStorage.getItem('idEstacion')) {
+  if (sessionStorage.getItem('idEstacion') !== undefined && sessionStorage.getItem('idEstacion')) {
 
-      idEstacion = sessionStorage.getItem('idEstacion');
-      year = sessionStorage.getItem('year');
-      mes = sessionStorage.getItem('mes');
+  idEstacion = sessionStorage.getItem('idEstacion');
+  year = sessionStorage.getItem('year');
+  mes = sessionStorage.getItem('mes');
 
-    $('#ListaCuentaLts').load('../../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);
-          
-    }     
-    }   
-  
-
+  SelEstacionLts(idEstacion,year,mes)
+           
+  }     
+  }   
+   
   }); 
-
- 
 
   function Regresar(){
   window.history.back();
@@ -65,96 +55,104 @@ header("Location:".PORTAL."");
 
 
   function SelEstacionLts(idEstacion,year,mes){
-    
-    sizeWindow();
-    sessionStorage.setItem('idEstacion', idEstacion);
-    sessionStorage.setItem('year', year);
-    sessionStorage.setItem('mes', mes);
-    sessionStorage.setItem('scrollTop', 0);
-    
-    $('#ListaCuentaLts').html('<div class="text-center"> <img width="50" src="../../../imgs/iconos/load-img.gif"></div>'); 
-    $('#ListaCuentaLts').load('../../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes);
 
-  }
+    sizeWindow();
+  sessionStorage.setItem('idEstacion', idEstacion);
+  sessionStorage.setItem('year', year);
+  sessionStorage.setItem('mes', mes);  
+    
+    let targets;
+      targets = [2];
+      $('#ListaCuentaLts').load('../../../public/admin/vistas/lista-cuenta-litros.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes, function () {
+        $('#tabla_cuenta_litros_' + idEstacion).DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+    }
 
   //---------- FORMULARIO EDITAR CUENTA LITROS ----------
   function EditarCL(idCuentaLitros){
   window.location.href = "../../cuenta-litros-formato/" + idCuentaLitros; 
   }
 
-
-     //---------- MODAL NUEVO CUENTA LITROS ----------
+  //---------- MODAL NUEVO CUENTA LITROS ----------
   function DetalleCL(idCuentaLitros){
   window.location.href = "../../cuenta-litros-detalle/" + idCuentaLitros; 
   }
 
-
-
-
   //---------- FORMULARIO AGREGAR CUENTA LITROS ----------
   function NuevoCuentaLitros(idEstacion,year,mes){
 
-    var parametros = {
-    "idEstacion" : idEstacion,
-    "year" : year,
-    "mes" : mes
-    };
+  var parametros = {
+  "idEstacion" : idEstacion,
+  "year" : year,
+  "mes" : mes
+  };
 
-    $.ajax({   
-     data:  parametros,
-     url:   '../../../public/admin/modelo/agregar-formato-cuenta-litros.php',
-     type:  'POST',
-     beforeSend: function() { 
+  $.ajax({   
+  data:  parametros,
+  url:   '../../../public/admin/modelo/agregar-formato-cuenta-litros.php',
+  type:  'POST',
+  beforeSend: function() { 
      
-     },  
-     complete: function(){
+  },  
+  complete: function(){
     
-     },
-     success:  function (response) {
+  },
+  success:  function (response) {
  
-    if(response != 0){
-    window.location.href = "../../cuenta-litros-formato/" + response; 
-    }
+  if(response != 0){
+  window.location.href = "../../cuenta-litros-formato/" + response; 
+  }
  
-     } 
-     });
+  } 
+  });
  
  
   }
 
 
-    //---------- ELIMINAR CUENTA LITROS REGISTRO (SERVER) ----------
+  //---------- ELIMINAR CUENTA LITROS REGISTRO (SERVER) ----------
   function EliminarCL(idCuentaLitros,idEstacion,year,mes){
 
-   var parametros = {
+  var parametros = {
   "idCuentaLitros" : idCuentaLitros
-   };
+  };
 
 
   alertify.confirm('',
   function(){
 
-    $.ajax({
-    data:  parametros,    
-    url:   '../../../public/admin/modelo/eliminar-cuenta-litros-registro.php',
-    type:  'post',
-    beforeSend: function() {
-    }, 
-    complete: function(){
+  $.ajax({
+  data:  parametros,    
+  url:   '../../../public/admin/modelo/eliminar-cuenta-litros-registro.php',
+  type:  'post',
+  beforeSend: function() {
+  }, 
+  complete: function(){
  
-    },
-    success:  function (response) {
+  },
+  success:  function (response) {
 
-    if (response == 1) {
-    alertify.success('Registro eliminado exitosamente.')
-    SelEstacionLts(idEstacion,year,mes)
+  if (response == 1) {
+  alertify.success('Registro eliminado exitosamente.')
+  SelEstacionLts(idEstacion,year,mes)
 
-    }else{
-     alertify.error('Error al eliminar el registro');  
-    }
+  }else{
+  alertify.error('Error al eliminar el registro');  
+  }
 
-    }
-    });
+  }
+  });
 
   },
   function(){
@@ -206,38 +204,30 @@ header("Location:".PORTAL."");
 
   }
 
-
-
   </script>
   </head> 
  
-<body> 
-
-<div class="LoaderPage"></div>
-
+  <body> 
+  <div class="LoaderPage"></div>
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
-          
-  <div class="sidebar-header text-center">
-  <img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;">
-  </div>
+  <div class="sidebar-header text-center"><img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;"></div>
 
-    <ul class="list-unstyled components">
+  <ul class="list-unstyled components">
 
-    <?php
-      
-      if($Session_IDUsuarioBD == 509){
-        $referencia = "href= ../../importacion ";
-        $nombreBar2 = "Menu";
+  <?php
+  if($Session_IDUsuarioBD == 509){
+  $referencia = "href= ../../importacion ";
+  $nombreBar2 = "Menu";
 
-      }else{
-        $referencia = "href=".SERVIDOR_ADMIN." ";
-        $nombreBar2 = "Menu";
-      }
-      ?>
+  }else{
+  $referencia = "href=".SERVIDOR_ADMIN." ";
+  $nombreBar2 = "Menu";
+  }
+  ?>
  
     <li>
     <a class="pointer" <?=$referencia?>>
@@ -287,7 +277,7 @@ header("Location:".PORTAL."");
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Cuenta Litros, <?=nombremes($GET_idMes);?> <?=$GET_idYear;?></a>
+  <a class="text-dark" onclick="history.back()">Importación</a>
   </div>
  
    
@@ -345,33 +335,22 @@ header("Location:".PORTAL."");
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaCuentaLts" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ListaCuentaLts" ></div>
   </div>
   </div> 
   </div>
 
-</div>
-
-
-
-<div class="modal fade bd-example-modal-xl" id="ModalCL">
-<div class="modal-dialog">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModalCL"></div>
-</div>
-</div>
-</div>
-
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
   </body>
   </html>

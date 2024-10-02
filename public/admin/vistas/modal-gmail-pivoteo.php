@@ -23,7 +23,7 @@ $estatus = $row['estatus'];
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Enviar por correo el pivoteo</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -36,39 +36,38 @@ $estatus = $row['estatus'];
 <div>Contenido:</div>
 <textarea class="form-control mb-3" id="Contenido">Envió formato de Pivoteo con número de folio: 0<?=$nocontrol;?></textarea>
 
-<div class="text-end">
-<button type="button" class="btn btn-success" onclick="EnviarCorreo(<?=$idReporte;?>,<?=$idEstacion;?>)">Enviar</button>
-</div>
-
-<hr>
-
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="">
+<table class="custom-table" style="font-size: .8em;" width="100%">
 <thead class="tables-bg">
  <tr>
   <th class="text-center align-middle tableStyle font-weight-bold">Correo</th>
   <th class="align-middle text-center tableStyle font-weight-bold">Fecha y Hora</th>
   </tr>
 </thead> 
-<tbody>
+<tbody class="bg-light">
 <?php
 if ($numero_lista > 0) {
 
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
 echo '<tr>';
-echo '<td class="align-middle text-center">'.$row_lista['correo'].'</td>';
+echo '<th class="align-middle text-center fw-normal">'.$row_lista['correo'].'</th>';
 echo '<td class="align-middle text-center">'.$row_lista['fecha_creacion'].'</td>';
 echo '</tr>';
 
 }
 }else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>
 </table>
 </div>
 
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EnviarCorreo(<?=$idReporte;?>,<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa-solid fa-envelope-circle-check"></i></span>Enviar</button>
 </div>
 

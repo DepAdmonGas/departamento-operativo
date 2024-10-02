@@ -16,10 +16,14 @@ function Especificaciones($idEstacion,$idSenalamiento,$con){
 $sql = "SELECT * FROM op_senalamientos_dispensarios_especificaciones WHERE id_senalamiento = '".$idSenalamiento."' ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
+$contenido = "";
 $contenido .= '<div class="table-responsive">';
-$contenido .= '<table class="table table-bordered table-sm" style="font-size: .8em;">';
+$contenido .= '<table class="custom-table" style="font-size: .8em;" width="100%">';
 $contenido .= '<thead class="tables-bg">
-<tr class>
+<tr>
+<th colspan="6">Especificaciones</th>
+</tr>
+<tr class="title-table-bg">
 <th class="align-middle text-center">Dimensión</th>
 <th class="align-middle text-center">Aprobación del modelo prototipo</th>
 <th class="align-middle text-center">Modelo</th>
@@ -27,22 +31,22 @@ $contenido .= '<thead class="tables-bg">
 <th class="align-middle text-center">Material</th>
 <th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></th>
 </tr></thead>';
-$contenido .= '<tbody>';
+$contenido .= '<tbody>'; 
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $id = $row['id'];
 $contenido .= '<tr>
  
-<td class="p-0 m-0"><input type="text" class="form-control border-0 p-1 m-0 text-center align-middle" value="'.$row['dimension'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',2)" /></td>
+<td class="p-0 m-0"><input type="text" class="form-control border-0 p-3 bg-light m-0 text-center align-middle" value="'.$row['dimension'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',2)" /></td>
 
-<td class="p-0 m-0"><input type="text" class="form-control border-0 p-1 m-0 text-center align-middle" value="'.$row['aprobacion'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',3)" /></td>
+<td class="p-0 m-0"><input type="text" class="form-control border-0 p-3 bg-light m-0 text-center align-middle" value="'.$row['aprobacion'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',3)" /></td>
 
-<td class="p-0 m-0"><input type="text" class="form-control border-0 p-1 m-0 text-center align-middle" value="'.$row['modelo'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',4)" /></td>
+<td class="p-0 m-0"><input type="text" class="form-control border-0 p-3 bg-light m-0 text-center align-middle" value="'.$row['modelo'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',4)" /></td>
 
-<td class="p-0 m-0"><input type="text" class="form-control border-0 p-1 m-0 text-center align-middle" value="'.$row['no_serie'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',5)" /></td>
+<td class="p-0 m-0"><input type="text" class="form-control border-0 p-3 bg-light m-0 text-center align-middle" value="'.$row['no_serie'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',5)" /></td>
 
-<td class="p-0 m-0"><input type="text" class="form-control border-0 p-1 m-0 text-center align-middle" value="'.$row['material'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',6)" /></td>
+<td class="p-0 m-0"><input type="text" class="form-control border-0 p-3 bg-light m-0 text-center align-middle" value="'.$row['material'].'" oninput="EditarEspecificaciones(this,'.$idEstacion.','.$idSenalamiento.','.$id.',6)" /></td>
 
-<td class="align-middle text-center" width="20"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEspecificaciones('.$idEstacion.','.$idSenalamiento.','.$id.')"></td>
+<td class="align-middle text-center bg-light" width="20"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarEspecificaciones('.$idEstacion.','.$idSenalamiento.','.$id.')"></td>
 </tr>';
 }
 $contenido .= '</tbody>';
@@ -203,28 +207,31 @@ $imagenPrevisualizacion.src = objectURL;
     </select>
 
 
-
-    <div class="row">
-    <div class="col-12">
-    <div class="mb-1 mt-2 text-secondary">Diseño:</div>
-    <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
-    <div class="text-center mt-2">
-    <img id="imagenPrevisualizacion" width="150px">
-    </div>
-    </div>
-    </div>
+  <div class="row">
+  <div class="col-12">
+  <div class="mb-1 mt-2 text-secondary">Diseño:</div>
+  <input type="file" class="rounded-0 form-control" id="seleccionArchivos" accept="image/*" style="font-size: .8em;">  
+  <div class="text-center mt-2">
+  <img id="imagenPrevisualizacion" width="150px">
+  </div>
+  </div>
+  </div>
      	
 
-      <hr>
-      <div class="mb-1 mt-2 text-secondary">Especificaciones:</div>
-    
-    <?=Especificaciones($idEstacion,$idSenalamiento,$con);?>
+  <hr> 
+ 
+  <div class="row">
+  <div class="col-12 mb-3">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="AgregarEspecificacion(<?=$idEstacion;?>,<?=$idSenalamiento;?>)">
+  <span class="btn-label2"><i class="fa-solid fa-table"></i></span>Agregar fila</button>
+  </div>
+  </div>
+ 
+  <?=Especificaciones($idEstacion,$idSenalamiento,$con);?>
 
-    <div class="form-group text-end">
-      <button type="button" class="btn btn-primary ms-2 btn-sm" onclick="AgregarEspecificacion(<?=$idEstacion;?>,<?=$idSenalamiento;?>)">Agregar</button>
-    </div>
+  </div>
 
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-primary" onclick="Editar(<?=$idEstacion;?>,<?=$idSenalamiento;?>)">Editar</button>
-      </div>
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success"  onclick="Editar(<?=$idEstacion;?>,<?=$idSenalamiento;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+  </div>

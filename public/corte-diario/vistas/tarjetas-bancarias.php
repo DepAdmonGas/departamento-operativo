@@ -25,6 +25,7 @@ $(document).ready(function($){
 	 function TarjetasTotal(idReporte){
     $('#TrTCBTotales').load('../../../public/corte-diario/vistas/tarjetas-bancarias-totales.php?idReporte=' + idReporte);
   }
+  
 </script>
 
 <div class="table-responsive">

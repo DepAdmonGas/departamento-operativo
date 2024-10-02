@@ -1,71 +1,72 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 $idReporte = $_GET['idReporte'];
 ?>
 
 
 <div class="table-responsive">
+  <table class="custom-table " style="font-size: .8em;" width="100%">
+    <thead class="title-table-bg">
+			<th colspan="5" class="align-middle text-center tables-bg">RELACION DE VENTA DE ACEITES Y LUBRICANTES</th>
 
-<table class="table table-sm table-bordered table-striped mb-0" style="font-size: .8em;">
-<thead class="tables-bg">
-	<th colspan="2" class="align-middle text-center">CONCEPTO</th>
-	<th class="align-middle text-center">CANTDAD</th>
-	<th class="align-middle text-center">PRECIO UNITARIO</th>
-	<th class="align-middle text-center">IMPORTE</th>
-</thead>
-<tbody>
-	<?php
+			<tr>
+				<td colspan="2" class="align-middle text-center fw-bold">CONCEPTO</td>
+				<th class="align-middle text-center">CANTDAD</th>
+				<th class="align-middle text-center">PRECIO UNITARIO</th>
+				<td class="align-middle text-center fw-bold">IMPORTE</td>
+			</tr>
 
-	$sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '".$idReporte."' ";
-    $result_listaaceites = mysqli_query($con, $sql_listaaceites);
-    while($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)){
+		</thead>
+		<tbody class="bg-white">
+			<?php
+			$totalCantidad = 0;
+			$totalPrecio = 0;
+			$sql_listaaceites = "SELECT * FROM op_aceites_lubricantes WHERE idreporte_dia = '" . $idReporte . "' ";
+			$result_listaaceites = mysqli_query($con, $sql_listaaceites);
+			while ($row_listaaceites = mysqli_fetch_array($result_listaaceites, MYSQLI_ASSOC)) {
 
-		$idAceite = $row_listaaceites['id'];
-		$numAceite = $row_listaaceites['id_aceite'];
-		$concepto = $row_listaaceites['concepto'];
-		
-
+				$idAceite = $row_listaaceites['id'];
+				$numAceite = $row_listaaceites['id_aceite'];
+				$concepto = $row_listaaceites['concepto'];
+        $cantidad = $row_listaaceites['cantidad'];
+        $precio = number_format($row_listaaceites['precio_unitario'], 2, '.', '');
+				
 		if ($row_listaaceites['cantidad'] == 0) {
-    		$cantidad = "";
-    	}else{
-    		$cantidad =  $row_listaaceites['cantidad'];
-    	}
+					$cantidad = 0;
+				}
 
-    	if ($row_listaaceites['precio_unitario'] == 0) {
-    		$precio = "";
-    	}else{
-    		$precio =  number_format($row_listaaceites['precio_unitario'], 2, '.', '');
-    	}
+				if ($row_listaaceites['precio_unitario'] == 0) {
+					$precio = 0;
+				}
 
-    $importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];
+				$importe = $row_listaaceites['cantidad'] * $row_listaaceites['precio_unitario'];
 
-    $totalCantidad = $totalCantidad + $row_listaaceites['cantidad'];
-    $totalPrecio = $totalPrecio + $importe;
-    ?>
+				$totalCantidad += $row_listaaceites['cantidad'];
+				$totalPrecio += $importe;
+				?>
 
-    <tr>
-    	<td class="align-middle"><?=$numAceite;?></td>
-    	<td class="align-middle"><?=$concepto;?></td>
-    	<td class="p-0 align-middle text-center">
-    		<?=$cantidad;?>
-    	</td>
-    	<td class="align-middle text-end" id="precioAL-<?=$idAceite;?>">
-    		<?=$precio;?>
-    	</td>
-    	<td class="align-middle text-end" id="importeAL-<?=$idAceite;?>"><?=number_format($importe,2);?></td>
-    </tr>
+				<tr>
+					<th class="align-middle no-hover"><?= $numAceite; ?></th>
+					<td class="align-middle no-hover"><?= $concepto; ?></td>
+					<td class="p-0 align-middle text-center no-hover">
+						<?= $cantidad; ?>
+					</td>
+					<td class="align-middle text-end no-hover" id="precioAL-<?= $idAceite; ?>">
+						<?= $precio; ?>
+					</td>
+					<td class="align-middle text-end no-hover" id="importeAL-<?= $idAceite; ?>">$ <?= number_format($importe, 2); ?></td>
+				</tr>
 
-    <?php
-    }
+				<?php
+			}
 
-	?>
-	<tr>
-      <td class="bg-light text-center"></td>
-    <td class="bg-light text-center"></td>
-    <td class="bg-light align-middle text-center"><strong><?=$totalCantidad;?></strong></td>
-    <td class="bg-light align-middle text-end"></td>
-    <td class="bg-light align-middle text-end"><strong><?=number_format($totalPrecio,2);?></strong></td>   
-    </tr>
-</tbody>
-</table>
+			?>
+			<tr>
+				<th class="text-start disabledOP" colspan="2">TOTAL</th>
+				<td class="align-middle text-center disabledOP"><strong><?= $totalCantidad; ?></strong></td>
+				<td class="align-middle text-end disabledOP" colspan="2"><strong>$ <?= number_format($totalPrecio, 2); ?></strong></td>
+			</tr>
+
+		</tbody>
+	</table>
 </div>

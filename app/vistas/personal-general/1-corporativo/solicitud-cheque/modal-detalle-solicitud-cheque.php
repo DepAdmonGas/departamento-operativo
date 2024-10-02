@@ -53,226 +53,220 @@ $mensaje = '<div class="alert text-center alert-info" role="alert">
 
 
 echo $mensaje;
+echo '<hr>';
 ?>
 
 <div class="row">
 
 <?php if($razonsocial != ""){ ?>
 <div class="col-12 mb-3">
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">RAZON SOCIAL:</h6>
+<h6 class="text-secondary">RAZON SOCIAL:</h6>
 <?=$razonsocial;?>
-</div>
 </div>
 <?php } ?>
 
-<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">FECHA:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">FECHA:</h6>
 <?=FormatoFecha($fecha);?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">NOMBRE DEL BENEFICIARIO:</h6>
+<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">NOMBRE DEL BENEFICIARIO:</h6>
 <?=$beneficiario;?>
 </div>
+
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">MONTO Y MONEDA:</h6>
+$<?=number_format($monto,2);?> <?=$moneda;?>
 </div>
 
-<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">MONTO:</h6>
-$<?=number_format($monto,2);?>
-</div>
-</div>
 
-<div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">MONEDA:</h6>
-<?=$moneda;?>
-</div>
-</div>
-
-<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">IMPORTE CON LETRA:</h6>
+<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-3"> 
+<h6 class="text-secondary">IMPORTE CON LETRA:</h6>
 <?=$ClassHerramientasDptoOperativo->convertir($monto,$moneda,true);?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">FACTURA NO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">FACTURA NO:</h6>
 <?=$nofactura;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">CORREO ELÉCTRONICO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">CORREO ELÉCTRONICO:</h6>
 <?=$email;?>
 </div>
-</div>
 
-<div class="col-12 mb-3">
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">CONCEPTO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">CONCEPTO:</h6>
 <?=$concepto;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">NOMBRE DEL SOLICITANTE:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">NOMBRE DEL SOLICITANTE:</h6>
 <?=$solicitante;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">TELÉFONO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">TELÉFONO:</h6>
 <?=$telefono;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">USO DEL CDFI:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">USO DEL CDFI:</h6>
 <?=$cfdi;?>
-</div>
 </div> 
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">MÉTODO DE PAGO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">MÉTODO DE PAGO:</h6>
 <?=$metodo_pago;?>
 </div>
-</div>
 
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">FORMA DE PAGO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">FORMA DE PAGO:</h6>
 <?=$forma_pago;?>
 </div>
-</div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">BANCO:</h6>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">BANCO:</h6>
 <?=$banco;?>
 </div>
+
+
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">NO. DE CUENTA:</h6>
+<?=$nocuenta;?>
+</div>
+
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">NO. DE CUENTA CLABE:</h6>
+<?=$cuentaclabe;?>
+</div>
+
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3"> 
+<h6 class="text-secondary">REFERENCIA/CONVENIO:</h6>
+<?=$referencia;?>
 </div>
 
 
 <div class="col-12 mb-3 text-center"> 
-<div class="border p-3">
-<h6 class=" border-bottom pb-2 text-secondary text-left ">DOCUMENTOS:</h6>
-
 <div class="row"> 
+<div class="col-12">
+
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> 
+  <th class="align-middle text-center">Documentos</th> 
+  <th class="align-middle text-center" width="48px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th> 
+</tr>
+</thead>
+<tbody>
 <?php
 $sql_documento = "SELECT * FROM op_solicitud_cheque_documento WHERE id_solicitud = '".$idReporte."' AND nombre <> 'PAGO' ";
 $result_documento = mysqli_query($con, $sql_documento);
 $numero_documento = mysqli_num_rows($result_documento);
 
-if($numero_documento == 0){
-echo '
-<div class="col-12 mt-1 pb-0 mb-0">
-<div class="alert text-center alert-secondary mb-0" role="alert">
-No se cuenta con documentación
-</div>
-</div>';
+if($numero_documento > 0){
+while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
+
+echo '<tr class="no-hover">
+<th class="align-middle text-center bg-light">'.$row_documento['nombre'].'</th>
+<th class="align-middle text-center bg-light">
+<a href="'.RUTA_ARCHIVOS.''.$row_documento['documento'].'" download>
+<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png">
+</a>
+</th>
+</tr>';
+
+}
 
 }else{
-
-while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
-echo '
-<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-1">
-<a href="../../archivos/'.$row_documento['documento'].'" download>
-<span class="badge rounded-pill tables-bg" style="font-size:14px">'.$row_documento['nombre'].' <i class="fa-solid fa-circle-down ms-1"></i></span>
-</a>
-</div>';
+echo '<tr class="no-hover">
+<th class="align-middle text-center bg-light" colspan="2"><small>No se cuenta con documentación</small></th>
+</tr>';
 }
-
-}
-
 
 ?> 
 
+</tbody>
+</table>
 </div>
+
 </div>
 </div>
 
-
-<div class="col-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">NO. DE CUENTA:</h6>
-<?=$nocuenta;?>
-</div>
-</div>
-
-
-<div class="col-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">NO. DE CUENTA CLABE:</h6>
-<?=$cuentaclabe;?>
-</div>
-</div>
-
-<div class="col-12 mb-3"> 
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">REFERENCIA/CONVENIO:</h6>
-<?=$referencia;?>
-</div>
 </div>
 
 <div class="col-12 mb-1">
-<div class="border p-3">
-<h6 class="text-secondary border-bottom pb-2">OBSERVACIONES:</h6>
-<?=$observaciones;?>
+<div class="table-responsive">
+<table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">OBSERVACIONES:</th> </tr>
+</thead>
+<tbody>
+<tr class="no-hover">
+<th class="align-middle text-center bg-light"><?=$observaciones;?></th>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
 </div>
 
 <hr>
-
+ 
 <div class="row">
+<div class="col-12 mb-2">
+<h6 class="text-secondary">FIRMAS:</h6>
+</div>
 <?php
-
+ 
 $sql_firma = "SELECT * FROM op_solicitud_cheque_firma WHERE id_solicitud = '".$idReporte."' ";
 $result_firma = mysqli_query($con, $sql_firma);
 $numero_firma = mysqli_num_rows($result_firma);
 while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
 
 $idUsuario = $row_firma['id_usuario'];
-$NomUsuario = $ClassHerramientasDptoOperativo->obtenerNombreUsuario($idUsuario);
+$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
+$NomUsuario = $datosUsuario['nombre'];
 
 $explode = explode(' ', $row_firma['fecha']);
 if($row_firma['tipo_firma'] == "A"){
 
 $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-$Detalle = '<div class="border p-1 text-center">
-<img src="../../imgs/firma/'.$row_firma['firma'].'" width="70%">
+$Detalle = '<div class="border-0 p-2 text-center">
+<img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%">
 </div>';
 
 }else if($row_firma['tipo_firma'] == "B"){
 $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class=" text-center fw-normal" style="font-size: 1em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 
 }else if($row_firma['tipo_firma'] == "C"){
 $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+$Detalle = '<div class=" text-center fw-normal" style="font-size: 1em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
 }
  
-echo '<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">';
-echo '<div class="border p-3">';
-echo '<div class="mt-2 mb-2 text-center">'.$NomUsuario.'</div>';
-echo $Detalle;
-echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6>';
-echo '</div>';
-echo '</div>';
+
+echo '  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+<table class="custom-table" style="font-size: 14px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">'.$NomUsuario.'</th> </tr>
+</thead>
+<tbody class="bg-light">
+<tr>
+<th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+</tr>
+
+</tbody>
+</table>
+</div>';
+
 
 } 
 

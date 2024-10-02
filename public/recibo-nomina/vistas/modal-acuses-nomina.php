@@ -31,7 +31,10 @@ if ($numero_lista2 == 0) {
 $frameNomina = '<div class="alert alert-danger text-center mb-0" role="alert">
 No has subido los recibos de nomina de la '.$descripcion.' '.$SemQui.' del personal de '.$Titulo.'
 </div>';
-$BtnSubir = '<div class="col-12"><button type="button" class="btn btn-primary float-end" onclick="SubirAcusesNomina(0,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">Guardar</button></div>';
+$BtnSubir = '<div class="col-12">
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina(0,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>';
 $BtnFinalizar = '';
  
 }else{
@@ -42,12 +45,16 @@ $doc_nomina_acuse = $row_lista2['doc_nomina_acuse'];
 }
 
 $frameNomina = '<iframe class="border-0" src="'.RUTA_ARCHIVOS.'/recibos-nomina-v2/recibos-mexdesa/'.$doc_nomina_acuse.'" width="100%" height="400px"></iframe>';
-$BtnSubir = '<div class="col-12"><button type="button" class="btn btn-primary float-end" onclick="SubirAcusesNomina('.$GET_idAcuse.','.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">Editar</button></div>';
+$BtnSubir = '<div class="col-12">
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina('.$GET_idAcuse.','.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
+</div>';
 
 if($numeroFinalizar != 0){
 $BtnFinalizar = '';
 }else{
-$BtnFinalizar = '<button type="button" class="btn btn-success" onclick="FinalizarNomina(1,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">Finalizar</button>';
+$BtnFinalizar = '<button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(1,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>';
 }
 
 }
@@ -57,9 +64,8 @@ $BtnFinalizar = '<button type="button" class="btn btn-success" onclick="Finaliza
 
 <div class="modal-header">
 <h5 class="modal-title">Recibos de Nomina - <?=$Titulo?> (<?=$descripcion?> <?=$SemQui?>)</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-
 
 <div class="modal-body">
 
@@ -84,7 +90,11 @@ $BtnFinalizar = '<button type="button" class="btn btn-success" onclick="Finaliza
 
  
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-    <?=$BtnFinalizar?>
+
+
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cerrar</button>
+
+<?=$BtnFinalizar?>
 </div>
 

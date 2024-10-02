@@ -159,7 +159,7 @@ if($session_nompuesto == "Sistemas" || $session_nompuesto == "Gestoria" || $sess
  </article>
  </div>
 
-
+ 
  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
  <article class="plan card2 border-0 shadow position-relative" onclick="DescargaTuxpanAuditor()">
         

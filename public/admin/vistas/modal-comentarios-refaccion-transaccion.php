@@ -8,14 +8,14 @@ $idReporte = $_GET['idReporte'];
 function Responsable($id, $con){
 
 $sql_resp = "SELECT * FROM tb_usuarios WHERE id = '".$id."'  ";
-         $result_resp = mysqli_query($con, $sql_resp);
-         $numero_resp = mysqli_num_rows($result_resp);
-         while($row_resp = mysqli_fetch_array($result_resp, MYSQLI_ASSOC)){
-          $Usuario = $row_resp['nombre'];
-          
-         }
-         return $Usuario;
+$result_resp = mysqli_query($con, $sql_resp);
+$numero_resp = mysqli_num_rows($result_resp);
+         
+while($row_resp = mysqli_fetch_array($result_resp, MYSQLI_ASSOC)){
+$Usuario = $row_resp['nombre'];     
+}
 
+return $Usuario;
 }
 
 
@@ -23,14 +23,12 @@ $sql_comen = "SELECT * FROM op_refacciones_transaccion_comentarios WHERE id_op_r
 $result_comen = mysqli_query($con, $sql_comen);
 $numero_comen = mysqli_num_rows($result_comen);
 
-echo '
-      <div class="modal-header">
-      <h5 class="modal-title">Comentarios</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+echo '<div class="modal-header">
+<h5 class="modal-title">Comentarios</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>      
+</div>
 
 
- 
 <div class="p-3">
 
 <div class="border-bottom" style="height: 300px;overflow: auto;">';
@@ -49,13 +47,13 @@ $margin = "margin-right: 30px;margin-left: 5px;";
 }
 
 $fechaExplode = explode(" ", $row_comen['fecha_hora']);
-$FechaFormato = FormatoFecha($fechaExplode[0]);
+$FechaFormato = $ClassHerramientasDptoOperativo->FormatoFecha($fechaExplode[0]);
 $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 ?>
 <div class="mt-1" style="<?=$margin;?>">
 
 <div style="font-size: .7em;" class="mb-1"><?=$NomUsuario;?></div>
-<div class="bg-primary text-white" style="border-radius: 30px;">
+<div class="title-table-bg text-white" style="border-radius: 30px;">
 <p class="p-2 pb-0"><?=$comentario;?></p>
 </div>
 <div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
@@ -72,12 +70,12 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 
 <div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
-
 </div>
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="GuardarComentario(<?=$idEstacion;?>,<?=$idReporte;?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$idEstacion;?>,<?=$idReporte;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
 
 

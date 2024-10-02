@@ -1,5 +1,5 @@
 <?php
-require('../../../app/help.php');
+require '../../../app/help.php';
 
 $idReporte = $_GET['idReporte'];
 $idStatus = $_GET['idStatus'];
@@ -27,7 +27,7 @@ $numero_documento = mysqli_num_rows($result_documento);
 
 <div class="modal-header">
 <h5 class="modal-title"><?=$nameStatus?> Modelo de negocio <?=$idReporte?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
  
@@ -62,15 +62,15 @@ $numero_documento = mysqli_num_rows($result_documento);
 <hr>
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 mt-2" style="font-size: .8em;">
-<thead class="tables-bg">
+  <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+    <thead class="tables-bg">
 <tr>
 <th class="align-middle text-center">Nombre archivo</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
 </tr>
 </thead>
-<tbody>
+<tbody class="bg-light">
 <?php
 if ($numero_documento > 0) {
 while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
@@ -78,14 +78,14 @@ while($row_documento = mysqli_fetch_array($result_documento, MYSQLI_ASSOC)){
 $id = $row_documento['id'];
 
 echo '<tr>';
-echo '<td class="align-middle font-weight-light">'.$row_documento['nombre'].'</td>';
+echo '<th class="align-middle font-weight-light">'.$row_documento['nombre'].'</th>';
 echo '<td class="align-middle font-weight-light"><a href="archivos/modelo-negocio/'.$row_documento['archivo'].'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '<td class="align-middle font-weight-light"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarDocumento('.$idReporte.','.$id.')"></td>';
 echo '</tr>';
 
 }
 }else{
-echo "<tr><td colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+echo "<tr><th colspan='3' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>

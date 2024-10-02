@@ -21,7 +21,6 @@
   $observaciones = $datosSolicitudCheque['observaciones'];
   $status = $datosSolicitudCheque['status'];
   $razonsocial = $datosSolicitudCheque['razonsocial'];
-
   ?>  
 
   <html lang="es">
@@ -195,9 +194,10 @@
 
   if(signaturePad.isEmpty()){
   $('#canvas').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la firma'); 
   }else{
   $('#canvas').css('border','1px solid #000000'); 
-
+ 
   data.append('IdReporte', IdReporte);
   data.append('Fecha', Fecha);
   data.append('RazonSocial', RazonSocial); 
@@ -268,51 +268,68 @@
   }); 
 
   }
-  
+
   }else{
   $('#Referencia').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la referencia'); 
   }
   }else{
   $('#NoCuentaClave').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el No. de cuenta clave'); 
+
   }
   }else{
   $('#NoCuenta').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el No. de cuenta'); 
   }
   }else{
   $('#Banco').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la banco'); 
   }
   }else{
   $('#FormaPago').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la forma de pago'); 
   }
   }else{
   $('#Metodopago').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el metodo de pago'); 
   }
   }else{
   $('#CFDI').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el CFDI'); 
   }
   }else{
   $('#Telefono').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el telefono'); 
   }
   }else{
   $('#Solicitante').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el solicitante'); 
   }
   }else{
   $('#Concepto').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el concepto'); 
+
   }
   }else{
   $('#Correo').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el correo eléctronico'); 
   }
   }else{
   $('#NoFactura').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el No. de factura'); 
   }
   }else{
   $('#Monto').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el monto'); 
   }
   }else{
   $('#Beneficiario').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar el beneficiario'); 
   }
   }else{
   $('#Fecha').css('border','2px solid #A52525'); 
+  alertify.error('Falta ingresar la fecha'); 
   }
 
   }
@@ -320,7 +337,6 @@
   </head>
   
   <body>
-
   <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
@@ -332,34 +348,39 @@
   <div class="row">
 
   <div class="col-12 mb-3">
+  <div class="container">
   <div class="cardAG">
   <div class="border-0 p-3">
 
   <div class="row">
+ 
   <div class="col-12">
-
-  <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="history.back()">
-  
-  <div class="row">
-  <div class="col-12"> <h5>Editar Solicitud de cheques</h5></div>
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i>
+  Solicitud de cheques</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Editar Solicitud de Cheque</li>
+  </ol>
   </div>
-
-  </div>
+   
+  <div class="row"> 
+  <div class="col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Editar Solicitud de Cheque</h3> </div>
   </div>
 
   <hr>
-
-  <div class="container">
-  
-  <div class="row">
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">FECHA:</div>
-  <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha;?>"> 
   </div>
 
+
+  <div class="col-12">  
+  <div class="row">  
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
+  <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha;?>"> 
+  </div> 
+
   <?php if($Session_IDEstacion == 8){ ?>
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
   <div class="mb-1 text-secondary">RAZON SOCIAL:</div>
   <select class="form-select rounded-0" id="RazonSocial">
   <option><?=$razonsocial;?></option>
@@ -372,7 +393,7 @@
   <option>ADMINISTRADORA DE GASOLINERAS XOCHIMILCO S.A. DE C.V.</option>
   <option>INMOBILIARIA PALO SOLO S.A. DE C.V.</option>
   <option>INMOBILIARIA VALLE DE HUIXQUILUCAN, S.A. DE C.V.</option>
-  <option>ADMINISTRADORA DE GASOLINERIAS BOSQUES REAL S.A. DE C.V.</option>
+  <option>ADMINISTRADORA DE GASOLINERIAS BOSQUE REAL S.A. DE C.V.</option>
   <option>BIENES RAÍCES SALTE, S.A. DE C.V.</option>
   <option>ARRENDATARIA DE COPOPRIEDADES LEO, S.A. DE C.V.</option>
   <option>INMOBILIARIA TOMASIN, S.A. DE C.V.</option>
@@ -385,22 +406,32 @@
   </select>
   </div> 
   <?php } ?>
-        
-  </div>
 
-  <div class="row mt-2">
-         
-  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-3">
-  <div class="mb-1 text-secondary">NOMBRE DEL BENEFICIARIO:</div>
+  <?php if($Session_IDEstacion == 14){ ?>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary">RAZON SOCIAL:</div>
+  <select class="form-select rounded-0" id="Depto">
+  <option><?=$razonsocial;?></option>
+  <option value="23">BANCAMIFEL, SOCIEDAD ANÓNIMA, FIDEICOMISO 2176/2016</option>
+  </select>
+  </div> 
+  <?php } ?>
+
+  </div> 
+  </div>   
+
+
+  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL BENEFICIARIO:</div>
   <input type="text" class="form-control rounded-0" id="Beneficiario" value="<?=$beneficiario;?>">
   </div>
 
-  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-3">
-  <div class="mb-1 text-secondary">MONTO:</div>
+  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
+  <div class="mb-1 text-secondary fw-bold">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" value="<?=$monto;?>" >
   </div>
 
-  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-3">
+  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
   <div class="mb-1 text-secondary">MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option><?=$moneda;?></option>
@@ -409,33 +440,34 @@
   </select>
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">FACTURA NO:</div>
+       
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* FACTURA NO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="NoFactura" value="<?=$nofactura;?>" >
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">CORREO ELÉCTRONICO:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* CORREO ELÉCTRONICO:</div>
   <input type="text" min="0" class="form-control rounded-0" id="Correo" value="<?=$email;?>" >
   </div>
-        
-  <div class="col-12 mb-3">  
-  <div class="mb-1 text-secondary mt-2">CONCEPTO:</div>
+
+  <div class="col-12 mb-2">  
+  <div class="mb-1 text-secondary mt-2 fw-bold">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"><?=$concepto;?></textarea>
   </div>
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">NOMBRE DEL SOLICITANTE:</div>
+   
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" value="<?=$solicitante;?>">
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">TELÉFONO:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* TELÉFONO:</div>
   <input type="text" class="form-control rounded-0" id="Telefono" value="<?=$telefono;?>" >
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-  <div class="mb-1 text-secondary">USO DEL CDFI:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* USO DEL CDFI:</div>
   <select class="form-select rounded-0" id="CFDI">
   <option value="<?=$cfdi;?>"><?=$cfdi;?></option>
   <option>G01 Adquisicion de Mercancias</option>
@@ -453,37 +485,37 @@
   </select>
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
   <div class="mb-1 text-secondary">MÉTODO DE PAGO:</div>
   <select class="form-select rounded-0" id="Metodopago">
-            <option value="<?=$metodo_pago;?>"><?=$metodo_pago;?></option>
-            <option>PUE Pago en una sola exhibición</option>
-            <option>PPD Pago en parcialidades o diferido</option>
+  <option value="<?=$metodo_pago;?>"><?=$metodo_pago;?></option>
+  <option>PUE Pago en una sola exhibición</option>
+  <option>PPD Pago en parcialidades o diferido</option>
   </select>
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">BANCO:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* BANCO:</div>
   <input type="text" class="form-control rounded-0" id="Banco" value="<?=$banco;?>" >
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">NO. DE CUENTA: </div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* NO. DE CUENTA: </div>
   <input type="text" class="form-control rounded-0" id="NoCuenta" value="<?=$nocuenta;?>" >
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">NO. DE CUENTA CLABE:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* NO. DE CUENTA CLABE:</div>
   <input type="text" class="form-control rounded-0" id="NoCuentaClave" value="<?=$cuentaclabe;?>" >
   </div>
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">REFERENCIA/CONVENIO:</div>
+ 
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* REFERENCIA/CONVENIO:</div>
   <input type="text" class="form-control rounded-0" id="Referencia" value="<?=$referencia;?>" >
   </div>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-  <div class="mb-1 text-secondary">FORMA DE PAGO:</div>
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">      
+  <div class="mb-1 text-secondary fw-bold">* FORMA DE PAGO:</div>
   <select class="form-select rounded-0" id="FormaPago">
   <option value="<?=$forma_pago;?>"><?=$forma_pago;?></option>
   <option>01  Efectivo</option>
@@ -510,144 +542,164 @@
   <option>31  Intermediario pagos</option>
   <option>99  Por definir</option>
   </select>
+  </div>
 
+  <div class="col-12"><hr></div>
+            
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">PRESUPUESTO:</div>
+            <input type="file" class="form-control rounded-0" id="FacturaPresupuesto">
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">PREFACTURA PDF:</div>
+            <input type="file" class="form-control rounded-0" id="PrefacturaPDF">
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">FACTURA PDF:</div>
+            <input type="file" class="form-control rounded-0" id="FacturaPDF">
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">FACTURA XML:</div>
+            <input type="file" class="form-control rounded-0" id="FacturaXML">
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">CARATULA BANCARIA</div>
+            <input type="file" class="form-control rounded-0" id="CaratulaB">
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">CONSTANCIA DE SITUACION</div>
+            <input type="file" class="form-control rounded-0" id="ConstanciaS">
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">ORDEN DE SERVICIO</div>
+            <input type="file" class="form-control rounded-0" id="OrdenServicio">
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">ORDEN DE COMPRA</div>
+            <input type="file" class="form-control rounded-0" id="OrdenCompra">
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">ORDEN DE MANTENIMIENTO</div>
+            <input type="file" class="form-control rounded-0" id="OrdenMantenimiento">          
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">PÓLIZA DE GARANTÍA</div>
+            <input type="file" class="form-control rounded-0" id="PolizaGarantia"> 
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">PRORRATEO</div>
+            <input type="file" class="form-control rounded-0" id="Prorrateo"> 
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">REEMBOLSO CAJA CHICA</div>
+            <input type="file" class="form-control rounded-0" id="ReembolsoCajaChica"> 
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">COTIZACIÓN</div>
+            <input type="file" class="form-control rounded-0" id="Cotizacion"> 
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">NOTA DE CREDITO PDF:</div>
+            <input type="file" class="form-control rounded-0" id="NotaPDF"> 
+            </div>
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">NOTA DE CREDITO XML:</div>
+            <input type="file" class="form-control rounded-0" id="NotaXML"> 
+            </div>
+            
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">  
+            <div class="mb-1 text-secondary mt-2">CONTRATO:</div>
+            <input type="file" class="form-control rounded-0" id="Contrato"> 
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2"> 
+            <div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO PDF:</div>
+            <input type="file" class="form-control rounded-0" id="ComPDF">
+            </div>
+          
+          
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2"> 
+            <div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO XML:</div>
+            <input type="file" class="form-control rounded-0" id="ComXML">
+            </div>
+          
+            <div class="col-12"><hr></div>
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">OBSERVACIONES:</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">  
+  <textarea class="form-control rounded-0 bg-light border-0" id="Observaciones" style="height:190px" placeholder="Escribe aqui tu comentario..."><?=$observaciones;?></textarea>
+  </th>
+  </tr>
+  </tbody>
+  </table>
   </div>
   </div>
   
-  <hr>
-
-  <div class="row">
-          
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">PRESUPUESTO:</div>
-<input type="file" class="form-control" id="FacturaPresupuesto">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">PREFACTURA PDF:</div>
-<input type="file" class="form-control" id="PrefacturaPDF">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">FACTURA PDF:</div>
-<input type="file" class="form-control" id="FacturaPDF">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">FACTURA XML:</div>
-<input type="file" class="form-control" id="FacturaXML">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">CARATULA BANCARIA</div>
-<input type="file" class="form-control" id="CaratulaB">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">CONSTANCIA DE SITUACION</div>
-<input type="file" class="form-control" id="ConstanciaS">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">ORDEN DE SERVICIO</div>
-<input type="file" class="form-control" id="OrdenServicio">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">ORDEN DE COMPRA</div>
-<input type="file" class="form-control" id="OrdenCompra">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">ORDEN DE MANTENIMIENTO</div>
-<input type="file" class="form-control" id="OrdenMantenimiento">          
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3"> 
-<div class="mb-1 text-secondary mt-2">PÓLIZA DE GARANTÍA</div>
-<input type="file" class="form-control" id="PolizaGarantia">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-<div class="mb-1 text-secondary mt-2">PRORRATEO</div>
-<input type="file" class="form-control" id="Prorrateo"> 
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-<div class="mb-1 text-secondary mt-2">REEMBOLSO CAJA CHICA</div>
-<input type="file" class="form-control" id="ReembolsoCajaChica"> 
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">  
-<div class="mb-1 text-secondary mt-2">COTIZACIÓN</div>
-<input type="file" class="form-control" id="Cotizacion"> 
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-<div class="mb-1 text-secondary mt-2">NOTA DE CREDITO PDF:</div>
-<input type="file" class="form-control" id="NotaPDF"> 
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-<div class="mb-1 text-secondary mt-2">NOTA DE CREDITO XML:</div>
-<input type="file" class="form-control" id="NotaXML"> 
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-<div class="mb-1 text-secondary mt-2">CONTRATO:</div>
-<input type="file" class="form-control" id="Contrato"> 
-</div>
-
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO PDF:</div>
-<input type="file" class="form-control" id="ComPDF">
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-<div class="mb-1 text-secondary mt-2">COMPLEMENTO DE PAGO XML:</div>
-<input type="file" class="form-control" id="ComXML">
-
-</div>
-
-
-  <hr class="mt-4">
-
-  <div class="row">
-          
-  <div class="col-12 mb-4">  
-  <div class="mb- text-secondary">OBSERVACIONES:</div>
-  <textarea class="form-control rounded-0" id="Observaciones"><?=$observaciones;?></textarea>
-  </div>
-
+  <!---------- FIRMA ---------->
   <?php if($status == 0){ ?>
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary text-center">EDITAR FIRMA DEL ENCARGADO</div>
-  <div id="signature-pad" class="signature-pad mt-2" >
-  <div class="signature-pad--body">
-  <canvas style="width: 100%; height: 150px; border: 1px black solid;" id="canvas"></canvas>
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DEL ENCARGADO</th> </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <th class="align-middle text-center p-0 no-hover2">          
+  <div id="signature-pad" class="signature-pad ">
+  <div class="signature-pad--body ">
+  <canvas style="width: 100%; height: 150px; border-right: .1px solid #215d98; border-left: .1px solid #215d98; cursor: crosshair;" id="canvas"></canvas>
   </div>
   <input type="hidden" name="base64" value="" id="base64">
   </div> 
+  </th>
+  </tr>
 
-  <div class="text-end mt-2">
-  <button class="btn btn-info btn-sm text-white" onclick="resizeCanvas()"><small>Limpiar</small></button>
+  <tr>
+  <th class="align-middle text-center p-2 bg-danger text-white" onclick="resizeCanvas()">  
+  <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar firma        
+  </th>
+  </tr>
+
+  </tbody>
+  </table>
   </div>
 
-  </div>
-  <?php } ?>
-
-  </div>
-
-  <?php if($status == 0){ ?>
+  <div class="col-12">
   <hr>
-  <div class="text-end">
-  <button type="button" class="btn btn-primary" onclick="Guardar(<?=$GET_idReporte;?>)">Guardar</button>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
   </div>
+
   <?php } ?>
 
   </div>
-  
+
   </div>
   </div>
   </div>
@@ -655,6 +707,7 @@
   </div>
   </div>
 
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

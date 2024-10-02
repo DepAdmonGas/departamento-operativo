@@ -1,9 +1,9 @@
 <?php
 // Copyright (c) 2020, Altiria TIC SL
 // All rights reserved.
-// El uso de este código de ejemplo es solamente para mostrar el uso de la pasarela de envío de SMS de Altiria
-// Para un uso personalizado del código, es necesario consultar la API de especificaciones técnicas, donde también podrás encontrar
-// más ejemplos de programación en otros lenguajes y otros protocolos (http, REST, web services)
+// El uso de este c?digo de ejemplo es solamente para mostrar el uso de la pasarela de env?o de SMS de Altiria
+// Para un uso personalizado del c?digo, es necesario consultar la API de especificaciones t?cnicas, donde tambi?n podr?s encontrar
+// m?s ejemplos de programaci?n en otros lenguajes y otros protocolos (http, REST, web services)
 // https://www.altiria.com/api-envio-sms/
 
 class AltiriaSMS {
@@ -107,7 +107,7 @@ class AltiriaSMS {
 		 $COMANDO='cmd=sendsms&login='.$this->getLogin().'&passwd='.$this->getPassword();
 		 $COMANDO.='&msg='.urlencode($message);
 
-		//Como destinatarios se admite un array de teléfonos, una cadena de teléfonos separados por comas o un único teléfono
+		//Como destinatarios se admite un array de tel?fonos, una cadena de tel?fonos separados por comas o un ?nico tel?fono
 		if (is_array($destination)){
 		    foreach ($destination as $telefono) {
 				$this->logMsg("Add destination ".$telefono);
@@ -135,7 +135,7 @@ class AltiriaSMS {
 			$this->logMsg("Add domainId ".$this->getDomainId());
 		}
 
-		//No es posible utilizar el remitente en América pero sí en España y Europa
+		//No es posible utilizar el remitente en Am?rica pero s? en Espa?a y Europa
 		$senderId=$this->getSenderId();
 		if (!isset($senderId) || empty($senderId)) {
 			$this->logMsg("NO senderId ");
@@ -145,7 +145,7 @@ class AltiriaSMS {
 			$this->logMsg("Add senderId ".$senderId);
 		}
 
-		//Concat. Valores posibles true. Si no se especifica o es false, no se envía
+		//Concat. Valores posibles true. Si no se especifica o es false, no se env?a
 		$concat=$this->getConcat();
 		if (!isset($concat) || empty($concat) || $concat===false) {
 			$this->logMsg("NO concat ");
@@ -155,7 +155,7 @@ class AltiriaSMS {
 			$this->logMsg("Add concat true");
 		}
 
-		//No es posible utilizar el remitente en América pero sí en España y Europa
+		//No es posible utilizar el remitente en Am?rica pero s? en Espa?a y Europa
 		$encoding=$this->getEncoding();
 		if (!isset($encoding) || empty($encoding)) {
 			$this->logMsg("NO encoding");

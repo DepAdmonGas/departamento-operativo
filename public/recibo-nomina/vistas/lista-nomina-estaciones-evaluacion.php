@@ -5,9 +5,8 @@ $GET_idEstacion = $_GET['idEstacion'];
 $GET_year = $_GET['year'];
 $GET_idMes = $_GET['mes'];
 
-
 if($GET_idMes == 13){
-$TituloGeneral = "Resumen Anual ".$GET_year."";
+$tituloBreadcrumb = "del Año";
 
 if($GET_idEstacion == 1 || $GET_idEstacion == 2 || $GET_idEstacion == 3 || $GET_idEstacion == 4 || $GET_idEstacion == 5 || $GET_idEstacion == 9 || $GET_idEstacion == 14){
     $descripcion = "Semana";
@@ -31,7 +30,7 @@ $descripcion = "Quincena";
 $listadoQuincenas = QuincenasDelMes($GET_idMes, $GET_year);
 }
 
-$TituloGeneral = ''.nombremes($GET_idMes).' '.$GET_year.'';
+$tituloBreadcrumb = $ClassHerramientasDptoOperativo->nombremes($GET_idMes);
 }
 
 
@@ -174,62 +173,74 @@ function obtenerNumeroSemanas($year) {
     return $numeroSemanas;
 }
  
-//---------- MOSTRAR GRAFICAS DE LAS SEMANAS / QUINCENAS ---------- 
-function mostrarGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, $con){
+function mostrarGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, $con) {
 
-$data = obtenerDatosGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, $con);
-if($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 9 || $idEstacion == 14){
-//---------- FECHA DE INICIO Y FIN DE LA SEMANA ----------
-$fechaNomiaSemana = fechasNominaSemana($year, $semana);
-$inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
-$finFechas = $fechaNomiaSemana['finSemanaDay'];
+    $data = obtenerDatosGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, $con);
+    if ($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 9 || $idEstacion == 14) {
+        //---------- FECHA DE INICIO Y FIN DE LA SEMANA ----------
+        $fechaNomiaSemana = fechasNominaSemana($year, $semana);
+        $inicioFechas = $fechaNomiaSemana['inicioSemanaDay'];
+        $finFechas = $fechaNomiaSemana['finSemanaDay'];
+    } else {
+        //---------- FECHA DE INICIO Y FIN DE LA QUINCENA ----------
+        $fechaNomiaQuincena = fechasNominaQuincenas($year, $semana, $mes);
+        $inicioFechas = $fechaNomiaQuincena['inicioQuincenaDay'];
+        $finFechas = $fechaNomiaQuincena['finQuincenaDay'];
+    }
 
-}else{
-    
-//---------- FECHA DE INICIO Y FIN DE LA QUINCENA ----------
-$fechaNomiaQuincena = fechasNominaQuincenas($year,$semana,$mes);
-$inicioFechas = $fechaNomiaQuincena['inicioQuincenaDay'];
-$finFechas = $fechaNomiaQuincena['finQuincenaDay'];
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
+    echo '<div class="table-responsive">';
+    echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center">';
+    echo 'Recibos de Nomina - ' . $descripcion . ' ' . $semana . '</b> <br> ' . formatoFecha($inicioFechas) . ' al ' . formatoFecha($finFechas);
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
+    echo '<div id="chart_div' . $semana . '" style="width: 100%; height: 500px;"></div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>';
+    echo '</div>';
 
+    echo '<script>
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart' . $semana . ');
+
+    function drawChart' . $semana . '() {
+        var data = google.visualization.arrayToDataTable(' . json_encode($data) . ');
+
+        var options = {
+            width: "100%", // Ancho al 100% para ser responsive
+            height: "auto", // Altura automática
+            seriesType: "bars",
+            series: {0: {type: "bars"}, 1: {type: "bars"}},
+            legend: {
+                position: "bottom"
+            },
+            hAxis: {
+                slantedText: false,
+                angle: 0
+            }
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById("chart_div' . $semana . '"));
+        chart.draw(data, options);
+
+        // Redibujar la gráfica al cambiar el tamaño de la ventana
+        window.addEventListener("resize", function(){
+            chart.draw(data, options);
+        });
+    }
+    </script>';
 }
 
-echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
-echo '<div class="border p-3 text-center position-relative">'; // Agregado "position-relative"
-echo '<p style="font-size: 14px;"><b>Recibos de Nomina - ' . $descripcion . ' ' . $semana . '</b> <br> '.formatoFecha($inicioFechas).' al '.formatoFecha($finFechas).'</p>'; // Título con un espacio adicional
-echo '<hr>';
-echo '<div class="table-responsive">';
-echo '<div id="chart_div' . $semana . '"></div>'; // Eliminado el estilo en línea
-echo '</div>';
-echo '</div>';
-echo '</div>';
-
-echo '<script>
-google.charts.load("current", {packages:["corechart"]});
-google.charts.setOnLoadCallback(drawChart' . $semana . ');
-
-function drawChart' . $semana . '() {
-    var data = google.visualization.arrayToDataTable(' . json_encode($data) . ');
-
-    var options = {
-        width: "auto", // Cambiado de "100%" a "auto"
-        height: 500,
-        seriesType: "bars",
-        series: {0: {type: "bars"}, 1: {type: "bars"}},
-        legend: {
-            position: "bottom"
-        },
-        hAxis: {
-            slantedText: false,
-            angle: 0
-        }
-    };
-
-    var chart = new google.visualization.ComboChart(document.getElementById("chart_div' . $semana . '"));
-    chart.draw(data, options);
-}
-</script>';
-
-}
 
 function obtenerDatosGraficoSemQuin($idEstacion, $year, $mes, $semana, $descripcion, $con){
     
@@ -284,14 +295,24 @@ function consultaPuntajeSemQuin($idEstacion, $year, $mes, $semana, $descripcion,
 function mostrarGraficoMensual($idEstacion, $year, $mes, $totalSemQui, $descripcion, $con){
     
     $data = obtenerDatosGraficoMensual($idEstacion, $year, $mes, $totalSemQui, $descripcion, $con);
-
     echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">';
-    echo '<div class="border p-3 text-center">';
-    echo '<p style="font-size: 14px;"><b>Recibos de Nomina - Resumen Mensual</p>'; // Título con un espacio adicional
-    echo '<hr>';
     echo '<div class="table-responsive">';
+    echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center p-3">';
+    echo 'Resumen Mensual';
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
     echo '<div id="chart_div_mes' . $mes . '"></div>'; // Eliminado el estilo en línea
-    echo '</div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
     echo '</div>';
     echo '</div>';
     
@@ -303,8 +324,8 @@ function mostrarGraficoMensual($idEstacion, $year, $mes, $totalSemQui, $descripc
         var data = google.visualization.arrayToDataTable(' . json_encode($data) . ');
     
         var options = {
-            width: "auto", // Cambiado de "100%" a "auto"
-            height: 500,
+            width: "100%", // Ancho al 100% para ser responsive
+            height: "510", // Altura automática
             seriesType: "bars",
             series: {0: {type: "bars"}, 1: {type: "bars"}},
             legend: {
@@ -355,6 +376,7 @@ function consultaPuntajeMensual($idEstacion, $year, $mes, $descripcion, $activid
     $sql_lista3 = "SELECT puntaje FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND descripcion = '".$descripcion."' AND actividad = '".$actividad."'";
     $result_lista3 = mysqli_query($con, $sql_lista3);
     $numero_lista3 = mysqli_num_rows($result_lista3);
+    $puntaje = 0;
 
     if($numero_lista3 == 0){
     $puntaje = 0;
@@ -378,12 +400,24 @@ function consultaPuntajeMensual($idEstacion, $year, $mes, $descripcion, $activid
 function mostrarGraficoAnual($idEstacion, $year, $totalYear, $descripcion, $con){
     
     $data = obtenerDatosGraficoAnual($idEstacion, $year, $totalYear, $descripcion, $con);
-
     echo '<div class="col-12">';
-    echo '<div class="border p-3 text-center">';
     echo '<div class="table-responsive">';
+    echo '<table id="tabla_bitacora" class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center p-4" style="font-size: 14px;">';
+    echo 'Resumen Anual';
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
     echo '<div id="chart_div_year' . $year . '"></div>'; // Eliminado el estilo en línea
-    echo '</div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
     echo '</div>';
     echo '</div>';
     
@@ -395,7 +429,7 @@ function mostrarGraficoAnual($idEstacion, $year, $totalYear, $descripcion, $con)
         var data = google.visualization.arrayToDataTable(' . json_encode($data) . ');
     
         var options = {
-            width: "auto", // Cambiado de "100%" a "auto"
+            width: "100%", // Ancho al 100% para ser responsive
             height: 650,
             seriesType: "bars",
             series: {0: {type: "bars"}, 1: {type: "bars"}},
@@ -448,6 +482,7 @@ function consultaPuntajeAnual($idEstacion, $year, $descripcion, $actividad, $con
     $sql_lista3 = "SELECT puntaje FROM op_recibo_nomina_v2_puntaje WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND descripcion = '".$descripcion."' AND actividad = '".$actividad."'";
     $result_lista3 = mysqli_query($con, $sql_lista3);
     $numero_lista3 = mysqli_num_rows($result_lista3);
+    $puntaje = 0;
 
     if($numero_lista3 == 0){
     $puntaje = 0;
@@ -468,18 +503,21 @@ function consultaPuntajeAnual($idEstacion, $year, $descripcion, $actividad, $con
 
 ?>
 
-
-
-<div class="border-0 p-3">
-
 <div class="row">
 
-<div class="col-10">
-<h5><?=$Titulo;?> - <?=$TituloGeneral?> </h5>
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Recibo de nomina</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$Titulo;?> (Evaluación <?=$tituloBreadcrumb?> <?=$GET_year?>)</li>
+
+</ol>
 </div>
+    
+<div class="row"> 
+<div class="col-10"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$Titulo;?> (Evaluación <?=$tituloBreadcrumb?> <?=$GET_year?>)</h3> </div>
+<div class="col-2"> 
 
-
-<div class="col-2">
 <div class="d-flex align-items-center">
 <select class="form-select rounded-0" id="mesEstacion" onchange="SelMesEstaciones(<?=$GET_idEstacion?>,<?=$GET_year?>)"> 
 <option value="">Seleccion un mes...</option>    
@@ -496,12 +534,14 @@ echo "<option value='".($i+1)."'>$meses[$i]</option>";
 <option value="13">Anual</option>    
 </select>
 </div>
-</div> 
-
-
+  
+</div>
+</div>
+<hr>
+</div>
 </div>
 
-<hr>
+
 
 <div class="row">
 
@@ -543,5 +583,4 @@ echo mostrarGraficoMensual($GET_idEstacion, $GET_year, $GET_idMes, $totalMes, $d
 ?>
 
 
-</div>
 </div>

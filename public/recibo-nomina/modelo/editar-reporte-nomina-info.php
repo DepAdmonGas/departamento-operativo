@@ -70,11 +70,24 @@ function PersonalNomina($idUsuario, $con){
     $ValorPrima = $_POST['ValorPrima'];
     $ValorAlerta = $_POST['ValorAlerta'];
 
-    $NoDoc1  =   $_FILES['DocumentoAcuse_file']['name'];
+
+    if (isset($_FILES['DocumentoAcuse_file'])) {
+    $NoDoc1  =  $_FILES['DocumentoAcuse_file']['name'];
+    } else {
+    $NoDoc1 = null;
+    }
+
+
+    if (isset($_FILES['DocumentoFirma_file'])) {
+    $NoDoc2  =  $_FILES['DocumentoFirma_file']['name'];
+    } else {
+    $NoDoc2 = null;
+    }
+    
+
     $UpDoc1 = "../../../archivos/recibos-nomina-v2/acuses/".$numeroAleatorio."-AcuseNomina".$nombreUser.$numeroAleatorio2;
     $NomDoc1 = $numeroAleatorio."-AcuseNomina".$nombreUser.$numeroAleatorio2;
-
-    $NoDoc2  =   $_FILES['DocumentoFirma_file']['name'];
+    
     $UpDoc2 = "../../../archivos/recibos-nomina-v2/firmados/".$numeroAleatorio."-FirmaNomina".$nombreUser.$numeroAleatorio2;
     $NomDoc2 = $numeroAleatorio."-FirmaNomina".$nombreUser.$numeroAleatorio2;
   
@@ -82,23 +95,29 @@ function PersonalNomina($idUsuario, $con){
     $nominaDeshabilitada = nominaDeshabilitada($idUsuario,$con);
     $nominaHabilitada = nominaHabilitada($idUsuario,$con);
 
-
-    if(move_uploaded_file($_FILES['DocumentoAcuse_file']['tmp_name'], $UpDoc1)){
+    if (isset($_FILES['DocumentoAcuse_file'])) {
+        if(move_uploaded_file($_FILES['DocumentoAcuse_file']['tmp_name'], $UpDoc1)){
     
-    $sql_edit1 = "UPDATE op_recibo_nomina_v2 SET 
-    doc_nomina = '".$NomDoc1."'
-    WHERE id = '".$idReporte."'";
-    mysqli_query($con, $sql_edit1);
+            $sql_edit1 = "UPDATE op_recibo_nomina_v2 SET 
+            doc_nomina = '".$NomDoc1."'
+            WHERE id = '".$idReporte."'";
+            mysqli_query($con, $sql_edit1);
+        
+            }
+    }
 
-    }
-         
-    if(move_uploaded_file($_FILES['DocumentoFirma_file']['tmp_name'], $UpDoc2)){
+    if (isset($_FILES['DocumentoFirma_file'])) {
+
+        if(move_uploaded_file($_FILES['DocumentoFirma_file']['tmp_name'], $UpDoc2)){
     
-    $sql_edit2 = "UPDATE op_recibo_nomina_v2 SET 
-    doc_nomina_firma = '".$NomDoc2."'
-    WHERE id = '".$idReporte."'";
-    mysqli_query($con, $sql_edit2);
+            $sql_edit2 = "UPDATE op_recibo_nomina_v2 SET 
+            doc_nomina_firma = '".$NomDoc2."'
+            WHERE id = '".$idReporte."'";
+            mysqli_query($con, $sql_edit2);
+        }
     }
+
+
  
    
     if($ValorPrima == 0 && $ValorAlerta == 0 && $PrimaVacacional == 2){

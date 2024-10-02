@@ -1,11 +1,8 @@
 <?php
-require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}  
+require('app/help.php'); 
 
 ?> 
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -20,21 +17,13 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
-  <style media="screen">
-  .sel-text{
-    font-size: .9em;
-  }
-  </style>
 
   <script type="text/javascript">
 
@@ -50,8 +39,8 @@ header("Location:".PORTAL."");
       $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-comodines.php?idEstacion=' + idEstacion + "&idRol=0");
     
     }else{
-      $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-personal.php?idEstacion=' + idEstacion);
-    
+      $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
+
     }
 
     }    
@@ -66,7 +55,10 @@ header("Location:".PORTAL."");
     function SelEstacion(idEstacion){
     sizeWindow(); 
     sessionStorage.setItem('idestacion', idEstacion);
-    $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-personal.php?idEstacion=' + idEstacion);
+    //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-personal.php?idEstacion=' + idEstacion);
+    $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
+
+
     }
 
     function SelComodines(idEstacion,idRol){
@@ -163,7 +155,7 @@ sizeWindow();
 
 
 }else{
-$("#Mensaje").html('<div class="text-center text-danger">La imagen debe ser .JPG o .PNG</div>');
+alertify.error('La imagen debe ser .JPG o .PNG');
 }
 }else{
 $("#seleccionArchivos").css('border','2px solid #A52525');
@@ -380,31 +372,27 @@ Rol de Comodines
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ContenidoOrganigrama" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ContenidoOrganigrama"></div> 
   </div>
   </div> 
 
   </div>
 
-</div>
+  </div>
 
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg"> 
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
   </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
 

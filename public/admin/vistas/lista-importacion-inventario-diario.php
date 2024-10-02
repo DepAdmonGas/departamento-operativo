@@ -4,42 +4,62 @@ require('../../../app/help.php');
 if(isset($_GET["Year"]) AND isset($_GET["Mes"])){
 $sql_lista = "SELECT * FROM op_inventarios_diarios WHERE MONTH(fecha) = '".$_GET["Mes"]."' AND YEAR(fecha) = '".$_GET["Year"]."' ";
 
-
-$titulo = "
-
-<div class='row'>
-
-<div class='col-12'>
-<span class='badge rounded-pill tables-bg float-end pointer' style='font-size:12px' onclick='Contenido()'> 
-<label class='mt-1' >Reportes de ".nombremes($_GET["Mes"])." del ".$_GET["Year"]." </label>
-<img class='float-end  ms-2' src='".RUTA_IMG_ICONOS."eliminar.png'></span>
+$titulo = '
+<div class="row">
+<div class="col-12"><div class="alert alert-primary text-start" role="alert">
+Reportes de '.nombremes($_GET["Mes"]).' del '.$_GET["Year"].'</div>
 </div>
+</div>';
 
-</div>
+$titulo2 = '<button type="button" class="btn btn-labeled2 btn-success mt-3" onclick="Contenido()">
+<span class="btn-label2"><i class="fa-solid fa-rotate-left"></i></span>Regresar a la pagina información principal</button>';
 
-";
+$titulo3 = 'de '.nombremes($_GET["Mes"]).' del '.$_GET["Year"].'';
 
+$valYear = $_GET["Year"];
+$valMes = $_GET["Mes"];
 
 }else{
-$sql_lista = "SELECT * FROM op_inventarios_diarios ORDER BY fecha DESC LIMIT 31";
-$titulo = "";
+$sql_lista = "SELECT * FROM op_inventarios_diarios 
+WHERE MONTH(fecha) = '".$fecha_mes."' AND YEAR(fecha) = '".$fecha_year."' ORDER BY fecha DESC LIMIT 31";
+
+$titulo = '
+<div class="row">
+<div class="col-12"><div class="alert alert-primary" role="alert">
+Reportes de '.nombremes($fecha_mes).' del '.$fecha_year.'</div>
+</div>
+</div>';
+
+$titulo2 = "";
+
+$titulo3 = 'de '.nombremes($fecha_mes).' del '.$fecha_year.'';
+
+$valYear = $fecha_year;
+$valMes = $fecha_mes;
+
 }
 
 function Detalle($idReporte,$detalle,$con){
-
-$contenido .= '<div class="font-weight-bold">'.$detalle.'</div>';
+$contenido ="";
 $contenido .= '<div class="table-responsive">';
-$contenido .= '<table class="table table-bordered table-sm pb-0 mb-0" style="font-size: 0.9em;">
-<thead >
+$contenido .= '<table class="custom-table fw-bold style="font-size: 0.9em;" width="100%">
+
+<thead>
+
   <tr>
-    <td class="font-weight-bold">Sucursal</td>
-    <td class="font-weight-bold text-center" >Destino</td>
+    <td class="font-weight-bold text-dark bg-light" colspan="5">'.$detalle.'</td>
+  </tr>
+
+  <tr>
+    <td class="text-dark bg-light">Sucursal</td>
+    <td class="font-weight-bold text-dark text-center bg-light" >Destino</td>
     <td class="font-weight-bold text-center" style="background: #76bd1d;color: white;">87 Oct</td>
     <td class="font-weight-bold text-center" style="background: #e21683;color: white;">91 Oct</td>
-    <td class="font-weight-bold text-center" style="background: #5e0f8e;color: white;">Diesel</td>
+    <td class="text-center" style="background: #5e0f8e;color: white;">Diesel</td>
   </tr>
 </thead>';
-$contenido .= '<tbody>';
+
+$contenido .= '<tbody class="bg-light">';
 $sql_lista = "SELECT * FROM op_inventarios_diarios_detalle WHERE id_reporte = '".$idReporte."' AND detalle = '".$detalle."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
@@ -91,10 +111,10 @@ $coldiesel = "background: #FFC300;";
 $coldiesel = "background: #5e0f8e;";
 }
 
-
+ 
 $contenido .= '<tr>';
-$contenido .= '<td class="align-middle"><b>'.$row_lista['sucursal'].'</b></td>';
-$contenido .= '<td class="align-middle text-center">'.$destino.'</td>';
+$contenido .= '<td class="align-middle bg-light">'.$row_lista['sucursal'].'</td>';
+$contenido .= '<td class="align-middle bg-light text-center">'.$destino.'</td>';
 $contenido .= '<td class="align-middle text-center" style="'.$coloct87.'color: white;">'.$oct87.'</td>';
 $contenido .= '<td class="align-middle text-center" style="'.$coloct91.'color: white;">'.$oct91.'</td>';
 $contenido .= '<td class="align-middle text-center" style="'.$coldiesel.'color: white;">'.$diesel.'</td>';
@@ -115,17 +135,19 @@ $contenido .= '</div>';
 return $contenido;
 }
 
-echo $titulo;
-echo '<div class="row mt-2">';
+
 
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 if ($numero_lista > 0) {
+echo $titulo;
+
+echo '<div class="row ">';
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
 $idReporte = $row_lista['id'];
 if($row_lista['estatus'] == 0){
-$color = 'table-warning';	
+$color = 'bg-warning';	
 }else{
 $color = '';	
 }
@@ -134,38 +156,61 @@ $Detalle1 = Detalle($idReporte,'INVENTARIOS REALES',$con);
 $Detalle2 = Detalle($idReporte,'CAPACIDAD ALMACENAJE',$con);
 
 
-echo '<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2 mt-1">';
+echo '<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">';
 
-echo '<div class="border p-3 '.$color.'">';
+echo '
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center" colspan="2">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).'</th> </tr>
+</thead>
+<tbody>
+<tr class="no-hover">
+<th class="align-middle text-center bg-white p-1" colspan="2">
+'.$Detalle1.'
+</th>
+</tr>
 
-echo '<div class="row">';
-echo '<div class="col-12">';
+<tr class="no-hover">
+<th class="align-middle text-center p-2 bg-primary text-white" onclick="Editar('.$idReporte.')">  
+<i class="fa-solid fa-pencil"></i> Editar         
+</th>
 
-echo '<div class="float-end pointer">
-<img class="ms-1 pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="Editar('.$idReporte.')">
-<img class="ms-1 pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$idReporte.')">
+<th class="align-middle text-center p-2 bg-danger text-white" onclick="Eliminar('.$idReporte.','.$valYear.','.$valMes.')">  
+<i class="fa-regular fa-trash-can"></i> Eliminar         
+</th>
+</tr>
+ 
+</tbody>
+</table>
 </div>';
 
 echo '</div>';
-echo '</div>';
-
-echo '<hr>';
-
-echo '<div class="mb-1 text-secondary">'.FormatoFecha($row_lista['fecha']).'</div>';
-echo '<div class="row">';
-echo '<div class="col-12">';
-echo $Detalle1;
-echo '</div>';
-/*
-echo '<div class="col-6">';
-echo $Detalle2;
-echo '</div>';
-*/
-echo '</div>';
-echo '</div>';
-
-echo '</div>';
-
-}
 }
 echo '</div>';
+
+
+}else{
+
+  echo '<header class="bg-light py-5">
+  <div class="container px-5">
+  <div class="row gx-5 align-items-center justify-content-center">
+
+  <div class="col-xl-5 col-xxl-6 d-xl-block text-center">
+  <img class="my-2" style="width: 100%" src="'.RUTA_IMG_ICONOS.'no-busqueda.png" width="50%">
+  </div>
+ 
+  <div class="col-lg-8 col-xl-7 col-xxl-6">
+  <div class="my-2 text-center"> 
+  <h1 class="display-3 fw-bolder text-dark">No se encontró la información <br> '.$titulo3.'</h1> 
+  
+  '.$titulo2.'
+
+  </div>
+  </div>
+  
+  </div>
+  </div>
+  </header>';
+
+}

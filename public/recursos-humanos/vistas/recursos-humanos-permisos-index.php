@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 function ToSolicitud($idEstacion,$con){
 
 $sql_lista = "SELECT id FROM op_rh_permisos WHERE id_estacion = '".$idEstacion."' AND (estado BETWEEN 0 AND 1) ";
@@ -33,16 +29,14 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
-  <style media="screen">
 
-  .decorado:hover {
-  text-decoration: none;
-  }
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
+  
+
 
   <script type="text/javascript">
 
@@ -50,26 +44,51 @@ return $numero_lista = mysqli_num_rows($result_lista);
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-    idEstacion = sessionStorage.getItem('idestacion');
-    $('#ListaPermisos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-permisos.php?idEstacion=' + idEstacion);
-        
-    }
-    }  
+  idEstacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idEstacion)        
+  }
+  }  
 
-    });
+  });
 
     function Regresar(){
     sessionStorage.removeItem('idestacion');
     window.history.back();
     }
 
-    function SelEstacion(idEstacion){
+
+    function SelEstacion(idEstacion) {
+    let targets;
     sizeWindow();
     sessionStorage.setItem('idestacion', idEstacion);
-    $('#ListaPermisos').load('public/recursos-humanos/vistas/contenido-recursos-humanos-permisos.php?idEstacion=' + idEstacion);
+      
+    targets = [8, 9];
+
+    $('#ListaPermisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion, function() {
+    $('#tabla_permisos_' + idEstacion).DataTable({
+    "stateSave": true,
+    "language": {
+    "url": "<?=RUTA_JS2?>/es-ES.json"
+    },
+    "order": [[0, "desc"]],
+    "lengthMenu": [25, 50, 75, 100],
+    "columnDefs": [
+    { "orderable": false, "targets": targets },
+    { "searchable": false, "targets": targets }
+    ]
+    });
+    });
+    
+    } 
+
+    function DetallePermiso(idPermiso) {
+    $('#Modal').modal('show');
+    //$('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-permisos.php?idPermiso=' + idPermiso);
+    $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/permisos/modal-detalle.php?idPermiso=' + idPermiso);
+
     }
 
     function Registro(idEstacion){
@@ -123,6 +142,14 @@ alertify.confirm('',
   function Firmar(id){
   window.location.href = "recursos-humanos-permisos-firmar/" + id; 
   }
+
+
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
@@ -278,30 +305,31 @@ $ToSolicitud = ToSolicitud($id,$con);
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaPermisos" class="cardAG"></div>
+  <div class="col-12" id="ListaPermisos">
   </div> 
-
   </div>
   </div> 
-
+  </div>
   </div>
 
-</div>
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="ContenidoModal"></div>
-      </div>
-    </div>
+  <!---------- MODAL COVID ---------->    
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal"></div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 
 </body>
 </html>

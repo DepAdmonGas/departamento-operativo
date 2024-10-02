@@ -22,10 +22,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
- 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
+  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
@@ -40,12 +40,14 @@
 
   }); 
 
-  function Regresar(){
-   window.history.back();
-  } 
- 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  window.location.reload();
+  }
+  });
+
   function SelEstacion(year,mes) {
-    
+   
   let nombrePuesto = "<?=$session_nompuesto?>";
   let idUsuario = "<?=$Session_IDUsuarioBD?>";
 
@@ -54,25 +56,26 @@
   if (nombrePuesto == "Gestoria") {
   
   if(idUsuario == 30){
-  targets = [9, 10, 11, 12, 13, 14, 15, 16]; // Asigna los targets para el caso de "Gestoria"
+  targets = [9, 10, 11]; // Asigna los targets para el caso de "Gestoria"
 
   }else{
-  targets = [9, 10, 11, 12, 13, 14, 15]; // Asigna los targets para el caso de "Gestoria"
+  targets = [9, 10]; // Asigna los targets para el caso de "Gestoria"
   }
 
   }else{
-  targets = [10, 11, 12, 13, 14, 15, 16]; // Asigna los targets para el caso por defecto
+  targets = [10, 11]; // Asigna los targets para el caso por defecto
   
-  }
+  } 
 
   $('#ListaSolicitudes').load('../../app/vistas/personal-general/1-corporativo/solicitud-cheque/lista-solicitud-cheques-mes.php?year=' + year + '&mes=' + mes, function() {
   // Una vez que se carguen los datos en la tabla, inicializa DataTables
   $('#tabla_solicitud_cheque').DataTable({
+    "stateSave": true,
     "language": { // Corrección de "lenguage" a "language"
     "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
     },
     "order": [[0, "desc"]],  // Ordenar por la tercera columna de forma descendente
-    "lengthMenu": [25,50,75,100], // Número de registros que se mostrarán
+    "lengthMenu": [15,30,50,100], // Número de registros que se mostrarán
     "columnDefs": [
     { "orderable": false, "targets": targets }, // Deshabilitar ordenación en las columnas 1, 2 y 3 (comenzando desde 0)
     { "searchable": false, "targets": targets } // Deshabilitar filtrado en las columnas 1, 2 y 3 (comenzando desde 0)
@@ -124,8 +127,8 @@
   }
 
   }
-  });
-
+  }); 
+ 
   },
   function(){
 
@@ -264,7 +267,7 @@
   Archivo_filePath = Archivo.value;
 
   if(Documento != ""){
-  $('#Documento').css('border','');
+  $('#border-documento').css('border','');
   if(Archivo_filePath != ""){
   $('#Archivo').css('border','');
 
@@ -300,7 +303,7 @@
   $('#Archivo').css('border','2px solid #A52525'); 
   }
   }else{
-  $('#Documento').css('border','2px solid #A52525'); 
+  $('#border-documento').css('border','2px solid #A52525'); 
   }
   }
 
@@ -413,8 +416,13 @@
   window.location.href = "../../" + referencia;
   }
 
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
-
   </head>
   
   <body>
@@ -430,7 +438,7 @@
 
   <div class="col-12">
   <?=$breadcrumbYearMes?>
-       
+        
   <div class="row"> 
   <div class="col-lg-9 col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Solicitud de cheques, <?=nombreMes($GET_mes)?> <?=$GET_year?></h3> </div>
   
@@ -473,7 +481,7 @@
   
   <!---------- MODAL (CENTER)---------->  
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>

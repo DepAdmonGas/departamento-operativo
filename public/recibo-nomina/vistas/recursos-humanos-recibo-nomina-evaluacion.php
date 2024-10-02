@@ -193,7 +193,7 @@ $icon = "fa-solid fa-screwdriver-wrench";
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Evaluacion de recibos de nomina (KPI's) <?=$GET_year;?> </a>
+  <a class="text-dark" onclick="history.back()">Recibos de nomina <?=$GET_year;?> </a>
   </div>
  
    
@@ -247,13 +247,13 @@ $icon = "fa-solid fa-screwdriver-wrench";
   </div>
 
   </nav>
- 
+  
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
   
   <div class="col-12 mb-3">
-  <div id="ListaNominaEvaluacion" class="cardAG"></div>
+  <div id="ListaNominaEvaluacion"></div>
   <?php
 
   ?>

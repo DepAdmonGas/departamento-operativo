@@ -21,56 +21,73 @@ return $numero_lista;
 ?>
 
 
-<div class="border-0 p-3"> 
-
-  <div class="row"> 
-  <div class="col-12">
-  <h5 class="mb-2"><?=$estacion;?> (Certificación <?=$idYear;?>)</h5>
-  <hr>
+<div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item" onclick="history.back()"><a class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Miselanea 30, 31 (Ejercicio <?=$idYear;?>)</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Certificación (<?=$estacion;?>), <?=$idYear;?></li>
+  </ol>
   </div>
-  </div> 
+
+  <div class="row">
+  <div class="col-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Certificación (<?=$estacion;?>), <?=$idYear;?></h3>
+  </div>
+
+  </div>
+
+  <hr>
+
+  <div class="table-responsive">
+  <table id="tabla_certificacion_<?=$idEstacion ?>_<?=$idYear?>" class="custom-table" style="font-size: 12.5px;" width="100%"> 
+  
+  <thead class="tables-bg">
+    <tr>
+    <th class="align-middle text-center">#</th>
+    <th class="align-middle">Documento</th>
+    <th class="text-center align-middle" width="24">
+    <img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png">
+    </th>
+    </tr>
+  </thead> 
+
+  <tbody class="bg-white">
+ 
+  <?php
+  $sql_lista = "SELECT * FROM op_miselanea_documentos WHERE categoria = 2 ORDER BY id_lista ASC";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+  while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  $id = $row_lista['id'];
+
+  $Total = Total($id,$idEstacion,$idYear,$con);
+  if($Total != 0){
+  $DocT = '<div class="position-absolute" style="margin-bottom: -15px; right: 2px;"><span class="badge bg-primary text-white rounded-circle"><span class="fw-bold" style="font-size: 10px;">'.$Total.'</span></span></div>';
+  }else{
+  $DocT = '';	
+  }
+
+  echo '<tr>';
+  echo '<th class="align-middle text-center" width="60px">'.$row_lista['id_lista'].'</th>';
+  echo '<td class="align-middle text-start">'.$row_lista['documento'].'</td>';
+  echo '<td class="align-middle text-center position-relative" onclick="Modal('.$id.','.$idEstacion.','.$idYear.')">'.$DocT.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" ></td>';
+
+  echo '</tr>';
+
+  }
+  ?>
+
+  </tbody>
+  </table>
+  </div>
 
 
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0">
-<thead class="tables-bg">
-  <tr>
-  <th class="align-middle text-center">#</th>
-  <th class="align-middle">Documento</th>
-  <th class="text-center align-middle" width="24">
-  <img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png">
-  </th>
-  </tr>
-</thead> 
-<body>
+  </div>
 
-<?php
-$sql_lista = "SELECT * FROM op_miselanea_documentos WHERE categoria = 2 ORDER BY id_lista ASC";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
 
-$Total = Total($id,$idEstacion,$idYear,$con);
-if($Total != 0){
-$DocT = '<span class="badge rounded-pill bg-primary" style="margin-left: 15px;margin-top: -3px;padding: 4px;font-size: .6em;"><small>'.$Total.'</small></span>';  
-}else{
-$DocT = '';	
-}
 
-echo '<tr>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['id_lista'].'</b></td>';
-echo '<td class="align-middle p-2">'.$row_lista['documento'].'</td>';
-echo '<td class="align-middle text-center p-2">
-<img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png" onclick="Modal('.$id.','.$idEstacion.','.$idYear.')">
-'.$DocT.'</td>';
-echo '</tr>';
 
-}
-?>
 
-</body>
-</table>
-</div>
 
-</div>
+
+

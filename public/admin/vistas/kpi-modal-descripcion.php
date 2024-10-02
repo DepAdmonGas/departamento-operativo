@@ -40,8 +40,8 @@ La evaluación de las Facturas de Monederos se lleva a cabo según los 5 moneder
  
     
 <div class="modal-header">
-<h5 class="modal-title">Forma de Evaluacion - <?=$titulo?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Forma de Evaluacion (<?=$titulo?>)</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
  
 <div class="modal-body">
@@ -51,5 +51,6 @@ La evaluación de las Facturas de Monederos se lleva a cabo según los 5 moneder
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cerrar</button>
 </div>

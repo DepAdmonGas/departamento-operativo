@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
 
-?> 
+?>  
 
 <html lang="es">
   <head>
@@ -29,7 +26,6 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -39,7 +35,7 @@ header("Location:".PORTAL."");
   });
 
   function ListaMedicion(){
- $('#DivContenido').load('public/corte-diario/vistas/lista-mediciones.php');
+  $('#DivContenido').load('public/corte-diario/vistas/lista-mediciones.php');
   }
  
   function Regresar(){

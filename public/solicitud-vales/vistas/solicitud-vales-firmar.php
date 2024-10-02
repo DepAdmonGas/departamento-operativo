@@ -218,11 +218,12 @@ $firmaA = FirmaSC($GET_idReporte,'A',$con);
   window.history.back();
   }
 
-    function CrearToken(idReporte){
+  function CrearToken(idReporte,idVal){
     $(".LoaderPage").show();
 
     var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "idVal" : idVal
     };
 
     $.ajax({
@@ -463,7 +464,8 @@ echo '
 <hr>
 <h4 class="text-primary text-center">Token Móvil</h4>
 <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>)"><small>Crear token</small></button>
+<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
+<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
 <hr>
 <div class="input-group mt-3">
   <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">

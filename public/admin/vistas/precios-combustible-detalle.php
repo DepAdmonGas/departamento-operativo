@@ -1,10 +1,33 @@
 <?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
+$sqlFormato = "SELECT * FROM op_formato_precios WHERE id = '".$GET_idPrecio."' ";
+$resultFormato = mysqli_query($con, $sqlFormato);
+$numeroFormato = mysqli_num_rows($resultFormato);
+while($rowFormato = mysqli_fetch_array($resultFormato, MYSQLI_ASSOC)){
+$fecha = $rowFormato['fecha'];
 }
-    
+
+$fecha_formato = date_create($fecha);
+$fecha_formato2 = date_format($fecha_formato,"d/m/Y");
+
+if("2024-02-20" < $fecha){
+$ocultarInfo = "d-none";
+$colspanTB = "9";
+}else{
+$ocultarInfo = "";
+$colspanTB = "13";
+}
+
+
+if($session_nompuesto == "Dirección de operaciones"){
+$ocultar = "";
+$divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
+  
+}else{
+$ocultar = "d-none";
+$divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
+}
+
 ?>
 <html lang="es">
   <head>
@@ -27,13 +50,6 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-  <style media="screen">
-  .grayscale {
-    filter: opacity(50%); 
-  }
-
-  </style>  
-
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -43,12 +59,12 @@ header("Location:".PORTAL."");
   });
 
   function Regresar(){
-   window.history.back();
+  window.history.back();
   }
 
-
   function SelPrecioBajo(idPrecio,valCheck,num,producto){
-
+  var msg;
+    
   var parametros = {
   "idPrecio" : idPrecio,
   "valCheck" : valCheck,
@@ -56,46 +72,48 @@ header("Location:".PORTAL."");
   "producto" : producto
   };
 
+  if(valCheck == 0){
+    msg = "Precio seleccionado exitosamente.";
+  }else{
+    msg = "Precio desmarcado exitosamente";
+
+  }
 
   $.ajax({
-    data:  parametros,
-    url:   '../../public/admin/modelo/activar-precio-combustible.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
+  data:  parametros,
+  url:   '../public/admin/modelo/activar-precio-combustible.php',
+  type:  'post',
+  beforeSend: function() {
+    
+  },
+  complete: function(){
 
-    },
-    success:  function (response) {
+  },
+  success:  function (response) {
+  
+  if (response == 1) {
+  alertify.success(msg)
+  reportePrecios(idPrecio);
+    
+  }else{
+  alertify.error('Error al seleccionar el precio.')
+  }
 
-
-
-
-    if (response == 1) {
-      //alertify.success('Precio seleccionado exitosamente.')
-      reportePrecios(idPrecio);
-    }else{
-      alertify.error('Error al seleccionar el precio.')
-    }
-
-
-    }
-    });
-
+  }
+  });
+ 
   }
  
   function reportePrecios(idPrecio){
-  $('#DivReportePrecios').load('../../public/admin/vistas/lista-reporte-precios.php?idPrecio=' + idPrecio);
+  $('#DivReportePrecios').load('../public/admin/vistas/lista-reporte-precios.php?idPrecio=' + idPrecio);
 
-  }  
+  }   
     
   </script> 
-
-
   </head>
+
   <body>
-  
-<div class="LoaderPage"></div>
+  <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -105,142 +123,82 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Detalle Precio de Combustible</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Precios diarios de combustible</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Detalle (<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>)</li>
+  </ol>
+  </div>
+ 
+  <div class="row"> 
+  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Detalle (<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>)</div>
+  </div>
 
   <hr>
- 
+  </div>
 
-<?php 
-if($session_nompuesto == "Dirección de operaciones"){
-$ocultar = "";
-$divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
-}else{
-$ocultar = "d-none";
-$divSize = "col-xl-5 col-lg-5 col-md-12 col-sm-12";
-}
-?>
-
-<div class="row justify-content-md-center"> 
-
-<div class="col-12 <?=$ocultar?>">
-<div class="border p-3 mb-3">
-
-<?php 
-$sqlFormato = "SELECT * FROM op_formato_precios WHERE id = '".$GET_idPrecio."' ";
-$resultFormato = mysqli_query($con, $sqlFormato);
-$numeroFormato = mysqli_num_rows($resultFormato);
-while($rowFormato = mysqli_fetch_array($resultFormato, MYSQLI_ASSOC)){
-$fecha = $rowFormato['fecha'];
-}
-
-$fecha_formato = date_create($fecha);
-$fecha_formato2 = date_format($fecha_formato,"d/m/Y");
-
-
-echo '<h6>'.FormatoFecha($fecha).'</h6>';
-
-if("2024-02-20" < $fecha){
-  $ocultarInfo = "d-none";
-  $colspanTB = "9";
-  }else{
-  $ocultarInfo = "";
-  $colspanTB = "13";
+  <div class="col-12 mb-3 <?=$ocultar?>">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
   
-}
+  <thead class="title-table-bg">
+  <tr class="tables-bg">
+  <th class="align-middle text-center" colspan="6">Precio del transporte</th>
+  </tr>
 
-?>
-
-<hr>
-
-<div class="row">
+  <tr>
+  <td class="align-middle text-center fw-bold">Terminal</td>
+  <th class="align-middle text-center">Pickup</th>
+  <th class="align-middle text-center">IVA 16%</th>
+  <th class="align-middle text-center">Retencion 4%</th>
+  <td class="align-middle text-center fw-bold">Tarifa final transporte <br> Pickup</td>
+  </tr>
+  </thead>
   
- <div class="col-12"> 
+  <tbody class="bg-white">
+  <?php 
+  $sql = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$GET_idPrecio."' ";
+  $result = mysqli_query($con, $sql);
+  $numero = mysqli_num_rows($result);
+  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
- <div class="table-responsive">   
-    <table class="table table-sm table-bordered" style="font-size: .72em;">
-  <thead class="bg-light">
-    <tr>
-      <th class="align-middle text-center" colspan="6">PRECIO TRANSPORTE</th>
-    </tr>
-  </thead>
-
-    <thead class="tables-bg">
-    <tr>
-      <th class="align-middle text-center">Terminal</th>
-      <th class="align-middle text-center">Pickup</th>
-      <th class="align-middle text-center">IVA 16%</th>
-      <th class="align-middle text-center">Retencion 4%</th>
-      <th class="align-middle text-center">Tarifa final transporte <br> Pickup</th>
-    </tr>
-  </thead>
-  <tbody>
- 
-<?php 
-$sql = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$GET_idPrecio."' ";
-$result = mysqli_query($con, $sql);
-$numero = mysqli_num_rows($result);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-
-$precioT = $row['precio']; 
-$precioIVA = number_format(($precioT * 0.16),4);
-$precioRetencion = number_format(($precioT * 0.04),4);
-$totalPickUp = number_format(($precioT + $precioIVA - $precioRetencion),4);
+  $precioT = $row['precio']; 
+  $precioIVA = number_format(($precioT * 0.16),4);
+  $precioRetencion = number_format(($precioT * 0.04),4);
+  $totalPickUp = number_format(($precioT + $precioIVA - $precioRetencion),4);
 
 
-echo '<tr class="text-center align-middle">
-<td class="p-2"><b>'.$row['detalle'].'</b></td>
-<td>$ '.number_format($precioT,2).'</td>
-<td>$ '.$precioIVA.'</td>
-<td>$ '.$precioRetencion.'</td>
-<td>$ '.$totalPickUp.'</td>
-</tr>';
+  echo '<tr class="text-center align-middle">
+  <td class="no-hover"><b>'.$row['detalle'].'</b></td>
+  <td class="no-hover">$ '.number_format($precioT,2).'</td>
+  <td class="no-hover">$ '.$precioIVA.'</td>
+  <td class="no-hover">$ '.$precioRetencion.'</td>
+  <td class="no-hover">$ '.$totalPickUp.'</td>
+  </tr>';
 
-}
-?>    
-</tbody>
-   
-</table>
-</div>
-</div>
+  } 
+  ?>    
+  </tbody>
+  
+  </table>
+  </div>
+  </div>
 
 
-<div class="col-12">
-
-<div class="table-responsive">   
-<table class="table table-sm table-bordered mt-2 mb-0" style="font-size: .72em;">
+<div class="col-12 mb-3 <?=$ocultar?>">
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
 <thead>
 
-<tr class="bg-light">
-<th colspan="18" class="text-center align-middle"><?=$fecha_formato2?></th>
-</tr>
-
-<tr class="bg-light">
+<tr class="tables-bg">
 <th class="text-center align-middle"></th>
 <th class="text-center align-middle" colspan="<?=$colspanTB?>">Delivery</th>
 <th class="text-center align-middle" colspan="13">Pick Up</th>
 </tr>
 
 <tr>
-
-<th class="text-center align-middle">Producto</th>
+<td class="text-center align-middle tables-bg fw-bold">Producto</td>
 <th class="text-center align-middle text-white" style="background-color: #535252;">Pemex</th>
 
 <th class="text-center align-middle" style="background-color: #d6dce4;">Delivery<br>G500 Network<br>Monterra</th>
@@ -252,8 +210,6 @@ echo '<tr class="text-center align-middle">
 <th class="text-center align-middle" style="background-color: #e2efda;">Delivery<br>G500 Network<br>Tuxpan</th>
 <th class="text-center align-middle" style="background-color: #e2efda;">Diferencia<br>vs<br>Pemex</th>
 
-
-
 <th class="text-center align-middle <?=$ocultarInfo?>" style="background-color: #cfcfcf;">Pick up<br>G500 Network<br>Vopak</th>
 <th class="text-center align-middle <?=$ocultarInfo?>" style="background-color: #cfcfcf;">Diferencia<br>vs<br>Pemex</th>
 
@@ -263,19 +219,16 @@ echo '<tr class="text-center align-middle">
 <th class="text-center align-middle" style="background-color: #d6dce4;">Pick up<br>G500 Network<br>Monterra</th>
 <th class="text-center align-middle" style="background-color: #d6dce4;">Diferencia<br>vs<br>Pemex</th>
 
-
 <th class="text-center align-middle" style="background-color: #94b8da;">Pick up<br>G500 Network<br>Tizayuca</th>
 <th class="text-center align-middle" style="background-color: #94b8da;">Diferencia<br>vs<br>Pemex</th>
 
 <th class="text-center align-middle" style="background-color: #922d9a;">Pick up<br>G500 Network<br>Puebla</th>
-<th class="text-center align-middle" style="background-color: #922d9a;">Diferencia<br>vs<br>Pemex</th>
- 
-     
+<td class="text-center align-middle fw-bold text-white" style="background-color: #922d9a;">Diferencia<br>vs<br>Pemex</td>
+  
 </tr>
 </thead>
 
-  <tbody>
-
+<tbody class="bg-white">
 <?php 
 
 //---------- CONSULTAR PRECIO DE TERMINAL ----------
@@ -299,6 +252,7 @@ $detalle = "Puebla";
 $sql2 = "SELECT * FROM op_formato_precios_transporte WHERE id_formato = '".$idPrecio."' AND detalle = '".$detalle."' ";
 $result2 = mysqli_query($con, $sql2);
 $numero2 = mysqli_num_rows($result2);
+$valorprecio = 0;
 
 while($row2 = mysqli_fetch_array($result2, MYSQLI_ASSOC)){
 $valorprecio = $row2['precio'];
@@ -311,10 +265,10 @@ $totalPickUp2 = number_format(($valorprecio + $precioIVA - $precioRetencion),4);
 return $totalPickUp2;
 }
 
- $tuxpanVal = PrecioPU($GET_idPrecio,"Tuxpan",$con);
- $vopakVal = PrecioPU($GET_idPrecio,"Vopack",$con);
- $tizayucaVal = PrecioPU($GET_idPrecio,"Tizayuca",$con);
- $pueblaVal = PrecioPU($GET_idPrecio,"Puebla",$con);
+$tuxpanVal = PrecioPU($GET_idPrecio,"Tuxpan",$con);
+$vopakVal = PrecioPU($GET_idPrecio,"Vopack",$con);
+$tizayucaVal = PrecioPU($GET_idPrecio,"Tizayuca",$con);
+$pueblaVal = PrecioPU($GET_idPrecio,"Puebla",$con);
 
 
 //---------- CONSULTAR PRECIO DETALLE ----------
@@ -346,7 +300,6 @@ $DifPvsMoP = $pickup_montera - $pemex;
 $DifPvsTiP = $pickup_tizayuca - $pemex;
 $DifPvsPuP = $pickup_puebla - $pemex;
 
-
 $pemexBG = "";
 $vopakDBG = "";
 $monterraDBG = "";
@@ -358,85 +311,75 @@ $monterrapBG = "";
 $tizayucapBG = "";
 $pueblapBG = "";
 
-
 if($row_lista['producto'] == "Super"){
 $ColorProducto = "background-color: #74bc1f; color:white;";
 
-
-
 if("2024-02-20" < $fecha){
 
-  $preciosSuper = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
-  $numeroMenorSuper = min($preciosSuper);
+$preciosSuper = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
+$numeroMenorSuper = min($preciosSuper);
 
-  if($pemex == $numeroMenorSuper){
-    $pemexBG = $ColorProducto;
-    
-    }if($delivery_montera == $numeroMenorSuper){
-    $monterraDBG = $ColorProducto;
-    
-    }if($delivery_tuxpan == $numeroMenorSuper){
-    $tuxpanDBG = $ColorProducto;
-    
-    }if($pickup_tuxpan == $numeroMenorSuper){
-    $tuxpanpBG = $ColorProducto;
-    
-    }if($pickup_montera == $numeroMenorSuper){
-    $monterrapBG = $ColorProducto;
-    
-    }if($pickup_tizayuca == $numeroMenorSuper){
-    $tizayucapBG = $ColorProducto;
-    
-    }if($pickup_puebla == $numeroMenorSuper){
-    $pueblapBG = $ColorProducto;
-    }
-    
-  
+if($pemex == $numeroMenorSuper){
+$pemexBG = $ColorProducto;
+   
+}if($delivery_montera == $numeroMenorSuper){
+$monterraDBG = $ColorProducto;
+   
+}if($delivery_tuxpan == $numeroMenorSuper){
+$tuxpanDBG = $ColorProducto;
+   
+}if($pickup_tuxpan == $numeroMenorSuper){
+$tuxpanpBG = $ColorProducto;
+   
+}if($pickup_montera == $numeroMenorSuper){
+$monterrapBG = $ColorProducto;
+   
+}if($pickup_tizayuca == $numeroMenorSuper){
+$tizayucapBG = $ColorProducto;
+   
+}if($pickup_puebla == $numeroMenorSuper){
+$pueblapBG = $ColorProducto;
+}
+   
 }else{
 
-  $preciosSuper = array($delivery_montera,$delivery_vopak, $delivery_tuxpan, $pickup_vopak, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
-  $numeroMenorSuper = min($preciosSuper);
+$preciosSuper = array($delivery_montera,$delivery_vopak, $delivery_tuxpan, $pickup_vopak, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
+$numeroMenorSuper = min($preciosSuper);
 
-  if($pemex == $numeroMenorSuper){
-    $pemexBG = $ColorProducto;
-    
-    }if($delivery_montera == $numeroMenorSuper){
-    $monterraDBG = $ColorProducto;
-    
-    }if($delivery_vopak == $numeroMenorSuper){
-    $vopakDBG = $ColorProducto;
-    
-    }if($delivery_tuxpan == $numeroMenorSuper){
-    $tuxpanDBG = $ColorProducto;
-    
-    }if($pickup_vopak == $numeroMenorSuper){
-    $vopakpBG = $ColorProducto;
-    
-    }if($pickup_tuxpan == $numeroMenorSuper){
-    $tuxpanpBG = $ColorProducto;
-    
-    }if($pickup_montera == $numeroMenorSuper){
-    $monterrapBG = $ColorProducto;
-    
-    }if($pickup_tizayuca == $numeroMenorSuper){
-    $tizayucapBG = $ColorProducto;
-    
-    }if($pickup_puebla == $numeroMenorSuper){
-    $pueblapBG = $ColorProducto;
-    }
-    
-
+if($pemex == $numeroMenorSuper){
+$pemexBG = $ColorProducto;
+   
+}if($delivery_montera == $numeroMenorSuper){
+$monterraDBG = $ColorProducto;
+   
+}if($delivery_vopak == $numeroMenorSuper){
+$vopakDBG = $ColorProducto;
+   
+}if($delivery_tuxpan == $numeroMenorSuper){
+$tuxpanDBG = $ColorProducto;
+   
+}if($pickup_vopak == $numeroMenorSuper){
+$vopakpBG = $ColorProducto;
+   
+}if($pickup_tuxpan == $numeroMenorSuper){
+$tuxpanpBG = $ColorProducto;
+   
+}if($pickup_montera == $numeroMenorSuper){
+$monterrapBG = $ColorProducto;
+   
+}if($pickup_tizayuca == $numeroMenorSuper){
+$tizayucapBG = $ColorProducto;
+   
+}if($pickup_puebla == $numeroMenorSuper){
+$pueblapBG = $ColorProducto;
 }
-
-
-
-
+   
+}
 
 echo '<tr class="align-middle text-center">
 
-<td class="p-3 text-white" style="'.$ColorProducto.'"><b>'.$row_lista['producto'].'</b></td>
-<td style="'.$pemexBG.'"><b>$ '.number_format($pemex,4).'</b></td>
-
+<th class="text-white" style="'.$ColorProducto.'">'.$row_lista['producto'].'</th>
+<td class="" style="'.$pemexBG.'"><b>$ '.number_format($pemex,4).'</b></td>
 
 <td style="'.$monterraDBG.'">$ '.number_format($delivery_montera,4).'</td>
 <td class=" table-light font-weight-bold"><b>$ '.number_format($DifPvsMoD,4).'</b></td>
@@ -466,36 +409,35 @@ echo '<tr class="align-middle text-center">
 </tr>'; 
 
 
-
 }if($row_lista['producto'] == "Premium"){
 $ColorProducto = "background-color: #e01883; color:white;";
 
 if("2024-02-20" < $fecha){
 
-  $preciosPremium = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
-  $numeroMenorPremium = min($preciosPremium);
-  
-  if($pemex == $numeroMenorPremium){
-  $pemexBG = $ColorProducto;
-  
-  }if($delivery_montera == $numeroMenorPremium){
-  $monterraDBG = $ColorProducto;
-  
-  }if($delivery_tuxpan == $numeroMenorPremium){
-  $tuxpanDBG = $ColorProducto;
-  
-  }if($pickup_tuxpan == $numeroMenorPremium){
-  $tuxpanpBG = $ColorProducto;
-  
-  }if($pickup_montera == $numeroMenorPremium){
-  $monterrapBG = $ColorProducto;
-  
-  }if($pickup_tizayuca == $numeroMenorPremium){
-  $tizayucapBG = $ColorProducto;
-  
-  }if($pickup_puebla == $numeroMenorPremium){
-  $pueblapBG = $ColorProducto;
-  }
+ $preciosPremium = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
+ $numeroMenorPremium = min($preciosPremium);
+ 
+ if($pemex == $numeroMenorPremium){
+ $pemexBG = $ColorProducto;
+ 
+ }if($delivery_montera == $numeroMenorPremium){
+ $monterraDBG = $ColorProducto;
+ 
+ }if($delivery_tuxpan == $numeroMenorPremium){
+ $tuxpanDBG = $ColorProducto;
+ 
+ }if($pickup_tuxpan == $numeroMenorPremium){
+ $tuxpanpBG = $ColorProducto;
+ 
+ }if($pickup_montera == $numeroMenorPremium){
+ $monterrapBG = $ColorProducto;
+ 
+ }if($pickup_tizayuca == $numeroMenorPremium){
+ $tizayucapBG = $ColorProducto;
+ 
+ }if($pickup_puebla == $numeroMenorPremium){
+ $pueblapBG = $ColorProducto;
+ }
 
 
 }else{
@@ -535,13 +477,9 @@ $pueblapBG = $ColorProducto;
 
 }
 
-
-
-
-
 echo '<tr class="align-middle text-center">
 
-<td class="p-3 text-white" style="'.$ColorProducto.'"><b>'.$row_lista['producto'].'</b></td>
+<th class="p-3 text-white" style="'.$ColorProducto.'">'.$row_lista['producto'].'</th>
 <td style="'.$pemexBG.'"><b>$ '.number_format($pemex,4).'</b></td>
 
 
@@ -553,8 +491,6 @@ echo '<tr class="align-middle text-center">
 
 <td style="'.$tuxpanDBG.'">$ '.number_format($delivery_tuxpan,4).'</td>
 <td class="table-light font-weight-bold"><b>$ '.number_format($DifPvsTuD,4).'</b></td>
-
-
 
 <td class="'.$ocultarInfo.'" style="'.$vopakpBG.'">$ '.number_format($pickup_vopak ,4).'</td>
 <td class="'.$ocultarInfo.' table-light font-weight-bold"><b>$ '.number_format($DifPvsVoP,4).'</b></td>
@@ -579,74 +515,70 @@ $ColorProducto = "background-color: #5c108c; color:white;";
 
 if("2024-02-20" < $fecha){
 
-  $preciosDiesel = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
-  $numeroMenorDiesel = min($preciosDiesel);
-  
-  if($pemex == $numeroMenorDiesel){
-  $pemexBG = $ColorProducto;
-  
-  }if($delivery_montera == $numeroMenorDiesel){
-  $monterraDBG = $ColorProducto;
-  
-  }if($delivery_tuxpan == $numeroMenorDiesel){
-  $tuxpanDBG = $ColorProducto;
-  
-  }if($pickup_tuxpan == $numeroMenorDiesel){
-  $tuxpanpBG = $ColorProducto;
-  
-  }if($pickup_montera == $numeroMenorDiesel){
-  $monterrapBG = $ColorProducto;
-  
-  }if($pickup_tizayuca == $numeroMenorDiesel){
-  $tizayucapBG = $ColorProducto;
-  
-  }if($pickup_puebla == $numeroMenorDiesel){
-  $pueblapBG = $ColorProducto;
-  }
+ $preciosDiesel = array($delivery_montera, $delivery_tuxpan, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
+ $numeroMenorDiesel = min($preciosDiesel);
+ 
+ if($pemex == $numeroMenorDiesel){
+ $pemexBG = $ColorProducto;
+ 
+ }if($delivery_montera == $numeroMenorDiesel){
+ $monterraDBG = $ColorProducto;
+ 
+ }if($delivery_tuxpan == $numeroMenorDiesel){
+ $tuxpanDBG = $ColorProducto;
+ 
+ }if($pickup_tuxpan == $numeroMenorDiesel){
+ $tuxpanpBG = $ColorProducto;
+ 
+ }if($pickup_montera == $numeroMenorDiesel){
+ $monterrapBG = $ColorProducto;
+ 
+ }if($pickup_tizayuca == $numeroMenorDiesel){
+ $tizayucapBG = $ColorProducto;
+ 
+ }if($pickup_puebla == $numeroMenorDiesel){
+ $pueblapBG = $ColorProducto;
+ }
 
 
 }else{
 
-  $preciosDiesel = array($delivery_montera,$delivery_vopak, $delivery_tuxpan, $pickup_vopak, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
-  $numeroMenorDiesel = min($preciosDiesel);
-  
-  if($pemex == $numeroMenorDiesel){
-  $pemexBG = $ColorProducto;
-  
-  }if($delivery_montera == $numeroMenorDiesel){
-  $monterraDBG = $ColorProducto;
-  
-  }if($delivery_vopak == $numeroMenorDiesel){
-  $vopakDBG = $ColorProducto;
-  
-  }if($delivery_tuxpan == $numeroMenorDiesel){
-  $tuxpanDBG = $ColorProducto;
-  
-  }if($pickup_vopak == $numeroMenorDiesel){
-  $vopakpBG = $ColorProducto;
-  
-  }if($pickup_tuxpan == $numeroMenorDiesel){
-  $tuxpanpBG = $ColorProducto;
-  
-  }if($pickup_montera == $numeroMenorDiesel){
-  $monterrapBG = $ColorProducto;
-  
-  }if($pickup_tizayuca == $numeroMenorDiesel){
-  $tizayucapBG = $ColorProducto;
-  
-  }if($pickup_puebla == $numeroMenorDiesel){
-  $pueblapBG = $ColorProducto;
-  }
+ $preciosDiesel = array($delivery_montera,$delivery_vopak, $delivery_tuxpan, $pickup_vopak, $pickup_tuxpan, $pickup_montera, $pickup_tizayuca, $pickup_puebla, $pemex);
+ $numeroMenorDiesel = min($preciosDiesel);
+ 
+ if($pemex == $numeroMenorDiesel){
+ $pemexBG = $ColorProducto;
+ 
+ }if($delivery_montera == $numeroMenorDiesel){
+ $monterraDBG = $ColorProducto;
+ 
+ }if($delivery_vopak == $numeroMenorDiesel){
+ $vopakDBG = $ColorProducto;
+ 
+ }if($delivery_tuxpan == $numeroMenorDiesel){
+ $tuxpanDBG = $ColorProducto;
+ 
+ }if($pickup_vopak == $numeroMenorDiesel){
+ $vopakpBG = $ColorProducto;
+ 
+ }if($pickup_tuxpan == $numeroMenorDiesel){
+ $tuxpanpBG = $ColorProducto;
+ 
+ }if($pickup_montera == $numeroMenorDiesel){
+ $monterrapBG = $ColorProducto;
+ 
+ }if($pickup_tizayuca == $numeroMenorDiesel){
+ $tizayucapBG = $ColorProducto;
+ 
+ }if($pickup_puebla == $numeroMenorDiesel){
+ $pueblapBG = $ColorProducto;
+ }
 
 }
 
-
-
-
-
 echo '<tr class="align-middle text-center">
 
-<td class="p-3 text-white" style="'.$ColorProducto.'"><b>'.$row_lista['producto'].'</b></td>
+<th class="p-3 text-white" style="'.$ColorProducto.'">'.$row_lista['producto'].'</th>
 <td style="'.$pemexBG.'"><b>$ '.number_format($pemex,4).'</b></td>
 
 
@@ -679,39 +611,17 @@ echo '<tr class="align-middle text-center">
 
 }
 
-
-
 }
 ?>
 </tbody>
-  
 </table>
 </div>
 </div>
 
+<div class="col-12" id="DivReportePrecios"></div>
 
 </div>
-
 </div>
-
-</div>
- 
-
-<div class="<?=$divSize?>">
-<div id="DivReportePrecios"></div>
-</div>
-
-</div>
-
-
-  </div>
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

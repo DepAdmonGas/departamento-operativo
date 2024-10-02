@@ -1,9 +1,5 @@
 <?php
-require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
+require 'app/help.php';
 
 $sql_listComunicados = "SELECT * FROM tb_comunicados_do ORDER BY id_comunicado DESC ";  
 $result_listComunicados = mysqli_query($con, $sql_listComunicados);
@@ -27,7 +23,6 @@ $spanAlert = '<span class="ms-1 badge bg-danger text-white rounded-circle">
 if ($session_nompuesto == "Auditor") {
 $onclickF = '';
 $nombreBar = 'Admongas';
-    
 }else{ 
 $onclickF = 'href="'.PORTAL.'"';
 $nombreBar = 'Portal';
@@ -57,8 +52,18 @@ $nombreBar = 'Portal';
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="<?=RUTA_JS2?>home-general-functions.js"></script>
+
+  <script type="text/javascript">
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+  </script> 
+
   </head>
- 
+
   <body>
   <div class="LoaderPage"></div>
 

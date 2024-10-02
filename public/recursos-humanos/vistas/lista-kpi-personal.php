@@ -6,10 +6,11 @@ $year = $_GET['year'];
 $tipo = $_GET['tipo'];
  
 //---------- OBTENER EL NOMBRE DE LA ESTACION ----------
-function nombreES($GET_idEstacion,$con){
-$sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$GET_idEstacion."' ";
+function nombreES($GET_idEstacion, $con) {
+$Titulo = "";
+$sql = "SELECT localidad FROM op_rh_localidades WHERE id = '" . $GET_idEstacion . "'";
 $result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 $Titulo = $row['localidad'];
 }
 
@@ -37,12 +38,26 @@ function mostrarGraficoPersonalMes($GET_idEstacion, $GET_year, $con) {
 $data = obtenerDatosPersonalMes($GET_idEstacion, $GET_year, $con);
      
 echo '<div class="col-12">';
-echo '<div class="border p-3">';
 echo '<div class="table-responsive">';
-echo '<div class="mt-0" id="chart_div_personal' . $GET_idEstacion . '' . $GET_year . '"></div>';
+echo '<table class="custom-table" style="font-size: 12.5px; width: 100%;">';
+echo '<thead class="tables-bg">';
+echo '<tr>';
+echo '<th class="align-middle text-center">';
+echo 'Altas del Personal';
+echo '</th>';
+echo '</tr>';
+echo '</thead>';
+echo '<tbody class="bg-white">'; 
+echo '<tr>';
+echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
+echo '<div id="chart_div_personal' . $GET_idEstacion . '' . $GET_year . '" style="width: 100%; height: 500px;"></div>';
+echo '</th>';
+echo '</tr>';
+echo '</tbody>';
+echo '</table>';
 echo '</div>';
 echo '</div>';
-echo '</div>';
+
     
 echo '<script>
 google.charts.load("current", {packages:["corechart"]});
@@ -57,10 +72,10 @@ function drawChart' . $GET_idEstacion . '' . $GET_year . '() {
     data.addRows(' . json_encode($data['values']) . ');
      
     var options = {
-        width: "auto",
-        height: 700,
+        width: "100%", // Ancho al 100% para ser responsive
+        height: "auto", // Altura automática
         legend: "none",
-        colors: ' . json_encode($data['colors']) . ',
+        colors: ' . json_encode($data['colors'] ?? null) . ',
         title: "Altas del personal - '.nombreES($GET_idEstacion,$con).' \n\n", // Agrega el salto de línea con \n
         hAxis: {
             title: "Meses",
@@ -137,18 +152,31 @@ function mostrarGraficoPersonalEstaciones($GET_year,$tipo,$con) {
     $mejorPuntaje = obtenerEstacionesConPuntajeMasAlto($GET_year,$tipo,$con);
 
     echo '<div class="col-12 mt-3">';
-    echo '<div class="border p-0">';
     echo '<div class="table-responsive">';
-    echo '<div id="chart_div_general' . $GET_idEstacion . '' . $GET_year . '"></div>';
+    echo '<table class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center">';
+    echo 'Altas del personal (Anual)';
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
+    echo '<div id="chart_div_general' . $tipo . '' . $GET_year . '" style="width: 100%; height: 500px;"></div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
     echo '</div>';
     echo '</div>';
-    echo '</div>'; 
 
     echo '<script>
         google.charts.load("current", {packages:["corechart"]});
-        google.charts.setOnLoadCallback(drawChart' . $GET_idEstacion . '' . $GET_year . ');
+        google.charts.setOnLoadCallback(drawChart' . $tipo . '' . $GET_year . ');
 
-        function drawChart' . $GET_idEstacion . '' . $GET_year . '() {
+        function drawChart' . $tipo . '' . $GET_year . '() {
             var data = new google.visualization.DataTable();
             data.addColumn("string", "Mes");
             data.addColumn("number", "No. de altas del personal");
@@ -157,21 +185,18 @@ function mostrarGraficoPersonalEstaciones($GET_year,$tipo,$con) {
             data.addRows(' . json_encode($data['values']) . ');
 
             var options = {
-                width: "auto",
-                height: 700,
+            width: "100%", // Ancho al 100% para ser responsive
+            height: "auto", // Altura automática
                 legend: "none",
-                colors: ' . json_encode($data['colors']) . ',
-                title: "Altas del personal (Anual) - Estaciones / Departamentos\n\n",
-                hAxis: {
-                    title: "Estacion(es) con mayor numero de altas: \n  '.implode(", ", $mejorPuntaje['estaciones']).' - Altas: '.$mejorPuntaje['puntaje'].'",
-                },
+                colors: ' . json_encode($data['colors'] ?? null) . ',
+                title: "Estacion(es) con mayor numero de altas: \n  '.implode(", ", $mejorPuntaje['estaciones']).' - Altas: '.$mejorPuntaje['puntaje'].'\n \n ",
                 vAxis: {
                     title: "No. de altas del personal"
                 },
                 fontSize: 13 // Ajusta el tamaño de la fuente aquí
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_general' . $GET_idEstacion . '' . $GET_year . '"));
+            var chart = new google.visualization.ColumnChart(document.getElementById("chart_div_general' . $tipo . '' . $GET_year . '"));
             chart.draw(data, options);
         }
     </script>';
@@ -235,12 +260,26 @@ function mostrarGraficoBajaMes($GET_idEstacion, $GET_year, $con) {
     $data = obtenerDatosBajaMes($GET_idEstacion, $GET_year, $con);
          
     echo '<div class="col-12">';
-    echo '<div class="border p-3">';
     echo '<div class="table-responsive">';
-    echo '<div class="mt-0" id="chart_div_bajas' . $GET_idEstacion . '' . $GET_year . '"></div>';
+    echo '<table class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center">';
+    echo 'Altas del Personal';
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
+    echo '<div id="chart_div_bajas' . $GET_idEstacion . '' . $GET_year . '" style="width: 100%; height: 500px;"></div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
     echo '</div>';
     echo '</div>';
-    echo '</div>';
+
         
     echo '<script>
     google.charts.load("current", {packages:["corechart"]});
@@ -255,11 +294,10 @@ function mostrarGraficoBajaMes($GET_idEstacion, $GET_year, $con) {
         data.addRows(' . json_encode($data['values']) . ');
          
         var options = {
-            width: "auto",
-            height: 700,
+            width: "100%", // Ancho al 100% para ser responsive
+            height: "auto", // Altura automática
             legend: "none",
-            colors: ' . json_encode($data['colors']) . ',
-            title: "Bajas del personal - '.nombreES($GET_idEstacion,$con).' \n\n", // Agrega el salto de línea con \n
+            colors: ' . json_encode($data['colors'] ?? null) . ',
             hAxis: {
                 title: "Meses",
             },
@@ -342,12 +380,25 @@ function mostrarGraficoBajaEstaciones($GET_year,$tipo,$con) {
     $mejorPuntaje = obtenerEstacionesConPuntajeMasAlto($GET_year,$tipo,$con);
 
     echo '<div class="col-12 mt-3">';
-    echo '<div class="border p-0">';
     echo '<div class="table-responsive">';
-    echo '<div id="chart_div_general_bajas' . $GET_year . '"></div>';
+    echo '<table class="custom-table" style="font-size: 12.5px; width: 100%;">';
+    echo '<thead class="tables-bg">';
+    echo '<tr>';
+    echo '<th class="align-middle text-center">';
+    echo 'Bajas del personal (Anual)';
+    echo '</th>';
+    echo '</tr>';
+    echo '</thead>';
+    echo '<tbody class="bg-white">'; 
+    echo '<tr>';
+    echo '<th class="no-hover">'; // Añadir la clase "no-hover" aquí
+    echo '<div id="chart_div_general_bajas' . $GET_year . '" style="width: 100%; height: 500px;"></div>';
+    echo '</th>';
+    echo '</tr>';
+    echo '</tbody>';
+    echo '</table>';
     echo '</div>';
     echo '</div>';
-    echo '</div>'; 
 
     echo '<script>
         google.charts.load("current", {packages:["corechart"]});
@@ -362,14 +413,11 @@ function mostrarGraficoBajaEstaciones($GET_year,$tipo,$con) {
             data.addRows(' . json_encode($data['values']) . ');
 
             var options = {
-                width: "auto",
-                height: 700,
+            width: "100%", // Ancho al 100% para ser responsive
+            height: "auto", // Altura automática
                 legend: "none",
-                colors: ' . json_encode($data['colors']) . ',
-                title: "Bajas del personal (Anual) - Estaciones\n\n",
-                hAxis: {
-                    title: "Estacion(es) con mayor numero de bajas: \n  '.implode(", ", $mejorPuntaje['estaciones']).' - Bajas: '.$mejorPuntaje['puntaje'].'",
-                },
+                colors: ' . json_encode($data['colors'] ?? null) . ',
+                title: "Estacion(es) con mayor numero de bajas: \n  '.implode(", ", $mejorPuntaje['estaciones']).' - Bajas: '.$mejorPuntaje['puntaje'].'\n \n ",
                 vAxis: {
                     title: "No. de bajas del personal"
                 },
@@ -391,6 +439,7 @@ function obtenerDatosBajaEstaciones($GET_year, $con) {
     $totalAperturasES = consultaBajasEstaciones(6,$GET_year,$con);
     $totalAperturasXO = consultaBajasEstaciones(7,$GET_year,$con);
     $totalAperturasBR = consultaBajasEstaciones(14,$GET_year,$con);
+    $totalAperturasAL = consultaBajasEstaciones(9,$GET_year,$con);
 
     //---------- LISTA DE DEPARTAMENTOS -
     $totalAperturasDO = consultaBajasEstaciones(11,$GET_year,$con);
@@ -473,23 +522,27 @@ function obtenerEstacionesConPuntajeMasAlto($GET_year,$tipo,$con) {
 
 ?>
  
-<div class="border-0 p-3">
+ <div class="row">
 
-<div class="row">
 
-<div class="col-11">
-<h5><?=$estacion?> - <?=$nombreTipo?> <?=$year?></h5>
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Control de Documentos del Personal</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$nombreTipo?> (<?=$estacion?>), <?=$year?></li>
+
+</ol>
 </div>
-
-<div class="col-1">
-<img class="float-end pointer ms-2" src="<?=RUTA_IMG_ICONOS?>buscar-tb.png" onclick="BuscarYear(<?=$idEstacion?>,<?=$tipo?>)">
+    
+<div class="row"> 
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$nombreTipo?> (<?=$estacion?>), <?=$year?></h3> </div>
+<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"> 
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="BuscarYear(<?=$idEstacion?>,<?=$tipo?>)"><span class="btn-label2"><i class="fa fa-search"></i></span>Buscar</button>
 </div>
- 
 </div>
-
 <hr>
+</div>
 
-<div class="row">
 
 <?php
 
@@ -507,7 +560,5 @@ $kpiGeneral = mostrarGraficoBajaEstaciones($year,$tipo,$con);
 
 </div>
 
-    
-</div>
 
  

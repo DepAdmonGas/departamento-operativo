@@ -54,12 +54,16 @@ class HomeCorporativo
     $referencia = "../../portal-app/home";
     $menuName = "Portal";
     
+    }else{
+    $referencia = "../departamento-operativo/administracion/corporativo";
+    $menuName = "Corporativo";
+
     }
         
     $result .= '<div class="col-12">
     <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
-    <li class="breadcrumb-item"><a onclick="menuCorporativoYear(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-1);" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
     <li aria-current="page" class="breadcrumb-item active text-uppercase">'.$titulo.'</li>
     </ol>
     </div>
@@ -98,9 +102,9 @@ class HomeCorporativo
     $referencia = "corporativo";
     $menuName = "Corporativo"; 
     }
-
+    
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){
-    $referencia = "../../administracion/corporativo";
+    $referencia = "../administracion/corporativo";
     $menuName = "Corporativo";
     
     }else if($session_idpuesto == 6 || $session_idpuesto == 3){
@@ -121,8 +125,8 @@ class HomeCorporativo
     $result .= '  <div class="col-12">
     <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
-    <li class="breadcrumb-item"><a onclick="menuCorporativoMes(\''.$referencia.'\')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
-    <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-2);" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> '.$menuName.'</a></li>
+    <li class="breadcrumb-item"><a onclick="history.go(-1);"class="text-uppercase text-primary pointer">'.$titulo.'</a></li>
     <li aria-current="page" class="breadcrumb-item active text-uppercase">'.$year.'</li>
     </ol>
     </div>
@@ -166,8 +170,11 @@ class HomeCorporativo
     if($Pagina == "solicitud-vales"){
     $fecha_year = date("Y");    
 
-    for ($i = $fecha_year; $i >= 2023; $i--) {
-    $year = $i;
+    $sql_listayear = "SELECT id, year FROM op_corte_year GROUP BY year ORDER BY year desc";
+    $result_listayear = mysqli_query($this->con, $sql_listayear);
+      
+    while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
+    $year = $row_listayear['year'];
          
     $result .= ' <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12 mb-2 mt-1">
     <article class="plan card2 border-0 shadow position-relative" onclick="corporativoYear(\''.$Pagina.'\','.$year.')">
@@ -186,7 +193,7 @@ class HomeCorporativo
 
     }else{
 
-    $sql_listayear = "SELECT id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY year DESC";
+    $sql_listayear = "SELECT id, year FROM op_corte_year GROUP BY year ORDER BY year desc";
     $result_listayear = mysqli_query($this->con, $sql_listayear);
       
     while($row_listayear = mysqli_fetch_array($result_listayear, MYSQLI_ASSOC)){
@@ -372,6 +379,31 @@ class HomeCorporativo
     $referencia = "../departamento-operativo/corporativo";
     $menuName = "Corporativo";
     $returnReferencia = $Pagina;
+    
+    }else if($Pagina == "solicitud-vales"){
+    $titulo = "Solicitud de Vales";
+    $referencia = "../departamento-operativo/corporativo";
+    $menuName = "Corporativo";
+    $returnReferencia = $Pagina;
+
+    if($session_idpuesto == 13){
+    $referencia = "administracion/corporativo";
+    }else{
+    $referencia = "../departamento-operativo/corporativo";
+    }
+
+    }
+    elseif($Pagina == "despacho-factura"){
+    $titulo = "Despacho VS Factura";
+    $referencia = "../departamento-operativo/corporativo";
+    $menuName = "Corporativo";
+    $returnReferencia = $Pagina;
+    }
+    elseif($Pagina == "corte-diario"){
+        $titulo = "Corte Diario";
+        $referencia = "../departamento-operativo/corporativo";
+        $menuName = "Corporativo";
+        $returnReferencia = $Pagina;
     }
 
     if($session_idpuesto == 3 || $session_idpuesto == 31 || $session_idpuesto == 3){

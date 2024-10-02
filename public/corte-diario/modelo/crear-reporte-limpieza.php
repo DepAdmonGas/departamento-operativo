@@ -2,7 +2,7 @@
 require('../../../app/help.php');
 
 
-$sql = "SELECT id FROM op_limpieza_reporte WHERE id_estacion = '".$Session_IDEstacion."' ORDER BY id ASC ";
+$sql = "SELECT id FROM op_limpieza_reporte ORDER BY id ASC ";
 $result = mysqli_query($con, $sql);
 $numero = mysqli_num_rows($result);
 if($numero > 0){
@@ -17,9 +17,6 @@ $sql_insert = "INSERT INTO op_limpieza_reporte (
 id,
 id_estacion,
 id_usuario,
-fecha,
-hora,
-detalle,
 status
     )
     VALUES 
@@ -27,9 +24,6 @@ status
     '".$Reporte."',
     '".$Session_IDEstacion."',
     '".$Session_IDUsuarioBD."',
-    '".$_POST['Fecha']."',
-    '".$_POST['Hora']."',
-    '".$_POST['Detalle']."',
     0
     )";
 

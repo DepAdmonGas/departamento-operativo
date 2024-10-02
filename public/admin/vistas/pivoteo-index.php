@@ -6,12 +6,11 @@ header("Location:".PORTAL."");
 }
 
 function ToSolicitud($idEstacion,$con){
-
-
 $sql_lista = "SELECT id FROM op_pivoteo WHERE id_estacion = '".$idEstacion."' AND estatus = 1 ";
 $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
+
 ?>
 
 <html lang="es">
@@ -38,33 +37,24 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
  
-
-  <style media="screen">
-  .grayscale {
-  filter: opacity(50%); 
-  }
-  </style>
-
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
 
-      idestacion = sessionStorage.getItem('idestacion');
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  idestacion = sessionStorage.getItem('idestacion');
     
 
-      if(idestacion < 11){
-      $('#ListaPivoteo').load('../public/admin/vistas/lista-pivoteo.php?idEstacion=' + idestacion);
+  SelEstacion(idestacion)
   
-     
-    }
       
-  
-    }   
+  }   
      
   } 
   
@@ -74,76 +64,92 @@ return $numero_lista = mysqli_num_rows($result_lista);
   window.history.back();
   }
 
-    function SelEstacion(idestacion){
-    sizeWindow();  
-    sessionStorage.setItem('idestacion', idestacion);
-    
-    $('#ListaPivoteo').load('../public/admin/vistas/lista-pivoteo.php?idEstacion=' + idestacion);
+  function SelEstacion(idestacion) {
+  let targets;
+  targets = [4];
+  sizeWindow();  
+  sessionStorage.setItem('idestacion', idestacion);
 
-    }
+  //$('#ListaPivoteo').load('public/corte-diario/vistas/lista-pivoteo.php?idEstacion=' + idEstacion);
+  $('#ListaPivoteo').load('../app/vistas/contenido/3-importacion/pivoteo/lista-pivoteo.php?idEstacion=' + idestacion, function() {
+  $('#tabla_pivoteo_' + idestacion).DataTable({
+    "stateSave": true,
 
-    function Eliminar(idEstacion,id){
-        var parametros = {
-    "id" : id
-    };
-
- alertify.confirm('',
- function(){
-
-      $.ajax({
-    data:  parametros,
-    url:   '../public/corte-diario/modelo/eliminar-pivoteo.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
-
-    },
-    success:  function (response) {
-
- 
-    if (response == 1) {
-    SelEstacion(idEstacion)
-    sizeWindow();
-    alertify.success('Pedido eliminado exitosamente.');
-
-    }else{
-    alertify.error('Error al eliminar el pedido');
-    }
-
-    }
-    });
-
- },
- function(){
-
- }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-    }
-
-      function Editar(idEstacion,id){
-  window.location.href = "pivoteo-editar/" + id;
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [25, 50, 75, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
   }
 
-  function VerPivoteo(id){
 
+  function Eliminar(idEstacion,id){
+  var parametros = {
+  "id" : id
+  };
+
+  alertify.confirm('',
+  function(){
+
+  $.ajax({
+  data:  parametros,
+  url:   '../public/corte-diario/modelo/eliminar-pivoteo.php',
+  type:  'post',
+  beforeSend: function() {
+
+  },
+  complete: function(){
+
+  },
+  success:  function (response) {
+
+  if (response == 1) {
+  SelEstacion(idEstacion)
+  sizeWindow();
+  alertify.success('Pedido eliminado exitosamente.');
+
+  }else{
+  alertify.error('Error al eliminar el pedido');
+  }
+
+  } 
+  });
+
+  },
+  function(){
+
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+  }
+
+  function Editar(idEstacion,id){
+  window.location.href = "pivoteo-editar/" + id;
+  } 
+
+  function VerPivoteo(id){
   $('#Modal').modal('show');  
-  $('#DivContenido').load('../public/corte-diario/vistas/modal-detalle-pivoteo.php?idReporte=' + id);
+  $('#DivContenido').load('../app/vistas/contenido/3-importacion/pivoteo/detalle-pivoteo.php?idReporte=' + id);
   }
   
   function PivoteoPDF(id){
   window.location.href = "../pivoteo-pdf/" + id;
-  }
+  } 
 
   function GMail(idEstacion,id){
- $('#Modal').modal('show');  
-  $('#DivContenido').load('../public/admin/vistas/modal-gmail-pivoteo.php?idReporte=' + id + '&idEstacion=' + idEstacion);
-  }
+  $('#Modal2').modal('show');  
+  $('#DivContenido2').load('../public/admin/vistas/modal-gmail-pivoteo.php?idReporte=' + id + '&idEstacion=' + idEstacion);
+  } 
 
   function EnviarCorreo(idReporte,idEstacion){
   let CorreoElectronico = $('#CorreoElectronico').val();
 
-let Asunto = $('#Asunto').val();
-let Contenido = $('#Contenido').val();
+  let Asunto = $('#Asunto').val();
+  let Contenido = $('#Contenido').val();
 
     var parametros = {
     "idReporte" : idReporte,
@@ -153,7 +159,9 @@ let Contenido = $('#Contenido').val();
     "Contenido" : Contenido,
     };
 
-    $.ajax({
+    $(".LoaderPage").show();
+
+    $.ajax({ 
     data:  parametros,
     url:   '../public/admin/modelo/enviar-correo-pivoteo.php',
     type:  'post',
@@ -161,8 +169,11 @@ let Contenido = $('#Contenido').val();
     },
     complete: function(){
 
-    },
+    }, 
     success:  function (response) {
+
+      $(".LoaderPage").hide();
+
 
     if (response == 1) {
     GMail(idEstacion,idReporte)
@@ -206,7 +217,12 @@ let Contenido = $('#Contenido').val();
   }
 
 
-
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script>
   </head>
 
@@ -338,29 +354,39 @@ $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   <div class="row">  
   
   <div class="col-12 mb-3">
-  <div id="ListaPivoteo" class="cardAG"></div>
+  <div id="ListaPivoteo"></div>
   </div> 
 
   </div>
   </div> 
 
-</div>
-
-
-    <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
   </div>
 
+  <!---------- MODAL ----------> 
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivContenido"></div>
+  </div>
+  </div>
+
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenido2">
+  </div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 
   </body>
   </html>

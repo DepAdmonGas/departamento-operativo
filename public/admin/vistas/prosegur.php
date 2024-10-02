@@ -1,56 +1,58 @@
 <?php
-require('../../../app/help.php');
+require ('../../../app/help.php');
 $idReporte = $_GET['idReporte'];
 ?>
 
 <div class="table-responsive">
+  <table class="custom-table " style="font-size: .8em;" width="100%">
+    <thead class="tables-bg">
+      <th colspan="3" class="text-center fw-bold">Prosegur</th>
+      <tr class="title-table-bg">
+        <td class="text-center fw-bold">DENOMINACION</td>
+        <th class="text-center">RECIBO</th>
+        <td class="text-center fw-bold">IMPORTE</td>
+      </tr>
 
-<table class="table table-sm table-bordered pb-0 mb-0" style="font-size: .8em;">
+    </thead>
 
-<thead class="tables-bg">
-	<th class="text-center">DENOMINACION</th>
-	<th class="text-center">RECIBO</th>
-	<th class="text-center">IMPORTE</th>
-</thead>
+    <tbody class="bg-white">
+      <?php
+      $totalImporte = 0;
+      $sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '" . $idReporte . "' ";
+      $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
+      while ($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)) {
 
-<tbody>
-	<?php
+        $idProsegur = $row_listaprosegur['id'];
+        $denominacion = $row_listaprosegur['denominacion'];
+        $recibo = $row_listaprosegur['recibo'];
 
-	$sql_listaprosegur = "SELECT * FROM op_prosegur WHERE idreporte_dia = '".$idReporte."' ";
-    $result_listaprosegur = mysqli_query($con, $sql_listaprosegur);
-    while($row_listaprosegur = mysqli_fetch_array($result_listaprosegur, MYSQLI_ASSOC)){
-
-		$idProsegur = $row_listaprosegur['id'];
-		$denominacion = $row_listaprosegur['denominacion'];
-		$recibo = $row_listaprosegur['recibo'];
-
-		$valimporte =  $row_listaprosegur['importe'];
+        $valimporte = $row_listaprosegur['importe'];
 
         $importe = $row_listaprosegur['importe'];
 
-    $totalImporte = $totalImporte + $importe;
+        $totalImporte += $importe;
 
-    ?>
+        ?>
 
-    <tr>
-    	<td class="align-middle"><?=$denominacion;?></td>
-    	<td class="p-0 align-middle">
-    		<?=$recibo;?>
-    	</td>
-    	<td class="p-0 align-middle text-end">
-    		<?=number_format($valimporte,2);?>
-    	</td>
-    </tr>
+        <tr>
+          <th class="align-middle no-hover"><?= $denominacion; ?></th>
+          <td class="align-middle no-hover">
+            <?= $recibo; ?>
+          </td>
+          <td class="align-middle no-hover text-end">
+            <?= number_format($valimporte, 2); ?>
+          </td>
+        </tr>
 
-    <?php
-    }
+        <?php
+      }
 
-	?>
-	<tr>
-    <th class="bg-light text-center" colspan="2">TOTAL 1</th>
-    <td class="bg-light align-middle text-end"><strong><?=number_format($totalImporte,2);?></strong></td>
-    </tr>
-</tbody>
+      ?>
+      <tr>
+        <th class="text-center disabledOP" colspan="2">TOTAL 1</th>
+        <td class="align-middle text-end disabledOP"><strong><?= number_format($totalImporte, 2); ?></strong></td>
+      </tr>
+    </tbody>
 
-</table>
+  </table>
 </div>

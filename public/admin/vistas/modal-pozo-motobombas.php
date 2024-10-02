@@ -12,8 +12,8 @@ $idEstacion = $row_lista['id_estacion'];
 ?>
 
 <div class="modal-header">
-<h5 class="modal-title">Agregar</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<h5 class="modal-title">Agregar ubicacion de pozo</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
@@ -21,9 +21,9 @@ $idEstacion = $row_lista['id_estacion'];
 
 <div class="row">
 	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">
-		<div>Pozo o Motobomba:</div>
+		<div class="text-secondary mb-1 fw-bold">* POZO O MOTOBOMBA:</div>
 		<select class="form-select mt-1" id="PozoMotobomba">
-		<option>Seleccione</option>
+		<option></option>
 		<?php 
 		if($idEstacion == 1){
  
@@ -116,16 +116,21 @@ $idEstacion = $row_lista['id_estacion'];
 	</div>
 
 	<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-		<div>PPM:</div>
+		<div class="text-secondary mb-1 fw-bold">* PPM:</div>
 		<input type="number" class="form-control mt-1" id="PPM">
 	</div>
 </div>
 
-<div>Ubicación de Pozo:</div>
+<div class="text-secondary mb-1">UBICACIÓN DE POZO:</div>
 <textarea class="form-control mt-1" id="Ubicacion"></textarea>
 
 </div>
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary rounded-0" data-dismiss="modal">Cancelar</button>
-<button type="button" class="btn btn-primary rounded-0" onclick="GuardarPozo(<?=$idReporte;?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
+
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarPozo(<?=$idReporte;?>)">
+         <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
 </div>

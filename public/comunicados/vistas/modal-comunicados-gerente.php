@@ -23,7 +23,7 @@ $fecha_dia = FormatoFecha($explode[0]);
 
 <div class="modal-header">
 <h5 class="modal-title">Detalle comunicado</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
  
  
@@ -68,7 +68,9 @@ if ($numero_lista > 0) {
 }else{
 
 echo '<div class="modal-footer">';
-echo '<button type="button" class="btn btn-primary " onclick="deacuerdoComunicado('.$idComunicado.','.$idGerente.')">De acuerdo</button>';
+echo '<button type="button" class="btn btn-labeled2 btn-primary float-end m-2"
+    onclick="deacuerdoComunicado('.$idComunicado.','.$idGerente.')">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>De Acuerdo</button>';
 echo '</div>';
 
 }

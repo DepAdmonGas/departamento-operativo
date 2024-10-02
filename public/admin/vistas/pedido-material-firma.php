@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 $sql_pedido = "SELECT * FROM op_pedido_materiales WHERE id = '".$GET_idPedido."' ";
 $result_pedido = mysqli_query($con, $sql_pedido);
 $numero_pedido = mysqli_num_rows($result_pedido);
@@ -26,9 +22,19 @@ while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSO
 $razonsocial = $row_listaestacion['razonsocial'];
 }
 
-function EvidenciaImagen($idEvidencia,$con){
- 
 
+if($id_estacion == 9){
+$razonsocialDesc = "Autolavado";
+$DescripcionES = "¿EN QUE AFECTA AL AUTOLAVADO?";
+$ocultarDivs = "d-none";
+  
+}else{
+$razonsocialDesc = $razonsocial;
+$DescripcionES = "¿EN QUE AFECTA A LA ESTACIÓN?";
+$ocultarDivs = "";
+  
+}
+function EvidenciaImagen($idEvidencia,$con){
 $sql = "SELECT id, imagen FROM op_pedido_materiales_evidencia_foto WHERE id_evidencia = '".$idEvidencia."' ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -65,11 +71,12 @@ $firmaC = FirmaSC($GET_idPedido,'C',$con);
 function DetalleArea($id,$con){
 
 $sql = "SELECT * FROM op_pedido_materiales_area_otros WHERE id_area = '".$id."' AND estatus = 1 ";
-  $result = mysqli_query($con, $sql);
-  $numero = mysqli_num_rows($result);
-  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-  $Result .= '<small class="text-secondary">('.$row['sub_area'].')</small> '; 
-  }
+$Result = "";
+$result = mysqli_query($con, $sql);
+$numero = mysqli_num_rows($result);
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$Result .= '<small class="text-secondary">('.$row['sub_area'].')</small> '; 
+}
 
 return $Result;
 }
@@ -113,13 +120,14 @@ return $Result;
   window.history.back();
   }
 
-    function CrearToken(idReporte){
+  function CrearToken(idReporte,idVal){
     $(".LoaderPage").show();
 
     var parametros = {
-    "idReporte" : idReporte
+    "idReporte" : idReporte,
+    "idVal" : idVal
     };
-
+    
     $.ajax({
     data:  parametros,
     url:   '../../public/admin/modelo/token-pedido-material.php',
@@ -153,7 +161,7 @@ return $Result;
     "tipoFirma" : tipoFirma,
     "TokenValidacion" : TokenValidacion
     };
-
+ 
   if(TokenValidacion != ""){
   $('#TokenValidacion').css('border',''); 
  
@@ -169,8 +177,7 @@ return $Result;
 
     },
     success:  function (response) {
-
-      $(".LoaderPage").hide();
+    $(".LoaderPage").hide();
 
     if(response == 1){
 
@@ -190,6 +197,38 @@ return $Result;
 
     }
 
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/token-email-pedido-materiales.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
 
   </head>
@@ -204,406 +243,570 @@ return $Result;
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
+  <div class="contendAG container">
   <div class="row">
 
   <div class="col-12 mb-3">
-  <div class="cardAG"> 
-  <div class="border-0 p-3">
 
-    <div class="row">
-    <div class="col-12">
+  <div class="cardAG p-3"> 
 
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Firmar Orden de Mantenimiento</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-
-<div class="container">
-
-<div class="table-responsive">
- <table class="table table-bordered">
-    <tr>
-      <td class="align-middle"><b>Razón social:</b> <br><?=$razonsocial;?></td>
-      <td class="align-middle"><b>Folio:</b><br> 00<?=$folio;?></td>
-      <td class="align-middle"><b>Fecha:</b> <br><?=FormatoFecha($fecha);?></td>
-    </tr>
-  </table>
-</div>
-
-
-<div class="border p-3 mb-3">
-  
-  <h6>¿EN QUE AFECTA A LA ESTACIÓN?</h6>
-  <hr>
-
-  <label><?=$afectacion;?></label>
-
-  </div>
-
-
-  <div class="border p-3 mb-3 d-none ">
-  
-  <h6>TIPO DE SERVICIO</h6>
-  <hr>
 
   <div class="row">
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> 
-  PREVENTIVO <?php if($tiposervicio == 1){echo '<br>
-  <img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?> </div>
 
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">CORRECTIVO <?php if($tiposervicio == 2){echo '<br>
-<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center">EMERGENTE <?php if($tiposervicio == 3){echo '<br>
-<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-  </div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Orden de Mantenimiento</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Firmar Orden de Mantenimiento</li>
+  </ol>
   </div>
 
-
-  <div class="border p-3 mb-3 ">
-    <h6>LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</h6>
-    <hr>
-
-    <div class="row">
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> SI <?php if($ordentrabajo == 1){echo '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> NO <?php if($ordentrabajo == 2){echo '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> AMBAS <?php if($ordentrabajo == 3){echo '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
+  <div class="row">
+  <div class="col-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Firmar Orden de Mantenimiento</h3></div>
   </div>
-</div>
-
-
-  <div class="border p-3 ">
-<h6>LA ORDEN DE TRABAJO ES DE ALTO RIESGO</h6>    <hr>
-
-    <div class="row justify-content-center">
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> SI <?php if($ordenriesgo == 1){echo '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
-<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2 text-center"> NO <?php if($ordenriesgo == 2){echo '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';} ?></div>
-
+  <hr>
   </div>
-</div>
 
-
-<div class="table-responsive">
-  <table class="table table-bordered table-sm mt-3">
+  <!---------- INFORMACION FORMULARIO ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr>
-    <th class="text-center">ÁREA</th>
-        <th class="text-center p-0 m-0" width="30"></th>
+  <tr> 
+    <th class="align-middle text-center">Razón social</th>
+    <th class="align-middle text-center">Folio</th>
+    <th class="align-middle text-center">Fecha</th>
   </tr>
   </thead>
+
   <tbody>
+  <tr class="no-hover2">
+  <th class="align-middle text-center bg-light fw-normal"><?=$razonsocialDesc?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$folio?></th>
+  <th class="align-middle text-center bg-light fw-normal"><?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?></th>
+  </tr>
+  </tbody>
+  </table>
+
+
+  </table>
+  </div>
+  </div>
+
+
+  <!---------- APARTADO ¿EN QUE AFECTA A LA ESTACION? ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+    <th class="align-middle text-center"><?=$DescripcionES?></th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <tr class="no-hover2">
+  <th class="align-middle text-center fw-normal no-hover2"><?=$afectacion;?></th>
+  </tr>
+  </tbody>
+  </table>
+
+  </table>
+  </div>
+  </div>
+
+  <!---------- APARTADO TIPO DE SERVICIO ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">TIPO DE SERVICIO</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2"> PREVENTIVO</td>
+  <td class="align-middle text-center no-hover2 p-2">CORRECTIVO</td>
+  <td class="align-middle text-center no-hover2 p-2">EMERGENTE</td>
+
+  </tr>
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+   <?php if($tiposervicio == 3){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?> 
+  </td>
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+  <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">SI</td>
+  <td class="align-middle text-center no-hover2 p-2">NO</td>
+  <td class="align-middle text-center no-hover2 p-2">AMBAS</td>
+
+  </tr> 
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordentrabajo == 3){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?>
+  </td>
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+
+
+  <!---------- LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE ---------->
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">LA ORDEN DE TRABAJO ES DE ALTO RIESGO</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">SI</td>
+  <td class="align-middle text-center no-hover2 p-2">NO</td>
+
+  </tr>
+
+  <tr>
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordenriesgo == 1){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?></div>
+  </td>
+
+  <td class="align-middle text-center no-hover2 p-2">
+  <?php if($ordenriesgo == 2){echo '<i class="fa-regular fa-circle-check text-success" style="font-size: 20px;"></i>';} ?></div>
+  </td>
+
+
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+  <!---------- AREA ---------->
+  <div class="col-12 mb-3 <?=$ocultarDivs?>">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="2">ÁREA</th>
+
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+
+
   <?php  
   $sql_lista = "SELECT * FROM op_pedido_materiales_area WHERE id_pedido = '".$GET_idPedido."' ";
   $result_lista = mysqli_query($con, $sql_lista);
   $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) {
   while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-
-    $id  = $row_lista['id'];
-
-    if($row_lista['estatus'] == 1){
-    $checked = '<img class="pr-2" src="'.RUTA_IMG_ICONOS.'icon-check.png" >';
-    $SADetalle = DetalleArea($id,$con);
-    }else{
-    $checked = '';
-    $SADetalle = '';
-    }
+  $id  = $row_lista['id'];
+  if($row_lista['estatus'] == 1){
+  $checked = '<i class="fa-regular fa-circle-check text-success" style="font-size: 22px;"></i>';
+  $SADetalle = DetalleArea($id,$con);
+  }else{
+  $checked = '';
+  $SADetalle = '';
+  }
 
   echo '<tr>
-       <td>'.$row_lista['area'].' '.$SADetalle.'</td>
-       <td class="align-middle text-center">'.$checked.'</td>
-       </tr>';
+  <th class="align-middle text-start no-hover2 fw-normal">'.$row_lista['area'].' '.$SADetalle.'</th>
+  <td class="align-middle text-center no-hover2" width="40px">'.$checked.'</td>
+  </tr>';
 
   }
+
+  }else{
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
+  }
   ?>
+
+
   </tbody>
-</table>
-</div>
+  </table>
+  </div>
+  </div>
 
-
-<div class="border p-3 mb-3">
-<h6>REFACCIONES</h6>
-
-<hr>
-
-<div class="table-responsive">
-<table class="table table-bordered table-sm mb-0" style="margin-top: 5px;">
+  <!---------- REFACCIONES ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
-  <tr>
-    <th class="">REFACCIÓN</th>    
-    <th class="text-center">CANTIDAD</th>
-    <th class="">ESTATUS</th>
+  <tr> 
+  <th class="align-middle text-center" colspan="3">REFACCIONES</th>
   </tr>
+
+  <tr class="title-table-bg">
+  <td class="fw-bold align-middle">REFACCIÓN</td>
+  <th class="text-center align-middle">CANTIDAD</th>
+  <td class="fw-bold text-center align-middle">ESTATUS</td>
+  </tr>
+
   </thead>
-  <tbody>
+
+  <tbody class="bg-light">
   <?php  
   $sql_detalle = "SELECT * FROM op_pedido_materiales_detalle WHERE id_pedido = '".$GET_idPedido."' ";
   $result_detalle = mysqli_query($con, $sql_detalle);
   $numero_detalle = mysqli_num_rows($result_detalle);
   if ($numero_detalle > 0) {
+
+
+    
   while($row_detalle = mysqli_fetch_array($result_detalle, MYSQLI_ASSOC)){
 
-    $id  = $row_detalle['id'];
+  $id  = $row_detalle['id'];
 
-       echo '<tr>
-       <td>'.$row_detalle['concepto'].'</td>
-       <td class="text-center">'.$row_detalle['cantidad'].'</td>
-       <td>'.$row_detalle['nota'].'</td>
-       </tr>';
+  echo '<tr>
+  <th class="fw-normal no-hover2">'.$row_detalle['concepto'].'</th>
+  <td class="text-center no-hover2">'.$row_detalle['cantidad'].'</td>
+  <td class="text-center no-hover2">'.$row_detalle['nota'].'</td>
+  </tr>';
   }
   }else{
-  echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";  
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
+
   </tbody>
-</table>
-</div>
-
-</div>
-
-<div class="p-3 border mb-3">
-
-      <div class="row">
-
-      <div class="col-12 mt-2">
-        <h6>EVIDENCIA</h6>
-      </div>
-
-    </div>
-
-<hr>
+  </table>
+  </div>
+  </div>
 
 
-<div class="table-responsive">
-<table class="table table-sm table-bordered pb-0 mb-0 ">
-        <thead>
-        <tr class="tables-bg">
-        <th class="align-middle text-center" width="20" >ARCHIVO</th>
-        <th class="align-middle text-center">AREA</th>
-        <th class="align-middle text-center">MOTIVO</th>
-                </tr>
-        </thead>
-  
-<?php  
+
+  <!---------- EVIDENCIA ---------->
+  <div class="col-12 mb-3">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> 
+  <th class="align-middle text-center" colspan="3">EVIDENCIA</th>
+  </tr>
+
+  <tr class="title-table-bg">
+  <td class="fw-bold align-middle" width="20px">ARCHIVO</td>
+  <th class="text-center align-middle">ÁREA</th>
+  <td class="text-center align-middle fw-bold">MOTIVO</td>
+  </tr>
+
+  </thead>
+
+  <tbody class="bg-light">
+  <?php  
 
   $sql_evidencia = "SELECT * FROM op_pedido_materiales_evidencia_archivo WHERE id_pedido = '".$GET_idPedido."' ";
 
-  
   $result_evidencia = mysqli_query($con, $sql_evidencia);
   $numero_evidencia = mysqli_num_rows($result_evidencia);
+
+  if ($numero_evidencia > 0) {
   while($row_evidencia = mysqli_fetch_array($result_evidencia, MYSQLI_ASSOC)){
-  
   $idEvidencia = $row_evidencia['id'];
 
-echo'
-       
-        <tr>
-        <td class="align-middle text-center"> 
-        <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'descargar.png"></a>
-        </td> 
-        <td class="align-middle text-center">'.$row_evidencia['area'].'</td>
-        <td class="align-middle text-center">'.$row_evidencia['motivo'].'</td>
-        </tr>';
+  echo'
+  
+  <tr>
+  <th class="align-middle text-center no-hover2"> 
+  <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  </th> 
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
+  <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>
+  </tr>';
 
 
-/* 
-echo '<div class="border p-3 mt-3 mb-3">';
-
-echo '<div class="row">
-<div class="col-12"><button type="button" class="btn btn-sm btn-secondary rounded-0 float-end" onclick="ModalEvidenciaImagen('.$idEvidencia.')">Imagen</button>
-</div>
-</div>
- 
-<hr>';
-
-echo '<div>'.EvidenciaImagen($idEvidencia,$con).'</div>';
-
-echo '</div>';
-*/
-
+  }
+  }else{
+  echo "<tr><th colspan='6' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  
   }
   ?>
 
-</table>
-</div>
-</div>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 
-
-
-
-
-<div class="border p-3 mb-3">
-<h6>COMENTARIOS</h6>
-<hr>
-<div class="border p-2"><?=$comentarios;?></div>
-</div>
-
-
-
-<div class="border p-3 mb-3">
-  <h6>FIRMAS</h6>
+  <!---------- COMENTARIO ---------->
+  <div class="col-12">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">COMENTARIOS</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center fw-normal no-hover2 bg-light"><?=$comentarios;?></th>
+  </tr>
+  </tbody>
+  </table>
   <hr>
+  </div>
 
+  <div class="col-12">
+  <div class="row">
+    
+  <?php  
+  if($firmaB == 0){
+  if($Session_IDUsuarioBD == 21){
 
-<div class="row">
-<?php  
-
-
-if($Session_IDUsuarioBD == 21){
-if($firmaB == 0){
-?>
+  ?>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-<div class="border p-3 mt-3">
-<div class="mb-2 text-secondary text-center">FIRMA DE VOBO</div>
-<h4 class="text-primary">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light" onclick="CrearToken(<?=$GET_idPedido;?>)"><small>Crear token</small></button>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+  
+  <tr>
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  </th>
+  </tr>
+
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="FirmarSolicitud(<?=$GET_idPedido;?>,'B')">Firmar solicitud</button>
+  <button class="btn btn-outline-success" type="button" onclick="FirmarSolicitud(<?=$GET_idPedido;?>,'B')">Firmar solicitud</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
-<?php
-}
-}
+  <?php
 
 
+  }else{
+    echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+    <div class="text-center alert alert-warning" role="alert">
+    No cuentas con los permisos para firmar el VO.BO
+    </div>
+    </div>';
+    }
 
+  }
+  
 
-if($Session_IDUsuarioBD == 19 ){
-if($firmaB == 1 && $firmaC == 0){
-?>
+  if($firmaB == 1 && $firmaC == 0){
+  if($Session_IDUsuarioBD == 19){
+
+  ?>
+
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
-<div class="border p-3 mt-3">
-<div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
-<h4 class="text-primary">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm" onclick="CrearToken(<?=$GET_idPedido;?>)"><small>Crear nuevo token</small></button>
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+  
+  <tr>
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  </th>
+  </tr>
+
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="FirmarSolicitud(<?=$GET_idPedido;?>,'C')">Firmar solicitud</button>
+  <button class="btn btn-outline-success" type="button" onclick="FirmarSolicitud(<?=$GET_idPedido;?>,'C')">Firmar solicitud</button>
   </div>
-</div>
-</div>
-</div>
-<?php 
-}else{
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"><div class="text-center alert alert-warning" role="alert">
-  ¡Falta firma de VoBo.!
-</div>
-</div>';
-}
-}
-
-?>
-
-
-<?php
-
-$sql_firma = "SELECT * FROM op_pedido_materiales_firma WHERE id_pedido = '".$GET_idPedido."' ";
-$result_firma = mysqli_query($con, $sql_firma);
-$numero_firma = mysqli_num_rows($result_firma);
-while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
-
-$explode = explode(' ', $row_firma['fecha']);
-
-if($row_firma['tipo_firma'] == "A"){
-$TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-$Detalle = '<div class="border p-1 text-center"><img src="../../imgs/firma/'.$row_firma['firma'].'" width="70%"></div>';
-}else if($row_firma['tipo_firma'] == "B"){
-$TipoFirma = "NOMBRE Y FIRMA DE VOBO";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-}else if($row_firma['tipo_firma'] == "C"){
-$TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
-$Detalle = '<div class="border-bottom text-center p-2" style="font-size: 0.9em;"><small>La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
-}
-
-echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">';
-echo '<div class="border p-3">';
-echo '<div class="mb-2 text-center">'.Personal($row_firma['id_usuario'],$con).'<hr></div>';
-echo $Detalle;
-echo '<h6 class="mt-2 text-secondary text-center">'.$TipoFirma.'</h6>';
-echo '</div>';
-echo '</div>';
-}
-
-?> 
-</div>
-</div>
-
-</div>
-
   </div>
+  </th>
+  </tr>
+  </tbody>
+  </table>
   </div>
   </div>
 
+  <?php 
+  
+  }else{
+  echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="text-center alert alert-warning" role="alert">
+  No cuentas con los permisos para firmar la autorización
+  </div>
+  </div>';
+  }
+
+  }
+
+  $sql_firma = "SELECT * FROM op_pedido_materiales_firma WHERE id_pedido = '".$GET_idPedido."' ";
+  $result_firma = mysqli_query($con, $sql_firma);
+  $numero_firma = mysqli_num_rows($result_firma);
+  while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
+
+  $explode = explode(' ', $row_firma['fecha']);
+
+  if($row_firma['tipo_firma'] == "A"){
+  $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
+  }else if($row_firma['tipo_firma'] == "B"){
+  $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  }else if($row_firma['tipo_firma'] == "C"){
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+  }
+
+
+  echo '  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+  <table class="custom-table" style="font-size: 14px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">'.Personal($row_firma['id_usuario'],$con).'</th> </tr>
+  </thead>
+  <tbody class="bg-light">
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$Detalle.'</th>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center no-hover2">'.$TipoFirma.'</th>
+  </tr>
+  
+  </tbody>
+  </table>
+  </div>';
+  }
+
+  ?> 
+  </div>
+  
+
   </div>
   </div>
 
-  </div>
 
+  </div>
+  </div>
+  </div>
+  </div>
 
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalFinalizado">
   <div class="modal-dialog" role="document">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div class="modal-body">
+  <div class="modal-content">
+  <div class="modal-body">
 
-       <h5 class="text-info">El token fue validado correctamente.</h5>
-       <div class="text-secondary">La solicitud de chueque fue firmada.</div>
-
-
-      <div class="text-end">
-        <button type="button" class="btn btn-primary" onclick="Regresar()">Aceptar</button>
-      </div>
-
-      </div>
-    </div>
+  <h5 class="text-info">El token fue validado correctamente.</h5>
+  <div class="text-secondary">La solicitud de chueque fue firmada.</div>
   </div>
-</div>
+
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="history.back()">
+  <span class="btn-label2"><i class="fa-solid fa-check"></i></span>Aceptar</button>
+  </div>
+
+  </div>
+  </div>
+  </div>
 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
   <div class="modal-dialog" role="document">
-    <div class="modal-content" style="margin-top: 83px;">
-      <div class="modal-body">
+  <div class="modal-content">
+  <div class="modal-body">
 
-       <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
-       <div class="text-secondary">La solicitud de chueque no fue firmada.</div>
+  <h5 class="text-danger">El token no fue aceptado, vuelva a generar uno nuevo o inténtelo mas tarde </h5>
+  <div class="text-secondary">La solicitud de chueque no fue firmada.</div>
  
-
-      <div class="text-end">
-         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
-      </div>
-
-      </div>
-    </div>
   </div>
-</div>
 
+  <div class="modal-footer">
+  <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+  <span class="btn-label2"><i class="fa-regular fa-circle-xmark"></i></span>Aceptar</button>
+  </div>
+
+  </div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

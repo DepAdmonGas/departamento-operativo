@@ -18,7 +18,7 @@ function nombreEstaciones($numlista,$con){
 
 
   }else if($numlista == 12){
-    $nombre_ES2 = "";
+    $nombre_ES2 = "DEPARTAMENTO";
 
   }else if($numlista == 22){
     $nombre_ES2 = "COMERCIALIZALIZADORA DE ARTICULOS GASOLINEROS S.A. DE C.V.";
@@ -30,6 +30,7 @@ function nombreEstaciones($numlista,$con){
   return $nombre_ES2;
 
 }
+
 
 function imagenesES($numlista){
   
@@ -61,26 +62,19 @@ function imagenesES($numlista){
 
  ?>
  
-
-  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-3" >
-  <div class="card card-menuB rounded shadow-sm p-2 mb-2 pointer" onclick="estacionesCSF(<?=$GET_idEstacion?>)">
-                
-    <div class="col-12 text-center">
-
-    <div class="text-center" style="font-size: 1.2em;">
-    <?=$nombre_ES?>
-    </div>
-
-    <img class="img-logo mt-2 mb-2" src="<?php echo RUTA_IMG_ICONOS?><?=$imagenesES?>" style="width: 25%;">
-
-
-    <div class="text-center text-muted mt-2 mb-1" style="font-size: .7em;">
-    <?=$razonsocial?>
-    </div>
-
-    </div>
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="estacionesCSF(<?=$GET_idEstacion?>)">   
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+    
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?><?=$imagenesES?>" draggable="false"/></div>
+    
+  <div class="product-info">
+  <p class="mb-0 pb-0"><?=$razonsocial?></p>
+  <h2><?=$nombre_ES?></h2>
+  </div>
 
   </div>
+  </section>
   </div>
 
 

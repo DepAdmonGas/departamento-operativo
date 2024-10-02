@@ -47,20 +47,24 @@ $idDetalle = $_GET['idDetalle'];
 	}
 
 	?>
- 
+ <script type="text/javascript">
+  $('.selectize').selectize({
+    sortField: 'text'
+});
+</script>
     <div class="modal-header">
     <h5 class="modal-title">Editar Cuenta Litros</h5>  
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
 
  
     <div class="modal-body">
  	
- 	<div class="mb-1 text-secondary">Hora:</div>
-    <input class="form-control" type="time" id="horaCL" value="<?=$hora?>">
+ 	<div class="mb-1 text-secondary fw-bold">* HORA:</div>
+    <input class="form-control rounded-0" type="time" id="horaCL" value="<?=$hora?>">
 
-        <div class="mt-2 mb-1 text-secondary">Embarque</div>
-    <select class="form-select" id="embarqueCL" onchange="Embarque()">
+        <div class="mt-2 mb-1 text-secondary fw-bold">* EMBARQUE:</div>
+    <select class="form-select rounded-0" id="embarqueCL" onchange="Embarque()">
           <option><?=$embarque?></option>
           <option>Pemex</option>
           <option>Delivery</option>
@@ -69,8 +73,8 @@ $idDetalle = $_GET['idDetalle'];
  
 
  <div id="DivTransporte" <?=$displayV?>>
-    <div class="mt-2 mb-1 text-secondary">Nombre del transporte</div>
-    <select class="form-select" id="transporteCL">
+    <div class="mt-2 mb-1 text-secondary fw-bold">* NOMBRE DEL TRANSPORTE:</div>
+    <select class="selectize pointer rounded-0" id="transporteCL">
           <option><?=$transporte?></option>
     <?php
     $sql_unidades = "SELECT nombre_transporte FROM tb_lista_transportes WHERE estado = 0 ORDER BY nombre_transporte ASC";
@@ -89,12 +93,12 @@ $idDetalle = $_GET['idDetalle'];
     </select>
   </div>
 
-    <div class="mb-1 mt-2 text-secondary">Tanque:</div>
-    <input class="form-control" type="number" id="tanqueCL" value="<?=$tanque?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TANQUE:</div>
+    <input class="form-control rounded-0" type="number" id="tanqueCL" value="<?=$tanque?>">
 
 
-    <div class="mb-1 mt-2 text-secondary">Producto:</div>
-    <select class="form-select" id="productoCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* PRODUCTO:</div>
+    <select class="form-select rounded-0" id="productoCL">
 	<option><?=$producto?></option>
  
 	<?php
@@ -149,8 +153,8 @@ $idDetalle = $_GET['idDetalle'];
 	</select>
 
 
-	  <div class="mb-1 mt-2 text-secondary">*TAD:</div>
-    <select class="form-select" id="tadCL">
+	  <div class="mb-1 mt-2 text-secondary fw-bold">* TAD:</div>
+    <select class="form-select rounded-0" id="tadCL">
     <option><?=$tad?></option>
     <option>Atlacomulco</option>
     <option>Tizayuca</option>
@@ -161,8 +165,8 @@ $idDetalle = $_GET['idDetalle'];
     </select>
 
  
-    <div class="mb-1 mt-2 text-secondary">*Unidad:</div>
-    <select class="form-select" id="unidadCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* UNIDAD:</div>
+    <select class="selectize pointer rounded-0" id="unidadCL">
     <option><?=$unidad?></option>
    
     <?php
@@ -181,33 +185,35 @@ $idDetalle = $_GET['idDetalle'];
     </select>
  
 
-    <div class="mb-1 mt-2 text-secondary">Factura:</div>
-    <input class="form-control" type="number" id="facturaCL" value="<?=$litros?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* FACTURA:</div>
+    <input class="form-control rounded-0" type="number" id="facturaCL" value="<?=$litros?>">
 
-    <div class="mb-1 mt-2 text-secondary">Tirilla de Descarga Neto:</div>
-    <input class="form-control" type="number" id="descargaNetoCL" value="<?=$descarga_neto?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TIRILLA DE DESCARGA NETO:</div>
+    <input class="form-control rounded-0" type="number" id="descargaNetoCL" value="<?=$descarga_neto?>">
 
-    <div class="mb-1 mt-2 text-secondary">Tirilla de Descarga Bruto:</div>
-    <input class="form-control" type="number" id="descargaBrutoCL" value="<?=$descarga_bruto?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* TIRILLA DE DESCARGA BRUTO:</div>
+    <input class="form-control rounded-0" type="number" id="descargaBrutoCL" value="<?=$descarga_bruto?>">
 
-    <div class="mb-1 mt-2 text-secondary">Cuenta Litros a 20° C:</div>
-    <input class="form-control" type="number" id="descargaGradosCL" value="<?=$litros_c?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* CUENTA LITROS A 20° C:</div>
+    <input class="form-control rounded-0" type="number" id="descargaGradosCL" value="<?=$litros_c?>">
 
-      <div class="mb-1 mt-2 text-secondary">*Venta al momento:</div>
-    <input class="form-control" type="number" id="ventaCL" value="<?=$venta?>">
+      <div class="mb-1 mt-2 text-secondary fw-bold">* VENTA AL MOMENTO:</div>
+    <input class="form-control rounded-0" type="number" id="ventaCL" value="<?=$venta?>">
 
-    <div class="mb-1 mt-2 text-secondary">*Folio de merma:</div>
-    <input class="form-control" type="number" id="mermaCL" value="<?=$merma?>">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* FOLIO DE MERMA:</div>
+    <input class="form-control rounded-0" type="number" id="mermaCL" value="<?=$merma?>">
 
-    <div class="mb-1 mt-2 text-secondary">Imagen:</div>
-    <input class="form-control" type="file" id="imagenCL">
+    <div class="mb-1 mt-2 text-secondary fw-bold">* IMAGEN:</div>
+    <input class="form-control rounded-0" type="file" id="imagenCL">
 
-    <div class="mb-1 mt-2 text-secondary">Comentarios:</div>
-    <textarea class="form-control" id="comentariosCL"><?=$comentarioText?></textarea>
+    <div class="mb-1 mt-2 text-secondary">COMENTARIOS:</div>
+    <textarea class="form-control rounded-0" id="comentariosCL"><?=$comentarioText?></textarea>
 
 	</div>
 
 
-    <div class="modal-footer">
-    <button type="button" class="btn btn-primary rounded-0" onclick="editarCL(<?=$idDetalle?>,<?=$id_cuenta_litros?>)">Guardar</button>
-    </div>
+    <div class="modal-footer">   
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="editarCL(<?=$idDetalle?>,<?=$id_cuenta_litros?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+	
+</div>

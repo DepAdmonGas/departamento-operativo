@@ -5,7 +5,7 @@ if ($Session_IDUsuarioBD == "") {
 header("Location:".PORTAL."");
 }
 ?> 
-<html lang="es">
+<html lang="es"> 
   <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -19,33 +19,16 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-
-  <style media="screen">
-  .tableFixHead{
-    overflow-y: scroll;
-  }
-  .tableFixHead thead th{
-    position: sticky;
-    top: 0px;
-    box-shadow: 2px 2px 7px #ECECEC;
-  }
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
 
   <script type="text/javascript">
@@ -54,12 +37,12 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-     if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-     $('#ListaCalibracion').load('../public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idestacion); 
-    }
+  idestacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idestacion)
+  }
   }
   
   });
@@ -68,10 +51,28 @@ header("Location:".PORTAL."");
   window.history.back();
   }
 
-  function SelEstacion(idEstacion){
+  function SelEstacion(idEstacion) {
+  let targets;
+  targets = [4];
+
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ListaCalibracion').load('../public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idEstacion); 
+
+  $('#ListaCalibracion').load('../public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idEstacion, function() {
+  $('#tabla_calibracion_' + idEstacion).DataTable({
+  "stateSave": true,
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "asc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
 
   function ModalNuevo(idEstacion){
@@ -96,6 +97,8 @@ header("Location:".PORTAL."");
   $('#Year').css('border',''); 
   if(Periodo != ""){
   $('#Periodo').css('border',''); 
+  if(Archivo_filePath != ""){
+  $('#Archivo').css('border',''); 
 
     data.append('idEstacion', idEstacion);
     data.append('Year', Year);
@@ -126,6 +129,10 @@ header("Location:".PORTAL."");
      
     }); 
 
+
+  }else{
+  $('#Archivo').css('border','2px solid #A52525'); 
+  }
   }else{
   $('#Periodo').css('border','2px solid #A52525'); 
   }
@@ -219,13 +226,13 @@ $id = $row_listaestacion['id'];
 $numlista = $row_listaestacion['numlista'];
 $estacion = $row_listaestacion['nombre']; 
 
-  echo '  
-  <li>
-    <a class="pointer" onclick="SelEstacion('.$id.')">
-    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-    '.$estacion.'
-    </a>
-  </li>';
+echo '  
+<li>
+  <a class="pointer" onclick="SelEstacion('.$id.')">
+  <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+  '.$estacion.'
+  </a>
+</li>';
 
 }
 ?> 
@@ -301,11 +308,7 @@ $estacion = $row_listaestacion['nombre'];
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaCalibracion" class="cardAG"></div>
-  </div> 
-
+  <div class="col-12" id="ListaCalibracion"></div>
   </div>
   </div> 
 
@@ -314,7 +317,7 @@ $estacion = $row_listaestacion['nombre'];
 
   <div class="modal" id="Modal">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
+      <div class="modal-content">
       <div id="DivContenido"></div>
       </div>
     </div>
@@ -323,8 +326,12 @@ $estacion = $row_listaestacion['nombre'];
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 
 </body>

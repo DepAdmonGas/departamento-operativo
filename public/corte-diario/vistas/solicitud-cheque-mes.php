@@ -447,7 +447,7 @@
   
   <!---------- MODAL (CENTER)---------->  
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>

@@ -1,9 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
 ?>
 <html lang="es">
   <head>
@@ -19,33 +16,16 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-    
-  <style media="screen">
-  .tableFixHead{
-    overflow-y: scroll;
-  }
-  .tableFixHead thead th{
-    position: sticky;
-    top: 0px;
-    box-shadow: 2px 2px 7px #ECECEC;
-  }
-  .grayscale {
-      filter: opacity(50%); 
-  }
-  </style>
-
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
   <script type="text/javascript">
 
@@ -53,17 +33,12 @@ header("Location:".PORTAL."");
   $(".LoaderPage").fadeOut("slow");
   sizeWindow()
 
-    if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-
-      if(idestacion < 11){
-      $('#ListaSenalamientos').load('../public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion); 
-    }
-       
-    
-    }  
+  idestacion = sessionStorage.getItem('idestacion');
+  SelEstacion(idestacion)   
+  }  
     
   }
   
@@ -74,17 +49,36 @@ header("Location:".PORTAL."");
   window.history.back();
   }
 
+
   function SelEstacion(idestacion){
   sizeWindow();  
   sessionStorage.setItem('idestacion', idestacion);
-  $('#ListaSenalamientos').load('../public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion); 
+  
+  let referencia, targets;
+  targets = [2,3,4];
+
+  $('#ListaSenalamientos').load('../public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion, function() {
+  $('#tabla_nivel_explosividad_' + idestacion).DataTable({
+  "stateSave": true,
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
 
-  function Agregar(idEstacion){
 
-    var parametros = {
-    "idEstacion" : idEstacion
-    };
+  function Agregar(idEstacion){
+  var parametros = {
+  "idEstacion" : idEstacion
+  };
 
      $.ajax({    
      data : parametros,
@@ -96,71 +90,72 @@ header("Location:".PORTAL."");
      },
      success:  function (response) {
 
-      if(response != 0){
-      window.location.href =  "nivel-explosividad/" + response; 
-      }
+  if(response != 0){
+  window.location.href =  "nivel-explosividad/" + response; 
+  }
 
-     }
-     });
+  }
+  });
   
-    }
+  }
 
-    function Eliminar(idEstacion,id){
+  function Eliminar(idEstacion,id){
 
-      var parametros = {
-    "idEstacion" : idEstacion,
-    "id" : id
-    };
+  var parametros = {
+  "idEstacion" : idEstacion,
+  "id" : id
+  };
 
  alertify.confirm('',
  function(){
 
-      $.ajax({
-     data:  parametros,
-     url:   '../public/admin/modelo/eliminar-nivel-explosividad.php',
-     type:  'post',
-     beforeSend: function() {
+  $.ajax({
+  data:  parametros,
+  url:   '../public/admin/modelo/eliminar-nivel-explosividad.php',
+  type:  'post',
+  beforeSend: function() {
 
-     },
-     complete: function(){
+  },
+  complete: function(){
     
-     },
-     success:  function (response) {
+  },
+  success:  function (response) {
 
-    if (response == 1) {
+  if (response == 1) {
+  SelEstacion(idEstacion)
+  sizeWindow()
+  alertify.success('Registro eliminado exitosamente');
 
-    SelEstacion(idEstacion)
-    sizeWindow()
-    alertify.success('Registro eliminado exitosamente');
+  }else{
+  alertify.error('Error al eliminar');
+  }
 
-    }else{
-    alertify.error('Error al eliminar');
+  }
+  });
 
-    }
+  },
+  function(){
 
-     }
-     });
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
-       },
- function(){
+  }
 
- }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+  function Detalle(idReporte){
+  window.location.href =  "nivel-explosividad-detalle/" + idReporte; 
+  }
 
-    }
-
-    function Detalle(idReporte){
-    window.location.href =  "nivel-explosividad-detalle/" + idReporte; 
-    }
+  function EditarInfo(idReporte){
+  window.location.href = "nivel-explosividad/" + idReporte; 
+  }
   
   </script>
   </head>
   
   <body>
-
   <div class="LoaderPage"></div>
 
   <!---------- CONTENIDO Y BARRA DE NAVEGACION ---------->
- <div class="wrapper"> 
+  <div class="wrapper"> 
   <!---------- BARRA DE NAVEGACION ---------->
   <nav id="sidebar">
           
@@ -168,45 +163,71 @@ header("Location:".PORTAL."");
   <img class="" src="<?=RUTA_IMG_LOGOS."Logo.png";?>" style="width: 100%;">
   </div>
 
-    <ul class="list-unstyled components">
+  <ul class="list-unstyled components">
    
-    <li>
-    <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
-    <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
-    </a>
-    </li>
-
-
-    <li>
-    <a class="pointer" onclick="Regresar()">
-    <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
-    </a>
-    </li>
-
-
-<?php
-$sql_listaestacion = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
-$result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$id = $row_listaestacion['id'];
-
-$numlista = $row_listaestacion['numlista'];
-$estacion = $row_listaestacion['nombre']; 
-
-
-
-
-
-  echo '  
   <li>
+  <a class="pointer" href="<?=SERVIDOR_ADMIN?>">
+  <i class="fa-solid fa-house" aria-hidden="true" style="padding-right: 10px;"></i>Menu
+  </a>
+  </li>
+
+  <li>
+  <a class="pointer" onclick="Regresar()">
+  <i class="fas fa-arrow-left" aria-hidden="true" style="padding-right: 10px;"></i>Regresar
+  </a>
+  </li>
+
+
+  <?php
+  $sql_listaestacion = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
+  $result_listaestacion = mysqli_query($con, $sql_listaestacion);
+  while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
+  $id = $row_listaestacion['id'];
+
+  $numlista = $row_listaestacion['numlista'];
+  $estacion = $row_listaestacion['nombre']; 
+
+  if ($session_nompuesto == "Comercializadora") {
+
+    if($Session_IDUsuarioBD == 28){
+
+    if($id == 6 || $id == 7){
+
+      echo '  
+      <li>
+      <a class="pointer" onclick="SelEstacion('.$id.')">
+      <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$estacion.'
+      </a>
+      </li>';
+    }
+  
+  }else{
+    echo '  
+    <li>
     <a class="pointer" onclick="SelEstacion('.$id.')">
     <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
     '.$estacion.'
     </a>
-  </li>';
+    </li>';
 
-}
-?> 
+  }
+
+  }else{
+
+    echo '  
+    <li>
+    <a class="pointer" onclick="SelEstacion('.$id.')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$estacion.'
+    </a>
+    </li>';
+  
+  }
+
+
+  }
+  ?> 
   </ul>
   </nav>
 
@@ -220,7 +241,7 @@ $estacion = $row_listaestacion['nombre'];
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Medición nivel de explosividad</a>
+  <a class="text-dark" onclick="history.back()">Mantenimiento</a>
   </div>
  
    
@@ -278,30 +299,22 @@ $estacion = $row_listaestacion['nombre'];
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ListaSenalamientos" class="cardAG"></div>
-  </div> 
-
+  <div id="ListaSenalamientos" class="col-12"></div>
   </div>
   </div> 
 
   </div>
-
-
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 
 </body>
 </html>

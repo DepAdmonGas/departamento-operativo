@@ -24,8 +24,8 @@ echo '
 
       <div class="modal-header">
         <h5 class="modal-title">Comentarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
 
 <div class="p-3">
 
@@ -51,7 +51,7 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <div class="mt-1" style="<?=$margin;?>">
 
 <div style="font-size: .7em;" class="mb-1"><?=$NomUsuario;?></div>
-<div class="bg-primary text-white" style="border-radius: 30px;">
+<div class="title-table-bg text-white" style="border-radius: 30px;">
 <p class="p-2 pb-0"><?=$comentario;?></p>
 </div>
 <div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
@@ -69,12 +69,15 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
 
-<hr>
-
-<div class="text-end mt-3">
-<button type="button" class="btn btn-primary" onclick="GuardarComentario(<?=$idEstacion;?>,<?=$idReporte;?>)">Guardar</button>
-</div>
 </div>
 
 
 
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success"
+    onclick="GuardarComentario(<?= $idEstacion; ?>,<?= $idReporte; ?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar
+  </button>
+
+</div>

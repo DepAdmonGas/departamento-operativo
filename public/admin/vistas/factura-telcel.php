@@ -1,11 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-   
   function IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con){
+    $idmes = 0;
    $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' ";
    $result_year = mysqli_query($con, $sql_year);
    while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
@@ -152,9 +149,9 @@ $alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura dispo
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -167,7 +164,7 @@ $alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura dispo
   ListaDirectorio(<?=$IdReporte;?>);
   ListaFacturas(<?=$IdReporte;?>);
 
-  });
+  }); 
 
   function Regresar(){
    window.history.back();
@@ -184,7 +181,7 @@ $alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura dispo
 function btnModal(IdReporte){
   $('#Modal').modal('show');
   $('#ContenidoModal').load('../../../../public/admin/vistas/modal-agregar-factura-telcel.php?IdReporte=' + IdReporte); 
-  }
+  }  
     
   function Guardar(IdReporte){
     var Detalle = $('#Detalle').val();
@@ -264,7 +261,7 @@ function btnModal(IdReporte){
   $('#Modal').modal('show');
   $('#ContenidoModal').load('../../../../public/admin/vistas/modal-agregar-directorio-telcel.php?IdReporte=' + IdReporte + '&id=' + id);   
   }
- 
+  
   function GuardarDirectorio(IdReporte,id){
 
     var Cuenta = $('#Cuenta').val();
@@ -279,7 +276,14 @@ function btnModal(IdReporte){
     "Clave" : Clave
     };
 
-        $.ajax({
+    if (Cuenta != "") {
+    $('#Cuenta').css('border','');
+    if (Puesto != "") {
+    $('#Puesto').css('border','');
+    if (Clave != "") {
+    $('#Clave').css('border','');
+
+    $.ajax({
     data:  parametros,
     url:   '../../../../public/admin/modelo/agregar-directorio-telcel.php',
     type:  'post',
@@ -300,6 +304,16 @@ function btnModal(IdReporte){
 
     }
     });
+
+  }else{
+    $('#Clave').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Puesto').css('border','2px solid #A52525');
+    }
+  }else{
+    $('#Cuenta').css('border','2px solid #A52525');
+    }
 
   }
 
@@ -326,7 +340,6 @@ alertify.confirm('',
 
     if (response == 1) {
     ListaFacturas(IdReporte);
-    location.reload();
     alertify.success('Registro eliminado exitosamente.'); 
     }
 
@@ -370,23 +383,20 @@ alertify.confirm('',
     }
     });
 
- },
- function(){
+  },
+  function(){
 
- }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la siguiente información?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-
-
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la siguiente información?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
 
   }
 
   </script>
   </head>
   
-<body> 
-<div class="LoaderPage"></div>
+  <body> 
+  <div class="LoaderPage"></div>
 
-
-    <!---------- DIV - CONTENIDO ----------> 
+  <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
@@ -394,81 +404,90 @@ alertify.confirm('',
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.go(-1)"  class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Solicitud de cheques, <?=$ClassHerramientasDptoOperativo->nombremes($GET_mes);?> <?=$GET_year;?></a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Facturas Telcel, <?=$ClassHerramientasDptoOperativo->nombremes($GET_mes);?> <?=$GET_year;?> </li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase"> <?=$alertDoc?></li>
+  </ol>
+  </div>
+  
+  <div class="row"> 
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 mb-1"> 
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Facturas Telcel, <?=$ClassHerramientasDptoOperativo->nombremes($GET_mes);?> <?=$GET_year;?></h3> 
+  </div>
 
-    <div class="row">
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-1"> 
+  <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
+  <div class="text-end">
+  <div class="dropdown d-inline ms-2">
+  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+  <ul class="dropdown-menu">
+  <li onclick="btnModalDirectorio(<?=$IdReporte;?>,0)"> <a class="dropdown-item pointer"><i class="fa-solid fa-address-book"></i></i> Agregar Directorio </a> </li>
+  <li onclick="btnModal(<?=$IdReporte;?>)"><a class="dropdown-item pointer"><i class="fa-regular fa-file-lines"></i> Agregar Factura</a></li>
+  </ul>
+  </div>
+  </div>
+  <?php } ?>
+  </div>
 
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()"> 
-    <div class="row">
-
-    <div class="col-11">
-    <h5>Facturas Telcel, <?=nombremes($GET_mes);?> <?=$GET_year;?></h5>
-    </div>
-
-    <div class="col-1">
-    <?=$alertDoc?>
-    </div>
-
-
-    </div>
-
-    </div>
-
-    </div>
-
+  </div>
   <hr>
+  </div>
+
+ 
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <div id="ListaDirectorio"></div>
+  </div>
+
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+  <div class="row"> 
+
+  <div class="col-12 mb-3" id="ListaFacturas"></div>
+
+  <div class="col-12">
+  <div class="table-responsive">
+  <table class="custom-table" style="font-size: 12.5px;" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">Observaciones:</th> </tr>
+  </thead>
+  <tbody>
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-white p-0">  
+  <textarea class="form-control border-0" placeholder="Escribe aqui tus observaciones..." style="height: 180px;" onkeyup="Comentario(this,<?=$IdReporte;?>)"><?=$comentario;?></textarea>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
 
 
-  <div class="row justify-content-md-center">
-
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-    <div id="ListaDirectorio"></div>
-    </div>
-
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-    <div id="ListaFacturas"></div>
-    </div>
+  </div>
+  </div>
 
 
-    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-    <div class="border p-3">
+  </div>
+  </div>
 
-      <div class="font-weight-bold mb-2">Observaciones:</div>
-      <hr>
-        <textarea class="form-control" onkeyup="Comentario(this,<?=$IdReporte;?>)"><?=$comentario;?></textarea>
+  </div>
 
-    </div>
-    </div>
 
-</div>
-
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
   </div>
   </div>
   </div>
 
-  </div>
-  </div>
-
-  </div>
-
-
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg" style="margin-top: 83px;">
-<div class="modal-content">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
+  <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+  
   </body>
   </html>
 

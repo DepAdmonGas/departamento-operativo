@@ -3,7 +3,7 @@ require('../../../app/help.php');
 
 $year = $_POST['Year'];
 $mes = $_POST['Mes'];
-
+$fechaPrecio = $_POST['Fecha'];
 
 function id($con){
 $sql = "SELECT id FROM op_formato_precios ORDER BY id desc LIMIT 1";
@@ -75,7 +75,7 @@ function Producto($id, $con){
     VALUES 
     ( 
     '".$id."',
-    '".$fecha_del_dia."',
+    '".$fechaPrecio."',
     '".$year."',
     '".$mes."',
     0)"; 

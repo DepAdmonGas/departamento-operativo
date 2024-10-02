@@ -31,29 +31,29 @@ $pdfInput = 'S/I';
 ?>
 
  <div class="modal-header">
-  <h5 class="modal-title">Detalle (en caso de incidencias)</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Editar (en caso de incidencias)</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1 text-secondary">FECHA:</h6>
 <input class="form-control" type="date" id="FechaP" value="<?=$fechaIn?>">
 
-<h6 class="mb-1 mt-3">Hora:</h6>
+<h6 class="mb-1 mt-3 text-secondary">HORA:</h6>
 <input class="form-control" type="time" id="HoraP" value="<?=$horaIn?>">
 
-<h6 class="mb-1 mt-3">Asunto:</h6>
+<h6 class="mb-1 mt-3 text-secondary">ASUNTO:</h6>
 <input class="form-control"  id="AsuntoP" value="<?=$asunto?>">
 
-<h6 class="mt-3 mb-1">Observaciones:</h6>
+<h6 class="mt-3 mb-1 text-secondary">OBSERVACIONES:</h6>
 <textarea class="form-control" id="ObservacionesP"><?=$asunto?></textarea>
 
-<h6 class="mt-3 mb-1">Solución/Resultados finales:</h6>
+<h6 class="mt-3 mb-1 text-secondary">SOLUCIÓN/RESULTADOS FINALES:</h6>
 <textarea class="form-control" id="SolucionP"><?=$solucion?></textarea>
 
-<h6 class="mt-3 mb-1">Evidencia:</h6>
+<h6 class="mt-3 mb-1 text-secondary">EVIDENCIA:</h6>
 <input class="form-control" type="file" id="EvidenciaP">
 
 
@@ -61,8 +61,10 @@ $pdfInput = 'S/I';
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-<button type="button" class="btn btn-primary" onclick="EditarIncidenciaP(<?=$idPolizaInc;?>,<?=$GET_idEstacion?>)">Guardar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal"> <span class="btn-label2"><i class="fa fa-remove"></i></span>Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="EditarIncidenciaP(<?=$idPolizaInc;?>,<?=$GET_idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+
 
 </div>
      

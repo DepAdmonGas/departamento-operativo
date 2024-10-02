@@ -37,7 +37,7 @@ return true;
 }else{
 return false;
 }
-
+ 
 }else{}
 }
 //---------------------------------------------
@@ -50,77 +50,120 @@ $retardo = $rowRI['retardo'];
 $incidencia = $rowRI['incidencia'];
 }
 
+
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+$titleName = "Biometrico";
+}else{
+$titleName = "Configuración";
+}
+
+
 ?>
+ 
+
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> <?=$titleName?></a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Retardos, Horarios e Incidencias</li>
+</ol>
+</div>
+
+<div class="row">
+<div class="col-9">
+<h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Retardos, Horarios e Incidencias</h3>
+</div>
+
+<div class="col-3">
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalAgregar(<?=$idEstacion;?>)">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+</div>
+
+</div>
+
+<hr>
+</div>
 
 
-
-<div class="border-0 p-3">
-
-    <h5><?=$estacion;?></h5>
-    <hr>
-
-
-    <div class="row">
+<div class="row">
     
-    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3">
-   
-    <div class="border p-3 mb-3">
-    <h5>Retardo</h5>
-    <div class="text-secondary mb-3">Agregar retardo en minutos</div>
-    <div class="input-group">
-    <input type="number" id="Retardo" class="form-control rounded-0" placeholder="Retardo" aria-label="Retardo" min="0" value="<?=$retardo;?>">
-    <span class="input-group-text rounded-0" id="basic-addon2">minutos</span>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">Retardo <br> <small class="text-white">Agregar retardo en minutos</small> </th> </tr>
+</thead>
+<tbody class="bg-white">
     
-    </div>
-    <div class="text-end mt-3"><button class="btn btn-outline-primary rounded-0 btn-sm" type="button" onclick="Actualizar(<?=$idEstacion;?>)">Actualizar</button></div>
-    </div>
+<tr>
+<th class="align-middle text-center p-0">    
+<div class="input-group">
+<input type="number" id="Retardo" class="form-control rounded-0 border-0" placeholder="Retardo" aria-label="Retardo" min="0" value="<?=$retardo;?>">
+<span class="input-group-text rounded-0 border-0 bg-white" id="basic-addon2">minutos</span>
+</div>
+</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center p-2 bg-success text-white" onclick="Actualizar(<?=$idEstacion;?>)">  
+Actualizar Minutos      
+</th>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<thead class="tables-bg">
+<tr> <th class="align-middle text-center">Incidencias <br> <small class="text-white">Agregar días para la resolución de Incidencias</small> </th> </tr>
+</thead>
+<tbody class="bg-white">
+    
+<tr>
+<th class="align-middle text-center p-0">    
+<div class="input-group">
+<input type="number" id="Incidencia" class="form-control rounded-0 border-0" placeholder="Incidencia" aria-label="Incidencia" min="0" value="<?=$incidencia;?>">
+<span class="input-group-text rounded-0 border-0 bg-white" id="basic-addon2">días</span>
+</div>
+</th>
+</tr>
+
+<tr>
+<th class="align-middle text-center p-2 bg-success text-white" onclick="Actualizar(<?=$idEstacion;?>)">  
+Actualizar Días
+</th>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
 
 
-    <div class="border p-3">
-    <h5>Incidencias</h5>
-    <div class="fs-6 fw-light text-secondary mb-3">Agregar días para la resolución de Incidencias</div>
-    <div class="input-group">
-    <input type="number" id="Incidencia" class="form-control rounded-0" placeholder="Incidencia" aria-label="Incidencia" min="0" value="<?=$incidencia;?>">
-    <span class="input-group-text rounded-0" id="basic-addon2">días</span>    
-    </div>
-    <div class="text-end mt-3"><button class="btn btn-outline-primary rounded-0 btn-sm" type="button" onclick="Actualizar(<?=$idEstacion;?>)">Actualizar</button></div>
-    </div>
+<div class="col-12">
+<div class="table-responsive">
+<table class="custom-table" style="font-size: 12.5px;" width="100%">
 
-    </div>
+<thead class="tables-bg">
+<tr>
+<th class="text-center align-middle" colspan="6">Horarios <br> <small class="text-white">Lista de horarios  </small></th>
+</tr>
 
+<tr class="title-table-bg">
+<td class="text-center align-middle fw-bold">#</td>
+<th class="align-middle">Titulo horario</th>
+<th class="align-middle">Hora entrada</th>
+<th class="align-middle">Hora salida</th>
+<th class="text-center align-middle" width="32px"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
+<td class="text-center align-middle" width="32px"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
+</thead>
+</tr>
 
-    <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-
-    <div class="border p-3">
-
-
-    <h5>Horarios</h5>  
-
-    <div class="fw-light text-secondary mb-0">
-    Lista de horarios  
-
-    <div class="float-end"> 
-    <img class="pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="ModalAgregar(<?=$idEstacion;?>)"/>
-    </div>
-
-    </div>
-
-    <hr>
-
-    <div class="table-responsive">
-        <table class="table table-sm table-bordered table-striped table-hover">
-        <thead class="tables-bg">
-        <tr>
-        <th class=text-center align-middle>#</th>
-        <th class="align-middle">Titulo horario</th>
-        <th class="align-middle">Hora entrada</th>
-        <th class="align-middle">Hora salida</th>
-        <th class="text-center align-middle" width="32px"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png" /></th>
-        <th class="text-center align-middle" width="32px"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png" /></th>
-        </thead>
-        </tr>
-
-        <tbody>
+        <tbody class="bg-light">
         <?php
         if($numero > 0){
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -128,8 +171,8 @@ $incidencia = $rowRI['incidencia'];
         $id = $row['id'];
 
         echo '<tr>';
-        echo '<td class="text-center align-middle">'.$row['id'].'</td>';
-        echo '<td class="align-middle"><b>'.$row['titulo'].'</b></td>';
+        echo '<th class="text-center align-middle fw-normal">'.$row['id'].'</th>';
+        echo '<td class="align-middle">'.$row['titulo'].'</td>';
         echo '<td class="align-middle">'.$row['hora_entrada'].'</td>';
         echo '<td class="align-middle">'.$row['hora_salida'].'</td>';
         echo '<td class="text-center align-middle"> <img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" class="pointer" 
@@ -143,16 +186,13 @@ $incidencia = $rowRI['incidencia'];
         echo "<tr><td colspan='6' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";    
         }
 
-        ?>
-        </tbody>
-        </table>
-
-        </div>
-    </div>    
-    </div>
-
-    </div>
+?>
+</tbody>
+</table>
+</div>
+ 
+</div>
+</div>  
 
 
 
-    </div>

@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
     
 <html lang="es">
@@ -20,11 +16,11 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -35,6 +31,7 @@ header("Location:".PORTAL."");
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   
+  localStorage.clear();
   });
  
   function Regresar(){
@@ -58,12 +55,20 @@ header("Location:".PORTAL."");
   function Proveedores(){window.location.href = "../administracion/proveedores";}
   function Estructura(){window.location.href = "../administracion/estructura";}
 
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
+
   </script>
   </head>
  
-<body> 
-
-    <div class="LoaderPage"></div>
+  <body> 
+  <div class="LoaderPage"></div>
 
   <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
@@ -73,52 +78,112 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">  
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3"> 
-
-    <div class="row">
-    <div class="col-11">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-    <h5>Almacén</h5>
-    
-    </div>
-    </div>
-
-    </div>
-
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-    <img width="24px" class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>telefono.png" onclick="ModalTelefono()">
-    </div>
-    </div>
-
-    <hr>
-
-
-<div class="row">
-
-  <!-- Refacciones -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="Refacciones()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-1 color-CB"></i>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Inicio</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Almacén</li>
+  </ol>
   </div>
  
-  <div class="m-details ms-2"> 
-  <h5>Refacciones</h5> 
+  <div class="row"> 
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Almacén</h3> </div>
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"> 
+  <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalTelefono()">
+  <span class="btn-label2"><i class="fa-regular fa-address-book"></i></span>Directorio</button>
+  </div>  
   </div>
+
+  <hr>
+  </div>
+
+  <!---------- Refacciones ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="Refacciones()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing">  <i class="fa-solid fa-1"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Refacciones</h5></div>
   </div>
 
   </div>
-  </div> 
-  <!-- -->
+  </article>
+  </div>
+
+  <!---------- Orden de Mantenimiento ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="PedidoMaterial()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing">  <i class="fa-solid fa-2"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Orden de Mantenimiento</h5></div>
+  </div>
+
+  </div>
+  </article>
+  </div>
+
+
+  <!---------- Mantenimiento ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="Mantenimiento()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing">  <i class="fa-solid fa-3"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Mantenimiento</h5></div>
+  </div>
+
+  </div>
+  </article>
+  </div>
+
+
+  <!---------- Contratos ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="ContratosAdmin('almacen')">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-4"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Contratos</h5></div>
+  </div>
+
+  </div>
+  </article>
+  </div>
+
+  <!---------- Orden de compra ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="OrdenCompra()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-5"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Orden de compra</h5></div>
+  </div>
+
+  </div>
+  </article>
+  </div>
+  
+  <!---------- Proveedores ---------->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-1">
+  <article class="plan card2 border-0 shadow position-relative" onclick="Proveedores()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-6"></i></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Proveedores</h5></div>
+  </div>
+
+  </div>
+  </article>
+  </div>
+
+    <!-- -->
 
   <!-- Inventario de Pinturas 
   <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
@@ -176,59 +241,11 @@ header("Location:".PORTAL."");
   -->
 
 
-  <!-- Pedido Material -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="PedidoMaterial()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-2 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Orden de Mantenimiento</h5> 
-  </div>
-  </div>
-
-  </div>
-  </div>
-  <!-- -->
 
 
-  <!-- Mantenimiento -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="Mantenimiento()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-3 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Mantenimiento</h5> 
-  </div>
-  </div>
-
-  </div>
-  </div>
 
 
-  <!-- Contratos -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="ContratosAdmin('almacen')">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-4 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Contratos</h5> 
-  </div>
-  </div>
 
-  </div>
-  </div>
   <!-- -->
 
 <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
@@ -268,84 +285,24 @@ header("Location:".PORTAL."");
 <?php } ?>
 
 
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="OrdenCompra()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-5 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Orden de compra</h5> 
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="Proveedores()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-6 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Proveedores</h5> 
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-
-  <!---------- ESTRUCTURA ---------->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="Estructura()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-7 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Estructura</h5> 
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-
-
-
-  </div>
-
   </div>
   </div>
   </div>
-
   </div>
-  </div>
-  </div>
-
-
 
 
 
 <div class="modal" id="Modal">
-<div class="modal-dialog" style="margin-top: 83px;">
-<div class="modal-content">
+<div class="modal-dialog modal-lg">
+<div class="modal-content ">
 <div class="modal-header">
 <h5 class="modal-title">Directorio</h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 <div class="modal-body">
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered mb-0">
+<table class="custom-table mt-2" style="font-size: 12.5px;" width="100%">
 <thead class="tables-bg">
 <tr>
 <th class="align-middle text-center">Estación</th>
@@ -353,46 +310,46 @@ header("Location:".PORTAL."");
 <th class="align-middle text-center">Número telefónico</th>
 </tr>
 </thead>
-<tbody>
+<tbody class="bg-light">
   <tr>
-    <td class="align-middle text-center">Palo Solo</td>
-    <td class="align-middle text-center">Marco Antonio</td>
-    <td class="align-middle text-center">5617833419</td>
+    <th class="align-middle text-center no-hover2">Palo Solo</th>
+    <td class="align-middle text-center no-hover2">Marco Antonio</td>
+    <td class="align-middle text-center no-hover2">5617833419</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Interlomas</td>
-    <td class="align-middle text-center">Nepthali</td>
-    <td class="align-middle text-center">5535663735</td>
+    <th class="align-middle text-center no-hover2">Interlomas</th>
+    <td class="align-middle text-center no-hover2">Nepthali</td>
+    <td class="align-middle text-center no-hover2">5535663735</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">San Agustín</td>
-    <td class="align-middle text-center">Eduardo Serrano</td>
-    <td class="align-middle text-center">5534889569</td>
+    <th class="align-middle text-center no-hover2">San Agustín</th>
+    <td class="align-middle text-center no-hover2">Eduardo Serrano</td>
+    <td class="align-middle text-center no-hover2">5534889569</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Gasomira</td>
-    <td class="align-middle text-center">Josué</td>
-    <td class="align-middle text-center"></td>
+    <th class="align-middle text-center no-hover2">Gasomira</th>
+    <td class="align-middle text-center no-hover2">Josué</td>
+    <td class="align-middle text-center no-hover2"></td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Valle de Guadalupe</td>
-    <td class="align-middle text-center">Alberto Urbina</td>
-    <td class="align-middle text-center">5544916432</td>
+    <th class="align-middle text-center no-hover2">Valle de Guadalupe</th>
+    <td class="align-middle text-center no-hover2">Alberto Urbina</td>
+    <td class="align-middle text-center no-hover2">5544916432</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Xochimilco</td>
-    <td class="align-middle text-center">Sandra y Aldo</td>
-    <td class="align-middle text-center">5543625779</td>
+    <th class="align-middle text-center no-hover2">Xochimilco</th>
+    <td class="align-middle text-center no-hover2">Sandra y Aldo</td>
+    <td class="align-middle text-center no-hover2">5543625779</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Bosque Real</td>
-    <td class="align-middle text-center">Ayala</td>
-    <td class="align-middle text-center">5549449348</td>
+    <th class="align-middle text-center no-hover2">Bosque Real</th>
+    <td class="align-middle text-center no-hover2">Ayala</td>
+    <td class="align-middle text-center no-hover2">5549449348</td>
   </tr>
   <tr>
-    <td class="align-middle text-center">Autolavado</td>
-    <td class="align-middle text-center">Freddy</td>
-    <td class="align-middle text-center">5587962994</td>
+    <th class="align-middle text-center no-hover2">Autolavado</th>
+    <td class="align-middle text-center no-hover2">Freddy</td>
+    <td class="align-middle text-center no-hover2">5587962994</td>
   </tr>
 </tbody>
 </table>

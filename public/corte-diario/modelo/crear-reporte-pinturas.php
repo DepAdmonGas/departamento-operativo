@@ -17,9 +17,6 @@ $sql_insert = "INSERT INTO op_pinturas_complementos_reporte (
 id,
 id_estacion,
 id_usuario,
-fecha,
-hora,
-detalle,
 status
     )
     VALUES 
@@ -27,9 +24,6 @@ status
     '".$Reporte."',
     '".$Session_IDEstacion."',
     '".$Session_IDUsuarioBD."',
-    '".$_POST['Fecha']."',
-    '".$_POST['Hora']."',
-    '".$_POST['Detalle']."',
     0
     )";
 

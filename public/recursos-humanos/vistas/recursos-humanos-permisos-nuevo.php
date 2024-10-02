@@ -26,7 +26,7 @@ header("Location:".PORTAL."");
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  <script type="text/javascript" src="<?php echo RUTA_JS ?>signature_pad.js"></script>
+  <script type="text/javascript" src="<?=RUTA_JS2 ?>signature-pad-functions.js"></script>
 
   <script type="text/javascript">
 

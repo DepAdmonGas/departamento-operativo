@@ -4,9 +4,6 @@ require('../../../app/help.php');
 $idReporte = $_GET['idReporte'];
 $idEstacion = $_GET['idEstacion'];
 
-$year = $_GET['year'];
-$mes = $_GET['mes'];
-
 function Responsable($id, $con){
 
 $sql_resp = "SELECT * FROM tb_usuarios WHERE id = '".$id."'  ";
@@ -17,8 +14,12 @@ $sql_resp = "SELECT * FROM tb_usuarios WHERE id = '".$id."'  ";
           
          }
          return $Usuario;
-
 }
+
+$sql_lista = "SELECT * FROM op_solicitud_aditivo WHERE id = '".$idReporte."' ";
+$result_lista = mysqli_query($con, $sql_lista);
+$numero_lista = mysqli_num_rows($result_lista);
+$row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC);
 
 $sql_comen = "SELECT * FROM op_solicitud_aditivo_comentario WHERE id_reporte = '".$idReporte."' ORDER BY id DESC ";
 $result_comen = mysqli_query($con, $sql_comen);
@@ -28,13 +29,16 @@ echo '
 
 <div class="modal-header">
         <h5 class="modal-title">Comentarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
 
 <div class="modal-body">
 
-<div class="border-bottom" style="height: 300px;overflow: auto;">';
+<div class="" style="height: 300px;overflow: auto;">';
+
+echo '<div style="font-size: .75em;" class="mb-1 text-secondary">Información</div> 
+        <div class="bg-light fw-light pt-2 pb-1 ps-3 pe-3 mb-3" style="font-size: .85em;border-radius: 25px;"><b>No. Orden:</b> '.$row_lista['orden_compra'].', <b>Fecha:</b> '.FormatoFecha($row_lista['fecha']).', <b>Solicitante:</b> '.Responsable($row_lista['id_personal'], $con).'</div>';
 
 if ($numero_comen > 0) {
 while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
@@ -55,26 +59,23 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 ?>
 <div class="mt-1" style="<?=$margin;?>">
 
-<div style="font-size: .7em;" class="mb-1"><?=$NomUsuario;?></div>
-<div class="bg-primary text-white" style="border-radius: 30px;">
-<p class="p-2 pb-0"><?=$comentario;?></p>
+<div style="font-size: .75em;" class="mb-1 text-secondary"><?=$NomUsuario;?></div>
+<div class="title-table-bg text-white" style="border-radius: 25px;">
+<p class="pt-2 pb-1 ps-3 pe-3"><?=$comentario;?></p>
 </div>
-<div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
+<div class="text-end text-secondary" style="font-size: .75em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
 
 </div>
 <?php
 }
-}else{
-	echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
 }
 ?>
 </div>
 
+</div>
 
-<div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
-<textarea class="form-control rounded-0" id="Comentario"></textarea>
-
-
+<div class="border-top">
+<textarea class="form-control rounded-0 border-0" id="Comentario" placeholder="* Comentarios"></textarea>
 </div>
 
     <div class="modal-footer">

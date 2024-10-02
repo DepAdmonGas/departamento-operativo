@@ -26,7 +26,7 @@ echo '
 
       <div class="modal-header">
         <h5 class="modal-title">Comentarios</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="p-3">
@@ -72,12 +72,12 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <div class="mb-2 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
 
-<hr>
 
-<div class="text-end mt-3">
-<button type="button" class="btn btn-primary" onclick="GuardarComentario(<?=$idFormato?>,<?=$idEstacion?>)">Guardar</button>
-</div>
-</div>
 
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarComentario(<?=$idFormato?>,<?=$idEstacion?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+</div>
 
 

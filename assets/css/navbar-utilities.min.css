@@ -121,7 +121,7 @@ padding: 6px;
 }
 
 .tables-bg {
-    background: #5d84c3;
+    background: #215D98;
     color: white;
 }
 
@@ -415,6 +415,10 @@ background-color: #d2d2d2;
     background: #fff
 }
 
+.title-table-bg {
+    background: #749ABF;
+    color: white;
+}
 
 .avatar {
     height: 40px;
@@ -472,7 +476,7 @@ filter: opacity(50%);
 /* Estilo personalizado para agregar separación entre filas */
 .custom-table {
     border-collapse: separate;
-    border-spacing: 2px 2px;
+    border-spacing: 2.5px 2.5px;
     width: 100%;
 }
 
@@ -496,12 +500,13 @@ filter: opacity(50%);
   color: #000;
   padding-bottom: 12px;
   padding-top: 12px;
+  font-size: 12.5px !important;
 }
 
 .custom-table thead th small {
   color: #000;
 }
-
+ 
 /* Estilo para th en el cuerpo de la tabla con mayor especificidad */
 .custom-table thead tr th {
   border: none; 
@@ -511,8 +516,9 @@ filter: opacity(50%);
 /*---------- TD (DESING TD) ----------- */
 .custom-table tbody th, .custom-table tbody td {
   /* color: #000; */
-  padding-bottom: 14px;
-  padding-top: 14px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  font-size: 12.5px !important;
 }
 
 .custom-table tbody th small, .custom-table tbody td small {
@@ -523,7 +529,10 @@ filter: opacity(50%);
   border: none; 
 }
 
-
+/* Asegúrate de que no haya reglas más específicas que sobrescriban esta */
+.custom-table tbody th, .custom-table tbody td {
+    cursor: pointer !important;
+  }
 
 .custom-table thead tr th:first-child, .custom-table tbody tr td:first-child{
   border-top-left-radius: 7px;
@@ -541,15 +550,90 @@ filter: opacity(50%);
 }
 
 
-/* Estilo para el efecto hover */
-.custom-table tbody tr:hover {
-background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
-cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
+    /* Mantener el estilo hover para las filas */
+    .custom-table tbody tr:hover {
+        background-color: #e1e1e1 !important; /* Cambia el color de fondo cuando se hace hover */
+        cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
+    }
+
+    /* Quitar el estilo hover para celdas específicas */
+    .custom-table tbody tr:hover th.no-hover, 
+    .custom-table tbody tr:hover td.no-hover {
+        background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+    }
+
+    /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+    .custom-table tbody tr:hover th.no-hover,
+    .custom-table tbody tr:hover td.no-hover {
+        background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+    }
+
+        /* Quitar el estilo hover para celdas específicas */
+        .custom-table tbody tr:hover th.no-hover2, 
+        .custom-table tbody tr:hover td.no-hover2 {
+        background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+        }
+        
+        /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+        .custom-table tbody tr:hover th.no-hover2,
+        .custom-table tbody tr:hover td.no-hover2 {
+        background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+        }
+    
+  
+    /* Quitar el estilo hover para celdas específicas */
+    .custom-table tbody tr:hover th.no-hoverRed, 
+    .custom-table tbody tr:hover td.no-hoverRed {
+    background-color: #ffb6af !important; /* Quita el color de fondo cuando se hace hover */
+    }
+        
+    /* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+    .custom-table tbody tr:hover th.no-hoverRed,
+    .custom-table tbody tr:hover td.no-hoverRed {
+    background-color: #ffb6af !important; /* Quita el color de fondo cuando se hace hover */
+    }        
+
+
+/* Quitar el estilo hover para celdas específicas */
+.custom-table tbody tr:hover th.no-hover, 
+.custom-table tbody tr:hover td.no-hover {
+    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
 }
+
+/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+.custom-table tbody tr:hover th.no-hover,
+.custom-table tbody tr:hover td.no-hover {
+    background-color: #fff !important; /* Quita el color de fondo cuando se hace hover */
+}
+/* Quitar el estilo hover para celdas específicas */
+.custom-table tbody tr:hover th.no-hover2, 
+.custom-table tbody tr:hover td.no-hover2 {
+background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+}
+
+/* Asegurarse de que el estilo se aplique incluso si hay reglas más específicas */
+.custom-table tbody tr:hover th.no-hover2,
+.custom-table tbody tr:hover td.no-hover2 {
+background-color: #f8f9fa !important; /* Quita el color de fondo cuando se hace hover */
+}
+
 
 .dt-empty {
     background-color: #fff; /* Cambiar el color de fondo */
     /* Otros estilos */
+}
+
+.disabledOP {
+    background-color: #e9ecef;
+    color: #a0a0a0;
+}
+
+.ultima-fila {
+    font-weight: bold;
+    position: sticky;
+    bottom: 0;
+    z-index: 10; /* Asegúrate de que esté por encima de otras filas */
+    background-color: white; /* Asegúrate de que el fondo sea visible */
 }
 
 
@@ -573,10 +657,52 @@ cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
         border-radius: 3px 0 0 3px;
     }
 
+
+
+    .table-responsive {
+        overflow-x: auto; /* Permitir scroll horizontal */
+        overflow-y: auto; /* Evitar scroll vertical, si es necesario */
+        -webkit-overflow-scrolling: touch; /* Para un mejor scroll en dispositivos móviles */
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        z-index: 1000;
+        display: none; /* Ocultar el menú por defecto */
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        font-size: 14px;
+        text-align: left;
+        list-style: none;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0,0,0,.15);
+        border-radius: 4px;
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+     
+    /* Mostrar el menú cuando esté abierto */
+    .dropdown-menu.show {
+        display: block;
+    }
+    
+    /* Ajustar la posición del menú a la derecha */
+    .dropdown-menu-right {
+        right: auto;
+        left: 0;
+    }
+    
+    /* Asegúrate de que los íconos tengan suficiente espacio */
+    .btn-icon-only {
+        display: inline-block;
+        padding: 0.5rem;
+    }
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-
 @media (max-width: 768px) {
    
     #sidebar {
@@ -599,7 +725,6 @@ cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
     }
 
 
-
     #content nav {
     width: calc(100% - 0px);
     left: 250px;
@@ -614,6 +739,14 @@ cursor: pointer; /* Cambia el cursor a una mano cuando pasa sobre la fila */
   .LoaderPage {
   background-size: 90%;
   }
+
+  .breadcrumb{font-size: 12.5px}
+
+  .modal.right .modal-dialog {
+    width: 100%;
+    height: 100%;
+
+    }
 
 }
 

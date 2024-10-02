@@ -15,20 +15,26 @@ $fecha = $row_lista['fecha'];
 
   function Detalle($idReporte,$detalle,$con){
  
+  $contenido = "";
 
   $contenido .= '<div class="table-responsive">';
-  $contenido .= '<table class="table table-bordered table-sm mb-0">
+  $contenido .= '<table class="custom-table" style="font-size: 12.5px;" width="100%">
+
   <thead class="tables-bg">
-    <tr>
-      <th class="font-weight-bold align-middle text-center">Sucursal</th>
-      <th class="font-weight-bold align-middle text-center" width="150">Destino</th>
-      <th class="font-weight-bold align-middle text-center" width="150">87 Oct</th>
-      <th class="font-weight-bold align-middle text-center" width="150">91 Oct</th>
-      <th class="font-weight-bold align-middle text-center" width="150">Diesel</th>
-      <th class="align-middle text-center" width="24"><img class="pr-2" src="'.RUTA_IMG_ICONOS.'eliminar.png"></th>
-    </tr>
+  <tr>
+  <th class="font-weight-bold align-middle text-center" colspan="6">INVENTARIOS REALES</th>
+  </tr>
+
+  <tr class="title-table-bg">
+  <td class="fw-bold align-middle text-center">Sucursal</td>
+  <th class="font-weight-bold align-middle text-center" width="150">Destino</th>
+  <th class="font-weight-bold align-middle text-center" width="150">87 Oct</th>
+  <th class="font-weight-bold align-middle text-center" width="150">91 Oct</th>
+  <th class="font-weight-bold align-middle text-center" width="150">Diesel</th>
+  <td class="align-middle text-center" width="24"><img class="pr-2" src="'.RUTA_IMG_ICONOS.'eliminar.png"></td>
+  </tr>
   </thead>';
-  $contenido .= '<tbody>';
+  $contenido .= '<tbody class="bg-light">';
   $sql_lista = "SELECT * FROM op_inventarios_diarios_detalle WHERE id_reporte = '".$idReporte."' AND detalle = '".$detalle."' ";
   $result_lista = mysqli_query($con, $sql_lista);
   $numero_lista = mysqli_num_rows($result_lista);
@@ -62,12 +68,12 @@ $fecha = $row_lista['fecha'];
   }
 
   $contenido .= '<tr>';
-  $contenido .= '<td class="align-middle text-center"><b>'.$row_lista['sucursal'].'</b></td>';
-  $contenido .= '<td class="align-middle text-center">'.$destino.'</td>';
-  $contenido .= '<td class="p-0 m-0 align-middle text-center"><input type="number" value="'.$oct87.'" class="form-control border-0 rounded-0 align-middle text-center" oninput="EditarDestino(this,2,'.$id.')"></td>';
-  $contenido .= '<td class="p-0 m-0 align-middle text-center"><input type="number" value="'.$oct91.'" class="form-control border-0 rounded-0 align-middle text-center" oninput="EditarDestino(this,3,'.$id.')"></td>';
-  $contenido .= '<td class="p-0 m-0 align-middle text-center"><input type="number" value="'.$diesel.'" class="form-control border-0 rounded-0 align-middle text-center" oninput="EditarDestino(this,4,'.$id.')"></td>';
-  $contenido .= '<td class="align-middle text-center" width="24"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$id.')"></td>';
+  $contenido .= '<th class="align-middle text-center no-hover2"><b>'.$row_lista['sucursal'].'</b></th>';
+  $contenido .= '<td class="align-middle text-center no-hover2">'.$destino.'</td>';
+  $contenido .= '<td class="p-0 align-middle text-center"><input type="number" value="'.$oct87.'" class="form-control border-0 rounded-0 align-middle text-center p-3 bg-light" oninput="EditarDestino(this,2,'.$id.')"></td>';
+  $contenido .= '<td class="p-0 align-middle text-center"><input type="number" value="'.$oct91.'" class="form-control border-0 rounded-0 align-middle text-center p-3 bg-light" oninput="EditarDestino(this,3,'.$id.')"></td>';
+  $contenido .= '<td class="p-0 align-middle text-center"><input type="number" value="'.$diesel.'" class="form-control border-0 rounded-0 align-middle text-center p-3 bg-light" oninput="EditarDestino(this,4,'.$id.')"></td>';
+  $contenido .= '<td class="align-middle text-center no-hover2" width="24"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="Eliminar('.$id.')"></td>';
   $contenido .= '</tr>';
   }
   }else{
@@ -311,70 +317,59 @@ $fecha = $row_lista['fecha'];
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
+  <div class="contendAG container">
   <div class="row">
 
   <div class="col-12 mb-3">
   <div class="cardAG">
-  <div class="border-0 p-3">
-
-
-    <div class="row">
-    <div class="col-11">
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-    <div class="col-12">
-    <h5>Inventarios diarios nuevo</h5>
-    </div>
-
-    </div>
-
-    </div>
-
-    <div class="col-1">
-    <img class="float-end pointer" src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="Nuevo(<?=$GET_idReporte;?>)">
-    </div>
-
-    </div>
-
-  <hr>
-
- <div class="row justify-content-md-center">
-
-  <div class="col-xl-6 col-lg-6 col-md-9 col-sm-12">
-
+  <div class="border-0 p-3 ">
   <div class="row">
 
-  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-    <label>Fecha:</label>
-    <input type="date" class="form-control" id="Fecha" value="<?=$fecha;?>">
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i> Inventarios diarios  </a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Formulario Inventatios Diarios</li>
+  </ol>
+  </div>
+
+  <div class="row">
+  <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+  <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Formulario Inventatios Diarios</h3>
+  </div>
+
+  <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Nuevo(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+  </div>
+
+  </div>
+
+  <hr>
   </div>
 
 
   <div class="col-12">
-  <div class="border p-3">
+  <div class="row">
 
-    <h5>INVENTARIOS REALES</h5>
-    <hr>
-
-    <?=$Detalle1;?>
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+  <label class="mb-1 text-secondary fw-bold">* FECHA:</label>
+  <input type="date" class="form-control" id="Fecha" value="<?=$fecha;?>">
   </div>
-    </div>
 
+  <div class="col-12">
+  <?=$Detalle1;?>
+  </div>
 
   </div>
-</div>
+  </div>
 
-
-</div>
-
-<hr>
-
-<div class="text-end">
-<button type="button" class="btn btn-success" onclick="Finalizar(<?=$GET_idReporte;?>)">Finalizar inventario</button>
-</div>
-
+  <div class="col-12">
+  <hr>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar inventario</button>
+  </div>
+  </div>
 
   </div>
   </div>
@@ -387,22 +382,17 @@ $fecha = $row_lista['fecha'];
 
 
 
-
-
-
-  <div class="modal" id="Modal">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenido"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivContenido">
   </div>
-
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
   </body>

@@ -42,15 +42,15 @@ sortField: 'text'
 
         <div class="row mt-2">
         <div class="col-6">
-        <div class="mb-2 text-secondary">Fecha:</div>
+        <div class="mb-2 text-secondary">FECHA:</div>
         <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha;?>">
         </div>
         <div class="col-6">
-        <div class="mb-2 text-secondary">Hora:</div>
+        <div class="mb-2 text-secondary">HORA:</div>
         <input type="time" class="form-control rounded-0" id="Hora" value="<?=$hora;?>">
         </div>
         <div class="col-12">
-        <div class="mb-2 text-secondary">Detalle:</div>
+        <div class="mb-2 text-secondary">DETALLE:</div>
         <textarea class="form-control rounded-0" id="Detalle"><?=$detalle;?></textarea>
         </div>
         </div>
@@ -62,7 +62,7 @@ sortField: 'text'
 <?php  if($status == 1){ ?>
         <hr>
 
-        <h6>Material utilizado</h6>
+        <h6>MATERIAL UTILIZADO</h6>
 
         <div class="row mt-2">
 
@@ -84,7 +84,7 @@ sortField: 'text'
         </div>
 
         <div class="col-3">
-        <div class="mb-2 text-secondary">Piezas utilizadas:</div>
+        <div class="mb-2 text-secondary">PIEZAS UTILIZADAS:</div>
         <input type="number" class="form-control rounded-0" id="Unidad">
         </div>
 

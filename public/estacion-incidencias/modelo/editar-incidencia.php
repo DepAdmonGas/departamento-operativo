@@ -1,12 +1,16 @@
- <?php
+ <?php 
 require('../../../app/help.php');
 
 $aleatorio = uniqid();
+
+if (isset($_FILES['Archivo_file'])) {
 $NoDoc  =   $_FILES['Archivo_file']['name'];
 $UpDoc = "../../../archivos/incidencias/".$aleatorio."-".$NoDoc;
 $NomDoc = $aleatorio."-".$NoDoc;
+}
+    
 
-if($NoDoc != ""){
+if (isset($_FILES['Archivo_file'])) {
 
 if(move_uploaded_file($_FILES['Archivo_file']['tmp_name'], $UpDoc)){
 

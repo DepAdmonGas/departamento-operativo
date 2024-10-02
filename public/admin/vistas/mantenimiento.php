@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?>
    
 <html lang="es">
@@ -20,11 +16,10 @@ header("Location:".PORTAL."");
   <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
+  <link href="<?=RUTA_CSS2;?>cards-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -34,7 +29,8 @@ header("Location:".PORTAL."");
   
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  
+
+  localStorage.clear();
   });
  
   function Regresar(){
@@ -56,6 +52,13 @@ header("Location:".PORTAL."");
   function MantenimientoPreventivo(){window.location.href = "../administracion/mantenimiento-preventivo";}
   function Mantenimiento(){window.location.href = "../administracion/mantenimiento";}
 
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
   </script>
   </head>
  
@@ -71,114 +74,81 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">  
 
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3"> 
-
-    <div class="row">
-    <div class="col-11">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-    <h5>Mantenimiento</h5>
-    
-    </div>
-    </div>
-
-    </div>
-
-    </div>
-
-    <hr>
-
-
-<div class="row">
-
-   <!-- TPV -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="TerminalesPV()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-1 color-CB"></i>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Almacén</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Mantenimiento</li>
+  </ol>
   </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>TPV</h5> 
+
+  <div class="row">
+  <div class="col-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Mantenimiento</h3></div>
   </div>
+  <hr>
+  </div>
+
+
+  <!-- TPV -->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+  <article class="plan card2 border-0 shadow position-relative" onclick="TerminalesPV()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-1"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Terminales Punto de Venta </h5></div>
   </div>
 
   </div>
+  </article>
   </div>
-  <!-- -->
 
-    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="CalibracionDispensarios()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-2 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Calibración de dispensarios</h5> 
-  </div>
+  <!-- Calibración de dispensarios -->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+  <article class="plan card2 border-0 shadow position-relative" onclick="CalibracionDispensarios()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-2"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Calibración de dispensarios</h5></div>
   </div>
 
   </div>
+  </article>
   </div>
-  <!-- -->
 
-    <!-- Medición nivel de explosividad -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="MantenimientoPreventivo()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-3 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Mantenimiento preventivo</h5> 
-  </div>
+  <!-- Medición nivel de explosividad -->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+  <article class="plan card2 border-0 shadow position-relative" onclick="MantenimientoPreventivo()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-3"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Mantenimiento preventivo</h5></div>
   </div>
 
   </div>
+  </article>
   </div>
-  <!-- -->
 
-    <!-- Medición nivel de explosividad -->
-  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-1 mt-2 ">
-  <div class="card card-menuB rounded shadow-sm pointer"  onclick="Explosividad()">
-                    
-  <div class="d-flex flex-row align-items-center">
-  <div class="icon"> 
-  <i class="fa-solid fa-4 color-CB"></i>
-  </div>
- 
-  <div class="m-details ms-2"> 
-  <h5>Medición nivel de explosividad</h5> 
-  </div>
+  <!-- Medición nivel de explosividad -->
+  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+  <article class="plan card2 border-0 shadow position-relative" onclick="Explosividad()">
+          
+  <div class="inner">
+  <div class="row">
+  <div class="col-2"> <span class="pricing"><i class="fa-solid fa-4"></i></span> </div>
+  <div class="col-10"><h5 class="text-white text-center">Medición nivel de explosividad</h5></div>
   </div>
 
   </div>
-  </div>
-  <!-- -->
-
-</div>
-
-  </div>
+  </article>
   </div>
   </div>
 
   </div>
   </div>
   </div>
-
-
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

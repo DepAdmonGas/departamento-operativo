@@ -4,6 +4,8 @@ require ('../../../app/help.php');
 $idPuesto = $_GET['idPuesto'];
 $Tipo = $_GET['Tipo'];
 
+$puesto = "";
+
 $sql_empresa = "SELECT * FROM op_rh_puestos WHERE id = '".$idPuesto."' ";
 $result_empresa = mysqli_query($con, $sql_empresa);
 $numero_empresa = mysqli_num_rows($result_empresa);
@@ -12,24 +14,26 @@ $puesto = $row_empresa['puesto'];
 }
 
 if($Tipo == 0){
-$Titulo = "Crear puesto";
+$Titulo = "Guardar";
 }else if($Tipo == 1){
-$Titulo = "Editar puesto";
+$Titulo = "Editar";
 }
 ?>
 
 <div class="modal-header">
 <h5 class="modal-title"><?=$Titulo;?></h5>
-<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
 
-<label class="text-secondary mb-1">* Puesto</label>
+<label class="text-secondary mb-1 fw-bold text-secondary">* PUESTO</label>
 <textarea class="form-control titulos" id="NomPuesto"><?=$puesto;?></textarea>
 
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-primary" onclick="CrearPuesto(<?=$idPuesto;?>,<?=$Tipo;?>)"><?=$Titulo;?></button>
+<button type="button" class="btn btn-labeled2 btn-success" onclick="CrearPuesto(<?=$idPuesto;?>,<?=$Tipo;?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span><?=$Titulo;?></button>
+
 </div>

@@ -1,106 +1,107 @@
-<?php 
-require('../../../app/help.php');
+<?php
+require ('../../../app/help.php');
 
 $idOrganigrama = $_GET['idOrganigrama'];
 $idEstacion = $_GET['idEstacion'];
 
-$sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
+$sql_listaestacion = "SELECT localidad FROM op_rh_localidades WHERE id = '" . $idEstacion . "' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['localidad'];
+while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)) {
+  $estacion = $row_listaestacion['localidad'];
 }
- 
 
-if($idOrganigrama == 0){
-$sql_organigrama = "SELECT * FROM op_rh_organigrama_estacion WHERE id_estacion = '".$idEstacion."' ORDER BY version DESC LIMIT 1"; 
-}else{
-$sql_organigrama = "SELECT * FROM op_rh_organigrama_estacion WHERE id = '".$idOrganigrama."' ";
+
+if ($idOrganigrama == 0) {
+  $sql_organigrama = "SELECT * FROM op_rh_organigrama_estacion WHERE id_estacion = '" . $idEstacion . "' ORDER BY version DESC LIMIT 1";
+} else {
+  $sql_organigrama = "SELECT * FROM op_rh_organigrama_estacion WHERE id = '" . $idOrganigrama . "' ";
 }
- 
+
 
 $result_organigrama = mysqli_query($con, $sql_organigrama);
 $numero_organigrama = mysqli_num_rows($result_organigrama);
 if ($numero_organigrama > 0) {
-while($row_organigrama = mysqli_fetch_array($result_organigrama, MYSQLI_ASSOC)){
-$archivo = '<img style="width: 100%" src="archivos/organigrama/'.$row_organigrama['archivo'].'">';
-}
-}else{
-$archivo = '';
+  while ($row_organigrama = mysqli_fetch_array($result_organigrama, MYSQLI_ASSOC)) {
+    $archivo = '<img style="width: 100%" src="archivos/organigrama/' . $row_organigrama['archivo'] . '">';
+  }
+} else {
+  $archivo = '';
 }
 
-$sql_lista = "SELECT * FROM op_rh_organigrama_estacion WHERE id_estacion = '".$idEstacion."' ORDER BY version DESC";
+$sql_lista = "SELECT * FROM op_rh_organigrama_estacion WHERE id_estacion = '" . $idEstacion . "' ORDER BY version DESC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
 ?>
-  
+
 <div class="row">
 
-<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
-<?=$archivo;?>
-</div>
+  <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 mb-3">
+    <?= $archivo; ?>
+  </div>
 
 
-<div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3">
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-3">
 
 
-<div class="border">
-<div class="p-3">
-<div class="row">
+    <div class="border">
+      <div class="p-3">
+        <div class="row">
 
-<div class="col-12 mb-2">
-<div class="float-end pointer"><img src="<?=RUTA_IMG_ICONOS;?>agregar.png" onclick="Mas(<?=$idEstacion;?>)"></div>
-</div>
+          <div class="col-12 mb-2">
+            <div class="float-end pointer"><img src="<?= RUTA_IMG_ICONOS; ?>agregar.png" onclick="Mas(<?= $idEstacion; ?>)">
+            </div>
+          </div>
 
-</div>
- 
-<hr>
+        </div>
 
-<div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-<thead class="tables-bg">
-  <tr>
-  <th class="text-center align-middle tableStyle font-weight-bold">Versión</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
-  <th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
-  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
-  </tr>
-</thead> 
-<tbody>
-<?php
-if ($numero_lista > 0) {
+        <hr>
 
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
-$id = $row_lista['id'];
-$explode = explode(' ',$row_lista['fechacreacion']);
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
+            <thead class="tables-bg">
+              <tr>
+                <th class="text-center align-middle tableStyle font-weight-bold">Versión</th>
+                <th class="text-center align-middle tableStyle font-weight-bold">Fecha y hora</th>
+                <th class="text-center align-middle tableStyle font-weight-bold">Observaciones</th>
+                <th class="align-middle text-center" width="20"><img src="<?= RUTA_IMG_ICONOS; ?>eliminar.png"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              if ($numero_lista > 0) {
 
-echo '<tr class="pointer" onclick="SelEstacion('.$idEstacion.','.$id.')">
-<td class="align-middle text-center"><b>'.$row_lista['version'].'</b></td>
-<td class="align-middle">'.FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</td>
-<td class="text-center align-middle"><small>'.$row_lista['observaciones'].'</small></td>
-<td class="align-middle text-center pointer" width="20" onclick="Eliminar('.$idEstacion.','.$id.')"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></td>
+                while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+                  $id = $row_lista['id'];
+                  $explode = explode(' ', $row_lista['fechacreacion']);
+
+                  echo '<tr class="pointer" onclick="SelEstacion(' . $idEstacion . ',' . $id . ')">
+<td class="align-middle text-center"><b>' . $row_lista['version'] . '</b></td>
+<td class="align-middle">' . FormatoFecha($explode[0]) . ', ' . date("g:i a", strtotime($explode[1])) . '</td>
+<td class="text-center align-middle"><small>' . $row_lista['observaciones'] . '</small></td>
+<td class="align-middle text-center pointer" width="20" onclick="Eliminar(' . $idEstacion . ',' . $id . ')"><img src="' . RUTA_IMG_ICONOS . 'eliminar.png"></td>
 </tr>';
 
-}
-}else{
-echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
-?>
-</tbody>
-</table>
-</div>
+                }
+              } else {
+                echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
 
 
 
-</div>
+      </div>
 
-</div>
+    </div>
 
 
-<?php
+    <?php
 
-if($idEstacion == 1){
-echo '<div class="border p-3 mt-3">
+    if ($idEstacion == 1) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -163,8 +164,8 @@ echo '<div class="border p-3 mt-3">
 </div>
 </div>';
 
-}else if($idEstacion == 2){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 2) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -229,8 +230,8 @@ echo '<div class="border p-3 mt-3">
 
 
 
-}else if($idEstacion == 3){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 3) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -296,8 +297,8 @@ echo '<div class="border p-3 mt-3">
 
 
 
-}else if($idEstacion == 4){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 4) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -361,8 +362,8 @@ echo '<div class="border p-3 mt-3">
 </div>';
 
 
-}else if($idEstacion == 5){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 5) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -427,8 +428,8 @@ echo '<div class="border p-3 mt-3">
 
 
 
-}else if($idEstacion == 6){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 6) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -493,8 +494,8 @@ echo '<div class="border p-3 mt-3">
 
 
 
-}else if($idEstacion == 7){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 7) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -557,8 +558,8 @@ echo '<div class="border p-3 mt-3">
 </div>
 </div>';
 
-}else if($idEstacion == 14){
-echo '<div class="border p-3 mt-3">
+    } else if ($idEstacion == 14) {
+      echo '<div class="border p-3 mt-3">
 <div class="row">
 <div class="col-12">
 <table class="table table-bordered table-sm mb-0">
@@ -622,10 +623,10 @@ echo '<div class="border p-3 mt-3">
 </div>';
 
 
-}
+    }
 
-?>
-</div>
+    ?>
+  </div>
 
 </div>
 </div>

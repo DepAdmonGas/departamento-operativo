@@ -4,7 +4,7 @@
   }
 
   function ventas(year, mes, idDias) {
-    console.log(window.location.href = "../../corte-ventas/" + year + "/" + mes + "/" + idDias);
+    window.location.href = "../../corte-ventas/" + year + "/" + mes + "/" + idDias;
   }
 
   function cierrelote(year, mes, idDias) {

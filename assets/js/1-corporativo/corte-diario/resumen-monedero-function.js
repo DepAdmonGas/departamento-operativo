@@ -1,20 +1,22 @@
 function ListaMonedero(year, mes) {
-
-    $('#Monedero').load('../../public/corte-diario/vistas/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
+  $('#Monedero').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
+    //$('#Monedero').load('../../public/corte-diario/vistas/lista-resumen-monedero.php?year=' + year + '&mes=' + mes);
   }
 
   function ListaModal(IdReporte) {
     $('#Modal').modal('show');
-
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
   }
 
   function Editar(IdReporte, id) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
+    //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento.php?IdReporte=' + IdReporte + '&id=' + id);
   }
 
   function Cancelar(IdReporte) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/lista-monedero-documento.php?IdReporte=' + IdReporte);
+    //$('#ListaDocumento').load('../../public/corte-diario/vistas/lista-monedero-documento.php?IdReporte=' + IdReporte);
   }
 
   function EditarInfo(IdReporte, id) {
@@ -67,12 +69,16 @@ function ListaMonedero(year, mes) {
   }
 
   function Edi(IdReporte, id) {
-    $('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
+    $('#ListaDocumento').load('../../app/vistas/personal-general/1-corporativo/corte-diario/monedero/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
+    //$('#ListaDocumento').load('../../public/corte-diario/vistas/editar-monedero-documento-edi.php?IdReporte=' + IdReporte + '&id=' + id);
   }
 
   function GuardarC(IdReporte, id) {
 
     var Complemento = $('#Complemento').val();
+
+    if (Complemento != "") {
+    $('#Complemento').css('border', '');
 
     var data = new FormData();
     data.append("accion", "guardar-documento-edi");
@@ -86,7 +92,6 @@ function ListaMonedero(year, mes) {
     XML = document.getElementById("XML");
     XML_file = XML.files[0];
     XML_filePath = XML.value;
-
 
     data.append('id', id);
     data.append('Complemento', Complemento);
@@ -103,9 +108,14 @@ function ListaMonedero(year, mes) {
       processData: false,
       cache: false
     }).done(function (data) {
+      console.log(data)
       $(".LoaderPage").hide();
       Edi(IdReporte, id);
     });
+
+  } else {
+    $('#Complemento').css('border', '2px solid #A52525');
+  }
 
   }
 

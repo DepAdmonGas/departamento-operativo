@@ -156,7 +156,7 @@ mysqli_query($con, $sql_insert);
 ?>
 <div class="modal-header">
   <h5 class="modal-title"><?=$Area;?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -261,5 +261,6 @@ echo '</table>';
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary rounded-0" onclick="FinSubArea()">Finalizar</button>
+<button type="button" class="btn btn-labeled2 btn-primary" onclick="FinSubArea()">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
 </div>

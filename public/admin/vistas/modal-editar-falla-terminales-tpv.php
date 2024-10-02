@@ -38,46 +38,52 @@ $factura = $row['factura'];
 
 <div class="modal-header">
 <h5 class="modal-title">Falla TPV: <?=$tpv;?>, No DE SERIE: <?=$noserie;?></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
 <div class="modal-body">
 
-
-<div class="mb-1 text-secondary">Falla:</div>
-<textarea class="form-control rounded-0" id="Falla"><?=$falla;?></textarea>
+<div class="mb-1 text-secondary fw-bold">* FALLA:</div>
+<textarea class="mb-1 form-control rounded-0" id="Falla"><?=$falla;?></textarea>
 
 <div class="row">
 
 
     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Atiende:</div>
+          <div class="mb-1 text-secondary fw-bold">* ATIENDE:</div>
           <input type="text" class="form-control rounded-0" id="Atiende" value="<?=$atiende;?>">  
           </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">No. Reporte:</div>
+          <div class="mb-1 text-secondary fw-bold">* NO. REPORTE:</div>
           <input type="text" class="form-control rounded-0" id="NoReporte" value="<?=$noreporte;?>">
           </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Día reporte:</div>
+          <div class="mb-1 text-secondary fw-bold">* DÍA DEPORTE:</div>
           <input type="date" class="form-control rounded-0" id="DiaReporte" value="<?=$diareporte;?>">
           </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Día solución:</div>
+          <div class="mb-1 text-secondary fw-bold">* DÍA SOLUCIÓN:</div>
           <input type="date" class="form-control rounded-0" id="DiaSolucion" value="<?=$diasolucion;?>">
           </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Costo:</div>
+          <div class="mb-1 text-secondary fw-bold">* COSTO:</div>
           <input type="number" step="any" class="form-control rounded-0" id="Costo" value="<?=$costo;?>">
           </div>
 
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-          <div class="mb-1 text-secondary">Factura:</div>
+          <div class="mb-1 text-secondary fw-bold">* FACTURA:</div>
           <?php 
           if($status == 1){
           if($factura == ""){
           echo "S/I";
           }else{
-          echo '<a href="../archivos/'.$factura.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
+          echo '
+          
+          
+        <a href="'.RUTA_ARCHIVOS.''.$factura.'" download>
+        <button type="button" class="btn btn-labeled2 btn-success">
+        <span class="btn-label2"><i class="fa-solid fa-file-arrow-down"></i></span>Descargar</button>
+        </a>';
           }
           }else{
           echo '<input class="form-control" type="file" id="Factura">';
@@ -86,30 +92,35 @@ $factura = $row['factura'];
           
           </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-1 text-secondary">Serie que se queda:</div>
+        <div class="mb-1 text-secondary fw-bold fw-bold">* SERIE QUE SE QUEDA:</div>
         <input type="text" class="form-control rounded-0" id="NuevaSerie" value="<?=$serie;?>">
         </div>
 
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-1 text-secondary">Modelo TPV:</div>
+        <div class="mb-1 text-secondary fw-bold">MODELO TPV:</div>
         <input type="text" class="form-control rounded-0" id="ModeloTPV" value="<?=$modelo;?>">
         </div>
 
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2"> 
-        <div class="mb-1 text-secondary">Conexión:</div>
+        <div class="mb-1 text-secondary fw-bold">CONEXIÓN:</div>
         <input type="text" class="form-control rounded-0" id="Conexion" value="<?=$conexion;?>">
         </div>
 
         </div>
-        <div class="mb-1 text-secondary">Observaciones:</div>
+        <div class="mb-1 text-secondary fw-bold">OBSERVACIONES:</div>
         <textarea class="form-control rounded-0" id="Observaciones"><?=$observaciones;?></textarea>
 
 
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">Cancelar</button>
+
+        
+	 <button type="button" class="btn btn-labeled2 btn-danger" onclick="ModalFalla(<?=$idEstacion;?>,<?=$idTPV;?>)">
+         <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
+
       	<?php if($status == 0){ ?>
-        <button type="button" class="btn btn-primary" onclick="FinalizarFalla(<?=$idFalla;?>,<?=$idTPV;?>,<?=$idEstacion;?>)">Finalizar</button>
+            <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarFalla(<?=$idFalla;?>,<?=$idTPV;?>,<?=$idEstacion;?>)">
+         <span class="btn-label2"><i class="fa-solid fa-check"></i></span>Finalizar</button>
     	<?php } ?>
       </div>
 

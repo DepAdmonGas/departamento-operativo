@@ -25,9 +25,10 @@ $pedestales = $row_lista['pedestales'];
 ?>
 <div class="modal-header">
 <h5 class="modal-title">Editar terminal punto de venta</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div> 
-      <div class="modal-body">
+      
+<div class="modal-body">
 
        <div class="row">
           

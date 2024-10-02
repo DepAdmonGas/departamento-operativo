@@ -1,91 +1,92 @@
+ 
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
 
-    function TotalAtio($idDias,$con){
-     $sql = "SELECT * FROM op_despacho_factura WHERE id_dia = '".$idDias."' ";
-    $result = mysqli_query($con, $sql);
-    $numero = mysqli_num_rows($result);
-    $LProductouno = 0;
-    $LProductodos = 0;
-    $LProductotres = 0;
-    $PProducto_uno = 0;
-    $PProducto_dos = 0;
-    $PProducto_tres = 0;
-    while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-      
-    $LProductouno = $row['litros_producto_uno'];
-    $LProductodos = $row['litros_producto_dos'];
-    $LProductotres = $row['litros_producto_tres'];
-    $PProducto_uno = $row['pesos_producto_uno'];
-    $PProducto_dos = $row['pesos_producto_dos'];
-    $PProducto_tres = $row['pesos_producto_tres'];
+function TotalAtio($idDias, $con) {
+  $sql = "SELECT * FROM op_despacho_factura WHERE id_dia = '".$idDias."' ";
+  $result = mysqli_query($con, $sql);
+  $LProductouno = $LProductodos = $LProductotres = 0; // Inicializamos las variables
+  $PProducto_uno = $PProducto_dos = $PProducto_tres = 0;
 
-    }
+  if ($result && mysqli_num_rows($result) > 0) {
+      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $LProductouno = isset($row['litros_producto_uno']) ? $row['litros_producto_uno'] : 0;
+          $LProductodos = isset($row['litros_producto_dos']) ? $row['litros_producto_dos'] : 0;
+          $LProductotres = isset($row['litros_producto_tres']) ? $row['litros_producto_tres'] : 0;
+          $PProducto_uno = isset($row['pesos_producto_uno']) ? $row['pesos_producto_uno'] : 0;
+          $PProducto_dos = isset($row['pesos_producto_dos']) ? $row['pesos_producto_dos'] : 0;
+          $PProducto_tres = isset($row['pesos_producto_tres']) ? $row['pesos_producto_tres'] : 0;
+      }
+  }
 
-    $array = array(
+  return array(
       'LProductouno' => $LProductouno,
       'LProductodos' => $LProductodos,
       'LProductotres' => $LProductotres,
       'PProductouno' => $PProducto_uno,
       'PProductodos' => $PProducto_dos,
       'PProductotres' => $PProducto_tres
-    );
-
-    return $array; 
-    }
+  );
+}
 
     //---------- 
 
-  function IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con){
-   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' ";
-   $result_year = mysqli_query($con, $sql_year);
-   while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
-   $idyear = $row_year['id'];
-   }
-
-  $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
-   $result_mes = mysqli_query($con, $sql_mes);
-   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
-   $idmes = $row_mes['id'];
-   }
-
-   return $idmes;
-   }
- 
+    function IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con) {
+      $idyear = $idmes = null; // Inicializamos las variables
+      $sql_year = "SELECT id FROM op_corte_year WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' ";
+      $result_year = mysqli_query($con, $sql_year);
+      if ($result_year && mysqli_num_rows($result_year) > 0) {
+          while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
+              $idyear = $row_year['id'];
+          }
+      }
   
-$IdReporte = IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con);
+      if ($idyear) {
+          $sql_mes = "SELECT id FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
+          $result_mes = mysqli_query($con, $sql_mes);
+          if ($result_mes && mysqli_num_rows($result_mes) > 0) {
+              while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
+                  $idmes = $row_mes['id'];
+              }
+          }
+      }
+      
+      return $idmes;
+  }
+  
+  $IdReporte = IdReporte($GET_idEstacion, $GET_year, $GET_mes, $con);
 
 
-$sql_estaciones = "SELECT producto_uno, producto_dos, producto_tres FROM tb_estaciones WHERE id = '".$GET_idEstacion."' ";
-$result_estaciones = mysqli_query($con, $sql_estaciones);
-$numero_estaciones = mysqli_num_rows($result_estaciones);
-while($row_estaciones = mysqli_fetch_array($result_estaciones, MYSQLI_ASSOC)){
-$ProductoUno  = $row_estaciones['producto_uno'];
-$ProductoDos  = $row_estaciones['producto_dos'];
-$ProductoTres = $row_estaciones['producto_tres'];
-}
-
-ControlVR($IdReporte,$GET_idEstacion,$GET_year,$GET_mes,$ProductoUno,$con);
-ControlVR($IdReporte,$GET_idEstacion,$GET_year,$GET_mes,$ProductoDos,$con);
-
-if ($ProductoTres != "") {
-ControlVR($IdReporte,$GET_idEstacion,$GET_year,$GET_mes,$ProductoTres,$con);
-}
+  $sql_estaciones = "SELECT producto_uno, producto_dos, producto_tres FROM tb_estaciones WHERE id = '".$GET_idEstacion."' ";
+  $result_estaciones = mysqli_query($con, $sql_estaciones);
+  $ProductoUno = $ProductoDos = $ProductoTres = ""; // Inicializamos las variables
+  
+  if ($result_estaciones && mysqli_num_rows($result_estaciones) > 0) {
+      while($row_estaciones = mysqli_fetch_array($result_estaciones, MYSQLI_ASSOC)){
+          $ProductoUno = $row_estaciones['producto_uno'];
+          $ProductoDos = $row_estaciones['producto_dos'];
+          $ProductoTres = $row_estaciones['producto_tres'];
+      }
+  }
+  
+  ControlVR($IdReporte, $GET_idEstacion, $GET_year, $GET_mes, $ProductoUno, $con);
+  ControlVR($IdReporte, $GET_idEstacion, $GET_year, $GET_mes, $ProductoDos, $con);
+  
+  if (!empty($ProductoTres)) {
+      ControlVR($IdReporte, $GET_idEstacion, $GET_year, $GET_mes, $ProductoTres, $con);
+  }
+  
 
  
 function ControlVR($IdReporte,$GET_idEstacion,$GET_year,$GET_mes,$Producto,$con){
 
-$volumen = 0;
-$importetotal = 0;
+  $volumen = $importetotal = 0;
+  $idReporteCre = 0;
 
 $sql_reportecre = "SELECT id FROM re_reporte_cre_mes WHERE id_estacion = '".$GET_idEstacion."' and mes = '".$GET_mes."' and year = '".$GET_year."' ";
 $result_reportecre = mysqli_query($con, $sql_reportecre);
 $numero_reportecre = mysqli_num_rows($result_reportecre);
-$idReporteCre = 0;
 while($row_reportecre = mysqli_fetch_array($result_reportecre, MYSQLI_ASSOC)){
 $idReporteCre = $row_reportecre['id'];
 }
@@ -113,13 +114,13 @@ $importetotal = $importetotal + $ImportePesos;
 $sql_corte = "SELECT id FROM op_corte_dia WHERE id_mes  = '".$IdReporte."' ";
 $result_corte = mysqli_query($con, $sql_corte);
 $numero_corte = mysqli_num_rows($result_corte);
+$Grantotal = 0;
+$totalLitros = 0;
 while($row_corte = mysqli_fetch_array($result_corte, MYSQLI_ASSOC)){
 $idCorte = $row_corte['id'];
 $sql_cortedia = "SELECT litros, precio_litro FROM op_ventas_dia WHERE idreporte_dia  = '".$idCorte."' AND producto = '".$Producto."' ";
 $result_cortedia = mysqli_query($con, $sql_cortedia);
 $numero_cortedia = mysqli_num_rows($result_cortedia);
-$totalLitros =0;
-$Grantotal = 0;
 while($row_cortedia = mysqli_fetch_array($result_cortedia, MYSQLI_ASSOC)){
 $litrosV = $row_cortedia['litros'];
 $preciolitroV = $row_cortedia['precio_litro'];
@@ -145,13 +146,15 @@ op_corte_year.year = '".$GET_year."' AND
 op_corte_mes.mes = '".$GET_mes."'";
 $result_listadia = mysqli_query($con, $sql_listadia);
 $numero_listadia = mysqli_num_rows($result_listadia);
-
 $GTLProductouno = 0;
 $GTLProductodos = 0;
 $GTLProductotres = 0;
+
+
 $GTPProductouno = 0;
 $GTPProductodos = 0;
 $GTPProductotres = 0;
+
 while($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)){
     $idDias = $row_listadia['idDia'];
     $fecha = $row_listadia['fecha'];  
@@ -399,7 +402,7 @@ $sql_lista = "SELECT * FROM op_control_volumetrico_prefijos WHERE id_mes = '".$I
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 if ($numero_lista == 0) {
- 
+
 $sql_insert = "INSERT INTO op_control_volumetrico_prefijos (
     id_mes,  
     serie, 
@@ -543,7 +546,19 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
     '".$IdReporte."',
     '".$detalle."',
     '".$posicion."',
-    0,0,0,0,0,0,0,0,0,0,0,0)";
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0  
+    )";
 
  mysqli_query($con, $sql_insert);
 
@@ -554,519 +569,533 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
 //-------------------------------------------------------------------------------------------------------------------------
 ?>
 <html lang="es">
-  <head>
+
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>Dirección de operaciones</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width initial-scale=1.0">
-  <link rel="shortcut icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="apple-touch-icon" href="<?=RUTA_IMG_ICONOS ?>/icono-web.png">
-  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>alertify.css">
-  <link rel="stylesheet" href="<?=RUTA_CSS2 ?>themes/default.rtl.css">
-  <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
-  <link href="<?=RUTA_CSS2;?>navbar-general.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <link rel="shortcut icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
+  <link rel="apple-touch-icon" href="<?= RUTA_IMG_ICONOS ?>/icono-web.png">
+  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>alertify.css">
+  <link rel="stylesheet" href="<?= RUTA_CSS2 ?>themes/default.rtl.css">
+  <link href="<?= RUTA_CSS2; ?>bootstrap.min.css" rel="stylesheet" />
+  <link href="<?= RUTA_CSS2; ?>navbar-general.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
+  <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
+  <style>
+    td {
+      padding: 0;
+    }
+
+    input[type="number"].w-100 {
+      width: 100%;
+      box-sizing: border-box;
+      /* Asegura que el padding se incluya en el tamaño total */
+    }
+
+    input[type="number"].h-100 {
+      height: 100%;
+      display: block;
+      /* Hace que el input sea un elemento de bloque */
+    }
+  </style>
+
   <script type="text/javascript">
 
-  $(document).ready(function($){
-  $(".LoaderPage").fadeOut("slow");
+    $(document).ready(function ($) {
+      $(".LoaderPage").fadeOut("slow");
 
-  ListaControl(<?=$IdReporte;?>);
-  ListaResumen(<?=$IdReporte;?>,<?=$GET_mes;?>);
-  ListaResumenTotal(<?=$IdReporte;?>,<?=$GET_mes;?>);
-  ListaPrefijos(<?=$GET_idEstacion;?>,<?=$IdReporteYear;?>,<?=$GET_mes;?>,<?=$IdReporte;?>);
-  PrefijoTotal(<?=$GET_idEstacion;?>,<?=$IdReporte;?>);
-  GranTotal(<?=$GET_idEstacion;?>,<?=$IdReporte;?>);
+      ListaControl(<?= $IdReporte; ?>);
+      ListaResumen(<?= $IdReporte; ?>, <?= $GET_mes; ?>);
+      ListaResumenTotal(<?= $IdReporte; ?>, <?= $GET_mes; ?>);
+      ListaPrefijos(<?= $GET_idEstacion; ?>, <?= $IdReporteYear; ?>, <?= $GET_mes; ?>, <?= $IdReporte; ?>);
+      PrefijoTotal(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
+      GranTotal(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
 
-  Comentarios(<?=$GET_idEstacion;?>,<?=$IdReporte;?>);
-
-  });
- 
-  function Regresar(){ 
-   window.history.back();
-  }
-
-  function ListaDirectorio(){
-  $('#ListaDirectorio').load('../../../../public/admin/vistas/lista-directorio.php');
-  }
-
-  function ListaControl(IdReporte){
-
-    $('#ListaControl').load('../../../../public/admin/vistas/lista-control-volumetrico.php?IdReporte=' + IdReporte); 
-  }  
-
-  function ListaResumen(IdReporte,mes){ 
-  $('#ListaResumen').load('../../../../public/admin/vistas/lista-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
-  }   
-
-  function ListaResumenTotal(IdReporte,mes){
-  $('#ListaResumenTotal').load('../../../../public/admin/vistas/total-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
-  }   
-
-  function ListaPrefijos(idEstacion,IdReporteYear,GET_mes,IdReporte){
-    $('#ListaPrefijo').load('../../../../public/admin/vistas/lista-control-volumetrico-prefijo.php?IdReporte=' + IdReporte  + '&IdReporteYear=' + IdReporteYear +'&GET_mes=' + GET_mes + '&idEstacion=' + idEstacion);
-  }  
- 
-  function PrefijoTotal(idEstacion,IdReporte){
-
-  $('#PrefijoTotal').load('../../../../public/admin/vistas/control-volumetrico-total-prefijo.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);
-
-  }
-
-  function GranTotal(idEstacion,IdReporte){
-  $('#GranTotal').load('../../../../public/admin/vistas/control-volumetrico-gran-total.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);  
-  }
-  
-function btnModal(){
-  $('#Modal').modal('show');
-  }
-
-  function Guardar(IdReporte){
-
-    var NombreDocumento = $('#NombreDocumento').val();
-    var Documento = $('#Documento').val();
-
-    var Fecha = $('#Fecha').val();
-    var Anexos = $('#Anexos').val();
-
-    var data = new FormData();
-    var url = '../../../../public/admin/modelo/agregar-control-volumetrico.php';
-
-    Documento = document.getElementById("Documento");
-    Documento_file = Documento.files[0];
-    Documento_filePath = Documento.value;
-
-    if (Documento_filePath != "") {
-    $('#Documento').css('border','');
-
-    data.append('IdReporte', IdReporte);
-    data.append('Documento_file', Documento_file);
-    data.append('Fecha', Fecha);
-    data.append('Anexos', Anexos);
-
-    $(".LoaderPage").show();
-
-    $.ajax({
-    url: url,
-    type: 'POST',
-    contentType: false,
-    data: data,
-    processData: false,
-    cache: false
-    }).done(function(data){
-
-      $(".LoaderPage").hide();
-
-    alertify.success('Registro agregado exitosamente.');
-    ListaControl(IdReporte);
-    $('#Documento').css('border','');
-    $('#Documento').val('');
-    $('#Modal').modal('hide');
+      Comentarios(<?= $GET_idEstacion; ?>, <?= $IdReporte; ?>);
 
     });
 
-    }else{
-    $('#Documento').css('border','2px solid #A52525');
+    function ListaDirectorio() {
+      $('#ListaDirectorio').load('../../../../public/admin/vistas/lista-directorio.php');
     }
-    
-  }
 
-  function Eliminar(idReporte,id){
+    function ListaControl(IdReporte) {
 
-    var parametros = {
-  "idReporte" : idReporte,
-    "id" : id
-    };
+      $('#ListaControl').load('../../../../public/admin/vistas/lista-control-volumetrico.php?IdReporte=' + IdReporte);
+    }
 
-       $.ajax({
-     data:  parametros,
-     url:   '../../../../public/admin/modelo/eliminar-control-volumetrico.php',
-     type:  'post',
-     beforeSend: function() {
-    $(".LoaderPage").show();
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
+    function ListaResumen(IdReporte, mes) {
+      $('#ListaResumen').load('../../../../public/admin/vistas/lista-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
+    }
 
-    if (response == 1) {
+    function ListaResumenTotal(IdReporte, mes) {
+      $('#ListaResumenTotal').load('../../../../public/admin/vistas/total-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
+    }
 
-    $(".LoaderPage").hide();
-   
-   alertify.success('Registro eliminado exitosamente.');
-    ListaControl(idReporte);
+    function ListaPrefijos(idEstacion, IdReporteYear, GET_mes, IdReporte) {
+      $('#ListaPrefijo').load('../../../../public/admin/vistas/lista-control-volumetrico-prefijo.php?IdReporte=' + IdReporte + '&IdReporteYear=' + IdReporteYear + '&GET_mes=' + GET_mes + '&idEstacion=' + idEstacion);
+    }
 
-    }else{
-    alertify.error('Error al eliminar')
-    $(".LoaderPage").hide();
+    function PrefijoTotal(idEstacion, IdReporte) {
+
+      $('#PrefijoTotal').load('../../../../public/admin/vistas/control-volumetrico-total-prefijo.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);
 
     }
 
-     }
-     });
+    function GranTotal(idEstacion, IdReporte) {
+      $('#GranTotal').load('../../../../public/admin/vistas/control-volumetrico-gran-total.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);
+    }
 
-  }
+    function btnModal() {
+      $('#Modal').modal('show');
+    }
 
-  function Comentario(id){
-  var Comentario = $('#Comentario' + id).val();
+    function Guardar(IdReporte) {
 
-  var parametros = {
-    "id" : id,
-    "Comentario" : Comentario
-    };
+      var NombreDocumento = $('#NombreDocumento').val();
+      var Documento = $('#Documento').val();
+
+      var Fecha = $('#Fecha').val();
+      var Anexos = $('#Anexos').val();
+
+      Documento = document.getElementById("Documento");
+      Documento_file = Documento.files[0];
+      Documento_filePath = Documento.value;
+      if (Fecha != '') {
+        $('#Fecha').css('border', '');
+        if (Anexos != '') {
+          $('#Anexos').css('border', '');
+          if (Documento_filePath != "") {
+            $('#Documento').css('border', '');
+            var data = new FormData();
+            var url = '../../../../public/admin/modelo/agregar-control-volumetrico.php';
+            data.append('IdReporte', IdReporte);
+            data.append('Documento_file', Documento_file);
+            data.append('Fecha', Fecha);
+            data.append('Anexos', Anexos);
+
+            $(".LoaderPage").show();
+
+            $.ajax({
+              url: url,
+              type: 'POST',
+              contentType: false,
+              data: data,
+              processData: false,
+              cache: false
+            }).done(function (data) {
+
+              $(".LoaderPage").hide();
+
+
+              if(data == 1){
+              alertify.success('Registro agregado exitosamente.');
+              ListaControl(IdReporte);
+              $('#Documento').css('border', '');
+              $('#Documento').val('');
+              $('#Modal').modal('hide');
+              }else{
+              alertify.error('Error al subir el archivo.');
+
+              }
+
+
+
+            });
+
+          } else {
+            $('#Documento').css('border', '2px solid #A52525');
+          }
+        } else {
+          $('#Anexos').css('border', '2px solid #A52525');
+        }
+      } else {
+        $('#Fecha').css('border', '2px solid #A52525');
+      }
+    }
+
+    function Eliminar(idReporte, id) {
+
+      var parametros = {
+        "idReporte": idReporte,
+        "id": id
+      };
 
       $.ajax({
-     data:  parametros,
-     url:   '../../../../public/admin/modelo/agregar-comentario-control-volumetrico.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
+        data: parametros,
+        url: '../../../../public/admin/modelo/eliminar-control-volumetrico.php',
+        type: 'post',
+        beforeSend: function () {
+          $(".LoaderPage").show();
+        },
+        complete: function () {
 
-    if (response == 1) {
-    alertify.success('Registro agregado exitosamente.');
-    }else{
-    alertify.error('Error al eliminar')
-   
-    }
+        },
+        success: function (response) {
 
-     }
-     });
-  
-  }
+          if (response == 1) {
 
-  function Edit(dato,dif,id,total,IdReporte,mes){
+            $(".LoaderPage").hide();
 
-  var input = $('#' + dato + id).val();
+            alertify.success('Registro eliminado exitosamente.');
+            ListaControl(idReporte);
 
-  if (dato == 1){
-  var Diferencia = input - total;
-  }else if(dato == 2){
-  var Diferencia = total - input;
-  }else{
-  var Diferencia = input - total; 
-  }
+          } else {
+            alertify.error('Error al eliminar')
+            $(".LoaderPage").hide();
 
-  var parametros = {
-  "dato" : dato,
-  "id" : id,
-  "input" : input
-  };
-   
-     $.ajax({
-     data:  parametros,
-     url:   '../../../../public/admin/modelo/editar-comentario-control-volumetrico.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
+          }
 
-    if (response == 1) {
-
-    $('#D' + dif + id).text(Diferencia);
-
-    if(dato == 3){
-    
-    var inputRC = document.getElementById('RC' + id);
-    var valorCelda = inputRC.textContent.replace(/,/g, '');
-
-    var numeroEntero = parseFloat(valorCelda);
-    //alert(numeroEntero)
-
-    var valParametro = ((input * 100) / numeroEntero) - 100;
-
-
-    if(valParametro == "inf" || valParametro == "INF" || valParametro == "nan" || valParametro == "NaN" || valParametro == "Infinity"){
-    var valParametro2 = 0;
-    $('#D8' + id).text(valParametro2.toFixed(2));  
-    ListaResumenTotal(IdReporte,mes);
-
-    }else{
-
-    $('#D8' + id).text(valParametro.toFixed(2)); 
-    ListaResumenTotal(IdReporte,mes);
+        }
+      });
 
     }
 
+    function Comentario(id) {
+      var Comentario = $('#Comentario' + id).val();
 
-    }else{
+      var parametros = {
+        "id": id,
+        "Comentario": Comentario
+      };
 
-      ListaResumenTotal(IdReporte,mes); 
-    }
+      $.ajax({
+        data: parametros,
+        url: '../../../../public/admin/modelo/agregar-comentario-control-volumetrico.php',
+        type: 'post',
+        beforeSend: function () {
+        },
+        complete: function () {
 
+        },
+        success: function (response) {
 
-   
-    
-    }else{
-    alertify.error('Error al eliminar')
-   
-    }
+          if (response == 1) {
+            //alertify.success('Registro agregado exitosamente.');
+          } else {
+            alertify.error('Error al agregar el comentario')
 
-     }
-     });
+          }
 
-  }
-
-function EditPrefijo(id,IdReporte,IdReporteYear,GET_mes,idEstacion){
-
-var Total = $('#Total' + id).val();
-
-var parametros = {
-    "Total" : Total,
-    "IdReporteYear" : IdReporteYear,
-    "GET_mes" : GET_mes,
-    "id" : id
-    };
-
-       $.ajax({
-     data:  parametros,
-     url:   '../../../../public/admin/modelo/editar-prefijo-control-volumetrico.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
-
-    if (response == 1) {
-
-   PrefijoTotal(idEstacion,IdReporte);
-   GranTotal(idEstacion,IdReporte);
-
-    }else{
-    alertify.error('Error al guardar')
-   
-    }
-
-     }
-     });
-
-}
-
-function EditAceites(val,IdReporte,GET_mes){
-
-Total = val.value;
-
-var parametros = {
-    "Total" : Total,
-    "IdReporte" : IdReporte
-    };
-
-       $.ajax({
-     data:  parametros,
-     url:   '../../../../public/admin/modelo/editar-control-volumetrico-aceite.php',
-     type:  'post',
-     beforeSend: function() {
-     },
-     complete: function(){
-    
-     },
-     success:  function (response) {
-
-    if (response == 1) {
-
-
-
-    }else{
-    alertify.error('Error al guardar')
-   
-    }
-
-     }
-     }); 
-
-}
- 
-function Comentarios(idEstacion,IdReporte){
-  $('#Comentarios').load('../../../../public/admin/vistas/control-volumetrico-comentarios.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);  
-} 
-
-function GuardarComentario(idReporte,idEstacion){
-
-  var Comentario = $('#Comentario').val();
-
-  var parametros = {
-    "idReporte" : idReporte,
-    "Comentario" : Comentario
-    };
-
-    if(Comentario != ""){
-    $('#Comentario').css('border',''); 
-
-    $.ajax({
-    data:  parametros,
-    url:   '../../../../public/admin/modelo/agregar-comentario-volumetrico.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
-    },
-    success:  function (response) {
-
-    if (response == 1) {
-    $('#Comentario').val('');
-    alertify.success('Registro agregado exitosamente.');
-    Comentarios(idEstacion,idReporte);
-
-    }else{
-     alertify.error('Error al eliminar la solicitud');  
-    }
+        }
+      });
 
     }
-    });
 
-    }else{
-    $('#Comentario').css('border','2px solid #A52525'); 
+    function Edit(dato, dif, id, total, IdReporte, mes) {
+
+      var input = $('#' + dato + id).val();
+
+      if (dato == 1) {
+        var Diferencia = input - total;
+      } else if (dato == 2) {
+        var Diferencia = total - input;
+      } else {
+        var Diferencia = input - total;
+      }
+
+      var parametros = {
+        "dato": dato,
+        "id": id,
+        "input": input
+      };
+
+      $.ajax({
+        data: parametros,
+        url: '../../../../public/admin/modelo/editar-comentario-control-volumetrico.php',
+        type: 'post',
+        beforeSend: function () {
+        },
+        complete: function () {
+
+        },
+        success: function (response) {
+
+          if (response == 1) {
+
+            $('#D' + dif + id).text(Diferencia);
+
+            if (dato == 3) {
+
+              var inputRC = document.getElementById('RC' + id);
+              var valorCelda = inputRC.textContent.replace(/,/g, '');
+
+              var numeroEntero = parseFloat(valorCelda);
+              //alert(numeroEntero)
+
+              var valParametro = ((input * 100) / numeroEntero) - 100;
+
+
+              if (valParametro == "inf" || valParametro == "INF" || valParametro == "nan" || valParametro == "NaN" || valParametro == "Infinity") {
+                var valParametro2 = 0;
+                $('#D8' + id).text(valParametro2.toFixed(2));
+                ListaResumenTotal(IdReporte, mes);
+
+              } else {
+
+                $('#D8' + id).text(valParametro.toFixed(2));
+                ListaResumenTotal(IdReporte, mes);
+
+              }
+
+
+            } else {
+
+              ListaResumenTotal(IdReporte, mes);
+            }
+
+
+
+
+          } else {
+            alertify.error('Error al eliminar')
+
+          }
+
+        }
+      });
+
     }
+
+    function EditPrefijo(id, IdReporte, IdReporteYear, GET_mes, idEstacion) {
+
+      var Total = $('#Total' + id).val();
+
+      var parametros = {
+        "Total": Total,
+        "IdReporteYear": IdReporteYear,
+        "GET_mes": GET_mes,
+        "id": id
+      };
+
+      $.ajax({
+        data: parametros,
+        url: '../../../../public/admin/modelo/editar-prefijo-control-volumetrico.php',
+        type: 'post',
+        beforeSend: function () {
+        },
+        complete: function () {
+
+        },
+        success: function (response) {
+
+          if (response == 1) {
+
+            PrefijoTotal(idEstacion, IdReporte);
+            GranTotal(idEstacion, IdReporte);
+
+          } else {
+            alertify.error('Error al guardar')
+
+          }
+
+        }
+      });
+
+    }
+
+    function EditAceites(val, IdReporte, GET_mes) {
+
+      Total = val.value;
+
+      var parametros = {
+        "Total": Total,
+        "IdReporte": IdReporte
+      };
+
+      $.ajax({
+        data: parametros,
+        url: '../../../../public/admin/modelo/editar-control-volumetrico-aceite.php',
+        type: 'post',
+        beforeSend: function () { },
+        complete: function () { },
+        success: function (response) {
+          if (response == 1) {
+
+          } else {
+            alertify.error('Error al guardar')
+
+          }
+
+        }
+      });
+
+    }
+
+    function Comentarios(idEstacion, IdReporte) {
+      $('#Comentarios').load('../../../../public/admin/vistas/control-volumetrico-comentarios.php?IdReporte=' + IdReporte + '&idEstacion=' + idEstacion);
+    }
+
+    function GuardarComentario(idReporte, idEstacion) {
+
+      var Comentario = $('#Comentario').val();
+
+      var parametros = {
+        "idReporte": idReporte,
+        "Comentario": Comentario
+      };
+
+      if (Comentario != "") {
+        $('#Comentario').css('border', '');
+
+        $.ajax({
+          data: parametros,
+          url: '../../../../public/admin/modelo/agregar-comentario-volumetrico.php',
+          type: 'post',
+          beforeSend: function () {
+          },
+          complete: function () {
+          },
+          success: function (response) {
+
+            if (response == 1) {
+              $('#Comentario').val('');
+              alertify.success('Registro agregado exitosamente.');
+              Comentarios(idEstacion, idReporte);
+
+            } else {
+              alertify.error('Error al eliminar la solicitud');
+            }
+
+          }
+        });
+
+      } else {
+        alertify.error('El comentario no contiene ningun texto');
+      }
 
     }
 
   </script>
-  </head>
-  
-  <body>
-    
+</head>
+
+<body>
+
   <div class="LoaderPage"></div>
 
-    <!---------- DIV - CONTENIDO ----------> 
+  <!---------- DIV - CONTENIDO ---------->
   <div id="content">
-  <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
-  <?php include_once "public/navbar/navbar-perfil.php";?>
-  <!---------- CONTENIDO PAGINA WEB----------> 
-  <div class="contendAG">
-  <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-    <div class="row">
-
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()"> 
-    <div class="row">
-
-     <div class="col-12">
-
-    <h5>Control volumétrico, <?=nombremes($GET_mes);?> <?=$GET_year;?></h5>
-
-    </div>
-
-    </div>
-
-    </div>
-
-    </div>
-
-  <hr> 
-
-<div class="row">
- 
-<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-
-<div id="ListaResumen"></div>
-<div id="ListaResumenTotal"></div>
-
-</div>
+    <!---------- NAV BAR - PRINCIPAL (TOP) ---------->
+    <?php include_once "public/navbar/navbar-perfil.php"; ?>
+    <!---------- CONTENIDO PAGINA WEB---------->
+    <div class="contendAG">
 
 
-<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+      <div class="row">
 
-<div id="ListaControl"></div>
-<div id="ListaPrefijo"></div>
-<div id="PrefijoTotal"></div>
+        <div class="col-12">
 
+          <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+            <ol class="breadcrumb breadcrumb-caret">
+              <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i
+                    class="fa-solid fa-chevron-left"></i>
+                  Corte Diario, <?= $ClassHerramientasDptoOperativo->nombreMes($GET_mes) ?> <?= $GET_year ?></a></li>
+              <li aria-current="page" class="breadcrumb-item active text-uppercase">
+                Control Volumetrico (<?= nombremes($GET_mes) ?> <?= $GET_year ?>)
+              </li>
+            </ol>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
+                Control Volumetrico (<?= nombremes($GET_mes) ?> <?= $GET_year ?>)
+              </h3>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
 
-<div class="border">
-<div class="p-3">
-
-<div id="Comentarios"></div>
-
-</div>
-</div>
-
-</div>
-
-
-<div class="col-12 mt-3">
-<div id="GranTotal" class="tables-bg"></div>
-</div>
-
-</div>
-  
-
-  </div>
-  </div>
-  </div>
-
-  </div>
-  </div>
-
-  </div>
-
-  
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 
 
-<div class="modal" id="Modal">
-  <div class="modal-dialog" style="margin-top: 83px;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Agregar anexos</h5>
-       
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div id="ListaResumen"></div>
+          <div id="ListaResumenTotal"></div>
+
+        </div>
+
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+
+          <div id="ListaControl"></div>
+          <div id="ListaPrefijo"></div>
+          <div id="PrefijoTotal"></div>
+
+
+          <div>
+            <div id="Comentarios"></div>
+          </div>
+
+        </div>
+
+
+        <div class="col-12">
+          <div id="GranTotal" class="tables-bg mt-3"></div>
+        </div>
 
       </div>
-      <div class="modal-body">
-        
-        <div class="mb-1 text-secondary">Agregar fecha</div>
-        <input type="date" class="form-control" id="Fecha">
 
-        <div class="mb-1 mt-2 text-secondary">Agregar anexo</div>
-        <select class="form-control" id="Anexos"> 
-          <option></option>
-          <option>Tirilla de inventarios</option>
-          <option>Control de despachos</option>
-          <option>Control volumétrico</option>
-          <option>Acuse de recepción controles volumétricos</option>
-          <option>Acuse de aceptación controles volumétricos</option>
-          <option>Jarreo</option>
-        </select>
 
-        <div class="mb-1 mt-2 text-secondary">Agregar documento</div>
-        <input class="form-control" type="file" id="Documento">
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="Guardar(<?=$IdReporte;?>)">Guardar</button>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="modal" id="Modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar anexos</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="modal-body">
+
+          <h6 class="mb-2 mt-2">* Agregar fecha</h6>
+          <input type="date" class="form-control" id="Fecha">
+
+          <h6 class="mb-2 mt-2">* Agregar Anexo</h6>
+
+          <select class="form-control" id="Anexos">
+            <option></option>
+            <option>Tirilla de inventarios</option>
+            <option>Control de despachos</option>
+            <option>Control volumétrico</option>
+            <option>Acuse de recepción controles volumétricos</option>
+            <option>Acuse de aceptación controles volumétricos</option>
+            <option>Jarreo</option>
+          </select>
+          <h6 class="mb-2 mt-2">* Agregar Documento</h6>
+          <input class="form-control" type="file" id="Documento">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?= $IdReporte; ?>)">
+            <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
-  <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+  <script src="<?= RUTA_JS2 ?>navbar-functions.js"></script>
+  <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
-  </body>
-  </html>
-
+</body>
+</html>

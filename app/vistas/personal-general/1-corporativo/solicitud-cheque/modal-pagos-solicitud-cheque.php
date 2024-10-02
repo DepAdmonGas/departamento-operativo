@@ -18,26 +18,20 @@ $numero_lista = mysqli_num_rows($result_lista);
 <div class="modal-body">
 
 <?php
-
-  if($session_nompuesto == "Gestoria"){
-  echo '<div class="mb-1 text-secondary">Documento:</div>
+if($session_nompuesto == "Gestoria"){
+echo '<div class="mb-1 text-secondary fw-bold">* DOCUMENTO:</div>
 <div class="input-group">
-  <input type="file" class="form-control" id="Documento">
-</div>
-
-<div class="row">
-<div class="col-12">
-<button class="btn btn-outline-secondary btn-sm float-end mt-2" type="button" onclick="AgregarPago('.$year.','.$mes.','.$idReporte.')">Agregar pago</button>
-</div>
+<input type="file" class="form-control rounded-0" id="Documento">
 </div>
 
 <hr>';
-  } ?>
-
+}  
+?>
+ 
 <div class="table-responsive">
-<table class="custom-table mt-2" style="font-size: 14px;" width="100%">
+<table class="custom-table" style="font-size: 14px;" width="100%">
 <thead>
-<tr class="navbar-bg align-middle text-center">
+<tr class="tables-bg align-middle text-center">
 <th class="align-middle text-center">Fecha</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
 </tr>
@@ -50,19 +44,26 @@ while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 
 $id = $row_lista['id'];
 $explode = explode(' ', $row_lista['fecha']);
-
-echo '<tr>';
-echo '<th class="align-middle font-weight-light">'.FormatoFecha($explode[0]).'</th>';
-echo '<td class="align-middle font-weight-light"><a href="../../archivos/'.$row_lista['documento'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
+echo '<tr>';  
+echo '<th class="align-middle font-weight-light">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).'</th>';
+echo '<td class="align-middle font-weight-light"><a href="'.RUTA_ARCHIVOS.''.$row_lista['documento'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
 echo '</tr>';
 
 }
 }else{
-echo "<tr><th colspan='2' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+echo "<tr><th colspan='2' class='text-center text-secondary no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
 }
 ?>
 </tbody>
 </table>
 </div>
-
 </div>
+
+<?php if($session_nompuesto == "Gestoria"){ ?>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="AgregarPago(<?=$year?>,<?=$mes?>,<?=$idReporte?>)">
+<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
+</div>
+
+<?php } ?>

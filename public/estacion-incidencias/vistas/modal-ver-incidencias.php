@@ -2,18 +2,9 @@
 require('../../../app/help.php');
 $idIncidencia = $_GET['idIncidencia'];
 
-
-$sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '".$idEstacion."' ";
-$result_listaestacion = mysqli_query($con, $sql_listaestacion);
-while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
-$estacion = $row_listaestacion['nombre'];
-}
-
-
 $sql_lista = "SELECT * FROM op_incidencias_estaciones WHERE id_incidencias_estaciones = '".$idIncidencia."'";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
-
 
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $fecha = FormatoFecha($row_lista['fecha']);
@@ -27,7 +18,7 @@ $archivo = $row_lista['archivo'];
  
 
 if($archivo  != ""){
-$pdfInput = '<iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.'incidencias/'.$archivo.'" width="100%" height="400px">
+$pdfInput = '<iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.'incidencias/'.$archivo.'" width="100%" height="450px">
   </iframe>';
 
 }else{
@@ -39,38 +30,51 @@ $pdfInput = 'S/I';
  
  
  <div class="modal-header">
-  <h5 class="modal-title">Detalle Incidencia <?=$estacion?></h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <h5 class="modal-title">Detalle Incidencia</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
  </div>
 
 
 <div class="modal-body">
 
+<div class="row">
 
-<h6 class="mb-1">Fecha:</h6>
-<label><?=$fecha?></label>
+<div class="col-12 mb-3">
+<h6 class="mb-1">Fecha y hora:</h6>
+<label><?=$fecha?>, <?=$hora?></label>
+</div>
 
-<h6 class="mb-1 mt-2">Hora:</h6>
-<label><?=$hora?></label>
-
-<h6 class="mb-1 mt-2">Incidente:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+<h6 class="mb-1">Incidente:</h6>
 <label><?=$incidente?></label>
+</div>
 
-<h6 class="mb-1 mt-2">Responsable:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+<h6 class="mb-1">Responsable:</h6>
 <label><?=$responsable?></label>
+</div>
 
-<h6 class="mb-1 mt-2">Asunto:</h6>
+<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-3">
+<h6 class="mb-1">Asunto:</h6>
 <label><?=$asunto?></label>
+</div>
 
-<h6 class="mb-1 mt-2">Comentarios:</h6>
+<div class="col-12 mb-3">
+<h6 class="mb-1">Comentarios:</h6>
 <label><?=$comentarios?></label>
+</div>
 
-<h6 class="mb-1 mt-2">Archivo:</h6>
+<div class="col-12 mb-3">
+<h6 class="mb-1">Archivo:</h6>
 <?=$pdfInput?> 
+</div>
+
+</div>
 
 </div>
 
 
 <div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
+<span class="btn-label2"><i class="fa fa-xmark"></i></span>Cerrar</button>
 </div>

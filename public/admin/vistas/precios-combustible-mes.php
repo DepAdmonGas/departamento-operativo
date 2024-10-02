@@ -1,10 +1,6 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
 ?> 
  
 <html lang="es">
@@ -28,6 +24,9 @@ header("Location:".PORTAL."");
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+
   <script type="text/javascript">
   
   $(document).ready(function($){
@@ -36,171 +35,110 @@ header("Location:".PORTAL."");
   ListaPrecios(<?=$GET_idYear;?>,<?=$GET_idMes;?>);
 
   }); 
-
+ 
   function Regresar(){
-   window.history.back();
-  }
-
- 
-  function ListaPrecios(year,mes){
-  $('#ListaFecha').load('../../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes);
-  }  
-
-
-//---------- DETALLE FORMULARIO DE PRECIOS ----------
-  function Detalle(id){
-window.location.href = "../../precios-combustible-detalle/" + id;
-  }
- 
-
-//---------- AGREGAR FORMULARIO DE PRECIOS ----------
-  function agregarNuevoFormato(year,mes){
-
-    var parametros = {
-    "Year" : year,
-    "Mes" : mes
-    };
-
-    $.ajax({   
-     data:  parametros,
-     url:   '../../../public/admin/modelo/agregar-formato-precios.php',
-     type:  'POST',
-     beforeSend: function() {
-    
-     },  
-     complete: function(){
-    
-     },
-     success:  function (response) {
-
-    if(response != 0){
-    window.location.href = "../../precios-combustible-nuevo/" + response; 
-    }
-
-     } 
-     });
- 
- 
-  }
-
-//---------- EDITAR - FORMULARIO DE PRECIOS ----------
-  function editarFormatoPrecio(idReporte){
-  window.location.href = "../../precios-combustible-editar/" + idReporte; 
-
+  window.history.back();
   }
   
-
-//---------- ELIMINAR FORMULARIO DE PRECIOS ----------
-function eliminarPreciosD(idReporte){
-
-     alertify.confirm('',
-     function(){
-
-    var parametros = {
-    "idReporte" : idReporte
-    };
- 
-        $.ajax({
-        data:  parametros,
-        url:   '../../../public/admin/modelo/eliminar-formato-precios.php',
-        type:  'post',
-        beforeSend: function() {
-        },
-        complete: function(){
-
-        },
-        success:  function (response) {
-
-          if(response == 1){
-          window.location.reload()
-          }else{
-          alertify.error('Error al eliminar');    
-          }
-
-        }
+  function ListaPrecios(year,mes) {
+      let targets;
+      targets = [2,3];
+      $('#ListaFecha').load('../../../public/admin/vistas/lista-precios-combustible.php?year=' + year + '&mes=' + mes, function () {
+        $('#tabla_precios').DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
         });
-
-     },
-     function(){
-
-     }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-
+      });
     }
 
+
+  //---------- DETALLE FORMULARIO DE PRECIOS ----------
+  function Detalle(id){
+  window.location.href = "../../../precios-combustible-detalle/" + id;
+  }
+
+  //---------- AGREGAR FORMULARIO DE PRECIOS ----------
+  function agregarNuevoFormato(year,mes,fecha){
+  
+  var parametros = {
+  "Year" : year,
+  "Mes" : mes,
+  "Fecha" : fecha
+  };
  
+  
 
+  $.ajax({    
+  data:  parametros,
+  url:   '../../../public/admin/modelo/agregar-formato-precios.php',
+  type:  'POST',
+  beforeSend: function() {
+    
+  },  
+  complete: function(){
+    
+  },
+  success:  function (response) {
 
+  if(response != 0){
+  window.location.href = "../../precios-combustible-formulario/" + response; 
+  }
+
+  } 
+  });
+ 
+  }
+
+  //---------- EDITAR - FORMULARIO DE PRECIOS ----------
+  function editarFormatoPrecio(idReporte){
+  window.location.href = "../../precios-combustible-formulario/" + idReporte; 
+
+  }
+   
+  window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
 
   </script>
   </head>
+
   <body>
-
-
   <div class="LoaderPage"></div>
 
-    <!---------- DIV - CONTENIDO ----------> 
+  <!---------- DIV - CONTENIDO ----------> 
   <div id="content">
   <!---------- NAV BAR - PRINCIPAL (TOP) ---------->  
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+
   <div class="row">
-
-  <div class="col-12 mb-3">
-  <div class="cardAG">
-  <div class="border-0 p-3">
-
-
-    <div class="row">
-
-    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    <div class="row">
-
-     <div class="col-12">
-      <h5>Formato de precios</h5>
-    </div>
-
-    </div>
-
-    </div>
-
-
-    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12">
-    <img class="float-end pointer" onclick="agregarNuevoFormato(<?=$GET_idYear;?>,<?=$GET_idMes;?>)" src="<?=RUTA_IMG_ICONOS;?>agregar.png">
-    </div>
-
-    </div>
- 
-  <hr>
-
-  <div id="ListaFecha"></div>
- 
-  </div>
-  </div>
-  </div>
- 
-  </div>
+  <div class="col-12" id="ListaFecha"></div>
   </div>
 
   </div>
 
-
-<div class="modal" id="Modal" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content" style="margin-top: 83px;">
-
-      <div id="DivPrecios"></div>
-  
-    </div>
   </div>
-</div>
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 
   </body>

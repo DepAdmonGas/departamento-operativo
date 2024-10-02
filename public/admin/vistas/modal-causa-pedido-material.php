@@ -8,22 +8,17 @@ $sql_lista = "SELECT * FROM op_pedido_materiales_causa WHERE id_reporte = '".$id
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
-if($session_nompuesto == "Encargado"){
-$ocultarTB = "d-none";
-}else{
-$ocultarTB = ""; 
-}
 
 ?>
 
 <div class="modal-header">
   <h5 class="modal-title">Agregar causa</h5>
-  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
 
-<div class="text-secondary mb-1 mt-2">Descripcion de la causa:</div>
+<div class="text-secondary mb-1">Descripcion de la causa:</div>
 <textarea class="form-control rounded-0 mb-2" id="Causa"></textarea>
 
 <div class="text-secondary mb-1 mt-2">La refaccion se queda en:</div>
@@ -49,13 +44,18 @@ $ocultarTB = "";
 
 
 <div class="text-secondary mb-1 mt-2">Precio:</div>
-<input type="number" class="form-control rounded-0 mb-2" id="Precio">
+<input type="number" class="form-control rounded-0" id="Precio">
 
 <hr>
  
+<div class="text-end">
+<button type="button" class="btn btn-labeled2 btn-success mb-1" onclick="AgregarCausa('<?=$idEstacion?>','<?=$idReporte?>')">
+<span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>
+</div>
+
 
 <div class="table-responsive">
-<table class="table table-sm table-bordered table-hover mb-0">
+<table id="tabla_bitacora" class="custom-table mt-2" style="font-size: 14px;" width="100%">
 
 <thead class="tables-bg">
  <tr>
@@ -65,8 +65,14 @@ $ocultarTB = "";
  <th class="align-middle tableStyle font-weight-bold text-center">Se queda en</th>
  <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
  <th class="align-middle tableStyle font-weight-bold text-center">Precio</th>
- <th class="align-middle text-center <?=$ocultarTB?>" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
-  </tr>
+
+ <?php
+ if($session_nompuesto != "Encargado"){
+ echo '<th class="align-middle tableStyle font-weight-bold text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></th>';
+ }
+ ?>
+
+ </tr>
 </thead> 
  
 <?php
@@ -103,34 +109,30 @@ $preciotb = number_format(0, 2);
 $preciotb = number_format($precio,2);
 }
 
-echo '<tr>'; 
-echo '<th class="align-middle text-center">'.$num.'</th>'; 
-echo '<td class="align-middle text-center" ><b>'.FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).'</b></td>';
-echo '<td class="align-middle text-center">'.$descripcion.'</td>';
-echo '<td class="align-middle text-center">'.$localidad_refaccion.'</td>';
+echo '<tr class="bg-light">'; 
+echo '<th class="align-middle text-center no-hover2">'.$num.'</th>'; 
+echo '<td class="align-middle text-center no-hover2" ><b>'.FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).'</b></td>';
+echo '<td class="align-middle text-center no-hover2">'.$descripcion.'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$localidad_refaccion.'</td>';
  
-echo '<td class="align-middle text-center">'.$facturaPDFtb.'</td>';
+echo '<td class="align-middle text-center no-hover2">'.$facturaPDFtb.'</td>';
 
-echo '<td class="align-middle text-center" width="100px">$ '.$preciotb.'</td>';
-echo '<td class="align-middle text-center '.$ocultarTB.'"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="eliminarCausa('.$idEstacion.','.$idReporte.','.$id.')"></td>';
+echo '<td class="align-middle text-center no-hover2" width="200px">$ '.$preciotb.'</td>';
+if($session_nompuesto != "Encargado"){
+echo '<td class="align-middle text-center no-hover2"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="eliminarCausa('.$idEstacion.','.$idReporte.','.$id.')"></td>';
+}
 echo '</tr>';
 
 $num++;
 } 
 }else{
-echo "<tr><td colspan='15' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
-}
+  echo "<tr class='bg-light'><th colspan='10' class='text-center text-secondary no-hover2 fw-normal'>No se encontró información para mostrar</th></tr>";  }
 ?>
 
 </table>
 
 </div>
 </div>
-</div>
-
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancelar</button>
-  <button type="button" class="btn btn-primary rounded-0" onclick="AgregarCausa('<?=$idEstacion?>','<?=$idReporte?>')">Agregar</button>
 </div>
 
  

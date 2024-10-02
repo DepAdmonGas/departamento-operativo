@@ -6,7 +6,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -31,7 +32,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -57,7 +59,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -83,7 +86,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -108,7 +112,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -133,7 +138,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -158,7 +164,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -184,7 +191,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+//      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -210,7 +218,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -236,7 +245,8 @@ function Ticketcard(idReporte, empresa) {
 
     $.ajax({
       data: parametros,
-      url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
       type: 'get',
       beforeSend: function () {
       },
@@ -251,7 +261,32 @@ function Ticketcard(idReporte, empresa) {
     });
 
   }
+  function shellCL(idReporte, empresa) {
 
+    var parametros = {
+      "idReporte": idReporte,
+      "empresa": empresa
+    };
+
+    $.ajax({
+      data: parametros,
+      url:'../../../app/vistas/personal-general/1-corporativo/corte-diario/tpv/lista-cierre-lote.php',
+      //url: '../../../public/corte-diario/vistas/lista-cierre-lote.php',
+      type: 'get',
+      beforeSend: function () {
+      },
+      complete: function () {
+
+      },
+      success: function (response) {
+
+        $('#DivShell').html(response);
+
+      }
+    });
+
+
+  }
   /------------------------------------------------------------------------------------/
 
   function AgregarCierre(idReporte, empresa) {
@@ -301,6 +336,9 @@ function Ticketcard(idReporte, empresa) {
           case "INBURSA":
             Inbursa(idReporte, empresa);
             break;
+          case "SHELL FLEET NAVIGATOR":
+            shellCL(idReporte, empresa);    
+          break;
         }
       }
     });
@@ -357,6 +395,9 @@ function Ticketcard(idReporte, empresa) {
             case "INBURSA":
               Inbursa(idReporte, empresa);
               break;
+              case "SHELL FLEET NAVIGATOR":
+            shellCL(idReporte, empresa);    
+          break;
           }
         }
       }
@@ -415,6 +456,9 @@ function Ticketcard(idReporte, empresa) {
             case "INBURSA":
               Inbursa(idReporte, empresa);
               break;
+              case "SHELL FLEET NAVIGATOR":
+            shellCL(idReporte, empresa);    
+          break;
           }
         } else {
           TotalCierre(idReporte, empresa);
@@ -473,6 +517,9 @@ function Ticketcard(idReporte, empresa) {
             case "INBURSA":
               Inbursa(idReporte, empresa);
               break;
+              case "SHELL FLEET NAVIGATOR":
+            shellCL(idReporte, empresa);    
+          break;
           }
         } else {
           TotalCierre(idReporte, empresa);
@@ -539,6 +586,9 @@ function Ticketcard(idReporte, empresa) {
                 case "INBURSA":
                   Inbursa(idReporte, empresa);
                   break;
+                  case "SHELL FLEET NAVIGATOR":
+            shellCL(idReporte, empresa);    
+          break;
               }
             }
           }

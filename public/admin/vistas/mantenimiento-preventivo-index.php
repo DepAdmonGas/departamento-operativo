@@ -1,10 +1,7 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-} 
-
+ 
 function ToSolicitud($idEstacion,$con){
 $sql_lista = "SELECT id FROM op_mantenimiento_preventivo WHERE id_estacion = '".$idEstacion."' AND status < 2 ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -26,25 +23,19 @@ return $numero_lista = mysqli_num_rows($result_lista);
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" ></script>
-  <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
-  
-  <style media="screen">
-  .grayscale {
-  filter: opacity(50%); 
-  }
-  </style>
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
 
+  
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -56,8 +47,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
     if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
     idestacion = sessionStorage.getItem('idestacion');
-    $('#ContenidoPrin').load('../public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idestacion);
-         
+    MantenimientoP(idestacion)         
     } 
     
     }   
@@ -68,11 +58,32 @@ return $numero_lista = mysqli_num_rows($result_lista);
   window.history.back();
   }
 
+
   function MantenimientoP(idEstacion){
+  let targets;
+  targets = [3, 7];
+
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ContenidoPrin').load('../public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idEstacion);
+
+  $('#ContenidoPrin').load('../public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idEstacion, function() {
+  $('#tabla_mantenimiento_' + idEstacion).DataTable({
+    "stateSave": true,
+
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "desc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
+
 
   function Nuevo(idEstacion){
 
@@ -106,8 +117,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
  function Guardar(idEstacion,idReporte){
 
-
-
     var data = new FormData();
     var url = '../public/admin/modelo/editar-mantenimiento-preventivo.php';
 
@@ -117,10 +126,18 @@ return $numero_lista = mysqli_num_rows($result_lista);
     let Observacion = $('#Observacion').val();
 
 
+
+
     Archivo = document.getElementById("Archivo");
     Archivo_file = Archivo.files[0];
     Archivo_filePath = Archivo.value;
 
+
+    if(Nombre != 0){
+      $('#Nombre').css('border','');
+
+    if(Fecha != ""){
+    $('#Fecha').css('border','');
 
     data.append('idReporte', idReporte);
     data.append('Archivo_file', Archivo_file);
@@ -137,13 +154,26 @@ return $numero_lista = mysqli_num_rows($result_lista);
     processData: false,
     cache: false
     }).done(function(data){
-
+    if(data == 1){
       sizeWindow()
       alertify.success('Registro agregado exitosamente')
       MantenimientoP(idEstacion)
       $('#Modal').modal('hide');
-     
+    }else{
+      alertify.error('Error al agregar el registro')
+    }
+ 
     }); 
+
+
+  }else{
+    $('#Fecha').css('border','2px solid #A52525'); 
+    }
+
+    }else{
+    $('#Nombre').css('border','2px solid #A52525'); 
+    }
+
  }
 
  function Eliminar(idEstacion,idReporte){
@@ -316,7 +346,7 @@ alertify.confirm('',
     $(".LoaderPage").hide(); 
 
     $('#ContenidoModal').load('../public/admin/vistas/modal-mantenimiento-preventivo-archivos.php?idEstacion=' + idEstacion);
-    alertify.success('Prueba de eficiencia eliminada exitosamente.');
+    alertify.success('Prueba de      eliminada exitosamente.');
 
     }
     });
@@ -377,6 +407,23 @@ $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded
 $Nuevo = ''; 
 }
 
+
+if ($session_nompuesto == "Comercializadora") {
+
+  if($Session_IDUsuarioBD == 28){
+ 
+  if($id == 6 || $id == 7){
+    echo '  
+    <li>
+      <a class="pointer" onclick="MantenimientoP('.$id.')">
+      <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$Nuevo.' '.$estacion.'
+      </a>
+    </li>';
+  }
+
+}else{
+
   echo '  
   <li>
     <a class="pointer" onclick="MantenimientoP('.$id.')">
@@ -384,6 +431,20 @@ $Nuevo = '';
     '.$Nuevo.' '.$estacion.'
     </a>
   </li>';
+}
+
+}else{
+  echo '  
+  <li>
+    <a class="pointer" onclick="MantenimientoP('.$id.')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$Nuevo.' '.$estacion.'
+    </a>
+  </li>';
+
+}
+
+
 }
 
 ?> 
@@ -401,7 +462,7 @@ $Nuevo = '';
   id="sidebarCollapse"></i>
 
   <div class="pointer">
-  <a class="text-dark" onclick="history.back()">Mantenimiento preventivo</a>
+  <a class="text-dark" onclick="history.back()">Mantenimiento</a>
   </div>
  
    
@@ -459,42 +520,29 @@ $Nuevo = '';
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
   <div class="row">  
-  
-  <div class="col-12 mb-3">
-  <div id="ContenidoPrin" class="cardAG"></div>
-  </div> 
- 
+  <div id="ContenidoPrin" class="col-12"></div> 
   </div>
   </div> 
   </div>
+  </div> 
 
-
-</div> 
-
-
-<div class="modal" id="Modal">
-<div class="modal-dialog modal-lg">
-<div class="modal-content" style="margin-top: 83px;">
-<div id="ContenidoModal"></div>    
-</div>
-</div>
-</div>
-
-    <div class="modal" id="ModalComentario">
-    <div class="modal-dialog">
-      <div class="modal-content" style="margin-top: 83px;">
-      <div id="DivContenidoComentario"></div>
-      </div>
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
   </div>
-
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

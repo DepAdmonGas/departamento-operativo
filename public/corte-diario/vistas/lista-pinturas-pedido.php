@@ -6,23 +6,23 @@ $idReporte = $_GET['idReporte'];
 ?>
 
 <div class="table-responsive">
-      <table class="table table-sm table-bordered table-hover mb-0" style="font-size: .9em;">
-       <thead class="tables-bg">
+	<table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+		<thead class="tables-bg">
       <tr>
-      <td class="text-center align-middle tableStyle font-weight-bold"><b>#</b></td>
-      <td class=" text-center align-middle tableStyle font-weight-bold"><b>Unidad</b></td>
-      <td class=" text-center align-middle tableStyle font-weight-bold"><b>Nombre Producto</b></td>
-      <td class="align-middle tableStyle font-weight-bold text-center"><b>Piezas</b></td>
-      <td class="align-middle tableStyle font-weight-bold text-center"><b>¿Para que?</b></td>
+      <th class="text-center align-middle">#</th>
+      <th class=" text-center align-middle">Unidad</th>
+      <th class=" text-center align-middle">Nombre Producto</th>
+      <th class="align-middle text-center">Piezas</th>
+      <th class="align-middle text-center">¿Para que?</th>
       <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
       </tr>
     </thead>  
-    <tbody>
+    <tbody class="bg-white">
     <?php
     $sql_lista = "SELECT * FROM op_pedido_pinturas_detalle WHERE id_pedido = '".$idReporte."' ";
     $result_lista = mysqli_query($con, $sql_lista);
     $numero_lista = mysqli_num_rows($result_lista);
-
+    $ToPiezas=0;
     if ($numero_lista > 0) {
     $num = 1;
     while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
@@ -32,7 +32,7 @@ $idReporte = $_GET['idReporte'];
     $ToPiezas = $ToPiezas + $row_lista['piezas'];
 
     echo '<tr>';
-    echo '<td class="align-middle text-center">'.$num.'</td>';
+    echo '<th class="align-middle text-center">'.$num.'</th>';
     echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
     echo '<td class="align-middle text-center"><b>'.$row_lista['producto'].'</b></td>';
     echo '<td class="align-middle text-center p-0"><input id="Piezas-'.$id.'" class="form-control border-0 rounded-0 text-center" type="number" value="'.$row_lista['piezas'].'" onchange="EditPiezas('.$id.','.$idReporte.')" /></td>';
@@ -43,14 +43,13 @@ $idReporte = $_GET['idReporte'];
     $num++;
     }
     echo '<tr>
-    <td colspan="3" class="text-end"><b>Total piezas:</b></td>
-    <td class="text-center"><b>'.$ToPiezas.'</b></td>
-    <td class="text-center" colspan="2"></td>
-
+    <th colspan="3" class="text-end">Total piezas:</th>
+    <td class="text-start" colspan="3"><b>'.$ToPiezas.'</b></td>
+    
     </tr>';
 
     }else{
-    echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
+    echo "<tr><th colspan='8' class='text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
     }
     ?>
     </tbody>

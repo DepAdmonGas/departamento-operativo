@@ -15,14 +15,13 @@ $observaciones = $row_lista['observaciones'];
 
 }
 
-
 $sql_personal = "SELECT id, nombre FROM tb_usuarios
 WHERE id_gas = '".$idEstacion."' AND id_puesto = 6 ORDER BY nombre ASC ";
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
 
 function NombrePersonal($id,$con){
-
+$return = "";
 $sql_personal = "SELECT nombre FROM tb_usuarios WHERE id = '".$id."' ";
 $result_personal = mysqli_query($con, $sql_personal);
 $numero_personal = mysqli_num_rows($result_personal);
@@ -33,14 +32,14 @@ return $return;
 }
 
 ?>
-      <div class="modal-header">
-        <h5 class="modal-title">Mantenimiento preventivo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+  <div class="modal-header">
+  <h5 class="modal-title">Mantenimiento preventivo</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
 
       <div class="modal-body">
 
-        <div class="mb-1 text-secondary">Encargado:</div>        
+        <div class="mb-1 text-secondary fw-bold">* ENCARGADO:</div>        
         <select class="form-select" id="Nombre">
         <option value="<?=$nombre?>"><?=NombrePersonal($nombre,$con)?></option>
         <?php 
@@ -52,7 +51,7 @@ return $return;
     
 
 
-        <div class="mb-1 mt-2 text-secondary">Fechas de prueba de eficiencia:</div>
+        <div class="mb-1 mt-2 text-secondary fw-bold">* FECHAS DE PRUEBA DE EFICIENCIA:</div>
         <div class="row">
           
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
@@ -66,16 +65,18 @@ return $return;
       </div>
         
 
-        <div class="mb-1 mt-2 text-secondary mt-2">Orden de servicio:</div>
+        <div class="mb-1 mt-2 text-secondary mt-2 fw-bold">* ORDEN DE SERVICIO:</div>
         <input class="form-control" type="file" id="Archivo">
 
 
-        <div class="mb-1 mt-2 text-secondary mt-2">Observación:</div>
+        <div class="mb-1 mt-2 text-secondary mt-2 fw-bold">OBSERVACIÓN:</div>
         <textarea class="form-control" id="Observacion"><?=$observaciones;?></textarea>
 
        
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="Guardar(<?=$idEstacion;?>,<?=$idReporte;?>)">Guardar</button>
+
+      <button type="button" class="btn btn-labeled2 btn-success" onclick="Guardar(<?=$idEstacion;?>,<?=$idReporte;?>)">
+    <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
       </div> 

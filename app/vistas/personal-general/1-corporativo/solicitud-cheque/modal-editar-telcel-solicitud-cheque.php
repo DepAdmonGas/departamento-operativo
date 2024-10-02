@@ -5,21 +5,23 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 $mes = $_GET['mes'];
 $id = $_GET['id'];
-$estacion = $ClassHerramientasDptoOperativo->obtenerEstacion($idEstacion);
 
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosEstacion($idEstacion);
+$estacion = $datosEstacion['razonsocial'];
+ 
 ?> 
 
 <div class="modal-header">
-<h5 class="modal-title">Facturas telcel, <?=nombremes($mes);?> del <?=$year;?></h5>
+<h5 class="modal-title">Facturas telcel, <?=$ClassHerramientasDptoOperativo->nombremes($mes)?> del <?=$year?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
 <b><?=$estacion;?></b>
 
-<div class="text-secondary mt-2">* Comprobante de pago:</div>
+<div class="text-secondary mt-2 fw-bold">* COMPROBANTE DE PAGO:</div>
 <div class="mt-1">
-<input class="form-control" type="file" id="Pago">
+<input class="form-control rounded-0" type="file" id="Pago">
 </div>
 
 </div>

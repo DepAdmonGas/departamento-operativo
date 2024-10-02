@@ -1,15 +1,8 @@
-  <?php
+<?php
 require('app/help.php');
-
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
-
-
-    
+ 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -60,8 +53,8 @@ header("Location:".PORTAL."");
 
   //---------- MODAL - VER INCIDENCIAS ----------
   function ModalVerIncidencia(idIncidencia){
-    $('#ModalIncidencias').modal('show'); 
-   $('#DivIncidencias').load('../public/estacion-incidencias/vistas/modal-ver-incidencias.php?idIncidencia=' + idIncidencia);
+    $('#ModalIncidencias2').modal('show'); 
+   $('#DivIncidencias2').load('../public/estacion-incidencias/vistas/modal-ver-incidencias.php?idIncidencia=' + idIncidencia);
   }
 
    //---------- MODAL - EDITAR INCIDENCIAS ----------
@@ -324,9 +317,6 @@ header("Location:".PORTAL."");
 
   }
  
- 
-
-
 
      
   </script>
@@ -344,27 +334,28 @@ header("Location:".PORTAL."");
   <div class="contendAG">
   <div class="row">
 
-  <div class="col-12 mb-3">
-  <div id="ListaIncidencias" class="cardAG"></div>
-  </div>
+  <div id="ListaIncidencias" class="col-12"></div>
 
   </div>
   </div>
 
   </div>
 
-
-
-
-  <div class="modal" id="ModalIncidencias">
-  <div class="modal-dialog" style="margin-top: 83px;">
-    <div class="modal-content">
-
-      <div id="DivIncidencias"></div>
-   
-    </div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalIncidencias" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="DivIncidencias">
   </div>
-</div>
+  </div>
+  </div>
+
+
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="ModalIncidencias2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivIncidencias2"></div>
+  </div>
+  </div>
 
 
   <!---------- FUNCIONES - NAVBAR ---------->

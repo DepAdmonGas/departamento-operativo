@@ -182,4 +182,4 @@ $Resultado = $GTdato9 - $SumGasolina ;
 
 
 
-echo '<div class="border p-2"><div class="text-center"><h5>Total:<br> $ '.number_format($Resultado,2).'</h5></div></div>';   
+echo '<div class="border p-2"><div class="text-center"><h5>TOTAL : $ '.number_format($Resultado,2).'</h5></div></div>';   

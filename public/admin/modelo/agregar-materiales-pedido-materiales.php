@@ -1,7 +1,7 @@
 <?php 
 require('../../../app/help.php');
 
-if($_POST['Concepto'] == 0){
+if($_POST['Concepto'] == ""){
 
 $nombre = $_POST['Otro'];
 $unidad = 0;
@@ -31,6 +31,7 @@ $Nota = 'La refacción estará en la estación en 5 horas mínimo.';
 }
 
 }
+
 
     $sql_insert = "INSERT INTO op_pedido_materiales_detalle (
     id_pedido,

@@ -1,16 +1,8 @@
 <?php
 require('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-header("Location:".PORTAL."");
-}
-
-
-
-?>
-
+?>   
  
-
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -25,33 +17,34 @@ header("Location:".PORTAL."");
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
+  
   <script type="text/javascript">
 
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   sizeWindow();
 
-  	if(sessionStorage){
-    if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
+  if(sessionStorage){
+  if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
-      idestacion = sessionStorage.getItem('idestacion');
-      $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idestacion);
-        
-    } 
+  idestacion = sessionStorage.getItem('idestacion');
+  SelSeguro(idestacion) 
+  } 
       
-    }
+  }
  
-    });  
+  });  
 
   function Regresar(){
   sessionStorage.removeItem('idestacion');
@@ -59,26 +52,44 @@ header("Location:".PORTAL."");
   }
 
   function SelSeguro(idEstacion){
+  let targets;
+  targets = [6];
+  
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idEstacion);
+
+  $('#ListaSeguros').load('public/seguros/vistas/lista-seguro.php?idEstacion=' + idEstacion, function() {
+  $('#tabla_seguros_' + idEstacion).DataTable({
+    "stateSave": true,
+
+  "language": {
+  "url": "<?=RUTA_JS2?>/es-ES.json"
+  },
+  "order": [[0, "asc"]],
+  "lengthMenu": [15, 30, 50, 100],
+  "columnDefs": [
+  { "orderable": false, "targets": targets },
+  { "searchable": false, "targets": targets }
+  ]
+  });
+  });
+  
   }
- 
+
 
   //---------- MODAL - DETALLE POLIZA ----------
-  function DetallePolizaInc(idPolizaInc){
-  $('#ModalIncidenciasPoliza').modal('show'); 
-  $('#ContenidoModal').load('public/seguros/vistas/modal-detalle-incidencia-poliza.php?idPolizaInc=' + idPolizaInc);   
+  function DetallePolizaInc(idPoliza){
+  $('#Modal2').modal('show'); 
+  $('#DivModal2').load('public/seguros/vistas/modal-detalle-incidencia-poliza.php?idPoliza=' + idPoliza);   
   }
-
+ 
 
   //---------- MODAL - AGREGAR INCIDENCIA POLIZA ----------
   function ModalAgregarIncidente(idEstacion){
   $('#ModalIncidenciasPoliza').modal('show'); 
   $('#ContenidoModal').load('public/seguros/vistas/modal-incidencia-seguro.php?idEstacion=' + idEstacion); 
   }
-
-
+ 
   //---------- AGREGAR INCIDENCIA (SERVER) ----------
   function GuardarIncidenciaP(idEstacion){
 
@@ -89,7 +100,6 @@ header("Location:".PORTAL."");
   var SolucionP = $('#SolucionP').val();
 
   var ArchivoInc = $('#EvidenciaP').val();
-
 
   var data = new FormData();
   var url = 'public/seguros/modelo/agregar-incidencia-poliza.php';
@@ -572,7 +582,7 @@ header("Location:".PORTAL."");
   $FInicio = date("Y").'-'.date("m").'-01';
   $FTermino = date("Y-m-t", strtotime($FInicio));
 
-  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE (numlista BETWEEN 0 AND 10) OR (numlista BETWEEN 22 AND 23) ORDER BY numlista ASC";
+  $sql_listaestacion = "SELECT id, numlista, localidad FROM op_rh_localidades WHERE (numlista BETWEEN 0 AND 9) OR numlista = 10 OR (numlista BETWEEN 22 AND 23) ORDER BY numlista ASC";
   $result_listaestacion = mysqli_query($con, $sql_listaestacion);
   while($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASSOC)){
   $id = $row_listaestacion['id'];
@@ -610,7 +620,13 @@ $icon = "fa-solid fa-screwdriver-wrench";
  $icon = "fa-solid fa-gas-pump";    
 }  
 
-  if($id <> 8){
+
+if ($session_nompuesto == "Comercializadora") {
+
+  if($Session_IDUsuarioBD == 28){
+
+
+  if($id == 6 || $id == 7){
   echo '  
   <li>
     <a class="pointer" onclick="SelSeguro('.$id.')">
@@ -618,7 +634,39 @@ $icon = "fa-solid fa-screwdriver-wrench";
     '.$estacion.' 
     </a>
   </li>';
+  }
+
+
+}else{
+
+
+  if($id <> 8){
+    echo '  
+    <li>
+      <a class="pointer" onclick="SelSeguro('.$id.')">
+      <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$estacion.' 
+      </a>
+    </li>';
+  }
+
 }
+
+}else{
+
+  if($id <> 8){
+    echo '  
+    <li>
+      <a class="pointer" onclick="SelSeguro('.$id.')">
+      <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>
+      '.$estacion.' 
+      </a>
+    </li>';
+  }
+}
+
+
+
   
   }
   ?> 
@@ -695,32 +743,38 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="contendAG">
   <div class="row">  
   
-  <div class="col-12 mb-3">
-  <div id="ListaSeguros" class="cardAG"></div>
-  </div> 
+  <div class="col-12" id="ListaSeguros"></div> 
  
   </div>
   </div> 
 
   </div>
+  </div>
 
-</div>
+  <!---------- MODAL ----------> 
+  <div class="modal fade" id="ModalIncidenciasPoliza" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
 
-
-<div class="modal" id="ModalIncidenciasPoliza" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-<div class="modal-dialog" style="margin-top: 83px;">
-<div class="modal-content border-0 rounded-0" >
-<div id="ContenidoModal"></div>
-</div>
-</div>
-</div>
+  <!---------- MODAL COVID (RIGHT)---------->  
+  <div class="modal right fade" id="Modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="DivModal2"></div>
+  </div>
+  </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
-  
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>
