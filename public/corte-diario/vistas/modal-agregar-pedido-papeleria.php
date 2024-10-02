@@ -101,7 +101,7 @@ function Producto($idProducto, $con)
                 <td class="text-center no-hover"></td>
               </tr>';
         } else {
-          echo "<tr><th colspan='8' class=' no-hover text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
+          echo "<tr><th colspan='5' class=' no-hover text-center text-secondary'><small>No se encontró información para mostrar </small></th></tr>";
         }
         ?>
       </tbody>

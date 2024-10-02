@@ -232,9 +232,7 @@ function ToSolicitud($idEstacion, $con)
       var OtroProducto = $('#OtroProducto').val();
       var Piezas = $('#Piezas').val();
       
-      
-      if (Producto != "") {
-        $('#contenido-producto').css('border', '');
+
       if (Piezas != "") {
         $('#Piezas').css('border', '');
 
@@ -267,13 +265,12 @@ function ToSolicitud($idEstacion, $con)
 
           }
         });
+        
 
       } else {
         $('#Piezas').css('border', '2px solid #A52525');
       }
-    } else {
-        $('#contenido-producto').css('border', '2px solid #A52525');
-      }
+
 
 
     }

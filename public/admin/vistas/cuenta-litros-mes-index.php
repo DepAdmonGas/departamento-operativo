@@ -56,7 +56,7 @@ require('app/help.php');
 
   function SelEstacionLts(idEstacion,year,mes){
 
-    sizeWindow();
+  sizeWindow();
   sessionStorage.setItem('idEstacion', idEstacion);
   sessionStorage.setItem('year', year);
   sessionStorage.setItem('mes', mes);  
