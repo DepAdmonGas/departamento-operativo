@@ -104,52 +104,68 @@ require('app/help.php');
         }
       });
     }
-    /**
-     * 
-     * Token Telegram
-     * 
-     * 
-     */
-    // se agrega un parametro estatico para que en el momento de actualizar el token se actualice
-    function tokenTelegram(idUsuario, tokenActualizado = 1) {
-      // Muestra el modal
-      $('#Modal').modal('show')
-      // Carga el contenido desde el archivo PHP
-      $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario + '&tokenActualizado=' + tokenActualizado)
-    }
-    function actualizaTokenTelegram(idUsuario){
-      
-      var parametros = {
-        "idUsuario": idUsuario
-      };
 
-      alertify.confirm('',
-      
-        function () {
-          $.ajax({
-            data: parametros,
-            url: 'public/admin/modelo/actualizar-token-telegram.php',
-            type: 'post',
-            beforeSend: function () {},
-            complete: function () {},
-            success: function (response) {
-              if (response != null) {
-                tokenTelegram(idUsuario,response)
-                alertify.success('Token actualizado exitosamente');
-              } else {
-                alertify.error('Error al eliminar el token');
-              }
 
-            }
-          });
-        },
-        function () {
+  function tokenTelegram(idUsuario) {
+  $('#Modal').modal('show')
+  $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario )
+  }
+ 
+  function actualizaTokenTelegram(idUsuario,dato){
+  let msg, msg2;
 
-        }).setHeader('¡Alerta!').set({ transition: 'zoom', message: '¿Desea Actualizar el token?\nAl hacerlo perdera su sesion en telegram', labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
-    }
-    function pdfManual(){
-      
-    }
+  if(dato == 0){
+  msg = "¿Deseas generar un nuevo codigo de verificacion?";
+  msg2 = 'Nuevo token generado exitosamente';
+  msg3 = 'Error al generar un nuevo codigo de verificación';
+  }else{
+
+  msg = "¿Deseas revocar el acceso a tu dispositivo movil que se encuentra registrado para la recepcion de tokens?";
+  msg2 = 'Acceso revocado exitosamente';
+  msg3 = 'Error al revocar el acceso';
+  }
+
+  var parametros = {
+  "idUsuario": idUsuario
+  };
+
+  alertify.confirm('',
+  function () {
+  $.ajax({
+  data: parametros,
+  url: 'public/admin/modelo/actualizar-token-telegram.php',
+  type: 'post',
+  beforeSend: function () {
+ 
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+
+
+  if (response != 0) {
+  tokenTelegram(idUsuario,response)
+  alertify.success(msg2);
+  
+ } else {
+  alertify.error(msg3);
+  }
+
+  }
+  });
+  },
+  function () {
+
+  }).setHeader('¡Alerta!').set({ transition: 'zoom', message: msg, labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+  }
+
+
+  function pdfManualTelegram(){
+    alert(1)
+  }
+
+
     window.addEventListener('pageshow', function(event) {
       if (event.persisted) {
         // Si la página está en la caché del navegador, recargarla
@@ -220,6 +236,8 @@ require('app/help.php');
                 <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
               </a>
               <?php if ($Session_IDUsuarioBD == 2): ?>
+                <div class="dropdown-divider"></div>
+
                 <a class="dropdown-item pointer" onclick="tokenTelegram(<?= $Session_IDUsuarioBD ?>)">
                   <i class="fa-brands fa-telegram" style="padding-right: 5px;"></i>Token Telegram
                 </a>
@@ -234,7 +252,7 @@ require('app/help.php');
 
         </ul>
       </div>
-
+ 
     </nav>
 
 
@@ -580,15 +598,9 @@ require('app/help.php');
     </div>
   </div>
 
-
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
-
 </body>
-
 </html>
