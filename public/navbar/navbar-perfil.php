@@ -66,6 +66,69 @@ $onclickF = "onclick='history.back()'";
 ?> 
 
 
+<script>
+function tokenTelegram(idUsuario) {
+  $('#Modal').modal('show')
+  $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario )
+  }
+ 
+  function actualizaTokenTelegram(idUsuario,dato){
+  let msg, msg2;
+
+  if(dato == 0){
+  msg = "¿Deseas generar un nuevo codigo de verificacion?";
+  msg2 = 'Nuevo token generado exitosamente';
+  msg3 = 'Error al generar un nuevo codigo de verificación';
+  }else{
+
+  msg = "¿Deseas revocar el acceso a tu dispositivo movil que se encuentra registrado para la recepcion de tokens?";
+  msg2 = 'Acceso revocado exitosamente';
+  msg3 = 'Error al revocar el acceso';
+  }
+
+  var parametros = {
+  "idUsuario": idUsuario
+  };
+
+  alertify.confirm('',
+  function () {
+  $.ajax({
+  data: parametros,
+  url: 'public/admin/modelo/actualizar-token-telegram.php',
+  type: 'post',
+  beforeSend: function () {
+ 
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+
+
+  if (response != 0) {
+  tokenTelegram(idUsuario,response)
+  alertify.success(msg2);
+  
+ } else {
+  alertify.error(msg3);
+  }
+
+  }
+  });
+  },
+  function () {
+
+  }).setHeader('¡Alerta!').set({ transition: 'zoom', message: msg, labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+  }
+
+
+
+  function pdfManualTelegram(){
+    
+  }
+</script>
+
+
 <!---------- NAV BAR (TOP) ---------->  
  <nav class="navbar navbar-expand navbar-light navbar-bg">
 
@@ -102,7 +165,6 @@ $onclickF = "onclick='history.back()'";
   </div>
 
   </div>
-
 
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">
