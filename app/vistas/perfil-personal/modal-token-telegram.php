@@ -1,5 +1,6 @@
 <?php
 require '../../help.php';
+
 $idUsuario = $_GET['idUsuario'];
 $result2  = "";
 $divContador = "";

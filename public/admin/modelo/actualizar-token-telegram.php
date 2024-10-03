@@ -15,7 +15,7 @@ $estatus = $row_lista['estatus'];
 
 
 if($estatus == 0){
-$sql_update = "UPDATE op_token_telegram SET token = '" . $token . "', fecha_creacion = NOW() WHERE id_usuario = '" . $idUsuario . "' ";
+$sql_update = "UPDATE op_token_telegram SET token = '" . $token . "', fecha_creacion = NOW() WHERE id_usuario = '" . $idUsuario . "' AND estatus = 0";
 if(mysqli_query($con, $sql_update)){
 echo 1;
 
