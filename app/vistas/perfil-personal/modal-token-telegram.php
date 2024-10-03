@@ -149,11 +149,17 @@ margin: 0 7px;
 <div class="col-12 mb-3">
 <div class="mb-3 text-secondary"><b>1. DESCARGA DE MANUAL:</b> <br> En el siguiente botón, podrás descargar el manual que contiene los pasos detallados para llevar a cabo la configuración de recepción de tokens mediante la app de Telegram.</div>
 
-<div class="d-flex justify-content-center"> 
-<button type="button" class="btn btn-labeled2 btn-primary float-center" onclick="pdfManualTelegram()">
-<span class="btn-label2"><i class="fa-solid fa-file-arrow-down"></i></i></span>Descarga Manual de Configuracion de Tokens
+<div class="d-flex justify-content-center">
+<a href="<?=RUTA_ARCHIVOS?>manuales-portal/manualToken.pdf" download>
+<button type="button" class="btn btn-labeled2 btn-primary float-center">
+<span class="btn-label2">
+<i class="fa-solid fa-file-arrow-down"></i>
+</span>
+Descarga Manual de Configuración de Tokens
 </button>
+</a>
 </div>
+
 </div>
 
 
