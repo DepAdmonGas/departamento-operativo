@@ -3,6 +3,7 @@ require "../../bd/inc.conexion.php";
 require "../../modelo/httpPHPAltiria.php";
 require_once '../../modelo/HerramientasDptoOperativo.php';
 require '../../../phpmailer/vendor/autoload.php';
+require '../../modelo/tokenTelegram.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -12,6 +13,7 @@ class Formatos extends Exception{
     private $con;
     private $altiriaSMS;
     private $formato;
+    private $telegram;
 
     public function __construct()
     {
@@ -19,7 +21,7 @@ class Formatos extends Exception{
     $this->con = $this->classConexionBD->getConnection();
     $this->altiriaSMS = new AltiriaSMS();
     $this->formato = new herramientasDptoOperativo($this->con);
-
+    $this->telegram = new Telegram($this->con);
     }
     public function formatos(int $idEstacion,int $formato): int{
         $status = 0;
@@ -37,6 +39,7 @@ class Formatos extends Exception{
         return $idReporte;
     }
     private function idReporte(): int {
+        $id = 0;
         $sql = "SELECT id FROM op_rh_formatos ORDER BY id DESC LIMIT 1";
         $result = $this->con->prepare($sql);
         if (!$result) :
@@ -474,6 +477,9 @@ class Formatos extends Exception{
 
         } elseif ($idVal == 2) {
             $this->notificacionesWA($numero, $aleatorio, $tokenWhats);
+        } elseif ($idVal == 3) {
+            $mensaje = "Usa el siguiente token para firmar la solicitud de cheque: " . $aleatorio;
+            $this->telegram->enviarToken($idUsuario, $mensaje);
         }
         return $resultado;
     }

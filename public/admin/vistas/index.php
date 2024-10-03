@@ -159,13 +159,6 @@ require('app/help.php');
 
   }).setHeader('¡Alerta!').set({ transition: 'zoom', message: msg, labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
   }
-
-
-  function pdfManualTelegram(){
-    alert(1)
-  }
-
-
     window.addEventListener('pageshow', function(event) {
       if (event.persisted) {
         // Si la página está en la caché del navegador, recargarla

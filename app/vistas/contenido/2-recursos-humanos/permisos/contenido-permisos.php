@@ -119,8 +119,6 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
           }
 
-        } else {
-          echo "<tr><td colspan='11' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
         }
         ?>
       </tbody>
