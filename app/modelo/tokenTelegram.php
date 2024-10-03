@@ -35,18 +35,20 @@ class Telegram extends Exception{
     }
     // Se obtiene el chat id que esta dado de alta en BD
     private function getChatID(int $idUsuario): int{
-        $result = 0;
-        $estatus = 0;
-        $sql = "SELECT chat_id FROM op_token_telegram where id_usuario = ? AND estatus = ?";
-        $stmt = $this->con->prepare($sql);
-        if(!$stmt){
-            throw new Exception("Error en la preparación de la consulta: " . $this->con->error);
-        }
-        $stmt->bind_param("ii",$idUsuario,$estatus);
-        $stmt->execute();
-        $stmt->bind_result($result);
-        $stmt->fetch();
-        $stmt->close();
-        return $result;
+    $GET_idChat = 0;
+    $estatus = 1;
+
+    $sql = "SELECT chat_id FROM op_token_telegram WHERE id_usuario = '" . $idUsuario . "' AND estatus = '" . $estatus . "' ORDER BY fecha_creacion DESC LIMIT 1";
+    $result = mysqli_query($this->con, $sql);
+    $numero_lista = mysqli_num_rows($result);
+    
+    if($numero_lista > 0){
+    while ($row_lista = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $GET_idChat = $row_lista['chat_id'];
+    }
+
+    }
+
+    return $GET_idChat;
     }
 }
