@@ -478,12 +478,38 @@ class Formatos extends Exception{
         } elseif ($idVal == 2) {
             $this->notificacionesWA($numero, $aleatorio, $tokenWhats);
         } elseif ($idVal == 3) {
-            $mensaje = "Usa el siguiente token para firmar la solicitud de cheque: " . $aleatorio;
+            $documento = $this->tipoDocumento($idTipo);
+            $mensaje = "Para firmar $documento usa el siguiente token: *$aleatorio*";
             $this->telegram->enviarToken($idUsuario, $mensaje);
         }
         return $resultado;
     }
-
+    private function tipoDocumento($tipo) {
+        switch($tipo){
+            case 1:
+                $mensaje = "Alta de Personal, ";
+                break;
+            case 2:
+                $mensaje = "Baja de Personal, ";
+                break;
+            case 3:
+                $mensaje = "Falta de Personal, ";
+                break;
+            case 4:
+                $mensaje = "Reestructuracion de Personal, ";
+                break;
+            case 5:
+                $mensaje = "Ajuste salarial de Personal, ";
+                break;
+            case 6:
+                $mensaje = "Vacaciones de Personal, ";
+                break;
+            case 7:
+                $mensaje = "Solicitud Prima Vacacional, ";
+                break;
+        }
+        return $mensaje;
+    }
 
 
     function CorreoE($IDUsuarioBD){
@@ -640,7 +666,7 @@ class Formatos extends Exception{
 
       if (!$stmt2) {
         $resultado = false;
-          throw new Exception("Error al ejecutar la consulta: " . $stmt2->error);
+          throw new Exception("Error al ejecutar la consulta: " . $this->con->error);
       }
       $stmt2->bind_param("iii", $idFormato, $idUsuario, $token);
 
@@ -764,7 +790,7 @@ class Formatos extends Exception{
     $stmt = $this->con->prepare($sql_insert);
     if(!$stmt) :
     $result = false;
-    throw new Exception("Error al preparar la consulta ". $stmt->error);
+    throw new Exception("Error al preparar la consulta ". $this->con->error);
     endif;
 
     $stmt->bind_param("iis", $idFormato,$idUsuario,$Comentario);

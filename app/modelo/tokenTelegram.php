@@ -15,7 +15,8 @@ class Telegram extends Exception{
 
         $data = [
             'chat_id' => $chatId,
-            'text' => $mensaje
+            'text' => $mensaje,
+            'parse_mode' => 'MarkdownV2'
         ];
         
         // URL de la API para enviar el mensaje
