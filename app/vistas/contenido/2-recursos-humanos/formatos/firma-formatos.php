@@ -82,6 +82,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     "idUsuario" : <?=$Session_IDUsuarioBD?>,
     "idTipo" : idTipo,
     "token" : '<?=$tokenWhats?>',
+    "estacion":<?=$estacion?>
     "accion" : 'firmar-formato-token'
     };
 
