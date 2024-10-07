@@ -88,7 +88,8 @@ token
             notificacionesWA($Numero, $aleatorio, $tokenWhats);
             echo 1;
         } elseif ($idVal == 3) {
-            $mensaje = "Usa el siguiente token para firmar la solicitud de cheque: " . $aleatorio;
+            $factura = $_POST['factura'];
+            $mensaje = "Para firmar la solicitud de cheque con número de Factura: $factura usa el siguiente token: *$aleatorio*";
             $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
             echo 1;
         }

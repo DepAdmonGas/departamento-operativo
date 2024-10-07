@@ -923,13 +923,13 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
-
+  
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
+  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   
   </tr>

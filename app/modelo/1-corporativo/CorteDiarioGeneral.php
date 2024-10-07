@@ -1095,7 +1095,8 @@ public function getPagoTotal($idReporte)
     {
 
         // Inicializar variables para evitar "use of assigned variable"
-        $fecha = $beneficiario = $monto = $moneda = $nofactura = $email = $concepto = $solicitante = $telefono = $cfdi = $metodo_pago = $forma_pago = $banco = $nocuenta = $cuentaclabe = $referencia = $observaciones = $status = $razonsocial = null;
+        $fecha ='';
+        $beneficiario = $monto = $moneda = $nofactura = $email = $concepto = $solicitante = $telefono = $cfdi = $metodo_pago = $forma_pago = $banco = $nocuenta = $cuentaclabe = $referencia = $observaciones = $status = $razonsocial = null;
 
         $sql = "SELECT fecha, beneficiario, monto, moneda, no_factura, email, concepto, solicitante, telefono, cfdi, metodo_pago, forma_pago, banco, no_cuenta, cuenta_clabe, referencia, observaciones, status, razonsocial FROM op_solicitud_cheque WHERE id = ?";
         $consulta = $this->con->prepare($sql);

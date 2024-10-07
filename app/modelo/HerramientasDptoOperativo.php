@@ -67,7 +67,8 @@ class HerramientasDptoOperativo extends Exception
 
     public function obtenerDatosPersonal($id)
     {
-    $idPersonal = $idEstacion = $fecha_ingreso = $no_colaborador = $nombrePersonal = $idPuesto = $salario = $puesto = $estado = null;
+        $fecha_ingreso ='';
+    $idPersonal = $idEstacion = $no_colaborador = $nombrePersonal = $idPuesto = $salario = $puesto = $estado = null;
 
     $sql = "SELECT
     op_rh_personal.id,
@@ -398,8 +399,8 @@ class HerramientasDptoOperativo extends Exception
 
     function notificacionesSMS($Numero, $aleatorio, $textoN){
     
-    $this->AltiriaSMS->setApikey('sistemas.admongas@gmail.com');
-    $this->AltiriaSMS->setApisecret('hy8q4c7y');
+    $this->AltiriaSMS->setDomainId('sistemas.admongas@gmail.com');
+    $this->AltiriaSMS->setEncoding('hy8q4c7y');
     $this->AltiriaSMS->setSenderId('AdmonGas');
     $sDestination = '52'.$Numero;
     $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar ".$textoN.". Token: ".$aleatorio." Web: portal.admongas.com.mx");  
