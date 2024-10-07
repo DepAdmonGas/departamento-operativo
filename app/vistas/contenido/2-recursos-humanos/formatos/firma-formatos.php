@@ -83,7 +83,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     "idTipo" : idTipo,
     "token" : '<?=$tokenWhats?>',
     "estacion":'<?=$datosEstacion['localidad']?>',
-    "fecha":<?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?>,
+    "fecha":'<?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?>',
     "accion" : 'firmar-formato-token'
     };
 
