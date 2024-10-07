@@ -436,7 +436,7 @@ class Formatos extends Exception{
     }
 
 
-    public function firmaFormatosToken($idFormato, $idVal, $idUsuario, $tokenWhats, $idTipo,$estacion): bool
+    public function firmaFormatosToken($idFormato, $idVal, $idUsuario, $tokenWhats, $idTipo,$estacion,$fecha): bool
     {
         $resultado = true;
         $sql = "DELETE FROM op_rh_formatos_token WHERE id_formato = ? AND id_usuario = ? ";
@@ -479,7 +479,7 @@ class Formatos extends Exception{
             $this->notificacionesWA($numero, $aleatorio, $tokenWhats);
         } elseif ($idVal == 3) {
             $documento = $this->tipoDocumento($idTipo);
-            $mensaje = "Para proceder con la firma del formato *$documento*de la estacion *$estacion*, por favor usa el siguiente token: *$aleatorio*";
+            $mensaje = "Para proceder con la firma del formato *$documento*de la estacion *$estacion* con fecha: $fecha \nPor favor usa el siguiente token: *$aleatorio*";
             $this->telegram->enviarToken($idUsuario, $mensaje);
         }
         return $resultado;

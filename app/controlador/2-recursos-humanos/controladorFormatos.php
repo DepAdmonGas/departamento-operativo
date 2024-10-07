@@ -143,7 +143,8 @@ switch($_POST['accion']):
     $tokenWhats = $_POST['token'];
     $idTipo = $_POST['idTipo'];
     $estacion = $_POST['estacion'];
-    echo $formatos->firmaFormatosToken($idFormato,$idVal,$idUsuario,$tokenWhats,$idTipo,$estacion);
+    $fecha = $_POST['fecha'];
+    echo $formatos->firmaFormatosToken($idFormato,$idVal,$idUsuario,$tokenWhats,$idTipo,$estacion,$fecha);
     break;
 
     case 'crear-token-email':
