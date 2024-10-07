@@ -479,8 +479,9 @@ class Formatos extends Exception{
             $this->notificacionesWA($numero, $aleatorio, $tokenWhats);
         } elseif ($idVal == 3) {
             $documento = $this->tipoDocumento($idTipo);
-            $mensaje = "Para proceder con la firma del formato *$documento*de la estacion *$estacion* con fecha: $fecha \nPor favor usa el siguiente token: *$aleatorio*";
-            $this->telegram->enviarToken($idUsuario, $mensaje);
+            $mensaje = "Para proceder con la firma del formato *$documento*de la estacion *$estacion* con fecha: *$fecha*
+			
+			Usa el siguiente token: *$aleatorio*";            $this->telegram->enviarToken($idUsuario, $mensaje);
         }
         return $resultado;
     }
