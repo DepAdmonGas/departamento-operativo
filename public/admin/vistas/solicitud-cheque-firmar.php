@@ -118,7 +118,7 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
 
     }
 
-    function CrearToken(idReporte,idVal,factura = 0){
+    function CrearToken(idReporte,idVal,factura = ''){
     $(".LoaderPage").show();
 
     var parametros = {
@@ -554,7 +554,7 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22){ ?>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
   <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$nofactura?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
