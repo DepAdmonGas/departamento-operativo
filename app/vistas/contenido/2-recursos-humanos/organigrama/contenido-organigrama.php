@@ -159,49 +159,21 @@ echo "<tr><td colspan='8' class='text-center text-secondary'><small>No se encont
 </div>
 </div>
 
-<!--
+
 <div class="col-12">
 <hr>
 
-<div class="table-responsive">
-<table class="custom-table" style="font-size: .8em;" width="100%">
-<thead class="tables-bg">
-<tr>
-<th colspan="5">Plantilla</th>
-</tr>
-
-<tr class="title-table-bg">
-<td class="fw-bold" width="24px">No.</td>
-<th>Descripción</th>
-<th>Nombre Completo</th>
-<th width="24px"><img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th>
-<th width="24px"><img src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
-</tr>
-</thead>
-
-<tbody class="bg-white">
-
-<tr>
-<th class="no-hover">No.</th>
-<th class="no-hover">No.</th>
-<th class="no-hover">No.</th>
-<th class="no-hover">No.</th>
-<th class="no-hover">No.</th>
-
-</tr>
-
-
-</tbody>
-</table>
+<div class="row">
+<div class="col-12">
+<button type="button" class="btn btn-labeled2 btn-primary float-end mb-3" onclick="MasPlantilla(<?=$idEstacion?>)"> <span class="btn-label2"><i class="fa-solid fa-sitemap"></i></span>Agregar plantilla</button>
 </div>
 
-
+<div class="col-12" id="tabla_plantilla"></div>
+</div>
 
 </div>
--->
+
 <?php
-
-
 
 if($idEstacion == 1 || $idEstacion == 2 || $idEstacion == 3 || $idEstacion == 4 || $idEstacion == 5 || $idEstacion == 6 || $idEstacion == 7 || $idEstacion == 14){
 echo '<div class="col-12">';
