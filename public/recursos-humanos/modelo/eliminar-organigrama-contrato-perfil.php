@@ -1,8 +1,15 @@
 <?php
 require('../../../app/help.php');
 
-$sql = "DELETE FROM tb_usuarios_documentos WHERE id= '".$_POST['id']."' ";
-if(mysqli_query($con, $sql)){
+if($_POST['tipo'] == "2"){
+$sql_insert = "UPDATE tb_organigrama_plantilla SET documento_perfil = '' WHERE id = '".$_POST['idPlantilla']."'";
+}
+     
+if($_POST['tipo'] == "1"){
+$sql_insert = "UPDATE tb_organigrama_plantilla SET documento_contrato = '' WHERE id = '".$_POST['idPlantilla']."'";
+}
+        
+if(mysqli_query($con, $sql_insert)){
 echo 1;
 }else{
 echo 0;
@@ -11,4 +18,3 @@ echo 0;
 //------------------
 mysqli_close($con);
 //------------------
-?>
