@@ -11,10 +11,13 @@ $sql_pedido = "SELECT * FROM op_pedido_pinturas_complementos WHERE id = '" . $id
 $result_pedido = mysqli_query($con, $sql_pedido);
 $numero_pedido = mysqli_num_rows($result_pedido);
 while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
+  $fecha = $row_pedido['fecha'];
   $estatus = $row_pedido['status'];
   $observaciones = $row_pedido['observaciones'];
 }
 
+$explode = explode(' ', $fecha);
+$fechacompleta = FormatoFecha($explode[0]) . ', ' . date('g:i a', strtotime($explode[1]));
 
 function Personal($idusuario, $con)
 {
@@ -91,12 +94,12 @@ function Personal($idusuario, $con)
             var disableTime = new Date().getTime();
             localStorage.setItem('disableTime', disableTime);
             // Deshabilitar los botones
-            document.getElementById('btn-sms').disabled = true;
-            document.getElementById('btn-whatsapp').disabled = true;
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
             // Define el tiempo para habilitar los botones
             setTimeout(function () {
-              document.getElementById('btn-sms').disabled = false;
-              document.getElementById('btn-whatsapp').disabled = false;
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
             }, 30000); // 60000 milisegundos = 60 segundos
 
           } else {
@@ -176,8 +179,6 @@ function Personal($idusuario, $con)
       }
     }
 
-
-
     function CrearTokenEmail(idReporte){
     $(".LoaderPage").show();
 
@@ -233,13 +234,21 @@ function Personal($idusuario, $con)
           </ol>
         </div>
         <div class="row">
-          <div class="col-10">
+          <div class="col-12">
             <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">
               Firmar pedido de pinturas
             </h3>
           </div>
+
         </div>
         <hr>
+
+        <div class="row">
+<div class="col-12">
+  <span class="badge rounded-pill tables-bg mb-3 text-end float-end"><?=$fechacompleta?></span>
+  </div>
+  </div>
+  
         <div class="table-responsive">
           <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
             <thead class="tables-bg">
@@ -310,7 +319,7 @@ function Personal($idusuario, $con)
         <hr>
         <div class="row">
           <?php if ($Session_IDUsuarioBD == 19) { ?>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
                   <thead class="tables-bg">
@@ -326,6 +335,8 @@ function Personal($idusuario, $con)
                         <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
                           número de teléfono o de clic en el siguiente botón para crear uno:</small>
                         <br>
+
+                        <!--
                         <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
                           onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
@@ -335,14 +346,19 @@ function Personal($idusuario, $con)
                           onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                           Whatsapp</button>
+          -->
 
-
-                          <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+              <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
                 onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
               <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
+              <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+              <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+
                       </th>
                     </tr>
+
+                    <!--
                     <tr>
                       <th class="align-middle text-center no-hover2">
                         <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
@@ -352,6 +368,7 @@ function Personal($idusuario, $con)
                       </th>
                     </tr>
                     <tr>
+          -->
                       <th class="align-middle text-center p-0 no-hover2">
                         <div class="input-group">
                           <input type="text" class="form-control border-0" placeholder="Token de seguridad"
@@ -383,7 +400,7 @@ function Personal($idusuario, $con)
               $Detalle = '<img src="../../imgs/firma/' . $row_firma['firma'] . '" width="70%">';
             endif; ?>
 
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
               <div class="table-responsive">
                 <table class="custom-table " style="font-size: .8em;" width="100%">
                   <thead class="tables-bg">
