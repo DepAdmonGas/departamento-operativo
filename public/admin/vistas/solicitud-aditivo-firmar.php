@@ -42,6 +42,9 @@ function FirmaSC($idReporte, $tipoFirma, $con)
   return mysqli_num_rows($result_lista);
 }
 
+
+
+
 ?>
 
  
@@ -82,6 +85,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
     }
 
     function CrearToken(idReporte, idVal) {
+
       $(".LoaderPage").show();
  
       var parametros = {
@@ -161,6 +165,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
 
     function CrearTokenEmail(idReporte){
+
     $(".LoaderPage").show();
 
     var parametros = {
@@ -227,6 +232,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
           </div>
         </div>
         <hr>
+        
         <div class="row">
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -283,6 +289,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
             </thead>
             <tbody class="bg-light">
               <?php
+
               $sql_aditivo = "SELECT * FROM op_solicitud_aditivo_tambo WHERE id_reporte = '" . $GET_idReporte . "' ";
               $result_aditivo = mysqli_query($con, $sql_aditivo);
               $numero_aditivo = mysqli_num_rows($result_aditivo);
@@ -399,47 +406,85 @@ function FirmaSC($idReporte, $tipoFirma, $con)
             }
 
             if ($firmaC == 0) {
-
               if ($Session_IDUsuarioBD == 2 or $Session_IDUsuarioBD == 22) { ?>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <div class="border p-3">
-                    <div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
-                    <hr>
-                    <h4 class="text-primary">Token Móvil</h4>
-                    <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el
-                      siguiente botón para crear uno</small>
+                             <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
+                  <div class="table-responsive">
+                    <table class="custom-table" width="100%">
+                      <thead class="tables-bg">
+                        <tr>
+                          <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-light">
 
-                      <!-- 
-                    <button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,1)"><small>Crear
-                        token SMS</small></button>
-                    <button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear
-                        token Whatsapp</small></button>
+                        <tr>
+                          <th class="align-middle text-center no-hover2">
+                            <h4 class="text-primary text-center">Token Móvil</h4>
+                            <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
+                              número de teléfono o de clic en el siguiente botón para crear uno:</small>
+                            <br>
+
+                            <!--
+                            <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                              onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
+                              <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
+                              SMS</button>
+
+                            <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
+                              onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
+                              <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
+                              Whatsapp</button>
               -->
-                        <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+
+                              <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
 
   <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
 
-                    <hr>
-                    <div class="input-group mt-3">
-                      <input type="text" class="form-control" placeholder="Token de seguridad"
-                        aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"
-                          onclick="FirmarSolicitud(<?= $GET_idReporte; ?>,'C')">Firmar solicitud</button>
-                      </div>
-                    </div>
+                          </th>
+                        </tr>
+
+                        <!--
+                        <tr>
+                          <th class="align-middle text-center no-hover2">
+                            <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
+                              WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+                              a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+                            </small>
+                          </th>
+                        </tr>
+              -->
+                        <tr>
+                          <th class="align-middle text-center p-0 no-hover2">
+                            <div class="input-group">
+                              <input type="text" class="form-control border-0" placeholder="Token de seguridad"
+                                aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-success border-0" type="button"
+                                  onclick="FirmarSolicitud(<?= $GET_idReporte ?>,'C')">Firmar solicitud</button>
+                              </div>
+                            </div>
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+
                   </div>
-                </div>
+
+                </div>  
+               
+
+               
+
               <?php } else {
 
               }
 
             }
             ?>
-
 
             <?php
 
