@@ -149,11 +149,11 @@ return $Result;
             var disableTime = new Date().getTime();
             localStorage.setItem('disableTime', disableTime);
             // Deshabilitar los botones
-            document.getElementById('btn-mail').disabled = true;
+            document.getElementById('btn-email').disabled = true;
             document.getElementById('btn-telegram').disabled = true;
             // Define el tiempo para habilitar los botones
             setTimeout(function () {
-              document.getElementById('btn-mail').disabled = false;
+              document.getElementById('btn-email').disabled = false;
               document.getElementById('btn-telegram').disabled = false;
             }, 30000); // 30000 milisegundos = 30 segundos
    }else{
