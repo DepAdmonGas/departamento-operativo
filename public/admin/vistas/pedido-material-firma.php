@@ -629,17 +629,13 @@ return $Result;
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
   -->
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
-  </th>
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>  
+</th>
   </tr>
-
-  <th class="align-middle text-center bg-light ">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
 
   <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">

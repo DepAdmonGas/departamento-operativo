@@ -326,12 +326,6 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   </th>
   </tr>
 
-  <th class="align-middle text-center bg-light ">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
-
   <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
