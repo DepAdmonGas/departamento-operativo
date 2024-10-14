@@ -15,8 +15,9 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
   $fechaentrega = $row_lista['fecha_entrega'];
   $comentarios = $row_lista['comentarios'];
   $status = $row_lista['status'];
-
 }
+
+
 if ($comentarios == ''):
   $comentarios = 'Sin comentarios.';
 endif;
@@ -43,7 +44,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
 ?>
 
-
+ 
 <html lang="es">
 
 <head>
@@ -82,7 +83,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
     function CrearToken(idReporte, idVal) {
       $(".LoaderPage").show();
-
+ 
       var parametros = {
         "idReporte": idReporte,
         "idVal": idVal
@@ -229,12 +230,12 @@ function FirmaSC($idReporte, $tipoFirma, $con)
         <div class="row">
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <span class="badge rounded-pill tables-bg float-start" style="font-size:14px">FECHA:
+            <span class="badge rounded-pill tables-bg float-start" style="font-size:14px">Fecha:
               <?= FormatoFecha($fecha); ?></span>
           </div>
 
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <span class="badge rounded-pill tables-bg float-end" style="font-size:14px">No. ORDEN DE COMPRA:
+            <span class="badge rounded-pill tables-bg float-end" style="font-size:14px">No. Orden de Compra:
               <?= $ordencompra; ?></span>
           </div>
 
@@ -323,7 +324,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
 
               if ($Session_IDUsuarioBD == 19) {
                 ?>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
                   <div class="table-responsive">
                     <table class="custom-table" width="100%">
                       <thead class="tables-bg">
@@ -339,6 +340,8 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                             <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
                               número de teléfono o de clic en el siguiente botón para crear uno:</small>
                             <br>
+
+                            <!--
                             <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
                               onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
                               <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
@@ -348,13 +351,20 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                               onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                               <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                               Whatsapp</button>
+              -->
 
                               <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
 
                           </th>
                         </tr>
+
+                        <!--
                         <tr>
                           <th class="align-middle text-center no-hover2">
                             <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
@@ -363,6 +373,7 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                             </small>
                           </th>
                         </tr>
+              -->
                         <tr>
                           <th class="align-middle text-center p-0 no-hover2">
                             <div class="input-group">
@@ -397,13 +408,20 @@ function FirmaSC($idReporte, $tipoFirma, $con)
                     <h4 class="text-primary">Token Móvil</h4>
                     <small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el
                       siguiente botón para crear uno</small>
+
+                      <!-- 
                     <button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,1)"><small>Crear
                         token SMS</small></button>
                     <button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?= $GET_idReporte; ?>,2)"><small>Crear
                         token Whatsapp</small></button>
+              -->
                         <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+
                     <hr>
                     <div class="input-group mt-3">
                       <input type="text" class="form-control" placeholder="Token de seguridad"

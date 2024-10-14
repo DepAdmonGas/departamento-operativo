@@ -159,6 +159,7 @@ require('app/help.php');
 
   }).setHeader('¡Alerta!').set({ transition: 'zoom', message: msg, labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
   }
+  
     window.addEventListener('pageshow', function(event) {
       if (event.persisted) {
         // Si la página está en la caché del navegador, recargarla
@@ -223,12 +224,13 @@ require('app/help.php');
 
               </div>
 
-
+ 
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="<?= PERFIL_ADMIN ?>">
                 <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
               </a>
-              <?php if ($Session_IDUsuarioBD == 2): ?>
+              <?php if ($Session_IDUsuarioBD == 2 || $Session_IDUsuarioBD == 19 || 
+                        $Session_IDUsuarioBD == 21 || $Session_IDUsuarioBD == 22 || $Session_IDUsuarioBD == 30): ?>
                 <div class="dropdown-divider"></div>
 
                 <a class="dropdown-item pointer" onclick="tokenTelegram(<?= $Session_IDUsuarioBD ?>)">

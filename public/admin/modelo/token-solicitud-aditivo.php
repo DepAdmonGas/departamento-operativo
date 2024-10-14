@@ -86,7 +86,23 @@ token
         } elseif ($idVal == 2) {
             notificacionesWA($Numero, $aleatorio,$tokenWhats);
             echo 1;
+
+        }else if($idVal == 3){
+  
+        $sql_lista = "SELECT orden_compra, fecha FROM op_solicitud_aditivo WHERE id = '" . $idReporte . "' ";
+        $result_lista = mysqli_query($con, $sql_lista);
+        $numero_lista = mysqli_num_rows($result_lista);
+        while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+        $ordencompra = $row_lista['orden_compra'];
+        $fecha = FormatoFecha($row_lista['fecha']);
         }
+
+        $mensaje = "Para firmar la solicitud de pedido de aditivo con No. de Orden de Compra: $ordencompra y con fecha del : $fecha usa el siguiente token: *$aleatorio*";
+        $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+        echo 1;
+        }
+
+
     } else {
         echo 0;
     }

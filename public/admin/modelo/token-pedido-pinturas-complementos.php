@@ -72,7 +72,7 @@ token
     '" . $Session_IDUsuarioBD . "',
     '" . $aleatorio . "'
     )";
-
+ 
   if (mysqli_query($con, $sql_insert)) {
 
     $Numero = Numero($Session_IDUsuarioBD, $con);
@@ -87,7 +87,24 @@ token
     } elseif ($idVal == 2) {
       notificacionesWA($Numero, $aleatorio, $tokenWhats);
       echo 1;
+    }else if($idVal == 3){
+  
+    $sql_pedido = "SELECT fecha FROM op_pedido_pinturas_complementos WHERE id = '" . $idReporte . "' ";
+    $result_pedido = mysqli_query($con, $sql_pedido);
+    $numero_pedido = mysqli_num_rows($result_pedido);
+    while ($row_pedido = mysqli_fetch_array($result_pedido, MYSQLI_ASSOC)) {
+    $fecha = $row_pedido['fecha'];
     }
+
+    $explode = explode(' ', $fecha);
+    $fechacompleta = FormatoFecha($explode[0]) . ', ' . date('g:i a', strtotime($explode[1]));
+
+    $mensaje = "Para firmar la solicitud de pedido de pinturas con fecha del : $fechacompleta usa el siguiente token: *$aleatorio*";
+    $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+    echo 1;
+    }
+
+
   } else {
     echo 0;
   }

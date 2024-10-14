@@ -86,7 +86,17 @@ token
         } else if ($idVal == 2) {
             notificacionesWA($Numero, $aleatorio,$tokenWhats);
             echo 1;
+        
+        }else if($idVal == 3){
+        
+        $mensaje = "Para firmar la solicitud de permiso usa el siguiente token: *$aleatorio*";
+        $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+        echo 1;
         }
+
+
+
+
     } else {
         echo 0;
     }
