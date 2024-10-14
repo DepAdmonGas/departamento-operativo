@@ -261,11 +261,11 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
             var disableTime = new Date().getTime();
             localStorage.setItem('disableTime', disableTime);
             // Deshabilitar los botones
-            document.getElementById('btn-mail').disabled = true;
+            document.getElementById('btn-email').disabled = true;
             document.getElementById('btn-telegram').disabled = true;
             // Define el tiempo para habilitar los botones
             setTimeout(function () {
-              document.getElementById('btn-mail').disabled = false;
+              document.getElementById('btn-email').disabled = false;
               document.getElementById('btn-telegram').disabled = false;
             }, 30000); // 30000 milisegundos = 30 segundos
 
@@ -575,7 +575,7 @@ while ($row_dia = mysqli_fetch_array($result_dia, MYSQLI_ASSOC)) {
                             <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
                             Whatsapp</button>-->
 
-                            <button id="btn-mail" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+                            <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
                             onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
                             <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 

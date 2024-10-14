@@ -144,7 +144,20 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+    //Dentro de la condición cuando se manda la alerta
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
    }else{
      alertify.error('Error al crear el token');   
    }
@@ -504,11 +517,11 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 19 OR $Session_IDUsuario
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
   -->
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
@@ -566,11 +579,11 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22){ ?>
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
   -->
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
+  <button id = "btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
