@@ -108,7 +108,8 @@ $estacion = $datosEstacion['nombre'];
 
   var parametros = {
   "idReporte" : idReporte,
-  "idVal":idVal
+  "idVal":idVal,
+  "fecha":'<?=$fecha?>'
     };
 
     $.ajax({
@@ -126,8 +127,20 @@ $estacion = $datosEstacion['nombre'];
   $(".LoaderPage").hide();
 
   if(response == 1){
-  alertify.message('El token fue enviado por mensaje');   
-   
+//Dentro de la condición cuando se manda la alerta
+alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-mail').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-mail').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos   
   }else{
   alertify.error('Error al crear el token');   
   }
@@ -449,15 +462,20 @@ $estacion = $datosEstacion['nombre'];
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  -->
+  <button id="btn-mail" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
-  </th>
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+
+</th>
   </tr>
 
   <tr class="no-hover">
