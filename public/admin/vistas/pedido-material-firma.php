@@ -632,7 +632,7 @@ return $Result;
   <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
-  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,3)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>  
 </th>
   </tr>
