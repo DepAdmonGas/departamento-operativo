@@ -119,13 +119,14 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
 
     }
 
-    function CrearToken(idReporte, idVal, factura = ''){
+    function CrearToken(idReporte, idVal){
     $(".LoaderPage").show();
 
   var parametros = {  
   "idReporte" : idReporte,
   "idVal" : idVal,
   "idUsuario" : <?=$Session_IDUsuarioBD?>,
+  "factura": '<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>',
   "Accion" : "crear-token-solicitud-cheque"
   };
  
@@ -521,7 +522,7 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 19 OR $Session_IDUsuario
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
@@ -583,7 +584,7 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22){ ?>
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button id = "btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
+  <button id = "btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
