@@ -125,7 +125,8 @@ return $Result;
 
     var parametros = {
     "idReporte" : idReporte,
-    "idVal" : idVal
+    "idVal" : idVal,
+    "fecha": '<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>'
     };
     
     $.ajax({
