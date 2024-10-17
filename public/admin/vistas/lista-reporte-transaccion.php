@@ -95,7 +95,7 @@ if ($numero_lista > 0) {
  
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
-echo $status = $row_lista['estado'];
+$status = $row_lista['estado'];
 
 if($status == 0){
 $tableColor = 'style="background-color: #fcfcda"';

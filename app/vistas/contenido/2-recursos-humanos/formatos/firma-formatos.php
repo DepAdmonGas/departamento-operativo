@@ -100,7 +100,20 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     $(".LoaderPage").hide();
 
     if(response == 1){
-    alertify.message('El token fue enviado por mensaje');   
+      //Dentro de la condición cuando se manda la alerta
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
     }else{
     alertify.error('Error al crear el token');   
     }
@@ -922,23 +935,15 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br> 
-  
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
   </tr>
 
   <tr class="no-hover">

@@ -88,6 +88,10 @@ token
         } elseif ($idVal == 2) {
             notificacionesWA($Numero, $aleatorio,$tokenWhats);
             echo 1;
+        } elseif ($idVal == 3) {
+            $mensaje = "Para firmar la solicitud de Pedido Limpieza con reporte: $idReporte usa el siguiente token: *$aleatorio*";
+            $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+            echo 1;
         }
     } else {
         echo 0;
@@ -99,5 +103,3 @@ token
 //------------------
 mysqli_close($con);
 //------------------
-
-
