@@ -396,7 +396,7 @@ class Formatos extends Exception{
     public function firmaFormatos($idReporte, $idUsuario, $tipoFirma, $img): bool
     {
     $resultado = true;
-    $status = 3;
+    $status = 4;
     if ($tipoFirma == "A") {
     $status = 1;
     }
@@ -639,13 +639,16 @@ class Formatos extends Exception{
 
 
   public function firmarMartin($tipoFirma, $idFormato, $idUsuario, $token): bool
-  {
+  { 
       $resultado = true;
       $localidad = 0;
       $formato = 0;
-      $estado = 3;
+      $estado = 4;
+      
       if ($tipoFirma == "B") {
       $estado = 2;
+      }else if($tipoFirma == "C"){
+      $estado = 3;
       }
 
       $sql = "SELECT id_localidad, formato FROM op_rh_formatos WHERE id = ?";
@@ -678,7 +681,7 @@ class Formatos extends Exception{
 
     if ($numero == 1):
     
-    if ($formato == 1 && $tipoFirma == "B") {
+    if ($formato == 1 && $tipoFirma == "C") {
     $sql_lista = "SELECT * FROM op_rh_formatos_alta WHERE id_formulario = ?";
     $stmt_lista =  $this->con->prepare($sql_lista);
     $stmt_lista->bind_param("i", $idFormato);
@@ -696,7 +699,7 @@ class Formatos extends Exception{
     }
 
  
-    }else if ($formato == 2 && $tipoFirma == "B") {
+    }else if ($formato == 2 && $tipoFirma == "C") {
     $sql_lista = "SELECT * FROM op_rh_formatos_baja WHERE id_formulario = ?";
     $stmt_lista =  $this->con->prepare(query: $sql_lista);
     $stmt_lista->bind_param("i", $idFormato);
@@ -713,7 +716,7 @@ class Formatos extends Exception{
     $this->editarStatusPersonal($idEstacion, $idPersonal, $fecha_baja, $motivo, $detalle);
     }
 
-    }else if ($formato == 4 && $tipoFirma == "B") {
+    }else if ($formato == 4 && $tipoFirma == "C") {
     $sql_lista = "SELECT id_personal, id_estacion_cambio FROM op_rh_formatos_restructuracion WHERE id_formulario = ?";
     $stmt_lista =  $this->con->prepare(query: $sql_lista);
     $stmt_lista->bind_param("i", $idFormato);
@@ -728,7 +731,7 @@ class Formatos extends Exception{
     }
 
         
-    }else if ($formato == 5 && $tipoFirma == "B") {
+    }else if ($formato == 5 && $tipoFirma == "C") {
     $sql_lista = "SELECT id_personal, salario_ajustado FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = ?";
     $stmt_lista =  $this->con->prepare(query: $sql_lista);
     $stmt_lista->bind_param("i", $idFormato);

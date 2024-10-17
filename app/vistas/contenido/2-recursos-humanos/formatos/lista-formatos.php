@@ -254,15 +254,16 @@ $trColor = 'style="background-color: #fcfcda"';
 $detalle = '  <a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$id.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+
 
 }else if($row_lista['status'] == 2){
 $trColor = 'style="background-color: #fcfcda"';
 $detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$id.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
-$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
+$Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
 
 
@@ -271,8 +272,18 @@ $trColor = 'style="background-color: #b0f2c2"';
 $detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Firmar = '<img src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
+$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+
+
+}else if($row_lista['status'] == 4){
+$trColor = 'style="background-color: #b0f2c2"';
+$detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
+$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 $Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png" data-toggle="tooltip" data-placement="top" title="Firmar formato">';
 $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+  
 }
 
 
@@ -294,19 +305,19 @@ $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i
   echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
   echo '<td class="align-middle">
   
-  <div class="dropdown">
+<div class="dropdown-container">
   <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
   <i class="fas fa-ellipsis-v"></i>
   </a>
 
-  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+  <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
   '.$detalle.'
   '.$PDF.'
   '.$Editar.'
   '.$Eliminar.'
   </div>
   </div>
-  
+    
   </td>';
 
   echo '</tr>';
