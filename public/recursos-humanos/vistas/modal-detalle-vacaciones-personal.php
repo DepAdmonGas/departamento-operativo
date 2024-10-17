@@ -17,7 +17,6 @@ return $return;
 }
 
 
-
     function PersonalPortal($idusuario,$con){
         $nombre = "Sin información";
         $sql = "SELECT nombre FROM tb_usuarios WHERE id = '".$idusuario."' ";
@@ -138,13 +137,18 @@ $observaciones = $observaciones2;
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
     
   }else if($row_firma['tipo_firma'] == "B"){
-  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
   $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
     
   }else if($row_firma['tipo_firma'] == "C"){
-  $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+
+  }else if($row_firma['tipo_firma'] == "D"){
+  $TipoFirma = "NOMBRE Y FIRMA DE VERIFICACIÓN";
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }
+  
     
   echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
@@ -168,8 +172,6 @@ $observaciones = $observaciones2;
   ?>
 
 </div>
-
-
 
 </div>
 

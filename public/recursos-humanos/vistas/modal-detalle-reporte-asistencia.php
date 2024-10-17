@@ -131,7 +131,8 @@ function tablasNomina($GET_idEstacion,$GET_year,$GET_idMes,$GET_idSemana,$con){
     FROM op_rh_personal
     INNER JOIN op_rh_puestos 
     ON op_rh_personal.puesto = op_rh_puestos.id
-    WHERE op_rh_personal.id_estacion = '".$GET_idEstacion."' AND op_rh_personal.estado = 1 ORDER BY op_rh_personal.id ASC ";
+    WHERE op_rh_personal.id_estacion = '".$GET_idEstacion."' AND op_rh_personal.estado = 1 
+    AND (op_rh_puestos.id = 1 OR op_rh_puestos.id = 6) ORDER BY op_rh_puestos.puesto AND op_rh_personal.id ASC";
     $result_personal = mysqli_query($con, $sql_personal);
     $numero_personal = mysqli_num_rows($result_personal);
 

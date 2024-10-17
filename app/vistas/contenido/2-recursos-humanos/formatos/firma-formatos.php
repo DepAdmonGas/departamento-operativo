@@ -135,7 +135,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     "TokenValidacion" : TokenValidacion,
     "accion" : 'firmar-formato-martin'
 
-    };
+    }; 
 
     if(TokenValidacion != ""){
     $('#TokenValidacion').css('border',''); 
@@ -226,7 +226,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   var data = new FormData();
   var url = '../app/controlador/2-recursos-humanos/controladorFormatos.php';
-
+ 
   data.append('idReporte', idReporte);
   data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
   data.append('tipoFirma', tipoFirma);
@@ -882,15 +882,19 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
     
   }else if($row_firma['tipo_firma'] == "B"){
-  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
   $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
     
   }else if($row_firma['tipo_firma'] == "C"){
-  $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+
+  }else if($row_firma['tipo_firma'] == "D"){
+  $TipoFirma = "NOMBRE Y FIRMA DE VERIFICACIÓN";
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }
+  
     
-
   echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
@@ -915,15 +919,14 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <!----- FIRMA LIC. MARTIN ----->
   <?php 
   if($status == 1){
-  if($Session_IDUsuarioBD == 2){ 
+  if($Session_IDUsuarioBD == 19){ 
   ?>
 
-
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
     
@@ -931,15 +934,9 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
-<!--
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+  <br> 
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  -->
-  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
   onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
@@ -955,6 +952,70 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
   <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'B')">Firmar solicitud</button>
+  </div>
+  </div>
+  </th>
+  </tr>
+
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  <?php 
+
+  }else if($Session_IDUsuarioBD == 2){
+  echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡Aun no es posible firmar! <br> La persona que da el VOBO debe finalizar el formato.
+  </div></div>';
+  }else{
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+  </div></div>';
+  }
+
+  }
+  ?>
+
+
+  <!----- FIRMA LIC. MARTIN ----->
+  <?php 
+  if($status == 2){
+  if($Session_IDUsuarioBD == 2){ 
+  ?>
+
+
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
+  </thead>
+  <tbody>
+    
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br> 
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+  </th>
+  
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <div class="input-group-append">
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'C')">Firmar solicitud</button>
   </div>
   </div>
   </th>
@@ -984,7 +1045,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     
   <!----- FIRMA ALEJANDRO GUZMAN ----->
   <?php 
-  if($status == 2){
+  if($status == 3){
   if($Session_IDUsuarioBD == 354){
   ?>
 
@@ -993,7 +1054,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <table class="custom-table" style="font-size: .8em;" width="100%">
   
   <thead class="tables-bg">
-  <tr><th class="text-center align-middle">FIRMA DEL VOBO</th></tr>
+  <tr><th class="text-center align-middle">FIRMA DE VERIFICACIÓN</th></tr>
   </thead>
 
   <tbody class="bg-light"> 
@@ -1017,7 +1078,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   <div class="col-12">
   <hr>
-  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'C')">
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'D')">
   <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
   </div>
 
@@ -1029,8 +1090,6 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   }
   }
   ?>
-
-
 
   </div>
   </div>

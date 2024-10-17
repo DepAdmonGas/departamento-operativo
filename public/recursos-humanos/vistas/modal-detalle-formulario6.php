@@ -20,7 +20,7 @@ $puesto = $row['puesto'];
 }
 return $puesto;
 }
-
+ 
 function NombrePersonal($id,$con){
 
 $sql_personal = "SELECT nombre_completo, puesto FROM op_rh_personal WHERE id = '".$id."' ";

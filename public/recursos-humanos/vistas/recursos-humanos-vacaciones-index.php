@@ -9,6 +9,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
    
 ?> 
 
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -70,7 +71,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   });
   
   }
-
+ 
   function SelEstacion(idEstacion,Year){
   let targets;
   sizeWindow();
@@ -253,9 +254,8 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
 
     function detalleVacaciones2(idReporte,idPersonal,year){
     $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-vacaciones-personal.php?idReporte=' + idReporte + '&idPersonal=' + idPersonal + '&year=' + year);
-
     }
-
+ 
     
     function DetalleFormulario(idFormato,Year,Formato){
 
@@ -273,8 +273,8 @@ function DeleteFormulario(idEstacion,idPersonal,Year,id){
     }else if(Formato == 6){
     $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-detalle-formulario6.php?idFormato=' + idFormato);
     }
-   
-    }
+    
+    }  
 
   function ModalBuscar(idEstacion){
   $('#Modal').modal('show');  

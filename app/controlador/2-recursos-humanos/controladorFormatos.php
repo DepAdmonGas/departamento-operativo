@@ -159,7 +159,7 @@ switch($_POST['accion']):
     $tipoFirma = $_POST['tipoFirma'];
     $token = $_POST['TokenValidacion'];
     echo $formatos->firmarMartin($tipoFirma,$idFormato,$idUsuario,$token);
-    break;
+    break; 
 
     //---------- ELIMINAR FORMATOS ----------//
     case 'eliminar-formato':
