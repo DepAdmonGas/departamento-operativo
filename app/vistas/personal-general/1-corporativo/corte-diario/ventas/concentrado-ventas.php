@@ -104,7 +104,7 @@ endif;
 									<option value="G DIESEL">G DIESEL</option>
 							<?php } else if ($producto == "G PREMIUM") { ?>
 										<option value="<?= $producto ?>"><?= $producto; ?></option>
-										<option value=" G SUPER">G SUPER</option>
+										<option value="G SUPER">G SUPER</option>
 										<option value="G DIESEL">G DIESEL</option>
 							<?php } else if ($producto == "G DIESEL") { ?>
 											<option value="<?= $producto ?>"><?= $producto; ?></option>
