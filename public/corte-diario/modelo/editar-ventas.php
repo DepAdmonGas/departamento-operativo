@@ -3,7 +3,7 @@ require('../../../app/help.php');
 
 
 if ($_POST['type'] == "producto") {
-
+	$ieps = 0.0;
 	if ($_POST['producto'] == "G SUPER") {
 	$ieps = 0.4369;
 	}
