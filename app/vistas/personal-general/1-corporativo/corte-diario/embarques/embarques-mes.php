@@ -5,8 +5,8 @@
 
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+  <script type="text/javascript" src="<?=RUTA_CORTEDIARIO_JS?>embarque-mes-function.js?ver=<?php echo time()?>"></script>
 
-  <script type="text/javascript" src="<?=RUTA_CORTEDIARIO_JS?>embarque-mes-function.js"></script>
   <script type="text/javascript">
   $(document).ready(function ($) {
   $(".LoaderPage").fadeOut("slow");

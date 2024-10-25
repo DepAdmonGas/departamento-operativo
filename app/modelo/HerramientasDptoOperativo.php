@@ -140,7 +140,10 @@ class HerramientasDptoOperativo extends Exception
 
     } else {
     // Manejo de caso cuando no se encuentra el registro
-    $datosEstacion = null;
+    $datosEstacion = array(
+    'nombre' => '',
+    'razonsocial' => ''
+    );
     }  
 
     return $datosEstacion;

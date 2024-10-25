@@ -197,8 +197,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'recursos-humanos-horario-personal':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-horario-personal-index.php';
                 break;
-
-
+ 
             case 'recursos-humanos-estacion-permisos':
                 $ruta_elegida = 'app/vistas/personal-general/2-recursos-humanos/permisos/permiso-index.php';
                 //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-estacion-permisos.php';
@@ -259,7 +258,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             //----------
 
             //---------- ROLES DE COMODINES ----------
-            case 'recursos-humanos-roles':
+            case 'recursos-humanos-rol-comodines':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-roles-index.php';
                 break;
             //----------
@@ -269,7 +268,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-incidencia-nomina-index.php';
                 break;
             //----------
-
+            
             case 'recursos-humanos-lista-formatos':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-lista-formatos-index.php';
                 break;
@@ -290,7 +289,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             case 'recursos-humanos-vacaciones':
                 $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-vacaciones-index.php';
                 break;
-
+  
             case 'calibracion-dispensarios':
                 $ruta_elegida = 'public/corte-diario/vistas/calibracion-dispensarios-index.php';
                 break;
@@ -732,6 +731,13 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/solicitud-aditivo-pdf.php';
         }
 
+    //------------------------------------------------------------------------
+        else if ($partes_ruta[1] == 'recursos-humanos-rol-comodines') {
+            $GET_idReporte = $partes_ruta[2];
+            $ruta_elegida = 'app/vistas/contenido/2-recursos-humanos/horario-personal/formulario-rol-comodines.php';
+        }
+
+    
         //------------------------------------------------------------------------
         else if ($partes_ruta[1] == 'orden-servicio-nuevo') {
             $GET_idReporte = $partes_ruta[2];

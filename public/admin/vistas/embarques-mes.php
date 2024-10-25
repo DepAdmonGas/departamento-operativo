@@ -456,13 +456,13 @@ $(".LoaderPage").show();
   }
  
 
-  function GuardarComentario(idReporte,id,idEstacion,year,mes) {
+  function GuardarComentario(idReporte,id,idEstacion,year,mes,idUsuario) {
 
   var Comentario = $('#Comentario').val();
 
   var parametros = {
     "id": id,
-    "idEstacion": idEstacion,
+    "idUsuario": idUsuario,
     "Comentario": Comentario,
     "accion": "agregar-comentario-embarques"
   };
@@ -474,7 +474,7 @@ $(".LoaderPage").show();
       data: parametros,
       url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
       //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
-      type: 'post',
+      type: 'post', 
       beforeSend: function () {
       },
       complete: function () {

@@ -10,7 +10,7 @@ $idEstacion = $_GET['idEstacion'];
 <tr>
 <th colspan="5">Plantilla</th>
 </tr>
-
+ 
 <tr class="title-table-bg">
 <td class="fw-bold" width="24px">No.</td>
 <th>Descripción</th>
@@ -31,20 +31,24 @@ $num = 1;
 while ($row_lista_plantilla = mysqli_fetch_array($result_plantilla, MYSQLI_ASSOC)) {
 $id = $row_lista_plantilla['id'];
 $id_usuario = $row_lista_plantilla['id_usuario'];
+$nombre_usuario = $row_lista_plantilla['nombre'];
 $descripcion = $row_lista_plantilla['descripcion'];
 
 $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($id_usuario);
 
-if($id_usuario == 0){
-$nombre_completo = "";
 $btnEditar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png">';
+
+if($id_usuario == 0){
+$nombre_completo = $nombre_usuario;
 
 }else{
 $nombre_completo = $datosPersonal['nombre_personal'];
-$btnEditar = '<img onclick="ModalCP('.$id.')" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png">';
-
 }
 
+if($nombre_completo != ""){
+$btnEditar = '<img onclick="ModalCP('.$id.')" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png">';
+}
+    
 echo '<tr> 
 <th class="align-middle text-center"><b>'.$num.'</b></th>
 <td class="align-middle text-center p-0">
