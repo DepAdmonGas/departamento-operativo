@@ -188,7 +188,7 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
     "idUsuario" : <?=$Session_IDUsuarioBD?>,
     "accion" : 'crear-token-email'
     };
-
+  
     $.ajax({
     data:  parametros,
     url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',

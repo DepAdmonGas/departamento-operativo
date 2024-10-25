@@ -2,6 +2,7 @@
 require('app/help.php');
 
 ?>
+
 <html lang="es">
   <head>
   <meta charset="utf-8">
@@ -16,9 +17,7 @@ require('app/help.php');
   <link href="<?=RUTA_CSS2;?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -50,7 +49,7 @@ require('app/help.php');
   } 
    
   });
-
+  
 
   function Regresar(){
   sessionStorage.removeItem('idestacion');
@@ -107,7 +106,7 @@ require('app/help.php');
   }
   });
 
-  }
+  } 
 
   //---------- VALIDAR PLANTILLA DEL ORGANIGRAMA ---------
   function datosPlantilla(e, idPlantilla, idEstacion, consulta) {
@@ -128,7 +127,8 @@ require('app/help.php');
   actualizarDatos(idPlantilla, empleadoId, consulta);
     
   }else{
-  alertify.error('Debes seleccionar y/o escribir el personal dado de alta.');
+  actualizarDatos(idPlantilla, empleado, 3);
+
   }
   
     
@@ -159,7 +159,7 @@ require('app/help.php');
   $.ajax({
   data:  parametros,
   url:  'public/recursos-humanos/modelo/editar-fila-plantilla.php',
-  type: 'post',
+  type: 'post',   
   beforeSend: function () {
       // Puedes añadir algún indicador de carga aquí
   },
@@ -170,7 +170,7 @@ require('app/help.php');
 
   if(response == 1){
 
-  if(consulta == 2){
+  if(consulta == 2 || consulta == 3){
   location.reload();
 
   }else{

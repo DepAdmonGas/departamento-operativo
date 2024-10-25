@@ -1,16 +1,22 @@
 <?php
 require "../../bd/inc.conexion.php";
+require_once '../../modelo/HerramientasDptoOperativo.php';
+
 class Horarios extends Exception
 {
     private $classConexionBD;
     private $con;
+    private $herramientasDptoOperativo;
+
     public function __construct()
     {
         $this->classConexionBD = Database::getInstance();
         $this->con = $this->classConexionBD->getConnection();
+        $this->herramientasDptoOperativo = new herramientasDptoOperativo($this->con);
+
     }
     public function agregarHorario(int $idEstacion): int
-    {
+    { 
         $id = $this->id();
         $estado = 0;
         $sql = "INSERT INTO op_rh_personal_horario_programar (id,id_estacion,estado)
@@ -230,4 +236,121 @@ class Horarios extends Exception
         endif;
         return $resultado;
     }
+
+    //---------- ROL DE COMODINES ---------- //
+    private function idComodines() : array {
+        $numid = 1;
+        $status = null;  // Cambiamos a null para identificar si hay registros o no
+    
+        // Consulta el último registro
+        $sql = "SELECT id, status FROM op_rh_rol_comodines ORDER BY id DESC LIMIT 1";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $numero = $result->num_rows;
+    
+        // Verifica si hay resultados
+        if ($numero != 0) {
+            $row = $result->fetch_assoc();
+            $numid = $row['id'];  // Último id existente
+            $status = $row['status'];  // Último status
+        }
+    
+        $stmt->close();
+    
+        // Devuelve el id y el status como array
+        return ['id' => $numid, 'status' => $status];
+    }
+    
+    public function agregarFormularioComodines($idEstacion) {
+        // Obtiene el último id y su status
+        $datos = $this->idComodines();
+        
+        // Si no hay registros en la tabla, id será 1
+        $id = ($datos['status'] === null) ? 1 : $datos['id'] + 1;
+        $estado = 0;
+    
+        // Si no hay registros, procede a insertar directamente el primer valor
+        if ($datos['status'] !== null && $datos['status'] == 0) {
+            // Si el status del último registro es 0, no se inserta y se devuelve ese id
+            return $datos['id'];
+        }
+    
+        // Si no hay registros o el status es diferente de 0, hace el insert
+        $sql = "INSERT INTO op_rh_rol_comodines (id, id_estacion, status) VALUES (?, ?, ?)";
+        $stmt = $this->con->prepare($sql);
+    
+        if (!$stmt) {
+            throw new Exception("Error al preparar la consulta: " . $this->con->error);
+        }
+    
+        $stmt->bind_param("iii", $id, $idEstacion, $estado);
+    
+        if (!$stmt->execute()) {
+            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+        }
+    
+        $stmt->close();
+        return $id;  // Devuelve el id del nuevo registro
+    }
+    
+    public function editarEstacionComodines($idReporte, $idUsuario, $idEstacion, $dia){
+    $resultado = false;
+
+    $NomDia = $this->herramientasDptoOperativo->get_nombre_dia2($dia);
+
+    $sql_estacion = "SELECT * FROM op_rh_comodines_dia WHERE id_reporte = '" . $idReporte . "' AND id_usuario = '" . $idUsuario . "' AND dia = '".$NomDia."' ";
+    $result_estacion = mysqli_query($this->con, $sql_estacion);
+    $numero_estacion = mysqli_num_rows($result_estacion);
+
+
+    if ($numero_estacion > 0) {
+    $sql2 = "UPDATE op_rh_comodines_dia SET id_estacion = '".$idEstacion."' 
+    WHERE id_reporte = '" . $idReporte . "' AND id_usuario = '".$idUsuario."' AND dia = '".$NomDia."'";
+
+    if(mysqli_query($this->con, $sql2)){
+    $resultado = true;
+    } 
+
+    }else{
+
+    $sql_insert = "INSERT INTO op_rh_comodines_dia  (
+    id_reporte,
+    id_usuario,
+    id_estacion,
+    dia
+    )
+    VALUES 
+    (
+    '".$idReporte."',
+    '".$idUsuario."',
+    '".$idEstacion."',
+    '".$NomDia."'
+    )";
+            
+    if(mysqli_query($this->con, $sql_insert)){
+    $resultado = true;
+    }
+
+    }
+
+    return $resultado;
+    }
+
+
+    public function finalizarRolComodines($idReporte, $fechaInicio, $fechaTermino){
+    $resultado = false;
+    $status = 1;
+
+    $sql2 = "UPDATE op_rh_rol_comodines SET fecha_inicio = '".$fechaInicio."', fecha_fin = '".$fechaTermino."', status = '".$status."'
+    WHERE id = '".$idReporte."' ";
+
+    if(mysqli_query($this->con, $sql2)){
+    $resultado = true;
+    } 
+
+    return $resultado;
+
+    }
+
 }

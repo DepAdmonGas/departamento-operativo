@@ -81,7 +81,7 @@ function ManualesProcedimientos(){window.location.href = "administracion/manual-
 function NominaV2(){window.location.href = "recursos-humanos-recibos-nomina";}
 function NominaV2ES(){window.location.href = "recibos-nomina";}
 
-function RolComodines(){window.location.href = "recursos-humanos-roles";}
+function RolComodines(){window.location.href = "recursos-humanos-rol-comodines";}
 function IncidenciasNomina(){window.location.href = "recursos-humanos-incidencia-nomina";}
  
   window.addEventListener('pageshow', function (event) {

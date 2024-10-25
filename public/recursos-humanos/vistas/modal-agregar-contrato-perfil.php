@@ -2,18 +2,28 @@
 require('../../../app/help.php');
 $idPlantilla = $_GET['idPlantilla'];
 
-$sql_plantilla = "SELECT id_usuario, descripcion, documento_perfil, documento_contrato FROM tb_organigrama_plantilla WHERE id = '" . $idPlantilla . "'";
+$sql_plantilla = "SELECT id_usuario, nombre, descripcion, documento_perfil, documento_contrato FROM tb_organigrama_plantilla WHERE id = '" . $idPlantilla . "'";
 $result_plantilla  = mysqli_query($con, $sql_plantilla);
 $numero_plantilla  = mysqli_num_rows($result_plantilla);
 
 
 while ($row_lista_plantilla = mysqli_fetch_array($result_plantilla, MYSQLI_ASSOC)) {
 $id_usuario = $row_lista_plantilla['id_usuario'];
-$datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($id_usuario);
-$nombre_completo = $datosPersonal['nombre_personal'];
+$nombre_usuario = $row_lista_plantilla['nombre'];
 $descripcion = $row_lista_plantilla['descripcion'];
 $documento_perfil = $row_lista_plantilla['documento_perfil'];
 $documento_contrato = $row_lista_plantilla['documento_contrato'];
+}
+
+
+if($id_usuario == 0){
+$detalleNombre = $nombre_usuario;
+
+}else{
+
+$datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($id_usuario);
+$nombre_completo = $datosPersonal['nombre_personal'];
+$detalleNombre = $nombre_completo;
 }
 
 
@@ -50,7 +60,7 @@ $docContratoDelete = '<img onclick="EliminarCP('.$idPlantilla.',1)" src="'.RUTA_
 	
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 <div class="mb-1"><small>Nombre completo:</small></div>
-<?=$nombre_completo?>
+<?=$detalleNombre?>
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">

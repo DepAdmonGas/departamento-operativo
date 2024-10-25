@@ -205,81 +205,82 @@ require 'app/vistas/contenido/header.php';
   //---------- VALIDAR PLANTILLA DEL ORGANIGRAMA ---------
   function datosPlantilla(e, idPlantilla, idEstacion, consulta) {
     
-  // Si consulta es 2, solo validar y mostrar un mensaje
-  if (consulta == 2) {
-  var empleado = $('#NombresCompleto_' + idPlantilla).val(); // Obtener el nombre completo seleccionado
-  var empleadoId = null; // Variable para almacenar el id del empleado
-  // Buscar el id del empleado correspondiente al nombre seleccionado en el datalist específico
-  $('#listaNombres_' + idEstacion + ' option').each(function() {
-  if ($(this).val() === empleado) {
-  empleadoId = $(this).data('id');
-  return false; // Salir del bucle si se encuentra el empleado
-  }
-  });
-
-  if (empleadoId) {
-  actualizarDatos(idPlantilla, empleadoId, consulta);
+    // Si consulta es 2, solo validar y mostrar un mensaje
+    if (consulta == 2) {
+    var empleado = $('#NombresCompleto_' + idPlantilla).val(); // Obtener el nombre completo seleccionado
+    var empleadoId = null; // Variable para almacenar el id del empleado
+    // Buscar el id del empleado correspondiente al nombre seleccionado en el datalist específico
+    $('#listaNombres_' + idEstacion + ' option').each(function() {
+    if ($(this).val() === empleado) {
+    empleadoId = $(this).data('id');
+    return false; // Salir del bucle si se encuentra el empleado
+    }
+    });
+  
+    if (empleadoId) {
+    actualizarDatos(idPlantilla, empleadoId, consulta);
+      
+    }else{
+    actualizarDatos(idPlantilla, empleado, 3);
+  
+    }
     
-  }else{
-  alertify.error('Debes seleccionar y/o escribir el personal dado de alta.');
-  }
+      
+    }else{
+    var valor = e.value;
   
+    if(valor == ""){
+    alertify.error('Debes de ingresar la descripcion del puesto');
+  
+    }else{
+    actualizarDatos(idPlantilla, valor, consulta);
+  
+    }
+  
+    }
+  
+    }
+  
+    //---------- VALIDAR PLANTILLA DEL ORGANIGRAMA ---------
+    function actualizarDatos(idPlantilla, valor, consulta){
     
-  }else{
-  var valor = e.value;
-
-  if(valor == ""){
-  alertify.error('Debes de ingresar la descripcion del puesto');
-
-  }else{
-  actualizarDatos(idPlantilla, valor, consulta);
-
-  }
-
-  }
-
-  }
-
-  //---------- VALIDAR PLANTILLA DEL ORGANIGRAMA ---------
-  function actualizarDatos(idPlantilla, valor, consulta){
+    var parametros = {
+    "idPlantilla" : idPlantilla,
+    "valor" : valor,
+    "consulta" : consulta
+    };
+          
+    $.ajax({
+    data:  parametros,
+    url:  'public/recursos-humanos/modelo/editar-fila-plantilla.php',
+    type: 'post',   
+    beforeSend: function () {
+        // Puedes añadir algún indicador de carga aquí
+    },
+    complete: function () {
   
-  var parametros = {
-  "idPlantilla" : idPlantilla,
-  "valor" : valor,
-  "consulta" : consulta
-  };
-        
-  $.ajax({
-  data:  parametros,
-  url:  'public/recursos-humanos/modelo/editar-fila-plantilla.php',
-  type: 'post',
-  beforeSend: function () {
-      // Puedes añadir algún indicador de carga aquí
-  },
-  complete: function () {
-
-  },
-  success: function (response) {
-
-  if(response == 1){
-
-  if(consulta == 2){
-  location.reload();
-
-  }else{
-  alertify.success('Registro actualizado exitosamente.');
-
-  }
-
-  }else{
-  alertify.error('Error al actualizar el registro.');
-
-  }
-
-  }
-  });
+    },
+    success: function (response) {
   
-  }
+    if(response == 1){
+  
+    if(consulta == 2 || consulta == 3){
+    location.reload();
+  
+    }else{
+    alertify.success('Registro actualizado exitosamente.');
+  
+    }
+  
+    }else{
+    alertify.error('Error al actualizar el registro.');
+  
+    }
+  
+    }
+    });
+    
+    }
 
 
   function ModalCP(idPlantilla){

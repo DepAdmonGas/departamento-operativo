@@ -37,9 +37,36 @@ switch ($_POST['accion']):
      * 
      */
     case 'editar-horario-personal':
-        $hora = $_POST['horario'];
-        $dia = $_POST['dia'];
-        $idPersonal = $_POST['idPersonal'];
-        echo $horario->editarHorarioPersonal($hora,$dia,$idPersonal);
-        break;
+     $hora = $_POST['horario'];
+    $dia = $_POST['dia'];
+    $idPersonal = $_POST['idPersonal'];
+    echo $horario->editarHorarioPersonal($hora,$dia,$idPersonal);
+    break;
+
+
+    /** ---------- ROL DE COMODINES ---------- **/
+    case 'agregar-rol-comodines':
+    $idEstacion = $_POST['idEstacion'];
+    echo $horario->agregarFormularioComodines($idEstacion);
+    break;
+
+    case 'editar-estacion-comodin':
+    $idReporte = $_POST['idReporte'];
+    $idUsuario = $_POST['idUsuario'];
+    $idEstacion = $_POST['idEstacion'];
+    $dia = $_POST['dia'];
+    echo $horario->editarEstacionComodines($idReporte, $idUsuario, $idEstacion, $dia);
+    break;
+
+    case 'finalizar-rol-comodines':
+    $idReporte = $_POST['idReporte'];
+    $fechaInicio = $_POST['fechaInicio'];
+    $fechaTermino = $_POST['fechaTermino'];
+    echo $horario->finalizarRolComodines($idReporte, $fechaInicio, $fechaTermino);
+    break;
+
+
+    
+    
+
 endswitch;
