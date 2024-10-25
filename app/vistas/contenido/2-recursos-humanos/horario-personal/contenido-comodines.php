@@ -17,9 +17,7 @@ $botonComodines = '<button type="button" class="btn btn-labeled2 btn-primary flo
 $claseDropdown = "dropdown-menu-right";
 
 }
-
 ?>
-
 
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
@@ -37,7 +35,6 @@ $claseDropdown = "dropdown-menu-right";
 <hr>     
 </div>
 
- 
 <div class="col-12">
 <div class="table-responsive">
 <table id="tabla_rol_comodines_<?=$idEstacion?>" class="custom-table" style="font-size: .75em;" width="100%">
@@ -92,7 +89,6 @@ echo '<tr '.$trColor.'>
 <td class="align-middle">'.$fecha_2.'</td>
 
 <td class="align-middle text-center">
-
 <div class="dropdown-container">
 <a class="btn btn-sm btn-icon-only text-dropdown-light dropdown-menu-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 <i class="fas fa-ellipsis-v"></i>
@@ -105,14 +101,12 @@ echo '<tr '.$trColor.'>
 '.$EliminarOP.'
 </div>
 </div>
-
 </td>
+
 </tr>';
 
 $num++;
 }
-}else{
-echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover'><small>No se encontró información para mostrar</small></th></tr>";
 }
 ?>
 
