@@ -111,8 +111,6 @@ echo '<tr '.$trColor.'>
 
 $num++;
 }
-}else{
-echo "<tr><th colspan='8' class='text-center text-secondary fw-normal no-hover'><small>No se encontró información para mostrar</small></th></tr>";
 }
 ?>
 
