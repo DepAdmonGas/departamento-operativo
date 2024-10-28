@@ -68,7 +68,7 @@ $('#tabla_horario_detalle_' + idEstacion).DataTable({
 </script>
 </head>
 
-
+ 
 <body>
 <div class="LoaderPage"></div>
 
