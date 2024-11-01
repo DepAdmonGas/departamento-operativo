@@ -390,7 +390,7 @@ class Formatos extends Exception{
         $result->close();
         return $resultado;
         }  
-
+ 
 
     //---------- fIRMA DE FORMATOS ----------//
     public function firmaFormatos($idReporte, $idUsuario, $tipoFirma, $img): bool
@@ -809,8 +809,6 @@ class Formatos extends Exception{
     
 
 
-
-    
     public function eliminarFormato(int $idReporte) : bool {
         $resultado = true;
         $sql = "DELETE FROM op_rh_formatos WHERE id = ? ";

@@ -126,102 +126,7 @@ require('app/help.php');
 
     }
 
-    window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-    // Si la página está en la caché del navegador, recargarla
-    window.location.reload();
-    }
-    });
-
-    //---------- ROL DE COMODINES ---------- //
-    function ModalDetalleRol(idReporte){
-    $('#Modal').modal('show');
-    $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/horario-personal/modal-detalle-rol-comodines.php?idReporte=' + idReporte);
-    }  
-  
-    function EditarRol(idReporte){
-    window.location.href = "recursos-humanos-rol-comodines/" + idReporte;
-    }
-
-    //---------- DETALLE FORMATOS ----------
-
-    function DescargarRolPDF(idReporte){
-    window.location.href = 'app/vistas/contenido/2-recursos-humanos/horario-personal/pdf-rol-comodines.php?idReporte=' + idReporte;
-    }
- 
-    function FormularioComodines(idEstacion){
-    
-    var parametros = {
-    "idEstacion": idEstacion,
-    "accion": "agregar-rol-comodines"
-    } 
-     
-    $.ajax({
-    data: parametros,
-    url: 'app/controlador/2-recursos-humanos/controladorHorario.php',
-    //url: 'public/recursos-humanos/modelo/agregar-programar-horario-personal.php',
-    type: 'post',
-    beforeSend: function () {
-    
-    },
-    complete: function () { 
-    
-    },
-    success: function (response) {
-
-    if (response != 0) {
-    window.location.href = "recursos-humanos-rol-comodines/" + response;
-    }
-
-    }
-    });
-
-    } 
-
-
-  
-  //---------- ELIMINAR ROL DE COMODIN ----------
-
-  function EliminarRol(idReporte,idEstacion){
-
-  var parametros = {
-  "idReporte" : idReporte
-  };
-
-  alertify.confirm('',
-  function(){
-
-  $.ajax({
-  data:  parametros,
-  url:   'public/recursos-humanos/modelo/eliminar-rol-comodines.php',
-  type:  'post',
-  beforeSend: function() {
-       
-  },
-  complete: function(){
-
-  }, 
-  success:  function (response) {
-
-  if (response == 1) {
-  SelComodines(idEstacion)
-  sizeWindow();
-  alertify.success('Rol eliminado exitosamente.');
-
-  }else{
-  alertify.error('Error al eliminar');
-  }
-
-  }
-  });
-
-  },
-  function(){
-
-  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el rol seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-
-  }
-
+   
    </script>
   </head>
 
@@ -308,13 +213,6 @@ $icon = "fa-solid fa-screwdriver-wrench";
 <?php 
 if($session_nompuesto == "Dirección de operaciones"){
 ?> 
-
-<li>
-<a class="pointer" onclick="SelComodines(8)">
-<i class="fa-solid fa-users" aria-hidden="true" style="padding-right: 10px;"></i>
-Rol de Comodines
-</a>
-</li>
 
 <?php
 }

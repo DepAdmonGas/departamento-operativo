@@ -9,12 +9,14 @@ if($Session_IDUsuarioBD == 354){
 $ocultarDiv = "d-none";
 $botonComodines = "";
 $claseDropdown = "dropdown-menu-left";
+$nombreBack = "Recursos Humanos";
     
 }else{
 $ocultarDiv = "";
 $botonComodines = '<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="FormularioComodines('.$idEstacion.')">
 <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar</button>';
-$claseDropdown = "dropdown-menu-right";
+$claseDropdown = "dropdown-menu-left";
+$nombreBack = "Incidencia de Nomina";
 
 }
 ?>
@@ -22,13 +24,13 @@ $claseDropdown = "dropdown-menu-right";
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
-<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Recursos Humanos</a></li>
-<li aria-current="page" class="breadcrumb-item active text-uppercase">Rol de Comodines</li>
+<li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> <?=$nombreBack?></a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase">Rol de Cubre Encargados</li>
 </ol>
 </div>
 
 <div class="row">
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Rol de Comodines</h3></div>
+<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12"><h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Rol de Cubre Encargados</h3></div>
 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12"><?=$botonComodines?></div>
 </div>
 
