@@ -244,9 +244,6 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
                 break;
 
 
-
-
-
             //---------- RECIBOS DE NOMINA V2 ----------
             case 'recibos-nomina':
             $ruta_elegida = 'public/recibo-nomina/vistas/recibo-nomina-estaciones-index.php';
@@ -265,8 +262,10 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
 
             //---------- INCIDENCIAS DE NOMINA ----------
             case 'recursos-humanos-incidencia-nomina':
-                $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-incidencia-nomina-index.php';
-                break;
+            //$ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-incidencia-nomina-index.php';
+            $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/incidencia-nomina/incidencias-nomina-index.php';
+            break;
+            
             //----------
             
             case 'recursos-humanos-lista-formatos':
@@ -855,16 +854,34 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         }
 
 
-        //---------- RECURSOS HUMANOS (EVALUACION KPI) ----------//
-        else if ($partes_ruta[1] == 'recursos-humanos-evaluacion-personal') {
-            $GET_idEstacion = $partes_ruta[2];
-            $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-evaluacion-personal-index.php';
-        }
+    //---------- RECURSOS HUMANOS (EVALUACION KPI) ----------//
+    else if ($partes_ruta[1] == 'recursos-humanos-evaluacion-personal') {
+    $GET_idEstacion = $partes_ruta[2];
+    $ruta_elegida = 'public/recursos-humanos/vistas/recursos-humanos-evaluacion-personal-index.php';
+    
+    } else if ($partes_ruta[1] == 'precios-combustible-detalle') {
+    $GET_idPrecio = $partes_ruta[2];
+    $ruta_elegida = 'public/admin/vistas/precios-combustible-detalle.php';
+        
+        
+    } else if($partes_ruta[1] == 'recursos-humanos-incidencia-nomina'){
+    $GET_year = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/incidencia-nomina/incidencias-nomina-year.php';
 
-        else if ($partes_ruta[1] == 'precios-combustible-detalle') {
-            $GET_idPrecio = $partes_ruta[2];
-            $ruta_elegida = 'public/admin/vistas/precios-combustible-detalle.php';
-        } 
+    }else if($partes_ruta[1] == 'recursos-humanos-dia-doble'){
+    $GET_year = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/incidencia-nomina/dia-doble/dia-doble-index.php';
+
+    }else if($partes_ruta[1] == 'recursos-humanos-formulario-dia-doble'){
+    $GET_idReporte = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/incidencia-nomina/dia-doble/formulario-dia-doble-index.php';
+    
+    }else if($partes_ruta[1] == 'recursos-humanos-firmar-dia-doble'){
+    $GET_idReporte = $partes_ruta[2];
+    $ruta_elegida = 'app/vistas/administrador/2-recursos-humanos/incidencia-nomina/dia-doble/firmar-dia-doble-index.php';
+        
+    } 
+
 
     } else if (count($partes_ruta) == 4) {
 

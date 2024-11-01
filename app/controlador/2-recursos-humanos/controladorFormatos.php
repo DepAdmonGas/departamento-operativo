@@ -126,7 +126,7 @@ switch($_POST['accion']):
     $Comentario = $_POST['Comentario'];
     echo $formatos->agregarComentarioFormato($idFormato,$idUsuario,$Comentario);
     break;
-
+ 
     //---------- FIRMA FORMATOS ----------//
     case 'finalizar-formato-firma':
     $img = $_POST['base64'];
@@ -146,7 +146,7 @@ switch($_POST['accion']):
     $fecha = $_POST['fecha'];
     echo $formatos->firmaFormatosToken($idFormato,$idVal,$idUsuario,$tokenWhats,$idTipo,$estacion,$fecha);
     break;
-
+ 
     case 'crear-token-email':
     $idFormato = $_POST['idFormato'];
     $idUsuario = $_POST['idUsuario'];
@@ -167,6 +167,5 @@ switch($_POST['accion']):
     echo $formatos->eliminarFormato($idReporte);
     break;
 
-
-
+ 
 endswitch;     
