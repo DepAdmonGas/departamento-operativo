@@ -104,7 +104,7 @@ switch ($_POST['accion']):
     echo $horario->firmaDiaDoble($idReporte,$idUsuario,$tipoFirma,$img);
     break;
 
-    case 'firmar-formato-token':
+    case 'firmar-dia-doble-token':
     $idFormato = $_POST['idFormato'];
     $idVal = $_POST['idVal'];
     $idUsuario = $_POST['idUsuario'];
