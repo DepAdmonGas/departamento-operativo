@@ -74,8 +74,6 @@ $finQuincenaDay = $fechaNomiaQuincena['finQuincenaDay'];
     success:  function (response) {
     $(".LoaderPage").hide();
 
-    console.log(response)
-
     if(response == 1){
     alertify.success('El token fue enviado por mensaje');
    

@@ -5,7 +5,7 @@ $idProducto = $_GET['idProducto'];
 
 if($idProducto == 0){
 $producto = ""; 
-$unidad = "Seleccione";
+$unidad = "Selecciona una opción...";
 $value = "";
 }else{
 
