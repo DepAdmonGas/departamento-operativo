@@ -32,12 +32,62 @@ header("Location:".PORTAL."");
   <script type="text/javascript">
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
-  SelEstacion(<?=$Session_IDEstacion?>)
+  SelEstacion()
 
   });
  
-  function SelEstacion(idEstacion){
-  $('#DivListaNegra').load('app/vistas/contenido/2-recursos-humanos/lista-negra/contenido-lista-negra.php?idEstacion=' + idEstacion); 
+  function SelEstacion(){
+  $('#DivListaNegra').load('app/vistas/contenido/2-recursos-humanos/lista-negra/contenido-lista-negra.php'); 
+  }
+
+  //---------- MODAL COMENTARIOS ----------
+  function ComentariosLN(idListaNegra){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/lista-negra/modal-comentarios.php?idListaNegra=' + idListaNegra); 
+  }
+  
+  function GuardarComentario(idListaNegra){
+  var Comentario = $('#Comentario').val();
+
+  var parametros = {
+  "idListaNegra" : idListaNegra,
+  "idUsuario" : <?=$Session_IDUsuarioBD?>,
+  "Comentario" : Comentario,
+  "Accion" : "agregar-comentario-lista-negra"
+  }; 
+    
+  if(Comentario != ""){
+  $('#Comentario').css('border',''); 
+
+  $.ajax({
+  data:  parametros,
+  //url:   'public/recursos-humanos/modelo/agregar-comentario-personal.php', 
+  url:   'app/controlador/2-recursos-humanos/controladorDocumentosPersonal.php', 
+  type:  'post',
+  beforeSend: function() {
+
+  },
+  complete: function(){  
+
+  },
+  success:  function (response) {
+
+  if (response == 1) {
+  SelEstacion()
+  $('#Comentario').val('');
+  $('#ContenidoModal').load('app/vistas/contenido/2-recursos-humanos/lista-negra/modal-comentarios.php?idListaNegra=' + idListaNegra); 
+  alertify.success("Comentario agregado exitosamente.")
+  }else{
+  alertify.error('Error al guardar el comentario');  
+  }
+
+  } 
+  });
+
+  }else{
+  $('#Comentario').css('border','2px solid #A52525'); 
+  }
+
   }
 
   </script>
@@ -56,6 +106,16 @@ header("Location:".PORTAL."");
   <div class="col-12" id="DivListaNegra"></div>
   </div>
 
+  </div>
+  </div>
+
+  <!---------- FUNCIONES - NAVBAR ---------->
+  <div class="modal" id="Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content border-0 rounded-0">
+  <div id="ContenidoModal"></div>
+  </div>
+  </div>
   </div>
 
   <!---------- FUNCIONES - NAVBAR ---------->

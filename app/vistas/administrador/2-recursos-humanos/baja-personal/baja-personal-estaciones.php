@@ -51,7 +51,7 @@ require('app/help.php');
 
   function SelEstacion(idEstacion){
   let targets;
-  targets = [9, 10, 11, 12, 13, 14, 15, 16];
+  targets = [7,8];
 
   sizeWindow();
   sessionStorage.setItem('idestacion', idEstacion);
@@ -192,19 +192,22 @@ require('app/help.php');
   $('#Modal').modal('show');
   $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-editar-proceso-baja.php?idBaja=' + idBaja + '&idEstacion=' + idEstacion);
   }
-
+  
   function EditarProcesoPersonal(idBaja,idEstacion){
-
+ 
   var Proceso = $('#Proceso').val();
   var Status = $('#Status').val();
+  var Solucion = $('#Solution').val(); 
+
 
   var parametros = {
   "idBaja" : idBaja,
+  "Solucion" : Solucion,
   "Proceso" : Proceso,
   "Status" : Status,
   "Accion" : "editar-proceso-baja-personal"
   };
-
+ 
   if(Proceso != ""){
   $('#Proceso').css('border',''); 
 
@@ -457,7 +460,7 @@ $ToSolicitudBaja = $ClassRecursosHumanosGeneral->ToSolicitudBaja($id);
   </div>
   </div>
 
- 
+  
   <!---------- MODAL AGREGAR ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
