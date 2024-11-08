@@ -12,11 +12,17 @@ if(isset($_GET["fecha_inicio"]) AND isset($_GET["fecha_fin"])){
 $fechaInicio = $_GET["fecha_inicio"];
 $fechaFin = $_GET["fecha_fin"];
 $consulta = "WHERE op_rh_personal_lista_negra.fecha BETWEEN '".$fechaInicio."' AND '".$fechaFin."'";
+$textoDetalle = "del: ".$ClassHerramientasDptoOperativo->FormatoFecha($fechaInicio)." al: ".$ClassHerramientasDptoOperativo->FormatoFecha($fechaFin)."";
+$btnRegreso = '  <button type="button" class="btn btn-labeled2 btn-success mt-3 float-end" onclick="SelEstacion()">
+  <span class="btn-label2"><i class="fa-solid fa-rotate-left"></i></span>Regresar a la pagina información principal</button>';
 
 }else{
 $fechaInicio = "";
 $fechaFin = "";
 $consulta = "";
+$textoDetalle = "General";
+$btnRegreso = "";
+
 }
 
 $sql_lista = "SELECT 
@@ -77,7 +83,12 @@ if ($numero_lista > 0) {
 ?>
 
 <div class="row <?=$ocultarbtn?>"> 
-<div class="col-12 mb-3">
+
+<div class="col-9 mb-3">
+<h5 class="text-primary"><?=$textoDetalle?></h5>
+</div>
+
+<div class="col-3 mb-3">
 <a href="app/vistas/contenido/2-recursos-humanos/lista-negra/reporte-lista-negra-pdf.php?fecha_inicio=<?=$fechaInicio?>&fecha_fin=<?=$fechaFin?>" download>
 <button type="button" class="btn btn-labeled2 btn-danger float-end">
 <span class="btn-label2"><i class="fa-regular fa-file-pdf"></i></span>Decargar PDF</button>        
@@ -159,6 +170,10 @@ $num++;
 </tbody>
 
 </table>
+</div>
+
+<div class="row <?=$ocultarbtn?>"> 
+<div class="col-12"><?=$btnRegreso?></div>
 </div>
 
 <?php
