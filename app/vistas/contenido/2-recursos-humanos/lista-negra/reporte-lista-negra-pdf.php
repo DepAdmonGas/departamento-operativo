@@ -9,7 +9,7 @@ if (isset($_GET["fecha_inicio"]) && isset($_GET["fecha_fin"]) && !empty($_GET["f
     $fechaInicio = $_GET["fecha_inicio"];
     $fechaFin = $_GET["fecha_fin"];
     $consulta = "WHERE op_rh_personal_lista_negra.fecha BETWEEN '".$fechaInicio."' AND '".$fechaFin."'";
-    $textoDetalle = "del: '".$ClassHerramientasDptoOperativo->FormatoFecha($fechaInicio)."' al: '".$ClassHerramientasDptoOperativo->FormatoFecha($fechaFin)."'";
+    $textoDetalle = "del: ".$ClassHerramientasDptoOperativo->FormatoFecha($fechaInicio)." al: ".$ClassHerramientasDptoOperativo->FormatoFecha($fechaFin)."";
 } else {
     $fechaInicio = "";
     $fechaFin = "";
