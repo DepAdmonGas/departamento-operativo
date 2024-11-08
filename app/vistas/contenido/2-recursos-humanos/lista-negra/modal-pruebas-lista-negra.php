@@ -62,7 +62,7 @@ $archivo = $row_archivos_baja['archivo'];
 echo '<tr class="text-center bg-light">';
 echo '<td class="align-middle">'.$descripcionDoc.'</td>';
 echo '<td class="align-middle"><a href="'.RUTA_ARCHIVOS.'/documentos-personal/solicitud-baja/'.$archivo.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
-echo '<th class="align-middle text-center pointer" width="20" onclick="eliminarArchivoLN('.$idListaNegra.')"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></th>';
+echo '<th class="align-middle text-center pointer" width="20" onclick="eliminarArchivoLN('.$GET_idArchivo.','.$idListaNegra.')"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></th>';
 echo '</tr>';
 
 }

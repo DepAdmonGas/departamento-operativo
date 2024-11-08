@@ -180,7 +180,7 @@ require('app/help.php');
    
    alertify.confirm('',
    function(){
-  
+   
    var parametros = {
    "idArchivo" : idArchivo,
    "Accion" : "eliminar-archivo-lista-negra"
