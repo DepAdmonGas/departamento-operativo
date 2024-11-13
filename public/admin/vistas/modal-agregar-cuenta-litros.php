@@ -101,6 +101,7 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
     <option>Puebla</option>
     <option>Vopack</option>
 		<option>Monterra</option>
+    <option>Azcapotzalco</option>
     </select>
 
 
