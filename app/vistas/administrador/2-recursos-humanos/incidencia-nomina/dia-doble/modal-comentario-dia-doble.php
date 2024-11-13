@@ -1,19 +1,15 @@
 <?php
-require ('../../../../../help.php');
-
+require('../../../../../../app/help.php');
 $idReporte = $_GET['idReporte'];
-$id = $_GET['id'];
-$idestacion = $_GET['idestacion'];
-$year = $_GET['year'];
-$mes = $_GET['mes'];
 
-$sql_comen = "SELECT * FROM op_embarques_comentario WHERE id_embarques = '" . $id . "' ORDER BY id DESC ";
+$sql_comen = "SELECT * FROM op_rh_dia_doble_comentarios WHERE id_reporte = '".$idReporte."' ORDER BY id DESC ";
 $result_comen = mysqli_query($con, $sql_comen);
 $numero_comen = mysqli_num_rows($result_comen);
+
 ?>
- 
+
 <div class="modal-header">
-<h5 class="modal-title">Comentarios</h5>
+<h5 class="modal-title">Comentarios </h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
@@ -49,7 +45,6 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 <div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
     
 </div>
-
 <?php
 }
 
@@ -57,19 +52,15 @@ $HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
 echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
 }
 
-?> 
+?>
 
 </div>
-
 
 <div class="mb-1 text-secondary mt-2">COMENTARIO:</div>
 <textarea class="form-control rounded-0" id="Comentario"></textarea>
-
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarComentario(<?=$idReporte;?>,<?=$id;?>,<?=$idestacion;?>,<?=$year;?>,<?=$mes;?>,<?=$Session_IDUsuarioBD?>)">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$idReporte?>)">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
-
-</div>       

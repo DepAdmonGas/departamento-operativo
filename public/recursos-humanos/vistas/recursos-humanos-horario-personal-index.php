@@ -24,6 +24,8 @@ require('app/help.php');
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
   <script type="text/javascript">
 
@@ -36,8 +38,8 @@ require('app/help.php');
     idEstacion = sessionStorage.getItem('idestacion');
 
     if(idEstacion == 8){
-      $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-comodines.php?idEstacion=' + idEstacion + "&idRol=0");
-    
+      SelComodines(idEstacion)
+
     }else{
       $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
 
@@ -58,15 +60,33 @@ require('app/help.php');
     //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-personal.php?idEstacion=' + idEstacion);
     $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
 
-
     }
 
-    function SelComodines(idEstacion,idRol){
+
+    function SelComodines(idEstacion){
     sessionStorage.setItem('idestacion', idEstacion);
-    $('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-comodines.php?idEstacion=' + idEstacion + "&idRol=" + idRol);
 
-    }
- 
+    let targets;
+    targets = [3];
+
+    $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido-comodines.php?idEstacion=' + idEstacion, function () {
+      $('#tabla_rol_comodines_' + idEstacion).DataTable({
+        "stateSave": true,
+        "language": {
+          "url": "<?= RUTA_JS2 ?>/es-ES.json"
+        },
+        "order": [[0, "asc"]],
+        "lengthMenu": [25, 50, 75, 100],
+        "columnDefs": [
+          { "orderable": false, "targets": targets },
+          { "searchable": false, "targets": targets }
+        ]
+      });
+    });
+
+  }
+  
+
     function EditHorario(titulo,dia,idPersonal,idEstacion){
     var horario = titulo.value;
 
@@ -106,104 +126,7 @@ require('app/help.php');
 
     }
 
-    function ModalRoles(idEstacion){
-    $('#Modal').modal('show');  
-    $('#ContenidoModal').load('public/recursos-humanos/vistas/modal-agregar-horario-comodines.php?idEstacion=' + idEstacion);   
- 
-    } 
-
-function AgregarRol(idEstacion){
-
-var seleccionArchivos = document.getElementById("seleccionArchivos");
-var seleccionArchivos_file = seleccionArchivos.files[0];
-var seleccionArchivos_filePath = seleccionArchivos.value;
-
-var Observaciones = $('#Observaciones').val();
-
-var input = $("#seleccionArchivos").val()
-var extencion = input.split(".").pop().toLowerCase();
-
-var URL = "public/recursos-humanos/modelo/agregar-rol-comodines.php";
-var data = new FormData();
-
-data.append('idEstacion', idEstacion);
-data.append('seleccionArchivos_file', seleccionArchivos_file);
-data.append('Observaciones', Observaciones);
-
-if(input != "" ){
-
-$("#seleccionArchivos").css('border','');
-
-if( extencion == "jpg" || extencion == "png" || extencion == "PNG" || extencion == "JPG" || extencion == "jpeg" || extencion == "JPEG"){
-
-$("#Mensaje").html('');
-
-$.ajax({
-url: URL,
-type: 'POST',
-contentType: false,
-data: data,
-processData: false,
-cache: false
-}).done(function(data){
-
-SelComodines(idEstacion,0)
-$('#Modal').modal('hide');  
-alertify.success('Rol agregado exitosamente.');
-sizeWindow();
-});
-
-
-}else{
-alertify.error('La imagen debe ser .JPG o .PNG');
-}
-}else{
-$("#seleccionArchivos").css('border','2px solid #A52525');
-}
-}
-
- 
-//---------- ELIMINAR ROL DE COMODIN ----------
-
-function Eliminar(idEstacion,idRol){
-
-    var parametros = {
-    "idRol" : idRol
-    };
-
- alertify.confirm('',
- function(){
-
-      $.ajax({
-    data:  parametros,
-    url:   'public/recursos-humanos/modelo/eliminar-rol-comodines.php',
-    type:  'post',
-    beforeSend: function() {
-    },
-    complete: function(){
-
-    }, 
-    success:  function (response) {
-
-    if (response == 1) {
-    SelComodines(idEstacion,0)
-    sizeWindow();
-    alertify.success('Rol eliminado exitosamente.');
-
-    }else{
-    alertify.error('Error al eliminar');
-    }
-
-    }
-    });
-
- },
- function(){
-
- }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar la información seleccionada?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
-
-}
-
+   
    </script>
   </head>
 
@@ -291,13 +214,6 @@ $icon = "fa-solid fa-screwdriver-wrench";
 if($session_nompuesto == "Dirección de operaciones"){
 ?> 
 
-<li>
-<a class="pointer" onclick="SelComodines(8,0)">
-<i class="fa-solid fa-users" aria-hidden="true" style="padding-right: 10px;"></i>
-Rol de Comodines
-</a>
-</li>
-
 <?php
 }
 ?>
@@ -379,22 +295,24 @@ Rol de Comodines
   </div>
 
   </div>
+    
 
-
-  <!---------- MODAL ----------> 
-  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg"> 
-  <div class="modal-content" id="ContenidoModal">
+  <!---------- MODAL RIGHT ----------> 
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
+  <div class="modal-content" id="ContenidoModal"></div>
   </div>
   </div>
-  </div>
-
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

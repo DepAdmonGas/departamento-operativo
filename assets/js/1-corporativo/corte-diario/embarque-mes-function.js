@@ -321,13 +321,13 @@ document.getElementById("DivMerma").style.display = "none";
   //$('#ModalEmbarques').load('../../public/corte-diario/vistas/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion);
   }
 
-  function GuardarComentario(idReporte,id,idEstacion,year,mes) {
+  function GuardarComentario(idReporte,id,idEstacion,year,mes,idUsuario) {
 
     var Comentario = $('#Comentario').val();
 
     var parametros = {
       "id": id,
-      "idEstacion": idEstacion,
+      "idUsuario": idUsuario,
       "Comentario": Comentario,
       "accion": "agregar-comentario-embarques"
     };

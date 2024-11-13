@@ -170,8 +170,8 @@ function EditTBaucher(val, idReporte, idTarjeta) {
 
   $.ajax({
     data: parametros,
-    //url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-    url:   '../../../public/corte-diario/modelo/editar-tarjetas-c-b.php',
+    url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+    //url:   '../../../public/corte-diario/modelo/editar-tarjetas-c-b.php',
     type: 'post',
     beforeSend: function () {
     },

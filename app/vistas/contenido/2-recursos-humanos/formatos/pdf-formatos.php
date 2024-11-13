@@ -128,12 +128,12 @@ body, html {
         width: 100%;
     }
     .firma-col {
-        width: 32%; /* Ajusta este valor para el número de columnas que desees */
-        float: left;
-        padding: 0 5px;
-        box-sizing: border-box;
-        text-align: center;
-    }
+    width: 25%; /* Ajusta a 25% para 4 columnas */
+    float: left;
+    padding: 0 1px;
+    box-sizing: border-box;
+    text-align: center;
+}
     .firma-col img {
         width: 70%; /* Ajusta este valor para el tamaño de las firmas */
     }
@@ -715,10 +715,13 @@ body, html {
             $TipoFirma = "NOMBRE Y FIRMA DE QUIEN ELABORÓ";
             $Detalle = '<div><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'"></div>';
         } else if($row_firma['tipo_firma'] == "B"){
-            $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+            $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
             $Detalle = '<div><small>La solicitud de cheque se firmó por un medio electrónico.<br><b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
         } else if($row_firma['tipo_firma'] == "C"){
-            $TipoFirma = "NOMBRE Y FIRMA DEL VOBO";
+            $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+            $Detalle = '<div><small>La solicitud de cheque se firmó por un medio electrónico.<br><b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+        }else if($row_firma['tipo_firma'] == "D"){
+            $TipoFirma = "NOMBRE Y FIRMA DE VERIFICACIÓN";
             $Detalle = '<div><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'"></div>';
         }
 

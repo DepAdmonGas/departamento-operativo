@@ -49,7 +49,6 @@ return $numero_lista = mysqli_num_rows($result_lista);
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   $('[data-toggle="tooltip"]').tooltip();
-  sizeWindow();
   
   if(sessionStorage){
     if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
@@ -550,7 +549,6 @@ alertify.confirm('',
   if (event.persisted) {
   // Si la página está en la caché del navegador, recargarla
   window.location.reload();
-  sizeWindow();
   }
   });
   </script>

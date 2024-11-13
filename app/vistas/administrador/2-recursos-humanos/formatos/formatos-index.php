@@ -1,8 +1,14 @@
 <?php
 require('app/help.php');
+function ToSolicitud($idLocalidad,$idUsuario,$con){
 
-function ToSolicitud($idLocalidad,$con){
-$sql_lista = "SELECT id FROM op_rh_formatos WHERE id_localidad = '".$idLocalidad."' AND (status BETWEEN 1 AND 2) AND (formato IN (1, 2, 3, 4, 6, 7)) ORDER BY id DESC";
+if($idUsuario == 354){
+  $sql_lista = "SELECT id FROM op_rh_formatos WHERE id_localidad = '".$idLocalidad."' AND status = 3 AND (formato IN (1, 2, 3, 4, 6, 7)) ORDER BY id DESC";
+
+}else{
+  $sql_lista = "SELECT id FROM op_rh_formatos WHERE id_localidad = '".$idLocalidad."' AND (status BETWEEN 1 AND 2) AND (formato IN (1, 2, 3, 4, 6, 7)) ORDER BY id DESC";
+}
+
 $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
@@ -351,7 +357,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }
    
 
-  $ToSolicitud = ToSolicitud($id,$con);
+  $ToSolicitud = ToSolicitud($id,$Session_IDUsuarioBD,$con);
 
   if($ToSolicitud > 0){
   $Nuevo = '<div class="float-end"><span class="badge bg-danger text-white rounded-circle"><small>'.$ToSolicitud.'</small></span></div>';

@@ -300,14 +300,16 @@ switch($_POST['accion']):
      *      EMBARQUES
      * 
      * 
-     * 
+     *  
      */
     case 'agregar-comentario-embarques':
         $idEmbarque = $_POST['id'];
-        $idEstacion = $_POST['idEstacion'];
+        $idUsuario = $_POST['idUsuario'];
         $comentario = $_POST['Comentario'];
-        echo $CorteDiario->agregarComentarioEmbarques($idEmbarque, $idEstacion, $comentario);
+
+        echo $CorteDiario->agregarComentarioEmbarques($idEmbarque, $idUsuario, $comentario);
         break;
+
     case 'agregar-embarque':
         // valores del formulario 
         $idReporte = $_POST['IdReporte'] ?? "";

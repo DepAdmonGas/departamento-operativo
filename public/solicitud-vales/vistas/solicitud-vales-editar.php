@@ -101,17 +101,17 @@ $('#Solicitante').css('border','');
 // Si el idEstacion es 8 o el usuario es 292, validar Estacion y Cuentas
 if (idEstacion == 8 || <?=$Session_IDUsuarioBD?> == 292) {
 // Lógica para mandar uno vacío si el otro está lleno
-if (Estacion !== "") {
-data.append('Estacion', Estacion);
-data.append('Cuentas', "");  // Mandar Cuentas vacío
-$('#Estacion').css('border', '');
-$('#Cuentas').css('border', '');
-} else if (Cuentas !== "") {
+if (Cuentas !== "") {
 data.append('Estacion', "");  // Mandar Estacion vacío
 data.append('Cuentas', Cuentas);
 $('#Estacion').css('border', '');
 $('#Cuentas').css('border', '');
-} else {
+}else if (Estacion !== "") {
+data.append('Estacion', Estacion);
+data.append('Cuentas', "");  // Mandar Cuentas vacío
+$('#Estacion').css('border', '');
+$('#Cuentas').css('border', '');
+}else {
 alertify.error('Debe seleccionar una Estación o ingresar una Cuenta.');
 $('#Estacion').css('border', '2px solid #A52525');
 $('#Cuentas').css('border', '2px solid #A52525');
@@ -378,6 +378,7 @@ $('#MetodoAutorizacion').css('border', '');
 
   </div>
 
+<!--
   <script>
   // Obtener los elementos de Estacion y Cuentas
   const estacionSelect = document.getElementById('Estacion');
@@ -405,6 +406,7 @@ $('#MetodoAutorizacion').css('border', '');
   // Llamar la función inicialmente para verificar los valores
   toggleElements();
   </script>
+      -->
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
