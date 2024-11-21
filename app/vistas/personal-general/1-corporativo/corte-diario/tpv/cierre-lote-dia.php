@@ -17,7 +17,7 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
     Ultragas(<?= $GET_idReporte; ?>, 'ULTRAGAS');
     Energex(<?= $GET_idReporte; ?>, 'ENERGEX');
     Inbursa(<?= $GET_idReporte; ?>, 'INBURSA');
-    if (<?= $Session_IDEstacion ?> == 2) {
+    if (<?= $Session_IDEstacion ?> == 2 || <?= $Session_IDEstacion ?> == 14) {
       shellCL(<?= $GET_idReporte; ?>, 'SHELL FLEET NAVIGATOR');
     }
   });
@@ -128,7 +128,7 @@ $tpv = $corteDiarioGeneral->getTpv($GET_idReporte);
               </div>
             </div>
             <?php
-            if ($Session_IDEstacion == 2) {
+            if ($Session_IDEstacion == 2 || $Session_IDEstacion == 14) {
               ?>
               <!---------- shell ---------->
               <div class="mb-3">

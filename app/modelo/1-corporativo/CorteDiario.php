@@ -108,6 +108,7 @@ class CorteDiario extends Exception
     {
         $recibo = "";
         $importe = 0;
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_prosegur WHERE idreporte_dia = ? AND denominacion = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -303,7 +304,7 @@ class CorteDiario extends Exception
                 ];
                 return $xochimilco;
             case 14:
-                $bosqueReal = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva, $otros];
+                $bosqueReal = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america,$shell, $bbva, $otros];
                 return $bosqueReal;
             // monederos y bancos
             case 15:
@@ -354,7 +355,7 @@ class CorteDiario extends Exception
                 $numXochi = [$num1, $num1_1, $numA, $num2, $numB, $num3, $num4, $num5, $num6, $numE, $num10];
                 return $numXochi;
             case 14:
-                $numBosque = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $num10];
+                $numBosque = [$num1, $num1_1, $num2, $num3, $num4, $num5,$num7, $num6, $num10];
                 return $numBosque;
             default:
                 // Devuelve un array vacío en caso de que no se cumpla ningún caso
@@ -388,6 +389,7 @@ class CorteDiario extends Exception
     public function nuevoRegistroTarjetasBancarias(int $idReporte, string $num, string $concepto): void
     {
         $baucher = 0;
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_tarjetas_c_b WHERE idreporte_dia =? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -457,6 +459,7 @@ class CorteDiario extends Exception
     {
         $pago = 0;
         $consumo = 0;
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_clientes_controlgas WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -529,6 +532,7 @@ class CorteDiario extends Exception
     {
         $importe = 0;
         $nota = "";
+        $numero_reporte =0;
         $sql_reporte = "SELECT idreporte_dia FROM op_pago_clientes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -685,6 +689,8 @@ class CorteDiario extends Exception
     public function editarVentasPiezas($idReporte): bool
     {
         $result = true;
+        $cantidad = 0;
+        $precio = 0;
         $sql_listaaceites = "SELECT cantidad,precio_unitario FROM op_aceites_lubricantes WHERE idreporte_dia =?";
         $result_reporte = $this->con->prepare($sql_listaaceites);
         if (!$result_reporte):
@@ -743,6 +749,8 @@ class CorteDiario extends Exception
     public function idReporte(int $sessionIdEstacion, int $year, int $mes): int
     {
         // Obtiene el año 
+        $idyear = 0;
+        $idmes = 0;
         $sql_year = "SELECT id FROM op_corte_year WHERE id_estacion = ? AND year = ?";
         $stmt_year = $this->con->prepare($sql_year);
         if (!$stmt_year):
@@ -771,6 +779,9 @@ class CorteDiario extends Exception
 
     public function nuevoRegistroAceites(int $idReporte, int $IdMes, int $sessionIdEstacion): void
     {
+        $noAceite=0;
+        $concepto = 0;
+        $precio=0;
         $sql_listaaceite = "SELECT
         op_aceites.id_aceite,
         op_aceites.concepto,
@@ -808,6 +819,7 @@ class CorteDiario extends Exception
     }
     public function validaAceites(int $idReporte, int $noAceite, string $concepto, float $precio): void
     {
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_aceites_lubricantes WHERE idreporte_dia = ? AND concepto = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -862,6 +874,7 @@ class CorteDiario extends Exception
     }
     public function agregarFirma($idReporte, $img, $sessionIdUsuario, $nombreEstacion): bool
     {
+        $dia = 0;
         $result = true;
         $detalle = 'Elaboró';
         $sql_dia = "SELECT fecha FROM op_corte_dia WHERE id =? ";
@@ -1294,6 +1307,9 @@ class CorteDiario extends Exception
     }
     public function editarSaldoInicial(int $id, float $total): int
     {
+        $saldo_inicial=0;
+        $consumos=0;
+        $pagos=0;
         $result = 0;
         $sql = "UPDATE op_consumos_pagos_resumen SET saldo_inicial=? WHERE id=? ";
         $stmt = $this->con->prepare($sql);
@@ -1970,6 +1986,13 @@ class CorteDiario extends Exception
     }
     public function agregarPagoDiferencia(int $repAceite, int $year, int $mes, array $doc, int $idEstacion, string $comentario): void
     {
+        $inventario_bodega=0;
+        $inventario_exibidores=0;
+        $bodega=0;
+        $exibidores=0;
+        $pedido=0;
+        $noaceite=0;
+        $idmes=0;
         $sql_reporte =
             "SELECT inventario_bodega,inventario_exibidores,bodega,exibidores,pedido,id_aceite,id_mes
          FROM op_aceites_lubricantes_reporte WHERE id = ?";
@@ -2062,7 +2085,8 @@ class CorteDiario extends Exception
     }
     private function totalAceite(int $idmes, int $noaceite): int
     {
-
+        $id = 0;
+        $can = 0;
         $sql = "SELECT id FROM op_corte_dia WHERE id_mes = ? ";
         $result = $this->con->prepare($sql);
         if (!$result):
@@ -2091,6 +2115,8 @@ class CorteDiario extends Exception
     }
     private function actualizarAlmacen($IdReporte, $idAceite, $diferencia)
     {
+        $id = 0;
+        $bod = 0;
         $sql_reporte = "SELECT id, bodega FROM op_inventario_aceites WHERE id_mes = ? AND id_aceite = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
