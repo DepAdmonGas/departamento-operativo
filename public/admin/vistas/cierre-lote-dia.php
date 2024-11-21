@@ -42,7 +42,7 @@ require ('app/help.php');
         Ultragas(<?= $GET_idReporte; ?>, 'ULTRAGAS');
         Energex(<?= $GET_idReporte; ?>, 'ENERGEX');
       }
-      if(sessionIDEstacion == 2){
+      if(sessionIDEstacion == 2 || sessionIDEstacion == 14){
         shellCL(<?= $GET_idReporte; ?>, 'SHELL FLEET NAVIGATOR');
       }
 

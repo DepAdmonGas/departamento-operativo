@@ -4,7 +4,7 @@ require ('../../../../../help.php');
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 
-if($Session_IDEstacion == 2){
+if($Session_IDEstacion == 2 ||$Session_IDEstacion == 14){
   $colspan0 = 'colspan="18"';
   $colspan1 = 'colspan="7"'; 
   $ocultar = ""; 

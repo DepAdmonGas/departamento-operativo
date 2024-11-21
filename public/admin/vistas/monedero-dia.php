@@ -52,6 +52,7 @@ require ('app/help.php');
 
   function TarjetasCB($idReporte, $concepto, $con)
   {
+    $baucher =0;
     $sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '" . $idReporte . "' AND concepto = '" . $concepto . "' LIMIT 1 ";
     $result_cb = mysqli_query($con, $sql_cb);
     while ($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)) {

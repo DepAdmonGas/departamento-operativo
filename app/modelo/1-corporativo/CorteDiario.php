@@ -108,6 +108,7 @@ class CorteDiario extends Exception
     {
         $recibo = "";
         $importe = 0;
+        $numero_reporte = 0;
         $sql_reporte = "SELECT idreporte_dia FROM op_prosegur WHERE idreporte_dia = ? AND denominacion = ? ";
         $result_reporte = $this->con->prepare($sql_reporte);
         if (!$result_reporte):
@@ -303,7 +304,7 @@ class CorteDiario extends Exception
                 ];
                 return $xochimilco;
             case 14:
-                $bosqueReal = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america, $bbva, $otros];
+                $bosqueReal = [$ticketcard, $g500, $efecticard, $sodexo, $inburgas, $america,$shell, $bbva, $otros];
                 return $bosqueReal;
             // monederos y bancos
             case 15:
@@ -354,7 +355,7 @@ class CorteDiario extends Exception
                 $numXochi = [$num1, $num1_1, $numA, $num2, $numB, $num3, $num4, $num5, $num6, $numE, $num10];
                 return $numXochi;
             case 14:
-                $numBosque = [$num1, $num1_1, $num2, $num3, $num4, $num5, $num6, $num10];
+                $numBosque = [$num1, $num1_1, $num2, $num3, $num4, $num5,$num7, $num6, $num10];
                 return $numBosque;
             default:
                 // Devuelve un array vacío en caso de que no se cumpla ningún caso
