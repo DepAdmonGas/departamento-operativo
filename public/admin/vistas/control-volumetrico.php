@@ -107,7 +107,7 @@ $ImportePesos = $row_pipas['volumen'] * $row_pipas['precio_litro'];
 $volumen = $volumen + $row_pipas['volumen'];
 //$importetotal = $importetotal + $row_pipas['importe_total'];
 $importetotal = $importetotal + $ImportePesos;
-
+ 
 }
 }
 
@@ -1014,12 +1014,12 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
           </div>
           <hr>
         </div>
-      </div>
+      </div> 
       <div class="row">
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 
-
+ 
           <div id="ListaResumen"></div>
           <div id="ListaResumenTotal"></div>
 
@@ -1078,6 +1078,7 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
             <option>Acuse de recepción controles volumétricos</option>
             <option>Acuse de aceptación controles volumétricos</option>
             <option>Jarreo</option>
+            <option>XML SAT FACTURAS EMITIDAS</option>
           </select>
           <h6 class="mb-2 mt-2">* Agregar Documento</h6>
           <input class="form-control" type="file" id="Documento">

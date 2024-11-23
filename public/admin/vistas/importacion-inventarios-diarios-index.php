@@ -57,7 +57,7 @@ require('app/help.php');
 
     } 
     }); 
-
+ 
  } 
  
    function Contenido(){
@@ -97,7 +97,7 @@ alertify.confirm('',
 
     }
     });
-
+  
    },
    function(){
 

@@ -29,7 +29,7 @@ endif;
 			</tr>
 			<tr>
 				<td class="align-middle text-center fw-bold">FECHA</td>
-				<th class="align-middle text-center">ANEXOS</th>
+				<th class="align-middle text-center">DESCRIPCIÓN</th>
 				<th class="align-middle text-center" width="24">
 					<img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
 				</th>
