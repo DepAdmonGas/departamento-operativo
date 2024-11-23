@@ -12,13 +12,13 @@ require 'app/vistas/contenido/header.php';
     $(".LoaderPage").fadeOut("slow");
     SelEstacion(<?= $Session_IDEstacion; ?>)
 
-  });
+  }); 
   function SelEstacion(idEstacion) {
     let targets;
     targets = [8];
 
     $('#Permisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion, function () {
-      $('#tabla_permisos').DataTable({
+      $('#tabla_permisos_' + idEstacion).DataTable({
         "stateSave": true,
         "language": {
           "url": "<?= RUTA_JS2 ?>/es-ES.json"
@@ -31,8 +31,8 @@ require 'app/vistas/contenido/header.php';
         ]
       });
     });
-
-  }
+ 
+  } 
 
   function Registro(idEstacion) {
     // ruta cambiada en index.php
