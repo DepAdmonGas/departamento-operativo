@@ -143,11 +143,8 @@ document.getElementById("DivMerma").style.display = "none";
         processData: false,
         cache: false
         }).done(function(data){
-          console.log(data)
         $(".LoaderPage").hide();
-        //$('#Modal').modal('hide');
-        console.log(Unidad)
-        console.log(Chofer)
+        $('#Modal').modal('hide');
         alertify.success('Embarque agreado exitosamente')
         ListaEmbarques(idEstacion,year,mes);
      

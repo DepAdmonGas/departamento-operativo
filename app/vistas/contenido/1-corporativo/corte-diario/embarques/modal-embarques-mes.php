@@ -214,7 +214,7 @@ $mes = $_GET['mes'];
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="mb-1 text-secondary">Nombre del transporte</div>
-          <select class="form-select" id="NombreTransporte">
+          <select class="selectize" id="NombreTransporte">
             <option></option>
             <?php
             $sql_unidades = "SELECT nombre_transporte FROM tb_lista_transportes WHERE estado = 0 ORDER BY nombre_transporte ASC";

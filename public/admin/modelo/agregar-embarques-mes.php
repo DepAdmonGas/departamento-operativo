@@ -1,17 +1,51 @@
 <?php
 require('../../../app/help.php');
 
-validaChofer($_POST['Chofer'],$con);
-validaUnidad($_POST['Unidad'],$con);
-// Funcion que valida si esta agregado el chofer o la unidad
-function validaChofer($chofer,$con){
-    mysqli_query($con, $sql);
+
+// Valida si ya esta en la bd el registro , en caso que no este, lo agrega
+$chofer = validaDato($_POST['Chofer'],1,$con);
+$unidad = validaDato($_POST['Unidad'],2,$con);
+$transporte = validaDato($_POST['NombreTransporte'],3,$con);
+if($chofer == 0){
+    agregaDato($_POST['Chofer'],1,$con);
 }
-function validaUnidad($unidad,$con){
-    mysqli_query($con, $sql);
+if($unidad == 0){
+    agregaDato($_POST['Unidad'],2,$con);
 }
-function validaDato($con,$dato){
-    mysqli_query($con, $sql);
+if($transporte == 0){
+    agregaDato($_POST['NombreTransporte'],3,$con);
+}
+function validaDato($dato,$opcion,$con){
+    $id = 0;
+    $columna = "nombre_chofer";
+    $tabla = "tb_pivoteo_chofer";
+    if($opcion == 2){
+        $columna = "no_unidad";
+        $tabla = "tb_unidades_transporte";
+    }else if($opcion == 3){
+        $columna = "nombre_transporte";
+        $tabla = "tb_lista_transportes";
+    }
+    $sql = "SELECT $columna FROM $tabla WHERE $columna = '$dato' ORDER BY id DESC LIMIT 1";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+      $id = 1;
+    }
+    return $id;
+}
+function agregaDato($dato,$opcion,$con){
+    $columna = "nombre_chofer";
+    $tabla = "tb_pivoteo_chofer";
+    if($opcion == 2){
+        $columna = "no_unidad";
+        $tabla = "tb_unidades_transporte";
+    }else if($opcion == 3){
+        $columna = "nombre_transporte";
+        $tabla = "tb_lista_transportes";
+    }
+    $sql = "INSERT INTO $tabla ($columna,estado) 
+            VALUES ('$dato',0)";
+    $con->query($sql);
 }
 
 $aleatorio = uniqid();
