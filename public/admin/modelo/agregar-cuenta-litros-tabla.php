@@ -1,6 +1,51 @@
  <?php
 require('../../../app/help.php');
 
+// Valida si ya esta en la bd el registro , en caso que no este, lo agrega
+$unidad = validaDato($_POST['unidadCL'],2,$con);
+$transporte = validaDato($_POST['transporteCL'],3,$con);
+
+if($unidad == 0){
+    agregaDato($_POST['unidadCL'],2,$con);
+}
+if($transporte == 0){
+    agregaDato($_POST['transporteCL'],3,$con);
+}
+function validaDato($dato,$opcion,$con){
+    $id = 0;
+    $columna = "nombre_chofer";
+    $tabla = "tb_pivoteo_chofer";
+    if($opcion == 2){
+        $columna = "no_unidad";
+        $tabla = "tb_unidades_transporte";
+    }else if($opcion == 3){
+        $columna = "nombre_transporte";
+        $tabla = "tb_lista_transportes";
+    }
+    $sql = "SELECT $columna FROM $tabla WHERE $columna = '$dato' ORDER BY id DESC LIMIT 1";
+    $result = $con->query($sql);
+    if ($result->num_rows > 0) {
+      $id = 1;
+    }
+    return $id;
+}
+function agregaDato($dato,$opcion,$con){
+    $columna = "nombre_chofer";
+    $tabla = "tb_pivoteo_chofer";
+    if($opcion == 2){
+        $columna = "no_unidad";
+        $tabla = "tb_unidades_transporte";
+    }else if($opcion == 3){
+        $columna = "nombre_transporte";
+        $tabla = "tb_lista_transportes";
+    }
+    $sql = "INSERT INTO $tabla ($columna,estado) 
+            VALUES ('$dato',0)";
+    $con->query($sql);
+}
+
+
+
 $aleatorio = uniqid();
 
 $NoDoc1  =   $_FILES['Archivo_file']['name'];

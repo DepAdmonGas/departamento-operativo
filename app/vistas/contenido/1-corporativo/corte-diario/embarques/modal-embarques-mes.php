@@ -8,6 +8,18 @@ $mes = $_GET['mes'];
 ?>
 <script type="text/javascript">
   $('.selectize').selectize({
+    create: function(input) {
+      const upperInput = input.toUpperCase();
+        return {
+            value: upperInput,
+            text: `${upperInput}` // Texto personalizado en español
+        };
+    },
+    render: {
+        option_create: function(data, escape) {
+            return `<div class="create">Agregar <strong>${escape(data.input.toUpperCase())}</strong>...</div>`;
+        }
+    },
     sortField: 'text'
   });
 </script>
@@ -159,26 +171,23 @@ $mes = $_GET['mes'];
   <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary fw-bold">* CHOFER</div>
-     <!--
       <select class="selectize" id="Chofer">
         <option></option>
         <?php
           $sql_unidades = "SELECT nombre_chofer FROM tb_pivoteo_chofer WHERE estado = 0 ORDER BY id ASC";
           $result_unidades = mysqli_query($con, $sql_unidades);
-
           while ($row_unidades = mysqli_fetch_array($result_unidades, MYSQLI_ASSOC)) {
             $chofer = $row_unidades['nombre_chofer'];
             echo '<option>' . $chofer . '</option>';
           }
         ?>
       </select>
-      -->
-      <input type="text" class="form-control" id="Chofer">
+      
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
       <div class="mb-1 text-secondary fw-bold">* UNIDAD</div>
-      <!--
+      
       <select class="selectize" id="Unidad">
         <option></option>
         <?php
@@ -191,8 +200,6 @@ $mes = $_GET['mes'];
           }
         ?>
       </select>
-      -->
-        <input type="text" class="form-control" id="Unidad">
     </div>
 
 
@@ -207,7 +214,7 @@ $mes = $_GET['mes'];
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="mb-1 text-secondary">Nombre del transporte</div>
-          <select class="form-select" id="NombreTransporte">
+          <select class="selectize" id="NombreTransporte">
             <option></option>
             <?php
             $sql_unidades = "SELECT nombre_transporte FROM tb_lista_transportes WHERE estado = 0 ORDER BY nombre_transporte ASC";

@@ -143,7 +143,6 @@ document.getElementById("DivMerma").style.display = "none";
         processData: false,
         cache: false
         }).done(function(data){
-    
         $(".LoaderPage").hide();
         $('#Modal').modal('hide');
         alertify.success('Embarque agreado exitosamente')
