@@ -1,6 +1,18 @@
 <?php
 require('../../../app/help.php');
 
+validaChofer($_POST['Chofer'],$con);
+validaUnidad($_POST['Unidad'],$con);
+// Funcion que valida si esta agregado el chofer o la unidad
+function validaChofer($chofer,$con){
+    mysqli_query($con, $sql);
+}
+function validaUnidad($unidad,$con){
+    mysqli_query($con, $sql);
+}
+function validaDato($con,$dato){
+    mysqli_query($con, $sql);
+}
 
 $aleatorio = uniqid();
 
