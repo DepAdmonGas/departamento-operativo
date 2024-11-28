@@ -17,8 +17,7 @@ $onclickF = "onclick='history.back()'";
 
  <nav class="navbar navbar-expand navbar-light navbar-bg" >
   
-  <i class="fa-solid fa-bars menu-btn rounded pointer" 
-  id="sidebarCollapse"></i>
+  <i class="fa-solid fa-bars menu-btn rounded pointer" id="sidebarCollapse"></i>
 
   <div class="pointer">
   <a class="text-dark" <?=$onclickF?>><?=$nombreBar;?> </a>

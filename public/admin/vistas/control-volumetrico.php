@@ -1078,7 +1078,10 @@ $sql_insert = "INSERT INTO op_ingresos_facturacion_contabilidad  (
             <option>Acuse de recepción controles volumétricos</option>
             <option>Acuse de aceptación controles volumétricos</option>
             <option>Jarreo</option>
-            <option>XML SAT FACTURAS EMITIDAS</option>
+            <option>UUID CV</option>
+            <option>UUID SAT</option>
+            <option>Compras de Combustible</option>
+            <option>Ventas</option>
           </select>
           <h6 class="mb-2 mt-2">* Agregar Documento</h6>
           <input class="form-control" type="file" id="Documento">
