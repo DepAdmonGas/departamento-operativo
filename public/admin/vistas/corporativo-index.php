@@ -26,7 +26,6 @@ require ('app/help.php');
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="<?= RUTA_JS2 ?>home-general-functions.js"></script>
 
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {
@@ -46,7 +45,8 @@ require ('app/help.php');
     function Aceites() { window.location.href = "../administracion/aceites"; }
     function InventarioAceites() { window.location.href = "../administracion/inventario-aceites"; }
     function SolicitudVales() { window.location.href = "../solicitud-vales"; }
-
+    function IngresoFacturacion() { window.location.href = "../administracion/ingresos-facturacion"; }
+    
   window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
   // Si la página está en la caché del navegador, recargarla
@@ -121,12 +121,26 @@ require ('app/help.php');
           </article>
         </div>
 
+        <!----------- INGRESOS VS FACTURACIÓN -------->
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
+          <article class="plan card2 border-0 shadow position-relative" onclick="IngresoFacturacion()">
+            <div class="inner">
+              <div class="row">
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-3"></i></span> </div>
+                <div class="col-10">
+                  <h5 class="text-white text-center">Ingresos VS Facturación</h5>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
         <!----------- Despacho vs ventas  -------->
         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 mb-2 mt-2">
           <article class="plan card2 border-0 shadow position-relative" onclick="DespachoFactura()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-3"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-4"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Despacho vs ventas</h5>
                 </div>
@@ -141,7 +155,7 @@ require ('app/help.php');
           <article class="plan card2 border-0 shadow position-relative" onclick="ReporteCre()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-4"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-5"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Reportes estadísticos de la CRE</h5>
                 </div>
@@ -156,7 +170,7 @@ require ('app/help.php');
           <article class="plan card2 border-0 shadow position-relative" onclick="ContratosAdmin()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-5"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-6"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Contratos</h5>
                 </div>
@@ -171,7 +185,7 @@ require ('app/help.php');
           <article class="plan card2 border-0 shadow position-relative" onclick="SegurosAdmin()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-6"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-7"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Incidentes y accidentes(seguros)</h5>
                 </div>
@@ -186,7 +200,7 @@ require ('app/help.php');
           <article class="plan card2 border-0 shadow position-relative" onclick="Aceites()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-7"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-8"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Lista de Aceites</h5>
                 </div>
@@ -200,7 +214,7 @@ require ('app/help.php');
           <article class="plan card2 border-0 shadow position-relative" onclick="SolicitudVales()">
             <div class="inner">
               <div class="row">
-                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-8"></i></span> </div>
+                <div class="col-2"> <span class="pricing"> <i class="fa-solid fa-9"></i></span> </div>
                 <div class="col-10">
                   <h5 class="text-white text-center">Solicitud de Vales</h5>
                 </div>

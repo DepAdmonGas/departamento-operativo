@@ -15,6 +15,7 @@ $numero_documento = mysqli_num_rows($result_documento);
     sortField: 'text'
   });
 </script>
+
 <div class="modal-header">
   <h5 class="modal-title">Archivos</h5>
   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>

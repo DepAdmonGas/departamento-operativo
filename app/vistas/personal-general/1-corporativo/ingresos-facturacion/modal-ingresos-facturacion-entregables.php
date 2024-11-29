@@ -25,7 +25,7 @@ $numero_lista = mysqli_num_rows($result_lista);
 
     <div class="table-responsive">
         <table class="custom-table mt-2" style="font-size: .8em;" width="100%">
-            <thead class="navbar-bg">
+            <thead class="tables-bg">
                 <tr >
                     <th class="align-middle text-center">Fecha</th>
                     <td class="align-middle text-end" width="24px"><img src="<?= RUTA_IMG_ICONOS; ?>descargar.png">
