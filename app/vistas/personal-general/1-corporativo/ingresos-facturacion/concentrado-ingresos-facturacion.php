@@ -1,6 +1,20 @@
 <?php
 require ('../../../../help.php');
-$idReporte = $_GET['idReporte'];
+$idEstacion = $_GET['idEstacion'];
+$year = $_GET['idYear'];
+
+$idReporte = $corteDiarioGeneral->idReporteFacturacion($idEstacion, $year);
+$corteDiarioGeneral->validaFacturacion($idReporte, 'general');
+$GDiesel = $corteDiarioGeneral->getProducto($idEstacion,"producto_tres");
+if ($GDiesel != "") :
+$corteDiarioGeneral->validaFacturacion($idReporte, 'G DIESEL');
+elseif ($idEstacion == 2) :
+$corteDiarioGeneral->validaFacturacion($idReporte, 'Autolavado');
+endif;
+$corteDiarioGeneral->actualizarIngresoFacturacion($idReporte);
+$corteDiarioGeneral->actualizarIF($idReporte);
+
+
 $sqlP1 = "SELECT * FROM op_ingresos_facturacion_contabilidad WHERE id_year = '" . $idReporte . "' AND posicion = 1";
 $resultP1 = mysqli_query($con, $sqlP1);
 $numeroP1 = mysqli_num_rows($resultP1);
@@ -9,31 +23,55 @@ $sqlP2 = "SELECT * FROM op_ingresos_facturacion_contabilidad WHERE id_year = '" 
 $resultP2 = mysqli_query($con, $sqlP2);
 $numeroP2 = mysqli_num_rows($resultP2);
 ?>
+
+
+<div class="col-12">
+<div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+<ol class="breadcrumb breadcrumb-caret">
+<li class="breadcrumb-item"><a onclick="history.go(-2)" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
+<li class="breadcrumb-item"><a onclick="history.go(-1)" class="text-uppercase text-primary pointer">Ingresos VS Facturación</a></li>
+<li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$year?></li>
+</ol>
+</div>
+       
+<div class="row"> 
+<div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Ingresos VS Facturación <?=$year?></h3> </div>
+<div class="col-3">
+<button type="button" class="btn btn-labeled2 btn-primary float-end ms-2" onclick="Entregables(<?=$idReporte?>)">
+<span class="btn-label2"><i class="fa-solid fa-file-pen"></i></span>Entregables</button>
+</div>
+</div>    
+<hr>
+</div>
+
 <div class="table-responsive">
-	<table class="custom-table mt-2" style="font-size: .8em;" width="100%">
-		<thead class="navbar-bg">
-			<tr class="tables-bg">
-				<th colspan="14" class="align-middle text-center">Comparativo de Facturación</th>
-			</tr>
-			<tr>
-				<td class="align-middle text-center fw-bold">Cortes diarios</td>
-				<th class="align-middle text-end" width="120px">Enero</th>
-				<th class="align-middle text-end" width="120px">Febrero</th>
-				<th class="align-middle text-end" width="120px">Marzo</th>
-				<th class="align-middle text-end" width="120px">Abril</th>
-				<th class="align-middle text-end" width="120px">Mayo</th>
-				<th class="align-middle text-end" width="120px">Junio</th>
-				<th class="align-middle text-end" width="120px">Julio</th>
-				<th class="align-middle text-end" width="120px">Agosto</th>
-				<th class="align-middle text-end" width="120px">Septiembre</th>
-				<th class="align-middle text-end" width="120px">Octubre</th>
-				<th class="align-middle text-end" width="120px">Noviembre</th>
-				<th class="align-middle text-end" width="120px">Diciembre</th>
-				<td class="align-middle text-center fw-bold">Total Ejercicio</td>
-			</tr>
-		</thead>
-		<tbody class="bg-white">
-			<?php
+<table class="custom-table mt-2" style="font-size: .8em;" width="100%">
+
+<thead class="title-table-bg">
+<tr class="tables-bg">
+<th colspan="14" class="align-middle text-center">Comparativo de Facturación</th>
+</tr>
+
+<tr>
+<td class="align-middle text-center fw-bold">Cortes diarios</td>
+<th class="align-middle text-end" width="120px">Enero</th>
+<th class="align-middle text-end" width="120px">Febrero</th>
+<th class="align-middle text-end" width="120px">Marzo</th>
+<th class="align-middle text-end" width="120px">Abril</th>
+<th class="align-middle text-end" width="120px">Mayo</th>
+<th class="align-middle text-end" width="120px">Junio</th>
+<th class="align-middle text-end" width="120px">Julio</th>
+<th class="align-middle text-end" width="120px">Agosto</th>
+<th class="align-middle text-end" width="120px">Septiembre</th>
+<th class="align-middle text-end" width="120px">Octubre</th>
+<th class="align-middle text-end" width="120px">Noviembre</th>
+<th class="align-middle text-end" width="120px">Diciembre</th>
+<td class="align-middle text-center fw-bold">Total Ejercicio</td>
+</tr>
+</thead>
+		
+<tbody class="bg-white">
+	<?php
 			$TCE1 = 0;
 			$TCF1 = 0;
 			$TCM1 = 0;
@@ -206,10 +244,12 @@ $numeroP2 = mysqli_num_rows($resultP2);
 		</tbody>
 	</table>
 </div>
+
+
 <div class="table-responsive">
 	<table class="custom-table mt-4" style="font-size: .8em;" width="100%">
-		<thead class="navbar-bg">
-			<tr class = "tables-bg">
+	<thead class="title-table-bg">
+	<tr class="tables-bg">
 				<th colspan="14" class="align-middle text-center">Facturación</th>
 			</tr>
 			<tr>

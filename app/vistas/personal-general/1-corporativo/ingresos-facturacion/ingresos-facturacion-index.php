@@ -1,27 +1,20 @@
 <?php
 require 'app/vistas/contenido/header.php';
-$IdReporte = $corteDiarioGeneral->idReporteFacturacion($Session_IDEstacion, $GET_year);
-$corteDiarioGeneral->validaFacturacion($IdReporte, 'general');
-$GDiesel = $corteDiarioGeneral->getProducto($Session_IDEstacion,"producto_tres");
-if ($GDiesel != "") :
-    $corteDiarioGeneral->validaFacturacion($IdReporte, 'G DIESEL');
-elseif ($Session_IDEstacion == 2) :
-    $corteDiarioGeneral->validaFacturacion($IdReporte, 'Autolavado');
-endif;
-$corteDiarioGeneral->actualizarIngresoFacturacion($IdReporte);
-$corteDiarioGeneral->actualizarIF($IdReporte);
 
 ?>
-  <script type="text/javascript">
-    $(document).ready(function ($) {
-      $(".LoaderPage").fadeOut("slow");
-      IngresosFacturacion(<?= $IdReporte; ?>);
-    });
-    function IngresosFacturacion(idReporte) {
-        $('#DivContenido').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/concentrado-ingresos-facturacion.php?idReporte=' + idReporte);
-        //$('#DivContenido').load('../public/corte-diario/vistas/concentrado-ingresos-facturacion.php?idReporte=' + idReporte);
-    }
-    function EditIF(idReporte, id, mes, posicion) {
+
+<script type="text/javascript">
+$(document).ready(function ($) {
+$(".LoaderPage").fadeOut("slow");
+IngresosFacturacion(<?=$Session_IDEstacion?>, <?=$GET_year?>);
+});
+   
+function IngresosFacturacion(idEstacion,year) {
+$('#DivContenido').load('../app/vistas/personal-general/1-corporativo/ingresos-facturacion/concentrado-ingresos-facturacion.php?idEstacion=' + idEstacion + '&idYear=' + year);
+//$('#DivContenido').load('../public/corte-diario/vistas/concentrado-ingresos-facturacion.php?idReporte=' + idReporte);
+}
+    
+function EditIF(idReporte, id, mes, posicion) {
 
       var valor = $('#D' + posicion + mes + id).val();
 
@@ -330,45 +323,22 @@ $corteDiarioGeneral->actualizarIF($IdReporte);
     <?php include_once "public/navbar/navbar-perfil.php"; ?>
     <!---------- CONTENIDO PAGINA WEB---------->
     <div class="contendAG">
+    <div class="row"><div class="col-12" id="DivContenido"></div></div>
+    </div>
 
-    <div class="row">
-    <div class="col-12">
-    <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
-    <ol class="breadcrumb breadcrumb-caret">
-    <li class="breadcrumb-item"><a onclick="menuCorporativoMes('../corporativo')" class="text-uppercase text-primary pointer"><i class="fa-solid fa-house"></i> Corporativo</a></li>
-    <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer">Ingresos VS Facturación</a></li>
-    <li aria-current="page" class="breadcrumb-item active text-uppercase"><?=$GET_year?></li>
-    </ol>
-    </div>
-       
-    <div class="row"> 
-    <div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Ingresos VS Facturación <?=$GET_year?></h3> </div>
-    <div class="col-3">
-    <button type="button" class="btn btn-labeled2 btn-primary float-end ms-2" onclick="Entregables(<?= $IdReporte; ?>)">
-  <span class="btn-label2"><i class="fa-solid fa-file-pen"></i></span>Entregables</button>
-  </div>
-  </div>    
-<hr>
-    </div>
-    <div class="col-12" id="DivContenido"></div>
-
-    </div>
-    </div>
   </div>
 
 
 
-    <!---------- MODAL AGREGAR - BUSCAR ----------> 
-    <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <!---------- MODAL AGREGAR - BUSCAR ----------> 
+  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenidoModal">
   </div>
   </div>
   <!---------- FUNCIONES - NAVBAR ---------->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>
-
 </html>
