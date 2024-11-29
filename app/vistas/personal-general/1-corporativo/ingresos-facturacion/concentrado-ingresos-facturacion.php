@@ -2,6 +2,7 @@
 require ('../../../../help.php');
 $idEstacion = $_GET['idEstacion'];
 $year = $_GET['idYear'];
+$datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstacion);
 
 $idReporte = $corteDiarioGeneral->idReporteFacturacion($idEstacion, $year);
 $corteDiarioGeneral->validaFacturacion($idReporte, 'general');
@@ -14,6 +15,14 @@ endif;
 $corteDiarioGeneral->actualizarIngresoFacturacion($idReporte);
 $corteDiarioGeneral->actualizarIF($idReporte);
 
+//---------- VISUALIZACIONES PUESTOS ----------
+if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+$Estacion = "";
+	   
+}else{
+$Estacion = ' ('.$datosEstacion['localidad'].')';
+			
+}
 
 $sqlP1 = "SELECT * FROM op_ingresos_facturacion_contabilidad WHERE id_year = '" . $idReporte . "' AND posicion = 1";
 $resultP1 = mysqli_query($con, $sqlP1);
@@ -35,7 +44,7 @@ $numeroP2 = mysqli_num_rows($resultP2);
 </div>
        
 <div class="row"> 
-<div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Ingresos VS Facturación <?=$year?></h3> </div>
+<div class="col-9"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Ingresos VS Facturación<?=$Estacion?>, <?=$year?></h3> </div>
 <div class="col-3">
 <button type="button" class="btn btn-labeled2 btn-primary float-end ms-2" onclick="Entregables(<?=$idReporte?>)">
 <span class="btn-label2"><i class="fa-solid fa-file-pen"></i></span>Entregables</button>
