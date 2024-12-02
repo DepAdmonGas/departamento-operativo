@@ -1,6 +1,11 @@
 <?php 
 
 include_once "../bd/inc.conexion.php";
+// Instancia a la base de datos
+$database = Database::getInstance();
+ 
+// Obtiene la  conexión a la base de datos
+$con = $database->getConnection();
 
 if($_GET['idToken'] == '789784512365987451235478945135785412'){
 ListaHorario($con);
@@ -9,6 +14,7 @@ ListaHorario($con);
 function ListaHorario($con){
 date_default_timezone_set('America/Mexico_City');
 $fecha = date("Y-m-d");
+
 
 $sql = "SELECT * FROM op_rh_personal_horario_programar WHERE fecha = '".$fecha."' AND estado = 1 ";
 $result = mysqli_query($con, $sql);
