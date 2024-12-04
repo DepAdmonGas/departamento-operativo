@@ -6,7 +6,6 @@ require '../../../phpmailer/vendor/autoload.php';
 require '../../modelo/tokenTelegram.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 class Horarios extends Exception
 {
@@ -86,6 +85,7 @@ class Horarios extends Exception
     }
     public function editarEstacion(string $hora,int $dia,int $idPersonal,int $idReporte,int $idEstacion):bool{
         $resultado = true;
+        $idEstacionConsulta = 0;
         $sql = "SELECT id_estacion FROM op_rh_personal WHERE id = ?";
         $result = $this->con->prepare($sql);
         $result->bind_param("i",$idPersonal);
@@ -185,6 +185,7 @@ class Horarios extends Exception
      */
     public function editarHorarioPersonal(string $horario,int $dia,int $idPersonal):bool {
         $resultado = true;
+        $idEstacion = 0;
         $sql = "SELECT id_estacion FROM op_rh_personal WHERE id = ? ";
         $stmt1 = $this->con->prepare($sql);
         $stmt1->bind_param("i",$idPersonal);
