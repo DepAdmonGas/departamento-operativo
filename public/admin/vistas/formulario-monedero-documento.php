@@ -24,6 +24,7 @@ $mes = $_GET['mes'];
   <option>Inburgas</option>
   <option>Ultragas</option>
   <option>Sodexo</option>
+  <option>Shell</option>
   </select>
 </div>
 
