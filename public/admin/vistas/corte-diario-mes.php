@@ -415,7 +415,7 @@ require ('app/help.php');
           if ($session_nompuesto == "Contabilidad") {
 
 
-            if ($_SESSION["id_usuario"] == 419) {
+            if ($Session_IDUsuarioBD == 419) {
 
             } else {
 
@@ -540,7 +540,7 @@ require ('app/help.php');
         }
         ?>
 
-
+ 
       </ul>
     </nav>
 

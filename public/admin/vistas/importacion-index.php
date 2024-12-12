@@ -103,6 +103,28 @@ if($Session_IDUsuarioBD == 353){
   </section>
   </div>
 
+  <!---------- EMBARQUES (CONTADOR SILVERIO ---------->
+  <?php
+  if($Session_IDUsuarioBD == 3){
+  ?>
+
+  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2" onclick="Embarques()">      
+  <section class="card3 plan2 shadow-lg">
+  <div class="inner2">
+  <div class="product-image"><img src="<?=RUTA_IMG_ICONOS;?>embarques-tb.png" draggable="false"/></div>
+    
+  <div class="product-info">
+  <h2>Embarques</h2>
+  </div>
+
+  </div>
+  </section>
+  </div>
+
+  <?php
+  }
+  ?>
+
   <!---------- MEDICIONES ---------->
   <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-1 mb-2 <?=$ocultarDivGrnl?>" onclick="Mediciones()">      
   <section class="card3 plan2 shadow-lg">
