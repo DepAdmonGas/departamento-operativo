@@ -1058,7 +1058,7 @@ op_corte_mes.mes = '" . $GET_mes . "'";
            <input type="date" class="form-control" id="Fecha">
 
            <h6 class="mb-2 mt-2">* Agregar Anexo</h6>
-
+  
           <select class="form-control" id="Anexos">
             <option></option>
             <option>Tirilla de inventarios</option>
@@ -1071,6 +1071,15 @@ op_corte_mes.mes = '" . $GET_mes . "'";
             <option>UUID SAT</option>
             <option>Compras de Combustible</option>
             <option>Ventas</option>
+            
+            <?php if($session_nompuesto == "Contabilidad" || $session_nompuesto == "Dirección de operaciones"){?>
+            <option>Opinión de cumplimiento</option>
+            <?php  ?>  
+ 
+            <?php }else if ($session_nompuesto == "Encargado" && in_array($Session_IDEstacion, [1, 2, 3, 4, 5, 6, 7, 14])) { ?>
+            <option>Opinión de cumplimiento</option>
+            <?php } ?>  
+
           </select>
           <h6 class="mb-2 mt-2">* Agregar Documento</h6>
           <input class="form-control" type="file" id="Documento">
