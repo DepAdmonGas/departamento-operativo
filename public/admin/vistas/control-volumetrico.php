@@ -1074,10 +1074,13 @@ op_corte_mes.mes = '" . $GET_mes . "'";
             
             <?php if($session_nompuesto == "Contabilidad" || $session_nompuesto == "Dirección de operaciones"){?>
             <option>Opinión de cumplimiento</option>
+            <option>Reporte de facturas canceladas</option>
             <?php  ?>  
  
             <?php }else if ($session_nompuesto == "Encargado" && in_array($Session_IDEstacion, [1, 2, 3, 4, 5, 6, 7, 14])) { ?>
             <option>Opinión de cumplimiento</option>
+            <option>Reporte de facturas canceladas</option>
+
             <?php } ?>  
 
           </select>
