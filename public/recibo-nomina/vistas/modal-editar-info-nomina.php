@@ -6,25 +6,26 @@ $idEstacion = $_GET['idEstacion'];
 $year = $_GET['year'];
 $SemQui = $_GET['SemQui'];
 $descripcion = $_GET['descripcion'];
+$last = $_GET['last'];
+
+$ocultarPrima = "";
+$ocultarFormulario = "";
+$ocultarOriginal = "";
 
 if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
-  $ocultarPrima = "";
-  $ocultarOriginal = "d-none";
-  $ocultarFormulario = "";
+$ocultarOriginal = "d-none";
   
-  }else{
+}else{
 
-  if($Session_IDUsuarioBD == 354){
-    $ocultarPrima = "d-none";
-    $ocultarOriginal = "";
-    $ocultarFormulario = "d-none";
-  }else{
-    $ocultarPrima = "d-none";
-    $ocultarOriginal = "d-none";
-    $ocultarFormulario = "";
-  }
-
-      
+if($Session_IDUsuarioBD == 354){
+$ocultarPrima = "d-none";
+$ocultarFormulario = "d-none";
+  
+}else{
+$ocultarPrima = "d-none";
+$ocultarOriginal = "d-none";
+}
+  
 }
 
 function PersonalNomina($idPersonal, $con){
@@ -137,16 +138,23 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 
 <div class="row">
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
 <h6 class="text-secondary">RECIBO DE NOMINA:</h6>
 <input class="form-control" type="file" id="DocumentoAcuse">
 </div>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
 <h6 class="text-secondary">RECIBO DE NOMINA <b>(FIRMADO)</b>:</h6>
 <input class="form-control" type="file" id="DocumentoFirma">
 </div>
 
+
+<?php if($last == $SemQui){ ?>
+<div class="col-12">
+<h6 class="text-secondary">RECIBO AGUINALDO <b>(FIRMADO)</b>:</h6>
+<input class="form-control" type="file" id="DocumentoAguinaldo">
+</div>
+<?php } ?>
 
 <div class="col-12 mt-3 <?=$ocultarPrima?> <?=$ocultarOpcion?>">
 <div class="border p-3">
@@ -189,7 +197,7 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
     <button type="button" class="btn btn-labeled2 btn-danger" data-bs-dismiss="modal">
     <span class="btn-label2"><i class="fa-solid fa-xmark"></i></span>Cancelar</button>
 
-    <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarNominaInfo(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$GET_usuario?>,<?=$prima_vacacional?>,<?=$ToAlertaBD?>)">
+    <button type="button" class="btn btn-labeled2 btn-success" onclick="EditarNominaInfo(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$GET_usuario?>,<?=$prima_vacacional?>,<?=$ToAlertaBD?>,<?=$last?>)">
     <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
 
   </div>

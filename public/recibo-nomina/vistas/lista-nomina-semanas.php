@@ -5,7 +5,8 @@ require('../../../app/help.php');
   $year = $_GET['year'];
   $semana = $_GET['semana'];
   $descripcion = "Semana";
-   
+  $UltimaSemanaYear = UltimaSemanaYear($year);
+
   //---------- CONFIGURACION REGRESO ----------
   if($session_idpuesto == 15 || $Session_IDUsuarioBD == 292){
   $menuName = "Portal";
@@ -14,7 +15,7 @@ require('../../../app/help.php');
   }else{
   $menuName = "Recursos Humanos";
   }
-
+    
   //---------- OBTENER EL NOMBRE DE LA ESTACION ----------
   $sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
   $result = mysqli_query($con, $sql);
@@ -135,38 +136,97 @@ require('../../../app/help.php');
   } 
 
   //---------- CONFIGURACION RECIBO DE NOMINA MEXDESA ----------//
-  function documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$con){
+  function documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$UltimaSemanaYear,$con){
   $sql_lista4 = "SELECT doc_nomina_acuse FROM op_recibo_nomina_v2_acuses WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' ";
   $result_lista4 = mysqli_query($con, $sql_lista4);
   $numero_lista4 = mysqli_num_rows($result_lista4);
+
+  $sql_lista5 = "SELECT doc_nomina_aguinaldo FROM op_recibo_nomina_aguinaldo WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' AND status = 1";
+  $result_lista5 = mysqli_query($con,$sql_lista5);
+  $numero_lista5 = mysqli_num_rows($result_lista5);
     
   $finalizacionMexdesa = finalizacionMexdesa($idEstacion,$year,$mes,$semana,$descripcion,$con);
 
+
+  if($UltimaSemanaYear != $semana){
   if($finalizacionMexdesa == 0){
       
   $acusesArchivo = '<span class="badge rounded-pill bg-danger float-end" style="font-size: .78em;">
   Recibos de Nomina No Disponibles  <i class="fa-solid fa-ban" style="font-size: 16px; margin-left: 3px;"></i>
   </span>';
-
+    
   }else{
-
+    
   if ($numero_lista4 == 0) {
   $acusesArchivo = '<span class="badge rounded-pill bg-danger float-end" style="font-size: .78em;">
   Recibos de Nomina No Disponibles  <i class="fa-solid fa-ban" style="font-size: 16px; margin-left: 3px;"></i>
   </span>';
-         
+             
   }else{
-        
+            
   while($row_lista4 = mysqli_fetch_array($result_lista4, MYSQLI_ASSOC)){
   $doc_nomina_acuse = $row_lista4['doc_nomina_acuse'];
   }
-         
+           
   $acusesArchivo = '
   <a href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/recibos-mexdesa/'.$doc_nomina_acuse.'" download>
   <button type="button" class="btn btn-labeled2 btn-success float-end" >
   <span class="btn-label2"><i class="fa-solid fa-circle-down"></i></span>Descargar Recibos de Nomina del Personal</button>
   </a>';
   }
+    
+  }
+
+  }else{
+ 
+  if($finalizacionMexdesa == 0){
+  $value1 = '<li><a class="dropdown-item grayscale"> 
+  <i class="fa-solid fa-file-invoice-dollar text-dark"></i> Recibos de Nomina No Disponibles</a>
+  </li>';
+
+  $value2 = '<li><a class="dropdown-item grayscale"> 
+  <i class="fa-solid fa-sack-dollar text-dark"></i> Recibos de Aguinaldo No Disponibles</a>
+  </li>';
+  
+  }else{
+            
+  while($row_lista4 = mysqli_fetch_array($result_lista4, MYSQLI_ASSOC)){
+  $doc_nomina_acuse = $row_lista4['doc_nomina_acuse'];
+  }
+
+  $value1 = '<li><a class="dropdown-item pointer" href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/recibos-mexdesa/'.$doc_nomina_acuse.'" download> 
+  <i class="fa-solid fa-file-invoice-dollar text-dark"></i> Descargar Recibos de Nomina del Personal</a>
+  </li>';
+
+  while($row_lista5 = mysqli_fetch_array($result_lista5, MYSQLI_ASSOC)){
+  $doc_nomina_aguinaldo = $row_lista5['doc_nomina_aguinaldo'];
+  }
+
+
+  if($doc_nomina_aguinaldo != ""){
+
+  $value2 = '<li><a class="dropdown-item pointer" href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/recibos-mexdesa/'.$doc_nomina_aguinaldo.'" download> 
+  <i class="fa-solid fa-file-invoice-dollar text-dark"></i> Descargar Recibos de Aguinaldo del Personal</a>
+  </li>';
+  }else{
+  $value2 = '<li><a class="dropdown-item grayscale"> 
+  <i class="fa-solid fa-sack-dollar text-dark"></i> Recibos de Aguinaldo No Disponibles</a>
+  </li>';
+  }
+
+
+  }
+
+  $acusesArchivo = '
+  <div class="dropdown d-inline float-end">
+  <button type="button" class="btn dropdown-toggle btn-success text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Descargar información</span>
+  </button>
+     
+  <ul class="dropdown-menu">
+  '.$value1.'
+  '.$value2.'
+  </ul>
+  </div>';
 
   }
 
@@ -184,7 +244,7 @@ require('../../../app/help.php');
 
 
   //---------- CONFIGURACION FINALIZAR RECIBOS DE NOMINA ESTACIONES ----------//
-  function botonFinalizar($idEstacion,$year,$mes,$semana,$descripcion,$con){
+  function botonFinalizar($idEstacion,$year,$mes,$semana,$descripcion,$UltimaSemanaYear,$con){
 
   $finalizacionMexdesa = finalizacionMexdesa($idEstacion,$year,$mes,$semana,$descripcion,$con);
   $numero_lista3 = "";
@@ -196,40 +256,69 @@ require('../../../app/help.php');
   $numero_lista3 = mysqli_num_rows($result_lista3);
 
   if($numero_lista3 == 0){
-  $sql_lista4 = "SELECT importe_total,doc_nomina,doc_nomina_firma,nomina_original FROM op_recibo_nomina_v2 WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' ";
+  $sql_lista4 = "SELECT importe_total,doc_nomina,doc_nomina_firma,nomina_original,doc_nomina_aguinaldo FROM op_recibo_nomina_v2 WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' ";
   $result_lista4 = mysqli_query($con, $sql_lista4);
   $numero_lista4 = mysqli_num_rows($result_lista4);
   
+
   if($numero_lista4 != 0){
-      
   while($row_lista4 = mysqli_fetch_array($result_lista4, MYSQLI_ASSOC)){ 
   $importe_total = $row_lista4['importe_total'];
   $DocumentoNomina = $row_lista4['doc_nomina'];
   $DocumentoFirmado = $row_lista4['doc_nomina_firma'];
   $DocumentoOriginal = $row_lista4['nomina_original'];
     
+  if($UltimaSemanaYear != $semana){
+
   if (!empty($importe_total) && !empty($DocumentoNomina) && !empty($DocumentoFirmado)) {
-  $docCompleta = 1;
-        
+  $docCompleta = 1;      
   }else{
-  $docCompleta = 0;
-        
+  $docCompleta = 0;  
+  }
+
+  }else{
+  $DocumentoAguinaldo = $row_lista4['doc_nomina_aguinaldo'];
+
+  if (!empty($importe_total) && !empty($DocumentoNomina) && !empty($DocumentoFirmado) && !empty($DocumentoAguinaldo)) {
+  $docCompleta = 1;      
+  }else{
+  $docCompleta = 0;  
+  }
+  
   }
     
   $totalDocumentos = $totalDocumentos + $docCompleta;
     
   }
     
+  if($UltimaSemanaYear != $semana){
+    
   if($totalDocumentos == $numero_lista4){
   $btnFinalizarES = '
-  <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(2,'.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(2,'.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','.$UltimaSemanaYear.')">
   <span class="btn-label2"><i class="fa-regular fa-circle-check"></i></span>Finalizar actividad</button>';
-    
+            
   }else{
   $btnFinalizarES = '<span class="badge rounded-pill bg-warning float-start text-dark" style="font-size: .78em;">
   No es posible finalizar la actividad, se debe de agregar toda la información.</i>
-  </span>';
-          
+  </span>';           
+  }
+
+
+  }else{
+
+
+  if($totalDocumentos == $numero_lista4){
+  $btnFinalizarES = '
+  <button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(2,'.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','.$UltimaSemanaYear.')">
+  <span class="btn-label2"><i class="fa-regular fa-circle-check"></i></span>Finalizar actividad</button>';
+        
+  }else{
+  $btnFinalizarES = '<span class="badge rounded-pill bg-warning float-start text-dark" style="font-size: .78em;">
+  No es posible finalizar la actividad, se debe de agregar toda la información.</i>
+  </span>';           
+  }
+
   }
   
   }
@@ -278,16 +367,32 @@ require('../../../app/help.php');
   if($finSemanaDay <= $fecha_resultante && 2024 <= $year && $year <= $yearActual){
   //----- Configuracion Nomina de Alejandro Guzman ----------
   if($Session_IDUsuarioBD == 354){  
+
+  if($UltimaSemanaYear != $semana){
   $acusesArchivo = '
-	<button type="button" class="btn btn-labeled2 btn-success float-end " onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','. $UltimaSemanaYear.')">
   <span class="btn-label2"><i class="fa-solid fa-file-arrow-up"></i></span>Subir recibos de nomina</button>';
+  
+  }else{
+  $acusesArchivo = '
+  <div class="dropdown d-inline float-end">
+  <button type="button" class="btn dropdown-toggle btn-info text-white" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Subir información</span>
+  </button>
+   
+  <ul class="dropdown-menu">
+  <li onclick="AcusesNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','. $UltimaSemanaYear.')"><a class="dropdown-item pointer"> <i class="fa-solid fa-file-invoice-dollar text-dark"></i> Recibos de Nomima</a></li>
+  <li onclick="AguinaldosNomina('.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','. $UltimaSemanaYear.')"><a class="dropdown-item pointer"> <i class="fa-solid fa-sack-dollar text-dark"></i> Aguinaldos</a></li>
+
+  </ul>
+  </div>';
+  }
 
   }else{
-  $acusesArchivo = documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$con);
+  $acusesArchivo = documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$UltimaSemanaYear,$con);
   }
 
   //---------- Boton Finalizar Estaciones----------
-  $configFinalizar = botonFinalizar($idEstacion,$year,$mes,$semana,$descripcion,$con);
+  $configFinalizar = botonFinalizar($idEstacion,$year,$mes,$semana,$descripcion,$UltimaSemanaYear,$con);
   $numero_fin_ES = $configFinalizar['num_listaES'];
   $btnFinalizarES = $configFinalizar['btnFinalizarES'];
 
@@ -446,30 +551,47 @@ require('../../../app/help.php');
   $numero_lista = mysqli_num_rows($result_lista);
 
 
+  function UltimaSemanaYear($year) {
+  // Crear un objeto para el 31 de diciembre del año dado
+  $ultimoDia = new DateTime("$year-12-31");
+  
+  // Si el día no pertenece al año ISO actual (ej. cae en la semana 1 del siguiente año)
+  if ($ultimoDia->format('W') == '01') {
+  // Retroceder una semana para obtener la última semana del año actual
+  $ultimoDia->modify('-1 week');
+  }
+  
+  // Devolver el número de la semana ISO
+  return $ultimoDia->format(format: 'W');
+  }
+  
+  $titleMenu = "";  
+  $ocultarTitle = "";
+  $divisionTable = "";
+  $tituloTablaPersonal = "";
+  $tbOriginal1 = "";
+  $tbPrima1 = "";
+  $tbAguinaldo = "";
+
   //---------- VISUALIZACIONES PUESTOS ----------
+  if($UltimaSemanaYear != $semana){
+
   if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
-  $ocultatTitle = "";
+
   $colspanTB = "4";
   
   if($idEstacion == 9){
-  $titleMenu = "";  
   $tituloTablaPersonal = '<br> Autolavado ';
   $ocultarTitle = "d-none";
   $divisionTable = "<hr>";
        
   }else{
   $titleMenu = "Recibo de Nomina";  
-  $tituloTablaPersonal = "";
-  $divisionTable = "";
-  $ocultarTitle = "";
-
   }
         
   }else{
-  $tituloTablaPersonal = "";
+
   $titleMenu = "Recibo de Nomina ($Titulo)";  
-  $divisionTable = "";
-  $ocultarTitle = "";
   $colspanTB = "5";
 
   }
@@ -477,29 +599,74 @@ require('../../../app/help.php');
 
   //---------- CONFIGURACION USUARIOS ----------
   if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
-    $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
-    $tbOriginal1 = "";
-    $valColspan = "6";
-    $valColspan2 = "4";
+  $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
+  $valColspan = "6";
+  $valColspan2 = "4";
       
-    }else{
+  }else{
       
-    if($Session_IDUsuarioBD == 354){
-    $tbPrima1 = "";
-    $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
-    $valColspan = "5";
-    $valColspan2 = "5";
+  if($Session_IDUsuarioBD == 354){
+
+  $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>'; 
+  $valColspan = "5";
+  $valColspan2 = "5";
      
-    }else{
-    $tbPrima1 = "";
-    $tbOriginal1 = ""; 
-    $valColspan = "5";
-    $valColspan2 = "4";
+  }else{
+  $valColspan = "5";
+  $valColspan2 = "4";
   
-    }
-       
-    }
+  }
+
+  }
   
+
+  }else{
+
+  $tbAguinaldo = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'aguinaldo.png"></th>'; 
+
+  if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Administrativo"){
+  $colspanTB = "5";
+      
+  if($idEstacion == 9){
+  $tituloTablaPersonal = '<br> Autolavado ';
+  $ocultarTitle = "d-none";
+  $divisionTable = "<hr>";
+           
+  }else{
+  $titleMenu = "Recibo de Nomina";  
+  }
+            
+  }else{
+    
+  $titleMenu = "Recibo de Nomina ($Titulo)";  
+  $colspanTB = "6";
+    
+  }
+    
+    
+  //---------- CONFIGURACION USUARIOS ----------
+  if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
+  $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
+  $valColspan = "6";
+  $valColspan2 = "5";
+          
+  }else{
+          
+  if($Session_IDUsuarioBD == 354){
+    
+  $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
+  $valColspan = "5";
+  $valColspan2 = "6";
+         
+  }else{
+  $valColspan = "5";
+  $valColspan2 = "5";
+      
+  }
+    
+  }
+  }
+
   ?>
 
   <div class="col-12 <?=$ocultarTitle?>">
@@ -547,7 +714,7 @@ require('../../../app/help.php');
       
   <div class="d-flex align-items-center">
   <!----- SELECT DE SEMANAS DEL AÑO ----->
-  <select class="form-select" id="SemanaEstacion_<?=$idEstacion?>" onchange="SelNoSemana(<?=$idEstacion?>,<?=$year?>)"> 
+  <select class="form-select" id="SemanaEstacion_<?=$idEstacion?>" onchange="SelNoSemana(<?=$idEstacion?>,<?=$year?>,<?=$UltimaSemanaYear?>)"> 
   <option value="">Selecciona...</option>
       
   <?php
@@ -588,10 +755,10 @@ require('../../../app/help.php');
   <th class="text-center align-middle">Nombre del personal</th>
   <th class="text-center align-middle">Puesto</th>
   <th class="text-center align-middle">Importe</th>
-
   <?=$tbPrima1?>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>pdf-firma.png"></th>
+  <?=$tbAguinaldo?>
   <?=$tbOriginal1?>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
   <td class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></td>
@@ -617,6 +784,7 @@ require('../../../app/help.php');
   $puestoNomina = $datosNomina['puesto'];
 
 
+
   if($no_colaborador == 0){
   $no_colaborador2 = "S/I";
 
@@ -627,6 +795,8 @@ require('../../../app/help.php');
   $DocumentoNomina = $row_lista['doc_nomina'];
   $DocumentoFirmado = $row_lista['doc_nomina_firma'];
   $DocumentoOriginal = $row_lista['nomina_original'];
+  $DocumentoAguinaldo = $row_lista['doc_nomina_aguinaldo'];
+
 
   $ruta_nomina_archivo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/acuses/'.$DocumentoNomina.'"';
   $ruta_nomina_archivo_firma = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$DocumentoFirmado.'"';
@@ -661,36 +831,92 @@ require('../../../app/help.php');
   }
 
 
+  
+
+  if($UltimaSemanaYear != $semana){
+  $archivoNominaAguinaldo = '';
+    if($Session_IDUsuarioBD == 354){
+
+      //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
+      if($DocumentoNomina != "" && $DocumentoFirmado != "" && $DocumentoOriginal != 0 && $importe_total != 0){
+      $bgTable = 'style="background-color: #b0f2c2"';
+        
+      }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $DocumentoOriginal == 0 && $importe_total == 0){
+      $bgTable = 'style="background-color: #ffb6af"';
+        
+      }else{
+      $bgTable = 'style="background-color: #fcfcda"';
+        
+      }
+    
+    
+      }else{
+
+      //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
+      if($DocumentoNomina != "" && $DocumentoFirmado != ""  && $importe_total != 0){
+      $bgTable = 'style="background-color: #b0f2c2"';
+        
+      }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $importe_total == 0){
+      $bgTable = 'style="background-color: #ffb6af"';
+        
+      }else{
+      $bgTable = 'style="background-color: #fcfcda"';
+        
+      }
+    
+      }
+
+
+  }else{
+
+  $ruta_nomina_aguinaldo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$DocumentoFirmado.'"';
+  
+  if($DocumentoAguinaldo != ""){
+  $archivoNominaAguinaldo = '<td class="align-middle text-center"><a class="pointer" '.$ruta_nomina_aguinaldo.' download>
+  <img src="'.RUTA_IMG_ICONOS.'aguinaldo.png" data-toggle="tooltip" data-placement="top" title="Recibos de nomina firmados">
+  </a></td>';
+      
+  }else{
+  $archivoNominaAguinaldo = '<td class="align-middle text-center">
+  <img src="'.RUTA_IMG_ICONOS.'eliminar.png" data-toggle="tooltip" data-placement="top" title="Sin Información">
+  </td>';
+  }
+
+//--------
   if($Session_IDUsuarioBD == 354){
 
-  //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
-  if($DocumentoNomina != "" && $DocumentoFirmado != "" && $DocumentoOriginal != 0 && $importe_total != 0){
-  $bgTable = 'style="background-color: #b0f2c2"';
+    //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
+    if($DocumentoNomina != "" && $DocumentoFirmado != "" && $DocumentoAguinaldo != "" && $DocumentoOriginal != 0 && $importe_total != 0){
+    $bgTable = 'style="background-color: #b0f2c2"';
+      
+    }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $DocumentoAguinaldo == "" && $DocumentoOriginal == 0 && $importe_total == 0){
+    $bgTable = 'style="background-color: #ffb6af"';
+      
+    }else{
+    $bgTable = 'style="background-color: #fcfcda"';
+      
+    }
+  
+  
+    }else{
+
+    //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
+    if($DocumentoNomina != "" && $DocumentoFirmado != "" && $DocumentoAguinaldo != "" && $importe_total != 0){
+    $bgTable = 'style="background-color: #b0f2c2"';
+      
+    }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $DocumentoAguinaldo == ""&& $importe_total == 0){
+    $bgTable = 'style="background-color: #ffb6af"';
+      
+    }else{
+    $bgTable = 'style="background-color: #fcfcda"';
+      
+    }
+  
+    }
     
-  }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $DocumentoOriginal == 0 && $importe_total == 0){
-  $bgTable = 'style="background-color: #ffb6af"';
-    
-  }else{
-  $bgTable = 'style="background-color: #fcfcda"';
-    
+
   }
-
-
-  }else{
-
-  //---------- DOCUMENTOS SUBIDOS DEL RECIBO DE NOMINA ----------
-  if($DocumentoNomina != "" && $DocumentoFirmado != ""  && $importe_total != 0){
-  $bgTable = 'style="background-color: #b0f2c2"';
-    
-  }else if($DocumentoNomina == "" && $DocumentoFirmado == "" && $importe_total == 0){
-  $bgTable = 'style="background-color: #ffb6af"';
-    
-  }else{
-  $bgTable = 'style="background-color: #fcfcda"';
-    
-  }
-
-  }
+  
 
   $ToComentarios = ToComentarios($id,$con);
 
@@ -701,7 +927,7 @@ require('../../../app/help.php');
   } 
 
   if($finalizacionMexdesa != 0){ 
-  $editarNominaUser = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarRecibosNomina('.$id.','.$idEstacion.','.$year.','.$semana.',\''.$descripcion.'\')" data-toggle="tooltip" data-placement="top" title="Subir Recibo de Nomina">';
+  $editarNominaUser = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="EditarRecibosNomina('.$id.','.$idEstacion.','.$year.','.$semana.',\''.$descripcion.'\','. $UltimaSemanaYear.')" data-toggle="tooltip" data-placement="top" title="Subir Recibo de Nomina">';
 
   }else{
   $editarNominaUser = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'editar-tb.png">';
@@ -735,24 +961,22 @@ require('../../../app/help.php');
   $totalGeneral = $totalGeneral + $importe_total2;
 
 
+  $tbOriginal2 = "";
+  $tbAguinaldo = "";
+  $tbPrima2 = "";
 
   //---------- CONFIGURACION USUARIOS ----------
   if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
-    $tbPrima2 = '<td class="align-middle text-center">'.$badgePV.'</td>';
-    $tbOriginal2 = "";
-        
-    }else{
-        
-    if($Session_IDUsuarioBD == 354){
-    $tbPrima2 = "";
-    $tbOriginal2 = '<td class="align-middle text-center>'.$archivoNominaOriginal.'</td>';
+  $tbPrima2 = '<td class="align-middle text-center">'.$badgePV.'</td>';
+
+  }else{
+   
+  if($Session_IDUsuarioBD == 354){
+  $tbOriginal2 = '<td class="align-middle text-center>'.$archivoNominaOriginal.'</td>';
           
-    }else{
-    $tbPrima2 = "";
-    $tbOriginal2 = ""; 
-    }
+  }
          
-    }
+  }
   
 
   echo '<tr '.$bgTable.'>';
@@ -764,8 +988,9 @@ require('../../../app/help.php');
   echo  ''.$tbPrima2.'';
   echo '<td class="align-middle text-center">'.$archivoNominaAcuse.'</td>'; 
   echo '<td class="align-middle text-center">'.$archivoNominaFirma.'</td>'; 
+  echo  ''.$archivoNominaAguinaldo.'';
   echo  ''.$tbOriginal2.'';
-  echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+  echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.','.$year.','.$mes.','.$semana.',\''.$descripcion.'\','. $UltimaSemanaYear.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
   echo '<td class="align-middle text-center">'.$editarNominaUser.'</td>'; 
   echo '</tr>';
 
