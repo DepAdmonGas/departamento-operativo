@@ -803,6 +803,7 @@ require('../../../app/help.php');
 
   $ruta_nomina_archivo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/acuses/'.$DocumentoNomina.'"';
   $ruta_nomina_archivo_firma = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$DocumentoFirmado.'"';
+  $ruta_nomina_aguinaldo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/aguinaldo/'.$DocumentoAguinaldo.'"';
 
   //---------- ACUSE DE RECIBO DE NOMINA ----------
   if($DocumentoNomina != ""){
@@ -872,11 +873,10 @@ require('../../../app/help.php');
 
   }else{
 
-  $ruta_nomina_aguinaldo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$DocumentoFirmado.'"';
   
   if($DocumentoAguinaldo != ""){
   $archivoNominaAguinaldo = '<td class="align-middle text-center"><a class="pointer" '.$ruta_nomina_aguinaldo.' download>
-  <img src="'.RUTA_IMG_ICONOS.'aguinaldo.png" data-toggle="tooltip" data-placement="top" title="Recibos de nomina firmados">
+  <img src="'.RUTA_IMG_ICONOS.'aguinaldo.png" data-toggle="tooltip" data-placement="top" title="Recibos de aguinaldo">
   </a></td>';
       
   }else{

@@ -83,7 +83,8 @@
   function ControlVR($IdReporte, $GET_idEstacion, $GET_year, $GET_mes, $Producto, $con)
   {
 
-    $volumen = $importetotal = 0;
+    $volumen = 0;
+    $importetotal = 0;
     $idReporteCre = 0;
 
     $sql_reportecre = "SELECT id FROM re_reporte_cre_mes WHERE id_estacion = '" . $GET_idEstacion . "' and mes = '" . $GET_mes . "' and year = '" . $GET_year . "' ";
@@ -99,6 +100,8 @@
     $numero_creproducto = mysqli_num_rows($result_creproducto);
     while ($row_creproducto = mysqli_fetch_array($result_creproducto, MYSQLI_ASSOC)) {
       $ID = $row_creproducto['id'];
+
+
       $sql_pipas = "SELECT volumen, importe_total, precio_litro FROM re_reporte_cre_pipas WHERE id_re_producto  = '" . $ID . "' ";
       $result_pipas = mysqli_query($con, $sql_pipas);
       $numero_pipas = mysqli_num_rows($result_pipas);
@@ -107,10 +110,18 @@
         $ImportePesos = $row_pipas['volumen'] * $row_pipas['precio_litro'];
 
         $volumen = $volumen + $row_pipas['volumen'];
-        //$importetotal = $importetotal + $row_pipas['importe_total'];
-        $importetotal = $importetotal + $ImportePesos;
+        $importetotal = $importetotal + $row_pipas['importe_total'];
+        //$importetotal = $importetotal + $ImportePesos;
+
+
       }
+
+   
+      
+
+      
     }
+
 
     $sql_corte = "SELECT id FROM op_corte_dia WHERE id_mes  = '" . $IdReporte . "' ";
     $result_corte = mysqli_query($con, $sql_corte);
@@ -624,7 +635,7 @@ op_corte_mes.mes = '" . $GET_mes . "'";
 
      function ListaResumen(IdReporte, mes) {
        $('#ListaResumen').load('../../../../public/admin/vistas/lista-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
-     }
+     } 
 
      function ListaResumenTotal(IdReporte, mes) {
        $('#ListaResumenTotal').load('../../../../public/admin/vistas/total-control-volumetrico-resumen.php?IdReporte=' + IdReporte + '&Mes=' + mes);
@@ -1005,6 +1016,7 @@ op_corte_mes.mes = '" . $GET_mes . "'";
          </div>
        </div>
        <div class="row">
+
 
          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
 
