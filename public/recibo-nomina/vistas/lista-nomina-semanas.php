@@ -137,6 +137,9 @@ require('../../../app/help.php');
 
   //---------- CONFIGURACION RECIBO DE NOMINA MEXDESA ----------//
   function documentoNomina($idEstacion,$year,$mes,$semana,$descripcion,$UltimaSemanaYear,$con){
+  $doc_nomina_acuse = "";
+  $doc_nomina_aguinaldo  = "";
+
   $sql_lista4 = "SELECT doc_nomina_acuse FROM op_recibo_nomina_v2_acuses WHERE id_estacion = '".$idEstacion."' AND year = '".$year."' AND mes = '".$mes."' AND no_semana_quincena = '".$semana."' AND descripcion = '".$descripcion."' ";
   $result_lista4 = mysqli_query($con, $sql_lista4);
   $numero_lista4 = mysqli_num_rows($result_lista4);

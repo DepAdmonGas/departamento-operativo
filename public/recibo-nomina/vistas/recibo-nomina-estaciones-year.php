@@ -124,10 +124,11 @@ $noneDiv2 = "d-none";
   SelQuincenasES(<?=$GET_id_localidad?>,<?=$GET_year?>,<?=$GET_quincena?>,24)
  
   }else{
+    
   SelSemanasES(<?=$Session_IDEstacion?>,<?=$GET_year?>,<?=$GET_semana?>,<?=$UltimaSemanaYear?>)
 
   if(<?=$Session_IDEstacion?> == 2){
-  SelSemanasES(9,<?=$GET_year?>,<?=$GET_semana?>,<?=$UltimaSemanaYear?>);
+  SelSemanasES(9,<?=$GET_year?>,<?=$GET_semana?>,<?=$UltimaSemanaYear?>)
   }
 
   if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
@@ -171,7 +172,6 @@ $noneDiv2 = "d-none";
   }else{
 
 
-
   if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
   targets = [6,7,8,9,10];
   }else if(<?=$Session_IDUsuarioBD?> == 354){
@@ -181,13 +181,14 @@ $noneDiv2 = "d-none";
   }
 
   }
+
     $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
     // Clonar y remover las filas antes de inicializar DataTables
     var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
-      "stateSave": true,
+      "stateSave": true,   
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },
@@ -321,10 +322,10 @@ targets = [5,6,7,8,9];
   $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion + '&last=' + last);
 
   if(descripcion == "Semana"){
-  SelSemanasES(idEstacion,year,SemQui);
+  SelSemanasES(idEstacion,year,SemQui,last);
 
   }else{
-  SelQuincenasES(idEstacion,year,SemQui);
+  SelQuincenasES(idEstacion,year,SemQui,last);
 
   }
 
@@ -443,9 +444,8 @@ function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario
 
   }
    
-  function AcusesNomina(idEstacion,year,mes,SemQui,descripcion,last){
 
-
+  
   //---------- PUNTAJE RECIBO DE NOMINA (KPI) ----------
   function FinalizarNomina(idResponsable,idEstacion,year,mes,SemQui,descripcion,last){
 
