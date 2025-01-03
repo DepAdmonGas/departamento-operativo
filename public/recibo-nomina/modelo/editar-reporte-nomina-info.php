@@ -83,6 +83,12 @@ function PersonalNomina($idUsuario, $con){
     } else {
     $NoDoc2 = null;
     }
+
+    if (isset($_FILES['DocumentoAguinaldo_file'])) {
+    $NoDoc3  =  $_FILES['DocumentoAguinaldo_file']['name'];
+    } else {
+    $NoDoc3 = null;
+    }
     
 
     $UpDoc1 = "../../../archivos/recibos-nomina-v2/acuses/".$numeroAleatorio."-AcuseNomina".$nombreUser.$numeroAleatorio2;
@@ -90,8 +96,10 @@ function PersonalNomina($idUsuario, $con){
     
     $UpDoc2 = "../../../archivos/recibos-nomina-v2/firmados/".$numeroAleatorio."-FirmaNomina".$nombreUser.$numeroAleatorio2;
     $NomDoc2 = $numeroAleatorio."-FirmaNomina".$nombreUser.$numeroAleatorio2;
-  
 
+    $UpDoc3 = "../../../archivos/recibos-nomina-v2/aguinaldo/".$numeroAleatorio."-Aguinaldo".$nombreUser.$numeroAleatorio2;
+    $NomDoc3 = $numeroAleatorio."-Aguinaldo".$nombreUser.$numeroAleatorio2;
+  
     $nominaDeshabilitada = nominaDeshabilitada($idUsuario,$con);
     $nominaHabilitada = nominaHabilitada($idUsuario,$con);
 
@@ -117,6 +125,16 @@ function PersonalNomina($idUsuario, $con){
         }
     }
 
+    if (isset($_FILES['DocumentoAguinaldo_file'])) {
+
+        if(move_uploaded_file($_FILES['DocumentoAguinaldo_file']['tmp_name'], $UpDoc3)){
+    
+            $sql_edit3 = "UPDATE op_recibo_nomina_v2 SET 
+            doc_nomina_aguinaldo = '".$NomDoc3."'
+            WHERE id = '".$idReporte."'";
+            mysqli_query($con, $sql_edit3);
+        }
+    }
 
  
    
