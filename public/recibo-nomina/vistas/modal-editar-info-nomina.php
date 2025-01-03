@@ -12,6 +12,14 @@ $ocultarPrima = "";
 $ocultarFormulario = "";
 $ocultarOriginal = "";
 
+
+if($last == $SemQui){
+$ocultarOpcion2 = '';
+}else{
+
+$ocultarOpcion2 = 'd-none';
+}
+
 if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
 $ocultarOriginal = "d-none";
   
@@ -97,6 +105,9 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 }
 
 
+
+
+
 ?>
 
  
@@ -149,12 +160,12 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 </div>
 
 
-<?php if($last == $SemQui){ ?>
-<div class="col-12">
+
+<div class="col-12 <?=$ocultarOpcion2?>">
 <h6 class="text-secondary">RECIBO AGUINALDO <b>(FIRMADO)</b>:</h6>
 <input class="form-control" type="file" id="DocumentoAguinaldo">
 </div>
-<?php } ?>
+
 
 <div class="col-12 mt-3 <?=$ocultarPrima?> <?=$ocultarOpcion?>">
 <div class="border p-3">
