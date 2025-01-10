@@ -53,7 +53,7 @@ require('app/help.php');
   
   }   
      
-  } 
+  }    
  
   });  
  
@@ -479,8 +479,7 @@ require('app/help.php');
   var Importe = $('#Importe').val();
   var radios = document.getElementsByName('Original');
   var radios2 = document.getElementsByName('PrimaV');
-
-
+   
   // Iterar sobre los elementos de tipo radio
   for (var i = 0; i <= radios.length; i++) {
   // Verificar si el radio está seleccionado
@@ -501,9 +500,6 @@ require('app/help.php');
   }
   }
 
-  var data = new FormData(); 
-  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
-
   DocumentoAcuse = document.getElementById("DocumentoAcuse");
   DocumentoAcuse_file = DocumentoAcuse.files[0];
   DocumentoAcuse_filePath = DocumentoAcuse.value;
@@ -519,6 +515,9 @@ require('app/help.php');
   if(Importe != ""){
   $('#Importe').css('border','');  
 
+  var data = new FormData(); 
+  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
+
   data.append('idReporte', idReporte);
   data.append('idUsuario', idUsuario);
   data.append('Importe', Importe);
@@ -529,7 +528,7 @@ require('app/help.php');
   data.append('PrimaVacacional', primaV);
   data.append('ValorPrima', valPrima);
   data.append('ValorAlerta', valAlerta);
-
+    
   $(".LoaderPage").show();
 
   $.ajax({

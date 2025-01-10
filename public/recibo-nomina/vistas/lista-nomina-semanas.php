@@ -786,8 +786,6 @@ require('../../../app/help.php');
   $nombreNomina = $datosNomina['nombreNomina'];
   $puestoNomina = $datosNomina['puesto'];
 
-
-
   if($no_colaborador == 0){
   $no_colaborador2 = "S/I";
 

@@ -89,28 +89,44 @@ $ToAlertaBD = ToAlertaBd($GET_usuario,$con);
 
 if($prima_vacacional == 0 && $ToAlertaBD == 0){
    $ocultarOpcion = '';
+   $noPago = '';
 
 }else if($prima_vacacional == 0 && $ToAlertaBD == 1){
   $ocultarOpcion = 'd-none';
+  $noPago = '';
 
 }else if($prima_vacacional == 1 && $ToAlertaBD == 1){
    $ocultarOpcion = 'd-none';
+   $noPago = '
+   <div class="col-4 mb-2">
+     <div class="form-check form-check-inline">
+       <input class="form-check-input" type="radio" name="PrimaV" id="NoPago" value="1" ' . 
+       ($prima_vacacional == 1 ? 'checked disabled' : 'disabled') . '>
+       <label class="form-check-label" for="NoPago">NO SE REALIZO EL PAGO</label>
+     </div>
+   </div>';
 
 }else if($prima_vacacional == 2 && $ToAlertaBD == 1){
    $ocultarOpcion = '';
+   $noPago = '';
 
 }else{
    $ocultarOpcion = 'd-none';
-
+   $noPago = '
+   <div class="col-4 mb-2">
+     <div class="form-check form-check-inline">
+       <input class="form-check-input" type="radio" name="PrimaV" id="NoPago" value="1" ' . 
+       ($prima_vacacional == 1 ? 'checked disabled' : 'disabled') . '>
+       <label class="form-check-label" for="NoPago">NO SE REALIZO EL PAGO</label>
+     </div>
+   </div>';
+   
 }
-
-
-
 
 
 ?>
 
- 
+
 <div class="modal-header">
 <h5 class="modal-title"><?=$nombre_personal?> - <?=$descripcion?> <?=$SemQui?></h5>
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -137,6 +153,7 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
   <label class="form-check-label" for="No">NO</label>
 </div>
 </div>
+
 </div>
 
 </div>
@@ -188,8 +205,11 @@ if($prima_vacacional == 0 && $ToAlertaBD == 0){
 </div>
 </div>
 
+<?=$noPago?>
+
 </div>
 </div>
+
 
 </div>
 </div>

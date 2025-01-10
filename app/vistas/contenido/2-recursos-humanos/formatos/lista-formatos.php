@@ -306,18 +306,18 @@ $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i
   echo '<td class="align-middle">
   
 <div class="dropdown-container">
-  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  <i class="fas fa-ellipsis-v"></i>
-  </a>
+<a class="btn btn-sm btn-icon-only text-dropdown-light dropdown-menu-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
 
-  <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
   '.$detalle.'
   '.$PDF.'
   '.$Editar.'
   '.$Eliminar.'
   </div>
   </div>
-    
+       
   </td>';
 
   echo '</tr>';

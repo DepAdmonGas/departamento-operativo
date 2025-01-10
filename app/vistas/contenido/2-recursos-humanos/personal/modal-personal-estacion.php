@@ -112,7 +112,7 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['puesto'].'</option>';
 </div>
 	
 </div>
-</div>
+</div> 
 
 
 <!---------- DOCUMENTACION PERSONAL ---------->
@@ -124,7 +124,7 @@ echo '<option value='.$row_puesto['id'].'>'.$row_puesto['puesto'].'</option>';
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-<label class="text-secondary">REQUISICIÓN DEL PESONAL:</label>
+<label class="text-secondary">REQUISICIÓN DEL PERSONAL:</label>
 <input type="file" class="form-control rounded-0" id="R_Personal">
 </div>
 
