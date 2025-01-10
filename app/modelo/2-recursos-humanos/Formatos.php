@@ -60,29 +60,137 @@ class Formatos extends Exception{
         $result->close();
         return $id;
     }
-
+  
 
     //---------- 1. FORMULARIO ALTA DE PERSONAL ----------//
-    public function guardarAltaPersonal(int $idReporte, int $idEstacion, string $NombreCompleto, int $Puesto, string $FechaIngreso, float $sd): bool{
-    $resultado = true;
-    $sql = "INSERT INTO op_rh_formatos_alta (
-    id_formulario, id_estacion, fecha_ingreso, nombre, puesto, sd) VALUES (?,?,?,?,?,?)";
-        
-    $result = $this->con->prepare($sql);
-    if (!$result) :
-    throw new Exception("Error al preparar la consulta \n". $this->con->error);
-    endif;
-        
-    $result->bind_param("iissid", $idReporte, $idEstacion, $FechaIngreso, $NombreCompleto, $Puesto, $sd);
-    if (!$result->execute()) :
-    $resultado = false;
-    throw new Exception("Error al ejecutar la consulta". $result->error);
+    public function agregarArchivoPersonal(array $documento, int $indice, string $ruta1, string $ruta2, string $nombreLocalidad): string
+    {
+
+    $numeroAleatorio = rand(1, 1000000);
+    $numeroAleatorio2 = rand(1000, 9999);
+    
+    if (!empty($documento[$indice]) && isset($documento[$indice]['name'])):
+    $NoDoc1 = $documento[$indice]['name'];
+    $infoArchivo = pathinfo($NoDoc1);
+    $extension = $infoArchivo['extension'];
+
+    $UpDoc1 = "../../../archivos/documentos-personal/".$ruta1."/".$numeroAleatorio."-".$ruta2."-".$nombreLocalidad."-".$numeroAleatorio2 . "." . $extension;
+    $NomDoc1 = $numeroAleatorio."-".$ruta2."-".$nombreLocalidad."-".$numeroAleatorio2 . "." . $extension;
+    move_uploaded_file($documento[$indice]['tmp_name'], $UpDoc1);
+
+    else:
+    $NomDoc1 = "";
     endif;
 
-    $result->close();
-    return $resultado;
+    return $NomDoc1;
     }
 
+    public function guardarAltaPersonal(int $idReporte, int $idEstacion, string $NombreCompleto, int $Puesto, string $FechaIngreso, float $sd, array $documentos): bool{
+
+    $result = true;
+    $sql_insert = "INSERT INTO op_rh_formatos_alta (
+    id_formulario, id_estacion, fecha_ingreso, nombre, puesto, sd, curriculum, ine, acta_nacimiento, nss, c_domicilio, c_estudios, c_recomendacion, curp, rfc, c_antecedentes, a_infonavit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    $stmt_insert = $this->con->prepare($sql_insert);
+    if(!$stmt_insert) :
+    $result = false;
+    throw new Exception("Error al preparar la consulta ". $stmt_insert->error);
+    endif;
+
+    $datosLocalidad = $this->formato->obtenerDatosLocalidades($idEstacion);
+    $nombreEstacion = $datosLocalidad['localidad'];
+    
+    if ($documentos[0] != ''):
+        $indice = 0;
+        $ruta1 = "curriculum";
+        $ruta2 = "Curriculum";
+        $curriculum = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[1] != ''):
+        $indice = 1;
+        $ruta1 = "ine";
+        $ruta2 = "Identificacion";
+        $ine = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+         
+        if ($documentos[2] != ''):
+        $indice = 2;
+        $ruta1 = "acta_nacimiento";
+        $ruta2 = "Acta de Nacimiento";
+        $acta_nacimiento = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+    
+        if ($documentos[3] != ''):
+        $indice = 3;
+        $ruta1 = "nss";
+        $ruta2 = "Comprobante IMSS";
+        $nss = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[4] != ''):
+        $indice = 4;
+        $ruta1 = "comprobante_domicilio";
+        $ruta2 = "Comprobante de Domicilio";
+        $comprobante_domicilio = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[5] != ''):
+        $indice = 5;
+        $ruta1 = "comprobante_estudios";
+        $ruta2 = "Comprobante de Estudios";
+        $consulta = "c_estudios";
+        $comprobante_estudios = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[6] != ''):
+        $indice = 6;
+        $ruta1 = "cartas_recomendacion";
+        $ruta2 = "Carta de Recomendacion";
+        $cartas_recomendacion = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[7] != ''):
+        $indice = 7;
+        $ruta1 = "curp";
+        $ruta2 = "CURP";
+        $curp = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+    
+        if ($documentos[8] != ''):
+        $indice = 8;
+        $ruta1 = "rfc";
+        $ruta2 = "RFC";
+        $rfc = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+    
+        if ($documentos[9] != ''):
+        $indice = 9;
+        $ruta1 = "carta_antecedentes";
+        $ruta2 = "Antecedentes Penales";
+        $consulta = "c_antecedentes";
+        $carta_antecedentes = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+        
+        if ($documentos[10] != ''):
+        $indice = 10;
+        $ruta1 = "acta_infonavit";
+        $ruta2 = "Aviso Infonavit";
+        $acta_infonavit = $this->agregarArchivoPersonal($documentos, $indice, $ruta1, $ruta2, $nombreEstacion);
+        endif;
+
+
+        $stmt_insert->bind_param("iissidsssssssssss", $idReporte, $idEstacion, $FechaIngreso, $NombreCompleto, $Puesto, $sd, 
+        $curriculum, $ine, $acta_nacimiento, $nss, $comprobante_domicilio, $comprobante_estudios, $cartas_recomendacion, $curp,  $rfc,$carta_antecedentes, $acta_infonavit);
+        if(!$stmt_insert->execute()) :
+        $result = false;
+        throw new Exception("Error al ejecutar la consulta". $this->con->error);
+        endif;
+    
+        $stmt_insert->close();
+    
+        return $result;
+        }
 
     public function eliminarAltaPersonal(int $idUsuario) : bool {
     $resultado = true;
@@ -94,17 +202,17 @@ class Formatos extends Exception{
     return $resultado;
     }  
 
-    private function altaPersonal($estacion, $fecha, $nombre, $puesto, $salario) : bool
+    private function altaPersonal($estacion, $fecha, $nombre, $puesto, $salario,$curriculum, $ine, $acta_nacimiento, $nss, $c_domicilio, $c_estudios, $c_recomendacion, $curp, $rfc, $c_antecedentes, $a_infonavit) : bool
     {
         $resultado = true;
         $estado = 1;
-        $sql_insert = "INSERT INTO op_rh_personal (id_estacion,fecha_ingreso,nombre_completo,puesto,sd,estado)
-        VALUES  (?,?,?,?,?,?)";
+        $sql_insert = "INSERT INTO op_rh_personal (id_estacion,fecha_ingreso,nombre_completo,puesto,sd,curriculum,ine,acta_nacimiento,nss,c_domicilio,c_estudios,c_recomendacion,curp,rfc,c_antecedentes,a_infonavit,estado)
+        VALUES  (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $result = $this->con->prepare($sql_insert);
         if (!$result):
             throw new Exception("Error al preparar la consulta \n" . $this->con->error);
         endif;
-        $result->bind_param("issidi", $estacion,$fecha,$nombre,$puesto,$salario,$estado);
+        $result->bind_param("issidsssssssssssi", $estacion,$fecha,$nombre,$puesto,$salario,$curriculum, $ine, $acta_nacimiento, $nss, $c_domicilio, $c_estudios, $c_recomendacion, $curp, $rfc, $c_antecedentes, $a_infonavit,$estado);
         if (!$result->execute()):
             $resultado = false;
             throw new Exception("Error al ejecutar la consulta \n" . $result->error);
@@ -695,7 +803,19 @@ class Formatos extends Exception{
     $puesto = $row_lista['puesto'];
     $salario = $row_lista['sd'];
 
-    $this->altaPersonal($idEstacion, $fecha, $nombre, $puesto, $salario);
+    $curriculum = $row_lista['curriculum'];
+    $ine = $row_lista['ine'];
+    $acta_nacimiento = $row_lista['acta_nacimiento'];
+    $nss = $row_lista['nss'];
+    $c_domicilio = $row_lista['c_domicilio'];
+    $c_estudios = $row_lista['c_estudios'];
+    $c_recomendacion = $row_lista['c_recomendacion'];
+    $curp = $row_lista['curp'];
+    $rfc = $row_lista['rfc'];
+    $c_antecedentes = $row_lista['c_antecedentes'];
+    $a_infonavit = $row_lista['a_infonavit'];
+
+    $this->altaPersonal($idEstacion, $fecha, $nombre, $puesto, $salario, $curriculum, $ine, $acta_nacimiento, $nss, $c_domicilio, $c_estudios, $c_recomendacion, $curp, $rfc, $c_antecedentes, $a_infonavit);
     }
 
  

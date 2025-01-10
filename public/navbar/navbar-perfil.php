@@ -169,7 +169,7 @@ function tokenTelegram(idUsuario) {
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>">
   <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil
-  </a>
+  </a>   
  
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=RUTA_SALIR2?>salir">

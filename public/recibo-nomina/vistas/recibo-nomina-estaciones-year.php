@@ -375,9 +375,6 @@ function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario
   }
   }
 
-  var data = new FormData(); 
-  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
-
   DocumentoAcuse = document.getElementById("DocumentoAcuse");
   DocumentoAcuse_file = DocumentoAcuse.files[0];
   DocumentoAcuse_filePath = DocumentoAcuse.value;
@@ -390,9 +387,11 @@ function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario
   DocumentoAguinaldo_file = DocumentoAguinaldo.files[0];
   DocumentoAguinaldo_filePath = DocumentoAguinaldo.value;
 
-
   if(Importe != ""){
   $('#Importe').css('border',''); 
+
+  var data = new FormData(); 
+  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
 
   data.append('idReporte', idReporte);
   data.append('idUsuario', idUsuario);
@@ -420,16 +419,16 @@ function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario
   $(".LoaderPage").hide();
   $('#Modal').modal('hide'); 
        
-
   if(descripcion == "Semana"){
-    SelSemanasES(idEstacion,year,SemQui,last);
+  SelSemanasES(idEstacion,year,SemQui,last);
 
   }else{
-    SelQuincenasES(idEstacion,year,SemQui,last);
+  SelQuincenasES(idEstacion,year,SemQui,last);
 
   }
 
   alertify.success('Registro editado exitosamente.');
+
   }else{
   $(".LoaderPage").hide();
   alertify.error('Error al editar'); 
