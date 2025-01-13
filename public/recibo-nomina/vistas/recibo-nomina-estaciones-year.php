@@ -147,50 +147,65 @@ $noneDiv2 = "d-none";
   }
 
   //---------- SELECCIONAR SEMANAS DE LA ESTACION ----------
-  function SelSemanasES(idEstacion,year,semana,last){
+  function SelSemanasES(idEstacion, year, semana, last) {
 
-  function initializeDataTable(tableId) {
-    let referencia, targets;
-    
-    if(idEstacion == 9){
+function initializeDataTable(tableId) {
+  let referencia, targets;
+
+  // Selección de referencia según el idEstacion
+  if (idEstacion == 9) {
     referencia = '#ListaNominaPS';
-    }else{
+  } else {
     referencia = '#ListaNomina';
+  }
+
+  // Definir targets según condiciones
+  if (last != semana) {
+    if (<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318) {
+      targets = [6, 7, 8, 9];
+    } else if (<?=$Session_IDUsuarioBD?> == 354) {
+      targets = [5, 6, 7, 8, 9];
+    } else {
+      targets = [5, 6, 7, 8];
     }
-  
-  
-  if(last != semana){
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9];
-  }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
+  } else {
+    if (<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318) {
+      targets = [6, 7, 8, 9, 10];
+    } else if (<?=$Session_IDUsuarioBD?> == 354) {
+      targets = [5, 6, 7, 8, 9, 10];
+    } else {
+      targets = [5, 6, 7, 8, 9];
+    }
   }
 
-  }else{
-
-
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9,10];
-  }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9,10];
-  }else{
-  targets = [5,6,7,8,9];
-  }
-
-  }
-
-    $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
+  // Cargar el contenido y configurar DataTables
+  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion + '&year=' + year + '&semana=' + semana, function () {
     // Clonar y remover las filas antes de inicializar DataTables
     var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
-      "stateSave": true,   
+      "stateSave": true,
       "language": {
-        "url": "<?=RUTA_JS2?>/es-ES.json"
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "loadingRecords": "Cargando...",
+        "zeroRecords": "No se encontraron resultados",
+        "emptyTable": "Ningún dato disponible en esta tabla",
+        "paginate": {
+          "first": "Primero",
+          "previous": "Anterior",
+          "next": "Siguiente",
+          "last": "Último"
+        },
+        "aria": {
+          "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
       "order": [[0, "asc"]],
       "lengthMenu": [25, 50, 75, 100],
@@ -198,7 +213,7 @@ $noneDiv2 = "d-none";
         { "orderable": false, "targets": targets },
         { "searchable": false, "targets": targets }
       ],
-      "drawCallback": function(settings) {
+      "drawCallback": function (settings) {
         // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
         $('#' + tableId + ' .ultima-fila').remove();
         // Añadir las filas clonadas al final del tbody
@@ -206,10 +221,11 @@ $noneDiv2 = "d-none";
       }
     });
   });
-  }
+}
 
-  initializeDataTable('tabla_nomina_semana_' + idEstacion);
-  }
+initializeDataTable('tabla_nomina_semana_' + idEstacion);
+}
+
 
   function SelNoSemana(idEstacion,year,last){
   var semana = $('#SemanaEstacion_' + idEstacion).val();
@@ -218,47 +234,65 @@ $noneDiv2 = "d-none";
 
 
   //---------- SELECCIONAR QUINCENAS DE LA ESTACION ----------
-  function SelQuincenasES(idEstacion,year,quincena,last){
-  function initializeDataTableQ(tableId) {
-    
-  if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
-  referencia = '#ListaNomina2';
-  }else{
-  referencia = '#ListaNomina';
+  function SelQuincenasES(idEstacion, year, quincena, last) {
+
+function initializeDataTableQ(tableId) {
+  let referencia, targets;
+
+  // Selección de referencia según el id del usuario
+  if (<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434) {
+    referencia = '#ListaNomina2';
+  } else {
+    referencia = '#ListaNomina';
   }
 
-  if(last != quincena){
+  // Configuración de columnas no ordenables ni buscables según condiciones
+  if (last != quincena) {
+    if (<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318) {
+      targets = [6, 7, 8, 9];
+    } else if (<?=$Session_IDUsuarioBD?> == 354) {
+      targets = [5, 6, 7, 8, 9];
+    } else {
+      targets = [5, 6, 7, 8];
+    }
+  } else {
+    if (<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318) {
+      targets = [6, 7, 8, 9, 10];
+    } else if (<?=$Session_IDUsuarioBD?> == 354) {
+      targets = [5, 6, 7, 8, 9, 10];
+    } else {
+      targets = [5, 6, 7, 8, 9];
+    }
+  }
 
-if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-targets = [6,7,8,9];
-}else if(<?=$Session_IDUsuarioBD?> == 354){
-targets = [5,6,7,8,9];
-}else{
-targets = [5,6,7,8];
-}
-
-}else{
-
-
-
-if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-targets = [6,7,8,9,10];
-}else if(<?=$Session_IDUsuarioBD?> == 354){
-targets = [5,6,7,8,9,10];
-}else{
-targets = [5,6,7,8,9];
-}
-
-}
-  
-  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
+  // Cargar el contenido y configurar DataTables
+  $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion + '&year=' + year + '&quincena=' + quincena, function () {
     // Clonar y remover las filas antes de inicializar DataTables
     var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
+      "stateSave": true,
       "language": {
-        "url": "<?=RUTA_JS2?>/es-ES.json"
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "loadingRecords": "Cargando...",
+        "zeroRecords": "No se encontraron resultados",
+        "emptyTable": "Ningún dato disponible en esta tabla",
+        "paginate": {
+          "first": "Primero",
+          "previous": "Anterior",
+          "next": "Siguiente",
+          "last": "Último"
+        },
+        "aria": {
+          "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
       "order": [[0, "asc"]],
       "lengthMenu": [25, 50, 75, 100],
@@ -266,7 +300,7 @@ targets = [5,6,7,8,9];
         { "orderable": false, "targets": targets },
         { "searchable": false, "targets": targets }
       ],
-      "drawCallback": function(settings) {
+      "drawCallback": function (settings) {
         // Remover cualquier fila 'ultima-fila' existente para evitar duplicados
         $('#' + tableId + ' .ultima-fila').remove();
         // Añadir las filas clonadas al final del tbody
@@ -274,10 +308,11 @@ targets = [5,6,7,8,9];
       }
     });
   });
-  }
+}
 
-  initializeDataTableQ('tabla_nomina_quincena_' + idEstacion);
-  }
+initializeDataTableQ('tabla_nomina_quincena_' + idEstacion);
+}
+
 
 
   function SelNoQuincena(idEstacion,year,last){
