@@ -45,7 +45,6 @@ $numero_lista = mysqli_num_rows($result_lista);
   <link rel="stylesheet" href="<?=RUTA_CSS ?>selectize.css">
 
 
-
   <script type="text/javascript">
   $(document).ready(function ($) {
   $(".LoaderPage").fadeOut("slow");
@@ -56,7 +55,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   function listaAltaPersonal(idReporte){
   $('#DivAltaPersonal').load('../../app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/lista-alta-personal.php?idReporte=' + idReporte);
   }
-
+ 
   // ---------- MODAL AGREGAR PERSONAL ----------//
   function modalNuevoPersonal(idReporte,idEstacion){
   $('#Modal').modal('show');  
@@ -64,33 +63,108 @@ $numero_lista = mysqli_num_rows($result_lista);
   }
 
   // ---------- AGREGAR PERSONAL (SERVER) ----------//
-  function agregarPersonal(idReporte,idEstacion){
+  function agregarPersonal(idReporte, idEstacion) {
 
   var NombresCompleto = $('#NombresCompleto').val();
   var Puesto = $('#Puesto').val();
   var FechaIngreso = $('#FechaIngreso').val();
   var sd = $('#sd').val();
 
-  if(NombresCompleto != ""){
-  $('#NombresCompleto').css('border','');
-  if(Puesto != ""){
-  $('#Puesto').css('border','');
-  if(FechaIngreso != ""){
-  $('#FechaIngreso').css('border','');
-  if(sd != ""){
-  $('#sd').css('border','');
+  //---------- DOCUMENTACION ----------
+  var DocumentoCV = document.getElementById("CV");
+  var DocumentoCV_file = DocumentoCV.files[0];
+
+  var DocumentoINE = document.getElementById("INE");
+  var DocumentoINE_file = DocumentoINE.files[0];
+
+  var DocumentoNacimiento = document.getElementById("A_Nacimiento");
+  var DocumentoNacimiento_file = DocumentoNacimiento.files[0];
+
+  var DocumentoNSS = document.getElementById("C_IMSS");
+  var DocumentoNSS_file = DocumentoNSS.files[0];
+
+  var DocumentoDomicilio = document.getElementById("C_Domicilio");
+  var DocumentoDomicilio_file = DocumentoDomicilio.files[0];
+ 
+  var DocumentoEstudios = document.getElementById("C_Estudios");
+  var DocumentoEstudios_file = DocumentoEstudios.files[0];
+
+  var DocumentoRecomendacion = document.getElementById("C_Recomendacion");
+  var DocumentoRecomendacion_file = DocumentoRecomendacion.files[0];
+
+  var DocumentoCURP = document.getElementById("CURP");
+  var DocumentoCURP_file = DocumentoCURP.files[0];
+
+  var DocumentoRFC = document.getElementById("RFC");
+  var DocumentoRFC_file = DocumentoRFC.files[0];
+
+  var DocumentoAntecedentes = document.getElementById("C_Antecedentes");
+  var DocumentoAntecedentes_file = DocumentoAntecedentes.files[0];
+
+  var DocumentoInfonavit = document.getElementById("A_Infonavit");
+  var DocumentoInfonavit_file = DocumentoInfonavit.files[0];
+
+  if (NombresCompleto != "") {
+  $('#NombresCompleto').css('border', '');
+  if (Puesto != "") {
+  $('#Puesto').css('border', '');
+  if (FechaIngreso != "") {
+  $('#FechaIngreso').css('border', '');
+  if (sd != "") {
+  $('#sd').css('border', '');
+  if (DocumentoCV_file) {
+  $('#CV').css('border', '');                  
+  if (DocumentoINE_file) {
+  $('#INE').css('border', '');                     
+  if (DocumentoNacimiento_file) {
+  $('#A_Nacimiento').css('border', '');                          
+  if (DocumentoNSS_file) {
+  $('#C_IMSS').css('border', '');                           
+  if (DocumentoDomicilio_file) {
+  $('#C_Domicilio').css('border', '');                                  
+  if (DocumentoEstudios_file) {
+  $('#C_Estudios').css('border', '');                                     
+  if (DocumentoRecomendacion_file) {
+  $('#C_Recomendacion').css('border', '');                                         
+  if (DocumentoCURP_file) {
+  $('#CURP').css('border', '');                                              
+  if (DocumentoRFC_file) {
+  $('#RFC').css('border', '');                                               
+
+  // Validar solo si el puesto es igual a 6
+  if (Puesto == "4") {
+  if (DocumentoAntecedentes_file) {
+  $('#C_Antecedentes').css('border', '');
+  } else {
+  alertify.error('La carta de antecedentes no penales es obligatoria.');
+  $('#C_Antecedentes').css('border', '2px solid #A52525');
+  return;
+  }
+  }   
 
   var data = new FormData();
   var url = '../../app/controlador/2-recursos-humanos/controladorFormatos.php';
- 
-  data.append('idReporte', idReporte); 
+
+  data.append('idReporte', idReporte);
   data.append('idEstacion', idEstacion);
   data.append('NombreCompleto', NombresCompleto);
   data.append('Puesto', Puesto);
-  data.append('FechaIngreso', FechaIngreso); 
+  data.append('FechaIngreso', FechaIngreso);
   data.append('sd', sd);
+
+  data.append('CV', DocumentoCV_file);
+  data.append('INE', DocumentoINE_file);
+  data.append('A_Nacimiento', DocumentoNacimiento_file);
+  data.append('C_IMSS', DocumentoNSS_file);
+  data.append('C_Domicilio', DocumentoDomicilio_file);
+  data.append('C_Estudios', DocumentoEstudios_file);
+  data.append('C_Recomendacion', DocumentoRecomendacion_file);
+  data.append('CURP', DocumentoCURP_file);
+  data.append('RFC', DocumentoRFC_file);
+  data.append('C_Antecedentes', DocumentoAntecedentes_file);
+  data.append('A_Infonavit', DocumentoInfonavit_file);
   data.append('accion', 'agregar-personal-alta');
-   
+
   $(".LoaderPage").show();
 
   $.ajax({
@@ -100,37 +174,75 @@ $numero_lista = mysqli_num_rows($result_lista);
   data: data,
   processData: false,
   cache: false
-  }).done(function(data){
+  }).done(function (data) {
 
-
-
-  if(data == 1){
+  if (data == 1) {
   $(".LoaderPage").hide();
-  $('#Modal').modal('hide');  
+  $('#Modal').modal('hide');
   listaAltaPersonal(idReporte);
   alertify.success('Empleado agregado exitosamente.');
+  
+  } else {
+  alertify.error('Error al agregar empleado');
+  }
+  
+  });
 
-  }else{
-  alertify.error('Error al agregar empleado'); 
+  } else {
+  alertify.error('La Constancia de Situación Fiscal es obligatoria.');
+  $('#RFC').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('El CURP es obligatorio.');
+  $('#CURP').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('Las cartas de recomendación son obligatorias.');
+  $('#C_Recomendacion').css('border', '2px solid #A52525');  }
+  } else {
+  alertify.error('El comprobante de estudios es obligatorio.');
+  $('#C_Estudios').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('El comprobante de domicilio es obligatorio.');
+  $('#C_Domicilio').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('El comprobante de afiliación del IMMS es obligatorio.');
+  $('#C_IMSS').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('El acta de nacimiento es obligatoria.');
+  $('#A_Nacimiento').css('border', '2px solid #A52525');
+  }
+  } else {
+  alertify.error('La identificación es obligatoria.');
+  $('#INE').css('border', '2px solid #A52525');
+  }
+  } else {
+  $('#CV').css('border', '2px solid #A52525');
+  alertify.error('La solicitud de empleo es obligatoria.');
+  }
+  } else {
+  $('#sd').css('border', '2px solid #A52525');
+  alertify.error('El salario diario es obligatorio.');
+  }
+  } else {
+  $('#FechaIngreso').css('border', '2px solid #A52525');
+  alertify.error('La fecha de alta es obligatoria.');
+  }
+  } else {
+  $('#Puesto').css('border', '2px solid #A52525');
+  alertify.error('El puesto es obligatorio.');
   }
 
-  }); 
- 
-
-  }else{
-  $('#sd').css('border','2px solid #A52525'); 
-  }
-  }else{
-  $('#FechaIngreso').css('border','2px solid #A52525'); 
-  }
-  }else{
-  $('#Puesto').css('border','2px solid #A52525'); 
-  }
-  }else{
-  $('#NombresCompleto').css('border','2px solid #A52525'); 
-  }
+  } else {
+  $('#NombresCompleto').css('border', '2px solid #A52525');
+  alertify.error('El nombre es obligatorio.');
 
   }
+  }
+
 
   // ---------- ELIMINAR PERSONAL (SERVER) ----------//
   function eliminarPersonal(idUsuario,idReporte){
@@ -231,7 +343,11 @@ $numero_lista = mysqli_num_rows($result_lista);
 
   }
 
-  
+  function documentosPersonal(idUsuario,idReporte){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('../../app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/modal-documentos-alta-personal.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte + '&idTipo=' + 0 + '&formato=' + 0);
+  }
+
   </script>
   </head>
 
@@ -325,10 +441,18 @@ $numero_lista = mysqli_num_rows($result_lista);
   </div>
   </div>
 
-  <!---------- MODAL CENTRADO ----------> 
-  <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <!---------- MODAL RIGHT ----------> 
+  <div class="modal right fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl">
   <div class="modal-content" id="ContenidoModal"></div>
+  </div>
+  </div>
+
+  <!---------- MODAL CENTER ----------> 
+  <div class="modal fade" id="Modal2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal2">
+  </div>
   </div>
   </div>
 
@@ -339,3 +463,4 @@ $numero_lista = mysqli_num_rows($result_lista);
 
   </body>
   </html> 
+

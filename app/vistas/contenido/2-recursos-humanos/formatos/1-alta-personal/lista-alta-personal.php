@@ -15,7 +15,8 @@ $idReporte = $_GET['idReporte'];
   <th class="align-middle text-center">Puesto</th>
   <th class="align-middle text-center">Alta</th>
   <th class="align-middle text-center">Salario</th>
-  <th class="align-middle text-center" width="22px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
+  <th class="align-middle text-center" width="22px"><img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th>
+  <th class="align-middle text-center" width="22px"><img src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
 
   </tr>
   </thead>
@@ -44,10 +45,11 @@ $idReporte = $_GET['idReporte'];
   echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
   echo '<td class="align-middle text-center">' . $puesto . '</td>';           
   echo '<td class="align-middle text-center">' . $fecha_alta . '</td>';       
-  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';           
+  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';   
+  echo '<th class="align-middle text-center" onclick="documentosPersonal('.$id.', '.$idReporte.')"><img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></th>';        
   echo '<td class="align-middle text-center" onclick="eliminarPersonal('.$id.', '.$idReporte.')"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png"></td>';
   echo '</tr>';
-       
+        
   $num++;                     
   }
 

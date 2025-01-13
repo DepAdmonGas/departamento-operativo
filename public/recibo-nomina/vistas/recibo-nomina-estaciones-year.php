@@ -1,6 +1,20 @@
 <?php
 require('app/help.php');
 
+function UltimaSemanaYear($year) {
+  // Crear un objeto para el 31 de diciembre del año dado
+  $ultimoDia = new DateTime("$year-12-31");
+       
+  // Si el día no pertenece al año ISO actual (ej. cae en la semana 1 del siguiente año)
+  if ($ultimoDia->format('W') == '01') {
+  // Retroceder una semana para obtener la última semana del año actual
+  $ultimoDia->modify('-1 week');
+  }
+       
+  return $ultimoDia->format(format: 'W');
+  }
+    
+$UltimaSemanaYear =  UltimaSemanaYear($GET_year);
 
 function SemanaActual(){  
 // Obtener la fecha actual
@@ -92,7 +106,7 @@ $noneDiv2 = "d-none";
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -107,20 +121,21 @@ $noneDiv2 = "d-none";
   $(".LoaderPage").fadeOut("slow");
 
   if('<?=$session_nompuesto?>' == "Sistemas" || '<?=$session_nompuesto?>' == "Gestoria" || '<?=$session_nompuesto?>' == "Mantenimiento" || '<?=$session_nompuesto?>' == "Departamento Jurídico"){
-  SelQuincenasES(<?=$GET_id_localidad?>,<?=$GET_year?>,<?=$GET_quincena?>)
+  SelQuincenasES(<?=$GET_id_localidad?>,<?=$GET_year?>,<?=$GET_quincena?>,24)
  
   }else{
-  SelSemanasES(<?=$Session_IDEstacion?>,<?=$GET_year?>,<?=$GET_semana?>)
+    
+  SelSemanasES(<?=$Session_IDEstacion?>,<?=$GET_year?>,<?=$GET_semana?>,<?=$UltimaSemanaYear?>)
 
   if(<?=$Session_IDEstacion?> == 2){
-  SelSemanasES(9,<?=$GET_year?>,<?=$GET_semana?>);
+  SelSemanasES(9,<?=$GET_year?>,<?=$GET_semana?>,<?=$UltimaSemanaYear?>)
   }
 
   if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
   <?=$numeroDia = date('z') + 1;?> // Se agrega 1 ya que 'z' cuenta desde 0
   <?=$GET_quincena_anio = ceil($numeroDia / 15);?> // Redondear hacia arriba para obtener el número de quincena
  
-  SelQuincenasES(11,<?=$GET_year?>,<?=$GET_quincena_anio?>)
+  SelQuincenasES(11,<?=$GET_year?>,<?=$GET_quincena_anio?>,24)
   }
 
   }
@@ -132,7 +147,7 @@ $noneDiv2 = "d-none";
   }
 
   //---------- SELECCIONAR SEMANAS DE LA ESTACION ----------
-  function SelSemanasES(idEstacion,year,semana){
+  function SelSemanasES(idEstacion,year,semana,last){
 
   function initializeDataTable(tableId) {
     let referencia, targets;
@@ -143,19 +158,37 @@ $noneDiv2 = "d-none";
     referencia = '#ListaNomina';
     }
   
-    if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-    targets = [6,7,8,9];
-    }else{
-    targets = [5,6,7,8];
-    }
-    
+  
+  if(last != semana){
+
+  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
+  targets = [6,7,8,9];
+  }else if(<?=$Session_IDUsuarioBD?> == 354){
+  targets = [5,6,7,8,9];
+  }else{
+  targets = [5,6,7,8];
+  }
+
+  }else{
+
+
+  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
+  targets = [6,7,8,9,10];
+  }else if(<?=$Session_IDUsuarioBD?> == 354){
+  targets = [5,6,7,8,9,10];
+  }else{
+  targets = [5,6,7,8,9];
+  }
+
+  }
+
     $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-semanas.php?idEstacion=' + idEstacion +  '&year=' + year + '&semana=' + semana, function() {
     // Clonar y remover las filas antes de inicializar DataTables
     var $lastRows = $('#' + tableId + ' .ultima-fila').clone();
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
-      "stateSave": true,
+      "stateSave": true,   
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },
@@ -178,14 +211,14 @@ $noneDiv2 = "d-none";
   initializeDataTable('tabla_nomina_semana_' + idEstacion);
   }
 
-  function SelNoSemana(idEstacion,year){
+  function SelNoSemana(idEstacion,year,last){
   var semana = $('#SemanaEstacion_' + idEstacion).val();
-  SelSemanasES(idEstacion,year,semana)
+  SelSemanasES(idEstacion,year,semana,last)
   }
 
 
   //---------- SELECCIONAR QUINCENAS DE LA ESTACION ----------
-  function SelQuincenasES(idEstacion,year,quincena){
+  function SelQuincenasES(idEstacion,year,quincena,last){
   function initializeDataTableQ(tableId) {
     
   if(<?=$Session_IDUsuarioBD?> == 304 || <?=$Session_IDUsuarioBD?> == 355 || <?=$Session_IDUsuarioBD?> == 381 || <?=$Session_IDUsuarioBD?> == 472 || <?=$Session_IDUsuarioBD?> == 434){
@@ -194,11 +227,29 @@ $noneDiv2 = "d-none";
   referencia = '#ListaNomina';
   }
 
-  if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318 || <?=$Session_IDUsuarioBD?> == 354){
-  targets = [6,7,8,9];
-  }else{
-  targets = [5,6,7,8];
-  }
+  if(last != quincena){
+
+if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
+targets = [6,7,8,9];
+}else if(<?=$Session_IDUsuarioBD?> == 354){
+targets = [5,6,7,8,9];
+}else{
+targets = [5,6,7,8];
+}
+
+}else{
+
+
+
+if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
+targets = [6,7,8,9,10];
+}else if(<?=$Session_IDUsuarioBD?> == 354){
+targets = [5,6,7,8,9,10];
+}else{
+targets = [5,6,7,8,9];
+}
+
+}
   
   $(referencia).load('../public/recibo-nomina/vistas/lista-nomina-quincenas.php?idEstacion=' + idEstacion +  '&year=' + year + '&quincena=' + quincena, function() {
     // Clonar y remover las filas antes de inicializar DataTables
@@ -229,20 +280,21 @@ $noneDiv2 = "d-none";
   }
 
 
-  function SelNoQuincena(idEstacion,year){
+  function SelNoQuincena(idEstacion,year,last){
   var quincena = $('#QuincenaEstacion_' + idEstacion).val();
-  SelQuincenasES(idEstacion,year,quincena)
+  SelQuincenasES(idEstacion,year,quincena,last)
 
   }
 
   //---------- COMENTARIOS DEL RECIBO DE NOMINA ----------
-  function ModalComentario(idReporte,idEstacion,year,mes,SemQui,descripcion){
+  function ModalComentario(idReporte,idEstacion,year,mes,SemQui,descripcion,last){
   $('#Modal').modal('show');  
-  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion + '&last=' + last);
+
   }
  
  
-  function GuardarComentario(idReporte,idEstacion,year,mes,SemQui,descripcion){
+  function GuardarComentario(idReporte,idEstacion,year,mes,SemQui,descripcion,last){
   var Comentario = $('#Comentario').val();
 
   var parametros = {
@@ -267,13 +319,13 @@ $noneDiv2 = "d-none";
   if (response == 1) {
 
   $('#Comentario').val('');
-  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion + '&last=' + last);
 
   if(descripcion == "Semana"){
-  SelSemanasES(idEstacion,year,SemQui);
+  SelSemanasES(idEstacion,year,SemQui,last);
 
   }else{
-  SelQuincenasES(idEstacion,year,SemQui);
+  SelQuincenasES(idEstacion,year,SemQui,last);
 
   }
 
@@ -290,15 +342,14 @@ $noneDiv2 = "d-none";
 
   }
 
-
+  
   //---------- EDITAR INFORMACION DEL RECIBO DE NOMINA ----------
-  function EditarRecibosNomina(idReporte,idEstacion,year,SemQui,descripcion){
+  function EditarRecibosNomina(idReporte,idEstacion,year,SemQui,descripcion,last){
   $('#Modal').modal('show'); 
-  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-editar-info-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&SemQui=' + SemQui + '&descripcion=' + descripcion);
+  $('#DivContenido').load('../public/recibo-nomina/vistas/modal-editar-info-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&SemQui=' + SemQui + '&descripcion=' + descripcion  + '&last=' + last);
   }
 
-
-  function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario,valPrima,valAlerta){
+function EditarNominaInfo(idReporte,idEstacion,year,SemQui,descripcion,idUsuario,valPrima,valAlerta,last){
 
   var Importe = $('#Importe').val();
   var radios = document.getElementsByName('Original');
@@ -324,9 +375,6 @@ $noneDiv2 = "d-none";
   }
   }
 
-  var data = new FormData(); 
-  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
-
   DocumentoAcuse = document.getElementById("DocumentoAcuse");
   DocumentoAcuse_file = DocumentoAcuse.files[0];
   DocumentoAcuse_filePath = DocumentoAcuse.value;
@@ -335,14 +383,22 @@ $noneDiv2 = "d-none";
   DocumentoFirma_file = DocumentoFirma.files[0];
   DocumentoFirma_filePath = DocumentoFirma.value;
 
+  DocumentoAguinaldo = document.getElementById("DocumentoAguinaldo");
+  DocumentoAguinaldo_file = DocumentoAguinaldo.files[0];
+  DocumentoAguinaldo_filePath = DocumentoAguinaldo.value;
+
   if(Importe != ""){
   $('#Importe').css('border',''); 
+
+  var data = new FormData(); 
+  var url = '../public/recibo-nomina/modelo/editar-reporte-nomina-info.php';
 
   data.append('idReporte', idReporte);
   data.append('idUsuario', idUsuario);
   data.append('Importe', Importe);
   data.append('DocumentoAcuse_file', DocumentoAcuse_file);
   data.append('DocumentoFirma_file', DocumentoFirma_file);
+  data.append('DocumentoAguinaldo_file', DocumentoAguinaldo_file);
   data.append('NominaOriginal', original);
   data.append('PrimaVacacional', primaV);
   data.append('ValorPrima', valPrima);
@@ -363,16 +419,16 @@ $noneDiv2 = "d-none";
   $(".LoaderPage").hide();
   $('#Modal').modal('hide'); 
        
-
   if(descripcion == "Semana"){
-  SelSemanasES(idEstacion,year,SemQui)
+  SelSemanasES(idEstacion,year,SemQui,last);
 
   }else{
-  SelQuincenasES(idEstacion,year,SemQui);
+  SelQuincenasES(idEstacion,year,SemQui,last);
 
   }
 
   alertify.success('Registro editado exitosamente.');
+
   }else{
   $(".LoaderPage").hide();
   alertify.error('Error al editar'); 
@@ -387,8 +443,10 @@ $noneDiv2 = "d-none";
 
   }
    
+
+  
   //---------- PUNTAJE RECIBO DE NOMINA (KPI) ----------
-  function FinalizarNomina(idResponsable,idEstacion,year,mes,SemQui,descripcion){
+  function FinalizarNomina(idResponsable,idEstacion,year,mes,SemQui,descripcion,last){
 
   var data = new FormData(); 
   var url = '../public/recibo-nomina/modelo/finalizar-recibos-nomina.php';
@@ -418,10 +476,10 @@ $noneDiv2 = "d-none";
   $(".LoaderPage").hide();
   
   if(descripcion == "Semana"){
-  SelSemanasES(idEstacion,year,SemQui)
+    SelSemanasES(idEstacion,year,SemQui,last);
 
   }else{
-  SelQuincenasES(idEstacion,year,SemQui);
+    SelQuincenasES(idEstacion,year,SemQui,last);
 
   }
 
@@ -473,7 +531,7 @@ $noneDiv2 = "d-none";
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md">
+  <div class="modal-dialog modal-lg">
   <div class="modal-content" id="DivContenido">
   </div>
   </div>

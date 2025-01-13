@@ -83,7 +83,7 @@ if($formato == 1){
   <th class="align-middle text-center">Puesto</th>
   <th class="align-middle text-center">Alta</th>
   <th class="align-middle text-center">Salario</th>
-
+  <th class="align-middle text-center" width="22px"><img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th>
   </tr>
   </thead>
 
@@ -111,7 +111,8 @@ if($formato == 1){
   echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
   echo '<td class="align-middle text-center">' . $puesto . '</td>';           
   echo '<td class="align-middle text-center">' . $fecha_alta . '</td>';       
-  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';           
+  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';  
+  echo '<th class="align-middle text-center" onclick="documentosPersonal('.$id.', '.$GET_idReporte.','.$formato.')"><img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></th>';                 
   echo '</tr>';
        
   $num++;                     
