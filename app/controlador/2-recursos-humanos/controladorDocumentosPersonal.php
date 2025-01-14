@@ -25,8 +25,7 @@ $idUsuario = $_POST['idUsuario'];
 $Comentario = $_POST['Comentario'];
 echo $DocumentosPersonal->agregarComentarioListaNegra($idListaNegra,$idUsuario,$Comentario);
 break;
-    
-   
+     
 case 'agregar-informacion-personal':
 $idEstacion = $_POST['idEstacion'];
 $idPersonal = $_POST['idPersonal'];

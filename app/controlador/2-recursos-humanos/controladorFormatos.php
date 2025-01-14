@@ -55,7 +55,22 @@ switch($_POST['accion']):
     $idUsuario = $_POST['idUsuario'];
     echo $formatos->eliminarBajaPersonal($idUsuario);
     break;
- 
+
+    case 'agregar-archivo-baja-personal':
+    $idUsuario = $_POST['idUsuario'];
+    $DescripcionArchivo = $_POST['DescripcionArchivo'];
+    $doc0 = $_FILES['Archivo_file'] ?? [''];
+    $docs = [$doc0];
+    $indice = 0;
+        
+    echo $formatos->agregarArchivoBajaPersonal($idUsuario,$DescripcionArchivo,$docs,$indice);
+    break;
+        
+    case 'eliminar-archivo-baja-personal':
+    $idArchivo = $_POST['idArchivo'];
+    echo $formatos->eliminarArchivoBajaPersonal($idArchivo);
+    break;
+    
     //---------- 3. FALTA DEL PERSONAL ----------
     case 'agregar-personal-falta':
     $idReporte = $_POST['idReporte'];
@@ -180,6 +195,6 @@ switch($_POST['accion']):
     $idReporte = $_POST['idReporte'];
     echo $formatos->eliminarFormato($idReporte);
     break;
-
+   
  
 endswitch;     

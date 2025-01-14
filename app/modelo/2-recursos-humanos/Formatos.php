@@ -941,4 +941,51 @@ class Formatos extends Exception{
 
 
 
+        public function agregarArchivoBajaPersonal(int $idBaja, string $nameDocumento, array $documento, int $indice): bool
+        {    
+        $result = true;
+    
+        $UpDoc1 = "";
+        $NomDoc1 = "";
+    
+        if (!empty($documento[$indice]) && isset($documento[$indice]['name'])):
+        $NoDoc1 = $documento[$indice]['name'];
+        $aleatorio1 = rand(1, 1000000);
+        $aleatorio2 = rand(1000, 9999);
+        $extencion = $this->formato->obtenerExtensionArchivo($NoDoc1);
+       
+        $UpDoc1 = "../../../archivos/documentos-personal/solicitud-baja/".$aleatorio1."-".$nameDocumento."-".$aleatorio2.".".$extencion;
+        $NomDoc1 = $aleatorio1."-".$nameDocumento."-".$aleatorio2.".".$extencion;
+    
+        move_uploaded_file($documento[$indice]['tmp_name'], $UpDoc1);
+    
+        $sql_insert = "INSERT INTO op_rh_formatos_baja_anexos (id_baja_usuario, descripcion, archivo) VALUES (?,?,?)";
+        $stmt = $this->con->prepare($sql_insert);
+        if(!$stmt) :
+        $result = false;
+        throw new Exception("Error al preparar la consulta ". $stmt->error);
+        endif;
+    
+        $stmt->bind_param("iss", $idBaja, $nameDocumento, $NomDoc1);
+        if(!$stmt->execute()) :
+        $result = false;
+        throw new Exception("Error al ejecutar la consulta". $this->con->error);
+        endif;
+        
+        $stmt->close();
+        endif;
+    
+        return $result;
+        }
+
+        public function eliminarArchivoBajaPersonal(int $idArchivo) : bool {
+            $resultado = true;
+            $sql = "DELETE FROM op_rh_formatos_baja_anexos WHERE id = ? ";
+            $result = $this->con->prepare($sql);
+            $result->bind_param("i",$idArchivo);
+            $result->execute();
+            $result->close();
+            return $resultado;
+            }  
+        
   }

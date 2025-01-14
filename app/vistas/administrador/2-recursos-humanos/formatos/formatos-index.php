@@ -55,7 +55,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }    
   }); 
 
- 
+   
   function Regresar(){
   sessionStorage.removeItem('idestacion');
   window.history.back();
@@ -271,7 +271,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el formato seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
   
   }
-
+ 
   
   //---------- DETALLE FORMATOS ----------
   function DetalleFormulario(idReporte,idFormato){
