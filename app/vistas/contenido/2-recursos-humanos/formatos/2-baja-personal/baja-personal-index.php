@@ -35,7 +35,7 @@ $numero_lista = mysqli_num_rows($result_lista);
   <link href="<?= RUTA_CSS2; ?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -144,7 +144,7 @@ $numero_lista = mysqli_num_rows($result_lista);
         
   },
   complete: function(){
-
+   
   }, 
   success:  function (response) {
     console.log(response)
@@ -220,9 +220,106 @@ $numero_lista = mysqli_num_rows($result_lista);
   alertify.error('Falta agregar la firma');
   }
 
+  } 
+
+  function modalAnexosBaja(idUsuario,idReporte){
+  $('#Modal').modal('show');  
+  $('#ContenidoModal').load('../../app/vistas/contenido/2-recursos-humanos/formatos/2-baja-personal/modal-anexos-baja.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte);
   }
 
-  
+  function subirAnexoBaja(idUsuario,idReporte){
+
+  var DescripcionArchivo   = $('#DescripcionArchivo').val();
+  var ArchivoInput   = $('#Archivo').val();
+
+  Archivo = document.getElementById("Archivo");
+  Archivo_file = Archivo.files[0];
+  Archivo_filePath = Archivo.value;
+
+  var data = new FormData();
+  var url = '../../app/controlador/2-recursos-humanos/controladorFormatos.php';
+ 
+  if(DescripcionArchivo != ""){
+  $('#DescripcionArchivo').css('border','');
+  if(Archivo_filePath != ""){  
+  $('#Archivo').css('border','');
+
+  data.append('idUsuario', idUsuario);
+  data.append('DescripcionArchivo', DescripcionArchivo);
+  data.append('Archivo_file', Archivo_file);
+  data.append('accion', 'agregar-archivo-baja-personal');
+
+  $(".LoaderPage").show();
+
+  $.ajax({
+  url: url,
+  type: 'POST',
+  contentType: false,
+  data: data,
+  processData: false,
+  cache: false
+  }).done(function(data){
+
+  if(data == 1){
+  $(".LoaderPage").hide();
+  $('#ContenidoModal').load('../../app/vistas/contenido/2-recursos-humanos/formatos/2-baja-personal/modal-anexos-baja.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte);
+  alertify.success('Archivo agregado exitosamente.');
+  }else{
+  alertify.error('Error al agregar el archivo'); 
+  }
+
+  }); 
+
+  }else{
+  $('#Archivo').css('border','2px solid #A52525'); 
+  }  
+  }else{
+  $('#DescripcionArchivo').css('border','2px solid #A52525'); 
+  }
+
+  }
+
+
+    // ---------- ELIMINAR ARCHIVO BAJA ----------
+    function eliminarArchivoBaja(idArchivo,idUsuario,idReporte){
+   
+   alertify.confirm('',
+    function(){
+    
+    var parametros = {
+    "idArchivo" : idArchivo,
+    "accion" : "eliminar-archivo-baja-personal"
+    };
+    
+    $.ajax({
+    data:  parametros,
+    url:   '../../app/controlador/2-recursos-humanos/controladorFormatos.php', 
+    type:  'post',
+    beforeSend: function() {
+      
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    if(response == 1){
+    $('#ContenidoModal').load('../../app/vistas/contenido/2-recursos-humanos/formatos/2-baja-personal/modal-anexos-baja.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte);
+    alertify.success('Archivo eliminado exitosamente.');  
+    
+    }else{
+    alertify.error('Error al eliminar el archivo');    
+    }
+    
+    } 
+    });
+    
+    },
+    function(){
+    }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el archivo seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+    
+    }
+
   </script>
   </head>
 
@@ -251,17 +348,17 @@ $numero_lista = mysqli_num_rows($result_lista);
   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
   <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"> Formulario Baja de Personal <?=$estacion?></h3>
   </div>
-                  
+
   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">       
   <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="modalBajaPersonal(<?=$GET_idReporte?>,<?=$GET_idEstacion?>)">
   <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar personal</button>
   </div>
-                
+           
   </div>      
   <hr>   
   </div>
 
-
+ 
   <div class="col-12 text-end mb-3 ">
   <b>Formato:</b> RH-BAJ-02
   <br>
