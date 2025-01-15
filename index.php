@@ -1096,6 +1096,9 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $GET_idReporte = $partes_ruta[3];
             $ruta_elegida = 'public/orden-compra/vistas/orden-compra-descargar.php';
 
+        } else if ($partes_ruta[2] == 'orden-compra-descargar-excel') {
+            $GET_idReporte = $partes_ruta[3];
+            $ruta_elegida = 'public/orden-compra/vistas/orden-compra-descargar-excel.php';
 
         } else if ($partes_ruta[2] == 'orden-mantenimiento-nuevo') {
             $GET_idReporte = $partes_ruta[3];
