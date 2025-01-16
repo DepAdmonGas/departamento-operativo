@@ -216,6 +216,10 @@ alertify.confirm('',
 window.location.href = "../pedido-material-pdf/" + id;  
  }
 
+ function DescargarExcel(id){
+  window.location.href = "../pedido-material-excel/" + id;  
+ }
+
  function ModalEvidencia(idEstacion,id){
   $('#ModalR').modal('show');  
   $('#DivModalRight').load('../public/admin/vistas/modal-evidencia-pedido-material.php?idReporte=' + id + '&idEstacion=' + idEstacion);
@@ -570,7 +574,7 @@ if($estacion == "Comodines"){
   </div>
 
   </div>
-
+  
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
@@ -586,7 +590,7 @@ if($estacion == "Comodines"){
   </div>
   </div>
 
-
+    
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>

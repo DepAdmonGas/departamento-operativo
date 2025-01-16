@@ -1,6 +1,6 @@
 <?php
 require 'app/help.php';
-require 'app/phpoffice/vendor/autoload.php'; // Asegúrate de incluir PhpSpreadsheet correctamente
+require 'phpoffice/vendor/autoload.php'; // Asegúrate de incluir PhpSpreadsheet correctamente
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

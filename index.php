@@ -744,6 +744,11 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
         } else if ($partes_ruta[1] == 'pedido-material-pdf') {
             $GET_idPedido = $partes_ruta[2];
             $ruta_elegida = 'public/admin/vistas/pedido-material-pdf.php';
+
+        } else if ($partes_ruta[1] == 'pedido-material-excel') {
+            $GET_idPedido = $partes_ruta[2];
+            $ruta_elegida = 'public/admin/vistas/pedido-material-excel.php';
+
         } else if ($partes_ruta[1] == 'nivel-explosividad-detalle') {
             $GET_idReporte = $partes_ruta[2];
             $ruta_elegida = 'public/corte-diario/vistas/nivel-explosividad-detalle.php';
