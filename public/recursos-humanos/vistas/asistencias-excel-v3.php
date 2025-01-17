@@ -19,7 +19,7 @@ header('Content-Disposition: attachment; filename="Reporte de asistencias Genera
 $salida = fopen('php://output', 'w');
 
 $listadoSemanas = SemanasDelMes($mes, $year);
-
+  
 //---------- OBTIENE EL NUMERO DE SEMANAS QUE TIENE EL MES ----------
 function SemanasDelMes($GET_idMes, $GET_year) {
 // Obtener el primer día del mes
@@ -48,53 +48,53 @@ return $semanas;
 
 //---------- OBTENER FECHA DEL PRIMER Y ULTIMO DIA DE LA SEMANA ----------
 function fechasNominaSemana($year, $semana){
-    // Obtener la fecha del primer día de la semana
-    $inicioDay = new DateTime();
-    $inicioDay->setISODate($year, $semana, 1);
-    $inicioDay->modify('last thursday');
+// Obtener la fecha del primer día de la semana
+$inicioDay = new DateTime();
+$inicioDay->setISODate($year, $semana, 1);
+$inicioDay->modify('last thursday');
           
-    // Calcular la fecha de fin de la semana (6 días después del inicio)
-    $finDay = clone $inicioDay;
-    $finDay->modify('+6 days');
+// Calcular la fecha de fin de la semana (6 días después del inicio)
+$finDay = clone $inicioDay;
+$finDay->modify('+6 days');
           
-    // Formatear las fechas para mostrarlas
-    $inicioDayFormateada = $inicioDay->format('Y-m-d');
-    $finDayFormateada = $finDay->format('Y-m-d');
+// Formatear las fechas para mostrarlas
+$inicioDayFormateada = $inicioDay->format('Y-m-d');
+$finDayFormateada = $finDay->format('Y-m-d');
           
-    $array = array(
-    'inicioSemanaDay' => $inicioDayFormateada, 
-    'finSemanaDay' => $finDayFormateada
-    );
+$array = array(
+'inicioSemanaDay' => $inicioDayFormateada, 
+'finSemanaDay' => $finDayFormateada
+);
           
-    return $array; 
+return $array; 
           
 }
 
 
- // Obtener la semana menor
- $semanaMenor = min($listadoSemanas);
- // Obtener la semana mayor
- $semanaMayor = max($listadoSemanas);
+// Obtener la semana menor
+$semanaMenor = min($listadoSemanas);
+// Obtener la semana mayor
+$semanaMayor = max($listadoSemanas);
  
- // Convertir a enteros sin ceros a la izquierda
- $semanaMenor2 = intval($semanaMenor);
- $semanaMayor2 = intval($semanaMayor);
+// Convertir a enteros sin ceros a la izquierda
+$semanaMenor2 = intval($semanaMenor);
+$semanaMayor2 = intval($semanaMayor);
 
 
- $fechaNomiaSemanaMenor = fechasNominaSemana($year, $semanaMenor2);
- $InicioMes = $fechaNomiaSemanaMenor['inicioSemanaDay'];
+$fechaNomiaSemanaMenor = fechasNominaSemana($year, $semanaMenor2);
+$InicioMes = $fechaNomiaSemanaMenor['inicioSemanaDay'];
 
- $fechaNomiaSemanaMayor = fechasNominaSemana($year, $semanaMayor2);
- $FinMes = $fechaNomiaSemanaMayor['finSemanaDay'];
+$fechaNomiaSemanaMayor = fechasNominaSemana($year, $semanaMayor2);
+$FinMes = $fechaNomiaSemanaMayor['finSemanaDay'];
 
 $arrayHead = array(
-    'Folio',
-    'Fecha',
-    'Nombre',
-    'Puesto',
-    'Hora entrada', 
-    'Hora salida',
-    'Detalle');
+'Folio',
+'Fecha',
+'Nombre',
+'Puesto',
+'Hora entrada', 
+'Hora salida',
+'Detalle');
 
 $map1 = array_map("utf8_decode", $arrayHead);
 fputcsv($salida, $map1);
@@ -127,171 +127,71 @@ $num = 1;
 
 while($row_asistencia = mysqli_fetch_array($result_asistencia, MYSQLI_ASSOC)){
 
-    $id = $row_asistencia['id'];
-    $idpersonal = $row_asistencia['id_personal'];
-    $fecha = $row_asistencia['fecha'];
-    $hora_entrada = $row_asistencia['hora_entrada'];
+$id = $row_asistencia['id'];
+$idpersonal = $row_asistencia['id_personal'];
+$fecha = $row_asistencia['fecha'];
+$hora_entrada = $row_asistencia['hora_entrada'];
     
-    $retardominutos = $row_asistencia['retardo_minutos'];
-    $incidenciadias = $row_asistencia['incidencia_dias'];
-    $idincidencia = $row_asistencia['incidencia'];
-    $ToIncidencia = $row_asistencia['incidencia_dias'];
-    $nombre_completo = $row_asistencia['nombre_completo'];
-    $puesto = $row_asistencia['puesto'];
+$retardominutos = $row_asistencia['retardo_minutos'];
+$incidenciadias = $row_asistencia['incidencia_dias'];
+$idincidencia = $row_asistencia['incidencia'];
+$ToIncidencia = $row_asistencia['incidencia_dias'];
+$nombre_completo = $row_asistencia['nombre_completo'];
+$puesto = $row_asistencia['puesto'];
     
     
-    if($idpersonal == 387 || $idpersonal == 358 || $idpersonal == 296 || $idpersonal == 326 || $idpersonal == 300 || $idpersonal == 335){
+if($idpersonal == 387 || $idpersonal == 358 || $idpersonal == 296 || $idpersonal == 326 || $idpersonal == 300 || $idpersonal == 335){
 
-    }else{
+}else{
 
-    if($row_asistencia['hora_entrada_sensor'] == "00:00:00"){
-    $hora_entrada_sensor = "";
-    }else{
-    $hora_entrada_sensor = $row_asistencia['hora_entrada_sensor'];	
-    }
-    
-    if($row_asistencia['hora_salida_sensor'] == "00:00:00"){
-    $hora_salida_sensor = "";
-    }else{
-    $hora_salida_sensor = $row_asistencia['hora_salida_sensor'];	
-    }
-    
-    if(Incidencias($idincidencia,$con) == 'OK'){
-    $Detalle = 'Asistencia';
-    }else if(Incidencias($idincidencia,$con) == 'Falta fin de semana'){
-    $Detalle = 'Falta';
-    }else{
-    $Detalle = Incidencias($idincidencia,$con);
-    }
-    
-    if($puesto == 'Banderero' || $puesto == 'Despachador' || $puesto == 'Encargado Gasolinera' || $puesto == 'Jefe de Piso' ){
-    
-    $Contenido = ValidaAcceso($puesto,$Detalle,$hora_entrada,$hora_entrada_sensor,$hora_salida_sensor,$con);
-    
-    $HoraEntrada = $Contenido['HoraEntrada'];
-    $HoraSalida = $Contenido['HoraSalida'];
-    $Observaciones = $Contenido['Observaciones'];
-    
-    }else{
-    
-    $HoraEntrada = $hora_entrada_sensor;
-    $HoraSalida = $hora_salida_sensor;
-    $Observaciones = $Detalle;
-    
-    }
-    
-    $arrayContenido1 = array(
-    $num,
-    $fecha,
-    $nombre_completo,
-    $puesto,
-    $HoraEntrada,
-    $HoraSalida,
-    $Observaciones
-    );
-    
-    $contenidoPQDecode = array_map("utf8_decode", $arrayContenido1);
-    fputcsv($salida, $contenidoPQDecode);
-    
-    $num = $num + 1;
-    }
+if($row_asistencia['hora_entrada_sensor'] == "00:00:00"){
+$hora_entrada_sensor = "";
+}else{
+$hora_entrada_sensor = $row_asistencia['hora_entrada_sensor'];	
 }
     
-    function Incidencias($id,$con){
-        $sql = "SELECT detalle FROM op_rh_lista_incidencias
-           WHERE id = '".$id."' ";
-        $result = mysqli_query($con, $sql);
-        $numero = mysqli_num_rows($result);
-        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-        $detalle = $row['detalle'];
-        }
-        return $detalle;
-      }
+if($row_asistencia['hora_salida_sensor'] == "00:00:00"){
+$hora_salida_sensor = "";
+}else{
+$hora_salida_sensor = $row_asistencia['hora_salida_sensor'];	
+}
     
-    function ValidaAcceso($puesto,$Detalle,$hora_entrada,$HES,$HSS,$con){
-    
-    $rand1 = mt_rand(0, 20);
-    $rand2 = mt_rand(0, 59);
-    $rand3 = mt_rand(0, 20);
-    $rand4 = mt_rand(0, 59);
-    
-    $rand5 = mt_rand(30, 59);
-    $rand6 = mt_rand(0, 59);
-    $rand7 = mt_rand(0, 59);
-    $rand8 = mt_rand(0, 59);
-    
-    if($Detalle == 'Descanso'){
-    
-    $HoraEntrada = '';
-    $HoraSalida = '';
-    $Observaciones = $Detalle;
-    
-    }else if($Detalle == 'Falta'){
-    
-    $HoraEntrada = '';
-    $HoraSalida = '';
-    $Observaciones = $Detalle;	
-    
-    }else if($Detalle == 'Asistencia'){
-    
-    if($hora_entrada == '06:00:00' || $hora_entrada == '07:00:00'){
-    
-    $HoraEntrada = '06:'.$rand1.':'.$rand2;
-    $HoraSalida = '15:'.$rand3.':'.$rand4;
-    $Observaciones = $Detalle;
-    
-    }else if($hora_entrada == '11:00:00' || $hora_entrada == '13:00:00' || $hora_entrada == '14:00:00'){
-    
-    $HoraEntrada = '15:'.$rand1.':'.$rand2;
-    $HoraSalida = '23:'.$rand3.':'.$rand4;
-    $Observaciones = $Detalle;
-    
-    }else if($hora_entrada == '20:00:00' || $hora_entrada == '20:30:00' || $hora_entrada == '21:00:00' || $hora_entrada == '08:00:00'){
-    
-    $HoraEntrada = '23:'.$rand1.':'.$rand2;
-    $HoraSalida = '06:'.$rand3.':'.$rand4;
-    $Observaciones = $Detalle;
-    
-    }
-    
-    }else if($Detalle == 'Retardo'){
-    
-    if($hora_entrada == '06:00:00' || $hora_entrada == '07:00:00'){
-    
-    $HoraEntrada = '06:'.$rand5.':'.$rand6;
-    $HoraSalida = '15:'.$rand7.':'.$rand8;
-    $Observaciones = $Detalle;
-    
-    }else if($hora_entrada == '11:00:00' || $hora_entrada == '13:00:00' || $hora_entrada == '14:00:00'){
-    
-    $HoraEntrada = '15:'.$rand5.':'.$rand6;
-    $HoraSalida = '23:'.$rand7.':'.$rand8;
-    $Observaciones = $Detalle;
-    
-    }else if($hora_entrada == '20:00:00' || $hora_entrada == '20:30:00' || $hora_entrada == '21:00:00' || $hora_entrada == '08:00:00'){
-    
-    $HoraEntrada = '23:'.$rand5.':'.$rand6;
-    $HoraSalida = '06:'.$rand7.':'.$rand8;
-    $Observaciones = $Detalle;
-    
-    }
-    
-    }else if($Detalle == 'Día trabajado'){
-    
-    $HoraEntrada = $HES;
-    $HoraSalida = $HSS;
-    $Observaciones = $Detalle;
-    
-    }
-    
-    $array = array('HoraEntrada' => $HoraEntrada, 
-                   'HoraSalida' => $HoraSalida,
-                   'Observaciones' => $Observaciones);
-    
-    return $array;
-    
-    }
+if(Incidencias($idincidencia,$con) == 'OK'){
+$Detalle = 'Asistencia';
+}else if(Incidencias($idincidencia,$con) == 'Falta fin de semana'){
+$Detalle = 'Falta';
+}else{
+$Detalle = Incidencias($idincidencia,$con);
+}
 
+$arrayContenido1 = array(
+$num,
+$fecha,
+$nombre_completo,
+$puesto,
+$hora_entrada_sensor,
+$hora_salida_sensor,
+$Detalle
+);
+    
+$contenidoPQDecode = array_map("utf8_decode", $arrayContenido1);
+fputcsv($salida, $contenidoPQDecode);
+    
+$num = $num + 1;
+}
+}
+    
+function Incidencias($id,$con){
+$sql = "SELECT detalle FROM op_rh_lista_incidencias
+WHERE id = '".$id."' ";
+$result = mysqli_query($con, $sql);
+$numero = mysqli_num_rows($result);
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+$detalle = $row['detalle'];
+}
+return $detalle;
+}
+    
 
 
 

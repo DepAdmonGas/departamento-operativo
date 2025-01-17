@@ -235,6 +235,14 @@ window.location.href = "recursos-humanos-formulario-prima-vacacional/" + idEstac
   $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-detalle-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato); 
   } 
 
+  function documentosPersonal(idUsuario,idReporte,formato){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/modal-documentos-alta-personal.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte + '&idTipo=' + 1 + '&formato=' + formato);
+  }
+
+  function RegresarFormulario(idReporte,idFormato){
+  $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-detalle-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato); 
+  } 
 
 </script>
 </head>

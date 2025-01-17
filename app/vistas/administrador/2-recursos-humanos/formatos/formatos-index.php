@@ -13,7 +13,7 @@ $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
 
-?>
+?> 
 
 <html lang="es"> 
   <head>
@@ -55,7 +55,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }    
   }); 
 
- 
+   
   function Regresar(){
   sessionStorage.removeItem('idestacion');
   window.history.back();
@@ -271,19 +271,28 @@ return $numero_lista = mysqli_num_rows($result_lista);
   }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el formato seleccionado?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
   
   }
-
-
+ 
+  
   //---------- DETALLE FORMATOS ----------
   function DetalleFormulario(idReporte,idFormato){
   $('#Modal2').modal('show');  
   $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-detalle-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato); 
   } 
 
-    //---------- DETALLE FORMATOS ----------
-
+  //---------- DETALLE FORMATOS ----------
   function DescargarPDF(idReporte,idFormato){
   window.location.href = 'app/vistas/contenido/2-recursos-humanos/formatos/pdf-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato;
   }
+
+  function documentosPersonal(idUsuario,idReporte,formato){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/modal-documentos-alta-personal.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte + '&idTipo=' + 1 + '&formato=' + formato);
+  }
+
+  function RegresarFormulario(idReporte,idFormato){
+  $('#ContenidoModal2').load('app/vistas/contenido/2-recursos-humanos/formatos/modal-detalle-formatos.php?idReporte=' + idReporte + '&idFormato=' + idFormato); 
+  } 
+
 
   window.addEventListener('pageshow', function(event) {
   if (event.persisted) {

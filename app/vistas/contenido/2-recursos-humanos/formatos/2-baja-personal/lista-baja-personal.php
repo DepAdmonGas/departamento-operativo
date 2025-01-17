@@ -15,7 +15,8 @@ $idReporte = $_GET['idReporte'];
   <th class="align-middle text-center">Fecha de aplicacion de baja</th>
   <th class="align-middle text-center">Motivo</th>
   <th class="align-middle text-center">Detalle</th>
-  <th class="align-middle text-center" width="22px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
+  <!-- <th class="align-middle text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th> -->
+  <th class="align-middle text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS?>eliminar.png"></th>
 
   </tr>
   </thead>
@@ -47,7 +48,8 @@ $idReporte = $_GET['idReporte'];
   echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
   echo '<td class="align-middle text-center">' . $fecha_baja . '</td>';       
   echo '<td class="align-middle text-center">' . $motivo . '</td>';          
-  echo '<td class="align-middle text-center">' . $detalle . '</td>';          
+  echo '<td class="align-middle text-center">' . $detalle . '</td>';    
+  //echo '<td class="align-middle text-center" onclick="modalAnexosBaja('.$id.', '.$idReporte.')"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'archivo-tb.png"></td>';      
   echo '<td class="align-middle text-center" onclick="eliminarPersonal('.$id.', '.$idReporte.')"><img class="pointer" src="' . RUTA_IMG_ICONOS . 'eliminar.png"></td>';
   echo '</tr>';
        

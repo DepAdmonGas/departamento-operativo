@@ -32,8 +32,6 @@ return $return;
 }
 ?>
 
-
-
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
@@ -52,7 +50,7 @@ return $return;
 <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 Formatos
 </button>
-
+ 
 <ul class="dropdown-menu">
 <li onclick="Formulario(1,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 1. Alta de personal</a></li>
 <li onclick="Formulario(2,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 2. Baja de personal</a></li>
@@ -61,13 +59,15 @@ Formatos
 <li onclick="Formulario(5,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 5. Ajuste Salarial</a></li>
 <li onclick="Formulario(6,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 6. Formato de Vacaciones</a></li>
 <li onclick="Formulario(7,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 7. Solicitud de Prima Vacacional</a></li>
+<div class="dropdown-divider"></div>
+<li><a href="<?=RUTA_ARCHIVOS?>lista-formatos/RH-REN-VOL-08.docx" class="dropdown-item pointer"> <i class="fa-regular fa-file-word"></i> Descargar formato de renuncia voluntaria</a></li>   
 </ul>
 </div>
 </div>
 
 </div>
 </div>
-
+ 
 <hr>
 </div>
 
@@ -306,18 +306,18 @@ $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i
   echo '<td class="align-middle">
   
 <div class="dropdown-container">
-  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  <i class="fas fa-ellipsis-v"></i>
-  </a>
+<a class="btn btn-sm btn-icon-only text-dropdown-light dropdown-menu-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
 
-  <div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
   '.$detalle.'
   '.$PDF.'
   '.$Editar.'
   '.$Eliminar.'
   </div>
   </div>
-    
+       
   </td>';
 
   echo '</tr>';

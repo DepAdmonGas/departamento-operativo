@@ -141,6 +141,9 @@ if ($Session_IDUsuarioBD == "") {
       window.location.href = "../../orden-compra-descargar/" + idCompra;
     }
 
+    function DescargarExcel(idCompra){
+ window.location.href = "../../orden-compra-descargar-excel/" + idCompra;
+ }
 
     window.addEventListener('pageshow', function(event) {
   if (event.persisted) {

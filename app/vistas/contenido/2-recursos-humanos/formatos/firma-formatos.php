@@ -72,6 +72,11 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
 
   });
 
+  function documentosPersonal(idUsuario,idReporte){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('../app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/modal-documentos-alta-personal.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte + '&idTipo=' + 0  + '&formato=' + 0);
+  }
+
 
   function CrearToken(idFormato,idVal,idTipo){
   $(".LoaderPage").show();
@@ -326,8 +331,8 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <th class="align-middle text-center">Estacion</th>
   <th class="align-middle text-center">Puesto</th>
   <th class="align-middle text-center">Alta</th>
-  <th class="align-middle text-center">Salario</th>
-
+  <th class="align-middle text-center">Salario</th>  
+  <th class="align-middle text-center" width="22px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th>
   </tr>
   </thead>
 
@@ -355,7 +360,8 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
   echo '<td class="align-middle text-center">' . $puesto . '</td>';           
   echo '<td class="align-middle text-center">' . $fecha_alta . '</td>';       
-  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';           
+  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';   
+  echo '<th class="align-middle text-center" onclick="documentosPersonal('.$id.', '.$GET_idReporte.')"><img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></th>';                
   echo '</tr>';
        
   $num++;                     
@@ -1139,6 +1145,15 @@ $Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
   <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
   </div>
 
+  </div>
+  </div>
+  </div>
+
+  <!---------- MODAL CENTER ----------> 
+  <div class="modal fade" id="Modal2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal2">
+  </div>
   </div>
   </div>
 

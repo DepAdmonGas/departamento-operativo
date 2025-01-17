@@ -8,6 +8,7 @@ $sql_lista = "SELECT * FROM op_control_volumetrico_resumen WHERE id_mes = '" . $
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
+
 while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)):
   $id = $row_lista['id'];
   $producto = $row_lista['producto'];
@@ -187,6 +188,8 @@ while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)):
               onkeyup="Edit(5,3,<?= $id; ?>,<?= $dato6; ?>,<?= $IdReporte; ?>,<?= $GET_mes; ?>)"></td>
 
           <td class="no-hover text-end">$ <?= number_format($dato6, 2); ?></td>
+
+          
           <td class="no-hover text-end <?= $color3; ?>" id="D3<?= $id; ?>">$ <?= number_format($Diferencia3, 2); ?></td>
         </tr>
 

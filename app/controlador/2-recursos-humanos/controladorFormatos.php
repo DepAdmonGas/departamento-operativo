@@ -17,9 +17,23 @@ switch($_POST['accion']):
     $Puesto = $_POST['Puesto'];
     $FechaIngreso = $_POST['FechaIngreso'];
     $sd = $_POST['sd'];
-    echo $formatos->guardarAltaPersonal($idReporte, $idEstacion, $NombreCompleto, $Puesto, $FechaIngreso, $sd);
-    break;
 
+    $doc0 = $_FILES['CV'] ?? [''];
+    $doc1 = $_FILES['INE'] ?? [''];
+    $doc2 = $_FILES['A_Nacimiento'] ?? [''];
+    $doc3 = $_FILES['C_IMSS'] ?? [''];
+    $doc4 = $_FILES['C_Domicilio'] ?? [''];
+    $doc5 = $_FILES['C_Estudios'] ?? [''];
+    $doc6 = $_FILES['C_Recomendacion'] ?? [''];
+    $doc7 = $_FILES['CURP'] ?? [''];
+    $doc8 = $_FILES['RFC'] ?? [''];
+    $doc9 = $_FILES['C_Antecedentes'] ?? [''];
+    $doc10 = $_FILES['A_Infonavit'] ?? [''];
+    $docs = [$doc0, $doc1, $doc2, $doc3, $doc4, $doc5, $doc6, $doc7, $doc8, $doc9, $doc10];
+
+    echo $formatos->guardarAltaPersonal($idReporte, $idEstacion, $NombreCompleto, $Puesto, $FechaIngreso, $sd, $docs);
+    break;
+  
     case 'eliminar-personal-alta':
     $idUsuario = $_POST['idUsuario'];
     echo $formatos->eliminarAltaPersonal($idUsuario);
@@ -41,7 +55,22 @@ switch($_POST['accion']):
     $idUsuario = $_POST['idUsuario'];
     echo $formatos->eliminarBajaPersonal($idUsuario);
     break;
- 
+
+    case 'agregar-archivo-baja-personal':
+    $idUsuario = $_POST['idUsuario'];
+    $DescripcionArchivo = $_POST['DescripcionArchivo'];
+    $doc0 = $_FILES['Archivo_file'] ?? [''];
+    $docs = [$doc0];
+    $indice = 0;
+        
+    echo $formatos->agregarArchivoBajaPersonal($idUsuario,$DescripcionArchivo,$docs,$indice);
+    break;
+        
+    case 'eliminar-archivo-baja-personal':
+    $idArchivo = $_POST['idArchivo'];
+    echo $formatos->eliminarArchivoBajaPersonal($idArchivo);
+    break;
+    
     //---------- 3. FALTA DEL PERSONAL ----------
     case 'agregar-personal-falta':
     $idReporte = $_POST['idReporte'];
@@ -146,7 +175,7 @@ switch($_POST['accion']):
     $fecha = $_POST['fecha'];
     echo $formatos->firmaFormatosToken($idFormato,$idVal,$idUsuario,$tokenWhats,$idTipo,$estacion,$fecha);
     break;
- 
+  
     case 'crear-token-email':
     $idFormato = $_POST['idFormato'];
     $idUsuario = $_POST['idUsuario'];
@@ -166,6 +195,6 @@ switch($_POST['accion']):
     $idReporte = $_POST['idReporte'];
     echo $formatos->eliminarFormato($idReporte);
     break;
-
+   
  
 endswitch;     

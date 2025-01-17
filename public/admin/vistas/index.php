@@ -3,7 +3,7 @@ require('app/help.php');
 
 ?>
 <html lang="es">
-
+ 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -89,22 +89,36 @@ require('app/help.php');
 
 
     function VerSasisopa(Sasisopa, EstacionUser) {
-      sessionStorage.setItem('EstacionUser', EstacionUser);
-      var parametros = {
+    sessionStorage.setItem('EstacionUser', EstacionUser);
+    var parametros = {
         "ValEstacion": Sasisopa
-      };
-      $.ajax({
+    };
+    $.ajax({
         data: parametros,
         url: 'public/admin/modelo/editar-estacion.php',
         type: 'post',
-        beforeSend: function() {},
-        complete: function() {},
         success: function(response) {
-          window.location.href = "../portal-sasisopa/";
+            try {
+                const res = JSON.parse(response);
+                if (res.status === 'success') {
+                    //alert('Sesión actualizada: ' + res.id_gas_usuario);
+                    window.location.href = "../portal-sasisopa/";
+                } else {
+                    alert('Error: ' + res.message);
+                }
+            } catch (e) {
+                alert('Error al procesar la respuesta del servidor.');
+            }
+        },
+        error: function() {
+            alert('Error en la solicitud.');
         }
-      });
-    }
+    });
+}
 
+
+
+    
 
   function tokenTelegram(idUsuario) {
   $('#Modal').modal('show')

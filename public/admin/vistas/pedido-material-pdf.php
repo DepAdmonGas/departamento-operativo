@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(error_level: 0);
 require 'app/help.php';
 require_once 'app/lib/dompdf/vendor/autoload.php';
 
@@ -310,7 +310,7 @@ $contenido .= '<tr>
 </tr>
 '; 
 $contenido .= '</table>';
-
+  
   $contenido .= '<table class="table table-sm table-bordered mt-2">';
   	$contenido .= '<tr>';
   	$contenido .= '<td class="align-middle text-center" colspan="2"><b>DATOS DE LA ESTACIÓN DE SERVICIO</b></td>';
@@ -329,7 +329,7 @@ $contenido .= '</table>';
   $contenido .= '<div class="border p-2 mt-2">'.$afectacion.'</div>';
   $contenido .= '<br>';
   $contenido .= '<br>';
-/*
+
 $contenido .= '<div class="h6 mt-2"><b>TIPO DE SERVICIO</b></div>';
 
 if($tiposervicio == 1){
@@ -372,7 +372,7 @@ $CTS3 = '';
 	<td>EMERGENTE  '.$CTS3.'</td>
 	</tr>
   </table>';
-*/
+
 
 $contenido .= '<div style="margin-top: 15px;" class="h6 mt-2"><b>LA ORDEN DE TRABAJO SE PUEDE ATENDER INTERNAMENTE</b></div>';
 
@@ -536,8 +536,6 @@ $contenido .= '<div class="h6 mt-2"><b>EVIDENCIA</b></div>';
 
 
   $sql_evidencia = "SELECT * FROM op_pedido_materiales_evidencia_archivo WHERE id_pedido = '".$GET_idPedido."' ";
-
-
   $result_evidencia = mysqli_query($con, $sql_evidencia);
   $numero_evidencia = mysqli_num_rows($result_evidencia);
   while($row_evidencia = mysqli_fetch_array($result_evidencia, MYSQLI_ASSOC)){
