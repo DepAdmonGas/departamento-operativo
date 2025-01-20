@@ -126,8 +126,10 @@ alertify.confirm('',
  window.location.href = "orden-compra-descargar/" + idCompra;
  }
 
+ function DescargarExcel(idCompra){
+ window.location.href = "orden-compra-descargar-excel/" + idCompra;
+ }
 
-  
   </script>
   </head>
   
