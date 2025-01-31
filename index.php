@@ -1469,6 +1469,7 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/factura-telcel.php';
         }
 
+        
         //---------- KPI ACTIVACION DE CORTE DIARIO ----------
         else if ($partes_ruta[2] == 'corte-diario-evaluacion') {
             $GET_year = $partes_ruta[3];

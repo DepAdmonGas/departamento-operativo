@@ -27,7 +27,6 @@ use Firebase\JWT\Key;
 
 // Instancia a la base de datos
 $database = Database::getInstance();
- 
 // Obtiene la  conexión a la base de datos
 $con = $database->getConnection();
 
