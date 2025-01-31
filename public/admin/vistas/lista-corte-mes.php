@@ -4,6 +4,67 @@ $idEstacion = $_GET['idEstacion'];
 $GET_year = $_GET['year'];
 $GET_mes = $_GET['mes'];
 
+$Tovalefectivale = 0;
+$Tovalaccord = 0;
+$ocultartb2 = "";
+$ocultartbAcord = "";
+$ocultartbEfectivale = "";
+
+$sql_listadia = "
+SELECT 
+op_corte_year.id_estacion,
+op_corte_year.year,
+op_corte_mes.mes,
+op_corte_dia.id AS idDia,
+op_corte_dia.fecha
+FROM op_corte_year
+INNER JOIN op_corte_mes ON op_corte_year.id = op_corte_mes.id_year
+INNER JOIN op_corte_dia ON op_corte_mes.id = op_corte_dia.id_mes 
+WHERE op_corte_year.id_estacion = '" . $idEstacion . "' AND 
+op_corte_year.year = '" . $GET_year . "' AND 
+op_corte_mes.mes = '" . $GET_mes . "'";
+
+$result_listadia = mysqli_query($con, $sql_listadia);
+$numero_listadia = mysqli_num_rows($result_listadia);
+
+while ($row_listadia = mysqli_fetch_array($result_listadia, MYSQLI_ASSOC)) {
+$idDias = $row_listadia['idDia'];
+$fecha = $row_listadia['fecha'];
+
+$valaccord = TarjetasCB($idDias, "VALE ACCORD", $con);
+$valefectivale = TarjetasCB($idDias, "VALE EFECTIVALE", $con);
+
+$Tovalaccord = $Tovalaccord + $valaccord;
+$Tovalefectivale = $Tovalefectivale + $valefectivale;
+}
+
+
+if($Tovalaccord == 0 && $Tovalefectivale == 0){
+$ocultartb2 = "d-none";
+
+}else{
+
+if($Tovalaccord == 0){
+$ocultartbAcord = "d-none";
+}
+
+if($Tovalefectivale == 0){
+$ocultartbEfectivale = "d-none";
+}
+
+}
+
+function TarjetasCB($idReporte, $concepto, $con){
+$sql_cb = "SELECT * FROM op_tarjetas_c_b WHERE idreporte_dia = '" . $idReporte . "' AND concepto = '" . $concepto . "' LIMIT 1 ";
+$result_cb = mysqli_query($con, $sql_cb);
+$baucher = 0;
+while ($row_cb = mysqli_fetch_array($result_cb, MYSQLI_ASSOC)) {
+$baucher = $row_cb['baucher'];
+}
+return $baucher;
+}
+
+//---------------------------------------------------------
 
 $sql_listaestacion = "SELECT nombre FROM tb_estaciones WHERE id = '" . $idEstacion . "' ";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
@@ -147,7 +208,7 @@ $IdReporte = IdReporte($idEstacion, $GET_year, $GET_mes, $con);
 
 
 <div class="table-responsive">
-  <table class="custom-table " style="font-size: 1em;" width="100%">
+  <table class="custom-table mb-3" style="font-size: 1em;" width="100%">
     <thead class="tables-bg">
       <tr>
         <th class="text-center">FECHA</th>
@@ -224,3 +285,39 @@ $IdReporte = IdReporte($idEstacion, $GET_year, $GET_mes, $con);
     </tbody>
   </table>
 </div>
+
+
+<!--
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 <?=$ocultartb2?>">
+  <div class="table-responsive">
+  <table id="tabla_2" class="custom-table" style="font-size: .8em;" width="100%">
+  <thead class="title-table-bg">
+  <tr class="tables-bg">
+  <th class="text-center align-middle fw-bold" colspan="2">IMPORTE MENSUAL</th>
+  </tr>
+  <tr>
+  <td class="fw-bold">CONCEPTO/BANCO</td>
+  <td class="fw-bold">IMPORTE TOTAL</td>
+  </tr>
+  </thead>
+  <tbody class="bg-white">
+  <tr>
+  <th class="align-middle text-center <?=$ocultartbAcord?>" style="font-size: .9em;" >VALE ACCORD</th>
+  <td class="align-middle text-center <?=$ocultartbAcord?>" style="font-size: .9em;" >$<?= number_format($Tovalaccord, 2); ?></td>
+  </tr>
+
+  <tr>
+  <th class="align-middle text-center <?=$ocultartbEfectivale?>" style="font-size: .9em;">VALE EFECTIVALE</th>
+  <td class="align-middle text-center <?=$ocultartbEfectivale?>" style="font-size: .9em;">$<?= number_format($Tovalefectivale, 2); ?></td>
+  </tr>
+
+  </tbody>
+  </table>
+  </div>
+
+  </div>
+
+    -->
+
+
+ 

@@ -1,6 +1,8 @@
 <?php
 require ('app/help.php');
 
+
+ 
 ?>
 
 <html lang="es">
@@ -608,11 +610,11 @@ require ('app/help.php');
 
       </nav>
 
-      <!---------- CONTENIDO PAGINA WEB---------->
-      <div class="contendAG">
-        <div id="ListaCorte"></div>
-      </div>
-    </div>
+  <!---------- CONTENIDO PAGINA WEB---------->
+  <div class="contendAG">
+  <div id="ListaCorte"></div>
+  </div>
+  </div>
 
   </div>
 
@@ -635,5 +637,4 @@ require ('app/help.php');
 
 
 </body>
-
 </html>
