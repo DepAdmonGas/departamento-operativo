@@ -392,6 +392,11 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
     }
 
+    function DescargarExcelMonedero(idEstacion, year, mes){
+  window.location.href = "../../../resumen-monedero-excel/" + idEstacion + "/" + year + "/" + mes;  
+ }
+
+
 
 
   </script>
@@ -441,11 +446,12 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
                       <a class="dropdown-item pointer"><i class="fa-solid fa-money-bill-trend-up"></i> Resumen por Periodo</a>
                     </li>
 
-                    <li>
-                      <a href="../../../../public/admin/vistas/descargar-resumen-monedero.php?idEstacion=<?= $GET_idEstacion; ?>&year=<?= $GET_year; ?>&mes=<?= $GET_mes; ?>" download
-                      class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Descargar Resumen <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a>
+              
+                    <li onclick="DescargarExcelMonedero(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Descargar Resumen <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a>
                     </li>
-                    <?php
+
+                    <?php 
                     if ($session_nompuesto == "Dirección de operaciones") {
                       ?>
                       <li onclick="monederoKPI(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
@@ -470,7 +476,6 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
     </div>
 
   </div>
-
 
 
 
