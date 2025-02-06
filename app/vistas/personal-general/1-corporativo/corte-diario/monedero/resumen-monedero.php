@@ -12,7 +12,6 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
   function DescargarExcelMonedero(idEstacion, year, mes){
   window.location.href = "../resumen-monedero-excel/" + idEstacion + "/" + year + "/" + mes;  
  }
-
 </script>
 
 <body>

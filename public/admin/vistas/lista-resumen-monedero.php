@@ -17,7 +17,7 @@ function TarjetasCB($idReporte, $concepto, $con)
   return $baucher;
 }
 
- 
+
 function ProsegurImporte($idReporte, $denominacion, $con)
 {
 
