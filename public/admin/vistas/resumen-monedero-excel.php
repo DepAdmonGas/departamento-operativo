@@ -1,4 +1,4 @@
-<?php
+<?php 
 error_reporting(error_level: 0);
 require 'app/help.php';
 require 'phpoffice/vendor/autoload.php'; 
