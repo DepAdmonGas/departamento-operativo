@@ -191,6 +191,7 @@ $firmaB = FirmaSC($id,'B',$con);
 $firmaC = FirmaSC($id,'C',$con);
 
 if($row_lista['estatus'] == 0){
+$Excel2 = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-excel"></i> Descargar Excel</a>';
 $bgTable = 'style="background-color: #fcfcda"';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 $Editar = '<a class="dropdown-item" onclick="Editar('.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
@@ -203,7 +204,8 @@ $Estatus = 'Orden de Mantenimiento Pendiente';
 }else if($row_lista['estatus'] == 1){
 $bgTable = 'style="background-color: #fcfcda"';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
-$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Excel2 = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-excel"></i> Descargar Excel</a>';
+$Editar = '<a class="dropdown-item" onclick="Editar('.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
 if($firmaB == 1){
@@ -220,6 +222,8 @@ $Estatus = 'Pendiente por firmar';
 
 }else if($row_lista['estatus'] == 2 || $row_lista['estatus'] == 3){
 $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+$Excel2 = '<a class="dropdown-item" onclick="DescargarExcel('.$id.')"><i class="fa-regular fa-file-excel"></i> Descargar Excel</a>';
+
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png">';
 $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
@@ -298,6 +302,7 @@ echo '<td class="align-middle text-center">
 '.$evidencia.'
 '.$causa.'
 '.$PDF.'
+'.$Excel2.'
 '.$Editar.'
 '.$Eliminar.'
 </div>

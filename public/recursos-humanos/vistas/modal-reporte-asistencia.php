@@ -14,7 +14,7 @@ $idEstacion = $_GET['idEstacion'];
 <div class="row">
 
 <div class="col-12 mb-2 my-0">
-<label for="lblNombreGrupo" class="col-form-label  fs-6">* Año:</label>
+<label for="lblNombreGrupo" class="col-form-label  fs-6 text-secondary fw-bold">* AÑO:</label>
 <select class="form-select rounded-0  fs-6" id="Year">
 <option value="">Selecciona</option>
 <?php
@@ -27,7 +27,7 @@ echo '<option value="'.$i.'">'.$i.'</option>';
 </div>
 
 <div class="col-12 mb-2">
-<label for="lblNombreGrupo" class="col-form-label fs-6">* Mes:</label>
+<label for="lblNombreGrupo" class="col-form-label fs-6 text-secondary fw-bold">* MES:</label>
 <select class="form-select rounded-0 fs-6" id="Mes">
 <option value="">Selecciona</option>
 <option value="1">Enero</option>

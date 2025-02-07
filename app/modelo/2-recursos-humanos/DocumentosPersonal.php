@@ -134,6 +134,28 @@ class DocumentosPersonal extends Exception
     return $result;
     }
 
+
+    public function agregarComentarioListaNegra(int $idListaNegra, int $idUsuario, string $Comentario): bool
+    {
+    $result = true;
+    $sql_insert = "INSERT INTO op_rh_lista_negra_comentarios (id_lista_negra,id_usuario,comentario) VALUES (?,?,?)";
+    $stmt = $this->con->prepare($sql_insert);
+    if(!$stmt) :
+    $result = false;
+    throw new Exception("Error al preparar la consulta ". $stmt->error);
+    endif;
+
+    $stmt->bind_param("iis", $idListaNegra,$idUsuario,$Comentario);
+    if(!$stmt->execute()) :
+    $result = false;
+    throw new Exception("Error al ejecutar la consulta". $this->con->error);
+    endif;
+
+    $stmt->close();
+    return $result;
+    }
+
+
     public function agregarArchivoPersonal(array $documento, int $indice, string $ruta1, string $ruta2, string $nombreLocalidad): string
     {
 
@@ -319,6 +341,43 @@ class DocumentosPersonal extends Exception
     return $result;
     }
  
+    public function agregarArchivoListaNegra(int $idListaNegra, string $nameDocumento, array $documento, int $indice): bool
+    {    
+    $result = true;
+
+    $UpDoc1 = "";
+    $NomDoc1 = "";
+
+    if (!empty($documento[$indice]) && isset($documento[$indice]['name'])):
+    $NoDoc1 = $documento[$indice]['name'];
+    $aleatorio1 = rand(1, 1000000);
+    $aleatorio2 = rand(1000, 9999);
+    $extencion = $this->herramientasDptoOperativo->obtenerExtensionArchivo($NoDoc1);
+   
+    $UpDoc1 = "../../../archivos/documentos-personal/solicitud-baja/".$aleatorio1."-".$nameDocumento."-".$aleatorio2.".".$extencion;
+    $NomDoc1 = $aleatorio1."-".$nameDocumento."-".$aleatorio2.".".$extencion;
+
+    move_uploaded_file($documento[$indice]['tmp_name'], $UpDoc1);
+
+    $sql_insert = "INSERT INTO op_rh_personal_lista_negra_archivos (id_lista_negra, descripcion, archivo) VALUES (?,?,?)";
+    $stmt = $this->con->prepare($sql_insert);
+    if(!$stmt) :
+    $result = false;
+    throw new Exception("Error al preparar la consulta ". $stmt->error);
+    endif;
+
+    $stmt->bind_param("iss", $idListaNegra, $nameDocumento, $NomDoc1);
+    if(!$stmt->execute()) :
+    $result = false;
+    throw new Exception("Error al ejecutar la consulta". $this->con->error);
+    endif;
+    
+    $stmt->close();
+    endif;
+
+    return $result;
+    }
+
 
     public function agregarListaNegraPersonal(int $idPersonal, string $fecha, string $motivo, string $detalle): bool
     {
@@ -576,11 +635,11 @@ class DocumentosPersonal extends Exception
     return $result;
     }
 
-    public function editarProcesoBaja(int $idBaja, string $Proceso, int $Status): bool
+    public function editarProcesoBaja(int $idBaja, string $Proceso, int $Status, string $Solucion): bool
     {    
     $result = true;
 
-    $sql_edit = "UPDATE op_rh_personal_baja SET 
+    $sql_edit = "UPDATE op_rh_personal_baja SET solucion = ?,
     proceso = ?, estado_proceso = ? WHERE id = ?";
     $stmt_sql_edit = $this->con->prepare($sql_edit);
     if (!$stmt_sql_edit):
@@ -588,7 +647,7 @@ class DocumentosPersonal extends Exception
     throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
     endif;
 
-    $stmt_sql_edit->bind_param("sii", $Proceso, $Status, $idBaja);
+    $stmt_sql_edit->bind_param("ssii", $Solucion, $Proceso, $Status, $idBaja);
     if (!$stmt_sql_edit->execute()):
     $result = false;
     throw new Exception("Error al ejecutar la consulta SQL: " . $stmt_sql_edit->error);
@@ -604,6 +663,27 @@ class DocumentosPersonal extends Exception
     {
     $result = true;
     $sql_delete = "DELETE FROM op_rh_personal_baja_archivos WHERE id = ?";
+    $stmt_delete = $this->con->prepare($sql_delete);
+    if (!$stmt_delete):
+    $result = false;
+    throw new Exception("Error al preparar la consulta SQL: " . $this->con->error);
+    endif;
+        
+    $stmt_delete->bind_param("i", $idArchivo);
+        
+    if (!$stmt_delete->execute()):
+    $result = false;
+    throw new Exception("Error al ejecutar la consulta SQL: " . $stmt_delete->error);
+    endif;
+
+    $stmt_delete->close();
+    return $result;
+    }
+
+    public function eliminarArchivoListaNegra(int $idArchivo): bool
+    {
+    $result = true;
+    $sql_delete = "DELETE FROM op_rh_personal_lista_negra_archivos WHERE id = ?";
     $stmt_delete = $this->con->prepare($sql_delete);
     if (!$stmt_delete):
     $result = false;

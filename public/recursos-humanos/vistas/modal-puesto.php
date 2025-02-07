@@ -27,7 +27,7 @@ $Titulo = "Editar";
 
 <div class="modal-body">
 
-<label class="text-secondary mb-1">* Puesto</label>
+<label class="text-secondary mb-1 fw-bold text-secondary">* PUESTO</label>
 <textarea class="form-control titulos" id="NomPuesto"><?=$puesto;?></textarea>
 
 </div>

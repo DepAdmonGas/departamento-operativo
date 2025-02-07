@@ -74,21 +74,20 @@ if($razonsocial == "Selecciona una opcion..."){
   }
 
 
-  function CrearToken(idReporte,idVal){
-  $(".LoaderPage").show();
+  function CrearToken(idReporte, idVal, factura = ''){
+    $(".LoaderPage").show();
 
-  var parametros = {  
-  "idReporte" : idReporte,
-  "idVal" : idVal,
-  "idUsuario" : <?=$Session_IDUsuarioBD?>,
-  "Accion" : "crear-token-solicitud-cheque"
-  };
+    var parametros = {
+    "idReporte" : idReporte,
+    "idVal":idVal,
+    "factura":factura
+    };
+
  
   $.ajax({
   data:  parametros,
- 
-  //url:   '../public/admin/modelo/token-solicitud-cheque.php',
-  url:   '../app/controlador/1-corporativo/controladorSolicitudCheque.php',
+  url:   '../public/admin/modelo/token-solicitud-cheque.php',
+  //url:   '../app/controlador/1-corporativo/controladorSolicitudCheque.php',
   type:  'post',
   beforeSend: function() {
     
@@ -158,6 +157,40 @@ if($razonsocial == "Selecciona una opcion..."){
   }
 
   }
+
+
+
+  function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../public/admin/modelo/token-email-solicitud-cheque.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
 
   </head>
@@ -384,20 +417,33 @@ if($Session_IDUsuarioBD == 30){
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  -->
+
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,'<?=$nofactura;?>')" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+
   </th>
   </tr>
 
+  <!-- 
   <th class="align-middle text-center bg-light ">
   <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
    a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
   </small>
   </th>
-
+  -->
+  
   <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">

@@ -44,6 +44,7 @@ require ('app/help.php');
       targets = [5,6];
       $('#DivProveedores').load('../public/admin/vistas/lista-proveedores.php', function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },

@@ -32,6 +32,8 @@ require('app/help.php');
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   listaSubMenu('Almacen')
+  
+  localStorage.clear();
   });
 
   //---------- LISTADO SUB MENU ----------//
@@ -47,7 +49,13 @@ require('app/help.php');
   function Regresar(){
   window.history.back();
   }
-   
+  
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
   </script> 
   </head>
 

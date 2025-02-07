@@ -18,8 +18,8 @@ require('app/help.php');
   <link href="<?=RUTA_CSS2;?>navbar-utilities.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
   <script src="<?=RUTA_JS?>size-window.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -53,12 +53,13 @@ require('app/help.php');
 
   function ListaMerma(idEstacion) {
   let targets;
-  targets = [4,5];
+  targets = [4];
   sessionStorage.setItem('idestacion',idEstacion);
 
 
   $('#Contenido').load('../app/vistas/contenido/3-importacion/formato-descarga-merma/contenido-merma.php?idEstacion=' + idEstacion, function () {
-  $('#tabla_merma').DataTable({
+  $('#tabla_merma_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?= RUTA_JS2 ?>/es-ES.json"
   },

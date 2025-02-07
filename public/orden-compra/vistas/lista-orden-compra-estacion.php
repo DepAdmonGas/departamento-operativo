@@ -46,18 +46,23 @@ function Personal($idUsuario, $con)
           $Detalle = '<a class="dropdown-item" onclick="Detalle(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a>';
           $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
           $Eliminar = '<a class="dropdown-item" onclick="Eliminar(' . $id . ',' . $year . ',' . $mes . ')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
-          $PDF = '<a class="dropdown-item" onclick="Descargar(' . $id . ')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+          $PDF = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+          $ExcelR = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-excel"></i> Descargar Excel</a>';
+
           if ($row_lista['estatus'] == 0) {
             $trColor = "background-color: #fcfcda";
             $Editar = '<a class="dropdown-item" onclick="Editar(' . $id . ')"><i class="fa-solid fa-pencil"></i> Editar</a>';
 
-          }else if ($row_lista['estatus'] == 2) {
-            $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+          }else if ($row_lista['estatus'] == 2 || $row_lista['estatus'] == 1) {
+          $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+          $PDF = '<a class="dropdown-item" onclick="Descargar(' . $id . ')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
+          $ExcelR = '<a class="dropdown-item" onclick="DescargarExcel(' . $id . ')"><i class="fa-solid fa-file-excel"></i> Descargar Excel</a>';
+
           }
 
           echo '<tr style="' . $trColor . '">';
           echo '<th class="text-center align-middle">' . $num . '</th>';
-          echo '<td class="align-middle text-center"><b>00' . $row_lista['no_control'] . '</b></td>';
+          echo '<td class="align-middle text-center">00' . $row_lista['no_control'] . '</td>';
           echo '<td class="align-middle text-center">' . $Personal . '</td>';
           echo '<td class="align-middle text-center">' . FormatoFecha($explode[0]) . '</td>';
           
@@ -70,6 +75,7 @@ function Personal($idUsuario, $con)
   <div class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton">
                 ' . $Detalle . '
               ' . $PDF . '
+              ' . $ExcelR . '
               ' . $Editar . '
               ' . $Eliminar . '
             </div>

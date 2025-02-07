@@ -2,12 +2,16 @@
 require 'app/vistas/contenido/header.php';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 ?>
-<script type="text/javascript" src="<?php echo RUTA_CORTEDIARIO_JS ?>resumen-monedero-function.js"></script>
+<script type="text/javascript" src="<?=RUTA_CORTEDIARIO_JS ?>resumen-monedero-function.js"></script>
 <script type="text/javascript">
   $(document).ready(function ($) {
     $(".LoaderPage").fadeOut("slow");
     ListaMonedero(<?= $GET_year; ?>, <?= $GET_mes; ?>);
   });
+
+  function DescargarExcelMonedero(idEstacion, year, mes){
+  window.location.href = "../resumen-monedero-excel/" + idEstacion + "/" + year + "/" + mes;  
+ }
 </script>
 
 <body>
@@ -39,10 +43,23 @@ $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET
               </h3>
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-              <button type="button" class="btn btn-labeled2 btn-primary float-end"
-                        onclick="ListaModal(<?= $IdReporte; ?>)">
-                        <span class="btn-label2"><i class="fa-regular fa-file-lines"></i></span>
-              Facturas</button>
+            <div class="dropdown d-inline ms-2 float-end">
+                  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> </button>
+
+                  <ul class="dropdown-menu">
+                    <li onclick="ListaModal(<?= $IdReporte; ?>)">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-file-lines"></i> Facturas</a>
+                    </li>
+
+              
+                    <li onclick="DescargarExcelMonedero(<?= $Session_IDEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+                      <a class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Descargar Resumen <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a>
+                    </li>
+
+                  </ul>
+                </div>
               
             </div>
           </div>

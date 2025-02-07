@@ -53,13 +53,14 @@ header("Location:".PORTAL."");
 
   function SelEstacion(idEstacion) {
   let targets;
-  targets = [4, 5];
+  targets = [4];
 
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
 
   $('#ListaCalibracion').load('../public/admin/vistas/lista-calibracion-dispensario.php?idEstacion=' + idEstacion, function() {
   $('#tabla_calibracion_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -225,31 +226,13 @@ $id = $row_listaestacion['id'];
 $numlista = $row_listaestacion['numlista'];
 $estacion = $row_listaestacion['nombre']; 
 
-
-
-  if ($session_nompuesto == "Comercializadora") {
-
-    if($id == 6 || $id == 7){
-      echo '  
-      <li>
-        <a class="pointer" onclick="SelEstacion('.$id.')">
-        <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-        '.$estacion.'
-        </a>
-      </li>';
-    
-    }
-  
-  }else{
-    echo '  
-    <li>
-      <a class="pointer" onclick="SelEstacion('.$id.')">
-      <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
-      '.$estacion.'
-      </a>
-    </li>';
-  
-  }
+echo '  
+<li>
+  <a class="pointer" onclick="SelEstacion('.$id.')">
+  <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+  '.$estacion.'
+  </a>
+</li>';
 
 }
 ?> 

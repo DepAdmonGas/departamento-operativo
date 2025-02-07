@@ -16,7 +16,7 @@ function notificacionesWA($Numero, $aleatorio,$token){
         "type": "text",
         "text": {
         "preview_url": "false",
-        "body": "AdmonGas: Usa el siguiente token para firmar la solicitud de aditivo solicitada. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
+        "body": "AdmonGas: Usa el siguiente token para firmar la orden de mantenimiento solicitada. Token: '.$aleatorio.' Web: portal.admongas.com.mx"
       }
     }';
      
@@ -84,6 +84,11 @@ echo 1;
 }elseif($idVal == 2){
     notificacionesWA($Numero,$aleatorio,$tokenWhats);
 echo 1;
+} elseif ($idVal == 3) {
+    $fecha = $_POST['fecha'];
+    $mensaje = "Para firmar la solicitud de Orden de Mantenimiento con fecha: $fecha ,usa el siguiente token: *$aleatorio*";
+    $tokenTelegram->enviarToken($Session_IDUsuarioBD, $mensaje);
+    echo 1;
 }
 
 }else{

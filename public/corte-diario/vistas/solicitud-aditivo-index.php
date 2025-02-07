@@ -62,6 +62,7 @@ if ($Session_IDUsuarioBD == "") {
       targets = [5,6];
       $('#ListaSolicitud').load('public/admin/vistas/lista-solicitud-aditivo.php?idEstacion=' + idEstacion, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -73,6 +74,7 @@ if ($Session_IDUsuarioBD == "") {
           ]
         });
       });
+      
     }
 
     function Modal() {

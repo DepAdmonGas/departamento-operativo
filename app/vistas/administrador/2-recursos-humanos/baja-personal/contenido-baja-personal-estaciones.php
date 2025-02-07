@@ -9,28 +9,20 @@ $sql_lista = "SELECT
 op_rh_personal.id_estacion,
 op_rh_personal.nombre_completo,
 op_rh_personal.puesto,
-op_rh_personal.fecha_ingreso,
-op_rh_personal.ine,
-op_rh_personal.curp,
-op_rh_personal.rfc,
-op_rh_personal.nss,
-op_rh_personal.contrato,
-op_rh_personal.documentos,
 op_rh_personal.estado,
 op_rh_personal_baja.id AS idBaja,
 op_rh_personal_baja.fecha_baja,
 op_rh_personal_baja.motivo,
 op_rh_personal_baja.detalle,
+op_rh_personal_baja.solucion,
 op_rh_personal_baja.proceso,
 op_rh_personal_baja.estado_proceso,
-
 op_rh_puestos.puesto
-
 FROM op_rh_personal_baja
 INNER JOIN op_rh_personal ON op_rh_personal_baja.id_personal = op_rh_personal.id
 INNER JOIN op_rh_puestos ON op_rh_personal.puesto = op_rh_puestos.id
+WHERE op_rh_personal.estado = 0 AND op_rh_personal.id_estacion = '".$idEstacion."' ORDER BY op_rh_personal_baja.fecha_baja DESC";
 
-WHERE op_rh_personal.estado = 0 AND op_rh_personal.id_estacion = '".$idEstacion."' ";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
@@ -59,29 +51,20 @@ $numero_lista = mysqli_num_rows($result_lista);
 
 <thead class="tables-bg">
 <tr class="text-center align-middle">
-<th class=" tableStyle font-weight-bold">#</th>
-<th class="align-middle tableStyle font-weight-bold">Nombre</th>
-<th class="align-middle tableStyle font-weight-bold">Puesto</th>
-<th class="align-middle tableStyle font-weight-bold">Fecha ingreso</th>
-<th class="align-middle tableStyle font-weight-bold">Fecha baja</th>
-<th class="align-middle tableStyle font-weight-bold">Motivo</th>
-<th class="align-middle tableStyle font-weight-bold">Detalle</th>
-<th class="align-middle tableStyle font-weight-bold">Proceso</th>
-<th class="align-middle tableStyle font-weight-bold">Status</th>
-<th class="align-middle">Documentos <br>Personales</th>
-<th class="align-middle">IO</th>
-<th class="align-middle">CURP</th>
-<th class="align-middle">RFC</th>
-<th class="align-middle">NSS</th>
-<th class="align-middle">Contrato</th>
+<th class="text-center align-middle">#</th>
+<th class="text-start align-middle">Nombre</th>
+<th class="text-center align-middle">Puesto</th>
+<th class="text-center align-middle">Fecha baja</th>
+<th class="text-center align-middle">Motivo</th>
+<th class="text-center align-middle">Descripción</th>
+<!--<th class="text-center align-middle">Solución</th>-->
+<th class="text-center align-middle">Proceso</th>
+<th class="text-center align-middle">Status</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
 <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
-
-
 </thead> 
 
 <tbody class="bg-white">
-
 <?php
 $num = 1;
  
@@ -89,18 +72,10 @@ if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $GET_idBaja = $row_lista['idBaja'];
 $GET_idEstacion = $row_lista['id_estacion'];
-
-$ine = $row_lista['ine'];
-$curp = $row_lista['curp'];
-$rfc = $row_lista['rfc'];
-$nss = $row_lista['nss'];
-$Documento = $row_lista['documentos'];
-$contrato = $row_lista['contrato'];
-
 $status = $row_lista['estado_proceso'];
 
 if($row_lista['proceso'] == ""){
-$proceso = "Pendiente";
+$proceso = "S/I";
 }else{
 $proceso = $row_lista['proceso']; 
 }
@@ -130,31 +105,17 @@ $tableColor = 'style="background-color: #b0f2c2"';
 
 }
 
-//---------- DOCUMENTACION DEL PERSONAL -----------
-$detalleDoc = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS, $Documento, 'Documentos Personales');
-$detalleIne = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/ine/', $ine, 'Identificación Oficial');
-$detalleNss = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/nss/', $nss, 'Comprobante de Afiliación del IMSS');
-$detalleCurp = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/curp/', $curp, 'Clave Única de Registro de Población (CURP)');
-$detalleRfc = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/rfc/', $rfc, 'Constancia de Situación Fiscal (CSF)');
-$detalleContrato = $ClassRecursosHumanosGeneral->generarDetalleIcono(RUTA_ARCHIVOS . 'documentos-personal/contrato/', $contrato, 'Contrato');
- 
 echo '<tr '.$tableColor.' >';
-echo '<th class="text-center">'.$num .'</th>';
-echo '<td>'.$row_lista['nombre_completo'].'</td>';
-echo '<td class="text-center">'.$row_lista['puesto'].'</td>';
-echo '<td class="text-center">'.FormatoFecha($row_lista['fecha_ingreso']).'</td>';
-echo '<td class="text-center">'.FormatoFecha($row_lista['fecha_baja']).'</td>';
-echo '<td class="text-center">'.$row_lista['motivo'].'</td>';
-echo '<td class="text-center">'.$row_lista['detalle'].'</td>';
-echo '<td class="text-center">'.$proceso.'</td>';
-echo '<td class="text-center">'.$badgeAlert.'</td>';
-echo '<td class="text-center">'.$detalleDoc.'</td>';
-echo '<td class="text-center">'.$detalleIne.'</td>';
-echo '<td class="text-center">'.$detalleCurp.'</td>';
-echo '<td class="text-center">'.$detalleRfc.'</td>';
-echo '<td class="text-center">'.$detalleNss.'</td>';
-echo '<td class="text-center">'.$detalleContrato.'</td>';
-echo '<td class="align-middle text-center position-relative" onclick="ComentarioBaja('.$GET_idBaja.','.$GET_idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+echo '<th class="text-center align-middle">'.$num .'</th>';
+echo '<td class="text-start align-middle">'.$row_lista['nombre_completo'].'</td>';
+echo '<td class="text-center align-middle">'.$row_lista['puesto'].'</td>';
+echo '<td class="text-center align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_baja']).'</td>';
+echo '<td class="text-center align-middle">'.$row_lista['motivo'].'</td>';
+echo '<td class="text-center align-middle">'.$row_lista['detalle'].'</td>';
+//echo '<td class="text-center align-middle">'.$solucion.'</td>';
+echo '<td class="text-center align-middle">'.$proceso.'</td>';
+echo '<td class="text-center align-middle">'.$badgeAlert.'</td>';
+echo '<td class="align-middle text-center align-middle position-relative" onclick="ComentarioBaja('.$GET_idBaja.','.$GET_idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
 echo '
 <td class="text-center align-middle">
 <div class="dropdown-container">
@@ -163,8 +124,8 @@ echo '
 </a>
 
 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-<a class="dropdown-item" onclick="ArchivosBaja('.$GET_idBaja.','.$GET_idEstacion.')"><i class="fa-regular fa-file"></i> Documentación</a>
 '.$editartb.'
+<a class="dropdown-item" onclick="ArchivosBaja('.$GET_idBaja.','.$GET_idEstacion.')"><i class="fa-regular fa-file-lines"></i> Documentos</a>
 </ul>
 </div>
 </td>';

@@ -18,7 +18,27 @@ $estacion = '('.$datosEstacion['localidad'].')';
 
 if($formato == 1){
 $Titulo = 'Firmar Alta de Personal '.$estacion;
+
+}else if($formato == 2){
+$Titulo = 'Firmar Baja de Personal '.$estacion;
+
+}else if($formato == 3){
+$Titulo = 'Firmar Falta de Personal '.$estacion;
+
+}else if($formato == 4){
+$Titulo = 'Firmar Reestructuración de Personal '.$estacion;
+  
+}else if($formato == 5){
+$Titulo = 'Firmar Ajuste Salarial '.$estacion;
+    
+}else if($formato == 6){
+$Titulo = 'Firmar Vacaciones de Personal '.$estacion;
+      
+}else if($formato == 7){
+$Titulo = 'Firmar Solicitud Prima Vacacional '.$estacion;
+        
 }
+    
 
 ?>
 
@@ -52,6 +72,11 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   });
 
+  function documentosPersonal(idUsuario,idReporte){
+  $('#Modal2').modal('show');  
+  $('#ContenidoModal2').load('../app/vistas/contenido/2-recursos-humanos/formatos/1-alta-personal/modal-documentos-alta-personal.php?idUsuario=' + idUsuario + '&idReporte=' + idReporte + '&idTipo=' + 0  + '&formato=' + 0);
+  }
+
 
   function CrearToken(idFormato,idVal,idTipo){
   $(".LoaderPage").show();
@@ -62,6 +87,8 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     "idUsuario" : <?=$Session_IDUsuarioBD?>,
     "idTipo" : idTipo,
     "token" : '<?=$tokenWhats?>',
+    "estacion":'<?=$datosEstacion['localidad']?>',
+    "fecha":'<?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?>',
     "accion" : 'firmar-formato-token'
     };
 
@@ -75,11 +102,23 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
     },
     success:  function (response) {
-
     $(".LoaderPage").hide();
 
     if(response == 1){
-    alertify.message('El token fue enviado por mensaje');   
+      //Dentro de la condición cuando se manda la alerta
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
     }else{
     alertify.error('Error al crear el token');   
     }
@@ -101,7 +140,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     "TokenValidacion" : TokenValidacion,
     "accion" : 'firmar-formato-martin'
 
-    };
+    }; 
 
     if(TokenValidacion != ""){
     $('#TokenValidacion').css('border',''); 
@@ -144,6 +183,40 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     }
 
 
+  //---------- CREAR TOKEN VIA EMAIL ----------//
+
+    function CrearTokenEmail(idFormato,idTipo){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idFormato" : idFormato,
+    "idUsuario" : <?=$Session_IDUsuarioBD?>,
+    "accion" : 'crear-token-email'
+    };
+  
+    $.ajax({
+    data:  parametros,
+    url:   '../app/controlador/2-recursos-humanos/controladorFormatos.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+  
+    }
+    });
+    }   
+
 
   //---------- FINALIZAR ALTA PERSONAL ----------//
   function Finalizar(idReporte, tipoFirma) {
@@ -158,7 +231,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   var data = new FormData();
   var url = '../app/controlador/2-recursos-humanos/controladorFormatos.php';
-
+ 
   data.append('idReporte', idReporte);
   data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
   data.append('tipoFirma', tipoFirma);
@@ -258,8 +331,8 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <th class="align-middle text-center">Estacion</th>
   <th class="align-middle text-center">Puesto</th>
   <th class="align-middle text-center">Alta</th>
-  <th class="align-middle text-center">Salario</th>
-
+  <th class="align-middle text-center">Salario</th>  
+  <th class="align-middle text-center" width="22px"><img class="pointer" src="<?=RUTA_IMG_ICONOS?>archivo-tb.png"></th>
   </tr>
   </thead>
 
@@ -287,7 +360,8 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
   echo '<td class="align-middle text-center">' . $puesto . '</td>';           
   echo '<td class="align-middle text-center">' . $fecha_alta . '</td>';       
-  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';           
+  echo '<td class="align-middle text-center">$ ' . $salario . '</td>';   
+  echo '<th class="align-middle text-center" onclick="documentosPersonal('.$id.', '.$GET_idReporte.')"><img class="pointer" src="'.RUTA_IMG_ICONOS.'archivo-tb.png"></th>';                
   echo '</tr>';
        
   $num++;                     
@@ -305,7 +379,491 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
 
+
+  <!---------- 2. BAJA DE PERSONAL ---------->
+  <?php } else if($formato == 2){ ?>
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-BAJ-02
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>Buenos días por medio del presente solicito de su amable apoyo para realizar las siguientes bajas de personal.</p>
+  </div>
+
+  <div class="table-responsive mb-4">
+  <table class="custom-table" width="100%">
+
+  <thead class="tables-bg">
+  <tr>
+  <th class="align-middle text-center">#</th>
+  <th class="align-middle text-center">Empleado</th>
+  <th class="align-middle text-center">Estacion / Departamento</th>
+  <th class="align-middle text-center">Fecha de aplicacion de baja</th>
+  <th class="align-middle text-center">Motivo</th>
+  <th class="align-middle text-center">Detalle</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <?php
+  $sql_lista = "SELECT * FROM op_rh_formatos_baja WHERE id_formulario = '" . $GET_idReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) { 
+  $num = 1;
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+  $id = $row_lista['id'];
+
+  $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_personal']);
+  $NombreC = $datosPersonal['nombre_personal'];
+
+  $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($row_lista['id_estacion']);
+  $nombreEstacion = $datosEstacion['localidad'];
+
+  $fecha_baja = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_baja']);
+  
+  $motivo = $row_lista['motivo'];
+  $detalle = $row_lista['detalle'];
+
+  echo '<tr>';              
+  echo '<td class="align-middle text-center">' . $num . '</td>';      
+  echo '<td class="align-middle text-center">' . $NombreC . '</td>';  
+  echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
+  echo '<td class="align-middle text-center">' . $fecha_baja . '</td>';      
+  echo '<td class="align-middle text-center">' . $motivo . '</td>';          
+  echo '<td class="align-middle text-center">' . $detalle . '</td>';           
+  echo '</tr>';
+       
+  $num++;                     
+  }
+
+  }else{
+  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+  }
+  ?>
+
+  </tbody>
+  </table>
+  </div>
+
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+  <!---------- 5. FALTA DE PERSONAL ---------->
+  <?php } else if($formato == 3){ ?>
+
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-FALT-03
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>Por medio del presente se le notifica la siguiente incidencia que corresponde a faltas de personal.</p>
+  </div>
+ 
+  <div class="table-responsive mb-4">
+  <table class="custom-table" width="100%">
+
+  <thead class="tables-bg">
+  <tr>
+  <th class="align-middle text-center">#</th>
+  <th class="align-middle text-center">Colaborador</th>
+  <th class="align-middle text-center">Dia faltante</th>
+  <th class="align-middle text-center">Estacion</th>
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <?php
+  $sql_lista = "SELECT * FROM op_rh_formatos_falta WHERE id_formulario = '" . $GET_idReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) { 
+  $num = 1;
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+  $id = $row_lista['id'];
+
+  $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_personal']);
+  $NombreC = $datosPersonal['nombre_personal'];
+
+  $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($row_lista['id_estacion']);
+  $nombreEstacion = $datosEstacion['localidad'];
+
+  $dias_falta = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['dias_falta']);
+
+  echo '<tr>';              
+  echo '<td class="align-middle text-center">' . $num . '</td>';      
+  echo '<td class="align-middle text-center">' . $NombreC . '</td>';  
+  echo '<td class="align-middle text-center">' . $dias_falta . '</td>';          
+  echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
+  echo '</tr>';
+       
+  $num++;                     
+  }
+
+  }else{
+  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+  }
+  ?>
+
+  </tbody>
+  </table>
+  </div>
+  
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+
+
+
+
+
+
+
+  <!---------- 4. REESTRUCTURACIÓN DE PERSONAL ---------->
+  <?php } else if($formato == 4){ ?>
+
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-REEST-04
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>Buenos días por medio del presente solicito de su amable apoyo para realizar el siguiente cambio de personal.</p>
+  </div>
+
+  <div class="table-responsive mb-4">
+  <table class="custom-table" width="100%">
+
+  <thead class="tables-bg">
+  <tr>
+  <th class="align-middle text-center">#</th>
+  <th class="align-middle text-center">Empleado</th>
+  <th class="align-middle text-center">De Estacion / Departamento</th>
+  <th class="align-middle text-center">Cambio a</th>
+  <th class="align-middle text-center">Fecha de aplicacion de baja</th>
+
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <?php
+  $sql_lista = "SELECT * FROM op_rh_formatos_restructuracion WHERE id_formulario = '" . $GET_idReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) { 
+  $num = 1;
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+  $id = $row_lista['id'];
+
+  $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_personal']);
+  $NombreC = $datosPersonal['nombre_personal'];
+
+  $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($row_lista['id_estacion']);
+  $nombreEstacion = $datosEstacion['localidad'];
+
+  $datosEstacion2 = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($row_lista['id_estacion_cambio']);
+  $nombreEstacion2 = $datosEstacion2['localidad'];
+
+  $fecha= $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']);
+
+
+  echo '<tr>';              
+  echo '<td class="align-middle text-center">' . $num . '</td>';      
+  echo '<td class="align-middle text-center">' . $NombreC . '</td>';  
+  echo '<td class="align-middle text-center">' . $nombreEstacion . '</td>';           
+  echo '<td class="align-middle text-center">' . $nombreEstacion2 . '</td>';       
+  echo '<td class="align-middle text-center">' . $fecha . '</td>';          
+  echo '</tr>';
+       
+  $num++;                      
+  }
+
+  }else{
+  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+  }
+  ?>
+
+  </tbody>
+  </table>
+  </div>
+
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+
+    
+  <!---------- 5. AJUSTE SALARIAL ---------->
+  <?php } else if($formato == 5){ ?>
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-ADJS-05
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>Buenos días por medio del presente solicito su apoyo para el ajuste salarial al siguiente colaborador.</p>
+  </div>
+ 
+
+  <div class="table-responsive mb-4">
+  <table class="custom-table" width="100%">
+
+  <thead class="tables-bg">
+  <tr>
+  <th class="align-middle text-center">#</th>
+  <th class="align-middle text-center">Colaborador</th>
+  <th class="align-middle text-center">Puesto</th>
+  <th class="align-middle text-center">Salario Diario</th>
+  <th class="align-middle text-center">Ajuste a</th>
+  <th class="align-middle text-center">Aplicar a partir del</th>
+
+  </tr>
+  </thead>
+ 
+  <tbody class="bg-light">
+  <?php
+  $sql_lista = "SELECT * FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = '" . $GET_idReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+
+  if ($numero_lista > 0) { 
+  $num = 1;
+  while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+  $id = $row_lista['id'];
+
+  $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_personal']);
+  $NombreC = $datosPersonal['nombre_personal']; 
+  $Puesto = $datosPersonal['puesto'];  
+
+  $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($row_lista['id_estacion']);
+  $nombreEstacion = $datosEstacion['localidad'];
+
+  $salarioActual = $row_lista['salario_actual'];
+  $salarioAjustado = $row_lista['salario_ajustado'];
+
+  $fecha_aplicacion = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_aplicacion']);
+ 
+
+  echo '<tr>';              
+  echo '<td class="align-middle text-center">' . $num . '</td>';      
+  echo '<td class="align-middle text-center">' . $NombreC . '</td>';  
+  echo '<td class="align-middle text-center">' . $Puesto . '</td>';           
+  echo '<td class="align-middle text-center">$' . number_format($salarioActual,2) . '</td>';       
+  echo '<td class="align-middle text-center">$' . number_format($salarioAjustado,2) . '</td>';    
+  echo '<td class="align-middle text-center">' . $fecha_aplicacion . '</td>';                
+  echo '</tr>';
+       
+  $num++;                     
+  }
+
+  }else{
+  echo "<tr><th colspan='15' class='text-center text-secondary fw-normal'><small>No se encontró información para mostrar </small></th></tr>";
+  }
+  ?>
+
+  </tbody>
+  </table>
+  </div>
+
+
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+
+
+  <!---------- 6. VACACIONES DE PERSONAL ---------->
+  <?php } else if($formato == 6){ 
+    
+  $sql_lista = "SELECT * FROM op_rh_formatos_vacaciones WHERE id_formulario = '" . $GET_idReporte . "' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
+
+    while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+    $id = $row_lista['id'];
+    $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_usuario']);
+    $NombreC = $datosPersonal['nombre_personal']; 
+    $Puesto = $datosPersonal['puesto'];  
+    $idEstaciones = $datosPersonal['idEstacion'];  
+ 
+    $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstaciones);
+    $nombreEstacion = $datosEstacion['localidad'];
+      
+    $num_dias = $row_lista['num_dias'];      
+    $fecha_inicio = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_inicio']);
+    $fecha_termino = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_termino']);
+    $fecha_regreso = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha_regreso']);
+
+    $observaciones = $row_lista['observaciones'];      
+    }
+    
+    if($observaciones == ""){
+    $observaciones2 = "N/A";
+    }else{
+    $observaciones2 = $observaciones;
+    }
+
+    ?>
+
+
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-FV-06
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>Por medio de la presente, solicito su apoyo para llevar a cabo la autorizacion correspondiente en las vacaciones al siguiente colaborador.</p>
+  </div>
+
+
+  <!---------- TABLA DEL PERSONAL ---------->
+  <div class="col-12">
+  <div class="table-responsive">
+    <table class="custom-table mb-3" style="font-size: 12.5px;" width="100%">
+    <tr>
+    <td class="font-weight-bold tables-bg"><b>Área o Departamento:</b></td>
+    <td class="font-weight-bold tables-bg"><b>Nombre completo:</b></td>
+    <td class="font-weight-bold tables-bg"><b>Número de días a disfrutar:</b></td>
+    </tr>
+    <tr>
+    <td class="bg-light"><?=$nombreEstacion?></td>
+    <td class="bg-light"><?=$NombreC?></td>
+    <td class="bg-light"><?=$num_dias;?></td>
+    </tr>
+
+    <tr>
+    <th class="tables-bg">Del:</th>
+    <td class="tables-bg"><b>Al:</b></td>
+    <th class="tables-bg">Regresando el:</th>
+    </tr>
+    <tr>
+    <td class="bg-light"><?=$fecha_inicio?></td>
+    <td class="bg-light"><?=$fecha_termino?></td>
+    <td class="bg-light"><?=$fecha_regreso?></td>
+    </tr>
+
+    <tr>
+    <th class="tables-bg" colspan="3">Observaciones:</th>
+    </tr>
+    <tr>
+    <td class="bg-light" colspan="3"><?=$observaciones2?></td>
+    </tr>
+
+    </table>
+    </div>
+    </div>
+ 
+
+    
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+
+  <!---------- 7. PRIMA VACACIONAL ---------->
+  <?php } else if($formato == 7){ 
+ $sql_lista = "SELECT * FROM op_rh_formatos_prima_vacacional WHERE id_formulario = '" . $GET_idReporte . "' ";
+ $result_lista = mysqli_query($con, $sql_lista);
+ $numero_lista = mysqli_num_rows($result_lista);
+
+     while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
+     $id = $row_lista['id'];
+     $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosPersonal($row_lista['id_personal']);
+     $NombreC = $datosPersonal['nombre_personal']; 
+     $fecha_ingreso = $ClassHerramientasDptoOperativo->FormatoFecha($datosPersonal['fecha_ingreso']); 
+  
+     $idEstaciones = $row_lista['id_estacion'];      
+     $datosEstacion = $ClassHerramientasDptoOperativo->obtenerDatosLocalidades($idEstaciones);
+     $nombreEstacion = $datosEstacion['localidad'];
+       
+     $periodo = $row_lista['periodo'];      
+ 
+     }
+ 
+     $contenido = '<th class="text-center fw-normal">'.$NombreC.'</th>
+     <th class="text-center fw-normal">'.$fecha_ingreso.'</th>
+     <th class="text-center fw-normal">'.$nombreEstacion.'</th>';
+
+  ?>
+  
+
+
+  <div class="col-12 text-end mb-3 ">
+  <b>Formato:</b> RH-FV-06
+  <br>
+  <b>No. De control:</b> 00<?=$GET_idReporte?>
+  
+  <p>Huixquilucan, Edo. de México a <?=$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato;?></p>
+  </div>
+
+  <div class="col-12">
+  <b>Lic. Alejandro Guzmán</b>
+  <br>
+  <p><b>Departamento de Recursos Humanos</b></p>
+  <p>
+  Sirva la presente para enviarle un cordial saludo, al mismo tiempo, me permito solicitarle el pago de mi prima vacacional, correspondiente al periodo de  
+  <input class="form-control ms-2" type="number" value="<?=$periodo?>" style="display: inline-block; width: auto; width: 150px" disabled>
+  </p>
+  </div>
+
+
+  <!---------- TABLA DEL PERSONAL ---------->
+  <div class="col-12">
+  <div class="table-responsive mb-4">
+  <table class="custom-table" width="100%">
+
+  <thead class="tables-bg">
+  <tr>
+  <th class="align-middle text-center">Colaborador</th>
+  <th class="align-middle text-center">Fecha de ingreso</th>
+  <th class="align-middle text-center">Estacion / Departamento</th>
+
+  </tr>
+  </thead>
+
+  <tbody class="bg-light">
+  <tr>             
+    <?=$contenido?>      
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
+ 
+
+    
+  <div class="col-12 text-center"><p>Sin más por el momento quedo de usted.</p><hr></div>
+
+
+
+
+
+
+
   <?php } ?>
+
   </div>
 
 
@@ -330,15 +888,19 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
     
   }else if($row_firma['tipo_firma'] == "B"){
-  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
   $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
     
   }else if($row_firma['tipo_firma'] == "C"){
-  $TipoFirma = "NOMBRE Y FIRMA DE QUIEN VERIFICA";
+  $TipoFirma = "NOMBRE Y FIRMA DE AUTORIZACIÓN";
+  $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';
+
+  }else if($row_firma['tipo_firma'] == "D"){
+  $TipoFirma = "NOMBRE Y FIRMA DE VERIFICACIÓN";
   $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }
+  
     
-
   echo '  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <table class="custom-table" style="font-size: 14px;" width="100%">
   <thead class="tables-bg">
@@ -363,11 +925,74 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <!----- FIRMA LIC. MARTIN ----->
   <?php 
   if($status == 1){
+  if($Session_IDUsuarioBD == 19){ 
+  ?>
+
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+    
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br> 
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+  </th>
+  
+  </tr>
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+  <div class="input-group-append">
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'B')">Firmar solicitud</button>
+  </div>
+  </div>
+  </th>
+  </tr>
+
+
+  </tbody>
+  </table>
+  </div>
+  </div>
+
+  <?php 
+
+  }else if($Session_IDUsuarioBD == 2){
+  echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡Aun no es posible firmar! <br> La persona que da el VOBO debe finalizar el formato.
+  </div></div>';
+  }else{
+    echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-2 mb-0"><div class="text-center alert alert-warning" role="alert">
+    ¡No cuentas con los permisos para firmar!
+  </div></div>';
+  }
+
+  }
+  ?>
+
+
+  <!----- FIRMA LIC. MARTIN ----->
+  <?php 
+  if($status == 2){
   if($Session_IDUsuarioBD == 2){ 
   ?>
 
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
@@ -379,24 +1004,16 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
-  <br>
+  <br> 
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white ms-2 mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2,<?=$formato?>)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-
+  <button type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3,<?=$formato?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   
-  </tr>
-
-  <tr class="no-hover">
-  <th class="align-middle text-center bg-light">
-  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-  </small>
-  </th>
   </tr>
 
   <tr class="no-hover">
@@ -404,7 +1021,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'B')">Firmar solicitud</button>
+  <button class="btn btn-outline-success " type="button" onclick="AutorizacionFormato(<?=$GET_idReporte;?>,'C')">Firmar solicitud</button>
   </div>
   </div>
   </th>
@@ -434,7 +1051,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
     
   <!----- FIRMA ALEJANDRO GUZMAN ----->
   <?php 
-  if($status == 2){
+  if($status == 3){
   if($Session_IDUsuarioBD == 354){
   ?>
 
@@ -443,7 +1060,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <table class="custom-table" style="font-size: .8em;" width="100%">
   
   <thead class="tables-bg">
-  <tr><th class="text-center align-middle">Firma de quien verifica</th></tr>
+  <tr><th class="text-center align-middle">FIRMA DE VERIFICACIÓN</th></tr>
   </thead>
 
   <tbody class="bg-light"> 
@@ -467,7 +1084,7 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
 
   <div class="col-12">
   <hr>
-  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'C')">
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Finalizar(<?=$GET_idReporte?>,'D')">
   <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>
   </div>
 
@@ -479,8 +1096,6 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   }
   }
   ?>
-
-
 
   </div>
   </div>
@@ -530,6 +1145,15 @@ $Titulo = 'Firmar Alta de Personal '.$estacion;
   <span class="btn-label2"><i class="fa fa-check"></i></span>Aceptar</button>
   </div>
 
+  </div>
+  </div>
+  </div>
+
+  <!---------- MODAL CENTER ----------> 
+  <div class="modal fade" id="Modal2" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content" id="ContenidoModal2">
+  </div>
   </div>
   </div>
 

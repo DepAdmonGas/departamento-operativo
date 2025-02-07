@@ -194,6 +194,45 @@
             });
         }
         }
+
+
+
+        function CrearTokenEmail(idFormato){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idFormato" : idFormato,
+    "idUsuario" : <?=$Session_IDUsuarioBD?>,
+    "accion" : 'crear-token-email'
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../app/controlador/2-recursos-humanos/controladorPermisos.php',
+    type:  'post',
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+        console.log(response)
+      
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+  
+    }
+    });
+    }   
+
+
+
+
     </script>
 </head>
 
@@ -236,18 +275,18 @@
   <div class="row">
 
   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-1 mt-1">
-    <small class="text-secondary">Estación:</small>
-    <h5><?= $Estacion; ?></h5>
+    <label class="text-secondary">ESTACIÓN:</label>
+    <br><?= $Estacion; ?>
   </div>
   
   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-1 mt-1">
-    <small class="text-secondary">Colaborador:</small>
-    <h5><?= $nameUSUR; ?></h5>
+    <label class="text-secondary">COLABORADOR:</label>
+    <br><?= $nameUSUR; ?>
   </div>
   
   <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-1 mt-1">
-  <small class="text-secondary">Días tomados:</small>
-  <h5><?= $diastomados; ?></h5>
+  <label class="text-secondary">DÍAS TOMADOS:</label>
+  <br><?= $diastomados; ?>
   </div>
   </div>
   </div>
@@ -255,23 +294,23 @@
   <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-1 mt-1">
   <div class="row"> 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-1 mt-1">
-  <small class="text-secondary">Del:</small>
-  <h5><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio); ?></h5>
+  <label class="text-secondary">DEL:</label>
+  <br><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio); ?>
   </div>
   
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-1 mt-1">
-  <small class="text-secondary">Hasta:</small>
-  <h5><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino); ?></h5>
+  <label class="text-secondary">HASTA:</label>
+  <br><?=$ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino); ?>
   </div>
   
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-1 mt-1">
-  <small class="text-secondary">Motivo:</small>
-  <h5><?= $Motivo; ?></h5>
+  <label class="text-secondary">MOTIVO:</label>
+  <br><?= $Motivo; ?>
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-1 mt-1">
-  <small class="text-secondary">Observaciones:</small>
-  <h5><?= $observaciones; ?></h5>
+  <label class="text-secondary">OBSERVACIONES:</label>
+  <br><?= $observaciones; ?>
   </div>
 
   </div>
@@ -281,13 +320,13 @@
   <div class="row">
 
   <div class="col-12">
-  <small class="text-secondary">Estacion de quien cubre:</small>
-  <h5><?= $nameES; ?></h5>
+  <label class="text-secondary">ESTACION DE QUIEN CUBRE:</label>
+  <br><?= $nameES; ?>
   </div>
 
   <div class="col-12">
-  <small class="text-secondary">Quien cubre:</small>
-  <h5><?= $nameUSU; ?></h5>
+  <label class="text-secondary">QUIEN CUBRE:</label>
+  <br><?= $nameUSU; ?>
   </div>
 
   </div>
@@ -412,8 +451,15 @@
     <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
     <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
+    <!--
     <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
     <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+    -->
+
+    <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+    onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+    <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
     </th>
     </tr>
 
@@ -517,8 +563,7 @@
     </script>
 
     <!---------- FUNCIONES - NAVBAR ---------->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
 
 </body>

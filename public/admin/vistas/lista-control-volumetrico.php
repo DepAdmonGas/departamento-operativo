@@ -9,10 +9,10 @@ $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 ?>
 <?php
-$verificar = '<th colspan="4" class="align-middle text-center tables-bg">ACEITES</th>';
+$verificar = '<th colspan="4" class="align-middle text-center tables-bg">ANEXOS</th>';
 
-if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") :
-	$verificar ='<th colspan="3" class="align-middle text-center">ACEITES</th>
+if ($session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") :
+$verificar ='<th colspan="3" class="align-middle text-center">ANEXOS</th>
 				<th class="align-middle"> 
 					<button type="button" class="btn btn-success" onclick="btnModal()"><i class="fa fa-plus">
 					</i></span></button>
@@ -29,7 +29,7 @@ endif;
 			</tr>
 			<tr>
 				<td class="align-middle text-center fw-bold">FECHA</td>
-				<th class="align-middle text-center">ANEXOS</th>
+				<th class="align-middle text-center">DESCRIPCIÓN</th>
 				<th class="align-middle text-center" width="24">
 					<img src="<?= RUTA_IMG_ICONOS; ?>pdf.png">
 				</th>
@@ -46,7 +46,7 @@ endif;
 					if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Dirección de operaciones servicio social") {
 						$eliminar = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png" onclick="Eliminar(' . $IdReporte . ',' . $row_lista['id'] . ')">';
 					} else {
-						$eliminar = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png" >';
+						$eliminar = '<img class="grayscale" src="' . RUTA_IMG_ICONOS . 'eliminar.png" >';
 					}
 
 					$extension = pathinfo($row_lista['documento'], PATHINFO_EXTENSION);

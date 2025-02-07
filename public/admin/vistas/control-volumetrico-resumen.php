@@ -394,7 +394,8 @@ var parametros = {
           <option>Acuse de recepción controles volumétricos</option>
           <option>Acuse de aceptación controles volumétricos</option>
           <option>Jarreo</option>
-        </select>
+          <option>XML SAT FACTURAS EMITIDAS</option>
+          </select>
 
         <div class="mb-1 mt-2 text-secondary">Agregar documento</div>
         <input class="form-control" type="file" id="Documento">

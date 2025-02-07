@@ -122,27 +122,34 @@ $Nuevo = '';
 	$Detalle = '<a class="dropdown-item" onclick="ModalDetalle('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 	$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 	$Archivos = '<a class="dropdown-item" onclick="ModalArchivos('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')"><i class="fa-regular fa-file"></i> Documentación</a>';
-	$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 	$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 	$Firma = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
+
+	if($Session_IDUsuarioBD == 292){
+	$Editar = '<a class="dropdown-item" onclick="Editar('.$GET_year.','.$GET_mes.','.$idEstacion.','.$id.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+	}else{
+	$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 	}
+
+	} 
 
 	echo '<tr '.$trColor.'>
 	<th class="align-middle text-center">00'.$row_lista['folio'].'</th>
 	<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']).', '.date("g:i a",strtotime($row_lista['hora'])).'</td>
-	<td class="align-middle text-center"><b>'.$CargoCuenta.'</b></td>
+	<td class="align-middle text-center">'.$CargoCuenta.'</td>
 	<td class="align-middle text-center">$'.number_format($row_lista['monto'],2).'</td>
 	<td class="align-middle text-center">'.$row_lista['concepto'].'</td>
 	<td class="align-middle text-center">'.$row_lista['solicitante'].'</td>
 	<td class="align-middle text-center">'.$row_lista['autorizado_por'].'</td>
 	<td class="align-middle text-center position-relative" onclick="ModalComentario('.$GET_year.','.$GET_mes.','.$idEstacion.','.$depu.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>
 	<td class="align-middle text-center">
-	<div class="dropdown">
+	
+	<div class="dropdown-container">
 	<a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 	<i class="fas fa-ellipsis-v"></i>
 	</a>
  
-	<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+	<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
 	'.$Detalle.'
 	'.$PDF.'
 	'.$Archivos.'

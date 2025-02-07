@@ -75,9 +75,8 @@ function Personal($idusuario, $con)
 </div>
 
 
-
 <div class="table-responsive">
-  <table id="tabla-principal" class="custom-table " style="font-size: .8em;" width="100%">
+  <table id="tabla_aditivo_<?=$idEstacion?>" class="custom-table " style="font-size: .8em;" width="100%">
     <thead class="tables-bg">
       <tr>
         <th class="text-center align-middle">No. Orden</th>

@@ -59,6 +59,7 @@ require('app/help.php');
 
   $('#ListaSenalamientos').load('../public/admin/vistas/lista-nivel-explosividad.php?idEstacion=' + idestacion, function() {
   $('#tabla_nivel_explosividad_' + idestacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -188,6 +189,8 @@ require('app/help.php');
 
   if ($session_nompuesto == "Comercializadora") {
 
+    if($Session_IDUsuarioBD == 28){
+
     if($id == 6 || $id == 7){
 
       echo '  
@@ -199,6 +202,17 @@ require('app/help.php');
       </li>';
     }
   
+  }else{
+    echo '  
+    <li>
+    <a class="pointer" onclick="SelEstacion('.$id.')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$estacion.'
+    </a>
+    </li>';
+
+  }
+
   }else{
 
     echo '  

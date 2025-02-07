@@ -68,6 +68,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
   $('#ContenidoPrin').load('../public/admin/vistas/lista-mantenimiento-preventivo.php?idEstacion=' + idEstacion, function() {
   $('#tabla_mantenimiento_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -408,6 +410,8 @@ $Nuevo = '';
 
 if ($session_nompuesto == "Comercializadora") {
 
+  if($Session_IDUsuarioBD == 28){
+ 
   if($id == 6 || $id == 7){
     echo '  
     <li>
@@ -416,8 +420,18 @@ if ($session_nompuesto == "Comercializadora") {
       '.$Nuevo.' '.$estacion.'
       </a>
     </li>';
-  
   }
+
+}else{
+
+  echo '  
+  <li>
+    <a class="pointer" onclick="MantenimientoP('.$id.')">
+    <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+    '.$Nuevo.' '.$estacion.'
+    </a>
+  </li>';
+}
 
 }else{
   echo '  

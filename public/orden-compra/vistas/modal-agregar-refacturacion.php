@@ -9,7 +9,7 @@ $idReporte = $_GET['idReporte'];
 </div>
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Estación:</div>
+  <div class="mb-1 text-secondary fw-bold">* ESTACIÓN:</div>
   <select class="form-select" id="Estacion">
     <option></option>
     <?php
@@ -23,22 +23,22 @@ $idReporte = $_GET['idReporte'];
     ?>
   </select>
 
-  <div class="mb-1 mt-2 text-secondary">Descripción:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* DESCRIPCIÓN:</div>
   <textarea class="form-control" id="Descripcion"></textarea>
 
-  <div class="mb-1 mt-2 text-secondary">Cantidad:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* CANTIDAD:</div>
   <input type="number" class="form-control" id="Cantidad">
 
-  <div class="mb-1 mt-2 text-secondary">Importe:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">* IMPORTE:</div>
   <input type="number" class="form-control" id="Importe">
 
-  <div class="mb-1 mt-2 text-secondary">Porcentaje:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">PORCENTAJE:</div>
   <input type="number" class="form-control" id="Porcentaje">
 
-  <div class="mb-1 mt-2 text-secondary">Estacion:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">ESTACION:</div>
   <input type="number" class="form-control" id="CantidadES">
 
-  <div class="mb-1 mt-2 text-secondary">Almacén:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">ALMACÉN:</div>
   <input type="number" class="form-control" id="CantidadAl">
 
 </div>

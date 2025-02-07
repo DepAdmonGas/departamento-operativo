@@ -77,20 +77,16 @@ var Moneda             = $('#Moneda').val();
 var Concepto           = $('#Concepto').val();
 var Solicitante        = $('#Solicitante').val();
 var Observaciones      = $('#Observaciones').val();
-
-var Estacion      = $('#Estacion').val();
-var Cuentas      = $('#Cuentas').val();
-
+var Estacion           = $('#Estacion').val();
+var Cuentas            = $('#Cuentas').val();
 var Autorizadopor      = $('#Autorizadopor').val();
-var MetodoAutorizacion      = $('#MetodoAutorizacion').val();
-
-Archivo = document.getElementById("Archivo");
-Archivo_file = Archivo.files[0];
-Archivo_filePath = Archivo.value;
+var MetodoAutorizacion = $('#MetodoAutorizacion').val();
+var Departamento       = $('#Departamento').val();
 
 var data = new FormData();
+//var url = '../../../../app/controlador/1-corporativo/controladorSolicitudVale.php';
 var url = '../../../../public/solicitud-vales/modelo/editar-solicitud-vale.php';
-
+ 
 if(Fecha != ""){
 $('#Fecha').css('border',''); 
 if(Monto != ""){
@@ -101,25 +97,51 @@ if(Concepto != ""){
 $('#Concepto').css('border',''); 
 if(Solicitante != ""){
 $('#Solicitante').css('border',''); 
+ 
+// Si el idEstacion es 8 o el usuario es 292, validar Estacion y Cuentas
+if (idEstacion == 8 || <?=$Session_IDUsuarioBD?> == 292) {
+// Lógica para mandar uno vacío si el otro está lleno
+if (Cuentas !== "") {
+data.append('Estacion', "");  // Mandar Estacion vacío
+data.append('Cuentas', Cuentas);
+$('#Estacion').css('border', '');
+$('#Cuentas').css('border', '');
+}else if (Estacion !== "") {
+data.append('Estacion', Estacion);
+data.append('Cuentas', "");  // Mandar Cuentas vacío
+$('#Estacion').css('border', '');
+$('#Cuentas').css('border', '');
+}else {
+alertify.error('Debe seleccionar una Estación o ingresar una Cuenta.');
+$('#Estacion').css('border', '2px solid #A52525');
+$('#Cuentas').css('border', '2px solid #A52525');
+return; // Detener la ejecución si ninguno está lleno
+}
 
-  data.append('idEstacion', idEstacion);
+}else{
+data.append('Estacion', Estacion);
+data.append('Cuentas', Cuentas);
+}
+
+if (Autorizadopor != "") {
+$('#Autorizadopor').css('border', '');
+if (MetodoAutorizacion != "") {
+$('#MetodoAutorizacion').css('border', '');
+
   data.append('idReporte', idReporte);
+  data.append('idEstacion', idEstacion);
   data.append('GETyear', GETyear);
   data.append('GETmes', GETmes);
-
+  data.append('idUsuario', <?=$Session_IDUsuarioBD?>);
   data.append('Fecha', Fecha);
   data.append('Monto', Monto);
   data.append('Moneda', Moneda);
   data.append('Concepto', Concepto);
   data.append('Solicitante', Solicitante);
   data.append('Observaciones', Observaciones);
-  data.append('Archivo_file', Archivo_file);
-
-  data.append('Estacion', Estacion);
-  data.append('Cuentas', Cuentas);
-
   data.append('Autorizadopor', Autorizadopor);
   data.append('MetodoAutorizacion', MetodoAutorizacion);
+  data.append('Departamento', Departamento);
 
     $(".LoaderPage").show();
 
@@ -131,32 +153,46 @@ $('#Solicitante').css('border','');
     processData: false,
     cache: false
     }).done(function(data){
+      
+      console.log(data)
 
     if(data == 1){
       Regresar();
      }else{
       $(".LoaderPage").hide();
-      alertify.error('Error al crear la solicitud de vale'); 
+      alertify.error('Error al editar la solicitud de vale'); 
      }
      
     }); 
 
-}else{
-$('#Solicitante').css('border','2px solid #A52525'); 
+  } else {
+              $('#MetodoAutorizacion').css('border', '2px solid #A52525');
+              alertify.error('Falta ingresar el metodo de autorización.');
+            }
+          } else {
+            $('#Autorizadopor').css('border', '2px solid #A52525');
+            alertify.error('Falta ingresar el nombre del quien autoriza.');
+          }
+        } else {
+          $('#Solicitante').css('border', '2px solid #A52525');
+          alertify.error('Falta ingresar el nombre del solicitante.');
+        }
+      } else {
+        $('#Concepto').css('border', '2px solid #A52525');
+        alertify.error('Falta ingresar el concepto.');
+      }
+    } else {
+      $('#Moneda').css('border', '2px solid #A52525');
+      alertify.error('Falta seleccionar la moneda.');
+    }
+  } else {
+    $('#Monto').css('border', '2px solid #A52525');
+    alertify.error('Falta ingresar el monto.');
+  }
+} else {
+  $('#Fecha').css('border', '2px solid #A52525');
+  alertify.error('Falta ingresar la fecha.');
 }
-}else{
-$('#Concepto').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Moneda').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Monto').css('border','2px solid #A52525'); 
-}
-}else{
-$('#Fecha').css('border','2px solid #A52525'); 
-}  
-
 }
 
   </script>
@@ -172,45 +208,44 @@ $('#Fecha').css('border','2px solid #A52525');
   <?php include_once "public/navbar/navbar-perfil.php";?>
   <!---------- CONTENIDO PAGINA WEB----------> 
   <div class="contendAG">
+  <div class="container">
+
   <div class="row">
 
   <div class="col-12 mb-3">
   <div class="cardAG">
   <div class="border-0 p-3">
 
-    <div class="row">
-    <div class="col-12">
-
-    <img class="float-start pointer" src="<?=RUTA_IMG_ICONOS;?>regresar.png" onclick="Regresar()">
-    
-    <div class="row">
-    <div class="col-12">
-
-     <h5>Editar Solicitud de vale</h5>
-    
-    </div>
-    </div>
-
-    </div>
-    </div>
-
-  <hr>
-
-<div class="container">
   <div class="row">
 
-  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">FECHA:</div>
+  <div class="col-12">
+  <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
+  <ol class="breadcrumb breadcrumb-caret">
+  <li class="breadcrumb-item"><a onclick="history.back()" class="text-uppercase text-primary pointer"><i class="fa-solid fa-chevron-left"></i>
+  Solicitud de Vale</a></li>
+  <li aria-current="page" class="breadcrumb-item active text-uppercase">Editar Solicitud de Vale</li>
+  </ol>
+  </div>
+  
+  <div class="row"> 
+  <div class="col-12 mb-1"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;">Editar Solicitud de Vale</h3> </div>
+  </div>
+
+  <hr>
+  </div>
+
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* FECHA:</div>
   <input type="date" class="form-control rounded-0" id="Fecha" value="<?=$fecha;?>"> 
   </div>
 
-  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-2">
-  <div class="mb-1 text-secondary">MONTO:</div>
+  <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 mb-2">
+  <div class="mb-1 text-secondary fw-bold">* MONTO:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Monto" value="<?=$monto;?>">
   </div>
 
 
-  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+  <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
   <div class="mb-1 text-secondary">MONEDA:</div>
   <select class="form-select rounded-0" id="Moneda">
   <option><?=$moneda;?></option>
@@ -219,32 +254,42 @@ $('#Fecha').css('border','2px solid #A52525');
   </select>
   </div>
 
-  </div>
-      
-  <div class="row ">
 
   <div class="col-12 mb-2">  
-  <div class="mb-1 text-secondary mt-2">CONCEPTO:</div>
+  <div class="mb-1 text-secondary mt-2 fw-bold">* CONCEPTO:</div>
   <textarea class="form-control rounded-0" id="Concepto"><?=$concepto;?></textarea>
   </div>
 
         
-  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">NOMBRE DEL SOLICITANTE:</div>
+  <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary fw-bold">* NOMBRE DEL SOLICITANTE:</div>
   <input type="text" class="form-control rounded-0" id="Solicitante" value="<?=$solicitante;?>" >
   </div>
 
+  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">  
+  <div class="mb-1 text-secondary">DEPARTAMENTO:</div>
+  <select class="form-select rounded-0" id="Departamento">
+    <option value=""></option>
+    <option value="2">Sistemas</option>
+    <option value="4">Comercializadora</option>
+    <option value="5">Gestoria</option>
+    <option value="8">Mantenimiento</option>
+    <option value="13">Dirección de operaciones</option>
+    <option value="15">Departamento Jurídico</option>
+  </select>
   </div>
 
-    <?php if($GET_idEstacion == 8){ ?>
-  <h6>Cargo a cuenta:</h6>
+  <?php if($GET_idEstacion == 8 || $Session_IDUsuarioBD == 292){ ?>
+  <div class="col-12">  
+  <hr>
+  <h6>CARGO A CUENTA:</h6>
   <div class="row">
 
-    <div class="col-6">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">  
       <div class="mb-1 text-secondary mt-2">ESTACION:</div>
-      <select class="form-control rounded-0" id="Estacion">
-        <option value="<?=$idEstacion;?>"><?=$Estacion;?></option>
-        <?php 
+      <select class="form-select rounded-0" id="Estacion">
+      <option value="<?=$idEstacion;?>"><?=$Estacion;?></option>
+      <?php 
         $sql = "SELECT id, nombre, numlista FROM tb_estaciones WHERE numlista <= 8 ORDER BY numlista ASC";
         $result = mysqli_query($con, $sql);
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
@@ -254,8 +299,7 @@ $('#Fecha').css('border','2px solid #A52525');
       </select>
     </div>
     
-      <div class="col-6">
-      
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">  
       <div class="mb-1 text-secondary mt-2">CUENTAS:</div>
       <input class="form-control rounded-0" type="text" multiple list="CargoCuentas" id="Cuentas" value="<?=$cuenta;?>" />
       <datalist id="CargoCuentas">
@@ -285,57 +329,84 @@ $('#Fecha').css('border','2px solid #A52525');
 
     </div>
   </div>
+
+  </div>
   <?php } ?>
 
-    <div class="row">
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">AUTORIZADO POR:</div>
+  <div class="mb-1 text-secondary fw-bold">* AUTORIZADO POR:</div>
   <input type="text" class="form-control rounded-0" value="<?=$autorizadopor;?>" id="Autorizadopor" >
   </div>
 
   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2 mt-2">  
-  <div class="mb-1 text-secondary">METODO DE AUTORIZACION:</div>
-  <select class="form-control rounded-0" id="MetodoAutorizacion">
-    <option><?=$metodoautorizacion;?></option>
-    <option>Personal</option>
-    <option>Telefónica</option>
+  <div class="mb-1 text-secondary fw-bold">* METODO DE AUTORIZACION:</div>
+  <select class="form-select rounded-0" id="MetodoAutorizacion">
+  <option><?=$metodoautorizacion;?></option>
+  <option>Personal</option>
+  <option>Telefónica</option>
   </select>
   </div>
 
-
-  <div class="row mt-2">          
-  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">  
-  <div class="mb-1 text-secondary">OBSERVACIONES:</div>
-  <textarea class="form-control rounded-0" id="Observaciones"></textarea>
-  </div>
-  </div>
-  </div>
-
-  <div class="row">          
-  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">  
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">  
   <div class="mb-1 text-secondary">OBSERVACIONES:</div>
   <textarea class="form-control rounded-0" id="Observaciones"><?=$observaciones;?></textarea>
   </div>
+   
+  <div class="col-12">  
+  <hr>
+  <button type="button" class="btn btn-labeled2 btn-success float-end" onclick="Guardar(<?=$GET_idEstacion;?>,<?=$GET_idReporte;?>,<?=$GET_year;?>,<?=$GET_mes;?>)">
+  <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
   </div>
 
-<div class="mb-1 text-secondary mt-2">Archivo:</div>
-<input type="file" class="form-control" id="Archivo">
-
-<hr>
-<div class="text-end">
-<button type="button" class="btn btn-primary" onclick="Guardar(<?=$GET_idEstacion;?>,<?=$GET_idReporte;?>,<?=$GET_year;?>,<?=$GET_mes;?>)">Guardar</button>
-</div>
-</div>
-
-
   </div>
-  </div>
+
+
   </div>
 
   </div>
   </div>
+  </div>
 
   </div>
+  </div>
+  </div>
+  </div>
+
+
+  </div>
+  </div>
+
+  </div>
+
+<!--
+  <script>
+  // Obtener los elementos de Estacion y Cuentas
+  const estacionSelect = document.getElementById('Estacion');
+  const cuentasInput = document.getElementById('Cuentas');
+
+  // Función que deshabilita/activa los elementos dependiendo del valor
+  function toggleElements() {
+    if (estacionSelect.value !== "") {
+      cuentasInput.disabled = true;  // Si hay valor en Estación, deshabilitar Cuentas
+    } else {
+      cuentasInput.disabled = false;  // Si no hay valor, activar Cuentas
+    }
+    
+    if (cuentasInput.value !== "") {
+      estacionSelect.disabled = true;  // Si hay valor en Cuentas, deshabilitar Estación
+    } else {
+      estacionSelect.disabled = false;  // Si no hay valor, activar Estación
+    }
+  }
+
+  // Escuchar el cambio de valor en ambos elementos
+  estacionSelect.addEventListener('change', toggleElements);
+  cuentasInput.addEventListener('input', toggleElements);
+
+  // Llamar la función inicialmente para verificar los valores
+  toggleElements();
+  </script>
+      -->
 
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>

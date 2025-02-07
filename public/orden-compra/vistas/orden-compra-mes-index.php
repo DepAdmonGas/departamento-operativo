@@ -45,6 +45,7 @@ if ($Session_IDUsuarioBD == "") {
       targets = [4];
       $('#ListaFecha').load('../../../public/orden-compra/vistas/lista-orden-compra-estacion.php?year=' + year + '&mes=' + mes, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -140,6 +141,9 @@ if ($Session_IDUsuarioBD == "") {
       window.location.href = "../../orden-compra-descargar/" + idCompra;
     }
 
+    function DescargarExcel(idCompra){
+ window.location.href = "../../orden-compra-descargar-excel/" + idCompra;
+ }
 
     window.addEventListener('pageshow', function(event) {
   if (event.persisted) {

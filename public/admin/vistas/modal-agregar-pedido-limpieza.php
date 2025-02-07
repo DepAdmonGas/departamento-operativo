@@ -39,7 +39,7 @@ $TotalPedido1 = TotalPedido($idEstacion, 1, $con);
 
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Producto:</div>
+  <div class="mb-1 text-secondary">PRODUCTO:</div>
   <select class="form-select" id="Producto">
     <option value="">Selecciona</option>
     <?php
@@ -52,7 +52,7 @@ $TotalPedido1 = TotalPedido($idEstacion, 1, $con);
     ?>
   </select>
 
-  <div class="mb-0 mt-1 text-secondary">Piezas:</div>
+  <div class="mb-0 mt-1 text-secondary">PIEZAS:</div>
   <input type="number" min="0" class="form-control rounded-0" id="Piezas">
 <br>
   <div class="table-responsive">

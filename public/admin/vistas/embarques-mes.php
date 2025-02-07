@@ -65,6 +65,7 @@ require('app/help.php');
 
   $('#ListaEmbarques').load('../../../public/admin/vistas/lista-embarques-mes.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes, function() {
   $('#tabla_embarques_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?= RUTA_JS2 ?>/es-ES.json"
   },
@@ -126,6 +127,11 @@ var Tad = $('#Tad').val();
 var Chofer = $('#Chofer').val();
 var Unidad = $('#Unidad').val();
 
+var selectChofer = $('#Chofer').selectize()[0].selectize;
+    var choferValor = selectChofer.getValue();
+
+    var selectUnidad = $('#Unidad').selectize()[0].selectize;
+    var unidadValor = selectUnidad.getValue();
 
 //----- CUARTA SECCION FORMULARIO -----//
 var Merma  = $('#Merma').val();
@@ -164,7 +170,6 @@ NCXML = document.getElementById("NCXML");
 NCXML_file = NCXML.files[0];
 NCXML_filePath = NCXML.value;
 
-
 //----- COMPLEMENTO XML Y PDF -----//
 ComPDF = document.getElementById("ComPDF");
 ComPDF_file = ComPDF.files[0];
@@ -176,11 +181,15 @@ ComXML_filePath = ComXML.value;
 
  
 if (Embarque != "") {
-$('#Embarque').css('border','');
-if (Producto != "") {
-$('#Producto').css('border','');
-if (Documento_filePath != "") {
-$('#Documento').css('border','');
+    $('#Embarque').css('border','');
+    if (Producto != "") {
+    $('#Producto').css('border','');
+    if (Documento_filePath != "") {
+    $('#Documento').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
 
 data.append('IdReporte', IdReporte);
 
@@ -233,15 +242,22 @@ $(".LoaderPage").show();
  
     });
  
-}else{
-$('#Documento').css('border','2px solid #A52525');
-}
-}else{
-$('#Producto').css('border','2px solid #A52525');
-}
-}else{
-$('#Embarque').css('border','2px solid #A52525');
-}
+      
+    }else{
+    $('#Unidad').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+    }else{
+    $('#Chofer').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+    }else{
+    $('#Documento').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Producto').css('border','2px solid #A52525');
+    }
+    }else{
+    $('#Embarque').css('border','2px solid #A52525');
+    }
 
 } 
  
@@ -313,7 +329,6 @@ var Tad = $('#Tad').val();
 var Chofer = $('#Chofer').val();
 var Unidad = $('#Unidad').val();
 
-
 //----- CUARTA SECCION FORMULARIO -----//
 var Merma  = $('#Merma').val();
 var NombreTransporte = $('#NombreTransporte').val();
@@ -361,6 +376,14 @@ ComXML = document.getElementById("ComXML");
 ComXML_file = ComXML.files[0];
 ComXML_filePath = ComXML.value;
 
+    if (Embarque != "") {
+    $('#Embarque').css('border','');
+    if (Producto != "") {
+    $('#Producto').css('border','');
+    if (Chofer != "") {
+    $('#Chofer').css('border','');
+    if (Unidad != "") {
+    $('#Unidad').css('border',''); 
 
 data.append('id', id);
 
@@ -409,6 +432,22 @@ $(".LoaderPage").show();
     alertify.success('Registro editado exitosamente.')
     });
 
+    }else{
+    $('#Unidad').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+
+    }else{
+    $('#Chofer').css('border', '2px solid #A52525'); // Marcar error en select
+    }
+
+    }else{
+    $('#Producto').css('border','2px solid #A52525');
+    }
+    
+    }else{
+    $('#Embarque').css('border','2px solid #A52525');
+    }
+
   }
 
   function ModalComentario(idReporte,id,idEstacion,year,mes){
@@ -417,13 +456,13 @@ $(".LoaderPage").show();
   }
  
 
-  function GuardarComentario(idReporte,id,idEstacion,year,mes) {
+  function GuardarComentario(idReporte,id,idEstacion,year,mes,idUsuario) {
 
   var Comentario = $('#Comentario').val();
 
   var parametros = {
     "id": id,
-    "idEstacion": idEstacion,
+    "idUsuario": idUsuario,
     "Comentario": Comentario,
     "accion": "agregar-comentario-embarques"
   };
@@ -435,7 +474,7 @@ $(".LoaderPage").show();
       data: parametros,
       url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
       //url:   '../../public/corte-diario/modelo/agregar-comentario-embarques.php',
-      type: 'post',
+      type: 'post', 
       beforeSend: function () {
       },
       complete: function () {
@@ -445,7 +484,7 @@ $(".LoaderPage").show();
 
        if(response == 1){
         $('#Comentario').val('');
-          SelEstacion(idestacion,year,mes); 
+          SelEstacion(idEstacion,year,mes); 
           sizeWindow();   
           alertify.success('Comentario agregado exitosamente.');
           $('#DivModalComentario').load('../../../app/vistas/contenido/1-corporativo/corte-diario/embarques/modal-comentarios-embarques.php?idReporte=' + idReporte + '&id=' + id + '&idestacion=' + idestacion + '&year=' + year + '&mes=' + mes);         
@@ -731,7 +770,7 @@ window.location.href = "../../analisis-compra/" + idEstacion + "/" + year + "/" 
 
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivModalComentario">
   </div>
   </div>

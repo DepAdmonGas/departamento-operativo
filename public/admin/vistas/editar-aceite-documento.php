@@ -13,13 +13,13 @@ $id = $_GET['id'];
 </div>
 
 <div class="modal-body">
-        <div class="mb-1 text-secondary">Ficha deposito faltante</div>
+        <div class="mb-1 text-secondary">FICHA DEPOSITO FALTANTE</div>
         <input class="form-control" type="file" id="Ficha">
 
-        <div class="mb-1 mt-2 text-secondary">Imagen de bodega</div>
+        <div class="mb-1 mt-2 text-secondary">IMAGEN DE BODEGA</div>
         <input class="form-control" type="file" id="Imagen">
 
-        <div class="mb-1 mt-2 text-secondary">Factura venta mostrador</div>
+        <div class="mb-1 mt-2 text-secondary">FACTURA VENTA MOSTRADOR</div>
         <input class="form-control" type="file" id="Factura">
 
 </div>

@@ -373,7 +373,7 @@ return $Result;
   
   <tr>
   <th class="align-middle text-center no-hover2"> 
-  <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
   </th> 
   <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
   <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>

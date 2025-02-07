@@ -74,6 +74,8 @@ require('app/help.php');
       
   // Inicializar DataTables
   $('#' + tableId).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   }, 
@@ -745,6 +747,8 @@ function BuscarArea(Area, idEstacion){
       
   // Inicializar DataTables
   $('#' + tableId).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   }, 
@@ -810,6 +814,8 @@ var Buscar = e.value;
 
   $('#ListaTerminales').load('../public/admin/vistas/lista-reporte-transaccion.php?idEstacion=' + idEstacion, function() {
   $('#tabla_transaccion_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -895,8 +901,8 @@ function EliminarTransaccion(idEstacion,id,estado){
 
 
 function ComentarioTransaccion(idEstacion,idReporte){
-$('#Modal').modal('show');  
-$('#ContenidoModal').load('../public/admin/vistas/modal-comentarios-refaccion-transaccion.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);  
+$('#ModalComentario').modal('show');  
+$('#ContenidoModalComentario').load('../public/admin/vistas/modal-comentarios-refaccion-transaccion.php?idEstacion=' + idEstacion + '&idReporte=' + idReporte);  
 }
 
 
@@ -924,7 +930,8 @@ function GuardarComentario(idEstacion,idReporte){
 
     if (response == 1) {
     $('#Comentario').val('');
-    Transaccion(idEstacion)     
+    Transaccion(idEstacion)
+    ComentarioTransaccion(idEstacion,idReporte)
     sizeWindow();
     alertify.success('Comentario agregado exitosamente');  
 
@@ -1140,6 +1147,14 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+
+  <!---------- MODAL COMENTARIO----------> 
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="ContenidoModalComentario">
   </div>
   </div>
   </div>

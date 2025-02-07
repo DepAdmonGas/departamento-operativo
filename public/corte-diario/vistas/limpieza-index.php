@@ -2,8 +2,8 @@
 require ('app/help.php');
 
 ?>
-<html lang="es">
 
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -28,12 +28,6 @@ require ('app/help.php');
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <link rel="stylesheet" href="<?php echo RUTA_CSS ?>selectize.css">
 
-  <style media="screen">
-    .grayscale {
-      filter: opacity(50%);
-    }
-  </style>
-
   <script type="text/javascript">
 
     $(document).ready(function ($) {
@@ -48,6 +42,7 @@ require ('app/help.php');
       targets = [4];
       $('#ListaPedido').load('public/admin/vistas/lista-pedido-limpieza.php?idEstacion=' + idEstacion, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -86,52 +81,104 @@ require ('app/help.php');
       });
     }
 
-    function AgregarItem(idReporte) {
 
-      var Producto = $('#Producto').val();
-      var Piezas = $('#Piezas').val();
+  //---------- AGREGAR PRODUCTO ----------
+  function AgregarItem(idReporte) {
+  // Obtener el estado del checkbox
+  var otroProductoChecked = $('#OtroProductoCheckbox').is(':checked') ? 1 : 0;
 
-      if (Producto != "") {
-        $('.selectize-input').css('border', '');
-        if (Piezas != "") {
-          $('#Piezas').css('border', '');
+  // Variables generales
+  var Producto = $('#Producto').val();
+  var Piezas = $('#Piezas').val();
+  var ProductoNombre = $('#ProductoNombre').val();
+  var Unidad = $('#Unidad').val();
 
-          var parametros = {
-            "idReporte": idReporte,
-            "Producto": Producto,
-            "Piezas": Piezas
-          };
+  // Validación si el checkbox "OtroProductoCheckbox" está desmarcado (0)
+  if (otroProductoChecked === 0) {
+  
+  if (Producto != "") {
+  $('.selectize-input').css('border', '');
+  if (Piezas != "") {
+  $('#Piezas').css('border', '');
+  // Preparar parámetros para la solicitud
+  var parametros = {
+  "idReporte": idReporte,
+  "Producto": Producto,
+  "Piezas": Piezas,
+  "OtroProducto": otroProductoChecked
+  };
 
-          $.ajax({
-            data: parametros,
-            url: 'public/corte-diario/modelo/agregar-producto-pedido-limpieza.php',
-            type: 'post',
-            beforeSend: function () {
-            },
-            complete: function () {
+  enviarSolicitud(parametros, idReporte);
+    
+  } else {
+  $('#Piezas').css('border', '2px solid #A52525');
+  }
+  } else {
+  $('.selectize-input').css('border', '2px solid #A52525');
+  }
+  
+  // Validación si el checkbox "OtroProductoCheckbox" está marcado (1)
+  } else {
+  
+  if (ProductoNombre != "") {
+  $('#ProductoNombre').css('border', '');
+  if (Unidad != "") {
+  $('#Unidad').css('border', '');
+  if (Piezas != "") {
+  $('#Piezas').css('border', '');
 
-            },
-            success: function (response) {
+  // Preparar parámetros para la solicitud
+  var parametros = {
+  "idReporte": idReporte,
+  "ProductoNombre": ProductoNombre,
+  "Unidad": Unidad,
+  "Piezas": Piezas,
+  "OtroProducto": otroProductoChecked
+  };
 
-              if (response == 1) {
-                $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-limpieza.php?idReporte=' + idReporte);
-                alertify.success('Producto agregado exitosamente');
+  enviarSolicitud(parametros, idReporte);
 
-              } else {
-                alertify.error('Error al agregar el producto');
-              }
+  } else {
+  $('#Piezas').css('border', '2px solid #A52525');
+  }
+  } else {
+  $('#Unidad').css('border', '2px solid #A52525');
+  }
+  } else {
+  $('#ProductoNombre').css('border', '2px solid #A52525');
+  }
+  }
 
-            }
-          });
+  }
 
-        } else {
-          $('#Piezas').css('border', '2px solid #A52525');
-        }
-      } else {
-        $('.selectize-input').css('border', '2px solid #A52525');
-      }
+  // Función para enviar solicitud Ajax
+  function enviarSolicitud(parametros, idReporte) {
+ 
+  $.ajax({
+  data: parametros,
+  url: 'public/corte-diario/modelo/agregar-producto-pedido-limpieza.php',
+  type: 'post',
+  beforeSend: function () {
 
-    }
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+  console.log(response)
+
+  if (response == 1) {
+  $('#ContenidoModal').load('public/corte-diario/vistas/modal-agregar-pedido-limpieza.php?idReporte=' + idReporte);
+  alertify.success('Producto agregado exitosamente');
+
+  } else {
+  alertify.error('Error al agregar el producto');
+  }
+
+  }
+  });
+  }
+
 
     function EliminarItem(id, idReporte,idEstacion) {
 
@@ -164,7 +211,7 @@ require ('app/help.php');
 
             }
           });
-
+ 
         },
         function () {
 

@@ -48,6 +48,7 @@ return $numero_lista = mysqli_num_rows($result_lista);
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
 
+  localStorage.clear();
   });  
   
 function Regresar(){window.history.back();}
@@ -80,9 +81,16 @@ function ManualesProcedimientos(){window.location.href = "administracion/manual-
 function NominaV2(){window.location.href = "recursos-humanos-recibos-nomina";}
 function NominaV2ES(){window.location.href = "recibos-nomina";}
 
-function RolComodines(){window.location.href = "recursos-humanos-roles";}
+function RolComodines(){window.location.href = "recursos-humanos-rol-comodines";}
 function IncidenciasNomina(){window.location.href = "recursos-humanos-incidencia-nomina";}
  
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
   </script>
   </head>
   

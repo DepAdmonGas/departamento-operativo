@@ -68,8 +68,8 @@ echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontrar
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarComentario(<?=$idReporte;?>,<?=$id;?>,<?=$idestacion;?>,<?=$year;?>,<?=$mes;?>)">
+<button type="button" class="btn btn-labeled2 btn-success float-end m-2" onclick="GuardarComentario(<?=$idReporte;?>,<?=$id;?>,<?=$idestacion;?>,<?=$year;?>,<?=$mes;?>,<?=$Session_IDUsuarioBD?>)">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>
 
-</div>
+</div>       

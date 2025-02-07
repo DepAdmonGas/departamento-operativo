@@ -18,9 +18,6 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 ?>
 
 
-
-
-
 <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
     <ol class="breadcrumb breadcrumb-caret">
@@ -48,10 +45,11 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
 <div class="row">
   <div class="table-responsive">
-    <table id="tabla_permisos" class="custom-table" style="font-size: .8em;" width="100%">
+    <table id="tabla_permisos_<?=$idEstacion?>" class="custom-table" style="font-size: .8em;" width="100%">
       <thead class="tables-bg">
         <tr>
           <th class="text-center align-middle tableStyle font-weight-bold">#</th>
+          <th class="text-start align-middle tableStyle font-weight-bold">Fecha y hora</th>
           <th class="text-center align-middle tableStyle font-weight-bold">Colaborador</th>
           <th class="text-center align-middle tableStyle font-weight-bold">Del</th>
           <th class="text-center align-middle tableStyle font-weight-bold">Hasta</th>
@@ -72,6 +70,9 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
           while ($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)) {
             $id = $row_lista['id'];
             $idpersonal = $row_lista['id_personal'];
+
+            $explode = explode(" ", $row_lista['fechacreacion']);
+            $HoraFormato = date("g:i a", strtotime($explode[1]));  
 
             $datosPersonal = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idpersonal);
             $Responsable = $datosPersonal['nombre'];
@@ -96,6 +97,7 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
             echo '<tr ' . $trColor . '>
                     <th class="text-center align-middle fw-normal">' . $id . '</th>
+                    <td class="text-start align-middle">' . FormatoFecha($explode[0]) . ', ' . $HoraFormato . '</td>
                     <td class="text-center align-middle">' . $Responsable . '</td>
                     <td class="text-center align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($FechaInicio) . '</td>
                     <td class="text-center align-middle">' . $ClassHerramientasDptoOperativo->FormatoFecha($FechaTermino) . '</td>
@@ -119,8 +121,6 @@ if ($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Admini
 
           }
 
-        } else {
-          echo "<tr><td colspan='11' class='text-center text-secondary'><small>No se encontró información para mostrar </small></td></tr>";
         }
         ?>
       </tbody>

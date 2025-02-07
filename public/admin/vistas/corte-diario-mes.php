@@ -1,6 +1,8 @@
 <?php
 require ('app/help.php');
 
+
+ 
 ?>
 
 <html lang="es">
@@ -51,6 +53,8 @@ require ('app/help.php');
 
       }
 
+    localStorage.clear();
+ 
     });
 
 
@@ -349,6 +353,15 @@ require ('app/help.php');
 
     }
 
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+
+
   </script>
 </head>
 
@@ -404,7 +417,7 @@ require ('app/help.php');
           if ($session_nompuesto == "Contabilidad") {
 
 
-            if ($_SESSION["id_usuario"] == 419) {
+            if ($Session_IDUsuarioBD == 419) {
 
             } else {
 
@@ -529,7 +542,7 @@ require ('app/help.php');
         }
         ?>
 
-
+ 
       </ul>
     </nav>
 
@@ -597,11 +610,11 @@ require ('app/help.php');
 
       </nav>
 
-      <!---------- CONTENIDO PAGINA WEB---------->
-      <div class="contendAG">
-        <div id="ListaCorte"></div>
-      </div>
-    </div>
+  <!---------- CONTENIDO PAGINA WEB---------->
+  <div class="contendAG">
+  <div id="ListaCorte"></div>
+  </div>
+  </div>
 
   </div>
 
@@ -624,5 +637,4 @@ require ('app/help.php');
 
 
 </body>
-
 </html>

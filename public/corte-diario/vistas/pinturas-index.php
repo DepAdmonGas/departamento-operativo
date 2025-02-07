@@ -40,6 +40,7 @@ require ('app/help.php');
       targets = [4];
       $('#ListaPinturas').load('public/admin/vistas/lista-pedido-pinturas-complementos.php?idEstacion=' + idEstacion, function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -146,9 +147,6 @@ require ('app/help.php');
       window.location.href = "pinturas-reporte";
     }
 
-  </script>
-
-  <script>
     window.addEventListener('pageshow', function (event) {
       if (event.persisted) {
         // Si la página está en la caché del navegador, recargarla

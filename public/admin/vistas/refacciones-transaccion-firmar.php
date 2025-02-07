@@ -101,7 +101,8 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
 
     var parametros = {
     "idReporte" : idReporte,
-    "idVal" : idVal
+    "idVal" : idVal,
+    "fecha": '<?=$Fecha?>'
     };
 
     $.ajax({
@@ -118,7 +119,20 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+     //Dentro de la condición cuando se manda la alerta
+     alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-mail').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-mail').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
    }else{
      alertify.error('Error al crear el token');   
    }
@@ -173,6 +187,40 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   }
 
   }
+
+
+  
+  function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/token-email-refaccion-transaccion.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+ 
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
+
   </script>
   </head>
 
@@ -212,27 +260,27 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Estación proveedora:</h6>
+  <div class="text-secondary mb-1 fw-bold">ESTACIÓN PROVEEDORA:</div>
   <?=$Estacion;?>
   </div>
   
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Refacción que sale:</h6>
+  <div class="text-secondary mb-1 fw-bold">REFACCIÓN QUE SALE:</div>
   <?=$NomRefaccion;?>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Estación receptora:</h6>
+  <div class="text-secondary mb-1 fw-bold">ESTACIÓN RECEPTORA:</div>
   <?=$EstacionReceptora;?>
   </div>
 
   <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-3">
-  <h6>Refacción que entra:</h6>
+  <div class="text-secondary mb-1 fw-bold">REFACCIÓN QUE ENTRA:</div>
   <?=$NomRefaccionEntra;?>
   </div>
 
   <div class="bcol-12">
-  <h6>Observación y/o motivo:</h6>
+  <div class="text-secondary mb-1 fw-bold">OBSERVACIÓN Y/O MOTIVO:</div>
   <?=$observaciones;?>
   </div>
 
@@ -250,27 +298,35 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
 <?php if($Session_IDUsuarioBD == 21){ ?>
 <?php if($firmaB == 0){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO DEP. DE MANTENIMIENTO</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
+  
   <tr>
-  <th class="align-middle text-center bg-light ">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>-->
+
+  <button id="btn-mail" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
 
-  <tr class="">
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -291,27 +347,35 @@ $firmaC = FirmaSC($GET_idReporte,'C',$con);
  <?php if($Session_IDUsuarioBD == 19){ ?>
 <?php if($firmaC == 0){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE VOBO GERENTE OPERATIVO</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
+  
   <tr>
-  <th class="align-middle text-center bg-light ">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
-  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  </th>
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>-->
+
+  <button id="btn-mail" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>  
+</th>
   </tr>
 
-  <tr class="">
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -438,7 +502,6 @@ echo '  <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
    
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
 
   </body>

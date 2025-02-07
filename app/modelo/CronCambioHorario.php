@@ -21,6 +21,7 @@ function ListaHorario($con){
 date_default_timezone_set('America/Mexico_City');
 $fecha = date("Y-m-d");
 
+
 $sql = "SELECT * FROM op_rh_personal_horario_programar WHERE fecha = '".$fecha."' AND estado = 1 ";
 $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){

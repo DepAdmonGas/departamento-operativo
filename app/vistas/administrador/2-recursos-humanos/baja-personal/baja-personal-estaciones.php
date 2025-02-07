@@ -51,13 +51,14 @@ require('app/help.php');
 
   function SelEstacion(idEstacion){
   let targets;
-  targets = [9, 10, 11, 12, 13, 14, 15, 16];
+  targets = [7,8];
 
   sizeWindow();
   sessionStorage.setItem('idestacion', idEstacion);
 
   $('#ListaNegra').load('app/vistas/administrador/2-recursos-humanos/baja-personal/contenido-baja-personal-estaciones.php?idEstacion=' + idEstacion, function() {
   $('#tabla_baja_personal_' + idEstacion).DataTable({
+  "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -137,8 +138,8 @@ require('app/help.php');
 
   // ---------- COMENTARIOS BAJA (MODAL) ----------
   function ComentarioBaja(idBaja,idEstacion){
-  $('#Modal').modal('show');
-  $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
+  $('#ModalComentario').modal('show');
+  $('#ContenidoModalComentario').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
   }
 
   function GuardarComentario(idBaja,idEstacion){
@@ -166,11 +167,10 @@ require('app/help.php');
 
   },
   success:  function (response) {
-
   if (response == 1) {
   $('#Comentario').val('');
-  alertify.success('Comentario agregado exitosamente');  
-  $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-comentarios-baja-personal.php?idBaja=' + idBaja + "&idEstacion=" + idEstacion);
+  alertify.success('Comentario agregado exitosamente');
+  ComentarioBaja(idBaja,idEstacion)  
   SelEstacion(idEstacion);
   sizeWindow();
 
@@ -192,19 +192,22 @@ require('app/help.php');
   $('#Modal').modal('show');
   $('#ContenidoModal').load('app/vistas/administrador/2-recursos-humanos/baja-personal/modal-editar-proceso-baja.php?idBaja=' + idBaja + '&idEstacion=' + idEstacion);
   }
-
+  
   function EditarProcesoPersonal(idBaja,idEstacion){
-
+ 
   var Proceso = $('#Proceso').val();
   var Status = $('#Status').val();
+  var Solucion = $('#Solution').val(); 
+
 
   var parametros = {
   "idBaja" : idBaja,
+  "Solucion" : Solucion,
   "Proceso" : Proceso,
   "Status" : Status,
   "Accion" : "editar-proceso-baja-personal"
   };
-
+ 
   if(Proceso != ""){
   $('#Proceso').css('border',''); 
 
@@ -457,11 +460,19 @@ $ToSolicitudBaja = $ClassRecursosHumanosGeneral->ToSolicitudBaja($id);
   </div>
   </div>
 
- 
+  
   <!---------- MODAL AGREGAR ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content" id="ContenidoModal">
+  </div>
+  </div>
+  </div>
+
+<!---------- MODAL COMENTARIO ----------> 
+<div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="ContenidoModalComentario">
   </div>
   </div>
   </div>

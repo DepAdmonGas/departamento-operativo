@@ -52,8 +52,79 @@ $nombreBar = 'Portal';
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
   <script src="<?=RUTA_JS2?>home-general-functions.js"></script>
-  </head>
+
+  <script type="text/javascript">
+  function tokenTelegram(idUsuario) {
+  $('#Modal').modal('show')
+  $('#ContenidoModal').load('app/vistas/perfil-personal/modal-token-telegram.php?idUsuario=' + idUsuario )
+  }
  
+  function actualizaTokenTelegram(idUsuario,dato){
+  let msg, msg2;
+
+  if(dato == 0){
+  msg = "¿Deseas generar un nuevo codigo de verificacion?";
+  msg2 = 'Nuevo token generado exitosamente';
+  msg3 = 'Error al generar un nuevo codigo de verificación';
+  }else{
+
+  msg = "¿Deseas revocar el acceso a tu dispositivo movil que se encuentra registrado para la recepcion de tokens?";
+  msg2 = 'Acceso revocado exitosamente';
+  msg3 = 'Error al revocar el acceso';
+  }
+
+  var parametros = {
+  "idUsuario": idUsuario
+  };
+
+  alertify.confirm('',
+  function () {
+  $.ajax({
+  data: parametros,
+  url: 'public/admin/modelo/actualizar-token-telegram.php',
+  type: 'post',
+  beforeSend: function () {
+ 
+  },
+  complete: function () {
+
+  },
+  success: function (response) {
+
+
+  if (response != 0) {
+  tokenTelegram(idUsuario,response)
+  alertify.success(msg2);
+  
+ } else {
+  alertify.error(msg3);
+  }
+
+  }
+  });
+  },
+  function () {
+
+  }).setHeader('¡Alerta!').set({ transition: 'zoom', message: msg, labels: { ok: 'Aceptar', cancel: 'Cancelar' } }).show();
+  }
+  
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        // Si la página está en la caché del navegador, recargarla
+        window.location.reload();
+      }
+    });
+
+  window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+  // Si la página está en la caché del navegador, recargarla
+  window.location.reload();
+  }
+  });
+  </script> 
+
+  </head>
+
   <body>
   <div class="LoaderPage"></div>
 
@@ -87,6 +158,14 @@ $nombreBar = 'Portal';
   <div class="dropdown-divider"></div> 
   <a class="dropdown-item" href="<?=PERFIL_ADMIN?>"> <i class="fa-solid fa-user" style="padding-right: 5px;"></i>Perfil </a>
    
+  <?php if ($Session_IDUsuarioBD == 2 || $Session_IDUsuarioBD == 19 || 
+  $Session_IDUsuarioBD == 21 || $Session_IDUsuarioBD == 22 || $Session_IDUsuarioBD == 30 || $Session_IDUsuarioBD == 318): ?>
+  <div class="dropdown-divider"></div>
+  <a class="dropdown-item pointer" onclick="tokenTelegram(<?= $Session_IDUsuarioBD ?>)">
+  <i class="fa-brands fa-telegram" style="padding-right: 5px;"></i>Token Telegram
+  </a>
+  <?php endif; ?>
+
   <div class="dropdown-divider"></div>
   <a class="dropdown-item" href="<?=RUTA_SALIR2?>salir"> <i class="fa-solid fa-power-off" style="padding-right: 5px;"></i> Cerrar Sesión </a>
   </div>
@@ -133,6 +212,18 @@ $nombreBar = 'Portal';
   </div>
 
   </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <!-- Aquí se cargará el contenido dinámicamente -->
+        <div id="ContenidoModal"></div>
+      </div>
+    </div>
   </div>
 
 

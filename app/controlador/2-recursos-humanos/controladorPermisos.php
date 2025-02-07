@@ -24,6 +24,12 @@ switch($_POST['accion']):
         $idVal = $_POST['idVal'];
         echo $permisos->tokenPermiso($idReporte,$idVal);
         break;
+    case 'crear-token-email':
+    $idFormato = $_POST['idFormato'];
+    $idUsuario = $_POST['idUsuario'];
+    echo $permisos->firmaPermisosTokenEmail($idFormato,$idUsuario);
+    break;
+    
     case 'firmar-permiso':
         $idReporte = $_POST['idReporte'];
         $tipoFirma = $_POST['tipoFirma'];

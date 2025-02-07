@@ -5,6 +5,18 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
 ?>  
 <script type="text/javascript">
   $('.selectize').selectize({
+    create: function(input) {
+      const upperInput = input.toUpperCase();
+        return {
+            value: upperInput,
+            text: `${upperInput}` // Texto personalizado en español
+        };
+    },
+    render: {
+        option_create: function(data, escape) {
+            return `<div class="create">Agregar <strong>${escape(data.input.toUpperCase())}</strong>...</div>`;
+        }
+    },
     sortField: 'text'
 });
 </script>
@@ -101,6 +113,7 @@ $idCuentaLitros = $_GET['idCuentaLitros'];
     <option>Puebla</option>
     <option>Vopack</option>
 		<option>Monterra</option>
+    <option>Azcapotzalco</option>
     </select>
 
 

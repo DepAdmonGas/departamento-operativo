@@ -67,7 +67,8 @@ class HerramientasDptoOperativo extends Exception
 
     public function obtenerDatosPersonal($id)
     {
-    $idPersonal = $idEstacion = $fecha_ingreso = $no_colaborador = $nombrePersonal = $idPuesto = $salario = $puesto = $estado = null;
+        $fecha_ingreso ='';
+    $idPersonal = $idEstacion = $no_colaborador = $nombrePersonal = $idPuesto = $salario = $puesto = $estado = null;
 
     $sql = "SELECT
     op_rh_personal.id,
@@ -139,7 +140,10 @@ class HerramientasDptoOperativo extends Exception
 
     } else {
     // Manejo de caso cuando no se encuentra el registro
-    $datosEstacion = null;
+    $datosEstacion = array(
+    'nombre' => '',
+    'razonsocial' => ''
+    );
     }  
 
     return $datosEstacion;
@@ -398,8 +402,8 @@ class HerramientasDptoOperativo extends Exception
 
     function notificacionesSMS($Numero, $aleatorio, $textoN){
     
-    $this->AltiriaSMS->setApikey('sistemas.admongas@gmail.com');
-    $this->AltiriaSMS->setApisecret('hy8q4c7y');
+    $this->AltiriaSMS->setDomainId('sistemas.admongas@gmail.com');
+    $this->AltiriaSMS->setEncoding('hy8q4c7y');
     $this->AltiriaSMS->setSenderId('AdmonGas');
     $sDestination = '52'.$Numero;
     $this->AltiriaSMS->sendSMS($sDestination, "AdmonGas: Usa el siguiente token para firmar ".$textoN.". Token: ".$aleatorio." Web: portal.admongas.com.mx");  
@@ -545,5 +549,64 @@ class HerramientasDptoOperativo extends Exception
     function obtenerExtensionArchivo($archivo) {
     return pathinfo($archivo, PATHINFO_EXTENSION);
     }
+
+
+    /* ---------- DIAS DE LA SEMANA NOMINA  ----------*/
+    function fechasNominaSemana($year, $semana){
+    // Obtener la fecha del primer día de la semana
+    $inicioDay = new DateTime();
+    $inicioDay->setISODate($year, $semana, 1);
+    $inicioDay->modify('last thursday');
+      
+    // Calcular la fecha de fin de la semana (6 días después del inicio)
+    $finDay = clone $inicioDay;
+    $finDay->modify('+6 days');
+      
+    // Formatear las fechas para mostrarlas
+    $inicioDayFormateada = $inicioDay->format('Y-m-d');
+    $finDayFormateada = $finDay->format('Y-m-d');
+      
+    $array = array(
+    'inicioSemanaDay' => $inicioDayFormateada, 
+    'finSemanaDay' => $finDayFormateada
+    );
+      
+    return $array; 
+      
+    } 
     
+
+  //---------- OBTENER NUMERO DEL MES DE LA QUINCENA SELECCIONADA ---------- 
+  function obtenerMesPorQuincena($numeroQuincena) {
+    // Validar que el número de quincena esté en el rango correcto (1-24)
+    if ($numeroQuincena < 1 || $numeroQuincena > 24) {
+    return 0;
+    }
+    // Calcular el número de mes
+    $mes = ceil($numeroQuincena / 2);
+  
+    return $mes;
+    }
+ 
+    
+    function fechasNominaQuincenas($year, $mes, $quincena){
+        // Calcular el primer día del mes
+        $primer_dia = mktime(0, 0, 0, $mes, 1, $year);
+      
+        if ($quincena % 2 == 1) {
+        $inicio = date('Y-m-01', $primer_dia);
+        $fin = date('Y-m-15', $primer_dia);
+        }else{
+        $inicio = date('Y-m-16', $primer_dia);
+        $fin = date('Y-m-t', $primer_dia);
+        }
+      
+        $array = array(
+        'inicioQuincenaDay' => $inicio, 
+        'finQuincenaDay' => $fin
+        );
+      
+        return $array; 
+        }
+
 }

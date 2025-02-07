@@ -1,6 +1,6 @@
 <?php
 require 'app/vistas/contenido/header.php';
-error_reporting(0);
+
 function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$Session_IDEstacion."' AND year = '".$GET_year."' ";
   $result_year = mysqli_query($con, $sql_year);
@@ -205,7 +205,8 @@ function SaldoFinal($idResumen,$saldoFinal,$con){
   </div>';
         
   }else{
-    $botonFinalizar = '';
+    $botonFinalizar = ' <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="DescargarExcelClientes('.$Session_IDEstacion.','.$GET_year.','.$GET_mes.')">
+                <span class="btn-label2"><i class="fa-solid fa-file-excel"></i></span>Descargar Resumen '.nombremes($GET_mes).' '.$GET_year.' </button>';
 
   }
 
@@ -220,6 +221,11 @@ function SaldoFinal($idResumen,$saldoFinal,$con){
     $(".LoaderPage").fadeOut("slow");
     ReporteClientes(<?= $IdReporte?>,"<?=RUTA_JS2?>");
   });
+
+
+  function DescargarExcelClientes(idEstacion, year, mes){
+    window.location.href = "../clientes-mes-excel/" + idEstacion + "/" + year + "/" + mes;  
+  }
 </script>
 
 <body>
@@ -251,6 +257,7 @@ function SaldoFinal($idResumen,$saldoFinal,$con){
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
             <?=$botonFinalizar?>
+
             </div>
           </div>
           <hr>

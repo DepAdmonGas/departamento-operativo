@@ -424,8 +424,8 @@ function EditProducto(val, idReporte, idVentas) {
 
     $.ajax({
       data: parametros,
-      url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
-      //url:   '../../../public/corte-diario/modelo/editar-ventas.php',
+      //url: '../../../app/controlador/1-corporativo/controladorCorteDiario.php',
+      url:   '../../../public/corte-diario/modelo/editar-ventas.php',
       type: 'post',
       beforeSend: function () {
       },

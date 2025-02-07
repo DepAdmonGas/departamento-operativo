@@ -23,7 +23,7 @@ $botonFunction = '<button type="button" class="btn btn-labeled2 btn-success floa
 
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Estacion:</div>
+  <div class="mb-1 text-secondary fw-bold">* ESTACIÓN:</div>
   <select class="form-select" id="estacionName">
     <option></option>
     <?php

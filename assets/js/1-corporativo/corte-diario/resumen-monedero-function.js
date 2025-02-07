@@ -108,6 +108,7 @@ function ListaMonedero(year, mes) {
       processData: false,
       cache: false
     }).done(function (data) {
+      console.log(data)
       $(".LoaderPage").hide();
       Edi(IdReporte, id);
     });

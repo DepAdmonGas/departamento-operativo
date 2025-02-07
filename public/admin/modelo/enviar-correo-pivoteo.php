@@ -1,12 +1,13 @@
 <?php
+error_reporting(0);
 require('../../../app/help.php');
+require_once '../../../app/lib/dompdf/vendor/autoload.php';
 
 $idReporte = $_POST['idReporte'];
 $idEstacion = $_POST['idEstacion'];
 $CorreoElectronico = $_POST['CorreoElectronico'];
 
 //-----------------------------------------------------------------------
-require_once ('../../../dompdf/autoload.inc.php');
 
 $sql_lista = "SELECT * FROM op_pivoteo WHERE id = '".$idReporte."' ";
 $result_lista = mysqli_query($con, $sql_lista);
@@ -30,6 +31,7 @@ $nombre = $row['nombre'];
 return $nombre;
 }
 
+$contenido = "";
 $contenido .= '<html lang="es">';
 $contenido .= '<head>';
 $contenido .= '<style type="text/css">';
@@ -256,7 +258,7 @@ $contenido .= '<body>';
 
 $RutaLogo = RUTA_IMG_ICONOS.'Logo.png';
 $DataLogo = file_get_contents($RutaLogo);
-$baseLogo = 'data:image/' . $type . ';base64,' . base64_encode($DataLogo);
+$baseLogo = 'data:image/;base64,' . base64_encode($DataLogo);
 $contenido .= '<img src="'.$baseLogo.'" style="width: 150px;">';
 
 $contenido .= '<div>';
@@ -400,7 +402,7 @@ $TipoFirma = "<b>NOMBRE Y FIRMA DEL ENCARGADO</b>";
 
 $RutaFirma = "imgs/firma/".$row_firma['firma'];
 $DataFirma = file_get_contents($RutaFirma);
-$baseFirma = 'data:image/' . $type . ';base64,' . base64_encode($DataFirma);
+$baseFirma = 'data:image/;base64,' . base64_encode($DataFirma);
 
 $Detalle = '<div class=""><img src="'.$baseFirma.'" style="width: 200px;"></div>';
 }else if($row_firma['tipo_firma'] == "B"){
@@ -431,45 +433,63 @@ $dompdf->render();
 file_put_contents('../../../archivos/Pivoteo/Pivoteo PDF-'.$idReporte.'.pdf', $dompdf->output());
 
 //-----------------------------------------------------------------------
-require "../../../phpmailer/class.phpmailer.php";
+require '../../../phpmailer/vendor/autoload.php';  // Cargar PHPMailer con Composer
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 try {
+  // Configurar PHPMailer
+  $mail = new PHPMailer(true);  // Habilitar excepciones
 
-  $mail = new phpmailer();
-  $mail->PluginDir = "phpmailer/";
-  $mail->Mailer = "admongas.com.mx";
-  $mail->Host = "admongas.com.mx";
-  $mail->SMTPAuth = true;
-  $mail->Username = "operacionembarques@admongas.com.mx";
-  $mail->Password = "Kimera@12345";
-  $mail->Timeout=30;
-  $mail->setFrom('operacionembarques@admongas.com.mx', 'Operación embarques');
-  $mail->AddAddress($CorreoElectronico);
+  // Configuración del servidor SMTP
+  $mail->isSMTP();  // Envío mediante SMTP
+  $mail->Host = "admongas.com.mx";  // Servidor SMTP
+  $mail->SMTPAuth = true;  // Activar autenticación SMTP
+  $mail->Username = "operacionembarques@admongas.com.mx";  // Usuario SMTP
+  $mail->Password = "Kimera@12345";  // Contraseña SMTP
+  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Encriptación TLS
+  $mail->Port = 587;  // Puerto TLS (puede ser 465 para SSL)
+  $mail->Timeout = 30;  // Timeout en segundos
 
-$mail->addAttachment('../../../archivos/Pivoteo/Pivoteo PDF-'.$idReporte.'.pdf');    
+  // Configuración del remitente y destinatario
+  $mail->setFrom('operacionembarques@admongas.com.mx', 'Operacion de Embarques');
+  $mail->addAddress($CorreoElectronico);  // Destinatario
 
-  $mail->isHTML(true);
-  $mail->Subject = $_POST['Asunto'];
-  $mail->Body    = $_POST['Contenido'];
+  // Adjuntar el archivo PDF
+  $archivoAdjunto = '../../../archivos/Pivoteo/Pivoteo PDF-'.$idReporte.'.pdf';
+  if (file_exists($archivoAdjunto)) {
+      $mail->addAttachment($archivoAdjunto);  // Adjuntar archivo
+  } else {
+      echo "Error: No se encontró el archivo adjunto.";
+      exit;
+  }
 
-  $mail->Send();
-  
-  $sql_insert = "INSERT INTO op_pivoteo_correo (
-    id_pivoteo,
-    correo
-    )
-    VALUES 
-    (
-    '".$idReporte."',
-    '".$CorreoElectronico."'
-    )";
+  // Configuración del contenido del correo
+  $mail->isHTML(true);  // Enviar en formato HTML
+  $mail->Subject = $_POST['Asunto'];  // Asunto del correo
+  $mail->Body = $_POST['Contenido'];  // Cuerpo del correo
 
-if(mysqli_query($con, $sql_insert)){
-echo 1;
-}else{
-echo 0;
-}
+  // Enviar correo
+  if ($mail->send()) {
+      // Si el correo fue enviado exitosamente, insertar en la base de datos
+      $sql_insert = "INSERT INTO op_pivoteo_correo (
+          id_pivoteo,
+          correo
+      ) VALUES (
+          '".$idReporte."',
+          '".$CorreoElectronico."'
+      )";
 
+      if (mysqli_query($con, $sql_insert)) {
+          echo 1;  // Correo enviado y datos insertados correctamente
+      } else {
+          echo 0;  // Error al insertar en la base de datos
+      }
+  } else {
+      echo "Error al enviar el correo: " . $mail->ErrorInfo;
+  }
 } catch (Exception $e) {
-   echo 0;
+  echo "Error en el envío del correo: {$e->getMessage()}";
 }
 //-------------------------------------------------------------------------

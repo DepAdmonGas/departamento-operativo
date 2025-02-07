@@ -1,4 +1,4 @@
-<?php
+<?php 
 require('app/help.php');
 $datosSolicitudCheque = $corteDiarioGeneral->obtenerDatosSolicitudCheque($GET_idReporte);
 $fecha = $datosSolicitudCheque['fecha'];
@@ -24,9 +24,10 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
 
 
 if($razonsocial == "Selecciona una opcion..."){
-  $razonsocial2 = "S/I";
+$razonsocial2 = "S/I";
+
 }else{
-  $razonsocial2 = $razonsocial;
+$razonsocial2 = $razonsocial;
 
 }
 
@@ -118,13 +119,17 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
 
     }
 
-    function CrearToken(idReporte,idVal){
+    function CrearToken(idReporte, idVal){
     $(".LoaderPage").show();
 
-    var parametros = {
-    "idReporte" : idReporte,
-    "idVal":idVal
-    };
+  var parametros = {  
+  "idReporte" : idReporte,
+  "idVal" : idVal,
+  "idUsuario" : <?=$Session_IDUsuarioBD?>,
+  "factura": '<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>',
+  "Accion" : "crear-token-solicitud-cheque"
+  };
+ 
 
     $.ajax({
     data:  parametros,
@@ -134,18 +139,31 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
     },
     complete: function(){
 
-    },
+    }, 
     success:  function (response) {
 
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+    //Dentro de la condición cuando se manda la alerta
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
    }else{
      alertify.error('Error al crear el token');   
    }
 
-    }
+    } 
     });
 
     }
@@ -175,10 +193,10 @@ $firmaB = FirmaSC($GET_idReporte,'B',$con);
    }else{
      alertify.error('Error al crear el token');   
    }
-
+ 
     }
     });
-    }
+    }   
 
     function FirmarSolicitud(idReporte,tipoFirma){
 
@@ -478,7 +496,7 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 19 OR $Session_IDUsuario
 <?php if($Session_IDUsuarioBD == 19){ ?>
 <?php if($firmaB == 0){ ?>
 
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
@@ -491,20 +509,32 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 19 OR $Session_IDUsuario
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
+
+  <!-- 
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
-  <button type="button" class="btn btn-labeled2 btn-success text-white mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  -->
+
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
   </th>
   </tr>
 
+    <!-- 
   <th class="align-middle text-center bg-light ">
   <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
    a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
   </small>
   </th>
-
+  -->
+  
   <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
@@ -528,22 +558,60 @@ if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 19 OR $Session_IDUsuario
 if($Session_IDUsuarioBD == 2 OR $Session_IDUsuarioBD == 22){ ?>
 
 <?php if($firmaB == 1){ ?>
-<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
-<div class="border p-3 ">
-<div class="mb-2 text-secondary text-center">FIRMA DE AUTORIZACIÓN</div>
-<h4 class="text-primary">Token Móvil</h4>
-<small class="text-secondary">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno</small>
-<button class="btn btn-sm btn-light mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)"><small>Crear token SMS</small></button>
-<button class="btn btn-sm btn-success mb-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)"><small>Crear token Whatsapp</small></button>
-<button class="btn btn-sm btn-light" onclick="CrearTokenEmail(<?=$GET_idReporte;?>)"><small>Crear token vía email</small></button>
-<div class="input-group mt-3">
-  <input type="text" class="form-control" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+  <div class="table-responsive">
+  <table class="custom-table" width="100%">
+  <thead class="tables-bg">
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
+  </thead>
+  <tbody>
+  
+  <tr>
+  <th class="align-middle text-center bg-light">
+  <h4 class="text-primary text-center">Token Móvil</h4>
+  <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
+  <br>
+
+  <!-- 
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,1)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
+
+  <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,2)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
+  -->
+
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button id = "btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+  </th>
+  </tr>
+
+  <!-- 
+  <th class="align-middle text-center bg-light ">
+  <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
+   a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
+  </small>
+  </th>
+  -->
+
+  <tr class="no-hover">
+  <th class="align-middle text-center bg-light p-0">
+  <div class="input-group">
+  <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
   <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'C')">Firmar solicitud</button>
+  <button class="btn btn-outline-success" type="button" onclick="FirmarSolicitud(<?=$GET_idReporte;?>,'C')">Firmar solicitud</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </th>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
+ 
 <?php }else{
 echo '<div class="col-12 mt-3 text-center"><div class="alert alert-warning" role="alert">
   ¡Falta la Firma de visto bueno!
@@ -650,7 +718,7 @@ while($row_firma = mysqli_fetch_array($result_firma, MYSQLI_ASSOC)){
   </div>
   </div> 
 
-
+ 
   <div class="modal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static" id="ModalError">
   <div class="modal-dialog" role="document">
   <div class="modal-content">

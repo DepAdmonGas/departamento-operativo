@@ -7,6 +7,7 @@ $year = $_GET['year'];
 $mes = $_GET['mes'];
 $SemQui = $_GET['SemQui'];
 $descripcion = $_GET['descripcion'];
+$last = $_GET['last'];
 
 $sql_comen = "SELECT * FROM op_recibo_nomina_v2_comentarios WHERE id_nomina = '".$idReporte."' ORDER BY id DESC ";
 $result_comen = mysqli_query($con, $sql_comen);
@@ -71,7 +72,7 @@ echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontrar
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$mes?>,<?=$SemQui?>,'<?=$descripcion?>')">
+<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$mes?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$last?>)">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 
 </div>

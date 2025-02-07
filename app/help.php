@@ -1,4 +1,10 @@
 <?php
+header("Expires: Tue, 01 Jan 2000 00:00:00 GMT"); // Fecha pasada
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // Fecha de modificación actual
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 include_once 'lib/jwt/vendor/autoload.php';
 include_once "config/inc.configuracion.php";
 include_once "config/ConfiguracionSesiones.php";
@@ -13,12 +19,14 @@ include_once "modelo/1-corporativo/CorteDiarioGeneral.php";
 //----- CLASES PUNTO 2. RECURSOS HUMANOS -----
 include_once "modelo/2-recursos-humanos/RecursosHumanosGeneral.php";
 
+//----- CLASE TOKEN TELEGRAM -----
+include_once 'modelo/tokenTelegram.php';
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 // Instancia a la base de datos
 $database = Database::getInstance();
- 
 // Obtiene la  conexión a la base de datos
 $con = $database->getConnection();
 
@@ -37,6 +45,9 @@ if (isset($_COOKIE['COOKIEADMONGAS']) && !empty($_COOKIE['COOKIEADMONGAS'])) :
         $session_idpuesto = $decoded->id_puesto_usuario;
         $session_nomestacion = $decoded->nombre_gas_usuario;
         $session_nompuesto = $decoded->tipo_puesto_usuario;
+        // Token Telegram
+        $tokenTelegram = new Telegram($con);
+
         // Token WhatsApp
         $tokenWhats = TokenWhats::get_token();
         //----- CLASES GENERALES -----

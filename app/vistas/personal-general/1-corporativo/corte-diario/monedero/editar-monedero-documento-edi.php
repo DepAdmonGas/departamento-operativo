@@ -67,12 +67,12 @@ $numero_lista1 = mysqli_num_rows($result_lista1);
           $eliminar = '<img src="' . RUTA_IMG_ICONOS . 'eliminar.png" >';
         }
         if($row_lista1['pdf'] != ""){
-          $pdf = '<a href="../../archivosr/'.$row_lista1['pdf'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
+          $pdf = '<a href="'.RUTA_ARCHIVOS.''.$row_lista1['pdf'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>';
         }else{
           $pdf =  '<img src="'.RUTA_IMG_ICONOS.'eliminar.png"></a>';
         }
         if($row_lista1['xml'] != ""){
-          $xml =  '<a href="../../archivos/'.$row_lista1['xml'].'" download><img src="'.RUTA_IMG_ICONOS.'xml.png"></a>';
+          $xml =  '<a href="'.RUTA_ARCHIVOS.''.$row_lista1['xml'].'" download><img src="'.RUTA_IMG_ICONOS.'xml.png"></a>';
         }
         else{
           $xml = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png"></a>';

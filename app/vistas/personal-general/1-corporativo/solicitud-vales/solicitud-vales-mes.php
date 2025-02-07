@@ -76,6 +76,10 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
   ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>,'<?=$Pagina;?>')
+
+  $('.selectize').selectize({
+    sortField: 'text'
+  });
   }); 
 
   function Regresar(){
@@ -102,6 +106,7 @@ $breadcrumbYearMes = $ClassHomeCorporativo->tituloMenuCorporativoYearMes($Pagina
   $('#ListaVales').load('../../app/vistas/personal-general/1-corporativo/solicitud-vales/lista-solicitud-vales-mes.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu + '&pagina=' + pagina, function() {
   // Una vez que se carguen los datos en la tabla, inicializa DataTables
   $('#tabla_solicitud_vales').DataTable({
+    "stateSave": true,
     "language": { // Corrección de "lenguage" a "language"
     "url": "<?=RUTA_JS2?>/es-ES.json" // Corrección de la ruta del archivo de idioma
   },

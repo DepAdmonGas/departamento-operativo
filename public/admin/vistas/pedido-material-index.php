@@ -71,6 +71,8 @@ return $numero_lista;
   
   $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-materiales.php?idEstacion=' + idEstacion, function() {
   $('#tabla_orden_' + idEstacion).DataTable({
+    "stateSave": true,
+
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },
@@ -212,6 +214,10 @@ alertify.confirm('',
 
  function DescargarPDF(id){
 window.location.href = "../pedido-material-pdf/" + id;  
+ }
+
+ function DescargarExcel(id){
+  window.location.href = "../pedido-material-excel/" + id;  
  }
 
  function ModalEvidencia(idEstacion,id){
@@ -459,6 +465,8 @@ if($estacion == "Comodines"){
 
   if ($session_nompuesto == "Comercializadora") {
 
+    if($Session_IDUsuarioBD == 28){
+    
     if($id == 6 || $id == 7){
   
       echo '  
@@ -466,6 +474,14 @@ if($estacion == "Comodines"){
       <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
       </li>';
     }
+
+  }else{
+
+    echo '  
+    <li>
+    <a class="pointer" onclick="PedidoMaterial('.$id.')"> <i class="'.$icon.'" aria-hidden="true" style="padding-right: 10px;"></i>'.$Nuevo.' '.$estacion.'</a>
+    </li>';
+  }
   
   }else{
   
@@ -558,10 +574,10 @@ if($estacion == "Comodines"){
   </div>
 
   </div>
-
+  
   <!---------- MODAL ----------> 
   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
   </div>
   </div>
@@ -574,7 +590,7 @@ if($estacion == "Comodines"){
   </div>
   </div>
 
-
+    
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>

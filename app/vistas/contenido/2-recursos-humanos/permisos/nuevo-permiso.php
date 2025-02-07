@@ -152,7 +152,7 @@ require 'app/vistas/contenido/header.php';
 <div class="row">
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<label class="text-secondary mt-2">* Colaborador</label>
+<label class="text-secondary mt-2 fw-bold">* COLABORADOR</label>
 <?php
 $sql_listaestacion = "SELECT id, nombre FROM tb_usuarios WHERE id_gas = '" . $GET_idEstacion . "' AND estatus = 0 ORDER BY nombre ASC";
 $result_listaestacion = mysqli_query($con, $sql_listaestacion);
@@ -168,17 +168,17 @@ echo '</select>';
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<label class="text-secondary mt-2">* Días tomados</label>
+<label class="text-secondary mt-2 fw-bold">* DÍAS TOMADOS</label>
 <input type="text" class="form-control" id="DiasTomados" value="<?= $diastomados; ?>">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<label class="text-secondary mt-2">Del</label>
+<label class="text-secondary mt-2">DEL</label>
 <input type="date" class="form-control" id="FechaInicio"  value="<?= $FechaInicio; ?>">
 </div>
 
 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-<label class="text-secondary mt-2">Hasta</label>
+<label class="text-secondary mt-2">HASTA</label>
 <input type="date" class="form-control" id="FechaTermino" value="<?= $FechaTermino; ?>">
 </div>
 </div>
@@ -189,7 +189,7 @@ echo '</select>';
 <div class="row">
 
 <div class="col-12">
-<label class="text-secondary mt-2">* Estacion</label>
+<label class="text-secondary mt-2 fw-bold">* ESTACION</label>
 <select class="form-select titulos" id="estacionPersonal" onchange="SelEstacionP()">
 <option value=""></option>
 <?php
@@ -207,7 +207,7 @@ echo '<option value="' . $idEstacionOP . '">' . $nombreES . '</option>';
 </div>
 
 <div class="col-12">
-<label class="text-secondary mt-2">* Quien cubre</label>
+<label class="text-secondary mt-2 fw-bold">* QUIEN CUBRE</label>
 <div id="SelectPersonal">
 <select class="form-select titulos" id="Cubre">
 <option value=""></option>
@@ -222,12 +222,12 @@ echo '<option value="' . $idEstacionOP . '">' . $nombreES . '</option>';
 <div class="col-12">
 <div class="row">
 <div class="col-12 col-sm-4">
-<label class="text-secondary mt-3">Motivo</label>
+<label class="text-secondary mt-3 fw-bold">* MOTIVO</label>
 <textarea class="form-control titulos" id="Motivo"><?= $Motivo; ?></textarea>
 </div>
 
 <div class="col-12 col-sm-4">
-<label class="text-secondary mt-3">Observaciones</label>
+<label class="text-secondary mt-3">OBSERVACIONES</label>
 <textarea class="form-control titulos" id="Observacion"><?= $observaciones; ?></textarea>
 </div>
 </div>

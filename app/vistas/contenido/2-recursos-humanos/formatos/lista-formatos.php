@@ -32,8 +32,6 @@ return $return;
 }
 ?>
 
-
-
 <div class="col-12">
 <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
 <ol class="breadcrumb breadcrumb-caret">
@@ -52,7 +50,7 @@ return $return;
 <button type="button" class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 Formatos
 </button>
-
+ 
 <ul class="dropdown-menu">
 <li onclick="Formulario(1,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 1. Alta de personal</a></li>
 <li onclick="Formulario(2,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 2. Baja de personal</a></li>
@@ -61,13 +59,15 @@ Formatos
 <li onclick="Formulario(5,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 5. Ajuste Salarial</a></li>
 <li onclick="Formulario(6,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 6. Formato de Vacaciones</a></li>
 <li onclick="Formulario(7,<?=$idEstacion;?>)"><a class="dropdown-item pointer"> 7. Solicitud de Prima Vacacional</a></li>
+<div class="dropdown-divider"></div>
+<li><a href="<?=RUTA_ARCHIVOS?>lista-formatos/RH-REN-VOL-08.docx" class="dropdown-item pointer"> <i class="fa-regular fa-file-word"></i> Descargar formato de renuncia voluntaria</a></li>   
 </ul>
 </div>
 </div>
 
 </div>
 </div>
-
+ 
 <hr>
 </div>
 
@@ -77,9 +77,9 @@ Formatos
 <thead class="tables-bg">
 <tr>
 <th class="text-center">#</th>
-<th>Fecha y Hora</th>
-<th>Nombre del empleado</th>
-<th>Formato</th>
+<th class="align-middle text-center">Fecha y Hora</th>
+<th class="align-middle text-center">Nombre del empleado</th>
+<th class="align-middle text-center">Formato</th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-firmar-w.png"></th>
 <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
 <th class="text-center align-middle" width="20"><i class="fas fa-ellipsis-v"></i></th>
@@ -88,7 +88,7 @@ Formatos
 <tbody class="bg-white">
   
 <?php
-$sql_lista = "SELECT * FROM op_rh_formatos WHERE id_localidad = '".$idEstacion."' AND (formato IN (1, 2, 3, 4, 6)) ORDER BY id ASC";
+$sql_lista = "SELECT * FROM op_rh_formatos WHERE id_localidad = '".$idEstacion."' AND (formato IN (1, 2, 3, 4, 5, 6, 7)) ORDER BY id ASC";
 $result_lista = mysqli_query($con, $sql_lista);
 $numero_lista = mysqli_num_rows($result_lista);
 
@@ -101,7 +101,7 @@ $formato = $row_lista['formato'];
 
 //---------- FORMATO NO. 1 - ALTAS PERSONAL ----------
 if($row_lista['formato'] == 1){
-$Formato = "Alta personal";
+$Formatos = "Alta de personal";
 
 $sql_lista1 = "SELECT nombre FROM op_rh_formatos_alta WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista1 = mysqli_query($con, $sql_lista1);
@@ -119,11 +119,11 @@ $tdName = '<td class="align-middle"></td>';
 }
 
 
-//---------- FORMATO NO. 2 - REESTRUCTURACION PERSONAL ----------
+//---------- FORMATO NO. 2 - BAJA DE PERSONAL ----------
 }else if($row_lista['formato'] == 2){
-$Formato = "Restructuración personal";
+$Formatos = "Baja de Personal";
 
-$sql_lista2 = "SELECT id_personal FROM op_rh_formatos_restructuracion WHERE id_formulario = '".$id ."' LIMIT 1 ";
+$sql_lista2 = "SELECT id_personal FROM op_rh_formatos_baja WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista2 = mysqli_query($con, $sql_lista2);
 $numero_lista2 = mysqli_num_rows($result_lista2);
 
@@ -138,123 +138,154 @@ $tdName = '<td class="align-middle">'.$NombreC.'</td>';
 $tdName = '<td class="align-middle"></td>';
 }
 
- 
-//---------- FORMATO NO. 3 - FALTA PERSONAL ----------
-}else if($row_lista['formato'] == 3){
-$Formato = "Falta personal";
 
+//---------- FORMATO NO. 3 - FALTA DE PERSONAL ----------
+}else if($row_lista['formato'] == 3){
+$Formatos = "Falta de Personal";
 $sql_lista3 = "SELECT id_personal FROM op_rh_formatos_falta WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista3 = mysqli_query($con, $sql_lista3);
 $numero_lista3 = mysqli_num_rows($result_lista3);
-
+  
 if ($numero_lista3 > 0) {
 while($row_lista3 = mysqli_fetch_array($result_lista3, MYSQLI_ASSOC)){
 $NombreC = NombrePersonal($row_lista3['id_personal'],$con);
 }
-
+  
 $tdName = '<td class="align-middle">'.$NombreC.'</td>';
-
+  
 }else{
 $tdName = '<td class="align-middle"></td>';
 }
 
  
-//---------- FORMATO NO. 4 - BAJA PERSONAL ----------
+//---------- FORMATO NO. 4 - REESTRUCTURACIÓN DE PERSONAL ----------
 }else if($row_lista['formato'] == 4){
-$Formato = "Baja personal";
+$Formatos = "Reestructuración de personal";
 
-$sql_lista4 = "SELECT id_personal FROM op_rh_formatos_baja WHERE id_formulario = '".$id ."' LIMIT 1 ";
+$sql_lista4 = "SELECT id_personal FROM op_rh_formatos_restructuracion WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista4 = mysqli_query($con, $sql_lista4);
 $numero_lista4 = mysqli_num_rows($result_lista4);
-
+  
 if ($numero_lista4 > 0) {
 while($row_lista4 = mysqli_fetch_array($result_lista4, MYSQLI_ASSOC)){
 $NombreC = NombrePersonal($row_lista4['id_personal'],$con);
 }
-
+  
 $tdName = '<td class="align-middle">'.$NombreC.'</td>';
-
+  
 }else{
 $tdName = '<td class="align-middle"></td>';
 }
+  
 
- 
-
-//---------- FORMATO NO. 5 - VACACIONES PERSONAL ----------
+//---------- FORMATO NO. 5 - AJUSTE SALARIAL ----------
 }else if($row_lista['formato'] == 5){
-$Formato = "Vacaciones personal";
+$Formatos = "Ajuste Salarial";
 
-$sql_lista5 = "SELECT id_usuario FROM op_rh_formatos_vacaciones WHERE id_formulario = '".$id ."' LIMIT 1 ";
+$sql_lista5 = "SELECT id_personal FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista5 = mysqli_query($con, $sql_lista5);
 $numero_lista5 = mysqli_num_rows($result_lista5);
-
+  
 if ($numero_lista5 > 0) {
 while($row_lista5 = mysqli_fetch_array($result_lista5, MYSQLI_ASSOC)){
-$NombreC = NombrePersonal($row_lista5['id_usuario'],$con);
+$NombreC = NombrePersonal($row_lista5['id_personal'],$con);
 }
-
+  
 $tdName = '<td class="align-middle">'.$NombreC.'</td>';
-
+  
 }else{
 $tdName = '<td class="align-middle"></td>';
-}
+}  
 
-  
- 
+
 }else if($row_lista['formato'] == 6){
-$Formato = "Ajuste salarial";
+$Formatos = "Formato Vacaciones";
 
-$sql_lista6 = "SELECT id_personal FROM op_rh_formatos_ajuste_salarial WHERE id_formulario = '".$id ."' LIMIT 1 ";
+$sql_lista6 = "SELECT id_usuario FROM op_rh_formatos_vacaciones WHERE id_formulario = '".$id ."' LIMIT 1 ";
 $result_lista6 = mysqli_query($con, $sql_lista6);
 $numero_lista6 = mysqli_num_rows($result_lista6);
-
+  
 if ($numero_lista6 > 0) {
 while($row_lista6 = mysqli_fetch_array($result_lista6, MYSQLI_ASSOC)){
-$NombreC = NombrePersonal($row_lista6['id_personal'],$con);
+$NombreC = NombrePersonal($row_lista6['id_usuario'],$con);
 }
-
+  
 $tdName = '<td class="align-middle">'.$NombreC.'</td>';
+  
+}else{
+$tdName = '<td class="align-middle"></td>';
+}  
+  
 
+ 
+}else if($row_lista['formato'] == 7){
+$Formatos = "Solicitud de Prima Vacacional";
+$sql_lista3 = "SELECT id_personal FROM op_rh_formatos_prima_vacacional WHERE id_formulario = '".$id ."' LIMIT 1 ";
+$result_lista3 = mysqli_query($con, $sql_lista3);
+$numero_lista3 = mysqli_num_rows($result_lista3);
+  
+if ($numero_lista3 > 0) {
+while($row_lista3 = mysqli_fetch_array($result_lista3, MYSQLI_ASSOC)){
+$NombreC = NombrePersonal($row_lista3['id_personal'],$con);
+}
+  
+$tdName = '<td class="align-middle">'.$NombreC.'</td>';
+  
 }else{
 $tdName = '<td class="align-middle"></td>';
 }
-
-}  
- 
+       
+}
 
 $explode = explode(" ", $row_lista['fecha']);
 $HoraFormato = date("g:i a",strtotime($explode[1]));
 
 if($row_lista['status'] == 0){
 $trColor = 'style="background-color: #ffb6af"';
+$detalle = '  <a class="dropdown-item grayscale"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $Editar = '<a class="dropdown-item" onclick="EditFormulario('.$idEstacion.','.$id.','.$formato.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
-$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$id.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 $Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" data-toggle="tooltip" data-placement="top" title="Firmar formato">';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
 
 
 }else if($row_lista['status'] == 1){
-$trColor = 'style="background-color: #fcfcda"';  
+$trColor = 'style="background-color: #fcfcda"';
+$detalle = '  <a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
-$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$id.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
 
+
 }else if($row_lista['status'] == 2){
-$trColor = 'style="background-color: #fcfcda"';  
+$trColor = 'style="background-color: #fcfcda"';
+$detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
-$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$idEstacion.','.$id.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Eliminar = '<a class="dropdown-item" onclick="DeleteFormulario('.$id.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 $Firmar = '<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-firmar-vb.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
 $PDF = '<a class="dropdown-item grayscale"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
 
 
 }else if($row_lista['status'] == 3){
-$trColor = 'style="background-color: #b0f2c2"';  
+$trColor = 'style="background-color: #b0f2c2"';
+$detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
+$Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
+$Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
+$Firmar = '<img src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png" data-toggle="tooltip" data-placement="top" title="Firmar formato" onclick="Firmar('.$idEstacion.','.$id.')">';
+$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+
+
+}else if($row_lista['status'] == 4){
+$trColor = 'style="background-color: #b0f2c2"';
+$detalle = '<a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>';  
 $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
 $Eliminar = '<a class="dropdown-item grayscale"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 $Firmar = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar-ao.png" data-toggle="tooltip" data-placement="top" title="Firmar formato">';
-$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+$PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.','.$formato.')"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</a>';
+  
 }
+
 
   $ToComentarios = ToComentarios($id,$con);
 
@@ -267,26 +298,26 @@ $PDF = '<a class="dropdown-item" onclick="DescargarPDF('.$id.')"><i class="fa-re
 
   echo '<tr '.$trColor.'>';
   echo '<th class="align-middle text-center">'.$num.'</th>';
-  echo '<td class="align-middle"><b>'.FormatoFecha($explode[0]).', '.$HoraFormato.'</b></td>';
+  echo '<td class="align-middle">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.$HoraFormato.'</td>';
   echo ''.$tdName.'';
-  echo '<td class="align-middle">'.$Formato.'</td>';
+  echo '<td class="align-middle">'.$Formatos.'</td>';
   echo '<td class="align-middle">'.$Firmar.'</td>';
   echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
   echo '<td class="align-middle">
   
-  <div class="dropdown">
-  <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  <i class="fas fa-ellipsis-v"></i>
-  </a>
+<div class="dropdown-container">
+<a class="btn btn-sm btn-icon-only text-dropdown-light dropdown-menu-left" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+<i class="fas fa-ellipsis-v"></i>
+</a>
 
-  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-  <a class="dropdown-item" onclick="DetalleFormulario('.$id.','.$formato.')"><i class="fa-regular fa-eye"></i> Detalle</a>
+<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow">
+  '.$detalle.'
   '.$PDF.'
   '.$Editar.'
   '.$Eliminar.'
   </div>
   </div>
-  
+       
   </td>';
 
   echo '</tr>';

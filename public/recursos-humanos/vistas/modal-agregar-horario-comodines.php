@@ -13,10 +13,10 @@ $idEstacion = $_GET['idEstacion'];
 
 <div class="text-secondary"><small>El rol debe ser subido en imagen .PNG o .JPG</small></div>
 
-<h6 class="mb-1 mt-2">* Rol de Comodines</h6>
+<h6 class="mb-1 mt-2 fw-bold text-secondary">* ROL DE COMODINES</h6>
 <input class="form-control" type="file" id="seleccionArchivos">
 
-<h6 class="mt-3 mb-1">Comentario</h6>
+<h6 class="mt-3 mb-1 text-secondary">COMENTARIO</h6>
 <textarea class="form-control" id="Observaciones"></textarea>
 
 </div>

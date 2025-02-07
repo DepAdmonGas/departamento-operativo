@@ -33,22 +33,22 @@ $pdfInput = 'S/I';
 
 <div class="modal-body">
 
-<h6 class="mb-1">Fecha:</h6>
+<h6 class="mb-1 text-secondary">FECHA:</h6>
 <label><?=$fecha?></label>
 
-<h6 class="mb-1 mt-3">Hora:</h6>
+<h6 class="mb-1 mt-3 text-secondary">HORA:</h6>
 <label><?=$hora?></label>
 
-<h6 class="mb-1 mt-3">Asunto:</h6>
+<h6 class="mb-1 mt-3 text-secondary">ASUNTO:</h6>
 <label><?=$asunto?></label>
 
-<h6 class="mt-3 mb-1">Observaciones:</h6>
+<h6 class="mt-3 mb-1 text-secondary">OBSERVACIONES:</h6>
 <label><?=$observaciones?></label>
 
-<h6 class="mt-3 mb-1">Solución/Resultados finales:</h6>
+<h6 class="mt-3 mb-1 text-secondary">SOLUCIÓN / RESULTADOS FINALES:</h6>
 <label><?=$solucion?></label>
 
-<h6 class="mt-3 mb-1">Evidencia:</h6>
+<h6 class="mt-3 mb-1 text-secondary">EVIDENCIA:</h6>
 <?=$pdfInput;?>
 
 </div>

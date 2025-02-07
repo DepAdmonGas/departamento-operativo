@@ -2,31 +2,35 @@
 require('app/help.php');
 
   function IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con){
-    $idmes = 0;
-   $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' ";
-   $result_year = mysqli_query($con, $sql_year);
-   while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
-   $idyear = $row_year['id'];
-   }
+  $idmes = 0;
+  $sql_year = "SELECT id, id_estacion, year FROM op_corte_year WHERE id_estacion = '".$GET_idEstacion."' AND year = '".$GET_year."' ";
+  $result_year = mysqli_query($con, $sql_year);
+  while($row_year = mysqli_fetch_array($result_year, MYSQLI_ASSOC)){
+  $idyear = $row_year['id'];
+  }
 
   $sql_mes = "SELECT id, id_year, mes FROM op_corte_mes WHERE id_year = '".$idyear."' AND mes = '".$GET_mes."' ";
-   $result_mes = mysqli_query($con, $sql_mes);
-   while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
-   $idmes = $row_mes['id'];
-   }
+  $result_mes = mysqli_query($con, $sql_mes);
+  while($row_mes = mysqli_fetch_array($result_mes, MYSQLI_ASSOC)){
+  $idmes = $row_mes['id'];
+  }
  
-   return $idmes;
-   } 
+  return $idmes;
+  } 
  
   $IdReporte = IdReporte($GET_idEstacion,$GET_year,$GET_mes,$con);
 
+
   if($GET_mes == 1){
   $MesAnte = 12;
+  $yearAnte = $GET_year - 1;
+
   }else{
   $MesAnte = $GET_mes - 1;
+  $yearAnte = $GET_year;
   }
 
-  $IdReporteAnt = IdReporte($GET_idEstacion,$GET_year,$MesAnte,$con);
+  $IdReporteAnt = IdReporte($GET_idEstacion,$yearAnte,$MesAnte,$con);
 
   if(ValidaFin($IdReporte,$con) == 0){
   AGregarDiretorio($IdReporte,$IdReporteAnt,$con);  
@@ -71,66 +75,63 @@ require('app/help.php');
   }
 
 
-function AGregarDiretorio($IdReporte,$IdReporteA,$con){
+  function AGregarDiretorio($IdReporte,$IdReporteA,$con){
 
-$sql_lista = "SELECT * FROM op_directorio WHERE id_mes = '".$IdReporteA."' ";
-$result_lista = mysqli_query($con, $sql_lista);
-$numero_lista = mysqli_num_rows($result_lista);
-while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  $sql_lista = "SELECT * FROM op_directorio WHERE id_mes = '".$IdReporteA."' ";
+  $result_lista = mysqli_query($con, $sql_lista);
+  $numero_lista = mysqli_num_rows($result_lista);
 
-$sql_insert = "INSERT INTO op_directorio (
-    id_mes,
-    cuenta,
-    puesto,
-    clave
-    )
-    VALUES 
-    (
-    '".$IdReporte."',
-    '".$row_lista['cuenta']."',
-    '".$row_lista['puesto']."',
-    '".$row_lista['clave']."'
-    )";
+  if($numero_lista > 0){
 
-mysqli_query($con, $sql_insert);
+  while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
+  $sql_insert = "INSERT INTO op_directorio (
+      id_mes,
+      cuenta,
+      puesto,
+      clave
+      )
+      VALUES 
+      (
+      '".$IdReporte."',
+      '".$row_lista['cuenta']."',
+      '".$row_lista['puesto']."',
+      '".$row_lista['clave']."'
+      )";
 
-}
+  mysqli_query($con, $sql_insert);
 
+  }
 
-$sqlFin = "INSERT INTO op_directorio_fin (
-    id_mes
-    )
-    VALUES 
-    (
-    '".$IdReporte."'
-    )";
+  $sqlFin = "INSERT INTO op_directorio_fin (id_mes) VALUES ('".$IdReporte."')";
+  mysqli_query($con, $sqlFin);
 
-mysqli_query($con, $sqlFin);
-}
+  }
+
+  }
 
 
-function statusDocs($idReporte,$detalle,$con){
-$sql_detalleDoc = "SELECT detalle FROM op_factura_telcel WHERE id_mes = '".$idReporte."' AND detalle = '".$detalle."' ";
-$result_detalleDoc = mysqli_query($con, $sql_detalleDoc);
-return $numero_detalleDoc = mysqli_num_rows($result_detalleDoc);
+  function statusDocs($idReporte,$detalle,$con){
+  $sql_detalleDoc = "SELECT detalle FROM op_factura_telcel WHERE id_mes = '".$idReporte."' AND detalle = '".$detalle."' ";
+  $result_detalleDoc = mysqli_query($con, $sql_detalleDoc);
+  return $numero_detalleDoc = mysqli_num_rows($result_detalleDoc);
 
-}
+  }
 
-$statusFactura = statusDocs($IdReporte,'Factura',$con);
-$statusPago = statusDocs($IdReporte,'Pago',$con);
- 
+  $statusFactura = statusDocs($IdReporte,'Factura',$con);
+  $statusPago = statusDocs($IdReporte,'Pago',$con);
+  
 
-if($statusFactura > 0){
-if($statusPago > 0){
-$alertDoc = '<span class="badge rounded-pill bg-success float-end">Pagado</span>'; 
+  if($statusFactura > 0){
+  if($statusPago > 0){
+  $alertDoc = '<span class="badge rounded-pill bg-success float-end">Pagado</span>'; 
 
-}else{
-$alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura disponible</span>'; 
-}
+  }else{
+  $alertDoc = '<span class="badge rounded-pill bg-warning float-end">Factura disponible</span>'; 
+  }
 
-}else{
-  $alertDoc = '<span class="badge rounded-pill bg-danger float-end">Sin factura</span>'; 
-}
+  }else{
+    $alertDoc = '<span class="badge rounded-pill bg-danger float-end">Sin factura</span>'; 
+  }
 
 
 

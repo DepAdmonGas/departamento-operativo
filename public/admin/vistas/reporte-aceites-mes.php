@@ -307,7 +307,7 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
         $totalInventarioFinal = $totalInventarioFinal + $inventario_final;
         $totalDiferencia = $totalDiferencia + $diferencia;
         $totalDigPrecio = $totalDigPrecio + $difPrecio;
-
+        $sumt = 0;
         ?>
         <tr>
           <th class="align-middle p-1"><?= $row_listaaceites['id_aceite']; ?></th>
@@ -368,7 +368,7 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
           </td>
 
           <?php
-          $sumt = 0;
+
           for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
             $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
@@ -418,8 +418,7 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
         <td></td>
         <?php
         $noaceite = 0;
-        $sumt = 0;
-        $importeneto = 0;
+
         for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
           $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;
           $totalcantidad = totalcantidad($IdReporte, $fecha, $noaceite, $con);
@@ -427,8 +426,8 @@ function totalimporte($IdReporte, $fecha, $noaceite, $con)
           echo "<td class='align-middle text-center'>" . $totalcantidad . "</td>";
         }
         ?>
-        <td class="align-middle text-center bg-white"><?php echo $sumt; ?></td>
-        <?php
+    <td class="align-middle text-center bg-light"><?php echo $sumt; ?></td>
+    <?php
         for ($Pdia = 1; $Pdia <= $Udia; $Pdia++) {
 
           $fecha = $GET_year . "-" . $GET_mes . "-" . $Pdia;

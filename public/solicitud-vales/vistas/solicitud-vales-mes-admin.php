@@ -33,7 +33,15 @@ require('app/help.php');
  
   $(document).ready(function($){
   $(".LoaderPage").fadeOut("slow");
+
+  if(<?=$Session_IDUsuarioBD?> == 292){
+  ListaVales(8,3,<?=$GET_year;?>,<?=$GET_mes;?>)
+
+  }else{
   ListaVales(<?=$Session_IDEstacion;?>,<?=$session_idpuesto;?>,<?=$GET_year;?>,<?=$GET_mes;?>)
+
+  }
+
   });
 
   function Regresar(){
@@ -48,6 +56,7 @@ require('app/help.php');
 
   $('#ListaVales').load('../../public/solicitud-vales/vistas/lista-solicitud-vales-mes-admin.php?year=' + year + '&mes=' + mes + '&idEstacion=' + idEstacion + '&depu=' + depu, function() {
   $('#tabla_vales_' + idEstacion).DataTable({
+    "stateSave": true,
   "language": {
   "url": "<?=RUTA_JS2?>/es-ES.json"
   },

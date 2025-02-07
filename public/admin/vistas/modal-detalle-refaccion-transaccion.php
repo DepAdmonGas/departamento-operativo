@@ -122,7 +122,7 @@ $TipoFirma = "Vo.Bo Gerente Operativo";
 $Detalle = '<div class="text-center p-2"><small>La solicitud de cheque se firmó por un medio electrónico.</small></div>';
 }
 
-echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
+echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
 <div class="table-responsive">
 <table class="custom-table" style="font-size: 12.5px;" width="100%">
 <thead class="tables-bg">
@@ -140,6 +140,7 @@ echo '<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-2">
 
 </tbody>
 </table>
+</div>
 </div>';
 }
 

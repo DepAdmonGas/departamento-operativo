@@ -24,16 +24,16 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 </div>
 <div class="modal-body">
 
-  <div class="mb-1 text-secondary">Razón Social:</div>
+  <div class="mb-1 text-secondary fw-bold">RAZÓN SOCIAL:</div>
   <input type="text" class="form-control" id="RazonSocial" value="<?= $razon_social ?>">
 
-  <div class="mb-1 mt-2 text-secondary">Dirección:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">DIRECCIÓN:</div>
   <textarea class="form-control" id="Direccion"><?= $direccion ?></textarea>
 
-  <div class="mb-1 mt-2 text-secondary">Contacto:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">CONTACTO:</div>
   <input type="text" class="form-control" id="Contacto" value="<?= $contacto ?>">
 
-  <div class="mb-1 mt-2 text-secondary">Email:</div>
+  <div class="mb-1 mt-2 text-secondary fw-bold">EMAIL:</div>
   <input type="text" class="form-control" id="Email" value="<?= $email ?>">
 
 

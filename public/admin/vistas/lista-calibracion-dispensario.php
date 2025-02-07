@@ -74,7 +74,7 @@ if($session_nompuesto == "Encargado" || $session_nompuesto == "Asistente Adminis
 		echo '<tr>';
 		echo '<th class="align-middle text-center">'.$num.'</th>';
 		echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($Fecha[0]).'</td>';
-    echo '<td class="align-middle text-center"><b>'.$row_lista['year'].'</b></td>';
+    echo '<td class="align-middle text-center">'.$row_lista['year'].'</td>';
     echo '<td class="align-middle text-center">'.$row_lista['periodo'].'</td>';
     echo '<td class="align-middle text-center">
                   <div class="dropdown">

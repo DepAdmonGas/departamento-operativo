@@ -1,10 +1,6 @@
 <?php
 require ('app/help.php');
 
-if ($Session_IDUsuarioBD == "") {
-  header("Location:" . PORTAL . "");
-}
-
 function ToSolicitud($idEstacion, $con)
 {
 
@@ -104,7 +100,8 @@ function ToSolicitud($idEstacion, $con)
       sessionStorage.setItem('idestacion', idEstacion);
       sizeWindow();
       $('#ListaSolicitud').load('../public/admin/vistas/lista-solicitud-aditivo.php?idEstacion=' + idEstacion, function () {
-        $('#tabla-principal').DataTable({
+        $('#tabla_aditivo_' + idEstacion).DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -333,7 +330,7 @@ function ToSolicitud($idEstacion, $con)
             $Nuevo = '';
           }
 
-            echo '  
+ echo '  
             <li>
               <a class="pointer" onclick="SelEstacion('.$id.')">
               <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>

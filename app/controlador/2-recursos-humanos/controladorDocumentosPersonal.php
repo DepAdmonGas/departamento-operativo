@@ -19,7 +19,13 @@ $Comentario = $_POST['Comentario'];
 echo $DocumentosPersonal->agregarComentarioBajaPersonal($idBaja,$idUsuario,$Comentario);
 break;
 
-   
+case 'agregar-comentario-lista-negra':
+$idListaNegra = $_POST['idListaNegra'];
+$idUsuario = $_POST['idUsuario'];
+$Comentario = $_POST['Comentario'];
+echo $DocumentosPersonal->agregarComentarioListaNegra($idListaNegra,$idUsuario,$Comentario);
+break;
+     
 case 'agregar-informacion-personal':
 $idEstacion = $_POST['idEstacion'];
 $idPersonal = $_POST['idPersonal'];
@@ -79,6 +85,16 @@ $indice = 0;
 echo $DocumentosPersonal->agregarArchivoBajaPersonal($idBaja,$DescripcionArchivo,$docs,$indice);
 break;
 
+case 'agregar-archivo-lista-negra':
+$idListaNegra = $_POST['idListaNegra'];
+$DescripcionArchivo = $_POST['DescripcionArchivo'];
+$doc0 = $_FILES['Archivo_file'] ?? [''];
+$docs = [$doc0];
+$indice = 0;
+    
+echo $DocumentosPersonal->agregarArchivoListaNegra($idListaNegra,$DescripcionArchivo,$docs,$indice);
+break;
+
 
 /* ---------- EDITAR ----------*/
 case 'editar-informacion-personal':
@@ -111,16 +127,22 @@ break;
     
 case 'editar-proceso-baja-personal':
 $idBaja = $_POST['idBaja'];
+$Solucion = $_POST['Solucion'];
 $Proceso = $_POST['Proceso'];
 $Status = $_POST['Status'];
 
-echo $DocumentosPersonal->editarProcesoBaja($idBaja,$Proceso,$Status);
+echo $DocumentosPersonal->editarProcesoBaja($idBaja,$Proceso,$Status, $Solucion);
 break;
 
 /* ---------- ELIMINAR ----------*/
 case 'eliminar-archivo-baja-personal':
 $idArchivo = $_POST['idArchivo'];
 echo $DocumentosPersonal->eliminarArchivoBajaPersonal($idArchivo);
+break;
+
+case 'eliminar-archivo-lista-negra':
+$idArchivo = $_POST['idArchivo'];
+echo $DocumentosPersonal->eliminarArchivoListaNegra($idArchivo);
 break;
 
 case 'eliminar-lista-negra':

@@ -21,7 +21,7 @@ $idEstacion = $row_lista['id_estacion'];
 
 <div class="row">
 	<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 mb-2">
-		<div>Pozo o Motobomba:</div>
+		<div class="text-secondary mb-1 fw-bold">* POZO O MOTOBOMBA:</div>
 		<select class="form-select mt-1" id="PozoMotobomba">
 		<option></option>
 		<?php 
@@ -116,12 +116,12 @@ $idEstacion = $row_lista['id_estacion'];
 	</div>
 
 	<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-		<div>PPM:</div>
+		<div class="text-secondary mb-1 fw-bold">* PPM:</div>
 		<input type="number" class="form-control mt-1" id="PPM">
 	</div>
 </div>
 
-<div>Ubicación de Pozo:</div>
+<div class="text-secondary mb-1">UBICACIÓN DE POZO:</div>
 <textarea class="form-control mt-1" id="Ubicacion"></textarea>
 
 </div>

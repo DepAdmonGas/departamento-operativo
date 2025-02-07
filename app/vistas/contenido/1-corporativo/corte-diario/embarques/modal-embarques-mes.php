@@ -8,6 +8,18 @@ $mes = $_GET['mes'];
 ?>
 <script type="text/javascript">
   $('.selectize').selectize({
+    create: function(input) {
+      const upperInput = input.toUpperCase();
+        return {
+            value: upperInput,
+            text: `${upperInput}` // Texto personalizado en español
+        };
+    },
+    render: {
+        option_create: function(data, escape) {
+            return `<div class="create">Agregar <strong>${escape(data.input.toUpperCase())}</strong>...</div>`;
+        }
+    },
     sortField: 'text'
   });
 </script>
@@ -26,6 +38,7 @@ $mes = $_GET['mes'];
             estación de servicio debe recabar:</th>
         </tr>
       </thead>
+      
       <tbody>
         <tr class="no-hover">
           <th class="align-middle text-start bg-light">
@@ -49,12 +62,12 @@ $mes = $_GET['mes'];
   <div class="row">
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Agregar fecha</div>
+      <div class="mb-1 text-secondary fw-bold">* AGREGAR FECHA</div>
       <input type="date" class="form-control" id="Fecha" value="<?= $fecha_del_dia; ?>">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Embarque</div>
+      <div class="mb-1 text-secondary fw-bold">* EMBARQUE</div>
       <select class="form-select" id="Embarque" onchange="Embarque()">
         <option></option>
         <option>Pemex</option>
@@ -64,7 +77,7 @@ $mes = $_GET['mes'];
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Producto</div>
+      <div class="mb-1 text-secondary fw-bold">* PRODUCTO</div>
       <select class="form-select" id="Producto">
         <option></option>
         <option>G SUPER</option>
@@ -75,22 +88,22 @@ $mes = $_GET['mes'];
 
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">* Agregar documento</div>
+      <div class="mb-1 text-secondary fw-bold">* AGREGAR DOCUMENTO</div>
       <input class="form-control" type="file" id="Documento">
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">No. Documento CV</div>
+      <div class="mb-1 text-secondary">NO. DOCUMENTO CV</div>
       <input type="text" class="form-control" id="NoDocumento">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Litros Factura</div>
+      <div class="mb-1 text-secondary">LITROS FACTURA</div>
       <input type="number" class="form-control" id="ImporteF" step="any">
     </div>
 
     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Precio por litro</div>
+      <div class="mb-1 text-secondary">PRECIO POR</div>
       <input type="number" class="form-control" id="PrecioLitro" step="any">
     </div>
 
@@ -157,25 +170,25 @@ $mes = $_GET['mes'];
 
   <div class="row">
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Chofer</div>
-      <select class="selectize pointer"  id="Chofer">
+      <div class="mb-1 text-secondary fw-bold">* CHOFER</div>
+      <select class="selectize" id="Chofer">
         <option></option>
         <?php
           $sql_unidades = "SELECT nombre_chofer FROM tb_pivoteo_chofer WHERE estado = 0 ORDER BY id ASC";
           $result_unidades = mysqli_query($con, $sql_unidades);
-
           while ($row_unidades = mysqli_fetch_array($result_unidades, MYSQLI_ASSOC)) {
             $chofer = $row_unidades['nombre_chofer'];
             echo '<option>' . $chofer . '</option>';
           }
         ?>
       </select>
-      <!--<input type="text" class="form-control" id="Chofer">-->
+      
     </div>
 
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-      <div class="mb-1 text-secondary">Unidad</div>
-      <select class="selectize pointer" id="Unidad">
+      <div class="mb-1 text-secondary fw-bold">* UNIDAD</div>
+      
+      <select class="selectize" id="Unidad">
         <option></option>
         <?php
           $sql_unidades = "SELECT no_unidad FROM tb_unidades_transporte WHERE estado = 0 ORDER BY id ASC";
@@ -187,7 +200,6 @@ $mes = $_GET['mes'];
           }
         ?>
       </select>
-        <!--<input type="text" class="form-control" id="Unidad">-->
     </div>
 
 
@@ -202,7 +214,7 @@ $mes = $_GET['mes'];
 
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="mb-1 text-secondary">Nombre del transporte</div>
-          <select class="form-select" id="NombreTransporte">
+          <select class="selectize" id="NombreTransporte">
             <option></option>
             <?php
             $sql_unidades = "SELECT nombre_transporte FROM tb_lista_transportes WHERE estado = 0 ORDER BY nombre_transporte ASC";

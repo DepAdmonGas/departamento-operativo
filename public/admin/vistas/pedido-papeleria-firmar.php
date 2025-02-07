@@ -108,12 +108,12 @@ function Usuario($idfirma, $con)
             var disableTime = new Date().getTime();
             localStorage.setItem('disableTime', disableTime);
             // Deshabilitar los botones
-            document.getElementById('btn-sms').disabled = true;
-            document.getElementById('btn-whatsapp').disabled = true;
+            document.getElementById('btn-mail').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
             // Define el tiempo para habilitar los botones
             setTimeout(function () {
-              document.getElementById('btn-sms').disabled = false;
-              document.getElementById('btn-whatsapp').disabled = false;
+              document.getElementById('btn-mail').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
             }, 30000); // 60000 milisegundos = 60 segundos
           } else {
             alertify.error('Error al crear el token');
@@ -192,6 +192,38 @@ function Usuario($idfirma, $con)
         }
       }
     }
+
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url: '../../public/admin/modelo/token-email-pedido-papeleria.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
   </script>
 </head>
 
@@ -271,12 +303,12 @@ function Usuario($idfirma, $con)
         </div>
 
         <br>
-        <div class="mb-1"><b>Firmas:</b></div>
+        <div class="mb-1 text-secondary fw-bold">FIRMAS:</div>
         <hr>
         <br>
         <div class="row">
           <?php if ($Session_IDUsuarioBD == 19) { ?>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
               <div class="table-responsive">
                 <table class="custom-table" width="100%">
                   <thead class="tables-bg">
@@ -291,7 +323,7 @@ function Usuario($idfirma, $con)
                         <h4 class="text-primary text-center">Token Móvil</h4>
                         <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su
                           número de teléfono o de clic en el siguiente botón para crear uno:</small>
-                        <br>
+                        <br><!--
                         <button id="btn-sms" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
                           onclick="CrearToken(<?= $GET_idReporte; ?>,1)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token
@@ -300,15 +332,14 @@ function Usuario($idfirma, $con)
                         <button id="btn-whatsapp" type="button" class="btn btn-labeled2 btn-success text-white mt-2"
                           onclick="CrearToken(<?= $GET_idReporte; ?>,2)" style="font-size: .85em;">
                           <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token
-                          Whatsapp</button>
-                      </th>
-                    </tr>
-                    <tr>
-                      <th class="align-middle text-center no-hover2">
-                        <small class="text-danger" style="font-size: .75em;">Nota: En caso de no recibir el token de
-                          WhatsApp, agrega el número <b>+1 555-617-9367</b><br>
-                          a tus contactos y envía un mensaje por WhatsApp a ese número con la palabra "OK".
-                        </small>
+                          Whatsapp</button>-->
+
+                          <button id="btn-mail" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+                          onclick="CrearTokenEmail(<?=$GET_idReporte;?>)" style="font-size: .85em;">
+                          <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+                          <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idReporte;?>,3)" style="font-size: .85em;">
+                          <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
                       </th>
                     </tr>
                     <tr>

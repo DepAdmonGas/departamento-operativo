@@ -73,6 +73,7 @@ require('app/help.php');
   
     $(referencia).load('app/vistas/contenido/2-recursos-humanos/personal/lista-personal.php?idEstacion=' + idEstacion + '&idActivos=' + idActivos, function() {
     $('#tabla_personal_' + idActivos + '_' + idEstacion).DataTable({
+    "stateSave": true,
     "language": {
     "url": "<?=RUTA_JS2?>/es-ES.json"
     },
@@ -84,7 +85,7 @@ require('app/help.php');
     ]
     });
     });
-
+ 
   }
 
   //---------- DOCUMENTACION PUESTO ----------
@@ -560,7 +561,7 @@ require('app/help.php');
 
   <!---------- MODAL CENTRADO ----------> 
   <div class="modal fade" id="Modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
   <div class="modal-content" id="ContenidoModal"></div>
   </div>
   </div>

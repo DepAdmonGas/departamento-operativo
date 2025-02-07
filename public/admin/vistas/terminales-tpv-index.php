@@ -65,6 +65,7 @@ require('app/help.php');
     $('#' + tableId + ' .ultima-fila').remove();
 
     $('#' + tableId).DataTable({
+      "stateSave": true,
       "language": {
         "url": "<?=RUTA_JS2?>/es-ES.json"
       },
@@ -640,7 +641,21 @@ $('#Tpv').css('border', '2px solid #A52525');
 
   if ($session_nompuesto == "Comercializadora") {
 
-    if($id == 6 || $id == 7){
+
+    
+    if($Session_IDUsuarioBD == 28){
+
+      if($id == 6 || $id == 7){
+        echo '  
+        <li>
+          <a class="pointer" onclick="SelEstacion('.$id.')">
+          <i class="fa-solid fa-gas-pump" aria-hidden="true" style="padding-right: 10px;"></i>
+          '.$estacion.'
+          </a>
+        </li>';
+      }
+
+    }else{
       echo '  
       <li>
         <a class="pointer" onclick="SelEstacion('.$id.')">
@@ -648,7 +663,9 @@ $('#Tpv').css('border', '2px solid #A52525');
         '.$estacion.'
         </a>
       </li>';
+
     }
+
   
   }else{
     echo '  

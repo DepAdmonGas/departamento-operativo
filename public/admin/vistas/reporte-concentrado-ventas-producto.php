@@ -17,20 +17,23 @@ while ($row_estaciones = mysqli_fetch_array($result_estaciones, MYSQLI_ASSOC)) {
 function TotalVentas($idDias, $Producto, $con)
 {
 
+  $TotalLitros = 0;
+  $TotalPrecio = 0;
+  
   $sql = "SELECT * FROM op_ventas_dia WHERE idreporte_dia = '" . $idDias . "' AND producto = '" . $Producto . "' ";
   $result = mysqli_query($con, $sql);
   $numero = mysqli_num_rows($result);
-  $TotalLitros = 0;
-  $TotalPrecio = 0;
+
   while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-    $litros = $row['litros'];
-    $preciolitro = $row['precio_litro'];
-    $LitrosPrecio = $litros * $preciolitro;
+  $litros = $row['litros'];
+  $preciolitro = $row['precio_litro'];
+  
+  $LitrosPrecio = $litros * $preciolitro;
 
-    $TotalLitros = $TotalLitros + $litros;
-    $TotalPrecio = $TotalPrecio + $LitrosPrecio;
+  $TotalLitros = $TotalLitros + $litros;
+  $TotalPrecio = $TotalPrecio + $LitrosPrecio;
   }
-
+  
   $array = array(
     'TotalLitros' => $TotalLitros,
     'TotalPrecio' => $TotalPrecio
@@ -38,6 +41,8 @@ function TotalVentas($idDias, $Producto, $con)
 
   return $array;
 }
+
+ 
 
 ?>
 

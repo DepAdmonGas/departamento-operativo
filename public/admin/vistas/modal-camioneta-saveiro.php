@@ -13,13 +13,13 @@ $tipo = $_GET['tipo'];
 
 <div class="modal-body">
 
-  <div class="text-secondary mb-1">Fecha:</div>
+  <div class="text-secondary mb-1 fw-bold">* FECHA:</div>
   <input type="date" class="form-control rounded-0 mb-2" id="Fecha">
 
-  <div class="text-secondary mb-1">Descripción:</div>
+  <div class="text-secondary mb-1 fw-bold">* DESCRIPCIÓN:</div>
   <input type="text" class="form-control rounded-0 mb-2" id="Descripcion">
 
-  <div class="text-secondary mb-1">Archivo:</div>
+  <div class="text-secondary mb-1 fw-bold">* ARCHIVO:</div>
   <input type="file" class="form-control rounded-0 mb-2" id="Archivo">
 
 </div>

@@ -6,6 +6,7 @@ $year = $_GET['year'];
 $mes = $_GET['mes'];
 $SemQui = $_GET['SemQui'];
 $descripcion = $_GET['descripcion'];
+$last = $_GET['last'];
 
 $sql = "SELECT localidad FROM op_rh_localidades WHERE id = '".$idEstacion."' ";
 $result = mysqli_query($con, $sql);
@@ -32,7 +33,7 @@ $frameNomina = '<div class="alert alert-danger text-center mb-0" role="alert">
 No has subido los recibos de nomina de la '.$descripcion.' '.$SemQui.' del personal de '.$Titulo.'
 </div>';
 $BtnSubir = '<div class="col-12">
-<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina(0,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina(0,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\','.$last.')">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Guardar</button>
 </div>';
 $BtnFinalizar = '';
@@ -46,14 +47,14 @@ $doc_nomina_acuse = $row_lista2['doc_nomina_acuse'];
 
 $frameNomina = '<iframe class="border-0" src="'.RUTA_ARCHIVOS.'/recibos-nomina-v2/recibos-mexdesa/'.$doc_nomina_acuse.'" width="100%" height="400px"></iframe>';
 $BtnSubir = '<div class="col-12">
-<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina('.$GET_idAcuse.','.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+<button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="SubirAcusesNomina('.$GET_idAcuse.','.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\','.$last.')">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Editar</button>
 </div>';
 
 if($numeroFinalizar != 0){
 $BtnFinalizar = '';
 }else{
-$BtnFinalizar = '<button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(1,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\')">
+$BtnFinalizar = '<button type="button" class="btn btn-labeled2 btn-success" onclick="FinalizarNomina(1,'.$idEstacion.','.$year.','.$mes.','.$SemQui.',\''.$descripcion.'\','.$last.')">
 <span class="btn-label2"><i class="fa fa-check"></i></span>Finalizar</button>';
 }
 

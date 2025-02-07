@@ -122,9 +122,9 @@ $trColor = "";
  
 echo '<tr '.$trColor.'>';
 echo '<th class="align-middle text-center">'.$num.'</th>';
-echo '<td class="align-middle text-center"><b>'.$row_lista['descripcion_f'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['descripcion_f'].'</td>';
 
-echo '<td class="align-middle text-center"><b>'.$row_lista['nombre'].'</b></td>';
+echo '<td class="align-middle text-center">'.$row_lista['nombre'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['modelo'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['marca'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['proveedor'].'</td>';
@@ -151,7 +151,7 @@ echo '<td class="align-middle text-center"></td>';
 echo '<td class="align-middle text-center">'.$row_lista['unidad'].'</td>';
 echo '<td class="align-middle text-center">'.$row_lista['estado_r'].'</td>';
 echo '<td class="align-middle text-end">$ '.number_format($row_lista['costo'],2).'</td>';
-echo '<td class="align-middle text-end"><b>$ '.number_format($total,2).'</b></td>';
+echo '<td class="align-middle text-end">$ '.number_format($total,2).'</td>';
 
 echo '<td class="align-middle text-center">
 <div class="dropdown">

@@ -40,7 +40,7 @@ $result = mysqli_query($con, $sql);
 while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 $id = $row['id'];
 $imagen = $row['imagen'];
-
+$Contenido = "";
 $Contenido .= '
  <iframe class="border-0 mt-1" src="'.RUTA_ARCHIVOS.$imagen.'" width="250px" height="250px">
   </iframe>';
@@ -125,7 +125,8 @@ return $Result;
 
     var parametros = {
     "idReporte" : idReporte,
-    "idVal" : idVal
+    "idVal" : idVal,
+    "fecha": '<?=$ClassHerramientasDptoOperativo->FormatoFecha($fecha)?>'
     };
     
     $.ajax({
@@ -142,7 +143,20 @@ return $Result;
     $(".LoaderPage").hide();
 
    if(response == 1){
-     alertify.message('El token fue enviado por mensaje');   
+    //Dentro de la condición cuando se manda la alerta
+    alertify.success('El token fue enviado por mensaje');
+            alertify.warning('Debera esperar 30 seg para volver a crear un nuevo token');
+            // Deshabilitar los botones y guardar el tiempo en localStorage
+            var disableTime = new Date().getTime();
+            localStorage.setItem('disableTime', disableTime);
+            // Deshabilitar los botones
+            document.getElementById('btn-email').disabled = true;
+            document.getElementById('btn-telegram').disabled = true;
+            // Define el tiempo para habilitar los botones
+            setTimeout(function () {
+              document.getElementById('btn-email').disabled = false;
+              document.getElementById('btn-telegram').disabled = false;
+            }, 30000); // 30000 milisegundos = 30 segundos
    }else{
      alertify.error('Error al crear el token');   
    }
@@ -196,6 +210,38 @@ return $Result;
   }
 
     }
+
+
+    function CrearTokenEmail(idReporte){
+    $(".LoaderPage").show();
+
+    var parametros = {
+    "idReporte" : idReporte
+    };
+
+    $.ajax({
+    data:  parametros,
+    url:   '../../public/admin/modelo/token-email-pedido-materiales.php',
+    type:  'post', 
+    beforeSend: function() {
+    },
+    complete: function(){
+
+    },
+    success:  function (response) {
+
+    $(".LoaderPage").hide();
+
+   if(response == 1){
+     alertify.message('El token fue enviado por correo electrónico');   
+   }else{
+     alertify.error('Error al crear el token');   
+   }
+ 
+    }
+    });
+    }   
+
 
   </script>
 
@@ -336,7 +382,7 @@ return $Result;
   <td class="align-middle text-center no-hover2 p-2">NO</td>
   <td class="align-middle text-center no-hover2 p-2">AMBAS</td>
 
-  </tr>
+  </tr> 
 
   <tr>
   <td class="align-middle text-center no-hover2 p-2">
@@ -521,7 +567,7 @@ return $Result;
   
   <tr>
   <th class="align-middle text-center no-hover2"> 
-  <a class="pointer" href="../../archivos/material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
+  <a class="pointer" href="'.RUTA_ARCHIVOS.'material-evidencia/'.$row_evidencia['archivo'].'" download><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a>
   </th> 
   <td class="align-middle text-center no-hover2">'.$row_evidencia['area'].'</td>
   <td class="align-middle text-center no-hover2">'.$row_evidencia['motivo'].'</td>
@@ -559,11 +605,12 @@ return $Result;
   <div class="row">
     
   <?php  
-  if($Session_IDUsuarioBD == 21){
   if($firmaB == 0){
+  if($Session_IDUsuarioBD == 21){
+
   ?>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
@@ -572,19 +619,26 @@ return $Result;
   <tbody>
   
   <tr>
-  <th class="align-middle text-center bg-light no-hover2">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  </th>
+  -->
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,3)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>  
+</th>
   </tr>
 
-  <tr class="no-hover2">
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -600,34 +654,55 @@ return $Result;
   </div>
 
   <?php
-  }
 
-  }else if($Session_IDUsuarioBD == 19){
+
+  }else{
+    echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+    <div class="text-center alert alert-warning" role="alert">
+    No cuentas con los permisos para firmar el VO.BO
+    </div>
+    </div>';
+    }
+
+  }
+  
+
   if($firmaB == 1 && $firmaC == 0){
+  if($Session_IDUsuarioBD == 19){
+
   ?>
 
-  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
+<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="table-responsive">
   <table class="custom-table" width="100%">
   <thead class="tables-bg">
-  <tr> <th class="align-middle text-center">FIRMA DE AUTORIZACIÓN</th> </tr>
+  <tr> <th class="align-middle text-center">FIRMA DE VOBO</th> </tr>
   </thead>
   <tbody>
   
   <tr>
-  <th class="align-middle text-center bg-light no-hover2">
+  <th class="align-middle text-center bg-light">
   <h4 class="text-primary text-center">Token Móvil</h4>
   <small class="text-secondary" style="font-size: .75em;">Agregue el token enviado a su número de teléfono o de clic en el siguiente botón para crear uno:</small>
   <br>
+  <!--
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,1)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-solid fa-comment-sms"></i></span>Crear nuevo token SMS</button>
 
   <button type="button" class="btn btn-labeled2 btn-success text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,2)" style="font-size: .85em;">
   <span class="btn-label2"><i class="fa-brands fa-whatsapp"></i></span>Crear nuevo token Whatsapp</button>
-  </th>
+  -->
+
+  <button id="btn-email" type="button" class="btn btn-labeled2 btn-success text-white mt-2" 
+  onclick="CrearTokenEmail(<?=$GET_idPedido;?>)" style="font-size: .85em;">
+  <span class="btn-label2"><i class="fa-regular fa-envelope"></i></span> Crear nuevo token vía e-mail</button>
+
+  <button id="btn-telegram" type="button" class="btn btn-labeled2 btn-primary text-light mt-2" onclick="CrearToken(<?=$GET_idPedido;?>,3)" style="font-size: .85em;">
+                            <span class="btn-label2"><i class="fa-brands fa-telegram"></i></span>Crear nuevo token Telegram</button>
+</th>
   </tr>
 
-  <tr class="no-hover2">
+  <tr class="no-hover">
   <th class="align-middle text-center bg-light p-0">
   <div class="input-group">
   <input type="text" class="form-control border-0 bg-light" placeholder="Token de seguridad" aria-label="Token de seguridad" aria-describedby="basic-addon2" id="TokenValidacion">
@@ -642,17 +717,16 @@ return $Result;
   </div>
   </div>
 
-
   <?php 
-  }else{
-
-  }
+  
   }else{
   echo '<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-2">
   <div class="text-center alert alert-warning" role="alert">
-  No cuentas con los permisos para firmar la autorizacion
+  No cuentas con los permisos para firmar la autorización
   </div>
   </div>';
+  }
+
   }
 
   $sql_firma = "SELECT * FROM op_pedido_materiales_firma WHERE id_pedido = '".$GET_idPedido."' ";
@@ -664,7 +738,7 @@ return $Result;
 
   if($row_firma['tipo_firma'] == "A"){
   $TipoFirma = "NOMBRE Y FIRMA DEL ENCARGADO";
-  $Detalle = '<div class="border-0 text-center"><img src="../../imgs/firma/'.$row_firma['firma'].'" width="70%"></div>';
+  $Detalle = '<div class="border-0 text-center"><img src="'.RUTA_IMG_Firma.''.$row_firma['firma'].'" width="70%"></div>';
   }else if($row_firma['tipo_firma'] == "B"){
   $TipoFirma = "NOMBRE Y FIRMA DE VOBO";
   $Detalle = '<div class="text-center" style="font-size: 1em;"><small class="text-secondary">La solicitud de cheque se firmó por un medio electrónico.</br> <b>Fecha: '.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date("g:i a",strtotime($explode[1])).'</b></small></div>';

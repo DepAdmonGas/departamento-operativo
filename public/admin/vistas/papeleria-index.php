@@ -56,7 +56,8 @@ function ToSolicitud($idEstacion, $con)
       let targets;
       targets = [4,5];
       $('#ContenidoPrin').load('../public/admin/vistas/lista-pedido-papeleria.php?idEstacion=' + idEstacion, function () {
-        $('#tabla-principal').DataTable({
+        $('#tabla_papeleria_' + idEstacion).DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -86,6 +87,7 @@ function ToSolicitud($idEstacion, $con)
       targets = [2, 3];
       $('#ContenidoPrin').load('../public/admin/vistas/lista-producto-papeleria.php', function () {
         $('#tabla-principal').DataTable({
+          "stateSave": true,
           "language": {
             "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
           },
@@ -230,9 +232,7 @@ function ToSolicitud($idEstacion, $con)
       var OtroProducto = $('#OtroProducto').val();
       var Piezas = $('#Piezas').val();
       
-      
-      if (Producto != "") {
-        $('#contenido-producto').css('border', '');
+
       if (Piezas != "") {
         $('#Piezas').css('border', '');
 
@@ -265,13 +265,12 @@ function ToSolicitud($idEstacion, $con)
 
           }
         });
+        
 
       } else {
         $('#Piezas').css('border', '2px solid #A52525');
       }
-    } else {
-        $('#contenido-producto').css('border', '2px solid #A52525');
-      }
+
 
 
     }
@@ -659,7 +658,7 @@ function ToSolicitud($idEstacion, $con)
           } else {
             $Nuevo = '';
           }
-        
+
 
             echo '  
             <li>

@@ -44,6 +44,12 @@ return $numero_lista = mysqli_num_rows($result_lista);
 
 ?> 
 
+
+<script>
+
+
+</script>
+
   <div class="col-12">
   <div aria-label="breadcrumb" style="padding-left: 0; margin-bottom: 0;">
   <ol class="breadcrumb breadcrumb-caret">
@@ -90,7 +96,7 @@ if ($numero_lista > 0) {
 while($row_lista = mysqli_fetch_array($result_lista, MYSQLI_ASSOC)){
 $id = $row_lista['id'];
 $status = $row_lista['estado'];
- 
+
 if($status == 0){
 $tableColor = 'style="background-color: #fcfcda"';
 $PDFD = '<a class="dropdown-item grayscale"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
@@ -101,7 +107,7 @@ $eliminartb = '<a class="dropdown-item" onclick="EliminarTransaccion('.$idEstaci
 
 }else if($status == 1 || $status == 2){
 $tableColor = 'style="background-color: #cfe2ff"';
-$PDFD = '<a class="dropdown-item"><i class="fa-solid fa-file-pdf" onclick="DescargarTransaccion('.$id.')"></i> Descargar PDF</a>';
+$PDFD = '<a class="dropdown-item" onclick="DescargarTransaccion('.$id.')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
 $detalletb = '<a class="dropdown-item" onclick="ModalDetalleT('.$id.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
 $firmatb = '<img class="grayscale" src="'.RUTA_IMG_ICONOS.'icon-firmar.png">';
 $devoluciontb = '<a class="dropdown-item grayscale"><i class="fa-solid fa-rotate-left"></i> Devolución de refacción</a>';
@@ -138,8 +144,8 @@ echo '<th class="align-middle text-center">'.$id.'</th>';
 echo '<td class="align-middle text-center">'.$ClassHerramientasDptoOperativo->FormatoFecha($explode[0]).', '.date('g:i a', strtotime($explode[1])).'</td>';
 echo '<td class="align-middle text-center">'.$NomRefaccion.'</td>';
 echo '<td class="align-middle text-center">1</td>';
-echo '<td class="align-middle text-center"><b>'.$EstacionProveedora.'</b></td>';
-echo '<td class="align-middle text-center"><b>'.$Estacion.'</b></td>';
+echo '<td class="align-middle text-center">'.$EstacionProveedora.'</td>';
+echo '<td class="align-middle text-center">'.$Estacion.'</td>';
 echo '<td class="align-middle text-center">'.$firmatb.'</td>';
 echo '<td class="align-middle text-center position-relative" onclick="ComentarioTransaccion('.$idEstacion.','.$id.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
 

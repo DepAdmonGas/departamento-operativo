@@ -20,10 +20,10 @@ $estacion = $row_listaestacion['localidad'];
 
 <div class="text-secondary"><small>El organigrama debe ser en imagen ".PNG", ".JPG" ó "JPEG"</small></div>
 
-<h6 class="mb-2 mt-2">* Organigrama</h6>
+<h6 class="mb-2 mt-2 fw-bold text-secondary">* ORGANIGRAMA</h6>
 <input class="form-control" type="file" id="seleccionArchivos">
 
-<h6 class="mt-3 mb-2">Observaciones</h6>
+<h6 class="mt-3 mb-2 text-secondary">OBSERVACIONES</h6>
 <textarea class="form-control" id="Observaciones"></textarea>
 
 <div id="Mensaje mt-3"></div>
