@@ -358,19 +358,23 @@ op_corte_mes.mes = '" . $GET_mes . "'";
       ValidaPrefijo($IdReporte, 'K', 'Notas de credito', $con);
       ValidaPrefijo($IdReporte, 'CP', 'Complemento de pago', $con);
       PrefijoFinalizar($IdReporte, $con);
+    
     } else if ($idEstacion == 7) {
-
       ValidaPrefijo($IdReporte, 'PG', 'PUBLICO EN GENERAL', $con);
-      ValidaPrefijo($IdReporte, 'T', 'TPV', $con);
-      ValidaPrefijo($IdReporte, 'FEVM', 'WEB', $con);
       ValidaPrefijo($IdReporte, 'VM', 'VENTA MOSTRADOR', $con);
-      ValidaPrefijo($IdReporte, 'EDI', 'MONEDEROS', $con);
+      ValidaPrefijo($IdReporte, 'FEVM (WEB)', 'FACTURACION EN LINEA', $con);
+      ValidaPrefijo($IdReporte, 'FGVM (WEB)', 'FACTURACION EN LA APP', $con);
+      ValidaPrefijo($IdReporte, 'EDI', 'MONEDEROS EXTERNOS', $con);
+      //ValidaPrefijo($IdReporte, 'FEVM', 'WEB', $con);
+      ValidaPrefijo($IdReporte, 'T', 'TPV', $con);
       ValidaPrefijo($IdReporte, 'FA', 'FACTURA DE ACEITES', $con);
       ValidaPrefijo($IdReporte, 'RL', 'RENTAS', $con);
       ValidaPrefijo($IdReporte, 'S', 'SODEXO', $con);
       ValidaPrefijo($IdReporte, 'K', 'Notas de credito', $con);
       ValidaPrefijo($IdReporte, 'CP', 'Complemento de pago', $con);
       PrefijoFinalizar($IdReporte, $con);
+    
+    
     } else if ($idEstacion == 14) {
 
       ValidaPrefijo($IdReporte, 'PG', 'PUBLICO EN GENERAL', $con);
@@ -643,7 +647,7 @@ op_corte_mes.mes = '" . $GET_mes . "'";
 
      function ListaPrefijos(idEstacion, IdReporteYear, GET_mes, IdReporte) {
        $('#ListaPrefijo').load('../../../../public/admin/vistas/lista-control-volumetrico-prefijo.php?IdReporte=' + IdReporte + '&IdReporteYear=' + IdReporteYear + '&GET_mes=' + GET_mes + '&idEstacion=' + idEstacion);
-     }
+     } 
 
      function PrefijoTotal(idEstacion, IdReporte) {
 
