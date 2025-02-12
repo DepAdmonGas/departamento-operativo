@@ -44,21 +44,20 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
   <link href="<?= RUTA_CSS2; ?>bootstrap.min.css" rel="stylesheet" />
   <link href="<?= RUTA_CSS2; ?>navbar-general.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="<?= RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
   <script type="text/javascript">
-
+  
     $(document).ready(function ($) {
       $(".LoaderPage").fadeOut("slow");
       ReporteClientes(<?= $IdReporte; ?>);
     });
-
+  
     function ReporteClientes(IdReporte) {
       $('#DivReporteClientes').load('../../../../public/admin/vistas/reporte-clientes-mes.php?IdReporte=' + IdReporte, function () {
         function initializeDataTable(tableId) {
@@ -135,6 +134,10 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
 
     }
 
+    function DescargarExcelClientes(idEstacion, year, mes){
+    window.location.href = "../../../clientes-mes-excel/" + idEstacion + "/" + year + "/" + mes;  
+  }
+
   </script>
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
@@ -169,14 +172,29 @@ while ($row_listaestacion = mysqli_fetch_array($result_listaestacion, MYSQLI_ASS
               Resumen Clientes (<?=$estacion?>), <?= $ClassHerramientasDptoOperativo->nombremes($GET_mes) ?> <?= $GET_year ?>
               </h3>
             </div>
+  
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+  <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
+  <div class="dropdown d-inline ms-2 float-end">
+  <button type="button" class="btn dropdown-toggle btn-primary" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <i class="fa-solid fa-screwdriver-wrench"></i>
+  </button>
 
-              <?php if ($session_nompuesto != "Contabilidad" && $session_nompuesto != "Comercializadora" && $session_nompuesto != "Dirección de operaciones servicio social") { ?>
-                <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="Actualizar(<?= $IdReporte; ?>,<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
-                <span class="btn-label2"><i class="fa fa-rotate"></i></span>Actualizar</button>
-              <?php } ?>
+  <ul class="dropdown-menu">
+  <li onclick="Actualizar(<?= $IdReporte; ?>,<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+  <a class="dropdown-item pointer"><i class="fa-solid fa-arrow-rotate-left"></i> Actualizar</a>
+  </li>
 
-            </div>
+  <li onclick="DescargarExcelClientes(<?= $GET_idEstacion; ?>,<?= $GET_year; ?>,<?= $GET_mes; ?>)">
+  <a class="dropdown-item pointer"><i class="fa-solid fa-file-excel"></i> Descargar Resumen <?= nombremes($GET_mes); ?> <?= $GET_year; ?></a>
+  </li>
+
+  </ul>
+  </div>
+
+  <?php } ?>
+  </div>
+
           </div>
           <hr>
         </div>

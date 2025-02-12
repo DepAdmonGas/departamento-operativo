@@ -1487,7 +1487,21 @@ $ruta_elegida = 'app/vistas/personal-general/home/home-index.php';
             $ruta_elegida = 'public/admin/vistas/kpi-resumen-monedero.php';
         }
         //----------------------------------------------------
- 
+
+        else if ($partes_ruta[2] == 'resumen-monedero-excel') {
+            $GET_idEstacion = $partes_ruta[3];
+            $GET_year = $partes_ruta[4];
+            $GET_mes = $partes_ruta[5];
+            $ruta_elegida = 'public/admin/vistas/resumen-monedero-excel.php';
+        }
+
+        else if ($partes_ruta[2] == 'clientes-mes-excel') {
+            $GET_idEstacion = $partes_ruta[3];
+            $GET_year = $partes_ruta[4];
+            $GET_mes = $partes_ruta[5];
+            $ruta_elegida = 'public/admin/vistas/clientes-mes-excel.php';
+        }
+
         //---------- KPI ACEITES ----------
         else if ($partes_ruta[2] == 'aceites-evaluacion') {
             $GET_year = $partes_ruta[3];
