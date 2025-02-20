@@ -302,11 +302,28 @@ $bgTable = 'style="background-color: #fcfcda"';
 
 }
 
-}
+} 
+
+// Convertir la fecha en un formato ordenable
+$fecha = $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']);
+$meses = [
+    "Enero" => "01", "Febrero" => "02", "Marzo" => "03", "Abril" => "04",
+    "Mayo" => "05", "Junio" => "06", "Julio" => "07", "Agosto" => "08",
+    "Septiembre" => "09", "Octubre" => "10", "Noviembre" => "11", "Diciembre" => "12"
+];
+
+// Extraer día y mes de la fecha
+preg_match('/(\d{1,2}) de (\w+) del (\d{4})/', $fecha, $matches);
+$dia = str_pad($matches[1], 2, '0', STR_PAD_LEFT); // Asegurar formato 01, 02, etc.
+$mes = $meses[$matches[2]]; // Convertir mes a número
+$year = $matches[3]; // Extraer año
+
+// Formato ordenable YYYYMMDD
+$fechaOrdenable = $year . $mes . $dia;
 
 echo '<tr ' . $bgTable . '>';
-echo '<th class="align-middle text-center fw-normal">'.$num.'</th>';
-echo '<th class="align-middle text-center fw-normal">' . $ClassHerramientasDptoOperativo->FormatoFecha($row_lista['fecha']) . '</th>';
+echo '<th class="align-middle text-center fw-normal" data-order="' . $fechaOrdenable . '">'.$num.'</th>';
+echo '<th class="align-middle text-center fw-normal" data-order="' . $fechaOrdenable . '">' . $fecha . '</th>';
 echo '<td class="align-middle text-center">' . $row_lista['embarque'] . '</td>';
 echo '<td class="align-middle text-center">' . $row_lista['producto'] . '</td>';
 echo '<td class="align-middle text-center"><a href="'.RUTA_ARCHIVOS.'' . $row_lista['documento'] . '" download  data-toggle="tooltip" data-placement="top" title="Documento"><img src="'.RUTA_IMG_ICONOS.'pdf.png"></a></td>';
