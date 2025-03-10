@@ -151,12 +151,11 @@ function ReciboNominaV2(){
 
   }
 
-  </script>t>
+  </script>
   </head>
   <body>
 
-<div class="LoaderPag
-div>
+<div class="LoaderPage"></div> 
  
 
 <?php 

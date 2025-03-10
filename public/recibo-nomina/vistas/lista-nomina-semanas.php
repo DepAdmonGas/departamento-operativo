@@ -799,9 +799,9 @@ require('../../../app/help.php');
   $DocumentoAguinaldo = $row_lista['doc_nomina_aguinaldo'];
 
 
-  $ruta_nomina_archivo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/acuses/'.$DocumentoNomina.'"';
-  $ruta_nomina_archivo_firma = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.$DocumentoFirmado.'"';
-  $ruta_nomina_aguinaldo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/aguinaldo/'.$DocumentoAguinaldo.'"';
+  $ruta_nomina_archivo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/acuses/'.rawurlencode($DocumentoNomina).'"';
+  $ruta_nomina_archivo_firma = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/firmados/'.rawurlencode($DocumentoFirmado).'"';
+  $ruta_nomina_aguinaldo = 'href="'.RUTA_ARCHIVOS.'recibos-nomina-v2/aguinaldo/'.rawurlencode($DocumentoAguinaldo).'"';
 
   //---------- ACUSE DE RECIBO DE NOMINA ----------
   if($DocumentoNomina != ""){

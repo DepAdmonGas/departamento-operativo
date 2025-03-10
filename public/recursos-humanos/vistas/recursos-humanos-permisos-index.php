@@ -7,7 +7,7 @@ $sql_lista = "SELECT id FROM op_rh_permisos WHERE id_estacion = '".$idEstacion."
 $result_lista = mysqli_query($con, $sql_lista);
 return $numero_lista = mysqli_num_rows($result_lista);
 }
-
+ 
 ?>
 <html lang="es">
   <head>
@@ -65,8 +65,8 @@ return $numero_lista = mysqli_num_rows($result_lista);
     sizeWindow();
     sessionStorage.setItem('idestacion', idEstacion);
       
-    targets = [8, 9];
-
+    targets = [9, 10];
+ 
     $('#ListaPermisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion, function() {
     $('#tabla_permisos_' + idEstacion).DataTable({
     "stateSave": true,

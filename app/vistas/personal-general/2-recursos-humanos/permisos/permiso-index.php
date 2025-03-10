@@ -15,7 +15,7 @@ require 'app/vistas/contenido/header.php';
   }); 
   function SelEstacion(idEstacion) {
     let targets;
-    targets = [8];
+    targets = [9, 10];
 
     $('#Permisos').load('app/vistas/contenido/2-recursos-humanos/permisos/contenido-permisos.php?idEstacion=' + idEstacion, function () {
       $('#tabla_permisos_' + idEstacion).DataTable({
@@ -139,7 +139,5 @@ require 'app/vistas/contenido/header.php';
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
-
-</body>
-
-</html>
+  </body>
+  </html>
