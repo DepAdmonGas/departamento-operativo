@@ -92,6 +92,8 @@ function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
  $sql = "SELECT id FROM op_corte_dia WHERE id_mes = '".$IdReporte."' ";
  $result = mysqli_query($con, $sql);
  $numero = mysqli_num_rows($result);
+ $totalCo = 0;
+ $totalPa = 0;
  while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
  $reportedia = $row['id'];
 
@@ -115,7 +117,7 @@ function IdReporte($Session_IDEstacion,$GET_year,$GET_mes,$con){
 $sql_c = "SELECT total FROM op_consumos_pagos WHERE id_reportedia = '".$reportedia."' AND id_cliente = '".$idCliente."' AND tipo = '".$tipo."' ";
 $result_c = mysqli_query($con, $sql_c);
 $numero_c = mysqli_num_rows($result_c);
-
+$total = 0;
 if ($numero_c > 0) {
 while($row_c = mysqli_fetch_array($result_c, MYSQLI_ASSOC)){
 $total = $total + $row_c['total'];

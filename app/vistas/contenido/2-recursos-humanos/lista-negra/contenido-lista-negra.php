@@ -97,7 +97,7 @@ if ($numero_lista > 0) {
 </div>
 
 <div class="table-responsive">
-<table id="tabla_bitacora" class="custom-table" style="font-size: .9em;" width="100%">
+<table id="tabla-principal" class="custom-table" style="font-size: .9em;" width="100%">
 
 <thead class="tables-bg">
 <tr> 
@@ -109,7 +109,9 @@ if ($numero_lista > 0) {
   <th class="align-middle text-center">Motivo de Baja</th>
   <th class="align-middle text-center" width="400px">Descripción</th>
   <th class="align-middle text-center" width="24px"><img src="<?=RUTA_IMG_ICONOS;?>comentario-tb.png"></th>
-  <th class="align-middle text-center <?=$ocultarbtn?>" width="24px"><i class="fas fa-ellipsis-v"></i></th>
+  <?php if($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo"){ ?>
+  <th class="align-middle text-center" width="24px"><i class="fas fa-ellipsis-v"></i></th>
+<?php } ?>
 
 </tr>
 </thead> 
@@ -149,7 +151,9 @@ echo '<td class="text-center align-middle">'.$detalle.'</td>';
 
 echo '<td class="align-middle text-center position-relative" onclick="ComentariosLN('.$idListaNegra.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png"></td>';
 
-echo '<td class="align-middle text-center '.$ocultarbtn.'">
+if($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo"){
+
+echo '<td class="align-middle text-center">
 <div class="btn-group">
 <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 <i class="fas fa-ellipsis-v"></i>
@@ -161,7 +165,7 @@ echo '<td class="align-middle text-center '.$ocultarbtn.'">
 </div>
 </div>
 </td>';
-
+}
 echo '</tr>';
 
 $num++;

@@ -24,7 +24,9 @@ require('app/help.php');
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+
   <script type="text/javascript">
 
   $(document).ready(function($){
@@ -35,15 +37,43 @@ require('app/help.php');
   if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
   idEstacion = sessionStorage.getItem('idestacion');
-  $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=0", function() {
-  // Una vez que el contenido de #ContenidoOrganigrama se haya cargado
-  $('#tabla_plantilla').load('app/vistas/contenido/2-recursos-humanos/organigrama/lista-plantilla-estacion.php?idEstacion=' + idEstacion, function() {
-  // Una vez que #tabla_plantilla se haya cargado completamente
-  // Aquí es más seguro llamar a buscarNombres
-  let dato = "";
-  buscarNombres(dato, idEstacion);
-  });
-  });
+
+
+  let targetsOrganigrama = [3];
+  $('#ContenidoOrganigrama').load(
+  'app/vistas/contenido/2-recursos-humanos/organigrama/contenido-organigrama.php?idEstacion=' + idEstacion + "&idOrganigrama=0", 
+  function() {
+    // Destruir DataTable si ya está inicializado
+    if ($.fn.DataTable.isDataTable('#tabla_organigrama')) {
+      $('#tabla_organigrama').DataTable().destroy();
+    }
+
+    // Inicializar DataTable nuevamente
+    $('#tabla_organigrama').DataTable({
+      "stateSave": true,
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "desc"]],
+      "lengthMenu": [25, 50, 75, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": targetsOrganigrama },
+        { "searchable": false, "targets": targetsOrganigrama }
+      ]
+    });
+
+    // Cargar la tabla de plantilla dentro del mismo callback
+    $('#tabla_plantilla').load(
+      'app/vistas/contenido/2-recursos-humanos/organigrama/lista-plantilla-estacion.php?idEstacion=' + idEstacion, 
+      function() {
+        let dato = "";
+        buscarNombres(dato, idEstacion);
+      }
+    );
+  }
+);
+
+
 
   }       
   } 
@@ -687,6 +717,10 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

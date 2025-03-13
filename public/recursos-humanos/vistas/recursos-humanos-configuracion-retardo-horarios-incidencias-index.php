@@ -26,7 +26,9 @@ require('app/help.php');
   <script type="text/javascript" src="<?=RUTA_JS2 ?>alertify.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
+   <!---------- LIBRERIAS DEL DATATABLE ---------->
+ <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
+
 
   <script type="text/javascript">
 
@@ -38,7 +40,24 @@ require('app/help.php');
   if (sessionStorage.getItem('idestacion') !== undefined && sessionStorage.getItem('idestacion')) {
 
   idestacion = sessionStorage.getItem('idestacion');
-  $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idestacion);
+  let targets;
+      targets = [4,5];
+      $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idestacion, function () {
+        $('#tabla-principal').DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+
+  //$('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idestacion);
   }    
   } 
   
@@ -52,7 +71,23 @@ require('app/help.php');
   function SelEstacion(idEstacion){
   sizeWindow();  
   sessionStorage.setItem('idestacion', idEstacion);
-  $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
+  let targets;
+      targets = [4,5];
+      $('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+  //$('#Contenido').load('public/recursos-humanos/vistas/contenido-recursos-humanos-retardo-horarios-incidencias.php?idEstacion=' + idEstacion);
   }
 
   function Actualizar(idEstacion){
@@ -396,6 +431,11 @@ $icon = "fa-solid fa-screwdriver-wrench";
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?=RUTA_JS2 ?>navbar-functions.js"></script>
   <script src="<?=RUTA_JS2 ?>bootstrap.min.js"></script>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+      src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
 
 </body>
 </html>

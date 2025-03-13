@@ -38,7 +38,7 @@ $Estacion = "";
 if($idEstacion == 9){
 $Div2 = '<hr>';
 $tablaAL = '<tr class="tables-bg">
-<th class="text-center align-middle tableStyle fw-bold" colspan="6">Autolavado</th>
+<th class="text-center align-middle tableStyle fw-bold" colspan="4">Autolavado</th>
 </tr>';
 $tablaDesc = "td";
 $tablaDesc1 = '<td class="text-center align-middle tableStyle fw-bold">Versión</td>';
@@ -123,7 +123,7 @@ if ($idEstacion == 2) {
 
 <div class="col-12">
 <div class="table-responsive">
-<table class="custom-table " style="font-size: .8em;" width="100%">
+<table id="tabla_organigrama" class="custom-table " style="font-size: .8em;" width="100%">
 <thead class="<?=$ColorTB?>">
 <?=$tablaAL?>
 <tr>
