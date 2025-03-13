@@ -41,7 +41,23 @@ require('app/help.php');
       SelComodines(idEstacion)
 
     }else{
-      $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
+      let targets;
+      targets = [];
+      $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+      //$('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
 
     }
 
@@ -58,7 +74,24 @@ require('app/help.php');
     sizeWindow(); 
     sessionStorage.setItem('idestacion', idEstacion);
     //$('#ContenidoOrganigrama').load('public/recursos-humanos/vistas/contenido-recursos-humanos-horario-personal.php?idEstacion=' + idEstacion);
-    $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
+    let targets;
+      targets = [];
+      $('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion, function () {
+        $('#tabla-principal').DataTable({
+          "stateSave": true,
+          "language": {
+            "url": '<?= RUTA_JS2 ?>' + "/es-ES.json"
+          },
+          "order": [[0, "desc"]],
+          "lengthMenu": [15, 30, 50, 100],
+          "columnDefs": [
+            { "orderable": false, "targets": targets },
+            { "searchable": false, "targets": targets }
+          ]
+        });
+      });
+
+    //$('#ContenidoOrganigrama').load('app/vistas/contenido/2-recursos-humanos/horario-personal/contenido.php?idEstacion=' + idEstacion);
 
     }
 

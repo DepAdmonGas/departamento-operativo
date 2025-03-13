@@ -42,7 +42,7 @@ $estacion = $row_listaestacion['nombre'];
 
  
   <div class="table-responsive">
-  <table class="custom-table" style="font-size: .9em;" width="100%">
+  <table id="table_incidencias" class="custom-table" style="font-size: .9em;" width="100%">
   <thead class="tables-bg">
     <th class="text-center align-middle font-weight-bold">#</th>
     <th class="text-center align-middle font-weight-bold">Fecha y hora</th>
@@ -50,11 +50,7 @@ $estacion = $row_listaestacion['nombre'];
     <th class="text-center align-middle font-weight-bold">Responsable</th>
     <th class="text-center align-middle font-weight-bold">Asunto</th>
     <th class="text-center align-middle font-weight-bold">Comentarios</th>
-    
-    <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>multimedia.png"></th>
-    <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>ver-tb.png"></th>
-    <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></th>
-    <th class="text-center align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></th>
+    <th class="align-middle text-center" width="20"><i class="fas fa-ellipsis-v"></i></th>
 
   </thead> 
 
@@ -72,11 +68,16 @@ $estacion = $row_listaestacion['nombre'];
   $comentarios = $row_lista['comentarios'];
   $archivo = $row_lista['archivo'];
   
+  $Detalle = '<a class="dropdown-item" onclick="ModalVerIncidencia('.$id_incidencia.')"><i class="fa-regular fa-eye"></i> Detalle</a>';
+  
+  $Editar = '<a class="dropdown-item" onclick="ModalEditarIncidencia('.$id_incidencia.','.$idEstacion.')"><i class="fa-solid fa-pencil"></i> Editar</a>';
+  $Eliminar = '<a class="dropdown-item" onclick="EliminarIncidencia('.$id_incidencia.','.$idEstacion.')"><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
 
   if($archivo != ""){
-  $MultimediaTB = '<a href="'.RUTA_ARCHIVOS.'incidencias/'.$archivo.'" download><img class="pointer" src="'.RUTA_IMG_ICONOS.'multimedia.png"></a>';
+  $PDF = '<a class="dropdown-item" href="'.RUTA_ARCHIVOS.'incidencias/'.$archivo.'" download><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
   }else{
   $MultimediaTB = '<img src="'.RUTA_IMG_ICONOS.'eliminar.png">';
+  $PDF = '<a class="dropdown-item"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
   }  
   
   echo '<tr>';
@@ -86,17 +87,25 @@ $estacion = $row_listaestacion['nombre'];
   echo '<td class="align-middle text-center">'.$responsable.'</td>';
   echo '<td class="align-middle text-center">'.$asunto.'</td>';
   echo '<td class="align-middle text-center">'.$comentarios.'</td>';
-  echo '<td class="align-middle text-center">'.$MultimediaTB.'</td>';
 
-  echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'ver-tb.png" onclick="ModalVerIncidencia('.$id_incidencia.')"></td>';
-  echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'editar-tb.png" onclick="ModalEditarIncidencia('.$id_incidencia.','.$idEstacion.')"></td>';
-  echo '<td class="align-middle text-center"><img class="pointer" src="'.RUTA_IMG_ICONOS.'eliminar.png" onclick="EliminarIncidencia('.$id_incidencia.','.$idEstacion.')"></td>';
+  echo '<td class="align-middle text-center"> 
+          <div class="dropdown">
+            <a class="btn btn-sm btn-icon-only text-dropdown-light" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v"></i>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+              ' . $Detalle . '
+              ' . $PDF . '
+              ' . $Editar . '
+              ' . $Eliminar . '
+            </div>
+          </div>
+        </td>';
   echo '</tr>';
 
   $num++;
   }
-  }else{
-  echo "<tr><th colspan='10' class='text-center text-secondary fw-normal no-hover2'><small>No se encontró información para mostrar </small></th></tr>";
   }
   ?>
   </tbody>

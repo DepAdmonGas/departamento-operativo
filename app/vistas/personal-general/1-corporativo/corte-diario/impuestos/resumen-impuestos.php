@@ -2,11 +2,24 @@
 require 'app/vistas/contenido/header.php';
 $IdReporte = $corteDiarioGeneral->idReporte($Session_IDEstacion, $GET_year, $GET_mes);
 ?>
+<!---------- LIBRERIAS DEL DATATABLE ---------->
+<link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
 
 <script>
 $(document).ready(function($){
 $(".LoaderPage").fadeOut("slow");
-    
+$('#tabla_impuestos').DataTable({
+      "stateSave": true,
+      "language": {
+        "url": "<?=RUTA_JS2?>/es-ES.json"
+      },
+      "order": [[0, "ASC"]],
+      "lengthMenu": [10, 20, 40, 100],
+      "columnDefs": [
+        { "orderable": false, "targets": [2] },
+        { "searchable": false, "targets": [2] }
+      ]
+    });
 });
 
 function detalleImpuestoDia(idDia,fecha){
@@ -66,7 +79,7 @@ function resumenTotal(idReporte){
   <div class="col-12">
 
   <div class="table-responsive">
-  <table id="tabla_precios" class="custom-table" style="font-size: 14px;" width="100%">
+  <table id="tabla_impuestos" class="custom-table" style="font-size: 14px;" width="100%">
 
   <thead class="tables-bg">
   <th class="text-center align-middle font-weight-bold" width="60">#</th>
@@ -114,6 +127,12 @@ function resumenTotal(idReporte){
   <!---------- FUNCIONES - NAVBAR ---------->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
   <script src="<?= RUTA_JS2 ?>bootstrap.min.js"></script>
+
+  <!---------- LIBRERIAS DEL DATATABLE ---------->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.js"></script>
+
 
   </body>
   </html>

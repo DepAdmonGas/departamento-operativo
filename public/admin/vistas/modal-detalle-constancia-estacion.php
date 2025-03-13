@@ -33,7 +33,7 @@ $nombreES = $row_estaciones['localidad'];
 
  
 <div class="table-responsive">
-<table class="custom-table mt-3"  style="font-size: .9em;" width="100%">
+<table id="table_constancia" class="custom-table mt-3"  style="font-size: .9em;" width="100%">
 
 <thead class="tables-bg">
   <th class="text-center align-middle text-center" width="40"><img src="<?=RUTA_IMG_ICONOS;?>pdf.png"></th>

@@ -138,7 +138,7 @@ function Personal($idusuario, $con)
             $fecha_entrada = strtotime($fechaMas);
             $PDF = '<a class="dropdown-item pointer" onclick="DescargarPDF(' . $id . ')"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>';
             $Pago = '<a class="dropdown-item pointer" onclick="Pago(' . $idEstacion . ',' . $id . ')"><i class="fa-solid fa-money-bill"></i> Pago</a>';
-            $Firmar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png" onclick="Firmar(' . $id . ')" data-toggle="tooltip" data-placement="top" title="Firmar solicitud">';           
+            $Firmar = '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-firmar.png" onclick="Firmar(' . $id . ')">';           
             $Detalle = '<a class="dropdown-item" onclick="ModalDetalle(' . $id . ')"><i class="fa-regular fa-eye"></i> Detalle</a>';
             $Editar = '<a class="dropdown-item grayscale"><i class="fa-solid fa-pencil"></i> Editar</a>';
             $Eliminar = '<a class="dropdown-item grayscale" ><i class="fa-regular fa-trash-can"></i> Eliminar</a>';
@@ -172,7 +172,7 @@ function Personal($idusuario, $con)
           echo '<td class="align-middle text-center">' . Personal($row_lista['id_personal'], $con) . '</td>';
           echo '<td class="align-middle text-center">' . $row_lista['para'] . '</td>';
           echo '<td class="align-middle text-center">' . FormatoFecha($row_lista['fecha_entrega']) . '</td>';
-          echo '<td class="align-middle text-center position-relative" onclick="ModalComentario(' . $idEstacion . ',' . $id . ')">' . $Nuevo . '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
+          echo '<td class="align-middle text-center position-relative" onclick="ModalComentario(' . $idEstacion . ',' . $id . ')">' . $Nuevo . '<img class="pointer" src="' . RUTA_IMG_ICONOS . 'icon-comentario-tb.png"></td>';
           //echo '<td class="align-middle text-center">' . $Nuevo . '<img class="pointer" width="20" src="' . RUTA_IMG_ICONOS . 'icon-comentario-tb.png" onclick="ModalComentario(' . $idEstacion . ',' . $id . ')" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
           if ($session_nompuesto != "Encargado" && $session_nompuesto != "Asistente Administrativo") :
             echo '<td class="align-middle text-center">' . $Firmar . '</td>';

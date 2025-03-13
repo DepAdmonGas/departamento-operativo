@@ -146,7 +146,7 @@ Actualizar Días
 
 <div class="col-12">
 <div class="table-responsive">
-<table class="custom-table" style="font-size: 12.5px;" width="100%">
+<table id="tabla-principal" class="custom-table" style="font-size: 12.5px;" width="100%">
 
 <thead class="tables-bg">
 <tr>

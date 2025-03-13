@@ -119,7 +119,7 @@ $EstacionName = '('.$datosEstacion['localidad'].')';
 </div>
 
 <div class="table-responsive">
-    <table class="custom-table" style="font-size: .75em;" width="100%">
+    <table id="tabla-principal" class="custom-table" style="font-size: .75em;" width="100%">
         <thead class="title-table-bg">
             <tr class="tables-bg">
 				<th colspan="10" class="align-middle text-center"><?= $referencia; ?></th>
