@@ -103,11 +103,11 @@ require('app/help.php');
   if(last != semana){
 
   if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9];
+  targets = [6,7,8,9,10];
   }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9];
+  targets = [5,6,7,8,9,10];
   }else{
-  targets = [5,6,7,8];
+  targets = [5,6,7,8,9];
   }
 
   }else{
@@ -115,11 +115,11 @@ require('app/help.php');
 
 
   if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9,10];
+  targets = [6,7,8,9,10,11];
   }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9,10];
+  targets = [5,6,7,8,9,10,11];
   }else{
-  targets = [5,6,7,8,9];
+  targets = [5,6,7,8,9,10];
   }
 
   }
@@ -179,11 +179,11 @@ require('app/help.php');
   if(last != quincena){
 
   if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9];
+  targets = [6,7,8,9,10];
   }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9];
+  targets = [5,6,7,8,9,10];
   }else{
-  targets = [5,6,7,8];
+  targets = [5,6,7,8,9];
   }
 
   }else{
@@ -191,11 +191,11 @@ require('app/help.php');
 
 
   if(<?=$Session_IDUsuarioBD?> == 19 || <?=$Session_IDUsuarioBD?> == 318){
-  targets = [6,7,8,9,10];
+  targets = [6,7,8,9,10,11];
   }else if(<?=$Session_IDUsuarioBD?> == 354){
-  targets = [5,6,7,8,9,10];
+  targets = [5,6,7,8,9,10,11];
   }else{
-  targets = [5,6,7,8,9];
+  targets = [5,6,7,8,9,10];
   }
 
   }
@@ -420,6 +420,10 @@ require('app/help.php');
   $('#ModalComentario').modal('show');  
   $('#DivContenidoComentario').load('../public/recibo-nomina/vistas/modal-comentarios-nomina.php?idReporte=' + idReporte + '&idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion + '&last=' + last);
   }
+  function ModalAgregarUsuario(idEstacion,year,mes,SemQui,descripcion,last){
+  $('#ModalUsuario').modal('show');
+  $('#DivContenidoUsuario').load('../public/recibo-nomina/vistas/modal-agregar-usuario.php?idEstacion=' + idEstacion + '&year=' + year + '&mes=' + mes + '&SemQui=' + SemQui + '&descripcion=' + descripcion + '&last=' + last);
+  }
  
   function GuardarComentario(idReporte,idEstacion,year,mes,SemQui,descripcion,last){
   var Comentario = $('#Comentario').val();
@@ -631,7 +635,46 @@ require('app/help.php');
   }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea finalizar la actividad?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
     
   }
+  function eliminarPersonal(idReporte,idEstacion,year,mes,SemQui,descripcion,last){
+  
+  var data = new FormData(); 
+  var url = '../public/recibo-nomina/modelo/eliminar-usuario.php';
+    
+  alertify.confirm('',
+  function(){
 
+  data.append('idReporte', idReporte);
+  data.append('idEstacion', idEstacion);
+  data.append('SemQui', SemQui);
+
+
+  $.ajax({
+  url: url,
+  type: 'POST',
+  contentType: false,
+  data: data,
+  processData: false,
+  cache: false
+  }).done(function(response){
+    if(response==1){
+      alertify.success('Usuario eliminado exitosamente.')
+      
+      if(descripcion == "Semana"){
+        SelSemanasES(idEstacion,year,SemQui,last);
+
+        }else{
+        SelQuincenasES(idEstacion,year,SemQui,last);
+
+        }
+    }
+    
+  }); 
+
+  },
+  function(){
+  }).setHeader('Mensaje').set({transition:'zoom',message: '¿Desea eliminar el usuario?',labels:{ok:'Aceptar', cancel: 'Cancelar'}}).show();
+
+  }
   </script>
   </head>
 
@@ -834,10 +877,18 @@ require('app/help.php');
   </div>
   </div>
 
-   <!---------- MODAL COMENTARIO----------> 
-   <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <!---------- MODAL COMENTARIO----------> 
+  <div class="modal fade" id="ModalComentario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
   <div class="modal-content" id="DivContenidoComentario">
+  </div>
+  </div>
+  </div>
+
+  <!---------- MODAL AGREGAR USUARIO NOMINA----------> 
+  <div class="modal fade" id="ModalUsuario" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+  <div class="modal-content" id="DivContenidoUsuario">
   </div>
   </div>
   </div>

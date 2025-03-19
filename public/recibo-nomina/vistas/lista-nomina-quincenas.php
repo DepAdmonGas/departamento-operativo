@@ -533,18 +533,18 @@ require('../../../app/help.php');
       if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
       $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
       $valColspan = "6";
-      $valColspan2 = "4";
+      $valColspan2 = "5";
         
       }else{
         
       if($Session_IDUsuarioBD == 354){
       $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
       $valColspan = "5";
-      $valColspan2 = "5";
+      $valColspan2 = "6";
        
       }else{
       $valColspan = "5";
-      $valColspan2 = "4";
+      $valColspan2 = "5";
     
       }
          
@@ -576,7 +576,7 @@ require('../../../app/help.php');
       if($Session_IDUsuarioBD == 19 || $Session_IDUsuarioBD == 318){
       $tbPrima1 = '<th class="text-center align-middle" width="100">Prima Vacacional</th>';
       $valColspan = "6";
-      $valColspan2 = "5";
+      $valColspan2 = "6";
       $colspanTB = "6";
 
       }else{
@@ -584,12 +584,12 @@ require('../../../app/help.php');
       if($Session_IDUsuarioBD == 354){
       $tbOriginal1 = '<th class="align-middle text-center" width="20"><img src="'.RUTA_IMG_ICONOS.'original-tb.png"></th>  '; 
       $valColspan = "5";
-      $valColspan2 = "6";
+      $valColspan2 = "7";
       $colspanTB = "6";
 
       }else{
       $valColspan = "5";
-      $valColspan2 = "5";
+      $valColspan2 = "6";
       $colspanTB = "5";
     
       }
@@ -627,36 +627,8 @@ require('../../../app/help.php');
   </div>
    
   <div class="row"> 
-  <div class="col-12"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$titleMenu?></h3> </div>
-  </div>
-
-  <hr>
-  </div>
-
-  <?=$divisionTable?>
-
-  <div class="row">
-
-  <div class="col-6 mb-3">
-  <?=$btnFinalizarES?>
-  </div>
-
-
-  <div class="col-6 mb-3">
-  <?=$acusesArchivo?>
-  </div>
-
-  </div>
-
-
-  <div class="table-responsive">
-  <table id="tabla_nomina_quincena_<?=$idEstacion?>" class="custom-table" style="font-size: .9em;" width="100%">
-
-  <thead class="title-table-bg">
-    
-  <tr class="tables-bg">
-  <th class="text-center align-middle fw-bold" colspan="<?=$valColspan?>">Quincena <?=$quincena?> <?=$tituloTablaPersonal?> <br> <?=formatoFecha($inicioQuincenaDay)?> al <?=formatoFecha($finQuincenaDay)?></th>
-  <th class="text-center align-middle" colspan="<?=$valColspan2?>">
+  <div class="col-8"> <h3 class="text-secondary" style="padding-left: 0; margin-bottom: 0; margin-top: 0;"><?=$titleMenu?></h3> </div>
+  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
   <div class="d-flex align-items-center">
   <!----- SELECT DE QUINCENAS DEL AÑO ----->
   <select class="form-select" id="QuincenaEstacion_<?=$idEstacion?>" onchange="SelNoQuincena(<?=$idEstacion?>,<?=$year?>,<?=$UltimaQuincenaYear?>)"> 
@@ -688,6 +660,38 @@ require('../../../app/help.php');
   </select>
 
   </div>
+    </div>  
+</div>
+
+  <hr>
+  </div>
+
+  <?=$divisionTable?>
+
+  <div class="row">
+
+  <div class="col-6 mb-3">
+  <?=$btnFinalizarES?>
+  </div>
+
+
+  <div class="col-6 mb-3">
+  <?=$acusesArchivo?>
+  </div>
+
+  </div>
+
+
+  <div class="table-responsive">
+  <table id="tabla_nomina_quincena_<?=$idEstacion?>" class="custom-table" style="font-size: .9em;" width="100%">
+
+  <thead class="title-table-bg">
+    
+  <tr class="tables-bg">
+  <th class="text-center align-middle fw-bold" colspan="<?=$valColspan?>">Quincena <?=$quincena?> <?=$tituloTablaPersonal?> <br> <?=formatoFecha($inicioQuincenaDay)?> al <?=formatoFecha($finQuincenaDay)?></th>
+  <th class="text-center align-middle" colspan="<?=$valColspan2?>">
+  <button type="button" class="btn btn-labeled2 btn-primary float-end" onclick="ModalAgregarUsuario(<?=$idEstacion?>,<?=$year?>,<?=$mes?>,<?=$quincena?>,'<?=$descripcion?>',<?=$UltimaSemanaYear?>)">
+        <span class="btn-label2"><i class="fa fa-plus"></i></span>Agregar Usuario</button>
   </th>
   </tr>
    
@@ -704,6 +708,8 @@ require('../../../app/help.php');
   <?=$tbOriginal1?>
   <th class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>icon-comentario-tb.png"></th>
   <td class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>editar-tb.png"></td>
+  <td class="align-middle text-center" width="20"><img src="<?=RUTA_IMG_ICONOS;?>eliminar.png"></td>
+
   </tr>
   </thead>
 
@@ -932,7 +938,8 @@ require('../../../app/help.php');
   echo  ''.$archivoNominaAguinaldo.'';
   echo  ''.$tbOriginal2.'';
   echo '<td class="align-middle text-center position-relative" onclick="ModalComentario('.$id.','.$idEstacion.','.$year.','.$mes.','.$quincena.',\''.$descripcion.'\','. $UltimaQuincenaYear.')">'.$Nuevo.'<img class="pointer" src="'.RUTA_IMG_ICONOS.'icon-comentario-tb.png" data-toggle="tooltip" data-placement="top" title="Comentarios"></td>';
-  echo '<td class="align-middle text-center">'.$editarNominaUser.'</td>'; 
+  echo '<td class="align-middle text-center">'.$editarNominaUser.'</td>';
+  echo '  <td class="align-middle text-center" width="20" onclick="eliminarPersonal('.$id.','.$idEstacion.','.$year.','.$mes.','.$quincena.',\''.$descripcion.'\','. $UltimaQuincenaYear.')"><img src="'.RUTA_IMG_ICONOS.'eliminar.png"></td>';
   echo '</tr>';
 
   $num++;
