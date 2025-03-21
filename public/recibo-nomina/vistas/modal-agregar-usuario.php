@@ -49,21 +49,23 @@ $faltantes = array_diff(array_keys($personal_data), $recibo_ids);
 
 <div class="modal-body">
     <div class="mb-3">
-        <label class="text-secondary fw-bold mb-1">* Selecciona el nombre del personal:</label>
-        <select class="selectize" id="personal_nomina" multiple>
+    <label class="text-secondary fw-bold mb-1">* Selecciona el nombre del personal:</label>
+<div id="personal-container">
     <?php if (!empty($faltantes)) { ?>
-        <?php foreach ($faltantes as $idUsuario) { ?>
-            <option value="<?= htmlspecialchars($idUsuario) ?>">
-                <?= htmlspecialchars($personal_data[$idUsuario]) ?>
-            </option>
-        <?php } ?>
+        <select class="selectize" id="personal_nomina" multiple>
+            <?php foreach ($faltantes as $idUsuario) { ?>
+                <option value="<?= htmlspecialchars($idUsuario) ?>">
+                    <?= htmlspecialchars($personal_data[$idUsuario]) ?>
+                </option>
+            <?php } ?>
+        </select>
     <?php } else { ?>
-        <script>
-            alert("Todos los usuarios ya están en la nómina.");
-            document.querySelector('.modal').remove(); // Cierra el modal si no hay faltantes
-        </script>
+        <span class="badge rounded-pill bg-success float-start" style="font-size: .78em;">
+            Ningún usuario por agregar
+        </span>
     <?php } ?>
-</select>
+</div>
+
     </div>
 </div>
 
