@@ -477,7 +477,6 @@ require('app/help.php');
   // Guardar Personal nomina
   function guardarPersonal(idEstacion,year,mes,SemQui,descripcion,last){
     var personalNomina = $('#personal_nomina')[0].selectize.getValue(); // Obtener valores en Selectize
-    console.log(personalNomina)
     if (personalNomina.length > 0) { // Verificar si hay al menos una opción seleccionada
       $('.selectize-control').css('border', '');
         var parametros = {
