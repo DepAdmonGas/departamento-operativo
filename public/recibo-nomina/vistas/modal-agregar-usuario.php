@@ -8,58 +8,69 @@ $SemQui = $_GET['SemQui'];
 $descripcion = $_GET['descripcion'];
 $last = $_GET['last'];
 
-$sql_comen = "SELECT * FROM op_recibo_nomina_v2 ORDER BY id DESC ";
-$result_comen = mysqli_query($con, $sql_comen);
-$numero_comen = mysqli_num_rows($result_comen);
+// Obtener el personal de la estación (solo activos)
+$sql_personal_estacion = "SELECT id, nombre_completo FROM op_rh_personal WHERE id_estacion = $idEstacion AND estado = 1 ORDER BY id DESC";
+$result_personal_estacion = mysqli_query($con, $sql_personal_estacion);
+$personal_data = [];
 
+// Guardar los datos en un array asociativo
+while ($row = mysqli_fetch_assoc($result_personal_estacion)) {
+    $personal_data[$row['id']] = $row['nombre_completo'];
+}
+
+// Obtener los usuarios que ya están en op_recibo_nomina_v2
+$sql_recibo_nomina = "SELECT id_usuario FROM op_recibo_nomina_v2 WHERE id_estacion = $idEstacion AND year = $year AND mes = $mes AND no_semana_quincena = $SemQui";
+$result_recibo_nomina = mysqli_query($con, $sql_recibo_nomina);
+$recibo_ids = [];
+
+// Guardar los IDs de usuarios que ya están en la nómina
+while ($row = mysqli_fetch_assoc($result_recibo_nomina)) {
+    $recibo_ids[] = $row['id_usuario'];
+}
+
+// Filtrar solo los que NO están en la nómina
+$faltantes = array_diff(array_keys($personal_data), $recibo_ids);
 ?>
-
+<script>
+    $(document).ready(function() {
+        $('#personal_nomina').selectize({
+            placeholder: 'Selecciona al personal',
+            allowEmptyOption: false,
+            maxItems: null, // Permite seleccionar múltiples opciones
+            create: false
+        });
+    });
+</script>
 
 <div class="modal-header">
-<h5 class="modal-title">Agregar Personal</h5>
-<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <h5 class="modal-title">Agregar Personal</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
-<div class="border-bottom" style="height: 300px;overflow: auto;">
-
-
-<?php
-if ($numero_comen > 0) {
-while($row_comen = mysqli_fetch_array($result_comen, MYSQLI_ASSOC)){
-$idUsuario = $row_comen['id_usuario'];
-    
-$datosUsuario = $ClassHerramientasDptoOperativo->obtenerDatosUsuario($idUsuario);
-$NomUsuario = $datosUsuario['nombre'];
-    
-$FechaFormato = $ClassHerramientasDptoOperativo->FormatoFecha($fechaExplode[0]);
-$HoraFormato = date("g:i a",strtotime($fechaExplode[1]));
-?>
-
-<div class="mt-1" style="<?=$margin;?>">
-<div style="font-size: .7em;" class="mb-1"><?=$NomUsuario;?></div>
-<div class="title-table-bg text-white" style="border-radius: 30px;">
-<p class="p-2 pb-0"><?=$comentario;?></p>
-</div>
-<div class="text-end" style="font-size: .7em;margin-top: -10px"><?=$FechaFormato;?>, <?=$HoraFormato;?></div>
-    
-</div>
-<?php
-}
-
-}else{
-echo "<div class='text-center' style='margin-top: 150px;'><small>No se encontraron comentarios</small></div>";
-}
-
-?>
-
-</div>
-
-
+    <div class="mb-3">
+        <label class="text-secondary fw-bold mb-1">* Selecciona el nombre del personal:</label>
+        <select class="selectize" id="personal_nomina" multiple>
+    <?php if (!empty($faltantes)) { ?>
+        <?php foreach ($faltantes as $idUsuario) { ?>
+            <option value="<?= htmlspecialchars($idUsuario) ?>">
+                <?= htmlspecialchars($personal_data[$idUsuario]) ?>
+            </option>
+        <?php } ?>
+    <?php } else { ?>
+        <script>
+            alert("Todos los usuarios ya están en la nómina.");
+            document.querySelector('.modal').remove(); // Cierra el modal si no hay faltantes
+        </script>
+    <?php } ?>
+</select>
+    </div>
 </div>
 
 <div class="modal-footer">
-<button type="button" class="btn btn-labeled2 btn-success" onclick="GuardarComentario(<?=$idReporte?>,<?=$idEstacion?>,<?=$year?>,<?=$mes?>,<?=$SemQui?>,'<?=$descripcion?>',<?=$last?>)">
-<span class="btn-label2"><i class="fa fa-check"></i></span>Agregar</button>
-
+    <?php if (!empty($faltantes)) { ?>
+        <button type="button" class="btn btn-labeled2 btn-success" onclick="guardarPersonal(<?= $idEstacion ?>, <?= $year ?>, <?= $mes ?>, <?= $SemQui ?>, '<?= $descripcion ?>', <?= $last ?>)">
+            <span class="btn-label2"><i class="fa fa-check"></i></span> Agregar
+        </button>
+    <?php } ?>
 </div>

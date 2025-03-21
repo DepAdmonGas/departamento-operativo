@@ -23,7 +23,11 @@ require('app/help.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" />
+  <!-- Incluye jQuery y Selectize.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+
   <!---------- LIBRERIAS DEL DATATABLE ---------->
   <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.3/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/datatables.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?=RUTA_JS ?>alertify.js"></script> 
@@ -470,6 +474,50 @@ require('app/help.php');
   }
 
   }
+  // Guardar Personal nomina
+  function guardarPersonal(idEstacion,year,mes,SemQui,descripcion,last){
+    var personalNomina = $('#personal_nomina')[0].selectize.getValue(); // Obtener valores en Selectize
+    console.log(personalNomina)
+    if (personalNomina.length > 0) { // Verificar si hay al menos una opción seleccionada
+      $('.selectize-control').css('border', '');
+        var parametros = {
+          "personal" : personalNomina,
+          "idEstacion" : idEstacion,
+          "year" : year,
+          "mes" : mes,
+          "descripcion" : descripcion,
+          "noSemQuin":SemQui
+        };
+        $.ajax({
+            data:  parametros,
+            url:   '../public/recibo-nomina/modelo/agregar-personal-nomina-v2.php',
+            type:  'post',
+            beforeSend: function() {},
+            complete: function(){},
+            success:  function (response) {
+
+            if (response) {
+              alertify.success('Usuario agregado exitosamente');
+              $('#ModalUsuario').modal('hide');
+              if(descripcion == "Semana"){
+              SelSemanasES(idEstacion,year,SemQui,last);
+
+              }else{
+              SelQuincenasES(idEstacion,year,SemQui,last);
+
+              }
+            }else{
+              alertify.error('Error al guardar usuario');  
+            }
+
+            } 
+            });
+
+    } else {
+      $('.selectize-control').css('border', '2px solid #A52525');    } 
+  }
+
+
 
   //---------- EDITAR INFORMACION DEL RECIBO DE NOMINA ----------
   function EditarRecibosNomina(idReporte,idEstacion,year,SemQui,descripcion,last){
